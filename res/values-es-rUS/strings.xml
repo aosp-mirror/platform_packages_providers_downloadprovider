@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="download_pending">Iniciando descarga\u2026</string>
+  <string name="download_pending_network">Esperando red\u2026</string>
+  <string name="download_running">Descargando </string>
+  <string name="download_running_paused">Esperando red\u2026 </string>
+  <string name="download_unknown_title">&lt;Sin título&gt;</string>
+  <string name="notification_download_complete">Descarga completa</string>
+  <string name="notification_download_failed">Error en la descarga</string>
+  <string name="notification_filename_extras">" y %d más"</string>
+  <string name="notification_filename_separator">", "</string>
+  <string name="permdesc_cacheFilesystem">Permite a la aplicación
+        acceder directamente, modificar y eliminar la caché del sistema. Las aplicaciones
+        maliciosas pueden utilizar esta función para dañar las descargas y
+        otras aplicaciones, o para acceder a datos privados.</string>
+  <string name="permdesc_downloadCompletedIntent">Permite a la aplicación
+        enviar notificaciones sobre las descargas realizadas. Las aplicaciones maliciosas
+        pueden utilizar esta función para confundir a otras aplicaciones que descargan
+        archivos.</string>
+  <string name="permdesc_downloadData">Permite a la aplicación
+        acceder a información sobre todas las descargas en el administrador de descargas.
+        Las aplicaciones maliciosas  pueden utilizar esta función para alterar gravemente las descargas
+        y acceder a información privada.</string>
+  <string name="permdesc_downloadManager">Permite a la aplicación
+        acceder al administrador de descargas y utilizarlo para descargar archivos.
+        Las aplicaciones maliciosas pueden utilizar esta función para alterar las descargas y acceder
+        a información privada.</string>
+  <string name="permdesc_downloadOtaUpdate">Permite a la aplicación
+       especificar que desea descargar archivos en la caché
+        interna con el nombre de archivo reservado para las actualizaciones OTA.
+        Las aplicaciones maliciosas puede utilizar esta función para evitar que las actualizaciones OTA
+        se descarguen.</string>
+  <string name="permlab_cacheFilesystem">Uso de la caché del sistema.</string>
+  <string name="permlab_downloadCompletedIntent">Enviar notificaciones de
+        descarga.</string>
+  <string name="permlab_downloadData">Acceso a datos de descarga. </string>
+  <string name="permlab_downloadManager">Acceso al administrador de descargas. </string>
+  <string name="permlab_downloadOtaUpdate">Descargar actualización de OTA.</string>
+</resources>

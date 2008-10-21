@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="download_pending">Avvio del download in corso\u2026</string>
+  <string name="download_pending_network">In attesa della rete\u2026</string>
+  <string name="download_running">Download in corso </string>
+  <string name="download_running_paused">In attesa della rete\u2026 </string>
+  <string name="download_unknown_title">&lt;Senza titolo&gt;</string>
+  <string name="notification_download_complete">Download completato</string>
+  <string name="notification_download_failed">Download non riuscito</string>
+  <string name="notification_filename_extras">" e ulteriore %d"</string>
+  <string name="notification_filename_separator">", "</string>
+  <string name="permdesc_cacheFilesystem">Consente all'applicazione di
+       accedere direttamente, modificare ed eliminare la cache del sistema. Le applicazioni
+        dannose possono utilizzare questa autorizzazione per interrompere i download e le altre applicazioni
+        e accedere ai dati privati.</string>
+  <string name="permdesc_downloadCompletedIntent">Consente all'applicazione
+        di inviare le notifiche sui download completati. Le applicazioni nocive
+        possono utilizzare questa autorizzazione per confondere le applicazioni che scaricano i
+        file.</string>
+  <string name="permdesc_downloadData">Consente all'applicazione di
+        accedere alle informazioni sui download nel gestore download.
+        Le applicazioni nocive possono utilizzare questa autorizzazione per interrompere i download
+        e accedere alle informazioni private.</string>
+  <string name="permdesc_downloadManager">Consente all'applicazione di
+        accedere al gestore download e utilizzarlo per scaricare i file.
+        Le applicazioni dannose possono utilizzare questa autorizzazione per interrompere i download e accedere alle
+        informazioni private.</string>
+  <string name="permdesc_downloadOtaUpdate">Consente all'applicazione
+        di specificare che desidera scaricare i file nella cache interna
+        con il nome file riservato agli aggiornamenti OTA.
+        Le applicazioni nocive possono utilizzare questa autorizzazione per impedire lo scaricamento di aggiornamenti
+         OTA.</string>
+  <string name="permlab_cacheFilesystem">Utilizzare la cache del sistema.</string>
+  <string name="permlab_downloadCompletedIntent">Inviare le notifiche sul
+        download.</string>
+  <string name="permlab_downloadData">Accedere ai dati del download.</string>
+  <string name="permlab_downloadManager">Accedere al gestore download.</string>
+  <string name="permlab_downloadOtaUpdate">Scaricare l'aggiornamento OTA.</string>
+</resources>

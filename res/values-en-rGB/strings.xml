@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="download_pending">Starting download\u2026</string>
+  <string name="download_pending_network">Waiting for network\u2026</string>
+  <string name="download_running">Downloading </string>
+  <string name="download_running_paused">Waiting for network\u2026 </string>
+  <string name="download_unknown_title">&lt;Untitled&gt;</string>
+  <string name="notification_download_complete">Download complete</string>
+  <string name="notification_download_failed">Download unsuccessful</string>
+  <string name="notification_filename_extras">" and %d more"</string>
+  <string name="notification_filename_separator">", "</string>
+  <string name="permdesc_cacheFilesystem">Allows the application
+        to directly access, modify and delete the system cache. Malicious
+        applications can use this to severely disrupt downloads and
+        other applications, and to access private data.</string>
+  <string name="permdesc_downloadCompletedIntent">Allows the application
+        to send notifications about completed downloads. Malicious applications
+        can use this to confuse other applications that download
+        files.</string>
+  <string name="permdesc_downloadData">Allows the application to
+        access information about all downloads in the download manager.
+        Malicious applications can use this to severely disrupt downloads
+        and access private information.</string>
+  <string name="permdesc_downloadManager">Allows the application to
+        access the download manager and to use it to download files.
+        Malicious applications can use this to disrupt downloads and access
+        private information.</string>
+  <string name="permdesc_downloadOtaUpdate">Allows the application
+        to specify that it wants to download files in the internal
+        cache with the filename that is reserved for OTA updates.
+        Malicious applications can use this to prevent OTA updates from
+        getting downloaded.</string>
+  <string name="permlab_cacheFilesystem">Use system cache.</string>
+  <string name="permlab_downloadCompletedIntent">Send download
+        notifications.</string>
+  <string name="permlab_downloadData">Access download data.</string>
+  <string name="permlab_downloadManager">Access download manager.</string>
+  <string name="permlab_downloadOtaUpdate">Download OTA update.</string>
+</resources>

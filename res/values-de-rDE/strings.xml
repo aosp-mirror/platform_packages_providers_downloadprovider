@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="download_pending">Herunterladen wird gestartet\u2026</string>
+  <string name="download_pending_network">Warten auf Netzwerk\u2026</string>
+  <string name="download_running">Herunterladen läuft </string>
+  <string name="download_running_paused">Warten auf Netzwerk\u2026 </string>
+  <string name="download_unknown_title">&lt;ohne Titel&gt;</string>
+  <string name="notification_download_complete">Herunterladen abgeschlossen</string>
+  <string name="notification_download_failed">Herunterladen nicht erfolgreich</string>
+  <string name="notification_filename_extras">" und %d mehr"</string>
+  <string name="notification_filename_separator">", "</string>
+  <string name="permdesc_cacheFilesystem">Ermöglicht einer Anwendung 
+        direkt auf den System-Cache-Speicher zuzugreifen und ihn zu ändern und zu löschen. Schädliche 
+        Anwendungen können dies nutzen, um Herunterladen und
+        andere Anwendungen ernsthaft zu stören und auf private Daten zuzugreifen.</string>
+  <string name="permdesc_downloadCompletedIntent">Ermöglicht einer Anwendung
+        Benachrichtigungen über abgeschlossenes Herunterladen zu senden. Schädliche Anwendungen können dies nutzen,
+        um andere Anwendungen zu stören,
+        die Dateien herunterladen.</string>
+  <string name="permdesc_downloadData">Ermöglicht einer Anwendung
+        auf Informationen über alles Herunterladen im Download-Manager zuzugreifen.
+        Schädliche Anwendungen können dies nutzen, um Herunterladen ernsthaft zu stören
+        und auf private Daten zuzugreifen.</string>
+  <string name="permdesc_downloadManager">Ermöglicht einer Anwendung
+        auf den Download-Manager zuzugreifen und ihn zum Herunterladen von Dateien zu verwenden.
+        Schädliche Anwendungen können dies nutzen, um Herunterladen zu stören und auf
+        private Daten zuzugreifen.</string>
+  <string name="permdesc_downloadOtaUpdate">Ermöglicht einer Anwendung
+        festzulegen, dass sie Dateien in den internen
+        Cache-Speicher mit dem Dateinamen herunterlädt, der für OTA-Updates reserviert ist.
+        Schädliche Anwendungen können dies nutzen, um das Herunterladen von OTA-Updates
+        zu verhindern.</string>
+  <string name="permlab_cacheFilesystem">Systemcache verwenden.</string>
+  <string name="permlab_downloadCompletedIntent">Herunterladen-Benachrichtigungen
+        senden.</string>
+  <string name="permlab_downloadData">Auf heruntergeladene Daten zugreifen.</string>
+  <string name="permlab_downloadManager">Auf Download-Manager zugreifen.</string>
+  <string name="permlab_downloadOtaUpdate">OTA-Update herunterladen.</string>
+</resources>

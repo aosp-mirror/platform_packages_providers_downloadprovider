@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="download_pending">正在開始下載\u2026</string>
+  <string name="download_pending_network">正在等待網路\u2026</string>
+  <string name="download_running">正在下載 </string>
+  <string name="download_running_paused">正在等待網路\u2026 </string>
+  <string name="download_unknown_title">&lt;未命名&gt;</string>
+  <string name="notification_download_complete">下載完成</string>
+  <string name="notification_download_failed">下載失敗</string>
+  <string name="notification_filename_extras">" 還有 %d"</string>
+  <string name="notification_filename_separator">"， "</string>
+  <string name="permdesc_cacheFilesystem">允許應用程式
+        直接存取、修改及刪除系統快取。惡意的
+        應用程式可能會利用此方式嚴重干擾下載和
+        其它應用程式，及存取私人資料。</string>
+  <string name="permdesc_downloadCompletedIntent">允許應用程式
+        傳送完成下載的通知。惡意的應用程式
+        可能會利用此方式混淆下載
+        檔案的其它應用程式。</string>
+  <string name="permdesc_downloadData">允許應用程式
+        存取下載管理員中所有下載的存取資訊。
+        惡意的應用程式可能會利用此方式嚴重干擾下載，
+        及存取私人資訊。</string>
+  <string name="permdesc_downloadManager">允許應用程式
+        存取下載管理員並使用其下載檔案。
+        惡意的應用程式可能會利用此方式來干擾下載，及存取
+        私人資訊。</string>
+  <string name="permdesc_downloadOtaUpdate">允許應用程式
+        指定其想要下載內部快取中含有 OTA
+        更新專用之檔名的檔案。
+        惡意的應用程式可能會利用此方式來阻止
+        下載 OTA 更新。</string>
+  <string name="permlab_cacheFilesystem">使用系統快取。</string>
+  <string name="permlab_downloadCompletedIntent">傳送下載
+        通知。</string>
+  <string name="permlab_downloadData">存取下載資料。</string>
+  <string name="permlab_downloadManager">存取下載管理員。</string>
+  <string name="permlab_downloadOtaUpdate">下載 OTA 更新。</string>
+</resources>

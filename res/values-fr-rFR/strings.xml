@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="download_pending">Début du téléchargement\u2026</string>
+  <string name="download_pending_network">Attente du réseau\u2026</string>
+  <string name="download_running">Téléchargement en cours </string>
+  <string name="download_running_paused">Attente du réseau\u2026 </string>
+  <string name="download_unknown_title">&lt;Sans titre&gt;</string>
+  <string name="notification_download_complete">Téléchargement terminé</string>
+  <string name="notification_download_failed">Échec du téléchargement</string>
+  <string name="notification_filename_extras">" et %d en plus"</string>
+  <string name="notification_filename_separator">", "</string>
+  <string name="permdesc_cacheFilesystem">Permet à l\'application
+        de directement accéder, modifier et supprimer la cache système.
+        Les applications malicieuses peuvent utiliser cela pour désorganiser
+        sérieusement les téléchargements et les autres applications, et pour accéder aux données privées.</string>
+  <string name="permdesc_downloadCompletedIntent">Permet à l\'application
+        d\'envoyer des notifications sur les téléchargements terminés. Les applications
+        malicieuses peuvent utiliser cela pour tromper les autres
+        applications qui téléchargent des fichiers.</string>
+  <string name="permdesc_downloadData">Permet à l\'application
+        d\'accéder aux informations de téléchargement dans le gestionnaire de
+        téléchargements. Les applications malicieuses peuvent utiliser cela
+        pour désorganiser sérieusement les téléchargements et accéder aux informations privées.</string>
+  <string name="permdesc_downloadManager">Permet à l\'application
+        d\'accéder au gestionnaire de téléchargements et de l\'utiliser pour.
+        télécharger les fichiers. Les applications malicieuses peuvent utiliser cela
+        pour désorganiser les téléchargements et accéder aux informations privées.</string>
+  <string name="permdesc_downloadOtaUpdate">Permet à l\'application
+        de spécifier qu\'elle veut télécharger des fichiers dans la
+        cache interne avec le nom de fichier réservé aux mises à
+        jour OTA. Les applications malicieuses peuvent utiliser cela pour
+        empêcher aux mises à jour OTA d\'être téléchargées.</string>
+  <string name="permlab_cacheFilesystem">Utilisez la cache système.</string>
+  <string name="permlab_downloadCompletedIntent">Envoyez les notifications
+        de téléchargement.</string>
+  <string name="permlab_downloadData">Accédez aux données de téléchargement.</string>
+  <string name="permlab_downloadManager">Accédez au gestionnaire de téléchargement.</string>
+  <string name="permlab_downloadOtaUpdate">Téléchargez la mise à jour OTA.</string>
+</resources>

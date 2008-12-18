@@ -28,11 +28,26 @@ public class Constants {
     /** Tag used for debugging/logging */
     public static final String TAG = "DownloadManager";
 
-    /** The permission that allows to access data about all downloads */
-    public static final String UI_PERMISSION = "android.permission.ACCESS_DOWNLOAD_DATA";
+    /** The column that used to be used for the HTTP method of the request */
+    public static final String RETRY_AFTER___REDIRECT_COUNT = "method";
 
-    /** The permission that allows to download a system image */
-    public static final String OTA_UPDATE_PERMISSION = "android.permission.DOWNLOAD_OTA_UPDATE";
+    /** The column that used to be used for the magic OTA update filename */
+    public static final String OTA_UPDATE = "otaupdate";
+
+    /** The column that used to be used to reject system filetypes */
+    public static final String NO_SYSTEM_FILES = "no_system";
+
+    /** The column that is used for the downloads's ETag */
+    public static final String ETAG = "etag";
+
+    /** The column that is used for the initiating app's UID */
+    public static final String UID = "uid";
+
+    /** The column that is used to remember whether the media scanner was invoked */
+    public static final String MEDIA_SCANNED = "scanned";
+
+    /** The column that is used to count retries */
+    public static final String FAILED_CONNECTIONS = "numfailed";
 
     /** The intent that gets sent when the service must wake up for a retry */
     public static final String ACTION_RETRY = "android.intent.action.DOWNLOAD_WAKEUP";
@@ -73,9 +88,6 @@ public class Constants {
     /** A magic filename that is allowed to exist within the system cache */
     public static final String RECOVERY_DIRECTORY = "recovery";
 
-    /** The magic filename for OTA updates */
-    public static final String OTA_UPDATE_FILENAME = "update.install";
-
     /** The default user agent used for downloads */
     public static final String DEFAULT_USER_AGENT = "AndroidDownloadManager";
 
@@ -105,6 +117,23 @@ public class Constants {
     public static final int MAX_RETRIES = 5;
 
     /**
+     * The minimum amount of time that the download manager accepts for
+     * a Retry-After response header with a parameter in delta-seconds.
+     */
+    public static final int MIN_RETRY_AFTER = 30; // 30s
+
+    /**
+     * The maximum amount of time that the download manager accepts for
+     * a Retry-After response header with a parameter in delta-seconds.
+     */
+    public static final int MAX_RETRY_AFTER = 24 * 60 * 60; // 24h
+
+    /**
+     * The maximum number of redirects.
+     */
+    public static final int MAX_REDIRECTS = 5; // can't be more than 7.
+
+    /**
      * The time between a failure and the first retry after an IOException.
      * Each subsequent retry grows exponentially, doubling each time.
      * The time is in seconds.
@@ -112,7 +141,7 @@ public class Constants {
     public static final int RETRY_FIRST_DELAY = 30;
 
     /** Enable verbose logging - use with "setprop log.tag.DownloadManager VERBOSE" */
-    private static final boolean LOCAL_LOGV = false;
+    private static final boolean LOCAL_LOGV = true;
     public static final boolean LOGV = Config.LOGV
             || (Config.LOGD && LOCAL_LOGV && Log.isLoggable(TAG, Log.VERBOSE));
 

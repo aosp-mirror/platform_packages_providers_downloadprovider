@@ -22,7 +22,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.UriMatcher;
 import android.content.pm.PackageManager;
+import android.database.CrossProcessCursor;
 import android.database.Cursor;
+import android.database.CursorWindow;
+import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
@@ -31,25 +34,29 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.ParcelFileDescriptor;
 import android.os.Process;
-import android.provider.BaseColumns;
 import android.provider.Downloads;
 import android.util.Config;
 import android.util.Log;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.HashSet;
+
 
 /**
  * Allows application to interact with the download manager.
  */
 public final class DownloadProvider extends ContentProvider {
 
-    /** Tag used in logging */
-    private static final String TAG = Constants.TAG;
-
     /** Database filename */
     private static final String DB_NAME = "downloads.db";
-    /** Current database vesion */
-    private static final int DB_VERSION = 31;
+    /** Current database version */
+    private static final int DB_VERSION = 100;
+    /** Database version from which upgrading is a nop */
+    private static final int DB_VERSION_NOP_UPGRADE_FROM = 31;
+    /** Database version to which upgrading is a nop */
+    private static final int DB_VERSION_NOP_UPGRADE_TO = 100;
     /** Name of table in the database */
     private static final String DB_TABLE = "downloads";
 
@@ -67,6 +74,31 @@ public final class DownloadProvider extends ContentProvider {
     static {
         sURIMatcher.addURI("downloads", "download", DOWNLOADS);
         sURIMatcher.addURI("downloads", "download/#", DOWNLOADS_ID);
+    }
+
+    private static final String[] sAppReadableColumnsArray = new String[] {
+        Downloads._ID,
+        Downloads.APP_DATA,
+        Downloads._DATA,
+        Downloads.MIMETYPE,
+        Downloads.VISIBILITY,
+        Downloads.CONTROL,
+        Downloads.STATUS,
+        Downloads.LAST_MODIFICATION,
+        Downloads.NOTIFICATION_PACKAGE,
+        Downloads.NOTIFICATION_CLASS,
+        Downloads.TOTAL_BYTES,
+        Downloads.CURRENT_BYTES,
+        Downloads.TITLE,
+        Downloads.DESCRIPTION
+    };
+
+    private static HashSet<String> sAppReadableColumnsSet;
+    static {
+        sAppReadableColumnsSet = new HashSet<String>();
+        for (int i = 0; i < sAppReadableColumnsArray.length; ++i) {
+            sAppReadableColumnsSet.add(sAppReadableColumnsArray[i]);
+        }
     }
 
     /** The database that lies underneath this content provider */
@@ -113,8 +145,16 @@ public final class DownloadProvider extends ContentProvider {
         //       to gracefully handle upgrades we should be careful about
         //       what to do on downgrades.
         @Override
-        public void onUpgrade(final SQLiteDatabase db, final int oldV, final int newV) {
-            Log.i(TAG, "Upgrading downloads database from version " + oldV + " to " + newV
+        public void onUpgrade(final SQLiteDatabase db, int oldV, final int newV) {
+            if (oldV == DB_VERSION_NOP_UPGRADE_FROM) {
+                if (newV == DB_VERSION_NOP_UPGRADE_TO) { // that's a no-op upgrade.
+                    return;
+                }
+                // NOP_FROM and NOP_TO are identical, just in different codelines. Upgrading
+                //     from NOP_FROM is the same as upgrading from NOP_TO.
+                oldV = DB_VERSION_NOP_UPGRADE_TO;
+            }
+            Log.i(Constants.TAG, "Upgrading downloads database from version " + oldV + " to " + newV
                     + ", which will destroy all old data");
             dropTable(db);
             createTable(db);
@@ -159,21 +199,21 @@ public final class DownloadProvider extends ContentProvider {
     private void createTable(SQLiteDatabase db) {
         try {
             db.execSQL("CREATE TABLE " + DB_TABLE + "(" +
-                    BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    Downloads._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     Downloads.URI + " TEXT, " +
-                    Downloads.METHOD + " INTEGER, " +
-                    Downloads.ENTITY + " TEXT, " +
+                    Constants.RETRY_AFTER___REDIRECT_COUNT + " INTEGER, " +
+                    Downloads.APP_DATA + " TEXT, " +
                     Downloads.NO_INTEGRITY + " BOOLEAN, " +
                     Downloads.FILENAME_HINT + " TEXT, " +
-                    Downloads.OTA_UPDATE + " BOOLEAN, " +
-                    Downloads.FILENAME + " TEXT, " +
+                    Constants.OTA_UPDATE + " BOOLEAN, " +
+                    Downloads._DATA + " TEXT, " +
                     Downloads.MIMETYPE + " TEXT, " +
                     Downloads.DESTINATION + " INTEGER, " +
-                    Downloads.NO_SYSTEM_FILES + " BOOLEAN, " +
+                    Constants.NO_SYSTEM_FILES + " BOOLEAN, " +
                     Downloads.VISIBILITY + " INTEGER, " +
                     Downloads.CONTROL + " INTEGER, " +
                     Downloads.STATUS + " INTEGER, " +
-                    Downloads.FAILED_CONNECTIONS + " INTEGER, " +
+                    Constants.FAILED_CONNECTIONS + " INTEGER, " +
                     Downloads.LAST_MODIFICATION + " BIGINT, " +
                     Downloads.NOTIFICATION_PACKAGE + " TEXT, " +
                     Downloads.NOTIFICATION_CLASS + " TEXT, " +
@@ -183,12 +223,12 @@ public final class DownloadProvider extends ContentProvider {
                     Downloads.REFERER + " TEXT, " +
                     Downloads.TOTAL_BYTES + " INTEGER, " +
                     Downloads.CURRENT_BYTES + " INTEGER, " +
-                    Downloads.ETAG + " TEXT, " +
-                    Downloads.UID + " INTEGER, " +
+                    Constants.ETAG + " TEXT, " +
+                    Constants.UID + " INTEGER, " +
                     Downloads.OTHER_UID + " INTEGER, " +
                     Downloads.TITLE + " TEXT, " +
                     Downloads.DESCRIPTION + " TEXT, " +
-                    Downloads.MEDIA_SCANNED + " BOOLEAN);");
+                    Constants.MEDIA_SCANNED + " BOOLEAN);");
         } catch (SQLException ex) {
             Log.e(Constants.TAG, "couldn't create table in downloads database");
             throw ex;
@@ -221,41 +261,73 @@ public final class DownloadProvider extends ContentProvider {
             throw new IllegalArgumentException("Unknown/Invalid URI " + uri);
         }
 
-        boolean hasUID = values.containsKey(Downloads.UID);
-        if (hasUID && Binder.getCallingUid() != 0) {
-            values.remove(Downloads.UID);
-            hasUID = false;
-        }
-        if (!hasUID) {
-            values.put(Downloads.UID, Binder.getCallingUid());
-        }
-        if (Constants.LOGVV) {
-            Log.v(TAG, "initiating download with UID " + Binder.getCallingUid());
-            if (values.containsKey(Downloads.OTHER_UID)) {
-                Log.v(TAG, "other UID " + values.getAsInteger(Downloads.OTHER_UID));
+        ContentValues filteredValues = new ContentValues();
+
+        copyString(Downloads.URI, values, filteredValues);
+        copyString(Downloads.APP_DATA, values, filteredValues);
+        copyBoolean(Downloads.NO_INTEGRITY, values, filteredValues);
+        copyString(Downloads.FILENAME_HINT, values, filteredValues);
+        copyString(Downloads.MIMETYPE, values, filteredValues);
+        Integer i = values.getAsInteger(Downloads.DESTINATION);
+        if (i != null) {
+            if (getContext().checkCallingPermission(Downloads.PERMISSION_ACCESS_ADVANCED)
+                    != PackageManager.PERMISSION_GRANTED
+                    && i != Downloads.DESTINATION_EXTERNAL
+                    && i != Downloads.DESTINATION_CACHE_PARTITION_PURGEABLE) {
+                throw new SecurityException("unauthorized destination code");
+            }
+            filteredValues.put(Downloads.DESTINATION, i);
+            if (i != Downloads.DESTINATION_EXTERNAL &&
+                    values.getAsInteger(Downloads.VISIBILITY) == null) {
+                filteredValues.put(Downloads.VISIBILITY, Downloads.VISIBILITY_HIDDEN);
             }
         }
-
-        if (values.containsKey(Downloads.LAST_MODIFICATION)) {
-            values.remove(Downloads.LAST_MODIFICATION);
+        copyInteger(Downloads.VISIBILITY, values, filteredValues);
+        copyInteger(Downloads.CONTROL, values, filteredValues);
+        filteredValues.put(Downloads.STATUS, Downloads.STATUS_PENDING);
+        filteredValues.put(Downloads.LAST_MODIFICATION, System.currentTimeMillis());
+        String pckg = values.getAsString(Downloads.NOTIFICATION_PACKAGE);
+        String clazz = values.getAsString(Downloads.NOTIFICATION_CLASS);
+        if (pckg != null && clazz != null) {
+            int uid = Binder.getCallingUid();
+            try {
+                if (uid == 0 ||
+                        getContext().getPackageManager().getApplicationInfo(pckg, 0).uid == uid) {
+                    filteredValues.put(Downloads.NOTIFICATION_PACKAGE, pckg);
+                    filteredValues.put(Downloads.NOTIFICATION_CLASS, clazz);
+                }
+            } catch (PackageManager.NameNotFoundException ex) {
+                /* ignored for now */
+            }
         }
-        values.put(Downloads.LAST_MODIFICATION, System.currentTimeMillis());
-
-        if (values.containsKey(Downloads.STATUS)) {
-            values.remove(Downloads.STATUS);
+        copyString(Downloads.NOTIFICATION_EXTRAS, values, filteredValues);
+        copyString(Downloads.COOKIE_DATA, values, filteredValues);
+        copyString(Downloads.USER_AGENT, values, filteredValues);
+        copyString(Downloads.REFERER, values, filteredValues);
+        if (getContext().checkCallingPermission(Downloads.PERMISSION_ACCESS_ADVANCED)
+                == PackageManager.PERMISSION_GRANTED) {
+            copyInteger(Downloads.OTHER_UID, values, filteredValues);
         }
-        values.put(Downloads.STATUS, Downloads.STATUS_PENDING);
+        filteredValues.put(Constants.UID, Binder.getCallingUid());
+        if (Binder.getCallingUid() == 0) {
+            copyInteger(Constants.UID, values, filteredValues);
+        }
+        copyString(Downloads.TITLE, values, filteredValues);
+        copyString(Downloads.DESCRIPTION, values, filteredValues);
 
-        if (values.containsKey(Downloads.OTA_UPDATE)
-                && getContext().checkCallingPermission(Constants.OTA_UPDATE_PERMISSION)
-                        != PackageManager.PERMISSION_GRANTED) {
-            values.remove(Downloads.OTA_UPDATE);
+        if (Constants.LOGVV) {
+            Log.v(Constants.TAG, "initiating download with UID "
+                    + filteredValues.getAsInteger(Constants.UID));
+            if (filteredValues.containsKey(Downloads.OTHER_UID)) {
+                Log.v(Constants.TAG, "other UID " +
+                        filteredValues.getAsInteger(Downloads.OTHER_UID));
+            }
         }
 
         Context context = getContext();
         context.startService(new Intent(context, DownloadService.class));
 
-        long rowID = db.insert(DB_TABLE, null, values);
+        long rowID = db.insert(DB_TABLE, null, filteredValues);
 
         Uri ret = null;
 
@@ -265,7 +337,7 @@ public final class DownloadProvider extends ContentProvider {
             context.getContentResolver().notifyChange(uri, null);
         } else {
             if (Config.LOGD) {
-                Log.d(TAG, "couldn't insert into downloads database");
+                Log.d(Constants.TAG, "couldn't insert into downloads database");
             }
         }
 
@@ -276,9 +348,12 @@ public final class DownloadProvider extends ContentProvider {
      * Starts a database query
      */
     @Override
-    public Cursor query(final Uri uri, final String[] projection,
+    public Cursor query(final Uri uri, String[] projection,
              final String selection, final String[] selectionArgs,
              final String sort) {
+
+        Helpers.validateSelection(selection, sAppReadableColumnsSet);
+
         SQLiteDatabase db = mOpenHelper.getReadableDatabase();
 
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
@@ -292,29 +367,37 @@ public final class DownloadProvider extends ContentProvider {
             }
             case DOWNLOADS_ID: {
                 qb.setTables(DB_TABLE);
-                qb.appendWhere(BaseColumns._ID + "=");
+                qb.appendWhere(Downloads._ID + "=");
                 qb.appendWhere(uri.getPathSegments().get(1));
                 emptyWhere = false;
                 break;
             }
             default: {
                 if (Constants.LOGV) {
-                    Log.v(TAG, "querying unknown URI: " + uri);
+                    Log.v(Constants.TAG, "querying unknown URI: " + uri);
                 }
                 throw new IllegalArgumentException("Unknown URI: " + uri);
             }
         }
 
-        if (Binder.getCallingPid() != Process.myPid()
-                && Binder.getCallingUid() != 0
-                && getContext().checkCallingPermission(Constants.UI_PERMISSION)
-                        != PackageManager.PERMISSION_GRANTED) {
+        if (Binder.getCallingPid() != Process.myPid() && Binder.getCallingUid() != 0) {
             if (!emptyWhere) {
                 qb.appendWhere(" AND ");
             }
-            qb.appendWhere("( " + Downloads.UID + "=" +  Binder.getCallingUid() + " OR "
+            qb.appendWhere("( " + Constants.UID + "=" +  Binder.getCallingUid() + " OR "
                     + Downloads.OTHER_UID + "=" +  Binder.getCallingUid() + " )");
             emptyWhere = false;
+
+            if (projection == null) {
+                projection = sAppReadableColumnsArray;
+            } else {
+                for (int i = 0; i < projection.length; ++i) {
+                    if (!sAppReadableColumnsSet.contains(projection[i])) {
+                        throw new IllegalArgumentException(
+                                "column " + projection[i] + " is not allowed in queries");
+                    }
+                }
+            }
         }
 
         if (Constants.LOGVV) {
@@ -356,11 +439,15 @@ public final class DownloadProvider extends ContentProvider {
             sb.append("sort is ");
             sb.append(sort);
             sb.append(".");
-            Log.v(TAG, sb.toString());
+            Log.v(Constants.TAG, sb.toString());
         }
 
         Cursor ret = qb.query(db, projection, selection, selectionArgs,
                               null, null, sort);
+
+        if (ret != null) {
+           ret = new ReadOnlyCursorWrapper(ret);
+        }
 
         if (ret != null) {
             ret.setNotificationUri(getContext().getContentResolver(), uri);
@@ -370,7 +457,7 @@ public final class DownloadProvider extends ContentProvider {
             }
         } else {
             if (Constants.LOGV) {
-                Log.v(TAG, "query failed in downloads database");
+                Log.v(Constants.TAG, "query failed in downloads database");
             }
         }
 
@@ -383,12 +470,30 @@ public final class DownloadProvider extends ContentProvider {
     @Override
     public int update(final Uri uri, final ContentValues values,
             final String where, final String[] whereArgs) {
+
+        Helpers.validateSelection(where, sAppReadableColumnsSet);
+
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 
         int count;
         long rowId = 0;
-        if (values.containsKey(Downloads.UID)) {
-            values.remove(Downloads.UID);
+        boolean startService = false;
+
+        ContentValues filteredValues;
+        if (Binder.getCallingPid() != Process.myPid()) {
+            filteredValues = new ContentValues();
+            copyString(Downloads.APP_DATA, values, filteredValues);
+            copyInteger(Downloads.VISIBILITY, values, filteredValues);
+            Integer i = values.getAsInteger(Downloads.CONTROL);
+            if (i != null) {
+                filteredValues.put(Downloads.CONTROL, i);
+                startService = true;
+            }
+            copyInteger(Downloads.CONTROL, values, filteredValues);
+            copyString(Downloads.TITLE, values, filteredValues);
+            copyString(Downloads.DESCRIPTION, values, filteredValues);
+        } else {
+            filteredValues = values;
         }
         int match = sURIMatcher.match(uri);
         switch (match) {
@@ -397,9 +502,9 @@ public final class DownloadProvider extends ContentProvider {
                 String myWhere;
                 if (where != null) {
                     if (match == DOWNLOADS) {
-                        myWhere = where;
+                        myWhere = "( " + where + " )";
                     } else {
-                        myWhere = where + " AND ";
+                        myWhere = "( " + where + " ) AND ";
                     }
                 } else {
                     myWhere = "";
@@ -407,26 +512,31 @@ public final class DownloadProvider extends ContentProvider {
                 if (match == DOWNLOADS_ID) {
                     String segment = uri.getPathSegments().get(1);
                     rowId = Long.parseLong(segment);
-                    myWhere += Downloads._ID + " = " + rowId;
+                    myWhere += " ( " + Downloads._ID + " = " + rowId + " ) ";
                 }
-                if (Binder.getCallingPid() != Process.myPid()
-                        && Binder.getCallingUid() != 0
-                        && getContext().checkCallingPermission(Constants.UI_PERMISSION)
-                                != PackageManager.PERMISSION_GRANTED) {
-                    myWhere += " AND ( " + Downloads.UID + "=" +  Binder.getCallingUid() + " OR "
+                if (Binder.getCallingPid() != Process.myPid() && Binder.getCallingUid() != 0) {
+                    myWhere += " AND ( " + Constants.UID + "=" +  Binder.getCallingUid() + " OR "
                             + Downloads.OTHER_UID + "=" +  Binder.getCallingUid() + " )";
                 }
-                count = db.update(DB_TABLE, values, myWhere, whereArgs);
+                if (filteredValues.size() > 0) {
+                    count = db.update(DB_TABLE, filteredValues, myWhere, whereArgs);
+                } else {
+                    count = 0;
+                }
                 break;
             }
             default: {
                 if (Config.LOGD) {
-                    Log.d(TAG, "updating unknown/invalid URI: " + uri);
+                    Log.d(Constants.TAG, "updating unknown/invalid URI: " + uri);
                 }
                 throw new UnsupportedOperationException("Cannot update URI: " + uri);
             }
         }
         getContext().getContentResolver().notifyChange(uri, null);
+        if (startService) {
+            Context context = getContext();
+            context.startService(new Intent(context, DownloadService.class));
+        }
         return count;
     }
 
@@ -436,6 +546,9 @@ public final class DownloadProvider extends ContentProvider {
     @Override
     public int delete(final Uri uri, final String where,
             final String[] whereArgs) {
+
+        Helpers.validateSelection(where, sAppReadableColumnsSet);
+
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         int count;
         int match = sURIMatcher.match(uri);
@@ -445,9 +558,9 @@ public final class DownloadProvider extends ContentProvider {
                 String myWhere;
                 if (where != null) {
                     if (match == DOWNLOADS) {
-                        myWhere = where;
+                        myWhere = "( " + where + " )";
                     } else {
-                        myWhere = where + " AND ";
+                        myWhere = "( " + where + " ) AND ";
                     }
                 } else {
                     myWhere = "";
@@ -455,13 +568,10 @@ public final class DownloadProvider extends ContentProvider {
                 if (match == DOWNLOADS_ID) {
                     String segment = uri.getPathSegments().get(1);
                     long rowId = Long.parseLong(segment);
-                    myWhere += Downloads._ID + " = " + rowId;
+                    myWhere += " ( " + Downloads._ID + " = " + rowId + " ) ";
                 }
-                if (Binder.getCallingPid() != Process.myPid()
-                        && Binder.getCallingUid() != 0
-                        && getContext().checkCallingPermission(Constants.UI_PERMISSION)
-                                != PackageManager.PERMISSION_GRANTED) {
-                    myWhere += " AND ( " + Downloads.UID + "=" +  Binder.getCallingUid() + " OR "
+                if (Binder.getCallingPid() != Process.myPid() && Binder.getCallingUid() != 0) {
+                    myWhere += " AND ( " + Constants.UID + "=" +  Binder.getCallingUid() + " OR "
                             + Downloads.OTHER_UID + "=" +  Binder.getCallingUid() + " )";
                 }
                 count = db.delete(DB_TABLE, myWhere, whereArgs);
@@ -469,7 +579,7 @@ public final class DownloadProvider extends ContentProvider {
             }
             default: {
                 if (Config.LOGD) {
-                    Log.d(TAG, "deleting unknown/invalid URI: " + uri);
+                    Log.d(Constants.TAG, "deleting unknown/invalid URI: " + uri);
                 }
                 throw new UnsupportedOperationException("Cannot delete URI: " + uri);
             }
@@ -485,48 +595,131 @@ public final class DownloadProvider extends ContentProvider {
     public ParcelFileDescriptor openFile(Uri uri, String mode)
             throws FileNotFoundException {
         if (Constants.LOGVV) {
-            Log.v(TAG, "openFile uri: " + uri + ", mode: " + mode
+            Log.v(Constants.TAG, "openFile uri: " + uri + ", mode: " + mode
                     + ", uid: " + Binder.getCallingUid());
             Cursor cursor = query(Downloads.CONTENT_URI, new String[] { "_id" }, null, null, "_id");
             if (cursor == null) {
-                Log.v(TAG, "null cursor in openFile");
+                Log.v(Constants.TAG, "null cursor in openFile");
             } else {
                 if (!cursor.moveToFirst()) {
-                    Log.v(TAG, "empty cursor in openFile");
+                    Log.v(Constants.TAG, "empty cursor in openFile");
                 } else {
                     do {
-                        Log.v(TAG, "row " + cursor.getInt(0) + " available");
+                        Log.v(Constants.TAG, "row " + cursor.getInt(0) + " available");
                     } while(cursor.moveToNext());
                 }
                 cursor.close();
             }
             cursor = query(uri, new String[] { "_data" }, null, null, null);
             if (cursor == null) {
-                Log.v(TAG, "null cursor in openFile");
+                Log.v(Constants.TAG, "null cursor in openFile");
             } else {
                 if (!cursor.moveToFirst()) {
-                    Log.v(TAG, "empty cursor in openFile");
+                    Log.v(Constants.TAG, "empty cursor in openFile");
                 } else {
                     String filename = cursor.getString(0);
-                    Log.v(TAG, "filename in openFile: " + filename);
+                    Log.v(Constants.TAG, "filename in openFile: " + filename);
                     if (new java.io.File(filename).isFile()) {
-                        Log.v(TAG, "file exists in openFile");
+                        Log.v(Constants.TAG, "file exists in openFile");
                     }
                 }
                cursor.close();
             }
         }
-        ParcelFileDescriptor ret = openFileHelper(uri, mode);
-        if (ret == null) {
-            if (Config.LOGD) {
-                Log.d(TAG, "couldn't open file");
+
+        // This logic is mostly copied form openFileHelper. If openFileHelper eventually
+        //     gets split into small bits (to extract the filename and the modebits),
+        //     this code could use the separate bits and be deeply simplified.
+        Cursor c = query(uri, new String[]{"_data"}, null, null, null);
+        int count = (c != null) ? c.getCount() : 0;
+        if (count != 1) {
+            // If there is not exactly one result, throw an appropriate exception.
+            if (c != null) {
+                c.close();
             }
+            if (count == 0) {
+                throw new FileNotFoundException("No entry for " + uri);
+            }
+            throw new FileNotFoundException("Multiple items at " + uri);
+        }
+
+        c.moveToFirst();
+        String path = c.getString(0);
+        c.close();
+        if (path == null) {
+            throw new FileNotFoundException("No filename found.");
+        }
+        if (!Helpers.isFilenameValid(path)) {
+            throw new FileNotFoundException("Invalid filename.");
+        }
+
+        if (!"r".equals(mode)) {
+            throw new FileNotFoundException("Bad mode for " + uri + ": " + mode);
+        }
+        ParcelFileDescriptor ret = ParcelFileDescriptor.open(new File(path),
+                ParcelFileDescriptor.MODE_READ_ONLY);
+
+        if (ret == null) {
+            if (Constants.LOGV) {
+                Log.v(Constants.TAG, "couldn't open file");
+            }
+            throw new FileNotFoundException("couldn't open file");
         } else {
             ContentValues values = new ContentValues();
             values.put(Downloads.LAST_MODIFICATION, System.currentTimeMillis());
             update(uri, values, null, null);
         }
         return ret;
+    }
+
+    private static final void copyInteger(String key, ContentValues from, ContentValues to) {
+        Integer i = from.getAsInteger(key);
+        if (i != null) {
+            to.put(key, i);
+        }
+    }
+
+    private static final void copyBoolean(String key, ContentValues from, ContentValues to) {
+        Boolean b = from.getAsBoolean(key);
+        if (b != null) {
+            to.put(key, b);
+        }
+    }
+
+    private static final void copyString(String key, ContentValues from, ContentValues to) {
+        String s = from.getAsString(key);
+        if (s != null) {
+            to.put(key, s);
+        }
+    }
+
+    private class ReadOnlyCursorWrapper extends CursorWrapper implements CrossProcessCursor {
+        public ReadOnlyCursorWrapper(Cursor cursor) {
+            super(cursor);
+            mCursor = (CrossProcessCursor) cursor;
+        }
+
+        public boolean deleteRow() {
+            throw new SecurityException("Download manager cursors are read-only");
+        }
+
+        public boolean commitUpdates() {
+            throw new SecurityException("Download manager cursors are read-only");
+        }
+
+        public void fillWindow(int pos, CursorWindow window) {
+            mCursor.fillWindow(pos, window);
+        }
+
+        public CursorWindow getWindow() {
+            return mCursor.getWindow();
+        }
+
+        public boolean onMove(int oldPosition, int newPosition) {
+            return mCursor.onMove(oldPosition, newPosition);
+        }
+
+        private CrossProcessCursor mCursor;
     }
 
 }

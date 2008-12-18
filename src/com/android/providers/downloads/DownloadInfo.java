@@ -27,19 +27,17 @@ import android.provider.Downloads;
 public class DownloadInfo {
     public int id;
     public String uri;
-    public int method;
-    public String entity;
     public boolean noIntegrity;
     public String hint;
     public String filename;
-    public boolean otaUpdate;
     public String mimetype;
     public int destination;
-    public boolean noSystem;
     public int visibility;
     public int control;
     public int status;
     public int numFailed;
+    public int retryAfter;
+    public int redirectCount;
     public long lastMod;
     public String pckg;
     public String clazz;
@@ -54,28 +52,26 @@ public class DownloadInfo {
 
     public volatile boolean hasActiveThread;
 
-    public DownloadInfo(int id, String uri, int method, String entity, boolean noIntegrity,
-            String hint, String filename, boolean otaUpdate,
-            String mimetype, int destination, boolean noSystem, int visibility,
-            int control, int status, int numFailed, long lastMod,
+    public DownloadInfo(int id, String uri, boolean noIntegrity,
+            String hint, String filename,
+            String mimetype, int destination, int visibility, int control,
+            int status, int numFailed, int retryAfter, int redirectCount, long lastMod,
             String pckg, String clazz, String extras, String cookies,
             String userAgent, String referer, int totalBytes, int currentBytes, String etag,
             boolean mediaScanned) {
         this.id = id;
         this.uri = uri;
-        this.method = method;
-        this.entity = entity;
         this.noIntegrity = noIntegrity;
         this.hint = hint;
         this.filename = filename;
-        this.otaUpdate = otaUpdate;
         this.mimetype = mimetype;
         this.destination = destination;
-        this.noSystem = noSystem;
         this.visibility = visibility;
         this.control = control;
         this.status = status;
         this.numFailed = numFailed;
+        this.retryAfter = retryAfter;
+        this.redirectCount = redirectCount;
         this.lastMod = lastMod;
         this.pckg = pckg;
         this.clazz = clazz;
@@ -109,14 +105,23 @@ public class DownloadInfo {
      * be called when numFailed > 0.
      */
     public long restartTime() {
-        return lastMod + Constants.RETRY_FIRST_DELAY * 1000 * (1 << (numFailed - 1));
+        if (retryAfter > 0) {
+            return lastMod + retryAfter;
+        }
+        return lastMod +
+                Constants.RETRY_FIRST_DELAY *
+                    (1000 + Helpers.rnd.nextInt(1001)) * (1 << (numFailed - 1));
     }
 
     /**
-     * Returns whether this download should be started at the time when
-     * it's first inserted in the database.
+     * Returns whether this download (which the download manager hasn't seen yet)
+     * should be started.
      */
     public boolean isReadyToStart(long now) {
+        if (control == Downloads.CONTROL_PAUSED) {
+            // the download is paused, so it's not going to start
+            return false;
+        }
         if (status == 0) {
             // status hasn't been initialized yet, this is a new download
             return true;
@@ -144,10 +149,18 @@ public class DownloadInfo {
     }
 
     /**
-     * Returns whether this download should be restarted at the time when
-     * it was already known by the download manager
+     * Returns whether this download (which the download manager has already seen
+     * and therefore potentially started) should be restarted.
+     *
+     * In a nutshell, this returns true if the download isn't already running
+     * but should be, and it can know whether the download is already running
+     * by checking the status.
      */
     public boolean isReadyToRestart(long now) {
+        if (control == Downloads.CONTROL_PAUSED) {
+            // the download is paused, so it's not going to restart
+            return false;
+        }
         if (status == 0) {
             // download hadn't been initialized yet
             return true;
@@ -181,5 +194,19 @@ public class DownloadInfo {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Returns whether this download is allowed to use the network.
+     */
+    public boolean canUseNetwork(boolean available, boolean roaming) {
+        if (!available) {
+            return false;
+        }
+        if (destination == Downloads.DESTINATION_CACHE_PARTITION_NOROAMING) {
+            return !roaming;
+        } else {
+            return true;
+        }
     }
 }

@@ -20,6 +20,7 @@ import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -40,18 +41,15 @@ import java.util.List;
  */
 public class DownloadReceiver extends BroadcastReceiver {
 
-    /** Tag used for debugging/logging */
-    public static final String TAG = Constants.TAG;
-
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
             if (Constants.LOGVV) {
-                Log.v(TAG, "Receiver onBoot");
+                Log.v(Constants.TAG, "Receiver onBoot");
             }
             context.startService(new Intent(context, DownloadService.class));
         } else if (intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
             if (Constants.LOGVV) {
-                Log.v(TAG, "Receiver onConnectivity");
+                Log.v(Constants.TAG, "Receiver onConnectivity");
             }
             NetworkInfo info = (NetworkInfo)
                     intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
@@ -60,7 +58,7 @@ public class DownloadReceiver extends BroadcastReceiver {
             }
         } else if (intent.getAction().equals(Constants.ACTION_RETRY)) {
             if (Constants.LOGVV) {
-                Log.v(TAG, "Receiver retry");
+                Log.v(Constants.TAG, "Receiver retry");
             }
             context.startService(new Intent(context, DownloadService.class));
         } else if (intent.getAction().equals(Constants.ACTION_OPEN)
@@ -75,7 +73,6 @@ public class DownloadReceiver extends BroadcastReceiver {
             Cursor cursor = context.getContentResolver().query(
                     intent.getData(), null, null, null, null);
             if (cursor != null) {
-                boolean mustCommit = false;
                 if (cursor.moveToFirst()) {
                     int statusColumn = cursor.getColumnIndexOrThrow(Downloads.STATUS);
                     int status = cursor.getInt(statusColumn);
@@ -83,12 +80,13 @@ public class DownloadReceiver extends BroadcastReceiver {
                     int visibility = cursor.getInt(visibilityColumn);
                     if (Downloads.isStatusCompleted(status)
                             && visibility == Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED) {
-                        cursor.updateInt(visibilityColumn, Downloads.VISIBILITY_VISIBLE);
-                        mustCommit = true;
+                        ContentValues values = new ContentValues();
+                        values.put(Downloads.VISIBILITY, Downloads.VISIBILITY_VISIBLE);
+                        context.getContentResolver().update(intent.getData(), values, null, null);
                     }
 
                     if (intent.getAction().equals(Constants.ACTION_OPEN)) {
-                        int filenameColumn = cursor.getColumnIndexOrThrow(Downloads.FILENAME);
+                        int filenameColumn = cursor.getColumnIndexOrThrow(Downloads._DATA);
                         int mimetypeColumn = cursor.getColumnIndexOrThrow(Downloads.MIMETYPE);
                         String filename = cursor.getString(filenameColumn);
                         String mimetype = cursor.getString(mimetypeColumn);
@@ -128,11 +126,6 @@ public class DownloadReceiver extends BroadcastReceiver {
                         }
                     }
                 }
-                if (mustCommit) {
-                    if (!cursor.commitUpdates()) {
-                        Log.e(Constants.TAG, "commitUpdate failed in onReceive/OPEN-LIST");
-                    }
-                }
                 cursor.close();
             }
             NotificationManager notMgr = (NotificationManager) context
@@ -154,10 +147,9 @@ public class DownloadReceiver extends BroadcastReceiver {
                     int visibility = cursor.getInt(visibilityColumn);
                     if (Downloads.isStatusCompleted(status)
                             && visibility == Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED) {
-                        cursor.updateInt(visibilityColumn, Downloads.VISIBILITY_VISIBLE);
-                        if (!cursor.commitUpdates()) {
-                            Log.e(Constants.TAG, "commitUpdate failed in onReceive/HIDE");
-                        }
+                        ContentValues values = new ContentValues();
+                        values.put(Downloads.VISIBILITY, Downloads.VISIBILITY_VISIBLE);
+                        context.getContentResolver().update(intent.getData(), values, null, null);
                     }
                 }
                 cursor.close();

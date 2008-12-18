@@ -9,22 +9,16 @@
         android:description="@string/permdesc_downloadManager"
         android:protectionLevel="signatureOrSystem" />
 
-    <!-- Allows access to the Download Manager data (for UI purposes) -->
-    <permission android:name="android.permission.ACCESS_DOWNLOAD_DATA"
-        android:label="@string/permlab_downloadData"
-        android:description="@string/permdesc_downloadData"
-        android:protectionLevel="signature" />
+    <!-- Allows advanced access to the Download Manager -->
+    <permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER_ADVANCED"
+        android:label="@string/permlab_downloadManagerAdvanced"
+        android:description="@string/permdesc_downloadManagerAdvanced"
+        android:protectionLevel="signatureOrSystem" />
 
     <!-- Allows filesystem access to /cache -->
     <permission android:name="android.permission.ACCESS_CACHE_FILESYSTEM"
         android:label="@string/permlab_cacheFilesystem"
         android:description="@string/permdesc_cacheFilesystem"
-        android:protectionLevel="signature" />
-
-    <!-- Allow to download to /cache/update.install -->
-    <permission android:name="android.permission.DOWNLOAD_OTA_UPDATE"
-        android:label="@string/permlab_downloadOtaUpdate"
-        android:description="@string/permdesc_downloadOtaUpdate"
         android:protectionLevel="signature" />
 
     <!-- Allows to send download completed intents -->

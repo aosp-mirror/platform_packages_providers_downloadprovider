@@ -40,7 +40,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Process;
-import android.provider.BaseColumns;
 import android.provider.Downloads;
 import android.util.Config;
 import android.util.Log;
@@ -58,9 +57,6 @@ import java.util.List;
 public class DownloadService extends Service {
 
     /* ------------ Constants ------------ */
-
-    /** Tag used for debugging/logging */
-    private static final String TAG = Constants.TAG;
 
     /* ------------ Members ------------ */
 
@@ -130,7 +126,7 @@ public class DownloadService extends Service {
          */
         public void onChange(final boolean selfChange) {
             if (Constants.LOGVV) {
-                Log.v(TAG, "Service ContentObserver received notification");
+                Log.v(Constants.TAG, "Service ContentObserver received notification");
             }
             updateFromProvider();
         }
@@ -144,7 +140,7 @@ public class DownloadService extends Service {
     public class MediaScannerConnection implements ServiceConnection {
         public void onServiceConnected(ComponentName className, IBinder service) {
             if (Constants.LOGVV) {
-                Log.v(TAG, "Connected to Media Scanner");
+                Log.v(Constants.TAG, "Connected to Media Scanner");
             }
             mMediaScannerConnecting = false;
             synchronized (DownloadService.this) {
@@ -160,7 +156,7 @@ public class DownloadService extends Service {
                 if (mMediaScannerService != null) {
                     mMediaScannerService = null;
                     if (Constants.LOGVV) {
-                        Log.v(TAG, "Disconnecting from Media Scanner");
+                        Log.v(Constants.TAG, "Disconnecting from Media Scanner");
                     }
                     try {
                         unbindService(this);
@@ -201,7 +197,7 @@ public class DownloadService extends Service {
     public void onCreate() {
         super.onCreate();
         if (Constants.LOGVV) {
-            Log.v(TAG, "Service onCreate");
+            Log.v(Constants.TAG, "Service onCreate");
         }
 
         mDownloads = Lists.newArrayList();
@@ -229,7 +225,7 @@ public class DownloadService extends Service {
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
         if (Constants.LOGVV) {
-            Log.v(TAG, "Service onStart");
+            Log.v(Constants.TAG, "Service onStart");
         }
 
         updateFromProvider();
@@ -241,7 +237,7 @@ public class DownloadService extends Service {
     public void onDestroy() {
         getContentResolver().unregisterContentObserver(mObserver);
         if (Constants.LOGVV) {
-            Log.v(TAG, "Service onDestroy");
+            Log.v(Constants.TAG, "Service onDestroy");
         }
         super.onDestroy();
     }
@@ -308,10 +304,11 @@ public class DownloadService extends Service {
                     pendingUpdate = false;
                 }
                 boolean networkAvailable = Helpers.isNetworkAvailable(DownloadService.this);
+                boolean networkRoaming = Helpers.isNetworkRoaming(DownloadService.this);
                 long now = System.currentTimeMillis();
 
                 Cursor cursor = getContentResolver().query(Downloads.CONTENT_URI,
-                        null, null, null, BaseColumns._ID);
+                        null, null, null, Downloads._ID);
 
                 if (cursor == null) {
                     return;
@@ -327,7 +324,7 @@ public class DownloadService extends Service {
 
                 boolean isAfterLast = cursor.isAfterLast();
 
-                int idColumn = cursor.getColumnIndexOrThrow(BaseColumns._ID);
+                int idColumn = cursor.getColumnIndexOrThrow(Downloads._ID);
 
                 /*
                  * Walk the cursor and the local array to keep them in sync. The key
@@ -352,7 +349,8 @@ public class DownloadService extends Service {
                         //     stuff in the local array, which can only be junk
                         if (Constants.LOGVV) {
                             int arrayId = ((DownloadInfo) mDownloads.get(arrayPos)).id;
-                            Log.v(TAG, "Array update: trimming " + arrayId + " @ "  + arrayPos);
+                            Log.v(Constants.TAG, "Array update: trimming " +
+                                    arrayId + " @ "  + arrayPos);
                         }
                         if (shouldScanFile(arrayPos) && mediaScannerConnected()) {
                             scanFile(null, arrayPos);
@@ -362,9 +360,10 @@ public class DownloadService extends Service {
                         int id = cursor.getInt(idColumn);
 
                         if (arrayPos == mDownloads.size()) {
-                            insertDownload(cursor, arrayPos, networkAvailable, now);
+                            insertDownload(cursor, arrayPos, networkAvailable, networkRoaming, now);
                             if (Constants.LOGVV) {
-                                Log.v(TAG, "Array update: inserting " + id + " @ " + arrayPos);
+                                Log.v(Constants.TAG, "Array update: inserting " +
+                                        id + " @ " + arrayPos);
                             }
                             if (shouldScanFile(arrayPos)
                                     && (!mediaScannerConnected() || !scanFile(cursor, arrayPos))) {
@@ -389,7 +388,7 @@ public class DownloadService extends Service {
                             if (arrayId < id) {
                                 // The array entry isn't in the cursor
                                 if (Constants.LOGVV) {
-                                    Log.v(TAG, "Array update: removing " + arrayId
+                                    Log.v(Constants.TAG, "Array update: removing " + arrayId
                                             + " @ " + arrayPos);
                                 }
                                 if (shouldScanFile(arrayPos) && mediaScannerConnected()) {
@@ -398,7 +397,9 @@ public class DownloadService extends Service {
                                 deleteDownload(arrayPos); // this advances in the array
                             } else if (arrayId == id) {
                                 // This cursor row already exists in the stored array
-                                updateDownload(cursor, arrayPos, networkAvailable, now);
+                                updateDownload(
+                                        cursor, arrayPos,
+                                        networkAvailable, networkRoaming, now);
                                 if (shouldScanFile(arrayPos)
                                         && (!mediaScannerConnected()
                                                 || !scanFile(cursor, arrayPos))) {
@@ -420,9 +421,12 @@ public class DownloadService extends Service {
                             } else {
                                 // This cursor entry didn't exist in the stored array
                                 if (Constants.LOGVV) {
-                                    Log.v(TAG, "Array update: appending " + id + " @ " + arrayPos);
+                                    Log.v(Constants.TAG, "Array update: appending " +
+                                            id + " @ " + arrayPos);
                                 }
-                                insertDownload(cursor, arrayPos, networkAvailable, now);
+                                insertDownload(
+                                        cursor, arrayPos,
+                                        networkAvailable, networkRoaming, now);
                                 if (shouldScanFile(arrayPos)
                                         && (!mediaScannerConnected()
                                                 || !scanFile(cursor, arrayPos))) {
@@ -460,9 +464,6 @@ public class DownloadService extends Service {
                     mMediaScannerConnection.disconnectMediaScanner();
                 }
 
-                if (!cursor.commitUpdates()) {
-                    Log.e(Constants.TAG, "commitUpdates failed in updateFromProvider");
-                }
                 cursor.close();
             }
         }
@@ -490,7 +491,7 @@ public class DownloadService extends Service {
         }
 
         Cursor cursor = getContentResolver().query(Downloads.CONTENT_URI,
-                new String[] { Downloads.FILENAME }, null, null, null);
+                new String[] { Downloads._DATA }, null, null, null);
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {
@@ -515,16 +516,24 @@ public class DownloadService extends Service {
     private void trimDatabase() {
         Cursor cursor = getContentResolver().query(Downloads.CONTENT_URI,
                 new String[] { Downloads._ID },
-                Downloads.STATUS + " >= 200", null,
+                Downloads.STATUS + " >= '200'", null,
                 Downloads.LAST_MODIFICATION);
         if (cursor == null) {
             // This isn't good - if we can't do basic queries in our database, nothing's gonna work
-            Log.e(TAG, "null cursor in trimDatabase");
+            Log.e(Constants.TAG, "null cursor in trimDatabase");
             return;
         }
         if (cursor.moveToFirst()) {
-            while (cursor.getCount() > Constants.MAX_DOWNLOADS) {
-                cursor.deleteRow();
+            int numDelete = cursor.getCount() - Constants.MAX_DOWNLOADS;
+            int columnId = cursor.getColumnIndexOrThrow(Downloads._ID);
+            while (numDelete > 0) {
+                getContentResolver().delete(
+                        ContentUris.withAppendedId(Downloads.CONTENT_URI, cursor.getLong(columnId)),
+                        null, null);
+                if (!cursor.moveToNext()) {
+                    break;
+                }
+                numDelete--;
             }
         }
         cursor.close();
@@ -534,25 +543,27 @@ public class DownloadService extends Service {
      * Keeps a local copy of the info about a download, and initiates the
      * download if appropriate.
      */
-    private void insertDownload(Cursor cursor, int arrayPos, boolean networkAvailable, long now) {
+    private void insertDownload(
+            Cursor cursor, int arrayPos,
+            boolean networkAvailable, boolean networkRoaming, long now) {
         int statusColumn = cursor.getColumnIndexOrThrow(Downloads.STATUS);
-        int failedColumn = cursor.getColumnIndexOrThrow(Downloads.FAILED_CONNECTIONS);
+        int failedColumn = cursor.getColumnIndexOrThrow(Constants.FAILED_CONNECTIONS);
+        int retryRedirect =
+                cursor.getInt(cursor.getColumnIndexOrThrow(Constants.RETRY_AFTER___REDIRECT_COUNT));
         DownloadInfo info = new DownloadInfo(
                 cursor.getInt(cursor.getColumnIndexOrThrow(Downloads._ID)),
                 cursor.getString(cursor.getColumnIndexOrThrow(Downloads.URI)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.METHOD)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.ENTITY)),
                 cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.NO_INTEGRITY)) == 1,
                 cursor.getString(cursor.getColumnIndexOrThrow(Downloads.FILENAME_HINT)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.FILENAME)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.OTA_UPDATE)) == 1,
+                cursor.getString(cursor.getColumnIndexOrThrow(Downloads._DATA)),
                 cursor.getString(cursor.getColumnIndexOrThrow(Downloads.MIMETYPE)),
                 cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.DESTINATION)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.NO_SYSTEM_FILES)) == 1,
                 cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.VISIBILITY)),
                 cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.CONTROL)),
                 cursor.getInt(statusColumn),
                 cursor.getInt(failedColumn),
+                retryRedirect & 0xfffffff,
+                retryRedirect >> 28,
                 cursor.getLong(cursor.getColumnIndexOrThrow(Downloads.LAST_MODIFICATION)),
                 cursor.getString(cursor.getColumnIndexOrThrow(Downloads.NOTIFICATION_PACKAGE)),
                 cursor.getString(cursor.getColumnIndexOrThrow(Downloads.NOTIFICATION_CLASS)),
@@ -562,36 +573,34 @@ public class DownloadService extends Service {
                 cursor.getString(cursor.getColumnIndexOrThrow(Downloads.REFERER)),
                 cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.TOTAL_BYTES)),
                 cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.CURRENT_BYTES)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.ETAG)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.MEDIA_SCANNED)) == 1);
+                cursor.getString(cursor.getColumnIndexOrThrow(Constants.ETAG)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(Constants.MEDIA_SCANNED)) == 1);
 
         if (Constants.LOGVV) {
-            Log.v(TAG, "Service adding new entry");
-            Log.v(TAG, "ID      : " + info.id);
-            Log.v(TAG, "URI     : " + ((info.uri != null) ? "yes" : "no"));
-            Log.v(TAG, "METHOD  : " + info.method);
-            Log.v(TAG, "ENTITY  : " + ((info.entity != null) ? "yes" : "no"));
-            Log.v(TAG, "NO_INTEG: " + info.noIntegrity);
-            Log.v(TAG, "HINT    : " + info.hint);
-            Log.v(TAG, "FILENAME: " + info.filename);
-            Log.v(TAG, "SYSIMAGE: " + info.otaUpdate);
-            Log.v(TAG, "MIMETYPE: " + info.mimetype);
-            Log.v(TAG, "DESTINAT: " + info.destination);
-            Log.v(TAG, "NO_SYSTE: " + info.noSystem);
-            Log.v(TAG, "VISIBILI: " + info.visibility);
-            Log.v(TAG, "CONTROL : " + info.control);
-            Log.v(TAG, "STATUS  : " + info.status);
-            Log.v(TAG, "FAILED_C: " + info.numFailed);
-            Log.v(TAG, "LAST_MOD: " + info.lastMod);
-            Log.v(TAG, "PACKAGE : " + info.pckg);
-            Log.v(TAG, "CLASS   : " + info.clazz);
-            Log.v(TAG, "COOKIES : " + ((info.cookies != null) ? "yes" : "no"));
-            Log.v(TAG, "AGENT   : " + info.userAgent);
-            Log.v(TAG, "REFERER : " + ((info.referer != null) ? "yes" : "no"));
-            Log.v(TAG, "TOTAL   : " + info.totalBytes);
-            Log.v(TAG, "CURRENT : " + info.currentBytes);
-            Log.v(TAG, "ETAG    : " + info.etag);
-            Log.v(TAG, "SCANNED : " + info.mediaScanned);
+            Log.v(Constants.TAG, "Service adding new entry");
+            Log.v(Constants.TAG, "ID      : " + info.id);
+            Log.v(Constants.TAG, "URI     : " + ((info.uri != null) ? "yes" : "no"));
+            Log.v(Constants.TAG, "NO_INTEG: " + info.noIntegrity);
+            Log.v(Constants.TAG, "HINT    : " + info.hint);
+            Log.v(Constants.TAG, "FILENAME: " + info.filename);
+            Log.v(Constants.TAG, "MIMETYPE: " + info.mimetype);
+            Log.v(Constants.TAG, "DESTINAT: " + info.destination);
+            Log.v(Constants.TAG, "VISIBILI: " + info.visibility);
+            Log.v(Constants.TAG, "CONTROL : " + info.control);
+            Log.v(Constants.TAG, "STATUS  : " + info.status);
+            Log.v(Constants.TAG, "FAILED_C: " + info.numFailed);
+            Log.v(Constants.TAG, "RETRY_AF: " + info.retryAfter);
+            Log.v(Constants.TAG, "REDIRECT: " + info.redirectCount);
+            Log.v(Constants.TAG, "LAST_MOD: " + info.lastMod);
+            Log.v(Constants.TAG, "PACKAGE : " + info.pckg);
+            Log.v(Constants.TAG, "CLASS   : " + info.clazz);
+            Log.v(Constants.TAG, "COOKIES : " + ((info.cookies != null) ? "yes" : "no"));
+            Log.v(Constants.TAG, "AGENT   : " + info.userAgent);
+            Log.v(Constants.TAG, "REFERER : " + ((info.referer != null) ? "yes" : "no"));
+            Log.v(Constants.TAG, "TOTAL   : " + info.totalBytes);
+            Log.v(Constants.TAG, "CURRENT : " + info.currentBytes);
+            Log.v(Constants.TAG, "ETAG    : " + info.etag);
+            Log.v(Constants.TAG, "SCANNED : " + info.mediaScanned);
         }
 
         mDownloads.add(arrayPos, info);
@@ -616,29 +625,28 @@ public class DownloadService extends Service {
             mimetypeIntent.setDataAndType(Uri.fromParts("file", "", null), info.mimetype);
             List<ResolveInfo> list = getPackageManager().queryIntentActivities(mimetypeIntent,
                     PackageManager.MATCH_DEFAULT_ONLY);
-            //Log.i(TAG, "*** QUERY " + mimetypeIntent + ": " + list);
+            //Log.i(Constants.TAG, "*** QUERY " + mimetypeIntent + ": " + list);
             
-            if (list.size() == 0
-                    || (info.noSystem && info.mimetype.equalsIgnoreCase(Constants.MIMETYPE_APK))) {
+            if (list.size() == 0) {
                 if (Config.LOGD) {
                     Log.d(Constants.TAG, "no application to handle MIME type " + info.mimetype);
                 }
                 info.status = Downloads.STATUS_NOT_ACCEPTABLE;
-                cursor.updateInt(statusColumn, Downloads.STATUS_NOT_ACCEPTABLE);
 
-                Uri uri = Uri.parse(Downloads.CONTENT_URI + "/" + info.id);
-                Intent intent = new Intent(Downloads.DOWNLOAD_COMPLETED_ACTION);
-                intent.setData(uri);
-                sendBroadcast(intent, "android.permission.ACCESS_DOWNLOAD_DATA");
+                Uri uri = ContentUris.withAppendedId(Downloads.CONTENT_URI, info.id);
+                ContentValues values = new ContentValues();
+                values.put(Downloads.STATUS, Downloads.STATUS_NOT_ACCEPTABLE);
+                getContentResolver().update(uri, values, null, null);
                 info.sendIntentIfRequested(uri, this);
                 return;
             }
         }
 
-        if (networkAvailable) {
+        if (info.canUseNetwork(networkAvailable, networkRoaming)) {
             if (info.isReadyToStart(now)) {
                 if (Constants.LOGV) {
-                    Log.v(TAG, "Service spawning thread to handle new download " + info.id);
+                    Log.v(Constants.TAG, "Service spawning thread to handle new download " +
+                            info.id);
                 }
                 if (info.hasActiveThread) {
                     throw new IllegalStateException("Multiple threads on same download on insert");
@@ -660,7 +668,10 @@ public class DownloadService extends Service {
                     || info.status == Downloads.STATUS_PENDING
                     || info.status == Downloads.STATUS_RUNNING) {
                 info.status = Downloads.STATUS_RUNNING_PAUSED;
-                cursor.updateInt(statusColumn, Downloads.STATUS_RUNNING_PAUSED);
+                Uri uri = ContentUris.withAppendedId(Downloads.CONTENT_URI, info.id);
+                ContentValues values = new ContentValues();
+                values.put(Downloads.STATUS, Downloads.STATUS_RUNNING_PAUSED);
+                getContentResolver().update(uri, values, null, null);
             }
         }
     }
@@ -668,23 +679,20 @@ public class DownloadService extends Service {
     /**
      * Updates the local copy of the info about a download.
      */
-    private void updateDownload(Cursor cursor, int arrayPos, boolean networkAvailable, long now) {
+    private void updateDownload(
+            Cursor cursor, int arrayPos,
+            boolean networkAvailable, boolean networkRoaming, long now) {
         DownloadInfo info = (DownloadInfo) mDownloads.get(arrayPos);
         int statusColumn = cursor.getColumnIndexOrThrow(Downloads.STATUS);
-        int failedColumn = cursor.getColumnIndexOrThrow(Downloads.FAILED_CONNECTIONS);
+        int failedColumn = cursor.getColumnIndexOrThrow(Constants.FAILED_CONNECTIONS);
         info.id = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads._ID));
         info.uri = stringFromCursor(info.uri, cursor, Downloads.URI);
-        info.method = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.METHOD));
-        info.entity = stringFromCursor(info.entity, cursor, Downloads.ENTITY);
         info.noIntegrity =
                 cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.NO_INTEGRITY)) == 1;
         info.hint = stringFromCursor(info.hint, cursor, Downloads.FILENAME_HINT);
-        info.filename = stringFromCursor(info.filename, cursor, Downloads.FILENAME);
-        info.otaUpdate = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.OTA_UPDATE)) == 1;
+        info.filename = stringFromCursor(info.filename, cursor, Downloads._DATA);
         info.mimetype = stringFromCursor(info.mimetype, cursor, Downloads.MIMETYPE);
         info.destination = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.DESTINATION));
-        info.noSystem =
-                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.NO_SYSTEM_FILES)) == 1;
         int newVisibility = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.VISIBILITY));
         if (info.visibility == Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
                 && newVisibility != Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
@@ -692,13 +700,19 @@ public class DownloadService extends Service {
             mNotifier.mNotificationMgr.cancel(info.id);
         }
         info.visibility = newVisibility;
-        info.control = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.CONTROL));
+        synchronized(info) {
+            info.control = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.CONTROL));
+        }
         int newStatus = cursor.getInt(statusColumn);
         if (!Downloads.isStatusCompleted(info.status) && Downloads.isStatusCompleted(newStatus)) {
             mNotifier.mNotificationMgr.cancel(info.id);
         }
         info.status = newStatus;
         info.numFailed = cursor.getInt(failedColumn);
+        int retryRedirect =
+                cursor.getInt(cursor.getColumnIndexOrThrow(Constants.RETRY_AFTER___REDIRECT_COUNT));
+        info.retryAfter = retryRedirect & 0xfffffff;
+        info.redirectCount = retryRedirect >> 28;
         info.lastMod = cursor.getLong(cursor.getColumnIndexOrThrow(Downloads.LAST_MODIFICATION));
         info.pckg = stringFromCursor(info.pckg, cursor, Downloads.NOTIFICATION_PACKAGE);
         info.clazz = stringFromCursor(info.clazz, cursor, Downloads.NOTIFICATION_CLASS);
@@ -707,14 +721,15 @@ public class DownloadService extends Service {
         info.referer = stringFromCursor(info.referer, cursor, Downloads.REFERER);
         info.totalBytes = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.TOTAL_BYTES));
         info.currentBytes = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.CURRENT_BYTES));
-        info.etag = stringFromCursor(info.etag, cursor, Downloads.ETAG);
+        info.etag = stringFromCursor(info.etag, cursor, Constants.ETAG);
         info.mediaScanned =
-                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.MEDIA_SCANNED)) == 1;
+                cursor.getInt(cursor.getColumnIndexOrThrow(Constants.MEDIA_SCANNED)) == 1;
 
-        if (networkAvailable) {
+        if (info.canUseNetwork(networkAvailable, networkRoaming)) {
             if (info.isReadyToRestart(now)) {
                 if (Constants.LOGV) {
-                    Log.v(TAG, "Service spawning thread to handle updated download " + info.id);
+                    Log.v(Constants.TAG, "Service spawning thread to handle updated download " +
+                            info.id);
                 }
                 if (info.hasActiveThread) {
                     throw new IllegalStateException("Multiple threads on same download on update");
@@ -839,16 +854,21 @@ public class DownloadService extends Service {
             if (mMediaScannerService != null) {
                 try {
                     if (Constants.LOGV) {
-                        Log.v(TAG, "Scanning file " + info.filename);
+                        Log.v(Constants.TAG, "Scanning file " + info.filename);
                     }
                     mMediaScannerService.scanFile(info.filename, info.mimetype);
                     if (cursor != null) {
-                        cursor.updateInt(cursor.getColumnIndexOrThrow(Downloads.MEDIA_SCANNED), 1);
+                        ContentValues values = new ContentValues();
+                        values.put(Constants.MEDIA_SCANNED, 1);
+                        getContentResolver().update(
+                                ContentUris.withAppendedId(Downloads.CONTENT_URI,
+                                       cursor.getLong(cursor.getColumnIndexOrThrow(Downloads._ID))),
+                                values, null, null);
                     }
                     return true;
                 } catch (RemoteException e) {
                     if (Config.LOGD) {
-                        Log.d(TAG, "Failed to scan file " + info.filename);
+                        Log.d(Constants.TAG, "Failed to scan file " + info.filename);
                     }
                 }
             }

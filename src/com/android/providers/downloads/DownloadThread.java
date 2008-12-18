@@ -25,6 +25,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -46,14 +47,12 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 
 /**
  * Runs an actual download
  */
 public class DownloadThread extends Thread {
-
-    /** Tag used for debugging/logging */
-    private static final String TAG = Constants.TAG;
 
     private Context mContext;
     private DownloadInfo mInfo;
@@ -84,6 +83,9 @@ public class DownloadThread extends Thread {
 
         int finalStatus = Downloads.STATUS_UNKNOWN_ERROR;
         boolean countRetry = false;
+        int retryAfter = 0;
+        int redirectCount = mInfo.redirectCount;
+        String newUri = null;
         boolean gotData = false;
         String filename = null;
         String mimeType = mInfo.mimetype;
@@ -106,30 +108,38 @@ public class DownloadThread extends Thread {
             int bytesSoFar = 0;
 
             PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
-            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
+            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.TAG);
             wakeLock.acquire();
 
-            if (mInfo.filename != null) {
+            filename = mInfo.filename;
+            if (filename != null) {
+                if (!Helpers.isFilenameValid(filename)) {
+                    finalStatus = Downloads.STATUS_FILE_ERROR;
+                    notifyDownloadCompleted(
+                            finalStatus, false, 0, 0, false, filename, null, mInfo.mimetype);
+                    return;
+                }
                 // We're resuming a download that got interrupted
-                File f = new File(mInfo.filename);
+                File f = new File(filename);
                 if (f.exists()) {
                     long fileLength = f.length();
                     if (fileLength == 0) {
                         // The download hadn't actually started, we can restart from scratch
                         f.delete();
+                        filename = null;
                     } else if (mInfo.etag == null && !mInfo.noIntegrity) {
                         // Tough luck, that's not a resumable download
                         if (Config.LOGD) {
-                            Log.d(TAG, "can't resume interrupted non-resumable download"); 
+                            Log.d(Constants.TAG,
+                                    "can't resume interrupted non-resumable download"); 
                         }
                         f.delete();
                         finalStatus = Downloads.STATUS_PRECONDITION_FAILED;
                         notifyDownloadCompleted(
-                                finalStatus, false, false, mInfo.filename, mInfo.mimetype);
+                                finalStatus, false, 0, 0, false, filename, null, mInfo.mimetype);
                         return;
                     } else {
                         // All right, we'll be able to resume this download
-                        filename = mInfo.filename;
                         stream = new FileOutputStream(filename, true);
                         bytesSoFar = (int) fileLength;
                         if (mInfo.totalBytes != -1) {
@@ -171,59 +181,38 @@ public class DownloadThread extends Thread {
 http_request_loop:
             while (true) {
                 // Prepares the request and fires it.
-                HttpUriRequest requestU;
-                AbortableHttpRequest requestA;
-                if (mInfo.method == Downloads.METHOD_POST) {
-                    HttpPost request = new HttpPost(mInfo.uri);
-                    if (mInfo.entity != null) {
-                        try {
-                            request.setEntity(new StringEntity(mInfo.entity));
-                        } catch (UnsupportedEncodingException ex) {
-                            if (Config.LOGD) {
-                                Log.d(TAG, "unsupported encoding for POST entity : " + ex); 
-                            }
-                            finalStatus = Downloads.STATUS_BAD_REQUEST;
-                            break http_request_loop;
-                        }
-                    }
-                    requestU = request;
-                    requestA = request;
-                } else {
-                    HttpGet request = new HttpGet(mInfo.uri);
-                    requestU = request;
-                    requestA = request;
-                }
+                HttpGet request = new HttpGet(mInfo.uri);
 
                 if (Constants.LOGV) {
-                    Log.v(TAG, "initiating download for " + mInfo.uri);
+                    Log.v(Constants.TAG, "initiating download for " + mInfo.uri);
                 }
 
                 if (mInfo.cookies != null) {
-                    requestU.addHeader("Cookie", mInfo.cookies);
+                    request.addHeader("Cookie", mInfo.cookies);
                 }
                 if (mInfo.referer != null) {
-                    requestU.addHeader("Referer", mInfo.referer);
+                    request.addHeader("Referer", mInfo.referer);
                 }
                 if (continuingDownload) {
                     if (headerETag != null) {
-                        requestU.addHeader("If-Match", headerETag);
+                        request.addHeader("If-Match", headerETag);
                     }
-                    requestU.addHeader("Range", "bytes=" + bytesSoFar + "-");
+                    request.addHeader("Range", "bytes=" + bytesSoFar + "-");
                 }
 
                 HttpResponse response;
                 try {
-                    response = client.execute(requestU);
+                    response = client.execute(request);
                 } catch (IllegalArgumentException ex) {
                     if (Constants.LOGV) {
-                        Log.d(TAG, "Arg exception trying to execute request for " + mInfo.uri +
-                                " : " + ex);
+                        Log.d(Constants.TAG, "Arg exception trying to execute request for " +
+                                mInfo.uri + " : " + ex);
                     } else if (Config.LOGD) {
-                        Log.d(TAG, "Arg exception trying to execute request for " + mInfo.id +
-                                " : " +  ex);
+                        Log.d(Constants.TAG, "Arg exception trying to execute request for " +
+                                mInfo.id + " : " +  ex);
                     }
                     finalStatus = Downloads.STATUS_BAD_REQUEST;
-                    requestA.abort();
+                    request.abort();
                     break http_request_loop;
                 } catch (IOException ex) {
                     if (!Helpers.isNetworkAvailable(mContext)) {
@@ -233,25 +222,87 @@ http_request_loop:
                         countRetry = true;
                     } else {
                         if (Constants.LOGV) {
-                            Log.d(TAG, "IOException trying to execute request for " + mInfo.uri +
-                                    " : " + ex);
+                            Log.d(Constants.TAG, "IOException trying to execute request for " +
+                                    mInfo.uri + " : " + ex);
                         } else if (Config.LOGD) {
-                            Log.d(TAG, "IOException trying to execute request for " + mInfo.id +
-                                    " : " + ex);
+                            Log.d(Constants.TAG, "IOException trying to execute request for " +
+                                    mInfo.id + " : " + ex);
                         }
                         finalStatus = Downloads.STATUS_HTTP_DATA_ERROR;
                     }
-                    requestA.abort();
+                    request.abort();
                     break http_request_loop;
                 }
 
                 int statusCode = response.getStatusLine().getStatusCode();
+                if (statusCode == 503 && mInfo.numFailed < Constants.MAX_RETRIES) {
+                    if (Constants.LOGVV) {
+                        Log.v(Constants.TAG, "got HTTP response code 503");
+                    }
+                    finalStatus = Downloads.STATUS_RUNNING_PAUSED;
+                    countRetry = true;
+                    Header header = response.getFirstHeader("Retry-After");
+                    if (header != null) {
+                       try {
+                           if (Constants.LOGVV) {
+                               Log.v(Constants.TAG, "Retry-After :" + header.getValue());
+                           }
+                           retryAfter = Integer.parseInt(header.getValue());
+                           if (retryAfter < 0) {
+                               retryAfter = 0;
+                           } else {
+                               if (retryAfter < Constants.MIN_RETRY_AFTER) {
+                                   retryAfter = Constants.MIN_RETRY_AFTER;
+                               } else if (retryAfter > Constants.MAX_RETRY_AFTER) {
+                                   retryAfter = Constants.MAX_RETRY_AFTER;
+                               }
+                               retryAfter += Helpers.rnd.nextInt(Constants.MIN_RETRY_AFTER + 1);
+                               retryAfter *= 1000;
+                           }
+                       } catch (NumberFormatException ex) {
+                           // ignored - retryAfter stays 0 in this case.
+                       }
+                    }
+                    request.abort();
+                    break http_request_loop;
+                }
+                if (statusCode == 301 ||
+                        statusCode == 302 ||
+                        statusCode == 303 ||
+                        statusCode == 307) {
+                    if (Constants.LOGVV) {
+                        Log.v(Constants.TAG, "got HTTP redirect " + statusCode);
+                    }
+                    if (redirectCount >= Constants.MAX_REDIRECTS) {
+                        if (Constants.LOGV) {
+                            Log.d(Constants.TAG, "too many redirects for download " + mInfo.id +
+                                    " at " + mInfo.uri);
+                        } else if (Config.LOGD) {
+                            Log.d(Constants.TAG, "too many redirects for download " + mInfo.id);
+                        }
+                        finalStatus = Downloads.STATUS_TOO_MANY_REDIRECTS;
+                        request.abort();
+                        break http_request_loop;
+                    }
+                    Header header = response.getFirstHeader("Location");
+                    if (header != null) {
+                        if (Constants.LOGVV) {
+                            Log.v(Constants.TAG, "Location :" + header.getValue());
+                        }
+                        newUri = new URI(mInfo.uri).resolve(new URI(header.getValue())).toString();
+                        ++redirectCount;
+                        finalStatus = Downloads.STATUS_RUNNING_PAUSED;
+                        request.abort();
+                        break http_request_loop;
+                    }
+                }
                 if ((!continuingDownload && statusCode != Downloads.STATUS_SUCCESS)
                         || (continuingDownload && statusCode != 206)) {
                     if (Constants.LOGV) {
-                        Log.d(TAG, "http error " + statusCode + " for " + mInfo.uri);
+                        Log.d(Constants.TAG, "http error " + statusCode + " for " + mInfo.uri);
                     } else if (Config.LOGD) {
-                        Log.d(TAG, "http error " + statusCode + " for download " + mInfo.id);
+                        Log.d(Constants.TAG, "http error " + statusCode + " for download " +
+                                mInfo.id);
                     }
                     if (Downloads.isStatusError(statusCode)) {
                         finalStatus = statusCode;
@@ -262,12 +313,12 @@ http_request_loop:
                     } else {
                         finalStatus = Downloads.STATUS_UNHANDLED_HTTP_CODE;
                     }
-                    requestA.abort();
+                    request.abort();
                     break http_request_loop;
                 } else {
                     // Handles the response, saves the file
                     if (Constants.LOGV) {
-                        Log.v(TAG, "received response for " + mInfo.uri);
+                        Log.v(Constants.TAG, "received response for " + mInfo.uri);
                     }
 
                     if (!continuingDownload) {
@@ -309,17 +360,19 @@ http_request_loop:
                         } else {
                             // Ignore content-length with transfer-encoding - 2616 4.4 3
                             if (Constants.LOGVV) {
-                                Log.v(TAG, "ignoring content-length because of xfer-encoding");
+                                Log.v(Constants.TAG,
+                                        "ignoring content-length because of xfer-encoding");
                             }
                         }
                         if (Constants.LOGVV) {
-                            Log.v(TAG, "Accept-Ranges: " + headerAcceptRanges);
-                            Log.v(TAG, "Content-Disposition: " + headerContentDisposition);
-                            Log.v(TAG, "Content-Length: " + headerContentLength);
-                            Log.v(TAG, "Content-Location: " + headerContentLocation);
-                            Log.v(TAG, "Content-Type: " + mimeType);
-                            Log.v(TAG, "ETag: " + headerETag);
-                            Log.v(TAG, "Transfer-Encoding: " + headerTransferEncoding);
+                            Log.v(Constants.TAG, "Accept-Ranges: " + headerAcceptRanges);
+                            Log.v(Constants.TAG, "Content-Disposition: " +
+                                    headerContentDisposition);
+                            Log.v(Constants.TAG, "Content-Length: " + headerContentLength);
+                            Log.v(Constants.TAG, "Content-Location: " + headerContentLocation);
+                            Log.v(Constants.TAG, "Content-Type: " + mimeType);
+                            Log.v(Constants.TAG, "ETag: " + headerETag);
+                            Log.v(Constants.TAG, "Transfer-Encoding: " + headerTransferEncoding);
                         }
 
                         if (!mInfo.noIntegrity && headerContentLength == null &&
@@ -327,10 +380,10 @@ http_request_loop:
                                         || !headerTransferEncoding.equalsIgnoreCase("chunked"))
                                 ) {
                             if (Config.LOGD) {
-                                Log.d(TAG, "can't know size of download, giving up");
+                                Log.d(Constants.TAG, "can't know size of download, giving up");
                             }
                             finalStatus = Downloads.STATUS_LENGTH_REQUIRED;
-                            requestA.abort();
+                            request.abort();
                             break http_request_loop;
                         }
 
@@ -342,25 +395,23 @@ http_request_loop:
                                 headerContentLocation,
                                 mimeType,
                                 mInfo.destination,
-                                mInfo.otaUpdate,
-                                mInfo.noSystem,
                                 (headerContentLength != null) ?
                                         Integer.parseInt(headerContentLength) : 0);
                         if (fileInfo.filename == null) {
                             finalStatus = fileInfo.status;
-                            requestA.abort();
+                            request.abort();
                             break http_request_loop;
                         }
                         filename = fileInfo.filename;
                         stream = fileInfo.stream;
                         if (Constants.LOGV) {
-                            Log.v(TAG, "writing " + mInfo.uri + " to " + filename);
+                            Log.v(Constants.TAG, "writing " + mInfo.uri + " to " + filename);
                         }
 
                         ContentValues values = new ContentValues();
-                        values.put(Downloads.FILENAME, filename);
+                        values.put(Downloads._DATA, filename);
                         if (headerETag != null) {
-                            values.put(Downloads.ETAG, headerETag);
+                            values.put(Constants.ETAG, headerETag);
                         }
                         if (mimeType != null) {
                             values.put(Downloads.MIMETYPE, mimeType);
@@ -384,15 +435,15 @@ http_request_loop:
                             countRetry = true;
                         } else {
                             if (Constants.LOGV) {
-                                Log.d(TAG, "IOException getting entity for " + mInfo.uri +
+                                Log.d(Constants.TAG, "IOException getting entity for " + mInfo.uri +
                                     " : " + ex);
                             } else if (Config.LOGD) {
-                                Log.d(TAG, "IOException getting entity for download " + mInfo.id +
-                                    " : " + ex);
+                                Log.d(Constants.TAG, "IOException getting entity for download " +
+                                        mInfo.id + " : " + ex);
                             }
                             finalStatus = Downloads.STATUS_HTTP_DATA_ERROR;
                         }
-                        requestA.abort();
+                        request.abort();
                         break http_request_loop;
                     }
                     for (;;) {
@@ -405,11 +456,11 @@ http_request_loop:
                             mContext.getContentResolver().update(contentUri, values, null, null);
                             if (!mInfo.noIntegrity && headerETag == null) {
                                 if (Constants.LOGV) {
-                                    Log.v(TAG, "download IOException for " + mInfo.uri +
-                                    " : " + ex);
+                                    Log.v(Constants.TAG, "download IOException for " + mInfo.uri +
+                                            " : " + ex);
                                 } else if (Config.LOGD) {
-                                    Log.d(TAG, "download IOException for download " + mInfo.id +
-                                    " : " + ex);
+                                    Log.d(Constants.TAG, "download IOException for download " +
+                                            mInfo.id + " : " + ex);
                                 }
                                 if (Config.LOGD) {
                                     Log.d(Constants.TAG,
@@ -423,15 +474,15 @@ http_request_loop:
                                 countRetry = true;
                             } else {
                                 if (Constants.LOGV) {
-                                    Log.v(TAG, "download IOException for " + mInfo.uri +
-                                    " : " + ex);
+                                    Log.v(Constants.TAG, "download IOException for " + mInfo.uri +
+                                            " : " + ex);
                                 } else if (Config.LOGD) {
-                                    Log.d(TAG, "download IOException for download " + mInfo.id +
-                                    " : " + ex);
+                                    Log.d(Constants.TAG, "download IOException for download " +
+                                            mInfo.id + " : " + ex);
                                 }
                                 finalStatus = Downloads.STATUS_HTTP_DATA_ERROR;
                             }
-                            requestA.abort();
+                            request.abort();
                             break http_request_loop;
                         }
                         if (bytesRead == -1) { // success
@@ -444,12 +495,29 @@ http_request_loop:
                             if ((headerContentLength != null)
                                     && (bytesSoFar
                                             != Integer.parseInt(headerContentLength))) {
-                                if (Constants.LOGV) {
-                                    Log.d(TAG, "mismatched content length " + mInfo.uri);
-                                } else if (Config.LOGD) {
-                                    Log.d(TAG, "mismatched content length for " + mInfo.id);
+                                if (!mInfo.noIntegrity && headerETag == null) {
+                                    if (Constants.LOGV) {
+                                        Log.d(Constants.TAG, "mismatched content length " +
+                                                mInfo.uri);
+                                    } else if (Config.LOGD) {
+                                        Log.d(Constants.TAG, "mismatched content length for " +
+                                                mInfo.id);
+                                    }
+                                    finalStatus = Downloads.STATUS_LENGTH_REQUIRED;
+                                } else if (!Helpers.isNetworkAvailable(mContext)) {
+                                    finalStatus = Downloads.STATUS_RUNNING_PAUSED;
+                                } else if (mInfo.numFailed < Constants.MAX_RETRIES) {
+                                    finalStatus = Downloads.STATUS_RUNNING_PAUSED;
+                                    countRetry = true;
+                                } else {
+                                    if (Constants.LOGV) {
+                                        Log.v(Constants.TAG, "closed socket for " + mInfo.uri);
+                                    } else if (Config.LOGD) {
+                                        Log.d(Constants.TAG, "closed socket for download " +
+                                                mInfo.id);
+                                    }
+                                    finalStatus = Downloads.STATUS_HTTP_DATA_ERROR;
                                 }
-                                finalStatus = Downloads.STATUS_LENGTH_REQUIRED;
                                 break http_request_loop;
                             }
                             break;
@@ -499,20 +567,30 @@ http_request_loop:
                         }
 
                         if (Constants.LOGVV) {
-                            Log.v(TAG, "downloaded " + bytesSoFar + " for " + mInfo.uri);
+                            Log.v(Constants.TAG, "downloaded " + bytesSoFar + " for " + mInfo.uri);
+                        }
+                        synchronized(mInfo) {
+                            if (mInfo.control == Downloads.CONTROL_PAUSED) {
+                                if (Constants.LOGV) {
+                                    Log.v(Constants.TAG, "paused " + mInfo.uri);
+                                }
+                                finalStatus = Downloads.STATUS_RUNNING_PAUSED;
+                                request.abort();
+                                break http_request_loop;
+                            }
                         }
                         if (mInfo.status == Downloads.STATUS_CANCELED) {
                             if (Constants.LOGV) {
-                                Log.d(TAG, "canceled " + mInfo.uri);
+                                Log.d(Constants.TAG, "canceled " + mInfo.uri);
                             } else if (Config.LOGD) {
-                                // Log.d(TAG, "canceled id " + mInfo.id);
+                                // Log.d(Constants.TAG, "canceled id " + mInfo.id);
                             }
                             finalStatus = Downloads.STATUS_CANCELED;
                             break http_request_loop;
                         }
                     }
                     if (Constants.LOGV) {
-                        Log.v(TAG, "download completed for " + mInfo.uri);
+                        Log.v(Constants.TAG, "download completed for " + mInfo.uri);
                     }
                     finalStatus = Downloads.STATUS_SUCCESS;
                 }
@@ -520,15 +598,15 @@ http_request_loop:
             }
         } catch (FileNotFoundException ex) {
             if (Config.LOGD) {
-                Log.d(TAG, "FileNotFoundException for " + filename + " : " +  ex);
+                Log.d(Constants.TAG, "FileNotFoundException for " + filename + " : " +  ex);
             }
             finalStatus = Downloads.STATUS_FILE_ERROR;
             // falls through to the code that reports an error
         } catch (Exception ex) { //sometimes the socket code throws unchecked exceptions
             if (Constants.LOGV) {
-                Log.d(TAG, "Exception for " + mInfo.uri + " : " + ex);
+                Log.d(Constants.TAG, "Exception for " + mInfo.uri, ex);
             } else if (Config.LOGD) {
-                Log.d(TAG, "Exception for id " + mInfo.id + " : " + ex);
+                Log.d(Constants.TAG, "Exception for id " + mInfo.id, ex);
             }
             finalStatus = Downloads.STATUS_UNKNOWN_ERROR;
             // falls through to the code that reports an error
@@ -565,7 +643,7 @@ http_request_loop:
                     File file = new File(filename);
                     Intent item = DrmStore.addDrmFile(mContext.getContentResolver(), file, null);
                     if (item == null) {
-                        Log.w(TAG, "unable to add file " + filename + " to DrmProvider");
+                        Log.w(Constants.TAG, "unable to add file " + filename + " to DrmProvider");
                         finalStatus = Downloads.STATUS_UNKNOWN_ERROR;
                     } else {
                         filename = item.getDataString();
@@ -578,7 +656,8 @@ http_request_loop:
                     FileUtils.setPermissions(filename, 0644, -1, -1);
                 }
             }
-            notifyDownloadCompleted(finalStatus, countRetry, gotData, filename, mimeType);
+            notifyDownloadCompleted(finalStatus, countRetry, retryAfter, redirectCount,
+                    gotData, filename, newUri, mimeType);
         }
     }
 
@@ -586,46 +665,37 @@ http_request_loop:
      * Stores information about the completed download, and notifies the initiating application.
      */
     private void notifyDownloadCompleted(
-            int status, boolean countRetry, boolean gotData, String filename, String mimeType) {
-        notifyThroughDatabase(status, countRetry, gotData, filename, mimeType);
+            int status, boolean countRetry, int retryAfter, int redirectCount, boolean gotData,
+            String filename, String uri, String mimeType) {
+        notifyThroughDatabase(
+                status, countRetry, retryAfter, redirectCount, gotData, filename, uri, mimeType);
         if (Downloads.isStatusCompleted(status)) {
             notifyThroughIntent();
         }
     }
 
     private void notifyThroughDatabase(
-            int status, boolean countRetry, boolean gotData, String filename, String mimeType) {
-        // Updates database when the download completes.
-        Cursor cursor = null;
-
-        String projection[] = {};
-        cursor = mContext.getContentResolver().query(Downloads.CONTENT_URI,
-                projection, Downloads._ID + "=" + mInfo.id, null, null);
-
-        if (cursor != null) {
-            // Looping makes the code more solid in case there are 2 entries with the same id
-            while (cursor.moveToNext()) {
-                cursor.updateInt(cursor.getColumnIndexOrThrow(Downloads.STATUS), status);
-                cursor.updateString(cursor.getColumnIndexOrThrow(Downloads.FILENAME), filename);
-                cursor.updateString(cursor.getColumnIndexOrThrow(Downloads.MIMETYPE), mimeType);
-                cursor.updateLong(cursor.getColumnIndexOrThrow(Downloads.LAST_MODIFICATION),
-                        System.currentTimeMillis());
-                if (!countRetry) {
-                    // if there's no reason to get delayed retry, clear this field
-                    cursor.updateInt(cursor.getColumnIndexOrThrow(Downloads.FAILED_CONNECTIONS), 0);
-                } else if (gotData) {
-                    // if there's a reason to get a delayed retry but we got some data in this
-                    //     try, reset the retry count.
-                    cursor.updateInt(cursor.getColumnIndexOrThrow(Downloads.FAILED_CONNECTIONS), 1);
-                } else {
-                    // should get a retry and didn't make any progress this time - increment count
-                    cursor.updateInt(cursor.getColumnIndexOrThrow(Downloads.FAILED_CONNECTIONS),
-                            mInfo.numFailed + 1);
-                }
-            }
-            cursor.commitUpdates();
-            cursor.close();
+            int status, boolean countRetry, int retryAfter, int redirectCount, boolean gotData,
+            String filename, String uri, String mimeType) {
+        ContentValues values = new ContentValues();
+        values.put(Downloads.STATUS, status);
+        values.put(Downloads._DATA, filename);
+        if (uri != null) {
+            values.put(Downloads.URI, uri);
         }
+        values.put(Downloads.MIMETYPE, mimeType);
+        values.put(Downloads.LAST_MODIFICATION, System.currentTimeMillis());
+        values.put(Constants.RETRY_AFTER___REDIRECT_COUNT, retryAfter + (redirectCount << 28));
+        if (!countRetry) {
+            values.put(Constants.FAILED_CONNECTIONS, 0);
+        } else if (gotData) {
+            values.put(Constants.FAILED_CONNECTIONS, 1);
+        } else {
+            values.put(Constants.FAILED_CONNECTIONS, mInfo.numFailed + 1);
+        }
+
+        mContext.getContentResolver().update(
+                ContentUris.withAppendedId(Downloads.CONTENT_URI, mInfo.id), values, null, null);
     }
 
     /**
@@ -634,9 +704,6 @@ http_request_loop:
      */
     private void notifyThroughIntent() {
         Uri uri = Uri.parse(Downloads.CONTENT_URI + "/" + mInfo.id);
-        Intent intent = new Intent(Downloads.DOWNLOAD_COMPLETED_ACTION);
-        intent.setData(uri);
-        mContext.sendBroadcast(intent, "android.permission.ACCESS_DOWNLOAD_DATA");
         mInfo.sendIntentIfRequested(uri, mContext);
     }
 

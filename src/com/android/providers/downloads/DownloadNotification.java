@@ -43,14 +43,14 @@ class DownloadNotification {
     
     static final String LOGTAG = "DownloadNotification";
     static final String WHERE_RUNNING = 
-        "(" + Downloads.STATUS + " >= 100) AND (" + 
-        Downloads.STATUS + " <= 199) AND (" +
-        Downloads.VISIBILITY + " IS NULL OR " + 
-        Downloads.VISIBILITY + " == " + Downloads.VISIBILITY_VISIBLE + " OR " +
-        Downloads.VISIBILITY + " == " + Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED + ")";
-    static final String WHERE_COMPLETED = 
-        Downloads.STATUS + " >= 200 AND " + 
-        Downloads.VISIBILITY + " == " + Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
+        "(" + Downloads.STATUS + " >= '100') AND (" +
+        Downloads.STATUS + " <= '199') AND (" +
+        Downloads.VISIBILITY + " IS NULL OR " +
+        Downloads.VISIBILITY + " == '" + Downloads.VISIBILITY_VISIBLE + "' OR " +
+        Downloads.VISIBILITY + " == '" + Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED + "')";
+    static final String WHERE_COMPLETED =
+        Downloads.STATUS + " >= '200' AND " +
+        Downloads.VISIBILITY + " == '" + Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED + "'";
     
     
     /**
@@ -114,7 +114,7 @@ class DownloadNotification {
                         Downloads.NOTIFICATION_PACKAGE,
                         Downloads.NOTIFICATION_CLASS,
                         Downloads.CURRENT_BYTES, Downloads.TOTAL_BYTES,
-                        Downloads.STATUS, Downloads.FILENAME
+                        Downloads.STATUS, Downloads._DATA
                 },
                 WHERE_RUNNING, null, Downloads._ID);
         
@@ -216,7 +216,7 @@ class DownloadNotification {
                         Downloads.NOTIFICATION_PACKAGE,
                         Downloads.NOTIFICATION_CLASS,
                         Downloads.CURRENT_BYTES, Downloads.TOTAL_BYTES,
-                        Downloads.STATUS, Downloads.FILENAME,
+                        Downloads.STATUS, Downloads._DATA,
                         Downloads.LAST_MODIFICATION, Downloads.DESTINATION
                 },
                 WHERE_COMPLETED, null, Downloads._ID);

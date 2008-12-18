@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="permlab_downloadManager">"ダウンロードマネージャーにアクセスします。"</string>
+    <string name="permdesc_downloadManager">"アプリケーションでダウンロードマネージャーにアクセスしてファイルをダウンロードできるようにします。悪意のあるアプリケーションではこれを利用して、ダウンロードに深刻な影響を与えたり、個人データにアクセスしたりできます。"</string>
+    <!-- no translation found for permlab_downloadManagerAdvanced (7103642833308809655) -->
+    <skip />
+    <!-- no translation found for permdesc_downloadManagerAdvanced (8761177317775872287) -->
+    <skip />
+    <string name="permlab_cacheFilesystem">"システムキャッシュを使用します。"</string>
+    <string name="permdesc_cacheFilesystem">"アプリケーションでシステムキャッシュを直接アクセス、変更、削除できるようにします。悪意のあるアプリケーションではこれを利用して、ダウンロードや他のアプリケーションに深刻な影響を与えたり、個人データにアクセスしたりできます。"</string>
+    <string name="permlab_downloadCompletedIntent">"ダウンロード通知を送信します。"</string>
+    <string name="permdesc_downloadCompletedIntent">"ダウンロード完了の通知をアプリケーションから送信できるようにします。悪意のあるアプリケーションではこの通知を利用して、ファイルをダウンロードする他のアプリケーションの処理を妨害できます。"</string>
+    <string name="download_unknown_title">"&lt;無題&gt;"</string>
+    <string name="notification_filename_separator">"、"</string>
+    <string name="notification_filename_extras">"他%d件"</string>
+    <string name="notification_download_complete">"ダウンロード完了"</string>
+    <string name="notification_download_failed">"ダウンロードに失敗しました"</string>
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="permlab_downloadManager">"访问下载管理程序。"</string>
+    <string name="permdesc_downloadManager">"允许应用程序访问下载管理程序以及将其用于下载文件。恶意应用程序可以使用该功能干扰下载，以及访问隐私信息。"</string>
+    <!-- no translation found for permlab_downloadManagerAdvanced (7103642833308809655) -->
+    <skip />
+    <!-- no translation found for permdesc_downloadManagerAdvanced (8761177317775872287) -->
+    <skip />
+    <string name="permlab_cacheFilesystem">"使用系统缓存。"</string>
+    <string name="permdesc_cacheFilesystem">"允许应用程序直接访问、修改和删除系统缓存。恶意应用程序可以使用该功能严重干扰下载和其他应用程序，以及访问隐私数据。"</string>
+    <string name="permlab_downloadCompletedIntent">"发送下载通知。"</string>
+    <string name="permdesc_downloadCompletedIntent">"允许应用程序发送关于已完成下载的通知。恶意应用程序可以使用该功能干扰其他下载文件的应用程序。"</string>
+    <string name="download_unknown_title">"&lt;未命名&gt;"</string>
+    <string name="notification_filename_separator">"、"</string>
+    <string name="notification_filename_extras">"以及另外 %d 个"</string>
+    <string name="notification_download_complete">"下载完成"</string>
+    <string name="notification_download_failed">"下载不成功"</string>
+</resources>

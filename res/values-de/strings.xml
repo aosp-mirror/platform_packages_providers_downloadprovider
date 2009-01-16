@@ -3,10 +3,8 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="permlab_downloadManager">"Auf Download-Manager zugreifen"</string>
     <string name="permdesc_downloadManager">"Ermöglicht der Anwendung den Zugriff auf den Download-Manager zum Herunterladen von Dateien. Diese Funktion kann von bösartigen Anwendungen dazu verwendet werden, Ladevorgänge zu unterbrechen und auf private Daten zuzugreifen."</string>
-    <!-- no translation found for permlab_downloadManagerAdvanced (7103642833308809655) -->
-    <skip />
-    <!-- no translation found for permdesc_downloadManagerAdvanced (8761177317775872287) -->
-    <skip />
+    <string name="permlab_downloadManagerAdvanced">"Erweiterte Funktionen des Download-Managers."</string>
+    <string name="permdesc_downloadManagerAdvanced">"Erlaubt der Anwendung, auf die erweiterten Funktionen des Download-Managers zuzugreifen."\n"     Schädliche Anwendungen können so Downloads unterbrechen und auf"\n"        persönliche Daten zugreifen."</string>
     <string name="permlab_cacheFilesystem">"Systemcache verwenden"</string>
     <string name="permdesc_cacheFilesystem">"Ermöglicht es der Anwendung, direkt auf den Systemcache zuzugreifen und diesen zu ändern oder zu löschen. Diese Funktion kann von bösartigen Anwendungen dazu verwendet werden, Ladevorgänge und andere Anwendungen schwerwiegend zu stören sowie auf private Daten zuzugreifen."</string>
     <string name="permlab_downloadCompletedIntent">"Benachrichtigungen zu Ladevorgängen senden"</string>

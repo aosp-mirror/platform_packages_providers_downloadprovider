@@ -3,10 +3,8 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="permlab_downloadManager">"ダウンロードマネージャーにアクセスします。"</string>
     <string name="permdesc_downloadManager">"アプリケーションでダウンロードマネージャーにアクセスしてファイルをダウンロードできるようにします。悪意のあるアプリケーションではこれを利用して、ダウンロードに深刻な影響を与えたり、個人データにアクセスしたりできます。"</string>
-    <!-- no translation found for permlab_downloadManagerAdvanced (7103642833308809655) -->
-    <skip />
-    <!-- no translation found for permdesc_downloadManagerAdvanced (8761177317775872287) -->
-    <skip />
+    <string name="permlab_downloadManagerAdvanced">"ダウンロードマネージャーの高度な機能です。"</string>
+    <string name="permdesc_downloadManagerAdvanced">"ダウンロードマネージャーの高度な機能にアプリケーションでアクセスできるようにします。"\n"        悪意のあるアプリケーションではこれを利用して、ダウンロードに深刻な影響を与えたり、"\n"        個人情報にアクセスしたりできます。"</string>
     <string name="permlab_cacheFilesystem">"システムキャッシュを使用します。"</string>
     <string name="permdesc_cacheFilesystem">"アプリケーションでシステムキャッシュを直接アクセス、変更、削除できるようにします。悪意のあるアプリケーションではこれを利用して、ダウンロードや他のアプリケーションに深刻な影響を与えたり、個人データにアクセスしたりできます。"</string>
     <string name="permlab_downloadCompletedIntent">"ダウンロード通知を送信します。"</string>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="permlab_downloadManager">"Získat přístup ke správci stahování."</string>
+    <string name="permdesc_downloadManager">"Umožní aplikaci získat přístup ke správci stahování a stahovat pomocí něj soubory. Škodlivé aplikace mohou pomocí tohoto nastavení narušit stahování a získat přístup k soukromým informacím."</string>
+    <string name="permlab_downloadManagerAdvanced">"Pokročilé funkce správce stahování."</string>
+    <string name="permdesc_downloadManagerAdvanced">"Umožňuje aplikaci přístup k pokročilým funkcím správce stahování."\n"        Škodlivé aplikace toho mohou využít a narušit stahování nebo získat přístup k "\n"        důvěrným informacím."</string>
+    <string name="permlab_cacheFilesystem">"Použít mezipaměť systému."</string>
+    <string name="permdesc_cacheFilesystem">"Umožní aplikaci získat přímý přístup k mezipaměti systému, měnit ji a mazat. Škodlivé aplikace mohou pomocí tohoto nastavení vážně narušit stahování a ostatní aplikace a získat přístup k soukromým datům."</string>
+    <string name="permlab_downloadCompletedIntent">"Odeslat oznámení o stahování."</string>
+    <string name="permdesc_downloadCompletedIntent">"Umožní aplikaci odeslat oznámení o dokončení stahování. Škodlivé aplikace mohou pomocí tohoto nastavení zmást jiné aplikace, které stahují soubory."</string>
+    <string name="download_unknown_title">"&lt;Bez názvu&gt;"</string>
+    <string name="notification_filename_separator">","</string>
+    <string name="notification_filename_extras">"a ještě %d"</string>
+    <string name="notification_download_complete">"Stahování bylo dokončeno"</string>
+    <string name="notification_download_failed">"Stahování bylo neúspěšné"</string>
+</resources>

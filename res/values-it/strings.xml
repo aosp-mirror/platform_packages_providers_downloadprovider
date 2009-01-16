@@ -3,10 +3,8 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="permlab_downloadManager">"Accedere al gestore dei download."</string>
     <string name="permdesc_downloadManager">"Consente l\'accesso dell\'applicazione al gestore dei download e il suo utilizzo per scaricare file. Le applicazioni dannose possono sfruttare questa possibilità per interrompere download e accedere a informazioni riservate."</string>
-    <!-- no translation found for permlab_downloadManagerAdvanced (7103642833308809655) -->
-    <skip />
-    <!-- no translation found for permdesc_downloadManagerAdvanced (8761177317775872287) -->
-    <skip />
+    <string name="permlab_downloadManagerAdvanced">"Funzioni avanzate del gestore dei download."</string>
+    <string name="permdesc_downloadManagerAdvanced">"Consente l\'accesso dell\'applicazione alle funzioni avanzate del gestore dei download."\n"        Le applicazioni dannose possono sfruttare questa possibilità per interrompere download e accedere a"\n"  informazioni riservate."</string>
     <string name="permlab_cacheFilesystem">"Usare la cache del sistema."</string>
     <string name="permdesc_cacheFilesystem">"Consente l\'accesso diretto dell\'applicazione alla cache del sistema, nonché la modifica e l\'eliminazione della cache. Le applicazioni dannose possono sfruttare questa possibilità per interrompere download e altre applicazioni e accedere a dati riservati."</string>
     <string name="permlab_downloadCompletedIntent">"Inviare notifiche di download."</string>

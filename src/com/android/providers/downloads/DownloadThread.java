@@ -429,13 +429,13 @@ http_request_loop:
                             values.put(Constants.ETAG, headerETag);
                         }
                         if (mimeType != null) {
-                            values.put(Downloads.MIMETYPE, mimeType);
+                            values.put(Downloads.COLUMN_MIME_TYPE, mimeType);
                         }
                         int contentLength = -1;
                         if (headerContentLength != null) {
                             contentLength = Integer.parseInt(headerContentLength);
                         }
-                        values.put(Downloads.TOTAL_BYTES, contentLength);
+                        values.put(Downloads.COLUMN_TOTAL_BYTES, contentLength);
                         mContext.getContentResolver().update(contentUri, values, null, null);
                     }
 
@@ -470,7 +470,7 @@ http_request_loop:
                             bytesRead = entityStream.read(data);
                         } catch (IOException ex) {
                             ContentValues values = new ContentValues();
-                            values.put(Downloads.CURRENT_BYTES, bytesSoFar);
+                            values.put(Downloads.COLUMN_CURRENT_BYTES, bytesSoFar);
                             mContext.getContentResolver().update(contentUri, values, null, null);
                             if (!mInfo.mNoIntegrity && headerETag == null) {
                                 if (Constants.LOGV) {
@@ -505,9 +505,9 @@ http_request_loop:
                         }
                         if (bytesRead == -1) { // success
                             ContentValues values = new ContentValues();
-                            values.put(Downloads.CURRENT_BYTES, bytesSoFar);
+                            values.put(Downloads.COLUMN_CURRENT_BYTES, bytesSoFar);
                             if (headerContentLength == null) {
-                                values.put(Downloads.TOTAL_BYTES, bytesSoFar);
+                                values.put(Downloads.COLUMN_TOTAL_BYTES, bytesSoFar);
                             }
                             mContext.getContentResolver().update(contentUri, values, null, null);
                             if ((headerContentLength != null)
@@ -577,7 +577,7 @@ http_request_loop:
                                 && now - timeLastNotification
                                         > Constants.MIN_PROGRESS_TIME) {
                             ContentValues values = new ContentValues();
-                            values.put(Downloads.CURRENT_BYTES, bytesSoFar);
+                            values.put(Downloads.COLUMN_CURRENT_BYTES, bytesSoFar);
                             mContext.getContentResolver().update(
                                     contentUri, values, null, null);
                             bytesNotified = bytesSoFar;
@@ -696,13 +696,13 @@ http_request_loop:
             int status, boolean countRetry, int retryAfter, int redirectCount, boolean gotData,
             String filename, String uri, String mimeType) {
         ContentValues values = new ContentValues();
-        values.put(Downloads.STATUS, status);
+        values.put(Downloads.COLUMN_STATUS, status);
         values.put(Downloads._DATA, filename);
         if (uri != null) {
-            values.put(Downloads.URI, uri);
+            values.put(Downloads.COLUMN_URI, uri);
         }
-        values.put(Downloads.MIMETYPE, mimeType);
-        values.put(Downloads.LAST_MODIFICATION, System.currentTimeMillis());
+        values.put(Downloads.COLUMN_MIME_TYPE, mimeType);
+        values.put(Downloads.COLUMN_LAST_MODIFICATION, System.currentTimeMillis());
         values.put(Constants.RETRY_AFTER_X_REDIRECT_COUNT, retryAfter + (redirectCount << 28));
         if (!countRetry) {
             values.put(Constants.FAILED_CONNECTIONS, 0);

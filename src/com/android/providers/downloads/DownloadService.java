@@ -516,8 +516,8 @@ public class DownloadService extends Service {
     private void trimDatabase() {
         Cursor cursor = getContentResolver().query(Downloads.CONTENT_URI,
                 new String[] { Downloads._ID },
-                Downloads.STATUS + " >= '200'", null,
-                Downloads.LAST_MODIFICATION);
+                Downloads.COLUMN_STATUS + " >= '200'", null,
+                Downloads.COLUMN_LAST_MODIFICATION);
         if (cursor == null) {
             // This isn't good - if we can't do basic queries in our database, nothing's gonna work
             Log.e(Constants.TAG, "null cursor in trimDatabase");
@@ -546,33 +546,35 @@ public class DownloadService extends Service {
     private void insertDownload(
             Cursor cursor, int arrayPos,
             boolean networkAvailable, boolean networkRoaming, long now) {
-        int statusColumn = cursor.getColumnIndexOrThrow(Downloads.STATUS);
+        int statusColumn = cursor.getColumnIndexOrThrow(Downloads.COLUMN_STATUS);
         int failedColumn = cursor.getColumnIndexOrThrow(Constants.FAILED_CONNECTIONS);
         int retryRedirect =
                 cursor.getInt(cursor.getColumnIndexOrThrow(Constants.RETRY_AFTER_X_REDIRECT_COUNT));
         DownloadInfo info = new DownloadInfo(
                 cursor.getInt(cursor.getColumnIndexOrThrow(Downloads._ID)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.URI)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.NO_INTEGRITY)) == 1,
-                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.FILENAME_HINT)),
+                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.COLUMN_URI)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.COLUMN_NO_INTEGRITY)) == 1,
+                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.COLUMN_FILE_NAME_HINT)),
                 cursor.getString(cursor.getColumnIndexOrThrow(Downloads._DATA)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.MIMETYPE)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.DESTINATION)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.VISIBILITY)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.CONTROL)),
+                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.COLUMN_MIME_TYPE)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.COLUMN_DESTINATION)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.COLUMN_VISIBILITY)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.COLUMN_CONTROL)),
                 cursor.getInt(statusColumn),
                 cursor.getInt(failedColumn),
                 retryRedirect & 0xfffffff,
                 retryRedirect >> 28,
-                cursor.getLong(cursor.getColumnIndexOrThrow(Downloads.LAST_MODIFICATION)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.NOTIFICATION_PACKAGE)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.NOTIFICATION_CLASS)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.NOTIFICATION_EXTRAS)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.COOKIE_DATA)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.USER_AGENT)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.REFERER)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.TOTAL_BYTES)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.CURRENT_BYTES)),
+                cursor.getLong(cursor.getColumnIndexOrThrow(Downloads.COLUMN_LAST_MODIFICATION)),
+                cursor.getString(cursor.getColumnIndexOrThrow(
+                        Downloads.COLUMN_NOTIFICATION_PACKAGE)),
+                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.COLUMN_NOTIFICATION_CLASS)),
+                cursor.getString(cursor.getColumnIndexOrThrow(
+                        Downloads.COLUMN_NOTIFICATION_EXTRAS)),
+                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.COLUMN_COOKIE_DATA)),
+                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.COLUMN_USER_AGENT)),
+                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.COLUMN_REFERER)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.COLUMN_TOTAL_BYTES)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.COLUMN_CURRENT_BYTES)),
                 cursor.getString(cursor.getColumnIndexOrThrow(Constants.ETAG)),
                 cursor.getInt(cursor.getColumnIndexOrThrow(Constants.MEDIA_SCANNED)) == 1);
 
@@ -635,7 +637,7 @@ public class DownloadService extends Service {
 
                 Uri uri = ContentUris.withAppendedId(Downloads.CONTENT_URI, info.mId);
                 ContentValues values = new ContentValues();
-                values.put(Downloads.STATUS, Downloads.STATUS_NOT_ACCEPTABLE);
+                values.put(Downloads.COLUMN_STATUS, Downloads.STATUS_NOT_ACCEPTABLE);
                 getContentResolver().update(uri, values, null, null);
                 info.sendIntentIfRequested(uri, this);
                 return;
@@ -654,7 +656,7 @@ public class DownloadService extends Service {
                 if (info.mStatus != Downloads.STATUS_RUNNING) {
                     info.mStatus = Downloads.STATUS_RUNNING;
                     ContentValues values = new ContentValues();
-                    values.put(Downloads.STATUS, info.mStatus);
+                    values.put(Downloads.COLUMN_STATUS, info.mStatus);
                     getContentResolver().update(
                             ContentUris.withAppendedId(Downloads.CONTENT_URI, info.mId),
                             values, null, null);
@@ -670,7 +672,7 @@ public class DownloadService extends Service {
                 info.mStatus = Downloads.STATUS_RUNNING_PAUSED;
                 Uri uri = ContentUris.withAppendedId(Downloads.CONTENT_URI, info.mId);
                 ContentValues values = new ContentValues();
-                values.put(Downloads.STATUS, Downloads.STATUS_RUNNING_PAUSED);
+                values.put(Downloads.COLUMN_STATUS, Downloads.STATUS_RUNNING_PAUSED);
                 getContentResolver().update(uri, values, null, null);
             }
         }
@@ -683,17 +685,19 @@ public class DownloadService extends Service {
             Cursor cursor, int arrayPos,
             boolean networkAvailable, boolean networkRoaming, long now) {
         DownloadInfo info = (DownloadInfo) mDownloads.get(arrayPos);
-        int statusColumn = cursor.getColumnIndexOrThrow(Downloads.STATUS);
+        int statusColumn = cursor.getColumnIndexOrThrow(Downloads.COLUMN_STATUS);
         int failedColumn = cursor.getColumnIndexOrThrow(Constants.FAILED_CONNECTIONS);
         info.mId = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads._ID));
-        info.mUri = stringFromCursor(info.mUri, cursor, Downloads.URI);
+        info.mUri = stringFromCursor(info.mUri, cursor, Downloads.COLUMN_URI);
         info.mNoIntegrity =
-                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.NO_INTEGRITY)) == 1;
-        info.mHint = stringFromCursor(info.mHint, cursor, Downloads.FILENAME_HINT);
+                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.COLUMN_NO_INTEGRITY)) == 1;
+        info.mHint = stringFromCursor(info.mHint, cursor, Downloads.COLUMN_FILE_NAME_HINT);
         info.mFileName = stringFromCursor(info.mFileName, cursor, Downloads._DATA);
-        info.mMimeType = stringFromCursor(info.mMimeType, cursor, Downloads.MIMETYPE);
-        info.mDestination = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.DESTINATION));
-        int newVisibility = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.VISIBILITY));
+        info.mMimeType = stringFromCursor(info.mMimeType, cursor, Downloads.COLUMN_MIME_TYPE);
+        info.mDestination = cursor.getInt(cursor.getColumnIndexOrThrow(
+                Downloads.COLUMN_DESTINATION));
+        int newVisibility = cursor.getInt(cursor.getColumnIndexOrThrow(
+                Downloads.COLUMN_VISIBILITY));
         if (info.mVisibility == Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
                 && newVisibility != Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
                 && Downloads.isStatusCompleted(info.mStatus)) {
@@ -701,7 +705,7 @@ public class DownloadService extends Service {
         }
         info.mVisibility = newVisibility;
         synchronized (info) {
-            info.mControl = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.CONTROL));
+            info.mControl = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.COLUMN_CONTROL));
         }
         int newStatus = cursor.getInt(statusColumn);
         if (!Downloads.isStatusCompleted(info.mStatus) && Downloads.isStatusCompleted(newStatus)) {
@@ -713,14 +717,18 @@ public class DownloadService extends Service {
                 cursor.getInt(cursor.getColumnIndexOrThrow(Constants.RETRY_AFTER_X_REDIRECT_COUNT));
         info.mRetryAfter = retryRedirect & 0xfffffff;
         info.mRedirectCount = retryRedirect >> 28;
-        info.mLastMod = cursor.getLong(cursor.getColumnIndexOrThrow(Downloads.LAST_MODIFICATION));
-        info.mPackage = stringFromCursor(info.mPackage, cursor, Downloads.NOTIFICATION_PACKAGE);
-        info.mClass = stringFromCursor(info.mClass, cursor, Downloads.NOTIFICATION_CLASS);
-        info.mCookies = stringFromCursor(info.mCookies, cursor, Downloads.COOKIE_DATA);
-        info.mUserAgent = stringFromCursor(info.mUserAgent, cursor, Downloads.USER_AGENT);
-        info.mReferer = stringFromCursor(info.mReferer, cursor, Downloads.REFERER);
-        info.mTotalBytes = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.TOTAL_BYTES));
-        info.mCurrentBytes = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.CURRENT_BYTES));
+        info.mLastMod = cursor.getLong(cursor.getColumnIndexOrThrow(
+                Downloads.COLUMN_LAST_MODIFICATION));
+        info.mPackage = stringFromCursor(
+                info.mPackage, cursor, Downloads.COLUMN_NOTIFICATION_PACKAGE);
+        info.mClass = stringFromCursor(info.mClass, cursor, Downloads.COLUMN_NOTIFICATION_CLASS);
+        info.mCookies = stringFromCursor(info.mCookies, cursor, Downloads.COLUMN_COOKIE_DATA);
+        info.mUserAgent = stringFromCursor(info.mUserAgent, cursor, Downloads.COLUMN_USER_AGENT);
+        info.mReferer = stringFromCursor(info.mReferer, cursor, Downloads.COLUMN_REFERER);
+        info.mTotalBytes = cursor.getInt(cursor.getColumnIndexOrThrow(
+                Downloads.COLUMN_TOTAL_BYTES));
+        info.mCurrentBytes = cursor.getInt(cursor.getColumnIndexOrThrow(
+                Downloads.COLUMN_CURRENT_BYTES));
         info.mETag = stringFromCursor(info.mETag, cursor, Constants.ETAG);
         info.mMediaScanned =
                 cursor.getInt(cursor.getColumnIndexOrThrow(Constants.MEDIA_SCANNED)) == 1;
@@ -736,7 +744,7 @@ public class DownloadService extends Service {
                 }
                 info.mStatus = Downloads.STATUS_RUNNING;
                 ContentValues values = new ContentValues();
-                values.put(Downloads.STATUS, info.mStatus);
+                values.put(Downloads.COLUMN_STATUS, info.mStatus);
                 getContentResolver().update(
                         ContentUris.withAppendedId(Downloads.CONTENT_URI, info.mId),
                         values, null, null);

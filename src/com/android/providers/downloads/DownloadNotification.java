@@ -43,14 +43,15 @@ class DownloadNotification {
     
     static final String LOGTAG = "DownloadNotification";
     static final String WHERE_RUNNING = 
-        "(" + Downloads.STATUS + " >= '100') AND (" +
-        Downloads.STATUS + " <= '199') AND (" +
-        Downloads.VISIBILITY + " IS NULL OR " +
-        Downloads.VISIBILITY + " == '" + Downloads.VISIBILITY_VISIBLE + "' OR " +
-        Downloads.VISIBILITY + " == '" + Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED + "')";
+        "(" + Downloads.COLUMN_STATUS + " >= '100') AND (" +
+        Downloads.COLUMN_STATUS + " <= '199') AND (" +
+        Downloads.COLUMN_VISIBILITY + " IS NULL OR " +
+        Downloads.COLUMN_VISIBILITY + " == '" + Downloads.VISIBILITY_VISIBLE + "' OR " +
+        Downloads.COLUMN_VISIBILITY +
+            " == '" + Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED + "')";
     static final String WHERE_COMPLETED =
-        Downloads.STATUS + " >= '200' AND " +
-        Downloads.VISIBILITY + " == '" + Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED + "'";
+        Downloads.COLUMN_STATUS + " >= '200' AND " +
+        Downloads.COLUMN_VISIBILITY + " == '" + Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED + "'";
     
     
     /**
@@ -110,11 +111,14 @@ class DownloadNotification {
         // Active downloads
         Cursor c = mContext.getContentResolver().query(
                 Downloads.CONTENT_URI, new String [] {
-                        Downloads._ID, Downloads.TITLE, Downloads.DESCRIPTION,
-                        Downloads.NOTIFICATION_PACKAGE,
-                        Downloads.NOTIFICATION_CLASS,
-                        Downloads.CURRENT_BYTES, Downloads.TOTAL_BYTES,
-                        Downloads.STATUS, Downloads._DATA
+                        Downloads._ID,
+                        Downloads.COLUMN_TITLE,
+                        Downloads.COLUMN_DESCRIPTION,
+                        Downloads.COLUMN_NOTIFICATION_PACKAGE,
+                        Downloads.COLUMN_NOTIFICATION_CLASS,
+                        Downloads.COLUMN_CURRENT_BYTES,
+                        Downloads.COLUMN_TOTAL_BYTES,
+                        Downloads.COLUMN_STATUS, Downloads._DATA
                 },
                 WHERE_RUNNING, null, Downloads._ID);
         
@@ -212,12 +216,17 @@ class DownloadNotification {
         // Completed downloads
         Cursor c = mContext.getContentResolver().query(
                 Downloads.CONTENT_URI, new String [] {
-                        Downloads._ID, Downloads.TITLE, Downloads.DESCRIPTION,
-                        Downloads.NOTIFICATION_PACKAGE,
-                        Downloads.NOTIFICATION_CLASS,
-                        Downloads.CURRENT_BYTES, Downloads.TOTAL_BYTES,
-                        Downloads.STATUS, Downloads._DATA,
-                        Downloads.LAST_MODIFICATION, Downloads.DESTINATION
+                        Downloads._ID,
+                        Downloads.COLUMN_TITLE,
+                        Downloads.COLUMN_DESCRIPTION,
+                        Downloads.COLUMN_NOTIFICATION_PACKAGE,
+                        Downloads.COLUMN_NOTIFICATION_CLASS,
+                        Downloads.COLUMN_CURRENT_BYTES,
+                        Downloads.COLUMN_TOTAL_BYTES,
+                        Downloads.COLUMN_STATUS,
+                        Downloads._DATA,
+                        Downloads.COLUMN_LAST_MODIFICATION,
+                        Downloads.COLUMN_DESTINATION
                 },
                 WHERE_COMPLETED, null, Downloads._ID);
         

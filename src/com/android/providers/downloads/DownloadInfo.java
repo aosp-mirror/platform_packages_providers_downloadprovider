@@ -87,10 +87,10 @@ public class DownloadInfo {
 
     public void sendIntentIfRequested(Uri contentUri, Context context) {
         if (mPackage != null && mClass != null) {
-            Intent intent = new Intent(Downloads.DOWNLOAD_COMPLETED_ACTION);
+            Intent intent = new Intent(Downloads.ACTION_DOWNLOAD_COMPLETED);
             intent.setClassName(mPackage, mClass);
             if (mExtras != null) {
-                intent.putExtra(Downloads.NOTIFICATION_EXTRAS, mExtras);
+                intent.putExtra(Downloads.COLUMN_NOTIFICATION_EXTRAS, mExtras);
             }
             // We only send the content: URI, for security reasons. Otherwise, malicious
             //     applications would have an easier time spoofing download results by

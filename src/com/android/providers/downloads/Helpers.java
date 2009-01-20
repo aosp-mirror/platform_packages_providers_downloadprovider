@@ -428,11 +428,11 @@ public class Helpers {
                 Downloads.CONTENT_URI,
                 null,
                 "( " +
-                Downloads.STATUS + " = " + Downloads.STATUS_SUCCESS + " AND " +
-                Downloads.DESTINATION + " = " + Downloads.DESTINATION_CACHE_PARTITION_PURGEABLE
-                + " )",
+                Downloads.COLUMN_STATUS + " = " + Downloads.STATUS_SUCCESS + " AND " +
+                Downloads.COLUMN_DESTINATION +
+                        " = " + Downloads.DESTINATION_CACHE_PARTITION_PURGEABLE + " )",
                 null,
-                Downloads.LAST_MODIFICATION);
+                Downloads.COLUMN_LAST_MODIFICATION);
         if (cursor == null) {
             return false;
         }

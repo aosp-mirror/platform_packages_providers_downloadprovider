@@ -40,16 +40,16 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Set;
 
 /**
  * Some helper functions for the download manager
  */
 public class Helpers {
 
-    public static Random rnd = new Random(SystemClock.uptimeMillis());
+    public static Random sRandom = new Random(SystemClock.uptimeMillis());
 
     /** Regex used to parse content-disposition headers */
     private static final Pattern CONTENT_DISPOSITION_PATTERN =
@@ -412,7 +412,7 @@ public class Helpers {
                 if (Constants.LOGVV) {
                     Log.v(Constants.TAG, "file with sequence number " + sequence + " exists");
                 }
-                sequence += rnd.nextInt(magnitude) + 1;
+                sequence += sRandom.nextInt(magnitude) + 1;
             }
         }
         return null;
@@ -756,7 +756,7 @@ public class Helpers {
             // quoted strings
             if (chars[mOffset] == '\'') {
                 ++mOffset;
-                while(mOffset < chars.length) {
+                while (mOffset < chars.length) {
                     if (chars[mOffset] == '\'') {
                         if (mOffset + 1 < chars.length && chars[mOffset + 1] == '\'') {
                             ++mOffset;

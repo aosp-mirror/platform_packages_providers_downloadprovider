@@ -23,18 +23,15 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.database.Cursor;
-import android.provider.Downloads;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.provider.Downloads;
 import android.util.Config;
 import android.util.Log;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * Receives system broadcasts (boot, network connectivity)

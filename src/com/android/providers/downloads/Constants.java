@@ -29,7 +29,7 @@ public class Constants {
     public static final String TAG = "DownloadManager";
 
     /** The column that used to be used for the HTTP method of the request */
-    public static final String RETRY_AFTER___REDIRECT_COUNT = "method";
+    public static final String RETRY_AFTER_X_REDIRECT_COUNT = "method";
 
     /** The column that used to be used for the magic OTA update filename */
     public static final String OTA_UPDATE = "otaupdate";

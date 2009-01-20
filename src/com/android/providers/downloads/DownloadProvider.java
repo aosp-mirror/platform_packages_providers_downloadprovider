@@ -26,10 +26,10 @@ import android.database.CrossProcessCursor;
 import android.database.Cursor;
 import android.database.CursorWindow;
 import android.database.CursorWrapper;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
-import android.database.SQLException;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.ParcelFileDescriptor;
@@ -40,7 +40,6 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashSet;
 
 
@@ -201,7 +200,7 @@ public final class DownloadProvider extends ContentProvider {
             db.execSQL("CREATE TABLE " + DB_TABLE + "(" +
                     Downloads._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     Downloads.URI + " TEXT, " +
-                    Constants.RETRY_AFTER___REDIRECT_COUNT + " INTEGER, " +
+                    Constants.RETRY_AFTER_X_REDIRECT_COUNT + " INTEGER, " +
                     Downloads.APP_DATA + " TEXT, " +
                     Downloads.NO_INTEGRITY + " BOOLEAN, " +
                     Downloads.FILENAME_HINT + " TEXT, " +

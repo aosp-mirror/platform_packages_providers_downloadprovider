@@ -60,28 +60,28 @@ class DownloadNotification {
      *
      */
     static class NotificationItem {
-        int id;  // This first db _id for the download for the app
-        int totalCurrent = 0;
-        int totalTotal = 0;
-        int titleCount = 0;
-        String packageName;  // App package name
-        String description;
-        String[] titles = new String[2]; // download titles.
+        int mId;  // This first db _id for the download for the app
+        int mTotalCurrent = 0;
+        int mTotalTotal = 0;
+        int mTitleCount = 0;
+        String mPackageName;  // App package name
+        String mDescription;
+        String[] mTitles = new String[2]; // download titles.
         
         /*
          * Add a second download to this notification item.
          */
         void addItem(String title, int currentBytes, int totalBytes) {
-            totalCurrent += currentBytes;
-            if (totalBytes <= 0 || totalTotal == -1) {
-                totalTotal = -1;
+            mTotalCurrent += currentBytes;
+            if (totalBytes <= 0 || mTotalTotal == -1) {
+                mTotalTotal = -1;
             } else {
-                totalTotal += totalBytes;
+                mTotalTotal += totalBytes;
             }
-            if (titleCount < 2) {
-                titles[titleCount] = title;
+            if (mTitleCount < 2) {
+                mTitles[mTitleCount] = title;
             }
-            titleCount++;
+            mTitleCount++;
         }
     }
         
@@ -148,9 +148,9 @@ class DownloadNotification {
                 mNotifications.get(packageName).addItem(title, progress, max);
             } else {
                 NotificationItem item = new NotificationItem();
-                item.id = c.getInt(idColumn);
-                item.packageName = packageName;
-                item.description = c.getString(descColumn);
+                item.mId = c.getInt(idColumn);
+                item.mPackageName = packageName;
+                item.mDescription = c.getString(descColumn);
                 String className = c.getString(classOwnerColumn);
                 item.addItem(title, progress, max);
                 mNotifications.put(packageName, item);
@@ -171,26 +171,26 @@ class DownloadNotification {
             RemoteViews expandedView = new RemoteViews(
                     "com.android.providers.downloads",
                     R.layout.status_bar_ongoing_event_progress_bar);
-            StringBuilder title = new StringBuilder(item.titles[0]);
-            if (item.titleCount > 1) {
+            StringBuilder title = new StringBuilder(item.mTitles[0]);
+            if (item.mTitleCount > 1) {
                 title.append(mContext.getString(R.string.notification_filename_separator));
-                title.append(item.titles[1]);
-                n.number = item.titleCount;
-                if (item.titleCount > 2) {
+                title.append(item.mTitles[1]);
+                n.number = item.mTitleCount;
+                if (item.mTitleCount > 2) {
                     title.append(mContext.getString(R.string.notification_filename_extras,
-                            new Object[] { Integer.valueOf(item.titleCount - 2) }));
+                            new Object[] { Integer.valueOf(item.mTitleCount - 2) }));
                 }
             } else {
                 expandedView.setTextViewText(R.id.description, 
-                        item.description);
+                        item.mDescription);
             }
             expandedView.setTextViewText(R.id.title, title);
             expandedView.setProgressBar(R.id.progress_bar, 
-                    item.totalTotal, 
-                    item.totalCurrent, 
-                    item.totalTotal == -1);
+                    item.mTotalTotal,
+                    item.mTotalCurrent,
+                    item.mTotalTotal == -1);
             expandedView.setTextViewText(R.id.progress_text, 
-                    getDownloadingText(item.totalTotal, item.totalCurrent));
+                    getDownloadingText(item.mTotalTotal, item.mTotalCurrent));
             expandedView.setImageViewResource(R.id.appIcon,
                     android.R.drawable.stat_sys_download);
             n.contentView = expandedView;
@@ -198,12 +198,12 @@ class DownloadNotification {
             Intent intent = new Intent(Constants.ACTION_LIST);
             intent.setClassName("com.android.providers.downloads",
                     DownloadReceiver.class.getName());
-            intent.setData(Uri.parse(Downloads.CONTENT_URI + "/" + item.id));
-            intent.putExtra("multiple", item.titleCount > 1);
+            intent.setData(Uri.parse(Downloads.CONTENT_URI + "/" + item.mId));
+            intent.putExtra("multiple", item.mTitleCount > 1);
 
             n.contentIntent = PendingIntent.getBroadcast(mContext, 0, intent, 0);
 
-            mNotificationMgr.notify(item.id, n);
+            mNotificationMgr.notify(item.mId, n);
             
         }
     }

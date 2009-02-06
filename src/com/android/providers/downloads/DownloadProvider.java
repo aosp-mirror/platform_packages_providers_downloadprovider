@@ -267,21 +267,27 @@ public final class DownloadProvider extends ContentProvider {
         copyBoolean(Downloads.COLUMN_NO_INTEGRITY, values, filteredValues);
         copyString(Downloads.COLUMN_FILE_NAME_HINT, values, filteredValues);
         copyString(Downloads.COLUMN_MIME_TYPE, values, filteredValues);
-        Integer i = values.getAsInteger(Downloads.COLUMN_DESTINATION);
-        if (i != null) {
+        Integer dest = values.getAsInteger(Downloads.COLUMN_DESTINATION);
+        if (dest != null) {
             if (getContext().checkCallingPermission(Downloads.PERMISSION_ACCESS_ADVANCED)
                     != PackageManager.PERMISSION_GRANTED
-                    && i != Downloads.DESTINATION_EXTERNAL
-                    && i != Downloads.DESTINATION_CACHE_PARTITION_PURGEABLE) {
+                    && dest != Downloads.DESTINATION_EXTERNAL
+                    && dest != Downloads.DESTINATION_CACHE_PARTITION_PURGEABLE) {
                 throw new SecurityException("unauthorized destination code");
             }
-            filteredValues.put(Downloads.COLUMN_DESTINATION, i);
-            if (i != Downloads.DESTINATION_EXTERNAL &&
-                    values.getAsInteger(Downloads.COLUMN_VISIBILITY) == null) {
+            filteredValues.put(Downloads.COLUMN_DESTINATION, dest);
+        }
+        Integer vis = values.getAsInteger(Downloads.COLUMN_VISIBILITY);
+        if (vis == null) {
+            if (dest == Downloads.DESTINATION_EXTERNAL) {
+                filteredValues.put(Downloads.COLUMN_VISIBILITY,
+                        Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            } else {
                 filteredValues.put(Downloads.COLUMN_VISIBILITY, Downloads.VISIBILITY_HIDDEN);
             }
+        } else {
+            filteredValues.put(Downloads.COLUMN_VISIBILITY, vis);
         }
-        copyInteger(Downloads.COLUMN_VISIBILITY, values, filteredValues);
         copyInteger(Downloads.COLUMN_CONTROL, values, filteredValues);
         filteredValues.put(Downloads.COLUMN_STATUS, Downloads.STATUS_PENDING);
         filteredValues.put(Downloads.COLUMN_LAST_MODIFICATION, System.currentTimeMillis());

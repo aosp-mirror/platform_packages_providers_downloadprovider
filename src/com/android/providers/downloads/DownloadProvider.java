@@ -268,21 +268,27 @@ public final class DownloadProvider extends ContentProvider {
         copyBoolean(Downloads.NO_INTEGRITY, values, filteredValues);
         copyString(Downloads.FILENAME_HINT, values, filteredValues);
         copyString(Downloads.MIMETYPE, values, filteredValues);
-        Integer i = values.getAsInteger(Downloads.DESTINATION);
-        if (i != null) {
+        Integer dest = values.getAsInteger(Downloads.DESTINATION);
+        if (dest != null) {
             if (getContext().checkCallingPermission(Downloads.PERMISSION_ACCESS_ADVANCED)
                     != PackageManager.PERMISSION_GRANTED
-                    && i != Downloads.DESTINATION_EXTERNAL
-                    && i != Downloads.DESTINATION_CACHE_PARTITION_PURGEABLE) {
+                    && dest != Downloads.DESTINATION_EXTERNAL
+                    && dest != Downloads.DESTINATION_CACHE_PARTITION_PURGEABLE) {
                 throw new SecurityException("unauthorized destination code");
             }
-            filteredValues.put(Downloads.DESTINATION, i);
-            if (i != Downloads.DESTINATION_EXTERNAL &&
-                    values.getAsInteger(Downloads.VISIBILITY) == null) {
+            filteredValues.put(Downloads.DESTINATION, dest);
+        }
+        Integer vis = values.getAsInteger(Downloads.VISIBILITY);
+        if (vis == null) {
+            if (dest == Downloads.DESTINATION_EXTERNAL) {
+                filteredValues.put(Downloads.VISIBILITY,
+                        Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            } else {
                 filteredValues.put(Downloads.VISIBILITY, Downloads.VISIBILITY_HIDDEN);
             }
+        } else {
+            filteredValues.put(Downloads.VISIBILITY, vis);
         }
-        copyInteger(Downloads.VISIBILITY, values, filteredValues);
         copyInteger(Downloads.CONTROL, values, filteredValues);
         filteredValues.put(Downloads.STATUS, Downloads.STATUS_PENDING);
         filteredValues.put(Downloads.LAST_MODIFICATION, System.currentTimeMillis());

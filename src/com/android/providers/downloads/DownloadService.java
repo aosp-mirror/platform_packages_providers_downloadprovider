@@ -623,11 +623,11 @@ public class DownloadService extends Service {
             // nothing
             
             mimetypeIntent.setDataAndType(Uri.fromParts("file", "", null), info.mimetype);
-            List<ResolveInfo> list = getPackageManager().queryIntentActivities(mimetypeIntent,
+            ResolveInfo ri = getPackageManager().resolveActivity(mimetypeIntent,
                     PackageManager.MATCH_DEFAULT_ONLY);
             //Log.i(Constants.TAG, "*** QUERY " + mimetypeIntent + ": " + list);
             
-            if (list.size() == 0) {
+            if (ri == null) {
                 if (Config.LOGD) {
                     Log.d(Constants.TAG, "no application to handle MIME type " + info.mimetype);
                 }

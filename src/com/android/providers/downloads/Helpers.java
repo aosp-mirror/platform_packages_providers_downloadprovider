@@ -115,11 +115,10 @@ public class Helpers {
 
                 PackageManager pm = context.getPackageManager();
                 intent.setDataAndType(Uri.fromParts("file", "", null), mimeType);
-                List<ResolveInfo> list = pm.queryIntentActivities(intent,
-                        PackageManager.MATCH_DEFAULT_ONLY);
+                ResolveInfo ri = pm.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
                 //Log.i(Constants.TAG, "*** FILENAME QUERY " + intent + ": " + list);
 
-                if (list.size() == 0) {
+                if (ri == null) {
                     if (Config.LOGD) {
                         Log.d(Constants.TAG, "no handler found for type " + mimeType);
                     }

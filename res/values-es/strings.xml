@@ -24,8 +24,8 @@
     <string name="permlab_downloadCompletedIntent">"Envío de notificaciones de descarga"</string>
     <string name="permdesc_downloadCompletedIntent">"Permite que la aplicación envíe notificaciones sobre descargas completadas. Las aplicaciones malintencionadas pueden utilizar este permiso para confundir a otras aplicaciones que descarguen archivos."</string>
     <string name="download_unknown_title">"&lt;Sin título&gt;"</string>
-    <string name="notification_filename_separator">","</string>
-    <string name="notification_filename_extras">"y %d más"</string>
+    <string name="notification_filename_separator">", "</string>
+    <string name="notification_filename_extras">" y %d más"</string>
     <string name="notification_download_complete">"Descarga completada"</string>
     <string name="notification_download_failed">"Descarga incorrecta"</string>
 </resources>

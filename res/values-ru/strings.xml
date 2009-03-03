@@ -24,8 +24,8 @@
     <string name="permlab_downloadCompletedIntent">"Отправлять уведомления о загрузках."</string>
     <string name="permdesc_downloadCompletedIntent">"Разрешает приложениям отправлять уведомления о завершенных загрузках. Вредоносные приложения могут использовать это, чтобы передавать ложную информацию другим приложениям загрузки файлов."</string>
     <string name="download_unknown_title">"&lt;Без названия&gt;"</string>
-    <string name="notification_filename_separator">", "</string>
-    <string name="notification_filename_extras">" и еще %d"</string>
+    <string name="notification_filename_separator">","</string>
+    <string name="notification_filename_extras">"и еще %d"</string>
     <string name="notification_download_complete">"Загрузка завершена"</string>
     <string name="notification_download_failed">"Загрузка не удалась"</string>
 </resources>

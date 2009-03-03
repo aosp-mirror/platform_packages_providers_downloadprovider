@@ -25,8 +25,8 @@
     <string name="permlab_downloadCompletedIntent">"Sende nedlastingsvarslinger"</string>
     <string name="permdesc_downloadCompletedIntent">"Lar applikasjonen sende varslinger om ferdige nedlastinger. Ondsinnede applikasjoner kan bruke dette for å forvirre andre applikasjoner som laster ned filer."</string>
     <string name="download_unknown_title">"&lt;Uten navn&gt;"</string>
-    <string name="notification_filename_separator">", "</string>
-    <string name="notification_filename_extras">" samt %d til"</string>
+    <string name="notification_filename_separator">","</string>
+    <string name="notification_filename_extras">"samt %d til"</string>
     <string name="notification_download_complete">"Ferdig nedlasting"</string>
     <string name="notification_download_failed">"Mislykket nedlasting"</string>
 </resources>

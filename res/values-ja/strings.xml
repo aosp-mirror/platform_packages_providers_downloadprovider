@@ -24,8 +24,8 @@
     <string name="permlab_downloadCompletedIntent">"ダウンロード通知を送信します。"</string>
     <string name="permdesc_downloadCompletedIntent">"ダウンロード完了の通知の送信をアプリケーションに許可します。悪意のあるアプリケーションがファイルをダウンロードする他のアプリケーションの処理を妨害する恐れがあります。"</string>
     <string name="download_unknown_title">"&lt;無題&gt;"</string>
-    <string name="notification_filename_separator">"、 "</string>
-    <string name="notification_filename_extras">" 他%d件"</string>
+    <string name="notification_filename_separator">"、"</string>
+    <string name="notification_filename_extras">"他%d件"</string>
     <string name="notification_download_complete">"ダウンロード完了"</string>
     <string name="notification_download_failed">"ダウンロードに失敗しました"</string>
 </resources>

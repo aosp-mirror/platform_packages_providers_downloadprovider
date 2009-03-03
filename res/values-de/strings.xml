@@ -24,8 +24,8 @@
     <string name="permlab_downloadCompletedIntent">"Benachrichtigungen zu Ladevorgängen senden"</string>
     <string name="permdesc_downloadCompletedIntent">"Ermöglicht es der Anwendung, Benachrichtigungen zu abgeschlossenen Ladevorgängen zu senden. Diese Funktion kann von bösartigen Anwendungen dazu verwendet werden, den Ladevorgang anderer Anwendungen zu stören."</string>
     <string name="download_unknown_title">"&lt;Unbenannt&gt;"</string>
-    <string name="notification_filename_separator">", "</string>
-    <string name="notification_filename_extras">" und %d weitere"</string>
+    <string name="notification_filename_separator">","</string>
+    <string name="notification_filename_extras">"und %d weitere"</string>
     <string name="notification_download_complete">"Ladevorgang abgeschlossen"</string>
     <string name="notification_download_failed">"Fehler beim Ladevorgang"</string>
 </resources>

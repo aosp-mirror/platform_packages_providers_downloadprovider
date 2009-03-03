@@ -24,8 +24,8 @@
     <string name="permlab_downloadCompletedIntent">"发送下载通知。"</string>
     <string name="permdesc_downloadCompletedIntent">"允许应用程序发送关于已完成下载的通知。恶意应用程序可以使用该功能干扰其他下载文件的应用程序。"</string>
     <string name="download_unknown_title">"&lt;未命名&gt;"</string>
-    <string name="notification_filename_separator">"、 "</string>
-    <string name="notification_filename_extras">" 以及另外 %d 个"</string>
+    <string name="notification_filename_separator">"、"</string>
+    <string name="notification_filename_extras">"以及另外 %d 个"</string>
     <string name="notification_download_complete">"下载完成"</string>
     <string name="notification_download_failed">"下载不成功"</string>
 </resources>

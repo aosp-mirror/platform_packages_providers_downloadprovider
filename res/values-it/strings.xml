@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="permlab_downloadManager">"Accedere al gestore dei download."</string>
+    <string name="permdesc_downloadManager">"Consente l\'accesso dell\'applicazione al gestore dei download e il suo utilizzo per scaricare file. Le applicazioni dannose possono sfruttare questa possibilità per interrompere download e accedere a informazioni riservate."</string>
+    <string name="permlab_downloadManagerAdvanced">"Funzioni avanzate del gestore dei download."</string>
+    <string name="permdesc_downloadManagerAdvanced">"Consente l\'accesso dell\'applicazione alle funzioni avanzate del gestore dei download."\n"        Le applicazioni dannose possono sfruttare questa possibilità per interrompere download e accedere a"\n"  informazioni riservate."</string>
+    <string name="permlab_cacheFilesystem">"Usare la cache del sistema."</string>
+    <string name="permdesc_cacheFilesystem">"Consente l\'accesso diretto dell\'applicazione alla cache del sistema, nonché la modifica e l\'eliminazione della cache. Le applicazioni dannose possono sfruttare questa possibilità per interrompere download e altre applicazioni e accedere a dati riservati."</string>
+    <string name="permlab_downloadCompletedIntent">"Inviare notifiche di download."</string>
+    <string name="permdesc_downloadCompletedIntent">"Consente l\'invio da parte dell\'applicazione di notifiche relative ai download completati. Le applicazioni dannose possono sfruttare questa possibilità per \"confondere\" altre applicazioni usate per scaricare file."</string>
+    <string name="download_unknown_title">"&lt;Senza nome&gt;"</string>
+    <string name="notification_filename_separator">", "</string>
+    <string name="notification_filename_extras">" e altri %d"</string>
+    <string name="notification_download_complete">"Download completato"</string>
+    <string name="notification_download_failed">"Download non riuscito"</string>
+</resources>

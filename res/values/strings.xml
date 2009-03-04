@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2007 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+    <!-- This is the short description of a permission associated with the
+        Android Download Manager. It is displayed as part of the description
+        of any application that was granted that permission.
+        This specific permission controls access to the Download Manager by
+        applications that initiate downloads. -->
+    <string name="permlab_downloadManager">Access download manager.</string>
+    <!-- This is the long description of a permission associated with the
+        Android Download Manager. It is displayed as part of the description
+        of any application that was granted that permission.
+        This specific permission controls access to the Download Manager by
+        applications that initiate downloads. -->
+    <string name="permdesc_downloadManager">Allows the application to
+        access the download manager and to use it to download files.
+        Malicious applications can use this to disrupt downloads and access
+        private information.</string>
+
+    <!-- This is the short description of a permission associated with the
+        Android Download Manager. It is displayed as part of the description
+        of any application that was granted that permission.
+        This specific permission controls access to some advanced (and
+        dangerous) features from the Download Manager that are needed by
+        system applications but aren't necessary for regular applications
+        that just initiate plain downloads. -->
+    <string name="permlab_downloadManagerAdvanced">Advanced download
+        manager functions.</string>
+    <!-- This is the long description of a permission associated with the
+        Android Download Manager. It is displayed as part of the description
+        of any application that was granted that permission.
+        This specific permission controls access to some advanced (and
+        dangerous) features from the Download Manager that are needed by
+        system applications but aren't necessary for regular applications
+        that just initiate plain downloads. -->
+    <string name="permdesc_downloadManagerAdvanced">Allows the application to
+        access the download manager's advanced functions.
+        Malicious applications can use this to disrupt downloads and access
+        private information.</string>
+
+    <!-- This is the short description of a permission associated with the
+        Android Download Manager. It is displayed as part of the description
+        of any application that was granted that permission.
+        This specific permission controls access to the Download Manager's
+        private storage area. -->
+    <string name="permlab_cacheFilesystem">Use system cache.</string>
+    <!-- This is the long description of a permission associated with the
+        Android Download Manager. It is displayed as part of the description
+        of any application that was granted that permission.
+        This specific permission controls access to the Download Manager's
+        private storage area. -->
+    <string name="permdesc_cacheFilesystem">Allows the application
+        to directly access, modify and delete the system cache. Malicious
+        applications can use this to severely disrupt downloads and
+        other applications, and to access private data.</string>
+
+    <string name="permlab_downloadCompletedIntent">Send download
+        notifications.</string>
+    <!-- This is the long description of a permission associated with the
+        Android Download Manager. It is displayed as part of the description
+        of any application that was granted that permission.
+        This specific permission allows an application to tell other
+        applications that their downloads have completed. -->
+    <string name="permdesc_downloadCompletedIntent">Allows the application
+        to send notifications about completed downloads. Malicious applications
+        can use this to confuse other applications that download
+        files.</string>
+
+    <!-- This is the title that is used when displaying the notification
+    for a download that doesn't have a title associated with it. -->
+    <string name="download_unknown_title">&lt;Untitled&gt;</string>
+
+    <!-- When there are multiple simultaneous outstanding downloads from a
+        single application, they are displayed as a single notification,
+        and the expanded notification view displays the first two download
+        names separated with this string, i.e. "[title], [title]"
+        or "[title], [title] and [n] more". This is the comma + space
+        that separates the first two titles, and it's used both when there
+        are exactly two and more than two titles. -->
+    <string name="notification_filename_separator">", "</string>
+
+    <!-- When there are three or more simultaneous outstanding downloads from a
+        single application, they are displayed as a single notification,
+        and the expanded notification view uses this string to indicate
+        downloads beyond the first two, i.e. "[title], [title] and [n] more".
+        This is the " and [n] more" part, including the leading space, and it's
+        used regardless of the number of additional downloads. -->
+    <string name="notification_filename_extras">" and %d more"</string>
+
+    <!-- When a download completes, a notification is displayed, and this
+        string is used to indicate that the download successfully completed.
+        Note that such a download could have been initiated by a variety of
+        applications, including (but not limited to) the browser, an email
+        application, a content marketplace. -->
+    <string name="notification_download_complete">Download complete</string>
+
+    <!-- When a download completes, a notification is displayed, and this
+        string is used to indicate that the download failed.
+        Note that such a download could have been initiated by a variety of
+        applications, including (but not limited to) the browser, an email
+        application, a content marketplace. -->
+    <string name="notification_download_failed">Download unsuccessful</string>
+
+
+</resources>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="permlab_downloadManager">"Dostęp do menedżera pobierania."</string>
+    <string name="permdesc_downloadManager">"Umożliwia programowi dostęp do menedżera pobierania i pobieranie plików przy jego użyciu. Szkodliwe programy mogą w ten sposób zakłócić pobieranie i uzyskać dostęp do prywatnych informacji."</string>
+    <string name="permlab_downloadManagerAdvanced">"Zaawansowane funkcje menedżera pobierania."</string>
+    <string name="permdesc_downloadManagerAdvanced">"Zezwala aplikacji na dostęp do zaawansowanych funkcji menedżera pobierania."\n"        Złośliwe aplikacje mogą to wykorzystać do przerywania pobierania i uzyskiwania dostępu do"\n"        informacji poufnych."</string>
+    <string name="permlab_cacheFilesystem">"Korzystanie z systemowej pamięci podręcznej."</string>
+    <string name="permdesc_cacheFilesystem">"Umożliwia programowi bezpośredni dostęp do systemowej pamięci podręcznej, jej modyfikację oraz usuwanie. Szkodliwe programy mogą w ten sposób poważnie zakłócić pobieranie plików i działanie innych programów, a także uzyskać dostęp do prywatnych informacji."</string>
+    <string name="permlab_downloadCompletedIntent">"Wysyłanie powiadomień o pobraniu."</string>
+    <string name="permdesc_downloadCompletedIntent">"Umożliwia programowi wysyłanie powiadomień o ukończeniu pobierania. Szkodliwe programy mogą korzystać z tego uprawnienia, aby zakłócić działanie innych programów pobierających pliki."</string>
+    <string name="download_unknown_title">"&lt;Bez nazwy&gt;"</string>
+    <string name="notification_filename_separator">", "</string>
+    <string name="notification_filename_extras">" i %d innych"</string>
+    <string name="notification_download_complete">"Pobieranie zakończone."</string>
+    <string name="notification_download_failed">"Pobieranie nie powiodło się"</string>
+</resources>

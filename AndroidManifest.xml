@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        package="com.android.providers.downloads"
+        android:sharedUserId="android.media">
+        
+    <!-- Allows access to the Download Manager -->
+    <permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER"
+        android:label="@string/permlab_downloadManager"
+        android:description="@string/permdesc_downloadManager"
+        android:protectionLevel="signatureOrSystem" />
+
+    <!-- Allows advanced access to the Download Manager -->
+    <permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER_ADVANCED"
+        android:label="@string/permlab_downloadManagerAdvanced"
+        android:description="@string/permdesc_downloadManagerAdvanced"
+        android:protectionLevel="signatureOrSystem" />
+
+    <!-- Allows filesystem access to /cache -->
+    <permission android:name="android.permission.ACCESS_CACHE_FILESYSTEM"
+        android:label="@string/permlab_cacheFilesystem"
+        android:description="@string/permdesc_cacheFilesystem"
+        android:protectionLevel="signature" />
+
+    <!-- Allows to send download completed intents -->
+    <permission android:name="android.permission.SEND_DOWNLOAD_COMPLETED_INTENTS"
+        android:label="@string/permlab_downloadCompletedIntent"
+        android:description="@string/permdesc_downloadCompletedIntent"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+    <uses-permission android:name="android.permission.ACCESS_DRM" />
+    <uses-permission android:name="android.permission.ACCESS_CACHE_FILESYSTEM" />
+    <uses-permission android:name="android.permission.SEND_DOWNLOAD_COMPLETED_INTENTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application android:process="android.process.media"
+                 android:label="Download Manager">
+        <provider android:name=".DownloadProvider"
+                android:authorities="downloads"
+                android:permission="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+        <service android:name=".DownloadService"
+                android:permission="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+        <receiver android:name=".DownloadReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest> 

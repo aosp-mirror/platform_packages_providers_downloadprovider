@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="permlab_downloadManager">"Auf Download-Manager zugreifen"</string>
+    <string name="permdesc_downloadManager">"Ermöglicht der Anwendung den Zugriff auf den Download-Manager zum Herunterladen von Dateien. Diese Funktion kann von bösartigen Anwendungen dazu verwendet werden, Ladevorgänge zu unterbrechen und auf private Daten zuzugreifen."</string>
+    <string name="permlab_downloadManagerAdvanced">"Erweiterte Funktionen des Download-Managers."</string>
+    <string name="permdesc_downloadManagerAdvanced">"Erlaubt der Anwendung, auf die erweiterten Funktionen des Download-Managers zuzugreifen."\n"     Schädliche Anwendungen können so Downloads unterbrechen und auf"\n"        persönliche Daten zugreifen."</string>
+    <string name="permlab_cacheFilesystem">"Systemcache verwenden"</string>
+    <string name="permdesc_cacheFilesystem">"Ermöglicht es der Anwendung, direkt auf den Systemcache zuzugreifen und diesen zu ändern oder zu löschen. Diese Funktion kann von bösartigen Anwendungen dazu verwendet werden, Ladevorgänge und andere Anwendungen schwerwiegend zu stören sowie auf private Daten zuzugreifen."</string>
+    <string name="permlab_downloadCompletedIntent">"Benachrichtigungen zu Ladevorgängen senden"</string>
+    <string name="permdesc_downloadCompletedIntent">"Ermöglicht es der Anwendung, Benachrichtigungen zu abgeschlossenen Ladevorgängen zu senden. Diese Funktion kann von bösartigen Anwendungen dazu verwendet werden, den Ladevorgang anderer Anwendungen zu stören."</string>
+    <string name="download_unknown_title">"&lt;Unbenannt&gt;"</string>
+    <string name="notification_filename_separator">", "</string>
+    <string name="notification_filename_extras">" und %d weitere"</string>
+    <string name="notification_download_complete">"Ladevorgang abgeschlossen"</string>
+    <string name="notification_download_failed">"Fehler beim Ladevorgang"</string>
+</resources>

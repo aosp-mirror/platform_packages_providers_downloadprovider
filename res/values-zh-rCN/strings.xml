@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="permlab_downloadManager">"访问下载管理程序。"</string>
+    <string name="permdesc_downloadManager">"允许应用程序访问下载管理程序以及将其用于下载文件。恶意应用程序可以使用该功能干扰下载，以及访问隐私信息。"</string>
+    <string name="permlab_downloadManagerAdvanced">"高级下载管理程序功能。"</string>
+    <string name="permdesc_downloadManagerAdvanced">"允许应用程序访问下载管理程序高级功能。"\n"       恶意应用程序可能会使用此权限干扰下载，以及"\n"    访问隐私信息。"</string>
+    <string name="permlab_cacheFilesystem">"使用系统缓存。"</string>
+    <string name="permdesc_cacheFilesystem">"允许应用程序直接访问、修改和删除系统缓存。恶意应用程序可以使用该功能严重干扰下载和其他应用程序，以及访问隐私数据。"</string>
+    <string name="permlab_downloadCompletedIntent">"发送下载通知。"</string>
+    <string name="permdesc_downloadCompletedIntent">"允许应用程序发送关于已完成下载的通知。恶意应用程序可以使用该功能干扰其他下载文件的应用程序。"</string>
+    <string name="download_unknown_title">"&lt;未命名&gt;"</string>
+    <string name="notification_filename_separator">"、 "</string>
+    <string name="notification_filename_extras">" 以及另外 %d 个"</string>
+    <string name="notification_download_complete">"下载完成"</string>
+    <string name="notification_download_failed">"下载不成功"</string>
+</resources>

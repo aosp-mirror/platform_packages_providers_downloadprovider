@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="permlab_downloadManager">"ダウンロードマネージャーにアクセスします。"</string>
+    <string name="permdesc_downloadManager">"ダウンロードマネージャーにアクセスしてファイルをダウンロードすることをアプリケーションに許可します。悪意のあるアプリケーションがこれを利用して、ダウンロードに深刻な影響を与えたり、個人データにアクセスしたりする恐れがあり。"</string>
+    <string name="permlab_downloadManagerAdvanced">"ダウンロードマネージャーの高度な機能です。"</string>
+    <string name="permdesc_downloadManagerAdvanced">"ダウンロードマネージャーの高度な機能にアプリケーションでアクセスできるようにします。"\n"        悪意のあるアプリケーションではこれを利用して、ダウンロードに深刻な影響を与えたり、"\n"        個人情報にアクセスしたりできます。"</string>
+    <string name="permlab_cacheFilesystem">"システムキャッシュを使用します。"</string>
+    <string name="permdesc_cacheFilesystem">"システムキャッシュの直接アクセス、変更、削除をアプリケーションに許可します。悪意のあるアプリケーションがダウンロードや他のアプリケーションに深刻な影響を与えたり、個人データにアクセスする恐れがあります。"</string>
+    <string name="permlab_downloadCompletedIntent">"ダウンロード通知を送信します。"</string>
+    <string name="permdesc_downloadCompletedIntent">"ダウンロード完了の通知の送信をアプリケーションに許可します。悪意のあるアプリケーションがファイルをダウンロードする他のアプリケーションの処理を妨害する恐れがあります。"</string>
+    <string name="download_unknown_title">"&lt;無題&gt;"</string>
+    <string name="notification_filename_separator">"、 "</string>
+    <string name="notification_filename_extras">" 他%d件"</string>
+    <string name="notification_download_complete">"ダウンロード完了"</string>
+    <string name="notification_download_failed">"ダウンロードに失敗しました"</string>
+</resources>

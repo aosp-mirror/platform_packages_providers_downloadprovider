@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="permlab_downloadManager">"Acceso al administrador de descargas"</string>
+    <string name="permdesc_downloadManager">"Permite que la aplicación acceda al administrador de descargas y lo utilice para descargar archivos. Las aplicaciones malintencionadas pueden utilizar este permiso para provocar daños en las descargas y acceder a información privada."</string>
+    <string name="permlab_downloadManagerAdvanced">"Funciones avanzadas del administrador de descargas"</string>
+    <string name="permdesc_downloadManagerAdvanced">"Permite que la aplicación acceda a las funciones avanzadas de los administradores de descargas."\n"        Las aplicaciones malintencionadas pueden utilizar este permiso para provocar daños en las descargas"\n" y acceder a información privada."</string>
+    <string name="permlab_cacheFilesystem">"Uso de la memoria caché del sistema"</string>
+    <string name="permdesc_cacheFilesystem">"Permite que la aplicación acceda directamente a la memoria caché del sistema, la modifique y la elimine. Las aplicaciones malintencionadas pueden utilizar este permiso para provocar graves daños en las descargas y en otras aplicaciones, así como para acceder a datos privados."</string>
+    <string name="permlab_downloadCompletedIntent">"Envío de notificaciones de descarga"</string>
+    <string name="permdesc_downloadCompletedIntent">"Permite que la aplicación envíe notificaciones sobre descargas completadas. Las aplicaciones malintencionadas pueden utilizar este permiso para confundir a otras aplicaciones que descarguen archivos."</string>
+    <string name="download_unknown_title">"&lt;Sin título&gt;"</string>
+    <string name="notification_filename_separator">", "</string>
+    <string name="notification_filename_extras">" y %d más"</string>
+    <string name="notification_download_complete">"Descarga completada"</string>
+    <string name="notification_download_failed">"Descarga incorrecta"</string>
+</resources>

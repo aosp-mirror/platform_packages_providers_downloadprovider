@@ -24,8 +24,8 @@
     <string name="permlab_downloadCompletedIntent">"Wysyłanie powiadomień o pobraniu."</string>
     <string name="permdesc_downloadCompletedIntent">"Umożliwia programowi wysyłanie powiadomień o ukończeniu pobierania. Szkodliwe programy mogą korzystać z tego uprawnienia, aby zakłócić działanie innych programów pobierających pliki."</string>
     <string name="download_unknown_title">"&lt;Bez nazwy&gt;"</string>
-    <string name="notification_filename_separator">","</string>
-    <string name="notification_filename_extras">"i %d innych"</string>
+    <string name="notification_filename_separator">", "</string>
+    <string name="notification_filename_extras">" i %d innych"</string>
     <string name="notification_download_complete">"Pobieranie zakończone."</string>
     <string name="notification_download_failed">"Pobieranie nie powiodło się"</string>
 </resources>

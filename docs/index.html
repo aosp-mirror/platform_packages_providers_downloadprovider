@@ -824,5 +824,382 @@ Cupcake, format version <code>100</code>: Same as format version <code>31</code>
 <p />
 <h2><a name="Future_Directions"> </a> Future Directions </h2>
 <!--_>small<What could be done in the future to improve the product.>/small<_-->
+<p />
+<b>WARNING</b> This section is for informative purposes only.
+<p />
+<h3><a name="API"> </a> API </h3>
+<p />
+<ul>
+<li> Expose Download Manager to 3rd party apps - security, robustness .
+</li>
+<li> Validate application-provided user agent, cookies, etc... to protect against e.g. header injection.
+</li>
+<li> Allow trust-and-verify MIME type.
+</li>
+<li> Extract response string from HTTP responses, extract entity from failed responses
+</li>
+<li> If app fails to be notified, retry later - don't give up because of a single failure.
+</li>
+<li> Support data: URIs .
+</li>
+<li> Download files to app-provided content provider .
+</li>
+<li> Don't pass HTTP codes above about 490 to the initiating app (figure out what the threshold should be).
+</li>
+<li> Allow initiating app to specify that it wants wifi-only downloads .
+</li>
+<li> Provide SQL "where" clauses for the different categories of status codes, matching isStatusXXX().
+</li>
+<li> There has to be a mechanism by which old downloads are automatically purged from /cache if there's not enough space .
+</li>
+<li> Clicking the notification for a completed download should go through the initiating app instead of directly opening the file (but what about fire and forget?).
+</li>
+<li> Clean up the difference between pending_network (waiting for network) and running_paused (user paused the download).
+</li>
+<li> Allow any app to access the downloaded file (but no other column) of user-downloaded files .
+</li>
+<li> Provider should return more errors and throw fewer exceptions if possible.
+</li>
+<li> Add option to auto-dismiss notifications for completed downloads after a given time .
+</li>
+<li> Delete filename in case of failure - better handle the separation between filename and content URI.
+</li>
+<li> Allow the initiating application to specify that it wants to restart downloads from scratch if they're interrupted and can't be resumed .
+</li>
+<li> Save images directly from browser without re-downloading data .
+</li>
+<li> Give applications the ability to explicitly specify the full target filename (not just a hint).
+</li>
+<li> Give applications the ability to download multiple files into multiple set locations as if they were a single "package".
+</li>
+<li> Give applications the ability to download files only if they haven't been already downloaded.
+</li>
+<li> Give applications the ability to download files that have already been downloaded only if there's a newer version.
+</li>
+<li> Set-cookie in the response.
+</li>
+<li> basic auth .
+</li>
+<li> app-provided prompts for basic auth, ssl, redirects.
+</li>
+<li> File should be hidden from initiating application when DRM.
+</li>
+<li> Delay writing of app-visible filename column until file visible (split user-visible vs private files?).
+</li>
+<li> Separate locally-generated status codes from standard HTTP codes.
+</li>
+<li> Allow app to specify it doesn't want to resume downloads across reboots (because they might require additional work).
+</li>
+<li> Allow app to prioritize user-initiated downloads.
+</li>
+<li> Allow app to specify length of download (full trust, or trust-and-verify).
+</li>
+<li> Support POST.
+</li>
+<li> Support PUT.
+</li>
+<li> Support plugins for additional protocols and download descriptors.
+</li>
+<li> Rename columns to have an appropriate COLUMN_ prefix. 
+</li>
+</ul>
+<p />
+<h3><a name="HTTP_Handling"> </a> HTTP Handling </h3>
+<p />
+<ul>
+<li> Fail download immediately on authoritative unresolved hostnames .
+</li>
+<li> The download manager should use the browser's user-agent by default.
+</li>
+<li> Redirect with HTTP Refresh headers (download current and target content with non-zero refresh).
+</li>
+<li> Handle content-encoding header.
+</li>
+<li> Handle transfer-encoding header.
+</li>
+<li> Find other ways to validate interrupted downloads (signature, last-mod/if-modified-since) .
+</li>
+<li> Make downloads time out in case of long time with no activity.
+</li>
+</ul>
+<p />
+<h3><a name="File_names"> </a> File names </h3>
+<p />
+<ul>
+<li> Protect against situations where there's already a "downloads" directory on SD card.
+</li>
+<li> Deal with filenames with invalid characters.
+</li>
+<li> Refine the logic that builds filenames to better match desktop browsers - drop the query string.
+</li>
+<li> URI-decode filenames generated from URIs.
+</li>
+<li> Better deal with filenames that end in '.'.
+</li>
+<li> Deal with URIs that end in '/' or '?'.
+</li>
+<li> Investigate how to better deal with filenames that have multiple extensions.
+</li>
+</ul>
+<p />
+<h3><a name="UI"> </a> UI </h3>
+<p />
+<ul>
+<li> Prompt for redirects across domains or cancel.
+</li>
+<li> Prompt for redirects from SSL or cancel.
+</li>
+<li> Prompt for basic auth or cancel.
+</li>
+<li> Prompt for SSL with untrusted/invalid/expired certificates or cancel.
+</li>
+<li> Reduce number of icons in the title bar, possibly as low as 1 (animated if there are ongoing downloads, fixed if all downloads have completed) .
+</li>
+<li> UI to cancel visible downloads.
+</li>
+<li> UI to pause visible downloads.
+</li>
+<li> Reorder downloads.
+</li>
+<li> View SSL certificates.
+</li>
+<li> Indicate secure downloads.
+</li>
+</ul>
+<p />
+<h3><a name="Handling_of_specific_MIME_types"> </a> Handling of specific MIME types </h3>
+<p />
+<ul>
+<li> Parse HTML for redirects with meta tag.
+</li>
+<li> Handle charsets and transcoding of text files.
+</li>
+<li> Deal with multiparts.
+</li>
+<li> Support OMA downloads with DD and data in same multipart, i.e. combined delivery.
+</li>
+<li> Assume application/octet-stream for http responses with no mime type.
+</li>
+<li> Download anything if an app supports application/octet-stream.
+</li>
+<li> Download any text/* if an application supports text/plain.
+</li>
+<li> Should the media scanner be invoked on DRM downloads?
+</li>
+<li> Refresh header with timer should be followed if content is not downloadable.
+</li>
+<li> Support OMA downloads.
+</li>
+<li> Support MIDP-OTA downloads.
+</li>
+<li> Support Sprint MCD downloads.
+</li>
+<li> Sniff content when receiving MIME-types known to be inaccurately sent by misconfigured servers.
+</li>
+</ul>
+<p />
+<h3><a name="Management_of_downloads_based_on"> </a> Management of downloads based on environment </h3>
+<p />
+<ul>
+<li> If the device routinely connects over wifi, delay non-interactive downloads by a certain amount of time in case wifi becomes available
+</li>
+<li> Turn on wifi if possible
+</li>
+<li> Fall back to cell when wifi is available but download doesn't proceed
+</li>
+<li> Be smarter about spurious losses (i.e. exceptions while network appears up) when the active network changes (e.g. turn on wifi while downloading over cell).
+</li>
+<li> Investigate the use of wifi locks, especially when performing non-resumable downloads.
+</li>
+<li> Poll network state (and maybe even try to connect) even without notifications from the connectivity manager (in case the notifications go AWOL or get inconsistent) .
+</li>
+<li> Pause when conditions degrade .
+</li>
+<li> Pause when roaming.
+</li>
+<li> Throttle or pause when user is active.
+</li>
+<li> Pause on slow networks (2G).
+</li>
+<li> Pause when battery is low.
+</li>
+<li> Throttle to not overwhelm the link.
+</li>
+<li> Pause when sync is active.
+</li>
+<li> Deal with situations where the active connection is down but there's another connection available 
+</li>
+<li> Download files at night when the user is not explicitly waiting.
+</li>
+</ul>
+<p />
+<h3><a name="Management_of_simultaneous_downl"> </a> Management of simultaneous downloads </h3>
+<p />
+<ul>
+<li> Pipeline requests on limited number of sockets, run downloads sequentially .
+</li>
+<li> Manage bandwidth to not starve foreground tasks.
+</li>
+<li> Run unsized downloads on their own (on a per-filesystem basis) to avoid failing multiple of them because of a full filesystem .
+</li>
+</ul>
+<p />
+<h3><a name="Minor_functional_changes_edge_ca"> </a> Minor functional changes, edge cases </h3>
+<p />
+<ul>
+<li> The database could be somewhat checked when it's opened.
+</li>
+<li> <em>[DownloadProvider.java]</em> When upgrading the database, the numbering of ids should restart where it left off.
+</li>
+<li> <em>[DownloadProvider.java]</em> Handle errors when failing to start the service.
+</li>
+<li> <em>[DownloadProvider.java]</em> Explicitly populate all database columns that have documented default values, investigate whether that can be done at the SQL level.
+</li>
+<li> <em>[DownloadProvider.java]</em> It's possible that the last update time should be updated by the Sevice logic, not by the content provider.
+</li>
+<li> When relevant, combine logged messages on fewer lines.
+</li>
+<li> <em>[DownloadService.java]</em> Trim the database in the provider, not in the service. Notify application when trimming. Investigate why the row count seems off by one. Enforce on an ongoing basis.
+</li>
+<li> <em>[DownloadThread.java]</em> When download is restarted and MIME type wasn't provided by app, don't re-use MIME type.
+</li>
+<li> <em>[DownloadThread.java]</em> Deal with mistmatched file data sizes (between database and filesystem) when resuming a download, or with missing files that should be here.
+</li>
+<li> <em>[DownloadThread.java]</em> Validate that the response content-length can be properly parsed (i.e. presence of a string doesn't guarantee correctness).
+</li>
+<li> <em>[DownloadThread.java]</em> Be finer-grained with the way file permissions are managed in /cache - don't 0644 everything .
+</li>
+<li> Truncate files before deleting them, in case they're still open cross-process.
+</li>
+<li> Restart from scratch downloads that had very little progress .
+</li>
+<li> Deal with situations where /data is full as it prevents the database from growing (DoS) .
+</li>
+<li> Wait until file scanned to notify that download is completed.
+</li>
+<li> Missing some detailed logging about IOExceptions.
+</li>
+<li> Allow to disable LOGD debugging independently from system setting.
+</li>
+<li> Pulling the battery during a download corrupts files (lots of zeros written) .
+</li>
+<li> Should keep a bit of "emergency" database storage to initiate the download of an OTA update, in a file that is pre-allocated whenever possible (how to know it's an OTA update?).
+</li>
+<li> Figure out how to hook up into dumpsys and event log.
+</li>
+<li> Use the event log to log download progress.
+</li>
+<li> Use /cache to stage downloads that eventually go to the sd card, to avoid having sd files open too long in case the use pulls the card and to avoid partial files for too long.
+</li>
+<li> Maintain per-application usage statistics.
+</li>
+<li> There might be corner cases where the notifications are slightly off because different notifications might be using PendingIntents that can't be distinguished (differing only by their extras).
+</li>
+</ul>
+<p />
+<h3><a name="Architecture_and_Implementation"> </a> Architecture and Implementation </h3>
+<p />
+<ul>
+<li> The content:// Uri of individual downloads could be cached instead of being re-built whenever it's needed.
+</li>
+<li> <em>[DownloadProvider.java]</em> Solidify extraction of id from URI
+</li>
+<li> <em>[DownloadProvider.java]</em> Use ContentURIs.parseId(uri) to extra the id from various functions.
+</li>
+<li> <em>[DownloadProvider.java]</em> Use StringBuilder to build the various queries.
+</li>
+<li> <em>[DownloadService.java]</em> Cache interface to the media scanner service more aggressively.
+</li>
+<li> <em>[DownloadService.java]</em> Investigate why unbinding from the media scanner service sometimes throws an exception 
+</li>
+<li> <em>[DownloadService.java]</em> Handle exceptions in the service's UpdateThread - mark that there's no thread left.
+</li>
+<li> <em>[DownloadService.java]</em> At the end of UpdateThread, closing the cursor should be done even if there's an exception. Also log the exception, as we'd be in an inconsistent state.
+</li>
+<li> <em>[DownloadProvider.java]</em> Investigate whether the download provider should aggressively cache the result of <code>getContext()</code> and <code>getContext().getContentResolver()</code>
+</li>
+<li> Document the database columns that are most likely to stay unchanged throughout versions, to increase the chance being able to perform downgrades.
+</li>
+<li> <em>[DownloadService.java]</em> Sanity-check the ordering of the local cache when adding/removing rows.
+</li>
+<li> <em>[DownloadService.java]</em> Factor the code that checks for DRM types into a separate function.
+</li>
+<li> <em>[DownloadService.java]</em> Factor the code that notifies applications into a separate function (codepath with early 406 failure)
+</li>
+<li> <em>[DownloadService.java]</em> Check for errors when spawning download threads.
+</li>
+<li> <em>[DownloadService.java]</em> Potential race condition when a download completes at the same time as it gets deleted through the content provider - see deleteDownload().
+</li>
+<li> <em>[DownloadService.java]</em> Catch all exceptions in scanFile - don't trust a remote process to the point where we'd let it crash us.
+</li>
+<li> <em>[DownloadService.java]</em> Limit number of attempts to scan a file.
+</li>
+<li> <em>[DownloadService.java]</em> Keep less data in RAM, especially about completed downloads. Investigating cutting unused columns if necessary 
+</li>
+<li> <em>[DownloadThread.java]</em> Don't let exceptions out of run() - that'd kill the service, which'd accomplish no good.
+</li>
+<li> <em>[DownloadThread.java]</em> Keep track of content-length responses in a long, not in a string that we keep parsing .
+</li>
+<li> <em>[DownloadThread.java]</em> Use variable-size buffer to avoid thousands of operations on large downloads 
+</li>
+<li> <em>[Helpers.java]</em> Deal with atomicity of checking/creating file.
+</li>
+<li> <em>[Helpers.java]</em> Handle differences between content-location separators and filesystem separators.
+</li>
+<li> Optimize database queries: use projections to reduce number of columns and get constant column numbers.
+</li>
+<li> Index last-mod date in DB, because of ordered searches. Investigate whether other columns need to be indexed (Hidden?)
+</li>
+<li> Deal with the fact that sqlite INTEGER matches java long (63-bit) .
+</li>
+<li> Use a single HTTP client for the entire download manager.
+</li>
+<li> Could use fewer alarms - currently setting new alarm each time database updated .
+</li>
+<li> Obsolete columns should be removed from the database .
+</li>
+<li> Assign relevant names to threads.
+</li>
+<li> Investigate and handle the different subclasses of IOException appropriately .
+</li>
+<li> There's potentially a race condition around read-modify-write cycles in the database, between the Service's updateFromProvider thread and the worker threads (and possibly more). Those should be synchronized appropriately, and the provider should be hardened to prevent asynchronous changes to sensitive data (or to synchronize when there's no other way, though I'd rather avoid that) .
+</li>
+<li> Temporary file leaks when downloads are deleted while the service isn't running .
+</li>
+<li> Increase priority of updaterThread while in the critical section (to avoid issues of priority inheritance with the main thread).
+</li>
+<li> Explicitly specify which interface to use for a given download (to get better sync with the connection manager).
+</li>
+<li> Cancel the requests on more kinds of errors instead of trusting the garbage collector. 
+</li>
+<li> Issues with the fact that parseInt can throw exceptions on invalid server headers.
+</li>
+</ul>
+<p />
+<h3><a name="Code_style_refactoring"> </a> Code style, refactoring </h3>
+<p />
+<ul>
+<li> Fix lint warnings
+</li>
+<li> Make sure that comments fit in 80 columns to match style guide
+</li>
+<li> Unify code style when dealing with lines longer than 100 characters
+</li>
+<li> <em>[Constants.java]</em> constants should be organized by logical groups to improve readability.
+</li>
+<li> Use fewer internal classes (Helpers, Constants...) .
+</li>
+</ul>
+<p />
+<h3><a name="Browser_changes"> </a> Browser changes </h3>
+<p />
+<ul>
+<li> Move download UI outside of browser, so that browser doesn't need to access the provider.
+</li>
+<li> Make browser sniff zips and jars to see if they're apks.
+</li>
+<li> Live handoff of browser-initiated downloads (download in browser, browser update download UI, hand over to download manager on retry).
+</li>
+</ul>
 </body>
 </html>

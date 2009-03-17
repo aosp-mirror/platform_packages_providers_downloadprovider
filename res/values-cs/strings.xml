@@ -24,8 +24,8 @@
     <string name="permlab_downloadCompletedIntent">"Odeslat oznámení o stahování."</string>
     <string name="permdesc_downloadCompletedIntent">"Umožní aplikaci odeslat oznámení o dokončení stahování. Škodlivé aplikace mohou pomocí tohoto nastavení zmást jiné aplikace, které stahují soubory."</string>
     <string name="download_unknown_title">"&lt;Bez názvu&gt;"</string>
-    <string name="notification_filename_separator">","</string>
-    <string name="notification_filename_extras">"a ještě %d"</string>
+    <string name="notification_filename_separator">", "</string>
+    <string name="notification_filename_extras">" a ještě %d"</string>
     <string name="notification_download_complete">"Stahování bylo dokončeno"</string>
     <string name="notification_download_failed">"Stahování bylo neúspěšné"</string>
 </resources>

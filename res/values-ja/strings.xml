@@ -16,16 +16,16 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="permlab_downloadManager">"ダウンロードマネージャーにアクセスします。"</string>
-    <string name="permdesc_downloadManager">"アプリケーションでダウンロードマネージャーにアクセスしてファイルをダウンロードできるようにします。悪意のあるアプリケーションではこれを利用して、ダウンロードに深刻な影響を与えたり、個人データにアクセスしたりできます。"</string>
+    <string name="permdesc_downloadManager">"ダウンロードマネージャーにアクセスしてファイルをダウンロードすることをアプリケーションに許可します。悪意のあるアプリケーションがこれを利用して、ダウンロードに深刻な影響を与えたり、個人データにアクセスしたりする恐れがあり。"</string>
     <string name="permlab_downloadManagerAdvanced">"ダウンロードマネージャーの高度な機能です。"</string>
     <string name="permdesc_downloadManagerAdvanced">"ダウンロードマネージャーの高度な機能にアプリケーションでアクセスできるようにします。"\n"        悪意のあるアプリケーションではこれを利用して、ダウンロードに深刻な影響を与えたり、"\n"        個人情報にアクセスしたりできます。"</string>
     <string name="permlab_cacheFilesystem">"システムキャッシュを使用します。"</string>
-    <string name="permdesc_cacheFilesystem">"アプリケーションでシステムキャッシュを直接アクセス、変更、削除できるようにします。悪意のあるアプリケーションではこれを利用して、ダウンロードや他のアプリケーションに深刻な影響を与えたり、個人データにアクセスしたりできます。"</string>
+    <string name="permdesc_cacheFilesystem">"システムキャッシュの直接アクセス、変更、削除をアプリケーションに許可します。悪意のあるアプリケーションがダウンロードや他のアプリケーションに深刻な影響を与えたり、個人データにアクセスする恐れがあります。"</string>
     <string name="permlab_downloadCompletedIntent">"ダウンロード通知を送信します。"</string>
-    <string name="permdesc_downloadCompletedIntent">"ダウンロード完了の通知をアプリケーションから送信できるようにします。悪意のあるアプリケーションではこの通知を利用して、ファイルをダウンロードする他のアプリケーションの処理を妨害できます。"</string>
+    <string name="permdesc_downloadCompletedIntent">"ダウンロード完了の通知の送信をアプリケーションに許可します。悪意のあるアプリケーションがファイルをダウンロードする他のアプリケーションの処理を妨害する恐れがあります。"</string>
     <string name="download_unknown_title">"&lt;無題&gt;"</string>
-    <string name="notification_filename_separator">"、"</string>
-    <string name="notification_filename_extras">"他%d件"</string>
+    <string name="notification_filename_separator">"、 "</string>
+    <string name="notification_filename_extras">" 他%d件"</string>
     <string name="notification_download_complete">"ダウンロード完了"</string>
     <string name="notification_download_failed">"ダウンロードに失敗しました"</string>
 </resources>

@@ -18,14 +18,14 @@
     <string name="permlab_downloadManager">"Downloadbeheer weergeven."</string>
     <string name="permdesc_downloadManager">"Hiermee kan de toepassing Downloadbeheer gebruiken om bestanden te downloaden. Kwaadwillende toepassingen kunnen hiervan gebruikmaken om downloads te verstoren en om toegang te krijgen tot privégegevens."</string>
     <string name="permlab_downloadManagerAdvanced">"Geavanceerde functies van de downloadbeheerder."</string>
-    <string name="permdesc_downloadManagerAdvanced">"Hiermee krijgt de toepassing toegang tot de geavanceerde functies van de downloadbeheerder."\n"        Schadelijke toepassingen kunnen hiermee downloads onderbreken en toegang krijgen tot uw "\n"        privégegevens."</string>
+    <string name="permdesc_downloadManagerAdvanced">"Hiermee krijgt de toepassing toegang tot de geavanceerde functies van de downloadbeheerder."\n" Schadelijke toepassingen kunnen hiermee downloads onderbreken en toegang krijgen tot uw "\n" privégegevens."</string>
     <string name="permlab_cacheFilesystem">"Systeemcache gebruiken."</string>
     <string name="permdesc_cacheFilesystem">"Hiermee kan de toepassing rechtstreeks de systeemcache openen, aanpassen of wissen. Kwaadwillende toepassingen kunnen hiervan gebruikmaken om downloads en andere toepassingen te verstoren en om toegang te krijgen tot privégegevens."</string>
     <string name="permlab_downloadCompletedIntent">"Downloadmeldingen verzenden."</string>
     <string name="permdesc_downloadCompletedIntent">"Hiermee ontvangt u een melding zodra een download is voltooid. Kwaadwillende toepassingen kunnen hiervan gebruikmaken om andere toepassingen die bestanden downloaden, in de war te brengen."</string>
     <string name="download_unknown_title">"&lt;Zonder titel&gt;"</string>
-    <string name="notification_filename_separator">","</string>
-    <string name="notification_filename_extras">"en nog %d"</string>
+    <string name="notification_filename_separator">", "</string>
+    <string name="notification_filename_extras">" en nog %d"</string>
     <string name="notification_download_complete">"Downloaden is voltooid"</string>
     <string name="notification_download_failed">"Downloaden is mislukt."</string>
 </resources>

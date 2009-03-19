@@ -386,7 +386,8 @@ public final class DownloadProvider extends ContentProvider {
             }
         }
 
-        if (Binder.getCallingPid() != Process.myPid() && Binder.getCallingUid() != 0) {
+        if (Binder.getCallingPid() != Process.myPid() && Binder.getCallingUid() != 0 &&
+                Process.supportsProcesses()) {
             if (!emptyWhere) {
                 qb.appendWhere(" AND ");
             }

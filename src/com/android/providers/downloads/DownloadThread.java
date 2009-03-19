@@ -48,6 +48,7 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.util.Locale;
 
 /**
  * Runs an actual download
@@ -88,7 +89,7 @@ public class DownloadThread extends Thread {
         String newUri = null;
         boolean gotData = false;
         String filename = null;
-        String mimeType = mInfo.mimetype;
+        String mimeType = sanitizeMimeType(mInfo.mimetype);
         FileOutputStream stream = null;
         AndroidHttpClient client = null;
         PowerManager.WakeLock wakeLock = null;
@@ -337,11 +338,7 @@ http_request_loop:
                         if (mimeType == null) {
                             header = response.getFirstHeader("Content-Type");
                             if (header != null) {
-                                mimeType = header.getValue();
-                                final int semicolonIndex = mimeType.indexOf(';');
-                                if (semicolonIndex != -1) {
-                                    mimeType = mimeType.substring(0, semicolonIndex);
-                                }
+                                mimeType = sanitizeMimeType(header.getValue()); 
                             }
                         }
                         header = response.getFirstHeader("ETag");
@@ -657,7 +654,7 @@ http_request_loop:
                 }
             }
             notifyDownloadCompleted(finalStatus, countRetry, retryAfter, redirectCount,
-                    gotData, filename, newUri, mimeType);
+                    gotData, filename, newUri, mInfo.mimetype);
         }
     }
 
@@ -707,4 +704,24 @@ http_request_loop:
         mInfo.sendIntentIfRequested(uri, mContext);
     }
 
+    /**
+     * Clean up a mimeType string so it can be used to dispatch an intent to
+     * view a downloaded asset.
+     * @param mimeType either null or one or more mime types (semi colon separated).
+     * @return null if mimeType was null. Otherwise a string which represents a
+     * single mimetype in lowercase and with surrounding whitespaces trimmed.
+     */
+    private String sanitizeMimeType(String mimeType) {
+        try {
+            mimeType = mimeType.trim().toLowerCase(Locale.ENGLISH);
+
+            final int semicolonIndex = mimeType.indexOf(';');
+            if (semicolonIndex != -1) {
+                mimeType = mimeType.substring(0, semicolonIndex);
+            }
+            return mimeType;
+        } catch (NullPointerException npe) {
+            return null;
+        }
+    }
 }

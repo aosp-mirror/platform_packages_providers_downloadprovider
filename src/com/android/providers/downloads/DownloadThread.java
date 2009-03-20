@@ -654,7 +654,7 @@ http_request_loop:
                 }
             }
             notifyDownloadCompleted(finalStatus, countRetry, retryAfter, redirectCount,
-                    gotData, filename, newUri, mInfo.mimetype);
+                    gotData, filename, newUri, mimeType);
         }
     }
 

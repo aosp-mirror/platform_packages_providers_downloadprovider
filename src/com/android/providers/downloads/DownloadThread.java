@@ -46,6 +46,7 @@ import java.io.InputStream;
 import java.io.SyncFailedException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Locale;
 
 /**
  * Runs an actual download
@@ -86,7 +87,7 @@ public class DownloadThread extends Thread {
         String newUri = null;
         boolean gotData = false;
         String filename = null;
-        String mimeType = mInfo.mMimeType;
+        String mimeType = sanitizeMimeType(mInfo.mMimeType);
         FileOutputStream stream = null;
         AndroidHttpClient client = null;
         PowerManager.WakeLock wakeLock = null;
@@ -354,11 +355,7 @@ http_request_loop:
                         if (mimeType == null) {
                             header = response.getFirstHeader("Content-Type");
                             if (header != null) {
-                                mimeType = header.getValue();
-                                final int semicolonIndex = mimeType.indexOf(';');
-                                if (semicolonIndex != -1) {
-                                    mimeType = mimeType.substring(0, semicolonIndex);
-                                }
+                                mimeType = sanitizeMimeType(header.getValue()); 
                             }
                         }
                         header = response.getFirstHeader("ETag");
@@ -740,4 +737,24 @@ http_request_loop:
         mInfo.sendIntentIfRequested(uri, mContext);
     }
 
+    /**
+     * Clean up a mimeType string so it can be used to dispatch an intent to
+     * view a downloaded asset.
+     * @param mimeType either null or one or more mime types (semi colon separated).
+     * @return null if mimeType was null. Otherwise a string which represents a
+     * single mimetype in lowercase and with surrounding whitespaces trimmed.
+     */
+    private String sanitizeMimeType(String mimeType) {
+        try {
+            mimeType = mimeType.trim().toLowerCase(Locale.ENGLISH);
+
+            final int semicolonIndex = mimeType.indexOf(';');
+            if (semicolonIndex != -1) {
+                mimeType = mimeType.substring(0, semicolonIndex);
+            }
+            return mimeType;
+        } catch (NullPointerException npe) {
+            return null;
+        }
+    }
 }

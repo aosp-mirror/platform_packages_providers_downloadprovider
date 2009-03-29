@@ -16,81 +16,81 @@
 
 package com.android.providers.downloads;
 
-import android.net.Uri;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.provider.Downloads;
 
 /**
  * Stores information about an individual download.
  */
 public class DownloadInfo {
-    public int id;
-    public String uri;
-    public boolean noIntegrity;
-    public String hint;
-    public String filename;
-    public String mimetype;
-    public int destination;
-    public int visibility;
-    public int control;
-    public int status;
-    public int numFailed;
-    public int retryAfter;
-    public int redirectCount;
-    public long lastMod;
-    public String pckg;
-    public String clazz;
-    public String extras;
-    public String cookies;
-    public String userAgent;
-    public String referer;
-    public int totalBytes;
-    public int currentBytes;
-    public String etag;
-    public boolean mediaScanned;
+    public int mId;
+    public String mUri;
+    public boolean mNoIntegrity;
+    public String mHint;
+    public String mFileName;
+    public String mMimeType;
+    public int mDestination;
+    public int mVisibility;
+    public int mControl;
+    public int mStatus;
+    public int mNumFailed;
+    public int mRetryAfter;
+    public int mRedirectCount;
+    public long mLastMod;
+    public String mPackage;
+    public String mClass;
+    public String mExtras;
+    public String mCookies;
+    public String mUserAgent;
+    public String mReferer;
+    public int mTotalBytes;
+    public int mCurrentBytes;
+    public String mETag;
+    public boolean mMediaScanned;
 
-    public volatile boolean hasActiveThread;
+    public volatile boolean mHasActiveThread;
 
     public DownloadInfo(int id, String uri, boolean noIntegrity,
-            String hint, String filename,
-            String mimetype, int destination, int visibility, int control,
+            String hint, String fileName,
+            String mimeType, int destination, int visibility, int control,
             int status, int numFailed, int retryAfter, int redirectCount, long lastMod,
             String pckg, String clazz, String extras, String cookies,
-            String userAgent, String referer, int totalBytes, int currentBytes, String etag,
+            String userAgent, String referer, int totalBytes, int currentBytes, String eTag,
             boolean mediaScanned) {
-        this.id = id;
-        this.uri = uri;
-        this.noIntegrity = noIntegrity;
-        this.hint = hint;
-        this.filename = filename;
-        this.mimetype = mimetype;
-        this.destination = destination;
-        this.visibility = visibility;
-        this.control = control;
-        this.status = status;
-        this.numFailed = numFailed;
-        this.retryAfter = retryAfter;
-        this.redirectCount = redirectCount;
-        this.lastMod = lastMod;
-        this.pckg = pckg;
-        this.clazz = clazz;
-        this.extras = extras;
-        this.cookies = cookies;
-        this.userAgent = userAgent;
-        this.referer = referer;
-        this.totalBytes = totalBytes;
-        this.currentBytes = currentBytes;
-        this.etag = etag;
-        this.mediaScanned = mediaScanned;
+        mId = id;
+        mUri = uri;
+        mNoIntegrity = noIntegrity;
+        mHint = hint;
+        mFileName = fileName;
+        mMimeType = mimeType;
+        mDestination = destination;
+        mVisibility = visibility;
+        mControl = control;
+        mStatus = status;
+        mNumFailed = numFailed;
+        mRetryAfter = retryAfter;
+        mRedirectCount = redirectCount;
+        mLastMod = lastMod;
+        mPackage = pckg;
+        mClass = clazz;
+        mExtras = extras;
+        mCookies = cookies;
+        mUserAgent = userAgent;
+        mReferer = referer;
+        mTotalBytes = totalBytes;
+        mCurrentBytes = currentBytes;
+        mETag = eTag;
+        mMediaScanned = mediaScanned;
     }
 
     public void sendIntentIfRequested(Uri contentUri, Context context) {
-        if (pckg != null && clazz != null) {
-            Intent intent = new Intent(Downloads.DOWNLOAD_COMPLETED_ACTION);
-            intent.setClassName(pckg, clazz);
-            if (extras != null) {
-                intent.putExtra(Downloads.NOTIFICATION_EXTRAS, extras);
+        if (mPackage != null && mClass != null) {
+            Intent intent = new Intent(Downloads.ACTION_DOWNLOAD_COMPLETED);
+            intent.setClassName(mPackage, mClass);
+            if (mExtras != null) {
+                intent.putExtra(Downloads.COLUMN_NOTIFICATION_EXTRAS, mExtras);
             }
             // We only send the content: URI, for security reasons. Otherwise, malicious
             //     applications would have an easier time spoofing download results by
@@ -105,12 +105,12 @@ public class DownloadInfo {
      * be called when numFailed > 0.
      */
     public long restartTime() {
-        if (retryAfter > 0) {
-            return lastMod + retryAfter;
+        if (mRetryAfter > 0) {
+            return mLastMod + mRetryAfter;
         }
-        return lastMod +
+        return mLastMod +
                 Constants.RETRY_FIRST_DELAY *
-                    (1000 + Helpers.rnd.nextInt(1001)) * (1 << (numFailed - 1));
+                    (1000 + Helpers.sRandom.nextInt(1001)) * (1 << (mNumFailed - 1));
     }
 
     /**
@@ -118,25 +118,25 @@ public class DownloadInfo {
      * should be started.
      */
     public boolean isReadyToStart(long now) {
-        if (control == Downloads.CONTROL_PAUSED) {
+        if (mControl == Downloads.CONTROL_PAUSED) {
             // the download is paused, so it's not going to start
             return false;
         }
-        if (status == 0) {
+        if (mStatus == 0) {
             // status hasn't been initialized yet, this is a new download
             return true;
         }
-        if (status == Downloads.STATUS_PENDING) {
+        if (mStatus == Downloads.STATUS_PENDING) {
             // download is explicit marked as ready to start
             return true;
         }
-        if (status == Downloads.STATUS_RUNNING) {
+        if (mStatus == Downloads.STATUS_RUNNING) {
             // download was interrupted (process killed, loss of power) while it was running,
             //     without a chance to update the database
             return true;
         }
-        if (status == Downloads.STATUS_RUNNING_PAUSED) {
-            if (numFailed == 0) {
+        if (mStatus == Downloads.STATUS_RUNNING_PAUSED) {
+            if (mNumFailed == 0) {
                 // download is waiting for network connectivity to return before it can resume
                 return true;
             }
@@ -157,20 +157,20 @@ public class DownloadInfo {
      * by checking the status.
      */
     public boolean isReadyToRestart(long now) {
-        if (control == Downloads.CONTROL_PAUSED) {
+        if (mControl == Downloads.CONTROL_PAUSED) {
             // the download is paused, so it's not going to restart
             return false;
         }
-        if (status == 0) {
+        if (mStatus == 0) {
             // download hadn't been initialized yet
             return true;
         }
-        if (status == Downloads.STATUS_PENDING) {
+        if (mStatus == Downloads.STATUS_PENDING) {
             // download is explicit marked as ready to start
             return true;
         }
-        if (status == Downloads.STATUS_RUNNING_PAUSED) {
-            if (numFailed == 0) {
+        if (mStatus == Downloads.STATUS_RUNNING_PAUSED) {
+            if (mNumFailed == 0) {
                 // download is waiting for network connectivity to return before it can resume
                 return true;
             }
@@ -187,10 +187,10 @@ public class DownloadInfo {
      * completion.
      */
     public boolean hasCompletionNotification() {
-        if (!Downloads.isStatusCompleted(status)) {
+        if (!Downloads.isStatusCompleted(mStatus)) {
             return false;
         }
-        if (visibility == Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED) {
+        if (mVisibility == Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED) {
             return true;
         }
         return false;
@@ -203,7 +203,7 @@ public class DownloadInfo {
         if (!available) {
             return false;
         }
-        if (destination == Downloads.DESTINATION_CACHE_PARTITION_NOROAMING) {
+        if (mDestination == Downloads.DESTINATION_CACHE_PARTITION_NOROAMING) {
             return !roaming;
         } else {
             return true;

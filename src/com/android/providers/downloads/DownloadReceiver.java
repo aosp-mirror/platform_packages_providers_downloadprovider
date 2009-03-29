@@ -23,18 +23,15 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.database.Cursor;
-import android.provider.Downloads;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.provider.Downloads;
 import android.util.Config;
 import android.util.Log;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * Receives system broadcasts (boot, network connectivity)
@@ -74,20 +71,22 @@ public class DownloadReceiver extends BroadcastReceiver {
                     intent.getData(), null, null, null, null);
             if (cursor != null) {
                 if (cursor.moveToFirst()) {
-                    int statusColumn = cursor.getColumnIndexOrThrow(Downloads.STATUS);
+                    int statusColumn = cursor.getColumnIndexOrThrow(Downloads.COLUMN_STATUS);
                     int status = cursor.getInt(statusColumn);
-                    int visibilityColumn = cursor.getColumnIndexOrThrow(Downloads.VISIBILITY);
+                    int visibilityColumn =
+                            cursor.getColumnIndexOrThrow(Downloads.COLUMN_VISIBILITY);
                     int visibility = cursor.getInt(visibilityColumn);
                     if (Downloads.isStatusCompleted(status)
                             && visibility == Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED) {
                         ContentValues values = new ContentValues();
-                        values.put(Downloads.VISIBILITY, Downloads.VISIBILITY_VISIBLE);
+                        values.put(Downloads.COLUMN_VISIBILITY, Downloads.VISIBILITY_VISIBLE);
                         context.getContentResolver().update(intent.getData(), values, null, null);
                     }
 
                     if (intent.getAction().equals(Constants.ACTION_OPEN)) {
                         int filenameColumn = cursor.getColumnIndexOrThrow(Downloads._DATA);
-                        int mimetypeColumn = cursor.getColumnIndexOrThrow(Downloads.MIMETYPE);
+                        int mimetypeColumn =
+                                cursor.getColumnIndexOrThrow(Downloads.COLUMN_MIME_TYPE);
                         String filename = cursor.getString(filenameColumn);
                         String mimetype = cursor.getString(mimetypeColumn);
                         Uri path = Uri.parse(filename);
@@ -109,13 +108,13 @@ public class DownloadReceiver extends BroadcastReceiver {
                         }
                     } else {
                         int packageColumn =
-                                cursor.getColumnIndexOrThrow(Downloads.NOTIFICATION_PACKAGE);
+                                cursor.getColumnIndexOrThrow(Downloads.COLUMN_NOTIFICATION_PACKAGE);
                         int classColumn =
-                                cursor.getColumnIndexOrThrow(Downloads.NOTIFICATION_CLASS);
+                                cursor.getColumnIndexOrThrow(Downloads.COLUMN_NOTIFICATION_CLASS);
                         String pckg = cursor.getString(packageColumn);
                         String clazz = cursor.getString(classColumn);
                         if (pckg != null && clazz != null) {
-                            Intent appIntent = new Intent(Downloads.NOTIFICATION_CLICKED_ACTION);
+                            Intent appIntent = new Intent(Downloads.ACTION_NOTIFICATION_CLICKED);
                             appIntent.setClassName(pckg, clazz);
                             if (intent.getBooleanExtra("multiple", true)) {
                                 appIntent.setData(Downloads.CONTENT_URI);
@@ -141,14 +140,15 @@ public class DownloadReceiver extends BroadcastReceiver {
                     intent.getData(), null, null, null, null);
             if (cursor != null) {
                 if (cursor.moveToFirst()) {
-                    int statusColumn = cursor.getColumnIndexOrThrow(Downloads.STATUS);
+                    int statusColumn = cursor.getColumnIndexOrThrow(Downloads.COLUMN_STATUS);
                     int status = cursor.getInt(statusColumn);
-                    int visibilityColumn = cursor.getColumnIndexOrThrow(Downloads.VISIBILITY);
+                    int visibilityColumn =
+                            cursor.getColumnIndexOrThrow(Downloads.COLUMN_VISIBILITY);
                     int visibility = cursor.getInt(visibilityColumn);
                     if (Downloads.isStatusCompleted(status)
                             && visibility == Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED) {
                         ContentValues values = new ContentValues();
-                        values.put(Downloads.VISIBILITY, Downloads.VISIBILITY_VISIBLE);
+                        values.put(Downloads.COLUMN_VISIBILITY, Downloads.VISIBILITY_VISIBLE);
                         context.getContentResolver().update(intent.getData(), values, null, null);
                     }
                 }

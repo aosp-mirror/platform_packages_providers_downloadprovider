@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="permlab_downloadManager">"Acesse o gerenciador de downloads."</string>
+    <string name="permdesc_downloadManager">"Permite que o aplicativo acesse o gerenciador de downloads e o utilize para baixar arquivos. Os aplicativos maliciosos podem usar isso para corromper downloads e acessar informações particulares."</string>
+    <string name="permlab_downloadManagerAdvanced">"Funções avançadas do gerenciador de download."</string>
+    <string name="permdesc_downloadManagerAdvanced">"Permite que o aplicativo acesse as funções avançadas dos gerenciadores de download."\n"        Aplicativos maliciosos podem usar isso para interromper o download e acessar"\n"        informações privadas."</string>
+    <string name="permlab_cacheFilesystem">"Use o cache do sistema."</string>
+    <string name="permdesc_cacheFilesystem">"Permite que o aplicativo acesse, modifique e exclua diretamente o cache do sistema. Os aplicativos maliciosos podem usar isso para corromper fatalmente downloads e outros aplicativos e para acessar dados particulares."</string>
+    <string name="permlab_downloadCompletedIntent">"Enviar notificações de download."</string>
+    <string name="permdesc_downloadCompletedIntent">"Permite que o aplicativo envie notificações sobre os downloads concluídos. Os aplicativos maliciosos podem usar isso para confundir outros aplicativos que baixam arquivos."</string>
+    <string name="download_unknown_title">"&lt;Sem título&gt;"</string>
+    <string name="notification_filename_separator">", "</string>
+    <string name="notification_filename_extras">" e mais %d"</string>
+    <string name="notification_download_complete">"Download concluído"</string>
+    <string name="notification_download_failed">"Falha de download"</string>
+</resources>

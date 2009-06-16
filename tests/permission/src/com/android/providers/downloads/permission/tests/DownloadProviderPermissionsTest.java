@@ -88,7 +88,7 @@ public class DownloadProviderPermissionsTest extends AndroidTestCase {
     public void testWriteDownloadProvider() throws IOException {
         try {
             ContentValues values = new ContentValues();
-            values.put(Downloads.DESTINATION, "foo");
+            // values.put(Downloads.DESTINATION, "foo");
             mContentResolver.insert(Downloads.CONTENT_URI, values);
             fail("write to provider did not throw SecurityException as expected.");
         } catch (SecurityException e) {

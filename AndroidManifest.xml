@@ -37,7 +37,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application android:process="android.process.media"
-                 android:label="Download Manager">
+                 android:label="@string/app_label">
         <provider android:name=".DownloadProvider"
                 android:authorities="downloads"
                 android:permission="android.permission.ACCESS_DOWNLOAD_MANAGER" />

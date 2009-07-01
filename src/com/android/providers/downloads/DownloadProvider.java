@@ -82,6 +82,7 @@ public final class DownloadProvider extends ContentProvider {
         Downloads._DATA,
         Downloads.MIMETYPE,
         Downloads.VISIBILITY,
+        Downloads.DESTINATION,
         Downloads.CONTROL,
         Downloads.STATUS,
         Downloads.LAST_MODIFICATION,

@@ -426,9 +426,9 @@ public class Helpers {
                 Downloads.CONTENT_URI,
                 null,
                 "( " +
-                Downloads.COLUMN_STATUS + " = " + Downloads.STATUS_SUCCESS + " AND " +
+                Downloads.COLUMN_STATUS + " = '" + Downloads.STATUS_SUCCESS + "' AND " +
                 Downloads.COLUMN_DESTINATION +
-                        " = " + Downloads.DESTINATION_CACHE_PARTITION_PURGEABLE + " )",
+                        " = '" + Downloads.DESTINATION_CACHE_PARTITION_PURGEABLE + "' )",
                 null,
                 Downloads.COLUMN_LAST_MODIFICATION);
         if (cursor == null) {

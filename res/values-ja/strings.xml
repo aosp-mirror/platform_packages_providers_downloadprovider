@@ -15,6 +15,8 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- no translation found for app_label (3658948994665187911) -->
+    <skip />
     <string name="permlab_downloadManager">"ダウンロードマネージャーにアクセスします。"</string>
     <string name="permdesc_downloadManager">"ダウンロードマネージャーにアクセスしてファイルをダウンロードすることをアプリケーションに許可します。悪意のあるアプリケーションがこれを利用して、ダウンロードに深刻な影響を与えたり、個人データにアクセスしたりする恐れがあり。"</string>
     <string name="permlab_downloadManagerAdvanced">"ダウンロードマネージャーの高度な機能です。"</string>

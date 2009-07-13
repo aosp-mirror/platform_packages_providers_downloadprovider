@@ -15,6 +15,7 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label">"Správce stahování"</string>
     <string name="permlab_downloadManager">"Získat přístup ke správci stahování."</string>
     <string name="permdesc_downloadManager">"Umožní aplikaci získat přístup ke správci stahování a stahovat pomocí něj soubory. Škodlivé aplikace mohou pomocí tohoto nastavení narušit stahování a získat přístup k soukromým informacím."</string>
     <string name="permlab_downloadManagerAdvanced">"Pokročilé funkce správce stahování."</string>

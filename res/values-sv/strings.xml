@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- no translation found for app_label (3658948994665187911) -->
+    <skip />
+    <string name="permlab_downloadManager">"Åtkomst till hämtningshanterare."</string>
+    <string name="permdesc_downloadManager">"Tillåter att ett program får åtkomst till hämtningshanteraren och hämtar filer med den. Skadliga program kan använda detta för att störa hämtningar och komma åt privat information."</string>
+    <string name="permlab_downloadManagerAdvanced">"Avancerade funktioner för hämtningshanterare."</string>
+    <string name="permdesc_downloadManagerAdvanced">"Tillåter att ett program får åtkomst till avancerade funktioner som är till för hämtningshanterare."\n"        Skadliga program kan använda detta för att störa hämtningar och komma åt"\n"        privat information."</string>
+    <string name="permlab_cacheFilesystem">"Använd systemets cacheminne."</string>
+    <string name="permdesc_cacheFilesystem">"Tillåter att ett program får direktåtkomst till systemets cacheminne och kan göra ändringar och borttagningar. Skadliga program kan använda detta för att störa hämtningar och andra program, och för att komma åt privat information."</string>
+    <string name="permlab_downloadCompletedIntent">"Skicka meddelande om hämtning."</string>
+    <string name="permdesc_downloadCompletedIntent">"Tillåter att ett program skickar meddelanden om slutförda hämtningar. Skadliga program kan använda detta för att störa andra program som hämtar filer."</string>
+    <string name="download_unknown_title">"&lt;Okänd&gt;"</string>
+    <string name="notification_filename_separator">", "</string>
+    <string name="notification_filename_extras">" och %d till"</string>
+    <string name="notification_download_complete">"Hämtning slutförd"</string>
+    <string name="notification_download_failed">"Det gick inte att hämta"</string>
+</resources>

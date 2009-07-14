@@ -15,17 +15,19 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="permlab_downloadManager">"Acesse o gerenciador de downloads."</string>
-    <string name="permdesc_downloadManager">"Permite que o aplicativo acesse o gerenciador de downloads e o utilize para baixar arquivos. Os aplicativos maliciosos podem usar isso para corromper downloads e acessar informações particulares."</string>
+    <!-- no translation found for app_label (3658948994665187911) -->
+    <skip />
+    <string name="permlab_downloadManager">"Acessar o gerenciador de download."</string>
+    <string name="permdesc_downloadManager">"Permite que o aplicativo acesse o gerenciador de download e use-o para fazer o download de arquivos. Aplicativos maliciosos podem usar isso para interromper os downloads e acessar informações particulares."</string>
     <string name="permlab_downloadManagerAdvanced">"Funções avançadas do gerenciador de download."</string>
-    <string name="permdesc_downloadManagerAdvanced">"Permite que o aplicativo acesse as funções avançadas dos gerenciadores de download."\n"        Aplicativos maliciosos podem usar isso para interromper o download e acessar"\n"        informações privadas."</string>
-    <string name="permlab_cacheFilesystem">"Use o cache do sistema."</string>
-    <string name="permdesc_cacheFilesystem">"Permite que o aplicativo acesse, modifique e exclua diretamente o cache do sistema. Os aplicativos maliciosos podem usar isso para corromper fatalmente downloads e outros aplicativos e para acessar dados particulares."</string>
+    <string name="permdesc_downloadManagerAdvanced">"Permite que o aplicativo acesse as funções avançadas do gerenciador de download."\n"        Aplicativos maliciosos podem usar isso para interromper os downloads e acessar "\n"        informações particulares."</string>
+    <string name="permlab_cacheFilesystem">"Usar cache do sistema."</string>
+    <string name="permdesc_cacheFilesystem">"Permite que o aplicativo acesse, modifique e exclua diretamente o cache do sistema. Aplicativos maliciosos podem usar isso para interromper os downloads e outros aplicativos e para acessar dados particulares."</string>
     <string name="permlab_downloadCompletedIntent">"Enviar notificações de download."</string>
-    <string name="permdesc_downloadCompletedIntent">"Permite que o aplicativo envie notificações sobre os downloads concluídos. Os aplicativos maliciosos podem usar isso para confundir outros aplicativos que baixam arquivos."</string>
+    <string name="permdesc_downloadCompletedIntent">"Permite que o aplicativo envie notificações sobre downloads concluídos. Aplicativos maliciosos podem usar isso para confundir outros aplicativos que fazem download de arquivos."</string>
     <string name="download_unknown_title">"&lt;Sem título&gt;"</string>
     <string name="notification_filename_separator">", "</string>
-    <string name="notification_filename_extras">" e mais %d"</string>
+    <string name="notification_filename_extras">" e %d mais"</string>
     <string name="notification_download_complete">"Download concluído"</string>
-    <string name="notification_download_failed">"Falha de download"</string>
+    <string name="notification_download_failed">"Falha no download"</string>
 </resources>

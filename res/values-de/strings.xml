@@ -15,6 +15,7 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label">"Download-Manager"</string>
     <string name="permlab_downloadManager">"Auf Download-Manager zugreifen"</string>
     <string name="permdesc_downloadManager">"Ermöglicht der Anwendung den Zugriff auf den Download-Manager zum Herunterladen von Dateien. Diese Funktion kann von bösartigen Anwendungen dazu verwendet werden, Ladevorgänge zu unterbrechen und auf private Daten zuzugreifen."</string>
     <string name="permlab_downloadManagerAdvanced">"Erweiterte Funktionen des Download-Managers."</string>

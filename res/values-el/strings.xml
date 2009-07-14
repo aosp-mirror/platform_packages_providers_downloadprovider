@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- no translation found for app_label (3658948994665187911) -->
+    <skip />
+    <string name="permlab_downloadManager">"Πρόσβαση στο πρόγραμμα διαχείρισης λήψεων."</string>
+    <string name="permdesc_downloadManager">"Επιτρέπει στην εφαρμογή την πρόσβαση στο πρόγραμμα διαχείρισης λήψεων και τη χρήση του για τη λήψη αρχείων. Κακόβουλες εφαρμογές μπορούν να το χρησιμοποιήσουν για να διακόψουν λήψεις και για να αποκτήσουν πρόσβαση σε προσωπικές πληροφορίες."</string>
+    <string name="permlab_downloadManagerAdvanced">"Σύνθετες λειτουργίες προγράμματος διαχείρισης λήψεων."</string>
+    <string name="permdesc_downloadManagerAdvanced">"Επιτρέπει στην εφαρμογή την πρόσβαση στις σύνθετες λειτουργίες των προγραμμάτων διαχείρισης λήψεων."\n"        Κακόβουλες εφαρμογές μπορούν να το χρησιμοποιήσουν για να διακόψουν λήψεις και για να αποκτήσουν πρόσβαση σε "\n"        προσωπικές πληροφορίες."</string>
+    <string name="permlab_cacheFilesystem">"Χρήση της προσωρινής μνήμης συστήματος."</string>
+    <string name="permdesc_cacheFilesystem">"Επιτρέπει στην εφαρμογή την πρόσβαση, την τροποποίηση και τη διαγραφή της προσωρινής μνήμης συστήματος. Κακόβουλες εφαρμογές μπορούν να το χρησιμοποιήσουν για να διακόψουν λήψεις ή τη λειτουργία άλλων εφαρμογών, καθώς και για να αποκτήσουν πρόσβαση σε προσωπικά δεδομένα."</string>
+    <string name="permlab_downloadCompletedIntent">"Αποστολή ειδοποιήσεων λήψης."</string>
+    <string name="permdesc_downloadCompletedIntent">"Επιτρέπει στην εφαρμογή να στέλνει ειδοποιήσεις σχετικά με τις ολοκληρωμένες λήψεις. Κακόβουλες εφαρμογές μπορούν να το χρησιμοποιήσουν για να μπερδέψουν άλλες εφαρμογές που πραγματοποιούν λήψεις αρχείων."</string>
+    <string name="download_unknown_title">"&lt;Χωρίς τίτλο&gt;"</string>
+    <string name="notification_filename_separator">", "</string>
+    <string name="notification_filename_extras">" και %d ακόμα"</string>
+    <string name="notification_download_complete">"Ολοκλήρωση λήψης"</string>
+    <string name="notification_download_failed">"Ανεπιτυχής λήψη"</string>
+</resources>

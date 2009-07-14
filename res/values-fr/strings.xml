@@ -15,6 +15,7 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label">"Gestionnaire de téléchargement"</string>
     <string name="permlab_downloadManager">"Accéder au gestionnaire de téléchargement."</string>
     <string name="permdesc_downloadManager">"Permet à l\'application d\'accéder au gestionnaire de téléchargement et de l\'utiliser pour télécharger des fichiers. Les applications malveillantes peuvent s\'en servir pour entraver les téléchargements et accéder aux informations personnelles."</string>
     <string name="permlab_downloadManagerAdvanced">"Fonctions avancées du gestionnaire de téléchargement."</string>

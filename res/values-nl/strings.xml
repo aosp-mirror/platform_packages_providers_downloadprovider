@@ -15,6 +15,7 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label">"Downloadbeheer"</string>
     <string name="permlab_downloadManager">"Downloadbeheer weergeven."</string>
     <string name="permdesc_downloadManager">"Hiermee kan de toepassing Downloadbeheer gebruiken om bestanden te downloaden. Kwaadwillende toepassingen kunnen hiervan gebruikmaken om downloads te verstoren en om toegang te krijgen tot privégegevens."</string>
     <string name="permlab_downloadManagerAdvanced">"Geavanceerde functies van de downloadbeheerder."</string>

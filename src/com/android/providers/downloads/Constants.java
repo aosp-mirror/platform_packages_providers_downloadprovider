@@ -146,6 +146,6 @@ public class Constants {
             || (Config.LOGD && LOCAL_LOGV && Log.isLoggable(TAG, Log.VERBOSE));
 
     /** Enable super-verbose logging */
-    private static final boolean LOCAL_LOGVV = false;
+    private static final boolean LOCAL_LOGVV = true;
     public static final boolean LOGVV = LOCAL_LOGVV && LOGV;
 }

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="com.android.providers.downloads"
         android:sharedUserId="android.media">
-        
+
     <!-- Allows access to the Download Manager -->
     <permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER"
         android:label="@string/permlab_downloadManager"
@@ -30,6 +30,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
     <uses-permission android:name="android.permission.ACCESS_DRM" />
+    <uses-permission android:name="android.permission.INSTALL_DRM" />
     <uses-permission android:name="android.permission.ACCESS_CACHE_FILESYSTEM" />
     <uses-permission android:name="android.permission.SEND_DOWNLOAD_COMPLETED_INTENTS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -50,4 +51,4 @@
             </intent-filter>
         </receiver>
     </application>
-</manifest> 
+</manifest>

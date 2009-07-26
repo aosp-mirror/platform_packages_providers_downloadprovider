@@ -34,9 +34,10 @@
     <uses-permission android:name="android.permission.SEND_DOWNLOAD_COMPLETED_INTENTS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application android:process="android.process.media"
-                 android:label="Download Manager">
+                 android:label="@string/app_label">
         <provider android:name=".DownloadProvider"
                 android:authorities="downloads"
                 android:permission="android.permission.ACCESS_DOWNLOAD_MANAGER" />

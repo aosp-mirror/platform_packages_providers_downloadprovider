@@ -15,6 +15,7 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label">"Administrador de descargas"</string>
     <string name="permlab_downloadManager">"Acceso al administrador de descargas"</string>
     <string name="permdesc_downloadManager">"Permite que la aplicación acceda al administrador de descargas y lo utilice para descargar archivos. Las aplicaciones malintencionadas pueden utilizar este permiso para provocar daños en las descargas y acceder a información privada."</string>
     <string name="permlab_downloadManagerAdvanced">"Funciones avanzadas del administrador de descargas"</string>

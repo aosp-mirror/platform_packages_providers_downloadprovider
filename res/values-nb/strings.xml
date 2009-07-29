@@ -15,8 +15,10 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- no translation found for app_label (3658948994665187911) -->
+    <skip />
     <string name="permlab_downloadManager">"Få tilgang til nedlasteren."</string>
-    <string name="permdesc_downloadManager">"Gir applikasjonen tilgang til nedlasteren, og å bruke den til å laste ned filer. Ondsinnede programmer kan bruke dette til å forstyrre nedlastinger og få tilgang til privat informasjon."</string>
+    <string name="permdesc_downloadManager">"Gir applikasjonen tilgang til nedlasteren, og å bruke den til å laste ned filer. Ondsinnede applikasjoner kan bruke dette til å forstyrre nedlastinger og få tilgang til privat informasjon."</string>
     <string name="permlab_downloadManagerAdvanced">"Avansert nedlastingsfunksjonalitet."</string>
     <!-- no translation found for permdesc_downloadManagerAdvanced (8761177317775872287) -->
     <skip />

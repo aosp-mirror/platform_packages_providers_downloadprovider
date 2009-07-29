@@ -15,17 +15,19 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="permlab_downloadManager">"Открывать диспетчер загрузок."</string>
-    <string name="permdesc_downloadManager">"Разрешает приложениям доступ к диспетчеру загрузок и его использование для загрузки файлов. Вредоносные приложения могут использовать это для прерывания загрузок и получения доступа к личной информации."</string>
-    <string name="permlab_downloadManagerAdvanced">"Дополнительные функции диспетчера загрузок."</string>
-    <string name="permdesc_downloadManagerAdvanced">"Разрешает приложению доступ к дополнительным функциям диспетчера загрузок."\n"        Вредоносное ПО может использовать это для прерывания загрузок и получения доступа"\n"        к личной информации."</string>
-    <string name="permlab_cacheFilesystem">"Использовать кэш системы"</string>
-    <string name="permdesc_cacheFilesystem">"Разрешает приложениям прямой доступ, изменение и удаление в системном кэше. Вредоносные приложения могут использовать это для прерывания загрузок и работы других приложений, а также для получения доступа к личной информации."</string>
-    <string name="permlab_downloadCompletedIntent">"Отправлять уведомления о загрузках."</string>
-    <string name="permdesc_downloadCompletedIntent">"Разрешает приложениям отправлять уведомления о завершенных загрузках. Вредоносные приложения могут использовать это, чтобы передавать ложную информацию другим приложениям загрузки файлов."</string>
-    <string name="download_unknown_title">"&lt;Без названия&gt;"</string>
+    <!-- no translation found for app_label (3658948994665187911) -->
+    <skip />
+    <string name="permlab_downloadManager">"Доступ к менеджеру загрузки."</string>
+    <string name="permdesc_downloadManager">"Предоставляет приложению доступ к менеджеру загрузки и позволяет использовать его для загрузки файлов. Вредоносное ПО может пользоваться этим для прерывания загрузок и доступа к личной информации."</string>
+    <string name="permlab_downloadManagerAdvanced">"Расширенные функции менеджера загрузки."</string>
+    <string name="permdesc_downloadManagerAdvanced">"Предоставляет приложению доступ к расширенным функциям менеджеров загрузки."\n"        Вредоносное ПО может пользоваться этим для прерывания загрузок и доступа"\n"        к личной информации."</string>
+    <string name="permlab_cacheFilesystem">"Использовать системный кэш."</string>
+    <string name="permdesc_cacheFilesystem">"Позволяет приложению получать прямой доступ, изменять и удалять системный кэш. Вредоносное ПО может пользоваться этим для прерывания загрузок и других приложений, а также для доступа к личной информации."</string>
+    <string name="permlab_downloadCompletedIntent">"Отправить оповещение о загрузке."</string>
+    <string name="permdesc_downloadCompletedIntent">"Позволяет приложению отправлять оповещения о завершенных загрузках. Вредоносное ПО может пользоваться этим, мешая работе приложений, загружающих файлы."</string>
+    <string name="download_unknown_title">"&lt;без названия&gt;"</string>
     <string name="notification_filename_separator">", "</string>
     <string name="notification_filename_extras">" и еще %d"</string>
     <string name="notification_download_complete">"Загрузка завершена"</string>
-    <string name="notification_download_failed">"Загрузка не удалась"</string>
+    <string name="notification_download_failed">"Ошибка загрузки"</string>
 </resources>

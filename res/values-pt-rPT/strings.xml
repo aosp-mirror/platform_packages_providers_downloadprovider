@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- no translation found for app_label (3658948994665187911) -->
+    <skip />
+    <string name="permlab_downloadManager">"Aceder ao gestor de transferências."</string>
+    <string name="permdesc_downloadManager">"Permite que a aplicação aceda ao gestor de transferências e o utilize para transferir ficheiros. As aplicações maliciosas podem utilizar esta permissão para interromper transferências e aceder a informações privadas."</string>
+    <string name="permlab_downloadManagerAdvanced">"Funções avançadas do gestor de transferências"</string>
+    <string name="permdesc_downloadManagerAdvanced">"Permite que a aplicação aceda às funções avançadas dos gestores de transferências. "\n" As aplicações maliciosas podem utilizar esta permissão para interromper transferências e aceder a"\n" informações privadas."</string>
+    <string name="permlab_cacheFilesystem">"Utilizar a cache do sistema."</string>
+    <string name="permdesc_cacheFilesystem">"Permite que a aplicação aceda, modifique e elimine directamente a cache do sistema. As aplicações maliciosas podem utilizar esta permissão para interromper gravemente transferências e outras aplicações e aceder a dados privados."</string>
+    <string name="permlab_downloadCompletedIntent">"Enviar notificações de transferências."</string>
+    <string name="permdesc_downloadCompletedIntent">"Permite que a aplicação envie notificações acerca de transferências concluídas. As aplicações maliciosas podem utilizar esta permissão para confundir outras aplicações que transfiram ficheiros."</string>
+    <string name="download_unknown_title">"&lt;Sem nome&gt;"</string>
+    <string name="notification_filename_separator">", "</string>
+    <string name="notification_filename_extras">" e mais %d"</string>
+    <string name="notification_download_complete">"Transferência concluída"</string>
+    <string name="notification_download_failed">"Falha na transferência"</string>
+</resources>

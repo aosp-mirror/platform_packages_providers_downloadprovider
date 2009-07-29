@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- no translation found for app_label (3658948994665187911) -->
+    <skip />
+    <string name="permlab_downloadManager">"Få adgang til downloadadministrator."</string>
+    <string name="permdesc_downloadManager">"Tillader programmet at få adgang til downloadadministratoren og bruge det til at få adgang til downloadede filer. Ondsindede programmer kan bruge det til at afbryde downloads og få adgang til personlige oplysninger."</string>
+    <string name="permlab_downloadManagerAdvanced">"Avancerede funktioner for downloadadministrator."</string>
+    <string name="permdesc_downloadManagerAdvanced">"Tillader programmet at få adgang til downloadadministratorens avancerede funktioner."\n"        Ondsindede programmer kan bruge dette til at afbryde downloads og få adgang til"\n"        personlige oplysninger."</string>
+    <string name="permlab_cacheFilesystem">"Brug systemcache."</string>
+    <string name="permdesc_cacheFilesystem">"Tillader programmet at få direkte adgang til, ændre og slette systemcachen. Ondsindede programmer kan bruge dette til at afbryde downloads og andre programmer i alvorlig grad samt få adgang til personlige data."</string>
+    <string name="permlab_downloadCompletedIntent">"Send downloadmeddelelser."</string>
+    <string name="permdesc_downloadCompletedIntent">"Tillader programmet at sende meddelelser om afsluttede downloads. Ondsindede programmer kan bruge dette til at forvirre andre programmer, der downloader filer."</string>
+    <string name="download_unknown_title">"&lt;Uden titel&gt;"</string>
+    <string name="notification_filename_separator">", "</string>
+    <string name="notification_filename_extras">" og %d flere"</string>
+    <string name="notification_download_complete">"Download afsluttet"</string>
+    <string name="notification_download_failed">"Download mislykkedes"</string>
+</resources>

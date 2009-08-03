@@ -15,18 +15,18 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label">"Download-Manager"</string>
-    <string name="permlab_downloadManager">"Auf Download-Manager zugreifen"</string>
-    <string name="permdesc_downloadManager">"Ermöglicht der Anwendung den Zugriff auf den Download-Manager zum Herunterladen von Dateien. Diese Funktion kann von bösartigen Anwendungen dazu verwendet werden, Ladevorgänge zu unterbrechen und auf private Daten zuzugreifen."</string>
-    <string name="permlab_downloadManagerAdvanced">"Erweiterte Funktionen des Download-Managers."</string>
-    <string name="permdesc_downloadManagerAdvanced">"Erlaubt der Anwendung, auf die erweiterten Funktionen des Download-Managers zuzugreifen."\n"     Schädliche Anwendungen können so Downloads unterbrechen und auf"\n"        persönliche Daten zugreifen."</string>
-    <string name="permlab_cacheFilesystem">"Systemcache verwenden"</string>
-    <string name="permdesc_cacheFilesystem">"Ermöglicht es der Anwendung, direkt auf den Systemcache zuzugreifen und diesen zu ändern oder zu löschen. Diese Funktion kann von bösartigen Anwendungen dazu verwendet werden, Ladevorgänge und andere Anwendungen schwerwiegend zu stören sowie auf private Daten zuzugreifen."</string>
-    <string name="permlab_downloadCompletedIntent">"Benachrichtigungen zu Ladevorgängen senden"</string>
-    <string name="permdesc_downloadCompletedIntent">"Ermöglicht es der Anwendung, Benachrichtigungen zu abgeschlossenen Ladevorgängen zu senden. Diese Funktion kann von bösartigen Anwendungen dazu verwendet werden, den Ladevorgang anderer Anwendungen zu stören."</string>
-    <string name="download_unknown_title">"&lt;Unbenannt&gt;"</string>
-    <string name="notification_filename_separator">", "</string>
-    <string name="notification_filename_extras">" und %d weitere"</string>
-    <string name="notification_download_complete">"Ladevorgang abgeschlossen"</string>
-    <string name="notification_download_failed">"Fehler beim Ladevorgang"</string>
+    <string name="app_label" msgid="3658948994665187911">"Download-Manager"</string>
+    <string name="permlab_downloadManager" msgid="7779544811202855500">"Auf Download-Manager zugreifen"</string>
+    <string name="permdesc_downloadManager" msgid="4240298564918160337">"Ermöglicht der Anwendung den Zugriff auf den Download-Manager zum Herunterladen von Dateien. Diese Funktion kann von bösartigen Anwendungen dazu verwendet werden, Ladevorgänge zu unterbrechen und auf private Daten zuzugreifen."</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Erweiterte Funktionen des Download-Managers."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="8761177317775872287">"Erlaubt der Anwendung, auf die erweiterten Funktionen des Download-Managers zuzugreifen."\n"     Schädliche Anwendungen können so Downloads unterbrechen und auf"\n"        persönliche Daten zugreifen."</string>
+    <string name="permlab_cacheFilesystem" msgid="6987994626343144212">"Systemcache verwenden"</string>
+    <string name="permdesc_cacheFilesystem" msgid="7301787168569544726">"Ermöglicht es der Anwendung, direkt auf den Systemcache zuzugreifen und diesen zu ändern oder zu löschen. Diese Funktion kann von bösartigen Anwendungen dazu verwendet werden, Ladevorgänge und andere Anwendungen schwerwiegend zu stören sowie auf private Daten zuzugreifen."</string>
+    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Benachrichtigungen zu Ladevorgängen senden"</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Ermöglicht es der Anwendung, Benachrichtigungen zu abgeschlossenen Ladevorgängen zu senden. Diese Funktion kann von bösartigen Anwendungen dazu verwendet werden, den Ladevorgang anderer Anwendungen zu stören."</string>
+    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Unbenannt&gt;"</string>
+    <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
+    <string name="notification_filename_extras" msgid="4790181201453108165">" und %d weitere"</string>
+    <string name="notification_download_complete" msgid="840713937779273632">"Ladevorgang abgeschlossen"</string>
+    <string name="notification_download_failed" msgid="5343637375905111462">"Fehler beim Ladevorgang"</string>
 </resources>

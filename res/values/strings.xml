@@ -51,7 +51,7 @@
         system applications but aren't necessary for regular applications
         that just initiate plain downloads. -->
     <string name="permdesc_downloadManagerAdvanced">Allows the application to
-        access the download manager's advanced functions.
+        access the download manager\'s advanced functions.
         Malicious applications can use this to disrupt downloads and access
         private information.</string>
 

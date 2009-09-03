@@ -15,19 +15,18 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for app_label (3658948994665187911) -->
-    <skip />
-    <string name="permlab_downloadManager">"ダウンロードマネージャーにアクセスします。"</string>
-    <string name="permdesc_downloadManager">"ダウンロードマネージャーにアクセスしてファイルをダウンロードすることをアプリケーションに許可します。悪意のあるアプリケーションがこれを利用して、ダウンロードに深刻な影響を与えたり、個人データにアクセスしたりする恐れがあり。"</string>
-    <string name="permlab_downloadManagerAdvanced">"ダウンロードマネージャーの高度な機能です。"</string>
-    <string name="permdesc_downloadManagerAdvanced">"ダウンロードマネージャーの高度な機能にアプリケーションでアクセスできるようにします。"\n"        悪意のあるアプリケーションではこれを利用して、ダウンロードに深刻な影響を与えたり、"\n"        個人情報にアクセスしたりできます。"</string>
-    <string name="permlab_cacheFilesystem">"システムキャッシュを使用します。"</string>
-    <string name="permdesc_cacheFilesystem">"システムキャッシュの直接アクセス、変更、削除をアプリケーションに許可します。悪意のあるアプリケーションがダウンロードや他のアプリケーションに深刻な影響を与えたり、個人データにアクセスする恐れがあります。"</string>
-    <string name="permlab_downloadCompletedIntent">"ダウンロード通知を送信します。"</string>
-    <string name="permdesc_downloadCompletedIntent">"ダウンロード完了の通知の送信をアプリケーションに許可します。悪意のあるアプリケーションがファイルをダウンロードする他のアプリケーションの処理を妨害する恐れがあります。"</string>
-    <string name="download_unknown_title">"&lt;無題&gt;"</string>
-    <string name="notification_filename_separator">"、 "</string>
-    <string name="notification_filename_extras">" 他%d件"</string>
-    <string name="notification_download_complete">"ダウンロード完了"</string>
-    <string name="notification_download_failed">"ダウンロードに失敗しました"</string>
+    <string name="app_label" msgid="3658948994665187911">"ダウンロードマネージャー"</string>
+    <string name="permlab_downloadManager" msgid="7779544811202855500">"ダウンロードマネージャーにアクセスします。"</string>
+    <string name="permdesc_downloadManager" msgid="4240298564918160337">"ダウンロードマネージャーにアクセスしてファイルをダウンロードすることをアプリケーションに許可します。悪意のあるアプリケーションがこれを利用して、ダウンロードに深刻な影響を与えたり、個人データにアクセスしたりする恐れがあり。"</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"ダウンロードマネージャーの高度な機能です。"</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="8761177317775872287">"ダウンロードマネージャーの高度な機能にアプリケーションでアクセスできるようにします。"\n"        悪意のあるアプリケーションではこれを利用して、ダウンロードに深刻な影響を与えたり、"\n"        個人情報にアクセスしたりできます。"</string>
+    <string name="permlab_cacheFilesystem" msgid="6987994626343144212">"システムキャッシュを使用します。"</string>
+    <string name="permdesc_cacheFilesystem" msgid="7301787168569544726">"システムキャッシュの直接アクセス、変更、削除をアプリケーションに許可します。悪意のあるアプリケーションがダウンロードや他のアプリケーションに深刻な影響を与えたり、個人データにアクセスする恐れがあります。"</string>
+    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"ダウンロード通知を送信します。"</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"ダウンロード完了の通知の送信をアプリケーションに許可します。悪意のあるアプリケーションがファイルをダウンロードする他のアプリケーションの処理を妨害する恐れがあります。"</string>
+    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;無題&gt;"</string>
+    <string name="notification_filename_separator" msgid="7147189522857807618">"、 "</string>
+    <string name="notification_filename_extras" msgid="4790181201453108165">" 他%d件"</string>
+    <string name="notification_download_complete" msgid="840713937779273632">"ダウンロード完了"</string>
+    <string name="notification_download_failed" msgid="5343637375905111462">"ダウンロードに失敗しました"</string>
 </resources>

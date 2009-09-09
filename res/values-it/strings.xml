@@ -15,18 +15,20 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label">"Gestore dei download"</string>
-    <string name="permlab_downloadManager">"Accedere al gestore dei download."</string>
-    <string name="permdesc_downloadManager">"Consente l\'accesso dell\'applicazione al gestore dei download e il suo utilizzo per scaricare file. Le applicazioni dannose possono sfruttare questa possibilità per interrompere download e accedere a informazioni riservate."</string>
-    <string name="permlab_downloadManagerAdvanced">"Funzioni avanzate del gestore dei download."</string>
-    <string name="permdesc_downloadManagerAdvanced">"Consente l\'accesso dell\'applicazione alle funzioni avanzate del gestore dei download."\n"        Le applicazioni dannose possono sfruttare questa possibilità per interrompere download e accedere a"\n"  informazioni riservate."</string>
-    <string name="permlab_cacheFilesystem">"Usare la cache del sistema."</string>
-    <string name="permdesc_cacheFilesystem">"Consente l\'accesso diretto dell\'applicazione alla cache del sistema, nonché la modifica e l\'eliminazione della cache. Le applicazioni dannose possono sfruttare questa possibilità per interrompere download e altre applicazioni e accedere a dati riservati."</string>
-    <string name="permlab_downloadCompletedIntent">"Inviare notifiche di download."</string>
-    <string name="permdesc_downloadCompletedIntent">"Consente l\'invio da parte dell\'applicazione di notifiche relative ai download completati. Le applicazioni dannose possono sfruttare questa possibilità per \"confondere\" altre applicazioni usate per scaricare file."</string>
-    <string name="download_unknown_title">"&lt;Senza nome&gt;"</string>
-    <string name="notification_filename_separator">", "</string>
-    <string name="notification_filename_extras">" e altri %d"</string>
-    <string name="notification_download_complete">"Download completato"</string>
-    <string name="notification_download_failed">"Download non riuscito"</string>
+    <string name="app_label" msgid="3658948994665187911">"Gestore dei download"</string>
+    <string name="permlab_downloadManager" msgid="7779544811202855500">"Accedere al gestore dei download."</string>
+    <string name="permdesc_downloadManager" msgid="4240298564918160337">"Consente l\'accesso dell\'applicazione al gestore dei download e il suo utilizzo per scaricare file. Le applicazioni dannose possono sfruttare questa possibilità per interrompere download e accedere a informazioni riservate."</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Funzioni avanzate del gestore dei download."</string>
+    <!-- no translation found for permdesc_downloadManagerAdvanced (6985743912436565114) -->
+    <skip />
+    <string name="permlab_cacheFilesystem" msgid="6987994626343144212">"Usare la cache del sistema."</string>
+    <string name="permdesc_cacheFilesystem" msgid="7301787168569544726">"Consente l\'accesso diretto dell\'applicazione alla cache del sistema, nonché la modifica e l\'eliminazione della cache. Le applicazioni dannose possono sfruttare questa possibilità per interrompere download e altre applicazioni e accedere a dati riservati."</string>
+    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Inviare notifiche di download."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Consente l\'invio da parte dell\'applicazione di notifiche relative ai download completati. Le applicazioni dannose possono sfruttare questa possibilità per \"confondere\" altre applicazioni usate per scaricare file."</string>
+    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Senza nome&gt;"</string>
+    <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
+    <!-- no translation found for notification_filename_extras (5549729917695688191) -->
+    <skip />
+    <string name="notification_download_complete" msgid="840713937779273632">"Download completato"</string>
+    <string name="notification_download_failed" msgid="5343637375905111462">"Download non riuscito"</string>
 </resources>

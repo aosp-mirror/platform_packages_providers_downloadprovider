@@ -15,21 +15,18 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for app_label (3658948994665187911) -->
-    <skip />
+    <string name="app_label" msgid="3658948994665187911">"Hämtningshanterare"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Åtkomst till hämtningshanterare."</string>
     <string name="permdesc_downloadManager" msgid="4240298564918160337">"Tillåter att ett program får åtkomst till hämtningshanteraren och hämtar filer med den. Skadliga program kan använda detta för att störa hämtningar och komma åt privat information."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Avancerade funktioner för hämtningshanterare."</string>
-    <!-- no translation found for permdesc_downloadManagerAdvanced (6985743912436565114) -->
-    <skip />
+    <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Tillåter att ett program får åtkomst till hämtningshanterarens avancerade funktioner. Skadliga program kan använda detta för att störa hämtningar och komma åt privat information."</string>
     <string name="permlab_cacheFilesystem" msgid="6987994626343144212">"Använd systemets cacheminne."</string>
     <string name="permdesc_cacheFilesystem" msgid="7301787168569544726">"Tillåter att ett program får direktåtkomst till systemets cacheminne och kan göra ändringar och borttagningar. Skadliga program kan använda detta för att störa hämtningar och andra program, och för att komma åt privat information."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Skicka meddelande om hämtning."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Tillåter att ett program skickar meddelanden om slutförda hämtningar. Skadliga program kan använda detta för att störa andra program som hämtar filer."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Okänd&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
-    <!-- no translation found for notification_filename_extras (5549729917695688191) -->
-    <skip />
+    <string name="notification_filename_extras" msgid="5549729917695688191">" och <xliff:g id="NUMBER">%d</xliff:g> till"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"Hämtning slutförd"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Det gick inte att hämta"</string>
 </resources>

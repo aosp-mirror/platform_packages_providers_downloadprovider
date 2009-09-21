@@ -140,6 +140,9 @@ public class Constants {
      */
     public static final int RETRY_FIRST_DELAY = 30;
 
+    /** Enable separate connectivity logging */
+    static final boolean LOGX = true;
+
     /** Enable verbose logging - use with "setprop log.tag.DownloadManager VERBOSE" */
     private static final boolean LOCAL_LOGV = true;
     public static final boolean LOGV = Config.LOGV

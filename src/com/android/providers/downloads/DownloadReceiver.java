@@ -52,12 +52,20 @@ public class DownloadReceiver extends BroadcastReceiver {
                     intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
             if (info != null && info.isConnected()) {
                 if (Constants.LOGX) {
-                    Log.i(Constants.TAG, "Broadcast: Network Up");
+                    if (Helpers.isNetworkAvailable(context)) {
+                        Log.i(Constants.TAG, "Broadcast: Network Up");
+                    } else {
+                        Log.i(Constants.TAG, "Broadcast: Network Up, Actually Down");
+                    }
                 }
                 context.startService(new Intent(context, DownloadService.class));
             } else {
                 if (Constants.LOGX) {
-                    Log.i(Constants.TAG, "Broadcast: Network Down");
+                    if (Helpers.isNetworkAvailable(context)) {
+                        Log.i(Constants.TAG, "Broadcast: Network Down, Actually Up");
+                    } else {
+                        Log.i(Constants.TAG, "Broadcast: Network Down");
+                    }
                 }
             }
         } else if (intent.getAction().equals(Constants.ACTION_RETRY)) {
@@ -65,7 +73,11 @@ public class DownloadReceiver extends BroadcastReceiver {
                 Log.v(Constants.TAG, "Receiver retry");
             }
             if (Constants.LOGX) {
-                Log.i(Constants.TAG, "Broadcast: Timed Retry");
+                if (Helpers.isNetworkAvailable(context)) {
+                    Log.i(Constants.TAG, "Broadcast: Timed Retry, Net Up");
+                } else {
+                    Log.i(Constants.TAG, "Broadcast: Timed Retry, Net Down");
+                }
             }
             context.startService(new Intent(context, DownloadService.class));
         } else if (intent.getAction().equals(Constants.ACTION_OPEN)

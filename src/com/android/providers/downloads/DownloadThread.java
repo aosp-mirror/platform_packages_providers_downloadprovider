@@ -203,9 +203,9 @@ http_request_loop:
                 try {
                     if (Constants.LOGX) {
                         if (Helpers.isNetworkAvailable(mContext)) {
-                            Log.i(Constants.TAG, "Starting, Net Up");
+                            Log.i(Constants.TAG, "Starting " + mInfo.mId + ", Net Up");
                         } else {
-                            Log.i(Constants.TAG, "Starting, Net Down");
+                            Log.i(Constants.TAG, "Starting " + mInfo.mId + ", Net Down");
                         }
                     }
                     response = client.execute(request);
@@ -223,9 +223,9 @@ http_request_loop:
                 } catch (IOException ex) {
                     if (Constants.LOGX) {
                         if (Helpers.isNetworkAvailable(mContext)) {
-                            Log.i(Constants.TAG, "Execute Failed, Net Up");
+                            Log.i(Constants.TAG, "Execute Failed " + mInfo.mId + ", Net Up");
                         } else {
-                            Log.i(Constants.TAG, "Execute Failed, Net Down");
+                            Log.i(Constants.TAG, "Execute Failed " + mInfo.mId + ", Net Down");
                         }
                     }
                     if (!Helpers.isNetworkAvailable(mContext)) {
@@ -458,9 +458,9 @@ http_request_loop:
                     } catch (IOException ex) {
                         if (Constants.LOGX) {
                             if (Helpers.isNetworkAvailable(mContext)) {
-                                Log.i(Constants.TAG, "GetContent Failed, Net Up");
+                                Log.i(Constants.TAG, "Get Failed " + mInfo.mId + ", Net Up");
                             } else {
-                                Log.i(Constants.TAG, "GetContent Failed, Net Down");
+                                Log.i(Constants.TAG, "Get Failed " + mInfo.mId + ", Net Down");
                             }
                         }
                         if (!Helpers.isNetworkAvailable(mContext)) {
@@ -491,9 +491,9 @@ http_request_loop:
                         } catch (IOException ex) {
                             if (Constants.LOGX) {
                                 if (Helpers.isNetworkAvailable(mContext)) {
-                                    Log.i(Constants.TAG, "Read Failed, Net Up");
+                                    Log.i(Constants.TAG, "Read Failed " + mInfo.mId + ", Net Up");
                                 } else {
-                                    Log.i(Constants.TAG, "Read Failed, Net Down");
+                                    Log.i(Constants.TAG, "Read Failed " + mInfo.mId + ", Net Down");
                                 }
                             }
                             ContentValues values = new ContentValues();
@@ -712,6 +712,13 @@ http_request_loop:
                     } catch (RuntimeException ex) {
                         Log.w(Constants.TAG, "exception while syncing file: ", ex);
                     }
+                }
+            }
+            if (Constants.LOGX) {
+                if (Helpers.isNetworkAvailable(mContext)) {
+                    Log.i(Constants.TAG, "Done " + mInfo.mId + " w/ " + finalStatus + ", Net Up");
+                } else {
+                    Log.i(Constants.TAG, "Done " + mInfo.mId + " w/ " + finalStatus + ", Net Down");
                 }
             }
             notifyDownloadCompleted(finalStatus, countRetry, retryAfter, redirectCount,

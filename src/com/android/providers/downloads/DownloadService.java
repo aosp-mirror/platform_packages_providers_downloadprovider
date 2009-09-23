@@ -223,6 +223,13 @@ public class DownloadService extends Service {
      * Responds to a call to startService
      */
     public void onStart(Intent intent, int startId) {
+        if (Constants.LOGX) {
+            if (Helpers.isNetworkAvailable(this)) {
+                Log.i(Constants.TAG, "Service Start, Net Up");
+            } else {
+                Log.i(Constants.TAG, "Service Start, Net Down");
+            }
+        }
         super.onStart(intent, startId);
         if (Constants.LOGVV) {
             Log.v(Constants.TAG, "Service onStart");
@@ -261,6 +268,13 @@ public class DownloadService extends Service {
         }
         
         public void run() {
+            if (Constants.LOGX) {
+                if (Helpers.isNetworkAvailable(DownloadService.this)) {
+                    Log.i(Constants.TAG, "Update, Net Up");
+                } else {
+                    Log.i(Constants.TAG, "Update, Net Down");
+                }
+            }
             Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
             
             boolean keepService = false;

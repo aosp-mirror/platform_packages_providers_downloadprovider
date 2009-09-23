@@ -287,6 +287,13 @@ public class DownloadService extends Service {
                                 if (Constants.LOGV) {
                                     Log.v(Constants.TAG, "scheduling retry in " + wakeUp + "ms");
                                 }
+                                if (Constants.LOGX) {
+                                    if (Helpers.isNetworkAvailable(DownloadService.this)) {
+                                        Log.i(Constants.TAG, "Alarm in " + wakeUp + "ms, Net Up");
+                                    } else {
+                                        Log.i(Constants.TAG, "Alarm in " + wakeUp + "ms, Net Down");
+                                    }
+                                }
                                 Intent intent = new Intent(Constants.ACTION_RETRY);
                                 intent.setClassName("com.android.providers.downloads",
                                         DownloadReceiver.class.getName());
@@ -661,6 +668,13 @@ public class DownloadService extends Service {
                             ContentUris.withAppendedId(Downloads.CONTENT_URI, info.mId),
                             values, null, null);
                 }
+                if (Constants.LOGX) {
+                    if (Helpers.isNetworkAvailable(DownloadService.this)) {
+                        Log.i(Constants.TAG, "Thread for " + info.mId + ", Net Up");
+                    } else {
+                        Log.i(Constants.TAG, "Thread for " + info.mId + ", Net Down");
+                    }
+                }
                 DownloadThread downloader = new DownloadThread(this, info);
                 info.mHasActiveThread = true;
                 downloader.start();
@@ -748,6 +762,13 @@ public class DownloadService extends Service {
                 getContentResolver().update(
                         ContentUris.withAppendedId(Downloads.CONTENT_URI, info.mId),
                         values, null, null);
+                if (Constants.LOGX) {
+                    if (Helpers.isNetworkAvailable(DownloadService.this)) {
+                        Log.i(Constants.TAG, "Thread for " + info.mId + ", Net Up");
+                    } else {
+                        Log.i(Constants.TAG, "Thread for " + info.mId + ", Net Down");
+                    }
+                }
                 DownloadThread downloader = new DownloadThread(this, info);
                 info.mHasActiveThread = true;
                 downloader.start();

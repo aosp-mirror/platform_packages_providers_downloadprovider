@@ -50,6 +50,8 @@ public class DownloadInfo {
     public String mETag;
     public boolean mMediaScanned;
 
+    public int mFuzz;
+
     public volatile boolean mHasActiveThread;
 
     public DownloadInfo(int id, String uri, boolean noIntegrity,
@@ -83,6 +85,7 @@ public class DownloadInfo {
         mCurrentBytes = currentBytes;
         mETag = eTag;
         mMediaScanned = mediaScanned;
+        mFuzz = Helpers.sRandom.nextInt(1001); 
     }
 
     public void sendIntentIfRequested(Uri contentUri, Context context) {
@@ -110,7 +113,7 @@ public class DownloadInfo {
         }
         return mLastMod +
                 Constants.RETRY_FIRST_DELAY *
-                    (1000 + Helpers.sRandom.nextInt(1001)) * (1 << (mNumFailed - 1));
+                    (1000 + mFuzz) * (1 << (mNumFailed - 1));
     }
 
     /**

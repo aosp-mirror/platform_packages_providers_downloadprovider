@@ -141,14 +141,14 @@ public class Constants {
     public static final int RETRY_FIRST_DELAY = 30;
 
     /** Enable separate connectivity logging */
-    static final boolean LOGX = true;
+    static final boolean LOGX = false;
 
     /** Enable verbose logging - use with "setprop log.tag.DownloadManager VERBOSE" */
-    private static final boolean LOCAL_LOGV = true;
+    private static final boolean LOCAL_LOGV = false;
     public static final boolean LOGV = Config.LOGV
             || (Config.LOGD && LOCAL_LOGV && Log.isLoggable(TAG, Log.VERBOSE));
 
     /** Enable super-verbose logging */
-    private static final boolean LOCAL_LOGVV = true;
+    private static final boolean LOCAL_LOGVV = false;
     public static final boolean LOGVV = LOCAL_LOGVV && LOGV;
 }

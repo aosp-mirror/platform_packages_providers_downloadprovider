@@ -223,13 +223,6 @@ public class DownloadService extends Service {
      * Responds to a call to startService
      */
     public void onStart(Intent intent, int startId) {
-        if (Constants.LOGX) {
-            if (Helpers.isNetworkAvailable(this)) {
-                Log.i(Constants.TAG, "Service Start, Net Up");
-            } else {
-                Log.i(Constants.TAG, "Service Start, Net Down");
-            }
-        }
         super.onStart(intent, startId);
         if (Constants.LOGVV) {
             Log.v(Constants.TAG, "Service onStart");
@@ -268,13 +261,6 @@ public class DownloadService extends Service {
         }
         
         public void run() {
-            if (Constants.LOGX) {
-                if (Helpers.isNetworkAvailable(DownloadService.this)) {
-                    Log.i(Constants.TAG, "Update, Net Up");
-                } else {
-                    Log.i(Constants.TAG, "Update, Net Down");
-                }
-            }
             Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
             
             boolean keepService = false;
@@ -301,13 +287,6 @@ public class DownloadService extends Service {
                                 if (Constants.LOGV) {
                                     Log.v(Constants.TAG, "scheduling retry in " + wakeUp + "ms");
                                 }
-                                if (Constants.LOGX) {
-                                    if (Helpers.isNetworkAvailable(DownloadService.this)) {
-                                        Log.i(Constants.TAG, "Alarm in " + wakeUp + "ms, Net Up");
-                                    } else {
-                                        Log.i(Constants.TAG, "Alarm in " + wakeUp + "ms, Net Down");
-                                    }
-                                }
                                 Intent intent = new Intent(Constants.ACTION_RETRY);
                                 intent.setClassName("com.android.providers.downloads",
                                         DownloadReceiver.class.getName());
@@ -332,6 +311,7 @@ public class DownloadService extends Service {
                         null, null, null, Downloads._ID);
 
                 if (cursor == null) {
+                    // TODO: this doesn't look right, it'd leave the loop in an inconsistent state
                     return;
                 }
 
@@ -383,7 +363,7 @@ public class DownloadService extends Service {
                         if (arrayPos == mDownloads.size()) {
                             insertDownload(cursor, arrayPos, networkAvailable, networkRoaming, now);
                             if (Constants.LOGVV) {
-                                Log.v(Constants.TAG, "Array update: inserting " +
+                                Log.v(Constants.TAG, "Array update: appending " +
                                         id + " @ " + arrayPos);
                             }
                             if (shouldScanFile(arrayPos)
@@ -442,7 +422,7 @@ public class DownloadService extends Service {
                             } else {
                                 // This cursor entry didn't exist in the stored array
                                 if (Constants.LOGVV) {
-                                    Log.v(Constants.TAG, "Array update: appending " +
+                                    Log.v(Constants.TAG, "Array update: inserting " +
                                             id + " @ " + arrayPos);
                                 }
                                 insertDownload(
@@ -682,13 +662,6 @@ public class DownloadService extends Service {
                             ContentUris.withAppendedId(Downloads.CONTENT_URI, info.mId),
                             values, null, null);
                 }
-                if (Constants.LOGX) {
-                    if (Helpers.isNetworkAvailable(DownloadService.this)) {
-                        Log.i(Constants.TAG, "Thread for " + info.mId + ", Net Up");
-                    } else {
-                        Log.i(Constants.TAG, "Thread for " + info.mId + ", Net Down");
-                    }
-                }
                 DownloadThread downloader = new DownloadThread(this, info);
                 info.mHasActiveThread = true;
                 downloader.start();
@@ -776,13 +749,6 @@ public class DownloadService extends Service {
                 getContentResolver().update(
                         ContentUris.withAppendedId(Downloads.CONTENT_URI, info.mId),
                         values, null, null);
-                if (Constants.LOGX) {
-                    if (Helpers.isNetworkAvailable(DownloadService.this)) {
-                        Log.i(Constants.TAG, "Thread for " + info.mId + ", Net Up");
-                    } else {
-                        Log.i(Constants.TAG, "Thread for " + info.mId + ", Net Down");
-                    }
-                }
                 DownloadThread downloader = new DownloadThread(this, info);
                 info.mHasActiveThread = true;
                 downloader.start();

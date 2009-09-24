@@ -201,13 +201,6 @@ http_request_loop:
 
                 HttpResponse response;
                 try {
-                    if (Constants.LOGX) {
-                        if (Helpers.isNetworkAvailable(mContext)) {
-                            Log.i(Constants.TAG, "Starting " + mInfo.mId + ", Net Up");
-                        } else {
-                            Log.i(Constants.TAG, "Starting " + mInfo.mId + ", Net Down");
-                        }
-                    }
                     response = client.execute(request);
                 } catch (IllegalArgumentException ex) {
                     if (Constants.LOGV) {
@@ -712,13 +705,6 @@ http_request_loop:
                     } catch (RuntimeException ex) {
                         Log.w(Constants.TAG, "exception while syncing file: ", ex);
                     }
-                }
-            }
-            if (Constants.LOGX) {
-                if (Helpers.isNetworkAvailable(mContext)) {
-                    Log.i(Constants.TAG, "Done " + mInfo.mId + " w/ " + finalStatus + ", Net Up");
-                } else {
-                    Log.i(Constants.TAG, "Done " + mInfo.mId + " w/ " + finalStatus + ", Net Down");
                 }
             }
             notifyDownloadCompleted(finalStatus, countRetry, retryAfter, redirectCount,

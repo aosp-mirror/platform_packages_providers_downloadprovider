@@ -72,13 +72,6 @@ public class DownloadReceiver extends BroadcastReceiver {
             if (Constants.LOGVV) {
                 Log.v(Constants.TAG, "Receiver retry");
             }
-            if (Constants.LOGX) {
-                if (Helpers.isNetworkAvailable(context)) {
-                    Log.i(Constants.TAG, "Broadcast: Timed Retry, Net Up");
-                } else {
-                    Log.i(Constants.TAG, "Broadcast: Timed Retry, Net Down");
-                }
-            }
             context.startService(new Intent(context, DownloadService.class));
         } else if (intent.getAction().equals(Constants.ACTION_OPEN)
                 || intent.getAction().equals(Constants.ACTION_LIST)) {

@@ -15,8 +15,7 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for app_label (3658948994665187911) -->
-    <skip />
+    <string name="app_label" msgid="3658948994665187911">"Πρόγραμμα διαχείρισης λήψεων"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Πρόσβαση στο πρόγραμμα διαχείρισης λήψεων."</string>
     <string name="permdesc_downloadManager" msgid="4240298564918160337">"Επιτρέπει στην εφαρμογή την πρόσβαση στο πρόγραμμα διαχείρισης λήψεων και τη χρήση του για τη λήψη αρχείων. Κακόβουλες εφαρμογές μπορούν να το χρησιμοποιήσουν για να διακόψουν λήψεις και για να αποκτήσουν πρόσβαση σε προσωπικές πληροφορίες."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Σύνθετες λειτουργίες προγράμματος διαχείρισης λήψεων."</string>

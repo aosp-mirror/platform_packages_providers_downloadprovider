@@ -15,8 +15,7 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for app_label (3658948994665187911) -->
-    <skip />
+    <string name="app_label" msgid="3658948994665187911">"Hämtningshanterare"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Åtkomst till hämtningshanterare."</string>
     <string name="permdesc_downloadManager" msgid="4240298564918160337">"Tillåter att ett program får åtkomst till hämtningshanteraren och hämtar filer med den. Skadliga program kan använda detta för att störa hämtningar och komma åt privat information."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Avancerade funktioner för hämtningshanterare."</string>

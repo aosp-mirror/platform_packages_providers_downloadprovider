@@ -15,12 +15,11 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for app_label (3658948994665187911) -->
-    <skip />
+    <string name="app_label" msgid="3658948994665187911">"Gerenciador de downloads"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Acessar o gerenciador de download."</string>
     <string name="permdesc_downloadManager" msgid="4240298564918160337">"Permite que o aplicativo acesse o gerenciador de download e use-o para fazer o download de arquivos. Aplicativos maliciosos podem usar isso para interromper os downloads e acessar informações particulares."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Funções avançadas do gerenciador de download."</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="8761177317775872287">"Permite que o aplicativo acesse as funções avançadas do gerenciador de download."\n"        Aplicativos maliciosos podem usar isso para interromper os downloads e acessar "\n"        informações particulares."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="8761177317775872287">"Permite que o aplicativo acesse as funções avançadas do gerenciador de downloads"\n"        Aplicativos maliciosos podem usar isso para interromper os downloads e acessar "\n"        informações particulares."</string>
     <string name="permlab_cacheFilesystem" msgid="6987994626343144212">"Usar cache do sistema."</string>
     <string name="permdesc_cacheFilesystem" msgid="7301787168569544726">"Permite que o aplicativo acesse, modifique e exclua diretamente o cache do sistema. Aplicativos maliciosos podem usar isso para interromper os downloads e outros aplicativos e para acessar dados particulares."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Enviar notificações de download."</string>

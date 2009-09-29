@@ -19,8 +19,7 @@
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Få tilgang til nedlasteren."</string>
     <string name="permdesc_downloadManager" msgid="4240298564918160337">"Gir applikasjonen tilgang til nedlasteren, og å bruke den til å laste ned filer. Ondsinnede applikasjoner kan bruke dette til å forstyrre nedlastinger og få tilgang til privat informasjon."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Avansert nedlastingsfunksjonalitet."</string>
-    <!-- no translation found for permdesc_downloadManagerAdvanced (8761177317775872287) -->
-    <skip />
+    <string name="permdesc_downloadManagerAdvanced" msgid="8761177317775872287">"Gir programmet tilgang til avanserte funksjoner i nedlasterne."\n"       Skadelige programmer kan bruke dette til å forstyrre nedlastninger og gi tilgang til"\n"        privat informasjon."</string>
     <string name="permlab_cacheFilesystem" msgid="6987994626343144212">"Bruke systemets hurtigbuffer."</string>
     <string name="permdesc_cacheFilesystem" msgid="7301787168569544726">"Gir applikasjonen direkte tilgang til systemets hurtigbuffer, inkludert å redigere og slette den. Ondsinnede applikasjoner kan bruke dette til å forstyrre nedlastinger og andre applikasjoner, og til å få tilgang til privat informasjon."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Sende nedlastingsvarslinger"</string>

@@ -15,8 +15,7 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for app_label (3658948994665187911) -->
-    <skip />
+    <string name="app_label" msgid="3658948994665187911">"Administrador de carga"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Acceder al administrador de descarga."</string>
     <string name="permdesc_downloadManager" msgid="4240298564918160337">"Permite a la aplicación acceder al administrador de descarga y utilizarlo para descargar archivos. Las aplicaciones maliciosas pueden utilizarlo para interrumpir las descargas y acceder a información privada."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Funciones avanzadas del administrador de descarga"</string>

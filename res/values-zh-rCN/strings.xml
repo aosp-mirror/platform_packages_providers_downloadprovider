@@ -15,12 +15,11 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for app_label (3658948994665187911) -->
-    <skip />
+    <string name="app_label" msgid="3658948994665187911">"下载管理器"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"访问下载管理器。"</string>
     <string name="permdesc_downloadManager" msgid="4240298564918160337">"允许应用程序访问下载管理器以及用它下载文件。恶意应用程序可借此干扰下载，以及访问隐私信息。"</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"高级下载管理器功能。"</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="8761177317775872287">"允许应用程序访问下载管理器高级功能。"\n"        恶意应用程序可借此中断下载以及访问"\n"        隐私信息。"</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="8761177317775872287">"允许应用程序访问下载管理器高级功能。"\n"        恶意应用程序可借此中断下载以及访问"\n"        私密信息。"</string>
     <string name="permlab_cacheFilesystem" msgid="6987994626343144212">"使用系统缓存。"</string>
     <string name="permdesc_cacheFilesystem" msgid="7301787168569544726">"允许应用程序直接访问、修改和删除系统缓存。恶意应用程序可借此严重干扰下载和其他应用程序，以及访问隐私数据。"</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"发送下载通知。"</string>

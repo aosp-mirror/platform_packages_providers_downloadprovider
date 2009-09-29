@@ -15,8 +15,7 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for app_label (3658948994665187911) -->
-    <skip />
+    <string name="app_label" msgid="3658948994665187911">"다운로드 관리자"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"다운로드 관리자에 액세스합니다."</string>
     <string name="permdesc_downloadManager" msgid="4240298564918160337">"응용프로그램이 다운로드 관리자에 액세스하여 파일을 다운로드하도록 허용합니다. 이 경우 악성 응용프로그램이 다운로드를 중단시키고 비공개 정보에 액세스할 수 있습니다."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"고급 다운로드 관리자 기능입니다."</string>

@@ -15,12 +15,11 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for app_label (3658948994665187911) -->
-    <skip />
+    <string name="app_label" msgid="3658948994665187911">"Диспетчер загрузки"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Доступ к менеджеру загрузки."</string>
     <string name="permdesc_downloadManager" msgid="4240298564918160337">"Предоставляет приложению доступ к менеджеру загрузки и позволяет использовать его для загрузки файлов. Вредоносное ПО может пользоваться этим для прерывания загрузок и доступа к личной информации."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Расширенные функции менеджера загрузки."</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="8761177317775872287">"Предоставляет приложению доступ к расширенным функциям менеджеров загрузки."\n"        Вредоносное ПО может пользоваться этим для прерывания загрузок и доступа"\n"        к личной информации."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="8761177317775872287">"Предоставляет приложению доступ к расширенным функциям диспетчеров загрузки."\n"        Вредоносное ПО может пользоваться этим для прерывания загрузок и доступа"\n"        к личной информации."</string>
     <string name="permlab_cacheFilesystem" msgid="6987994626343144212">"Использовать системный кэш."</string>
     <string name="permdesc_cacheFilesystem" msgid="7301787168569544726">"Позволяет приложению получать прямой доступ, изменять и удалять системный кэш. Вредоносное ПО может пользоваться этим для прерывания загрузок и других приложений, а также для доступа к личной информации."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Отправить оповещение о загрузке."</string>

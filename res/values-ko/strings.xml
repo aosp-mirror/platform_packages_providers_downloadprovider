@@ -15,19 +15,18 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for app_label (3658948994665187911) -->
-    <skip />
-    <string name="permlab_downloadManager">"다운로드 관리자에 액세스합니다."</string>
-    <string name="permdesc_downloadManager">"응용프로그램이 다운로드 관리자에 액세스하여 파일을 다운로드하도록 허용합니다. 이 경우 악성 응용프로그램이 다운로드를 중단시키고 비공개 정보에 액세스할 수 있습니다."</string>
-    <string name="permlab_downloadManagerAdvanced">"고급 다운로드 관리자 기능입니다."</string>
-    <string name="permdesc_downloadManagerAdvanced">"응용프로그램이 다운로드 관리자의 고급 기능에 액세스할 수 있도록 허용합니다."\n"        이 경우 악성 응용프로그램이 다운로드를 중단시키고"\n"        개인 정보에 액세스할 수 있습니다."</string>
-    <string name="permlab_cacheFilesystem">"시스템 캐시를 사용합니다."</string>
-    <string name="permdesc_cacheFilesystem">"응용프로그램이 시스템 캐시에 직접 액세스, 수정 및 삭제할 수 있도록 허용합니다. 이 경우 악성 응용프로그램이 다운로드와 기타 응용프로그램을 심각하게 방해하고 비공개 데이터에 액세스할 수 있습니다."</string>
-    <string name="permlab_downloadCompletedIntent">"다운로드 알림을 전송합니다."</string>
-    <string name="permdesc_downloadCompletedIntent">"응용프로그램이 완료된 다운로드에 대한 알림을 보낼 수 있도록 허용합니다. 이 경우 악성 응용프로그램이 파일을 다운로드하는 다른 응용프로그램에 혼란을 야기할 할 수 있습니다."</string>
-    <string name="download_unknown_title">"&lt;제목 없음&gt;"</string>
-    <string name="notification_filename_separator">", "</string>
-    <string name="notification_filename_extras">" 및 %d개"</string>
-    <string name="notification_download_complete">"다운로드 완료"</string>
-    <string name="notification_download_failed">"다운로드 실패"</string>
+    <string name="app_label" msgid="3658948994665187911">"다운로드 관리자"</string>
+    <string name="permlab_downloadManager" msgid="7779544811202855500">"다운로드 관리자에 액세스합니다."</string>
+    <string name="permdesc_downloadManager" msgid="4240298564918160337">"응용프로그램이 다운로드 관리자에 액세스하여 파일을 다운로드하도록 허용합니다. 이 경우 악성 응용프로그램이 다운로드를 중단시키고 비공개 정보에 액세스할 수 있습니다."</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"고급 다운로드 관리자 기능입니다."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"응용프로그램이 다운로드 관리자의 고급 기능에 액세스할 수 있도록 허용합니다. 이 경우 악성 응용프로그램이 다운로드를 중단시키고 개인 정보에 액세스할 수 있습니다."</string>
+    <string name="permlab_cacheFilesystem" msgid="6987994626343144212">"시스템 캐시를 사용합니다."</string>
+    <string name="permdesc_cacheFilesystem" msgid="7301787168569544726">"응용프로그램이 시스템 캐시에 직접 액세스, 수정 및 삭제할 수 있도록 허용합니다. 이 경우 악성 응용프로그램이 다운로드와 기타 응용프로그램을 심각하게 방해하고 비공개 데이터에 액세스할 수 있습니다."</string>
+    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"다운로드 알림을 전송합니다."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"응용프로그램이 완료된 다운로드에 대한 알림을 보낼 수 있도록 허용합니다. 이 경우 악성 응용프로그램이 파일을 다운로드하는 다른 응용프로그램에 혼란을 야기할 할 수 있습니다."</string>
+    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;제목 없음&gt;"</string>
+    <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
+    <string name="notification_filename_extras" msgid="5549729917695688191">" 및 <xliff:g id="NUMBER">%d</xliff:g>개 더"</string>
+    <string name="notification_download_complete" msgid="840713937779273632">"다운로드 완료"</string>
+    <string name="notification_download_failed" msgid="5343637375905111462">"다운로드 실패"</string>
 </resources>

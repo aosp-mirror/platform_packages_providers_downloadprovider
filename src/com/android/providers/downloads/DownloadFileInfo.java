@@ -22,13 +22,13 @@ import java.io.FileOutputStream;
  * Stores information about the file in which a download gets saved.
  */
 public class DownloadFileInfo {
-    public DownloadFileInfo(String filename, FileOutputStream stream, int status) {
-        this.filename = filename;
-        this.stream = stream;
-        this.status = status;
-    }
+    String mFileName;
+    FileOutputStream mStream;
+    int mStatus;
 
-    String filename;
-    FileOutputStream stream;
-    int status;
+    public DownloadFileInfo(String fileName, FileOutputStream stream, int status) {
+        mFileName = fileName;
+        mStream = stream;
+        mStatus = status;
+    }
 }

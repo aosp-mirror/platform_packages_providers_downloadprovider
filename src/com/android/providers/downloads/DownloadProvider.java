@@ -26,10 +26,10 @@ import android.database.CrossProcessCursor;
 import android.database.Cursor;
 import android.database.CursorWindow;
 import android.database.CursorWrapper;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
-import android.database.SQLException;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.ParcelFileDescriptor;
@@ -40,7 +40,6 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashSet;
 
 
@@ -78,20 +77,20 @@ public final class DownloadProvider extends ContentProvider {
 
     private static final String[] sAppReadableColumnsArray = new String[] {
         Downloads._ID,
-        Downloads.APP_DATA,
+        Downloads.COLUMN_APP_DATA,
         Downloads._DATA,
-        Downloads.MIMETYPE,
-        Downloads.VISIBILITY,
-        Downloads.DESTINATION,
-        Downloads.CONTROL,
-        Downloads.STATUS,
-        Downloads.LAST_MODIFICATION,
-        Downloads.NOTIFICATION_PACKAGE,
-        Downloads.NOTIFICATION_CLASS,
-        Downloads.TOTAL_BYTES,
-        Downloads.CURRENT_BYTES,
-        Downloads.TITLE,
-        Downloads.DESCRIPTION
+        Downloads.COLUMN_MIME_TYPE,
+        Downloads.COLUMN_VISIBILITY,
+        Downloads.COLUMN_DESTINATION,
+        Downloads.COLUMN_CONTROL,
+        Downloads.COLUMN_STATUS,
+        Downloads.COLUMN_LAST_MODIFICATION,
+        Downloads.COLUMN_NOTIFICATION_PACKAGE,
+        Downloads.COLUMN_NOTIFICATION_CLASS,
+        Downloads.COLUMN_TOTAL_BYTES,
+        Downloads.COLUMN_CURRENT_BYTES,
+        Downloads.COLUMN_TITLE,
+        Downloads.COLUMN_DESCRIPTION
     };
 
     private static HashSet<String> sAppReadableColumnsSet;
@@ -201,34 +200,34 @@ public final class DownloadProvider extends ContentProvider {
         try {
             db.execSQL("CREATE TABLE " + DB_TABLE + "(" +
                     Downloads._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    Downloads.URI + " TEXT, " +
-                    Constants.RETRY_AFTER___REDIRECT_COUNT + " INTEGER, " +
-                    Downloads.APP_DATA + " TEXT, " +
-                    Downloads.NO_INTEGRITY + " BOOLEAN, " +
-                    Downloads.FILENAME_HINT + " TEXT, " +
+                    Downloads.COLUMN_URI + " TEXT, " +
+                    Constants.RETRY_AFTER_X_REDIRECT_COUNT + " INTEGER, " +
+                    Downloads.COLUMN_APP_DATA + " TEXT, " +
+                    Downloads.COLUMN_NO_INTEGRITY + " BOOLEAN, " +
+                    Downloads.COLUMN_FILE_NAME_HINT + " TEXT, " +
                     Constants.OTA_UPDATE + " BOOLEAN, " +
                     Downloads._DATA + " TEXT, " +
-                    Downloads.MIMETYPE + " TEXT, " +
-                    Downloads.DESTINATION + " INTEGER, " +
+                    Downloads.COLUMN_MIME_TYPE + " TEXT, " +
+                    Downloads.COLUMN_DESTINATION + " INTEGER, " +
                     Constants.NO_SYSTEM_FILES + " BOOLEAN, " +
-                    Downloads.VISIBILITY + " INTEGER, " +
-                    Downloads.CONTROL + " INTEGER, " +
-                    Downloads.STATUS + " INTEGER, " +
+                    Downloads.COLUMN_VISIBILITY + " INTEGER, " +
+                    Downloads.COLUMN_CONTROL + " INTEGER, " +
+                    Downloads.COLUMN_STATUS + " INTEGER, " +
                     Constants.FAILED_CONNECTIONS + " INTEGER, " +
-                    Downloads.LAST_MODIFICATION + " BIGINT, " +
-                    Downloads.NOTIFICATION_PACKAGE + " TEXT, " +
-                    Downloads.NOTIFICATION_CLASS + " TEXT, " +
-                    Downloads.NOTIFICATION_EXTRAS + " TEXT, " +
-                    Downloads.COOKIE_DATA + " TEXT, " +
-                    Downloads.USER_AGENT + " TEXT, " +
-                    Downloads.REFERER + " TEXT, " +
-                    Downloads.TOTAL_BYTES + " INTEGER, " +
-                    Downloads.CURRENT_BYTES + " INTEGER, " +
+                    Downloads.COLUMN_LAST_MODIFICATION + " BIGINT, " +
+                    Downloads.COLUMN_NOTIFICATION_PACKAGE + " TEXT, " +
+                    Downloads.COLUMN_NOTIFICATION_CLASS + " TEXT, " +
+                    Downloads.COLUMN_NOTIFICATION_EXTRAS + " TEXT, " +
+                    Downloads.COLUMN_COOKIE_DATA + " TEXT, " +
+                    Downloads.COLUMN_USER_AGENT + " TEXT, " +
+                    Downloads.COLUMN_REFERER + " TEXT, " +
+                    Downloads.COLUMN_TOTAL_BYTES + " INTEGER, " +
+                    Downloads.COLUMN_CURRENT_BYTES + " INTEGER, " +
                     Constants.ETAG + " TEXT, " +
                     Constants.UID + " INTEGER, " +
-                    Downloads.OTHER_UID + " INTEGER, " +
-                    Downloads.TITLE + " TEXT, " +
-                    Downloads.DESCRIPTION + " TEXT, " +
+                    Downloads.COLUMN_OTHER_UID + " INTEGER, " +
+                    Downloads.COLUMN_TITLE + " TEXT, " +
+                    Downloads.COLUMN_DESCRIPTION + " TEXT, " +
                     Constants.MEDIA_SCANNED + " BOOLEAN);");
         } catch (SQLException ex) {
             Log.e(Constants.TAG, "couldn't create table in downloads database");
@@ -264,12 +263,12 @@ public final class DownloadProvider extends ContentProvider {
 
         ContentValues filteredValues = new ContentValues();
 
-        copyString(Downloads.URI, values, filteredValues);
-        copyString(Downloads.APP_DATA, values, filteredValues);
-        copyBoolean(Downloads.NO_INTEGRITY, values, filteredValues);
-        copyString(Downloads.FILENAME_HINT, values, filteredValues);
-        copyString(Downloads.MIMETYPE, values, filteredValues);
-        Integer dest = values.getAsInteger(Downloads.DESTINATION);
+        copyString(Downloads.COLUMN_URI, values, filteredValues);
+        copyString(Downloads.COLUMN_APP_DATA, values, filteredValues);
+        copyBoolean(Downloads.COLUMN_NO_INTEGRITY, values, filteredValues);
+        copyString(Downloads.COLUMN_FILE_NAME_HINT, values, filteredValues);
+        copyString(Downloads.COLUMN_MIME_TYPE, values, filteredValues);
+        Integer dest = values.getAsInteger(Downloads.COLUMN_DESTINATION);
         if (dest != null) {
             if (getContext().checkCallingPermission(Downloads.PERMISSION_ACCESS_ADVANCED)
                     != PackageManager.PERMISSION_GRANTED
@@ -277,57 +276,57 @@ public final class DownloadProvider extends ContentProvider {
                     && dest != Downloads.DESTINATION_CACHE_PARTITION_PURGEABLE) {
                 throw new SecurityException("unauthorized destination code");
             }
-            filteredValues.put(Downloads.DESTINATION, dest);
+            filteredValues.put(Downloads.COLUMN_DESTINATION, dest);
         }
-        Integer vis = values.getAsInteger(Downloads.VISIBILITY);
+        Integer vis = values.getAsInteger(Downloads.COLUMN_VISIBILITY);
         if (vis == null) {
             if (dest == Downloads.DESTINATION_EXTERNAL) {
-                filteredValues.put(Downloads.VISIBILITY,
+                filteredValues.put(Downloads.COLUMN_VISIBILITY,
                         Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
             } else {
-                filteredValues.put(Downloads.VISIBILITY, Downloads.VISIBILITY_HIDDEN);
+                filteredValues.put(Downloads.COLUMN_VISIBILITY, Downloads.VISIBILITY_HIDDEN);
             }
         } else {
-            filteredValues.put(Downloads.VISIBILITY, vis);
+            filteredValues.put(Downloads.COLUMN_VISIBILITY, vis);
         }
-        copyInteger(Downloads.CONTROL, values, filteredValues);
-        filteredValues.put(Downloads.STATUS, Downloads.STATUS_PENDING);
-        filteredValues.put(Downloads.LAST_MODIFICATION, System.currentTimeMillis());
-        String pckg = values.getAsString(Downloads.NOTIFICATION_PACKAGE);
-        String clazz = values.getAsString(Downloads.NOTIFICATION_CLASS);
+        copyInteger(Downloads.COLUMN_CONTROL, values, filteredValues);
+        filteredValues.put(Downloads.COLUMN_STATUS, Downloads.STATUS_PENDING);
+        filteredValues.put(Downloads.COLUMN_LAST_MODIFICATION, System.currentTimeMillis());
+        String pckg = values.getAsString(Downloads.COLUMN_NOTIFICATION_PACKAGE);
+        String clazz = values.getAsString(Downloads.COLUMN_NOTIFICATION_CLASS);
         if (pckg != null && clazz != null) {
             int uid = Binder.getCallingUid();
             try {
                 if (uid == 0 ||
                         getContext().getPackageManager().getApplicationInfo(pckg, 0).uid == uid) {
-                    filteredValues.put(Downloads.NOTIFICATION_PACKAGE, pckg);
-                    filteredValues.put(Downloads.NOTIFICATION_CLASS, clazz);
+                    filteredValues.put(Downloads.COLUMN_NOTIFICATION_PACKAGE, pckg);
+                    filteredValues.put(Downloads.COLUMN_NOTIFICATION_CLASS, clazz);
                 }
             } catch (PackageManager.NameNotFoundException ex) {
                 /* ignored for now */
             }
         }
-        copyString(Downloads.NOTIFICATION_EXTRAS, values, filteredValues);
-        copyString(Downloads.COOKIE_DATA, values, filteredValues);
-        copyString(Downloads.USER_AGENT, values, filteredValues);
-        copyString(Downloads.REFERER, values, filteredValues);
+        copyString(Downloads.COLUMN_NOTIFICATION_EXTRAS, values, filteredValues);
+        copyString(Downloads.COLUMN_COOKIE_DATA, values, filteredValues);
+        copyString(Downloads.COLUMN_USER_AGENT, values, filteredValues);
+        copyString(Downloads.COLUMN_REFERER, values, filteredValues);
         if (getContext().checkCallingPermission(Downloads.PERMISSION_ACCESS_ADVANCED)
                 == PackageManager.PERMISSION_GRANTED) {
-            copyInteger(Downloads.OTHER_UID, values, filteredValues);
+            copyInteger(Downloads.COLUMN_OTHER_UID, values, filteredValues);
         }
         filteredValues.put(Constants.UID, Binder.getCallingUid());
         if (Binder.getCallingUid() == 0) {
             copyInteger(Constants.UID, values, filteredValues);
         }
-        copyString(Downloads.TITLE, values, filteredValues);
-        copyString(Downloads.DESCRIPTION, values, filteredValues);
+        copyString(Downloads.COLUMN_TITLE, values, filteredValues);
+        copyString(Downloads.COLUMN_DESCRIPTION, values, filteredValues);
 
         if (Constants.LOGVV) {
             Log.v(Constants.TAG, "initiating download with UID "
                     + filteredValues.getAsInteger(Constants.UID));
-            if (filteredValues.containsKey(Downloads.OTHER_UID)) {
+            if (filteredValues.containsKey(Downloads.COLUMN_OTHER_UID)) {
                 Log.v(Constants.TAG, "other UID " +
-                        filteredValues.getAsInteger(Downloads.OTHER_UID));
+                        filteredValues.getAsInteger(Downloads.COLUMN_OTHER_UID));
             }
         }
 
@@ -387,12 +386,13 @@ public final class DownloadProvider extends ContentProvider {
             }
         }
 
-        if (Binder.getCallingPid() != Process.myPid() && Binder.getCallingUid() != 0) {
+        if (Binder.getCallingPid() != Process.myPid() && Binder.getCallingUid() != 0 &&
+                Process.supportsProcesses()) {
             if (!emptyWhere) {
                 qb.appendWhere(" AND ");
             }
             qb.appendWhere("( " + Constants.UID + "=" +  Binder.getCallingUid() + " OR "
-                    + Downloads.OTHER_UID + "=" +  Binder.getCallingUid() + " )");
+                    + Downloads.COLUMN_OTHER_UID + "=" +  Binder.getCallingUid() + " )");
             emptyWhere = false;
 
             if (projection == null) {
@@ -489,16 +489,16 @@ public final class DownloadProvider extends ContentProvider {
         ContentValues filteredValues;
         if (Binder.getCallingPid() != Process.myPid()) {
             filteredValues = new ContentValues();
-            copyString(Downloads.APP_DATA, values, filteredValues);
-            copyInteger(Downloads.VISIBILITY, values, filteredValues);
-            Integer i = values.getAsInteger(Downloads.CONTROL);
+            copyString(Downloads.COLUMN_APP_DATA, values, filteredValues);
+            copyInteger(Downloads.COLUMN_VISIBILITY, values, filteredValues);
+            Integer i = values.getAsInteger(Downloads.COLUMN_CONTROL);
             if (i != null) {
-                filteredValues.put(Downloads.CONTROL, i);
+                filteredValues.put(Downloads.COLUMN_CONTROL, i);
                 startService = true;
             }
-            copyInteger(Downloads.CONTROL, values, filteredValues);
-            copyString(Downloads.TITLE, values, filteredValues);
-            copyString(Downloads.DESCRIPTION, values, filteredValues);
+            copyInteger(Downloads.COLUMN_CONTROL, values, filteredValues);
+            copyString(Downloads.COLUMN_TITLE, values, filteredValues);
+            copyString(Downloads.COLUMN_DESCRIPTION, values, filteredValues);
         } else {
             filteredValues = values;
         }
@@ -523,7 +523,7 @@ public final class DownloadProvider extends ContentProvider {
                 }
                 if (Binder.getCallingPid() != Process.myPid() && Binder.getCallingUid() != 0) {
                     myWhere += " AND ( " + Constants.UID + "=" +  Binder.getCallingUid() + " OR "
-                            + Downloads.OTHER_UID + "=" +  Binder.getCallingUid() + " )";
+                            + Downloads.COLUMN_OTHER_UID + "=" +  Binder.getCallingUid() + " )";
                 }
                 if (filteredValues.size() > 0) {
                     count = db.update(DB_TABLE, filteredValues, myWhere, whereArgs);
@@ -579,7 +579,7 @@ public final class DownloadProvider extends ContentProvider {
                 }
                 if (Binder.getCallingPid() != Process.myPid() && Binder.getCallingUid() != 0) {
                     myWhere += " AND ( " + Constants.UID + "=" +  Binder.getCallingUid() + " OR "
-                            + Downloads.OTHER_UID + "=" +  Binder.getCallingUid() + " )";
+                            + Downloads.COLUMN_OTHER_UID + "=" +  Binder.getCallingUid() + " )";
                 }
                 count = db.delete(DB_TABLE, myWhere, whereArgs);
                 break;
@@ -673,7 +673,7 @@ public final class DownloadProvider extends ContentProvider {
             throw new FileNotFoundException("couldn't open file");
         } else {
             ContentValues values = new ContentValues();
-            values.put(Downloads.LAST_MODIFICATION, System.currentTimeMillis());
+            values.put(Downloads.COLUMN_LAST_MODIFICATION, System.currentTimeMillis());
             update(uri, values, null, null);
         }
         return ret;

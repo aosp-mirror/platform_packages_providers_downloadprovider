@@ -29,7 +29,7 @@ public class Constants {
     public static final String TAG = "DownloadManager";
 
     /** The column that used to be used for the HTTP method of the request */
-    public static final String RETRY_AFTER___REDIRECT_COUNT = "method";
+    public static final String RETRY_AFTER_X_REDIRECT_COUNT = "method";
 
     /** The column that used to be used for the magic OTA update filename */
     public static final String OTA_UPDATE = "otaupdate";
@@ -140,12 +140,15 @@ public class Constants {
      */
     public static final int RETRY_FIRST_DELAY = 30;
 
+    /** Enable separate connectivity logging */
+    static final boolean LOGX = false;
+
     /** Enable verbose logging - use with "setprop log.tag.DownloadManager VERBOSE" */
-    private static final boolean LOCAL_LOGV = true;
+    private static final boolean LOCAL_LOGV = false;
     public static final boolean LOGV = Config.LOGV
             || (Config.LOGD && LOCAL_LOGV && Log.isLoggable(TAG, Log.VERBOSE));
 
     /** Enable super-verbose logging */
-    private static final boolean LOCAL_LOGVV = true;
+    private static final boolean LOCAL_LOGVV = false;
     public static final boolean LOGVV = LOCAL_LOGVV && LOGV;
 }

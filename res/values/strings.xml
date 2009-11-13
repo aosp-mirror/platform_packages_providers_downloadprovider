@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- This is the name of the Download Manager application. -->
     <string name="app_label">Download Manager</string>
 
@@ -51,7 +51,7 @@
         system applications but aren't necessary for regular applications
         that just initiate plain downloads. -->
     <string name="permdesc_downloadManagerAdvanced">Allows the application to
-        access the download manager's advanced functions.
+        access the download manager\'s advanced functions.
         Malicious applications can use this to disrupt downloads and access
         private information.</string>
 
@@ -102,7 +102,7 @@
         downloads beyond the first two, i.e. "[title], [title] and [n] more".
         This is the " and [n] more" part, including the leading space, and it's
         used regardless of the number of additional downloads. -->
-    <string name="notification_filename_extras">" and %d more"</string>
+    <string name="notification_filename_extras">" and <xliff:g id="number" example="27">%d</xliff:g> more"</string>
 
     <!-- When a download completes, a notification is displayed, and this
         string is used to indicate that the download successfully completed.

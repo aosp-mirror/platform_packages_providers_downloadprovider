@@ -311,6 +311,7 @@ public class DownloadService extends Service {
                         null, null, null, Downloads._ID);
 
                 if (cursor == null) {
+                    // TODO: this doesn't look right, it'd leave the loop in an inconsistent state
                     return;
                 }
 
@@ -362,7 +363,7 @@ public class DownloadService extends Service {
                         if (arrayPos == mDownloads.size()) {
                             insertDownload(cursor, arrayPos, networkAvailable, networkRoaming, now);
                             if (Constants.LOGVV) {
-                                Log.v(Constants.TAG, "Array update: inserting " +
+                                Log.v(Constants.TAG, "Array update: appending " +
                                         id + " @ " + arrayPos);
                             }
                             if (shouldScanFile(arrayPos)
@@ -421,7 +422,7 @@ public class DownloadService extends Service {
                             } else {
                                 // This cursor entry didn't exist in the stored array
                                 if (Constants.LOGVV) {
-                                    Log.v(Constants.TAG, "Array update: appending " +
+                                    Log.v(Constants.TAG, "Array update: inserting " +
                                             id + " @ " + arrayPos);
                                 }
                                 insertDownload(

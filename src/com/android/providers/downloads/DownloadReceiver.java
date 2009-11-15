@@ -51,7 +51,22 @@ public class DownloadReceiver extends BroadcastReceiver {
             NetworkInfo info = (NetworkInfo)
                     intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
             if (info != null && info.isConnected()) {
+                if (Constants.LOGX) {
+                    if (Helpers.isNetworkAvailable(context)) {
+                        Log.i(Constants.TAG, "Broadcast: Network Up");
+                    } else {
+                        Log.i(Constants.TAG, "Broadcast: Network Up, Actually Down");
+                    }
+                }
                 context.startService(new Intent(context, DownloadService.class));
+            } else {
+                if (Constants.LOGX) {
+                    if (Helpers.isNetworkAvailable(context)) {
+                        Log.i(Constants.TAG, "Broadcast: Network Down, Actually Up");
+                    } else {
+                        Log.i(Constants.TAG, "Broadcast: Network Down");
+                    }
+                }
             }
         } else if (intent.getAction().equals(Constants.ACTION_RETRY)) {
             if (Constants.LOGVV) {

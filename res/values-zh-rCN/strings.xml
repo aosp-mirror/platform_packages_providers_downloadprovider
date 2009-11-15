@@ -15,19 +15,18 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for app_label (3658948994665187911) -->
-    <skip />
+    <string name="app_label" msgid="3658948994665187911">"下载管理器"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"访问下载管理器。"</string>
     <string name="permdesc_downloadManager" msgid="4240298564918160337">"允许应用程序访问下载管理器以及用它下载文件。恶意应用程序可借此干扰下载，以及访问隐私信息。"</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"高级下载管理器功能。"</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="8761177317775872287">"允许应用程序访问下载管理器高级功能。"\n"        恶意应用程序可借此中断下载以及访问"\n"        隐私信息。"</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"允许应用程序使用下载管理器的高级功能。恶意应用程序可能会借此中断下载以及访问私密信息。"</string>
     <string name="permlab_cacheFilesystem" msgid="6987994626343144212">"使用系统缓存。"</string>
     <string name="permdesc_cacheFilesystem" msgid="7301787168569544726">"允许应用程序直接访问、修改和删除系统缓存。恶意应用程序可借此严重干扰下载和其他应用程序，以及访问隐私数据。"</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"发送下载通知。"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"允许应用程序发送关于已完成下载的通知。恶意应用程序可借此干扰下载文件的其他应用程序。"</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;未命名&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">"、 "</string>
-    <string name="notification_filename_extras" msgid="4790181201453108165">" 和其他 %d 项下载"</string>
+    <string name="notification_filename_extras" msgid="5549729917695688191">" 还有 <xliff:g id="NUMBER">%d</xliff:g> 项"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"下载完成"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"下载不成功"</string>
 </resources>

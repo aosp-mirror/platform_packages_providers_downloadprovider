@@ -214,6 +214,13 @@ http_request_loop:
                     request.abort();
                     break http_request_loop;
                 } catch (IOException ex) {
+                    if (Constants.LOGX) {
+                        if (Helpers.isNetworkAvailable(mContext)) {
+                            Log.i(Constants.TAG, "Execute Failed " + mInfo.mId + ", Net Up");
+                        } else {
+                            Log.i(Constants.TAG, "Execute Failed " + mInfo.mId + ", Net Down");
+                        }
+                    }
                     if (!Helpers.isNetworkAvailable(mContext)) {
                         finalStatus = Downloads.STATUS_RUNNING_PAUSED;
                     } else if (mInfo.mNumFailed < Constants.MAX_RETRIES) {
@@ -442,6 +449,13 @@ http_request_loop:
                     try {
                         entityStream = response.getEntity().getContent();
                     } catch (IOException ex) {
+                        if (Constants.LOGX) {
+                            if (Helpers.isNetworkAvailable(mContext)) {
+                                Log.i(Constants.TAG, "Get Failed " + mInfo.mId + ", Net Up");
+                            } else {
+                                Log.i(Constants.TAG, "Get Failed " + mInfo.mId + ", Net Down");
+                            }
+                        }
                         if (!Helpers.isNetworkAvailable(mContext)) {
                             finalStatus = Downloads.STATUS_RUNNING_PAUSED;
                         } else if (mInfo.mNumFailed < Constants.MAX_RETRIES) {
@@ -468,6 +482,13 @@ http_request_loop:
                         try {
                             bytesRead = entityStream.read(data);
                         } catch (IOException ex) {
+                            if (Constants.LOGX) {
+                                if (Helpers.isNetworkAvailable(mContext)) {
+                                    Log.i(Constants.TAG, "Read Failed " + mInfo.mId + ", Net Up");
+                                } else {
+                                    Log.i(Constants.TAG, "Read Failed " + mInfo.mId + ", Net Down");
+                                }
+                            }
                             ContentValues values = new ContentValues();
                             values.put(Downloads.COLUMN_CURRENT_BYTES, bytesSoFar);
                             mContext.getContentResolver().update(contentUri, values, null, null);

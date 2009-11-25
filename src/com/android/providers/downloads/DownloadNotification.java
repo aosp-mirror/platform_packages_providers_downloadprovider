@@ -276,6 +276,8 @@ class DownloadNotification {
             intent.setClassName("com.android.providers.downloads",
                     DownloadReceiver.class.getName());
             intent.setData(contentUri);
+
+            n.when = c.getLong(lastModColumnId);
             n.setLatestEventInfo(mContext, title, caption,
                     PendingIntent.getBroadcast(mContext, 0, intent, 0));
 
@@ -284,8 +286,6 @@ class DownloadNotification {
                     DownloadReceiver.class.getName());
             intent.setData(contentUri);
             n.deleteIntent = PendingIntent.getBroadcast(mContext, 0, intent, 0);
-
-            n.when = c.getLong(lastModColumnId);
 
             mNotificationMgr.notify(c.getInt(idColumn), n);
         }

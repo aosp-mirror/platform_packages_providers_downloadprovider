@@ -28,7 +28,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.drm.mobile1.DrmRawContent;
 import android.net.Uri;
-import android.net.http.AndroidHttpClient;
 import android.os.FileUtils;
 import android.os.PowerManager;
 import android.os.Process;
@@ -36,6 +35,8 @@ import android.provider.Downloads;
 import android.provider.DrmStore;
 import android.util.Config;
 import android.util.Log;
+
+import com.android.common.AndroidHttpClient;
 
 import java.io.File;
 import java.io.FileDescriptor;

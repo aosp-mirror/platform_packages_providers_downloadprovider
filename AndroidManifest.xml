@@ -15,12 +15,6 @@
         android:description="@string/permdesc_downloadManagerAdvanced"
         android:protectionLevel="signatureOrSystem" />
 
-    <!-- Allows filesystem access to /cache -->
-    <permission android:name="android.permission.ACCESS_CACHE_FILESYSTEM"
-        android:label="@string/permlab_cacheFilesystem"
-        android:description="@string/permdesc_cacheFilesystem"
-        android:protectionLevel="signatureOrSystem" />
-
     <!-- Allows to send download completed intents -->
     <permission android:name="android.permission.SEND_DOWNLOAD_COMPLETED_INTENTS"
         android:label="@string/permlab_downloadCompletedIntent"

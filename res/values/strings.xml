@@ -4,9 +4,9 @@
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
      You may obtain a copy of the License at
-  
+
           http://www.apache.org/licenses/LICENSE-2.0
-  
+
      Unless required by applicable law or agreed to in writing, software
      distributed under the License is distributed on an "AS IS" BASIS,
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -54,22 +54,6 @@
         access the download manager\'s advanced functions.
         Malicious applications can use this to disrupt downloads and access
         private information.</string>
-
-    <!-- This is the short description of a permission associated with the
-        Android Download Manager. It is displayed as part of the description
-        of any application that was granted that permission.
-        This specific permission controls access to the Download Manager's
-        private storage area. -->
-    <string name="permlab_cacheFilesystem">Use system cache.</string>
-    <!-- This is the long description of a permission associated with the
-        Android Download Manager. It is displayed as part of the description
-        of any application that was granted that permission.
-        This specific permission controls access to the Download Manager's
-        private storage area. -->
-    <string name="permdesc_cacheFilesystem">Allows the application
-        to directly access, modify and delete the system cache. Malicious
-        applications can use this to severely disrupt downloads and
-        other applications, and to access private data.</string>
 
     <string name="permlab_downloadCompletedIntent">Send download
         notifications.</string>

@@ -90,10 +90,10 @@ public class DownloadInfo {
 
     public void sendIntentIfRequested(Uri contentUri, Context context) {
         if (mPackage != null && mClass != null) {
-            Intent intent = new Intent(Downloads.ACTION_DOWNLOAD_COMPLETED);
+            Intent intent = new Intent(Downloads.Impl.ACTION_DOWNLOAD_COMPLETED);
             intent.setClassName(mPackage, mClass);
             if (mExtras != null) {
-                intent.putExtra(Downloads.COLUMN_NOTIFICATION_EXTRAS, mExtras);
+                intent.putExtra(Downloads.Impl.COLUMN_NOTIFICATION_EXTRAS, mExtras);
             }
             // We only send the content: URI, for security reasons. Otherwise, malicious
             //     applications would have an easier time spoofing download results by
@@ -121,7 +121,7 @@ public class DownloadInfo {
      * should be started.
      */
     public boolean isReadyToStart(long now) {
-        if (mControl == Downloads.CONTROL_PAUSED) {
+        if (mControl == Downloads.Impl.CONTROL_PAUSED) {
             // the download is paused, so it's not going to start
             return false;
         }
@@ -129,16 +129,16 @@ public class DownloadInfo {
             // status hasn't been initialized yet, this is a new download
             return true;
         }
-        if (mStatus == Downloads.STATUS_PENDING) {
+        if (mStatus == Downloads.Impl.STATUS_PENDING) {
             // download is explicit marked as ready to start
             return true;
         }
-        if (mStatus == Downloads.STATUS_RUNNING) {
+        if (mStatus == Downloads.Impl.STATUS_RUNNING) {
             // download was interrupted (process killed, loss of power) while it was running,
             //     without a chance to update the database
             return true;
         }
-        if (mStatus == Downloads.STATUS_RUNNING_PAUSED) {
+        if (mStatus == Downloads.Impl.STATUS_RUNNING_PAUSED) {
             if (mNumFailed == 0) {
                 // download is waiting for network connectivity to return before it can resume
                 return true;
@@ -160,7 +160,7 @@ public class DownloadInfo {
      * by checking the status.
      */
     public boolean isReadyToRestart(long now) {
-        if (mControl == Downloads.CONTROL_PAUSED) {
+        if (mControl == Downloads.Impl.CONTROL_PAUSED) {
             // the download is paused, so it's not going to restart
             return false;
         }
@@ -168,11 +168,11 @@ public class DownloadInfo {
             // download hadn't been initialized yet
             return true;
         }
-        if (mStatus == Downloads.STATUS_PENDING) {
+        if (mStatus == Downloads.Impl.STATUS_PENDING) {
             // download is explicit marked as ready to start
             return true;
         }
-        if (mStatus == Downloads.STATUS_RUNNING_PAUSED) {
+        if (mStatus == Downloads.Impl.STATUS_RUNNING_PAUSED) {
             if (mNumFailed == 0) {
                 // download is waiting for network connectivity to return before it can resume
                 return true;
@@ -190,10 +190,10 @@ public class DownloadInfo {
      * completion.
      */
     public boolean hasCompletionNotification() {
-        if (!Downloads.isStatusCompleted(mStatus)) {
+        if (!Downloads.Impl.isStatusCompleted(mStatus)) {
             return false;
         }
-        if (mVisibility == Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED) {
+        if (mVisibility == Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED) {
             return true;
         }
         return false;
@@ -206,7 +206,7 @@ public class DownloadInfo {
         if (!available) {
             return false;
         }
-        if (mDestination == Downloads.DESTINATION_CACHE_PARTITION_NOROAMING) {
+        if (mDestination == Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING) {
             return !roaming;
         } else {
             return true;

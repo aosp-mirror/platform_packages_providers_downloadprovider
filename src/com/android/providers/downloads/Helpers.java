@@ -91,13 +91,13 @@ public class Helpers {
         /*
          * Don't download files that we won't be able to handle
          */
-        if (destination == Downloads.DESTINATION_EXTERNAL
-                || destination == Downloads.DESTINATION_CACHE_PARTITION_PURGEABLE) {
+        if (destination == Downloads.Impl.DESTINATION_EXTERNAL
+                || destination == Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE) {
             if (mimeType == null) {
                 if (Config.LOGD) {
                     Log.d(Constants.TAG, "external download with no mime type not allowed");
                 }
-                return new DownloadFileInfo(null, null, Downloads.STATUS_NOT_ACCEPTABLE);
+                return new DownloadFileInfo(null, null, Downloads.Impl.STATUS_NOT_ACCEPTABLE);
             }
             if (!DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING.equalsIgnoreCase(mimeType)) {
                 // Check to see if we are allowed to download this file. Only files
@@ -121,7 +121,7 @@ public class Helpers {
                     if (Config.LOGD) {
                         Log.d(Constants.TAG, "no handler found for type " + mimeType);
                     }
-                    return new DownloadFileInfo(null, null, Downloads.STATUS_NOT_ACCEPTABLE);
+                    return new DownloadFileInfo(null, null, Downloads.Impl.STATUS_NOT_ACCEPTABLE);
                 }
             }
         }
@@ -148,9 +148,9 @@ public class Helpers {
         StatFs stat = null;
         // DRM messages should be temporarily stored internally and then passed to 
         // the DRM content provider
-        if (destination == Downloads.DESTINATION_CACHE_PARTITION
-                || destination == Downloads.DESTINATION_CACHE_PARTITION_PURGEABLE
-                || destination == Downloads.DESTINATION_CACHE_PARTITION_NOROAMING
+        if (destination == Downloads.Impl.DESTINATION_CACHE_PARTITION
+                || destination == Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE
+                || destination == Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING
                 || DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING.equalsIgnoreCase(mimeType)) {
             base = Environment.getDownloadCacheDirectory();
             stat = new StatFs(base.getPath());
@@ -171,7 +171,7 @@ public class Helpers {
                         Log.d(Constants.TAG,
                                 "download aborted - not enough free space in internal storage");
                     }
-                    return new DownloadFileInfo(null, null, Downloads.STATUS_FILE_ERROR);
+                    return new DownloadFileInfo(null, null, Downloads.Impl.STATUS_FILE_ERROR);
                 }
                 stat.restat(base.getPath());
             }
@@ -185,14 +185,14 @@ public class Helpers {
                         Log.d(Constants.TAG, "download aborted - can't create base directory "
                                 + base.getPath());
                     }
-                    return new DownloadFileInfo(null, null, Downloads.STATUS_FILE_ERROR);
+                    return new DownloadFileInfo(null, null, Downloads.Impl.STATUS_FILE_ERROR);
                 }
                 stat = new StatFs(base.getPath());
             } else {
                 if (Config.LOGD) {
                     Log.d(Constants.TAG, "download aborted - no external storage");
                 }
-                return new DownloadFileInfo(null, null, Downloads.STATUS_FILE_ERROR);
+                return new DownloadFileInfo(null, null, Downloads.Impl.STATUS_FILE_ERROR);
             }
 
             /*
@@ -203,7 +203,7 @@ public class Helpers {
                 if (Config.LOGD) {
                     Log.d(Constants.TAG, "download aborted - not enough free space");
                 }
-                return new DownloadFileInfo(null, null, Downloads.STATUS_FILE_ERROR);
+                return new DownloadFileInfo(null, null, Downloads.Impl.STATUS_FILE_ERROR);
             }
 
         }
@@ -224,7 +224,7 @@ public class Helpers {
         if (fullFilename != null) {
             return new DownloadFileInfo(fullFilename, new FileOutputStream(fullFilename), 0);
         } else {
-            return new DownloadFileInfo(null, null, Downloads.STATUS_FILE_ERROR);
+            return new DownloadFileInfo(null, null, Downloads.Impl.STATUS_FILE_ERROR);
         }
     }
 
@@ -380,9 +380,9 @@ public class Helpers {
         String fullFilename = filename + extension;
         if (!new File(fullFilename).exists()
                 && (!recoveryDir ||
-                (destination != Downloads.DESTINATION_CACHE_PARTITION &&
-                        destination != Downloads.DESTINATION_CACHE_PARTITION_PURGEABLE &&
-                        destination != Downloads.DESTINATION_CACHE_PARTITION_NOROAMING))) {
+                (destination != Downloads.Impl.DESTINATION_CACHE_PARTITION &&
+                        destination != Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE &&
+                        destination != Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING))) {
             return fullFilename;
         }
         filename = filename + Constants.FILENAME_SEQUENCE_SEPARATOR;
@@ -423,14 +423,14 @@ public class Helpers {
      */
     public static final boolean discardPurgeableFiles(Context context, long targetBytes) {
         Cursor cursor = context.getContentResolver().query(
-                Downloads.CONTENT_URI,
+                Downloads.Impl.CONTENT_URI,
                 null,
                 "( " +
-                Downloads.COLUMN_STATUS + " = '" + Downloads.STATUS_SUCCESS + "' AND " +
-                Downloads.COLUMN_DESTINATION +
-                        " = '" + Downloads.DESTINATION_CACHE_PARTITION_PURGEABLE + "' )",
+                Downloads.Impl.COLUMN_STATUS + " = '" + Downloads.Impl.STATUS_SUCCESS + "' AND " +
+                Downloads.Impl.COLUMN_DESTINATION +
+                        " = '" + Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE + "' )",
                 null,
-                Downloads.COLUMN_LAST_MODIFICATION);
+                Downloads.Impl.COLUMN_LAST_MODIFICATION);
         if (cursor == null) {
             return false;
         }
@@ -438,16 +438,16 @@ public class Helpers {
         try {
             cursor.moveToFirst();
             while (!cursor.isAfterLast() && totalFreed < targetBytes) {
-                File file = new File(cursor.getString(cursor.getColumnIndex(Downloads._DATA)));
+                File file = new File(cursor.getString(cursor.getColumnIndex(Downloads.Impl._DATA)));
                 if (Constants.LOGVV) {
                     Log.v(Constants.TAG, "purging " + file.getAbsolutePath() + " for " +
                             file.length() + " bytes");
                 }
                 totalFreed += file.length();
                 file.delete();
-                long id = cursor.getLong(cursor.getColumnIndex(Downloads._ID));
+                long id = cursor.getLong(cursor.getColumnIndex(Downloads.Impl._ID));
                 context.getContentResolver().delete(
-                        ContentUris.withAppendedId(Downloads.CONTENT_URI, id), null, null);
+                        ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, id), null, null);
                 cursor.moveToNext();
             }
         } finally {

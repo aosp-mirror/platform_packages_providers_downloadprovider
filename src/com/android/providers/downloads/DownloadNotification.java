@@ -43,15 +43,16 @@ class DownloadNotification {
     
     static final String LOGTAG = "DownloadNotification";
     static final String WHERE_RUNNING = 
-        "(" + Downloads.COLUMN_STATUS + " >= '100') AND (" +
-        Downloads.COLUMN_STATUS + " <= '199') AND (" +
-        Downloads.COLUMN_VISIBILITY + " IS NULL OR " +
-        Downloads.COLUMN_VISIBILITY + " == '" + Downloads.VISIBILITY_VISIBLE + "' OR " +
-        Downloads.COLUMN_VISIBILITY +
-            " == '" + Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED + "')";
+        "(" + Downloads.Impl.COLUMN_STATUS + " >= '100') AND (" +
+        Downloads.Impl.COLUMN_STATUS + " <= '199') AND (" +
+        Downloads.Impl.COLUMN_VISIBILITY + " IS NULL OR " +
+        Downloads.Impl.COLUMN_VISIBILITY + " == '" + Downloads.Impl.VISIBILITY_VISIBLE + "' OR " +
+        Downloads.Impl.COLUMN_VISIBILITY +
+            " == '" + Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED + "')";
     static final String WHERE_COMPLETED =
-        Downloads.COLUMN_STATUS + " >= '200' AND " +
-        Downloads.COLUMN_VISIBILITY + " == '" + Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED + "'";
+        Downloads.Impl.COLUMN_STATUS + " >= '200' AND " +
+        Downloads.Impl.COLUMN_VISIBILITY +
+            " == '" + Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED + "'";
     
     
     /**
@@ -110,17 +111,17 @@ class DownloadNotification {
     private void updateActiveNotification() {
         // Active downloads
         Cursor c = mContext.getContentResolver().query(
-                Downloads.CONTENT_URI, new String [] {
-                        Downloads._ID,
-                        Downloads.COLUMN_TITLE,
-                        Downloads.COLUMN_DESCRIPTION,
-                        Downloads.COLUMN_NOTIFICATION_PACKAGE,
-                        Downloads.COLUMN_NOTIFICATION_CLASS,
-                        Downloads.COLUMN_CURRENT_BYTES,
-                        Downloads.COLUMN_TOTAL_BYTES,
-                        Downloads.COLUMN_STATUS, Downloads._DATA
+                Downloads.Impl.CONTENT_URI, new String [] {
+                        Downloads.Impl._ID,
+                        Downloads.Impl.COLUMN_TITLE,
+                        Downloads.Impl.COLUMN_DESCRIPTION,
+                        Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE,
+                        Downloads.Impl.COLUMN_NOTIFICATION_CLASS,
+                        Downloads.Impl.COLUMN_CURRENT_BYTES,
+                        Downloads.Impl.COLUMN_TOTAL_BYTES,
+                        Downloads.Impl.COLUMN_STATUS, Downloads.Impl._DATA
                 },
-                WHERE_RUNNING, null, Downloads._ID);
+                WHERE_RUNNING, null, Downloads.Impl._ID);
         
         if (c == null) {
             return;
@@ -202,7 +203,7 @@ class DownloadNotification {
             Intent intent = new Intent(Constants.ACTION_LIST);
             intent.setClassName("com.android.providers.downloads",
                     DownloadReceiver.class.getName());
-            intent.setData(Uri.parse(Downloads.CONTENT_URI + "/" + item.mId));
+            intent.setData(Uri.parse(Downloads.Impl.CONTENT_URI + "/" + item.mId));
             intent.putExtra("multiple", item.mTitleCount > 1);
 
             n.contentIntent = PendingIntent.getBroadcast(mContext, 0, intent, 0);
@@ -215,20 +216,20 @@ class DownloadNotification {
     private void updateCompletedNotification() {
         // Completed downloads
         Cursor c = mContext.getContentResolver().query(
-                Downloads.CONTENT_URI, new String [] {
-                        Downloads._ID,
-                        Downloads.COLUMN_TITLE,
-                        Downloads.COLUMN_DESCRIPTION,
-                        Downloads.COLUMN_NOTIFICATION_PACKAGE,
-                        Downloads.COLUMN_NOTIFICATION_CLASS,
-                        Downloads.COLUMN_CURRENT_BYTES,
-                        Downloads.COLUMN_TOTAL_BYTES,
-                        Downloads.COLUMN_STATUS,
-                        Downloads._DATA,
-                        Downloads.COLUMN_LAST_MODIFICATION,
-                        Downloads.COLUMN_DESTINATION
+                Downloads.Impl.CONTENT_URI, new String [] {
+                        Downloads.Impl._ID,
+                        Downloads.Impl.COLUMN_TITLE,
+                        Downloads.Impl.COLUMN_DESCRIPTION,
+                        Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE,
+                        Downloads.Impl.COLUMN_NOTIFICATION_CLASS,
+                        Downloads.Impl.COLUMN_CURRENT_BYTES,
+                        Downloads.Impl.COLUMN_TOTAL_BYTES,
+                        Downloads.Impl.COLUMN_STATUS,
+                        Downloads.Impl._DATA,
+                        Downloads.Impl.COLUMN_LAST_MODIFICATION,
+                        Downloads.Impl.COLUMN_DESTINATION
                 },
-                WHERE_COMPLETED, null, Downloads._ID);
+                WHERE_COMPLETED, null, Downloads.Impl._ID);
         
         if (c == null) {
             return;
@@ -257,17 +258,17 @@ class DownloadNotification {
                 title = mContext.getResources().getString(
                         R.string.download_unknown_title);
             }
-            Uri contentUri = Uri.parse(Downloads.CONTENT_URI + "/" + c.getInt(idColumn));
+            Uri contentUri = Uri.parse(Downloads.Impl.CONTENT_URI + "/" + c.getInt(idColumn));
             String caption;
             Intent intent;
-            if (Downloads.isStatusError(c.getInt(statusColumn))) {
+            if (Downloads.Impl.isStatusError(c.getInt(statusColumn))) {
                 caption = mContext.getResources()
                         .getString(R.string.notification_download_failed);
                 intent = new Intent(Constants.ACTION_LIST);
             } else {
                 caption = mContext.getResources()
                         .getString(R.string.notification_download_complete);
-                if (c.getInt(destinationColumnId) == Downloads.DESTINATION_EXTERNAL) {
+                if (c.getInt(destinationColumnId) == Downloads.Impl.DESTINATION_EXTERNAL) {
                     intent = new Intent(Constants.ACTION_OPEN);
                 } else {
                     intent = new Intent(Constants.ACTION_LIST);

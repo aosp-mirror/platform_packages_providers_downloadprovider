@@ -72,7 +72,7 @@ public class DownloadProviderPermissionsTest extends AndroidTestCase {
     @MediumTest
     public void testReadDownloadProvider() throws IOException {
         try {
-            mContentResolver.query(Downloads.CONTENT_URI, null, null, null, null);
+            mContentResolver.query(Downloads.Impl.CONTENT_URI, null, null, null, null);
             fail("read from provider did not throw SecurityException as expected.");
         } catch (SecurityException e) {
             // expected
@@ -88,8 +88,8 @@ public class DownloadProviderPermissionsTest extends AndroidTestCase {
     public void testWriteDownloadProvider() throws IOException {
         try {
             ContentValues values = new ContentValues();
-            values.put(Downloads.COLUMN_URI, "foo");
-            mContentResolver.insert(Downloads.CONTENT_URI, values);
+            values.put(Downloads.Impl.COLUMN_URI, "foo");
+            mContentResolver.insert(Downloads.Impl.CONTENT_URI, values);
             fail("write to provider did not throw SecurityException as expected.");
         } catch (SecurityException e) {
             // expected

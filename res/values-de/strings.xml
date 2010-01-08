@@ -20,8 +20,6 @@
     <string name="permdesc_downloadManager" msgid="4240298564918160337">"Ermöglicht der Anwendung den Zugriff auf den Download-Manager zum Herunterladen von Dateien. Diese Funktion kann von bösartigen Anwendungen dazu verwendet werden, Ladevorgänge zu unterbrechen und auf private Daten zuzugreifen."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Erweiterte Funktionen des Download-Managers."</string>
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Der Anwendung wird ermöglicht, auf die erweiterten Funktionen des Download-Managers zuzugreifen. Schädliche Anwendungen können so Downloads unterbrechen und auf persönliche Daten zugreifen."</string>
-    <string name="permlab_cacheFilesystem" msgid="6987994626343144212">"Systemcache verwenden"</string>
-    <string name="permdesc_cacheFilesystem" msgid="7301787168569544726">"Ermöglicht es der Anwendung, direkt auf den Systemcache zuzugreifen und diesen zu ändern oder zu löschen. Diese Funktion kann von bösartigen Anwendungen dazu verwendet werden, Ladevorgänge und andere Anwendungen schwerwiegend zu stören sowie auf private Daten zuzugreifen."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Benachrichtigungen zu Ladevorgängen senden"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Ermöglicht es der Anwendung, Benachrichtigungen zu abgeschlossenen Ladevorgängen zu senden. Diese Funktion kann von bösartigen Anwendungen dazu verwendet werden, den Ladevorgang anderer Anwendungen zu stören."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Unbenannt&gt;"</string>

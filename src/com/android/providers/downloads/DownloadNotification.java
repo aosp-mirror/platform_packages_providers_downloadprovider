@@ -145,16 +145,23 @@ class DownloadNotification {
             String packageName = c.getString(ownerColumn);
             int max = c.getInt(totalBytesColumn);
             int progress = c.getInt(currentBytesColumn);
+            long id = c.getLong(idColumn);
             String title = c.getString(titleColumn);
             if (title == null || title.length() == 0) {
-                title = mContext.getResources().getString(
-                        R.string.download_unknown_title);
+                String filename = c.getString(filenameColumnId);
+                if (filename == null) {
+                    title = mContext.getResources().getString(
+                            R.string.download_unknown_title);
+                } else {
+                    title = Downloads.Impl.createTitleFromFilename(mContext,
+                            filename, id);
+                }
             }
             if (mNotifications.containsKey(packageName)) {
                 mNotifications.get(packageName).addItem(title, progress, max);
             } else {
                 NotificationItem item = new NotificationItem();
-                item.mId = c.getInt(idColumn);
+                item.mId = (int) id;
                 item.mPackageName = packageName;
                 item.mDescription = c.getString(descColumn);
                 String className = c.getString(classOwnerColumn);
@@ -256,12 +263,19 @@ class DownloadNotification {
             Notification n = new Notification();
             n.icon = android.R.drawable.stat_sys_download_done;
 
+            long id = c.getLong(idColumn);
             String title = c.getString(titleColumn);
             if (title == null || title.length() == 0) {
-                title = mContext.getResources().getString(
-                        R.string.download_unknown_title);
+                String filename = c.getString(filenameColumnId);
+                if (filename == null) {
+                    title = mContext.getResources().getString(
+                            R.string.download_unknown_title);
+                } else {
+                    title = Downloads.Impl.createTitleFromFilename(mContext,
+                            filename, id);
+                }
             }
-            Uri contentUri = Uri.parse(Downloads.Impl.CONTENT_URI + "/" + c.getInt(idColumn));
+            Uri contentUri = Uri.parse(Downloads.Impl.CONTENT_URI + "/" + id);
             String caption;
             Intent intent;
             if (Downloads.Impl.isStatusError(c.getInt(statusColumn))) {

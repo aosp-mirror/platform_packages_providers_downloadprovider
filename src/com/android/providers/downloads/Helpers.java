@@ -19,6 +19,8 @@ package com.android.providers.downloads;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.drm.mobile1.DrmRawContent;
 import android.net.ConnectivityManager;
@@ -96,6 +98,31 @@ public class Helpers {
                     Log.d(Constants.TAG, "external download with no mime type not allowed");
                 }
                 return new DownloadFileInfo(null, null, Downloads.Impl.STATUS_NOT_ACCEPTABLE);
+            }
+            if (!DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING.equalsIgnoreCase(mimeType)) {
+                // Check to see if we are allowed to download this file. Only files
+                // that can be handled by the platform can be downloaded.
+                // special case DRM files, which we should always allow downloading.
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+
+                // We can provide data as either content: or file: URIs,
+                // so allow both.  (I think it would be nice if we just did
+                // everything as content: URIs)
+                // Actually, right now the download manager's UId restrictions
+                // prevent use from using content: so it's got to be file: or
+                // nothing
+
+                PackageManager pm = context.getPackageManager();
+                intent.setDataAndType(Uri.fromParts("file", "", null), mimeType);
+                ResolveInfo ri = pm.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
+                //Log.i(Constants.TAG, "*** FILENAME QUERY " + intent + ": " + list);
+
+                if (ri == null) {
+                    if (Config.LOGD) {
+                        Log.d(Constants.TAG, "no handler found for type " + mimeType);
+                    }
+                    return new DownloadFileInfo(null, null, Downloads.Impl.STATUS_NOT_ACCEPTABLE);
+                }
             }
         }
         String filename = chooseFilename(

@@ -21,7 +21,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.Downloads;
@@ -235,8 +234,7 @@ class DownloadNotification {
                         Downloads.Impl.COLUMN_STATUS,
                         Downloads.Impl._DATA,
                         Downloads.Impl.COLUMN_LAST_MODIFICATION,
-                        Downloads.Impl.COLUMN_DESTINATION,
-                        Downloads.Impl.COLUMN_MIME_TYPE
+                        Downloads.Impl.COLUMN_DESTINATION
                 },
                 WHERE_COMPLETED, null, Downloads.Impl._ID);
         
@@ -256,7 +254,6 @@ class DownloadNotification {
         final int filenameColumnId = 8;
         final int lastModColumnId = 9;
         final int destinationColumnId = 10;
-        final int mimeTypeColumnId = 11;
 
         for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
             // Add the notifications
@@ -285,13 +282,7 @@ class DownloadNotification {
             } else {
                 caption = mContext.getResources()
                         .getString(R.string.notification_download_complete);
-                if (c.getInt(destinationColumnId) == Downloads.Impl.DESTINATION_EXTERNAL
-                        // If there is no Activity to view the file, show the
-                        // list
-                        && null != mContext.getPackageManager().resolveActivity(
-                        new Intent().setDataAndType(Uri.fromParts("file", "",
-                        null), c.getString(mimeTypeColumnId)),
-                        PackageManager.MATCH_DEFAULT_ONLY)) {
+                if (c.getInt(destinationColumnId) == Downloads.Impl.DESTINATION_EXTERNAL) {
                     intent = new Intent(Constants.ACTION_OPEN);
                 } else {
                     intent = new Intent(Constants.ACTION_LIST);

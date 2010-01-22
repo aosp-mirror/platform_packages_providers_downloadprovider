@@ -27,6 +27,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.CharArrayBuffer;
 import android.database.ContentObserver;
 import android.database.Cursor;
@@ -609,6 +611,43 @@ public class DownloadService extends Service {
         }
 
         mDownloads.add(arrayPos, info);
+
+        if (info.mStatus == 0
+                && (info.mDestination == Downloads.Impl.DESTINATION_EXTERNAL
+                    || info.mDestination == Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE)
+                && info.mMimeType != null
+                && !DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING.equalsIgnoreCase(info.mMimeType)) {
+            // Check to see if we are allowed to download this file. Only files
+            // that can be handled by the platform can be downloaded.
+            // special case DRM files, which we should always allow downloading.
+            Intent mimetypeIntent = new Intent(Intent.ACTION_VIEW);
+
+            // We can provide data as either content: or file: URIs,
+            // so allow both.  (I think it would be nice if we just did
+            // everything as content: URIs)
+            // Actually, right now the download manager's UId restrictions
+            // prevent use from using content: so it's got to be file: or
+            // nothing
+
+            mimetypeIntent.setDataAndType(Uri.fromParts("file", "", null), info.mMimeType);
+            ResolveInfo ri = getPackageManager().resolveActivity(mimetypeIntent,
+                    PackageManager.MATCH_DEFAULT_ONLY);
+            //Log.i(Constants.TAG, "*** QUERY " + mimetypeIntent + ": " + list);
+
+            if (ri == null) {
+                if (Config.LOGD) {
+                    Log.d(Constants.TAG, "no application to handle MIME type " + info.mMimeType);
+                }
+                info.mStatus = Downloads.Impl.STATUS_NOT_ACCEPTABLE;
+
+                Uri uri = ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, info.mId);
+                ContentValues values = new ContentValues();
+                values.put(Downloads.Impl.COLUMN_STATUS, Downloads.Impl.STATUS_NOT_ACCEPTABLE);
+                getContentResolver().update(uri, values, null, null);
+                info.sendIntentIfRequested(uri, this);
+                return;
+            }
+        }
 
         if (info.canUseNetwork(networkAvailable, networkRoaming)) {
             if (info.isReadyToStart(now)) {

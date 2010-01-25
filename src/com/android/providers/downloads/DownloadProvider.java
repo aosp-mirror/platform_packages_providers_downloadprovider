@@ -21,7 +21,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.UriMatcher;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.CrossProcessCursor;
 import android.database.Cursor;
 import android.database.CursorWindow;
@@ -104,6 +106,10 @@ public final class DownloadProvider extends ContentProvider {
     /** The database that lies underneath this content provider */
     private SQLiteOpenHelper mOpenHelper = null;
 
+    /** List of uids that can access the downloads */
+    private int mSystemUid = -1;
+    private int mDefContainerUid = -1;
+
     /**
      * Creates and updated database on demand when opening it.
      * Helper class to create database the first time the provider is
@@ -167,6 +173,21 @@ public final class DownloadProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         mOpenHelper = new DatabaseHelper(getContext());
+        // Initialize the system uid
+        mSystemUid = Process.SYSTEM_UID;
+        // Initialize the default container uid. Package name hardcoded
+        // for now.
+        ApplicationInfo appInfo = null;
+        try {
+            appInfo = getContext().getPackageManager().
+                    getApplicationInfo("com.android.defcontainer", 0);
+        } catch (NameNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        if (appInfo != null) {
+            mDefContainerUid = appInfo.uid;
+        }
         return true;
     }
 
@@ -387,7 +408,10 @@ public final class DownloadProvider extends ContentProvider {
             }
         }
 
-        if (Binder.getCallingPid() != Process.myPid() && Binder.getCallingUid() != 0 &&
+        int callingUid = Binder.getCallingUid();
+        if (Binder.getCallingPid() != Process.myPid() &&
+                callingUid != mSystemUid &&
+                callingUid != mDefContainerUid &&
                 Process.supportsProcesses()) {
             if (!emptyWhere) {
                 qb.appendWhere(" AND ");
@@ -522,7 +546,10 @@ public final class DownloadProvider extends ContentProvider {
                     rowId = Long.parseLong(segment);
                     myWhere += " ( " + Downloads.Impl._ID + " = " + rowId + " ) ";
                 }
-                if (Binder.getCallingPid() != Process.myPid() && Binder.getCallingUid() != 0) {
+                int callingUid = Binder.getCallingUid();
+                if (Binder.getCallingPid() != Process.myPid() &&
+                        callingUid != mSystemUid &&
+                        callingUid != mDefContainerUid) {
                     myWhere += " AND ( " + Constants.UID + "=" +  Binder.getCallingUid() + " OR "
                             + Downloads.Impl.COLUMN_OTHER_UID + "=" +  Binder.getCallingUid() + " )";
                 }
@@ -578,7 +605,10 @@ public final class DownloadProvider extends ContentProvider {
                     long rowId = Long.parseLong(segment);
                     myWhere += " ( " + Downloads.Impl._ID + " = " + rowId + " ) ";
                 }
-                if (Binder.getCallingPid() != Process.myPid() && Binder.getCallingUid() != 0) {
+                int callingUid = Binder.getCallingUid();
+                if (Binder.getCallingPid() != Process.myPid() &&
+                        callingUid != mSystemUid &&
+                        callingUid != mDefContainerUid) {
                     myWhere += " AND ( " + Constants.UID + "=" +  Binder.getCallingUid() + " OR "
                             + Downloads.Impl.COLUMN_OTHER_UID + "="
                             +  Binder.getCallingUid() + " )";

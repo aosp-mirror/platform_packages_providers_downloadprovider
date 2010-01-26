@@ -152,6 +152,7 @@ public class Helpers {
                 || destination == Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE
                 || destination == Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING
                 || DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING.equalsIgnoreCase(mimeType)) {
+            // Saving to internal storage.
             base = Environment.getDownloadCacheDirectory();
             stat = new StatFs(base.getPath());
 
@@ -160,52 +161,58 @@ public class Helpers {
              * Put a bit of margin (in case creating the file grows the system by a few blocks).
              */
             int blockSize = stat.getBlockSize();
-            for (;;) {
-                int availableBlocks = stat.getAvailableBlocks();
-                if (blockSize * ((long) availableBlocks - 4) >= contentLength) {
-                    break;
-                }
-                if (!discardPurgeableFiles(context,
-                        contentLength - blockSize * ((long) availableBlocks - 4))) {
+            long bytesAvailable = blockSize * ((long) stat.getAvailableBlocks() - 4);
+            while (bytesAvailable < contentLength) {
+                // Insufficient space; try discarding purgeable files.
+                if (!discardPurgeableFiles(context, contentLength - bytesAvailable)) {
+                    // No files to purge, give up.
                     if (Config.LOGD) {
                         Log.d(Constants.TAG,
                                 "download aborted - not enough free space in internal storage");
                     }
-                    return new DownloadFileInfo(null, null, Downloads.Impl.STATUS_FILE_ERROR);
+                    return new DownloadFileInfo(null, null,
+                            Downloads.Impl.STATUS_INSUFFICIENT_SPACE_ERROR);
+                } else {
+                    // Recalculate available space and try again.
+                    stat.restat(base.getPath());
+                    bytesAvailable = blockSize * ((long) stat.getAvailableBlocks() - 4);
                 }
-                stat.restat(base.getPath());
             }
-
-        } else {
-            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                String root = Environment.getExternalStorageDirectory().getPath();
-                base = new File(root + Constants.DEFAULT_DL_SUBDIR);
-                if (!base.isDirectory() && !base.mkdir()) {
-                    if (Config.LOGD) {
-                        Log.d(Constants.TAG, "download aborted - can't create base directory "
-                                + base.getPath());
-                    }
-                    return new DownloadFileInfo(null, null, Downloads.Impl.STATUS_FILE_ERROR);
-                }
-                stat = new StatFs(base.getPath());
-            } else {
-                if (Config.LOGD) {
-                    Log.d(Constants.TAG, "download aborted - no external storage");
-                }
-                return new DownloadFileInfo(null, null, Downloads.Impl.STATUS_FILE_ERROR);
-            }
+        } else if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            // Saving to external storage (SD card).
+            String root = Environment.getExternalStorageDirectory().getPath();
+            stat = new StatFs(root);
 
             /*
              * Check whether there's enough space on the target filesystem to save the file.
              * Put a bit of margin (in case creating the file grows the system by a few blocks).
              */
             if (stat.getBlockSize() * ((long) stat.getAvailableBlocks() - 4) < contentLength) {
+                // Insufficient space.
                 if (Config.LOGD) {
                     Log.d(Constants.TAG, "download aborted - not enough free space");
                 }
-                return new DownloadFileInfo(null, null, Downloads.Impl.STATUS_FILE_ERROR);
+                return new DownloadFileInfo(null, null,
+                        Downloads.Impl.STATUS_INSUFFICIENT_SPACE_ERROR);
             }
 
+            base = new File(root + Constants.DEFAULT_DL_SUBDIR);
+            if (!base.isDirectory() && !base.mkdir()) {
+                // Can't create download directory, e.g. because a file called "download"
+                // already exists at the root level, or the SD card filesystem is read-only.
+                if (Config.LOGD) {
+                    Log.d(Constants.TAG, "download aborted - can't create base directory "
+                            + base.getPath());
+                }
+                return new DownloadFileInfo(null, null, Downloads.Impl.STATUS_FILE_ERROR);
+            }
+        } else {
+            // No SD card found.
+            if (Config.LOGD) {
+                Log.d(Constants.TAG, "download aborted - no external storage");
+            }
+            return new DownloadFileInfo(null, null,
+                    Downloads.Impl.STATUS_DEVICE_NOT_FOUND_ERROR);
         }
 
         boolean recoveryDir = Constants.RECOVERY_DIRECTORY.equalsIgnoreCase(filename + extension);

@@ -119,7 +119,7 @@ class DownloadNotification {
                         Downloads.Impl.COLUMN_NOTIFICATION_CLASS,
                         Downloads.Impl.COLUMN_CURRENT_BYTES,
                         Downloads.Impl.COLUMN_TOTAL_BYTES,
-                        Downloads.Impl.COLUMN_STATUS, Downloads.Impl._DATA
+                        Downloads.Impl.COLUMN_STATUS
                 },
                 WHERE_RUNNING, null, Downloads.Impl._ID);
         
@@ -136,7 +136,6 @@ class DownloadNotification {
         final int currentBytesColumn = 5;
         final int totalBytesColumn = 6;
         final int statusColumn = 7;
-        final int filenameColumnId = 8;
 
         // Collate the notifications
         mNotifications.clear();
@@ -147,14 +146,8 @@ class DownloadNotification {
             long id = c.getLong(idColumn);
             String title = c.getString(titleColumn);
             if (title == null || title.length() == 0) {
-                String filename = c.getString(filenameColumnId);
-                if (filename == null) {
-                    title = mContext.getResources().getString(
-                            R.string.download_unknown_title);
-                } else {
-                    title = Downloads.Impl.createTitleFromFilename(mContext,
-                            filename, id);
-                }
+                title = mContext.getResources().getString(
+                        R.string.download_unknown_title);
             }
             if (mNotifications.containsKey(packageName)) {
                 mNotifications.get(packageName).addItem(title, progress, max);
@@ -232,7 +225,6 @@ class DownloadNotification {
                         Downloads.Impl.COLUMN_CURRENT_BYTES,
                         Downloads.Impl.COLUMN_TOTAL_BYTES,
                         Downloads.Impl.COLUMN_STATUS,
-                        Downloads.Impl._DATA,
                         Downloads.Impl.COLUMN_LAST_MODIFICATION,
                         Downloads.Impl.COLUMN_DESTINATION
                 },
@@ -251,9 +243,8 @@ class DownloadNotification {
         final int currentBytesColumn = 5;
         final int totalBytesColumn = 6;
         final int statusColumn = 7;
-        final int filenameColumnId = 8;
-        final int lastModColumnId = 9;
-        final int destinationColumnId = 10;
+        final int lastModColumnId = 8;
+        final int destinationColumnId = 9;
 
         for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
             // Add the notifications
@@ -263,14 +254,8 @@ class DownloadNotification {
             long id = c.getLong(idColumn);
             String title = c.getString(titleColumn);
             if (title == null || title.length() == 0) {
-                String filename = c.getString(filenameColumnId);
-                if (filename == null) {
-                    title = mContext.getResources().getString(
-                            R.string.download_unknown_title);
-                } else {
-                    title = Downloads.Impl.createTitleFromFilename(mContext,
-                            filename, id);
-                }
+                title = mContext.getResources().getString(
+                        R.string.download_unknown_title);
             }
             Uri contentUri = Uri.parse(Downloads.Impl.CONTENT_URI + "/" + id);
             String caption;

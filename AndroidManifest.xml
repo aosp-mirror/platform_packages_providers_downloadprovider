@@ -21,6 +21,11 @@
         android:description="@string/permdesc_downloadCompletedIntent"
         android:protectionLevel="signature" />
 
+    <permission android:name="android.permission.SEE_ALL_EXTERNAL"
+        android:label="@string/permlab_seeAllExternal"
+        android:description="@string/permdesc_seeAllExternal"
+        android:protectionLevel="normal"/>
+
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
     <uses-permission android:name="android.permission.ACCESS_DRM" />

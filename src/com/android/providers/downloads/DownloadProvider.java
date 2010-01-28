@@ -413,22 +413,39 @@ public final class DownloadProvider extends ContentProvider {
                 callingUid != mSystemUid &&
                 callingUid != mDefContainerUid &&
                 Process.supportsProcesses()) {
-            if (!emptyWhere) {
-                qb.appendWhere(" AND ");
-            }
-            qb.appendWhere("( " + Constants.UID + "=" +  Binder.getCallingUid() + " OR "
-                    + Downloads.Impl.COLUMN_OTHER_UID + "=" +  Binder.getCallingUid() + " )");
-            emptyWhere = false;
-
+            boolean canSeeAllExternal;
             if (projection == null) {
                 projection = sAppReadableColumnsArray;
+                // sAppReadableColumnsArray includes _DATA, which is not allowed
+                // to be seen except by the initiating application
+                canSeeAllExternal = false;
             } else {
+                canSeeAllExternal = getContext().checkCallingPermission(
+                        Downloads.Impl.PERMISSION_SEE_ALL_EXTERNAL)
+                        == PackageManager.PERMISSION_GRANTED;
                 for (int i = 0; i < projection.length; ++i) {
                     if (!sAppReadableColumnsSet.contains(projection[i])) {
                         throw new IllegalArgumentException(
                                 "column " + projection[i] + " is not allowed in queries");
                     }
+                    canSeeAllExternal = canSeeAllExternal
+                            && !projection[i].equals(Downloads.Impl._DATA);
                 }
+            }
+            if (!emptyWhere) {
+                qb.appendWhere(" AND ");
+                emptyWhere = false;
+            }
+            String validUid = "( " + Constants.UID + "="
+                    + Binder.getCallingUid() + " OR "
+                    + Downloads.Impl.COLUMN_OTHER_UID + "="
+                    + Binder.getCallingUid() + " )";
+            if (canSeeAllExternal) {
+                qb.appendWhere("( " + validUid + " OR "
+                        + Downloads.Impl.DESTINATION_EXTERNAL + " = "
+                        + Downloads.Impl.COLUMN_DESTINATION + " )");
+            } else {
+                qb.appendWhere(validUid);
             }
         }
 
@@ -526,6 +543,16 @@ public final class DownloadProvider extends ContentProvider {
             copyString(Downloads.Impl.COLUMN_DESCRIPTION, values, filteredValues);
         } else {
             filteredValues = values;
+            String filename = values.getAsString(Downloads.Impl._DATA);
+            if (filename != null) {
+                Cursor c = query(uri, new String[]
+                        { Downloads.Impl.COLUMN_TITLE }, null, null, null);
+                if (!c.moveToFirst() || c.getString(0) == null) {
+                    values.put(Downloads.Impl.COLUMN_TITLE,
+                            new File(filename).getName());
+                }
+                c.close();
+            }
         }
         int match = sURIMatcher.match(uri);
         switch (match) {

@@ -67,6 +67,12 @@
         can use this to confuse other applications that download
         files.</string>
 
+    <!-- Title for permission to see all downloads to EXTERNAL -->
+    <string name="permlab_seeAllExternal">See all downloads to SD card</string>
+    <!-- Description for the permission to see all downloads to EXTERNAL -->
+    <string name="permdesc_seeAllExternal">Allows the application to see all
+        downloads to the SD card, regardless of which application downloaded
+        them.</string>
     <!-- This is the title that is used when displaying the notification
     for a download that doesn't have a title associated with it. -->
     <string name="download_unknown_title">&lt;Untitled&gt;</string>

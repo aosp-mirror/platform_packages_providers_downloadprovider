@@ -156,7 +156,7 @@ public class DownloadThread extends Thread {
             //     progress to the database
             long timeLastNotification = 0;
 
-            client = AndroidHttpClient.newInstance(userAgent());
+            client = AndroidHttpClient.newInstance(userAgent(), mContext);
 
             if (stream != null && mInfo.mDestination == Downloads.Impl.DESTINATION_EXTERNAL
                         && !DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING

@@ -22,6 +22,8 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Tillader, at programmet får adgang til de avancerede funktioner i downloadadministratoren. Ondsindede programmer kan bruge dette til at afbryde downloads og få adgang til personlige oplysninger."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Send downloadmeddelelser."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Tillader, at programmet sender meddelelser om afsluttede downloads. Ondsindede programmer kan bruge dette til at forvirre andre programmer, der downloader filer."</string>
+    <string name="permlab_seeAllExternal" msgid="140058400609165726">"Se alle downloads til SD-kort"</string>
+    <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Gør det muligt for programmet at se alle downloads til SD-kortet, uanset hvilket program, der downloadede dem."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Uden titel&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" og <xliff:g id="NUMBER">%d</xliff:g> mere"</string>

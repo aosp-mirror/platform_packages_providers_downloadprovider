@@ -694,8 +694,10 @@ http_request_loop:
                     FileUtils.setPermissions(filename, 0644, -1, -1);
 
                     // Sync to storage after completion
+                    FileOutputStream downloadedFileStream = null;
                     try {
-                        new FileOutputStream(filename, true).getFD().sync();
+                        downloadedFileStream = new FileOutputStream(filename, true);
+                        downloadedFileStream.getFD().sync();
                     } catch (FileNotFoundException ex) {
                         Log.w(Constants.TAG, "file " + filename + " not found: " + ex);
                     } catch (SyncFailedException ex) {
@@ -704,6 +706,16 @@ http_request_loop:
                         Log.w(Constants.TAG, "IOException trying to sync " + filename + ": " + ex);
                     } catch (RuntimeException ex) {
                         Log.w(Constants.TAG, "exception while syncing file: ", ex);
+                    } finally {
+                        if(downloadedFileStream != null) {
+                            try {
+                                downloadedFileStream.close();
+                            } catch (IOException ex) {
+                                Log.w(Constants.TAG, "IOException while closing synced file: ", ex);
+                            } catch (RuntimeException ex) {
+                                Log.w(Constants.TAG, "exception while closing file: ", ex);
+                            }
+                        }
                     }
                 }
             }

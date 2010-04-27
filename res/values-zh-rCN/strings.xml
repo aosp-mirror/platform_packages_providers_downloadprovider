@@ -26,8 +26,8 @@
     <string name="permlab_seeAllExternal" msgid="140058400609165726">"查看下载到 SD 卡的全部内容"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"无论下载到 SD 卡的内容是由什么应用程序下载的，都允许该应用程序查看所有这些内容。"</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;未命名&gt;"</string>
-    <string name="notification_filename_separator" msgid="7147189522857807618">"、 "</string>
+    <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" 还有 <xliff:g id="NUMBER">%d</xliff:g> 项"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"下载完成"</string>
-    <string name="notification_download_failed" msgid="5343637375905111462">"下载不成功"</string>
+    <string name="notification_download_failed" msgid="5343637375905111462">"下载失败"</string>
 </resources>

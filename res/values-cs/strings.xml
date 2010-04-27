@@ -29,5 +29,5 @@
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" a ještě <xliff:g id="NUMBER">%d</xliff:g>"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"Stahování bylo dokončeno"</string>
-    <string name="notification_download_failed" msgid="5343637375905111462">"Stahování bylo neúspěšné"</string>
+    <string name="notification_download_failed" msgid="5343637375905111462">"Stažení se nezdařilo."</string>
 </resources>

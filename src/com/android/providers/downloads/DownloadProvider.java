@@ -495,10 +495,6 @@ public final class DownloadProvider extends ContentProvider {
                               null, null, sort);
 
         if (ret != null) {
-           ret = new ReadOnlyCursorWrapper(ret);
-        }
-
-        if (ret != null) {
             ret.setNotificationUri(getContext().getContentResolver(), uri);
             if (Constants.LOGVV) {
                 Log.v(Constants.TAG,
@@ -759,34 +755,4 @@ public final class DownloadProvider extends ContentProvider {
             to.put(key, s);
         }
     }
-
-    private class ReadOnlyCursorWrapper extends CursorWrapper implements CrossProcessCursor {
-        public ReadOnlyCursorWrapper(Cursor cursor) {
-            super(cursor);
-            mCursor = (CrossProcessCursor) cursor;
-        }
-
-        public boolean deleteRow() {
-            throw new SecurityException("Download manager cursors are read-only");
-        }
-
-        public boolean commitUpdates() {
-            throw new SecurityException("Download manager cursors are read-only");
-        }
-
-        public void fillWindow(int pos, CursorWindow window) {
-            mCursor.fillWindow(pos, window);
-        }
-
-        public CursorWindow getWindow() {
-            return mCursor.getWindow();
-        }
-
-        public boolean onMove(int oldPosition, int newPosition) {
-            return mCursor.onMove(oldPosition, newPosition);
-        }
-
-        private CrossProcessCursor mCursor;
-    }
-
 }

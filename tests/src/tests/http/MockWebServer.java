@@ -27,13 +27,18 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * A scriptable web server. Callers supply canned responses and the server
@@ -50,6 +55,8 @@ public final class MockWebServer {
             = new LinkedBlockingQueue<MockResponse>();
     private int bodyLimit = Integer.MAX_VALUE;
     private final ExecutorService executor = Executors.newCachedThreadPool();
+    // keep Futures around so we can rethrow any exceptions thrown by Callables
+    private final Queue<Future<?>> futures = new LinkedList<Future<?>>();
 
     private int port = -1;
 
@@ -107,7 +114,7 @@ public final class MockWebServer {
         final ServerSocket ss = new ServerSocket(0);
         ss.setReuseAddress(true);
         port = ss.getLocalPort();
-        executor.submit(new Callable<Void>() {
+        submitCallable(new Callable<Void>() {
             public Void call() throws Exception {
                 int count = 0;
                 while (true) {
@@ -125,7 +132,7 @@ public final class MockWebServer {
     }
 
     private void serveConnection(final Socket s) {
-        executor.submit(new Callable<Void>() {
+        submitCallable(new Callable<Void>() {
             public Void call() throws Exception {
                 InputStream in = new BufferedInputStream(s.getInputStream());
                 OutputStream out = new BufferedOutputStream(s.getOutputStream());
@@ -154,6 +161,28 @@ public final class MockWebServer {
                 return null;
             }
         });
+    }
+
+    private void submitCallable(Callable<?> callable) {
+        Future<?> future = executor.submit(callable);
+        futures.add(future);
+    }
+
+    /**
+     * Check for and raise any exceptions that have been thrown by child threads.  Will not block on
+     * children still running.
+     * @throws ExecutionException for the first child thread that threw an exception
+     */
+    public void checkForExceptions() throws ExecutionException, InterruptedException {
+        final int originalSize = futures.size();
+        for (int i = 0; i < originalSize; i++) {
+            Future<?> future = futures.remove();
+            try {
+                future.get(0, TimeUnit.SECONDS);
+            } catch (TimeoutException e) {
+                futures.add(future); // still running
+            }
+        }
     }
 
     /**

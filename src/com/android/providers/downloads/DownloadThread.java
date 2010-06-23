@@ -56,9 +56,11 @@ public class DownloadThread extends Thread {
 
     private Context mContext;
     private DownloadInfo mInfo;
+    private SystemFacade mSystemFacade;
 
-    public DownloadThread(Context context, DownloadInfo info) {
+    public DownloadThread(Context context, SystemFacade systemFacade, DownloadInfo info) {
         mContext = context;
+        mSystemFacade = systemFacade;
         mInfo = info;
     }
 
@@ -131,7 +133,7 @@ public class DownloadThread extends Thread {
                         // Tough luck, that's not a resumable download
                         if (Config.LOGD) {
                             Log.d(Constants.TAG,
-                                    "can't resume interrupted non-resumable download"); 
+                                    "can't resume interrupted non-resumable download");
                         }
                         f.delete();
                         finalStatus = Downloads.Impl.STATUS_PRECONDITION_FAILED;
@@ -363,7 +365,7 @@ http_request_loop:
                         if (mimeType == null) {
                             header = response.getFirstHeader("Content-Type");
                             if (header != null) {
-                                mimeType = sanitizeMimeType(header.getValue()); 
+                                mimeType = sanitizeMimeType(header.getValue());
                             }
                         }
                         header = response.getFirstHeader("ETag");
@@ -593,7 +595,7 @@ http_request_loop:
                             }
                         }
                         bytesSoFar += bytesRead;
-                        long now = System.currentTimeMillis();
+                        long now = mSystemFacade.currentTimeMillis();
                         if (bytesSoFar - bytesNotified > Constants.MIN_PROGRESS_STEP
                                 && now - timeLastNotification
                                         > Constants.MIN_PROGRESS_TIME) {
@@ -678,7 +680,7 @@ http_request_loop:
                 } else if (Downloads.Impl.isStatusSuccess(finalStatus) &&
                         DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING
                         .equalsIgnoreCase(mimeType)) {
-                    // transfer the file to the DRM content provider 
+                    // transfer the file to the DRM content provider
                     File file = new File(filename);
                     Intent item = DrmStore.addDrmFile(mContext.getContentResolver(), file, null);
                     if (item == null) {
@@ -688,7 +690,7 @@ http_request_loop:
                         filename = item.getDataString();
                         mimeType = item.getType();
                     }
-                    
+
                     file.delete();
                 } else if (Downloads.Impl.isStatusSuccess(finalStatus)) {
                     // make sure the file is readable
@@ -748,7 +750,7 @@ http_request_loop:
             values.put(Downloads.Impl.COLUMN_URI, uri);
         }
         values.put(Downloads.Impl.COLUMN_MIME_TYPE, mimeType);
-        values.put(Downloads.Impl.COLUMN_LAST_MODIFICATION, System.currentTimeMillis());
+        values.put(Downloads.Impl.COLUMN_LAST_MODIFICATION, mSystemFacade.currentTimeMillis());
         values.put(Constants.RETRY_AFTER_X_REDIRECT_COUNT, retryAfter + (redirectCount << 28));
         if (!countRetry) {
             values.put(Constants.FAILED_CONNECTIONS, 0);

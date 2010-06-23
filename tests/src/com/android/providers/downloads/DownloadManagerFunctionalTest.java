@@ -26,7 +26,9 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.Downloads;
+import android.test.MoreAsserts;
 import android.test.RenamingDelegatingContext;
 import android.test.ServiceTestCase;
 import android.test.mock.MockContentResolver;
@@ -55,18 +57,23 @@ import java.util.Set;
  */
 @LargeTest
 public class DownloadManagerFunctionalTest extends ServiceTestCase<DownloadService> {
-    private static final int HTTP_PARTIAL_CONTENT = 206;
-    private static final String PROVIDER_AUTHORITY = "downloads";
-    private static final int HTTP_OK = 200;
     private static final String LOG_TAG = "DownloadManagerFunctionalTest";
-    private static final int HTTP_NOT_FOUND = 404;
+
+    private static final String PROVIDER_AUTHORITY = "downloads";
+    private static final int RETRY_DELAY_MILLIS = 61 * 1000;
+    private static final long REQUEST_TIMEOUT_MILLIS = 10 * 1000;
     private static final String FILE_CONTENT = "hello world";
-    private static final long REQUEST_TIMEOUT_MILLIS = 5000;
+
+    private static final int HTTP_OK = 200;
+    private static final int HTTP_PARTIAL_CONTENT = 206;
+    private static final int HTTP_NOT_FOUND = 404;
+    private static final int HTTP_SERVICE_UNAVAILABLE = 503;
 
     private MockWebServer mServer;
     // resolves requests to the DownloadProvider we set up
     private MockContentResolver mResolver;
     private TestContext mTestContext;
+    private FakeSystemFacade mSystemFacade;
 
     /**
      * Context passed to the provider and the service.  Allows most methods to pass through to the
@@ -148,6 +155,9 @@ public class DownloadManagerFunctionalTest extends ServiceTestCase<DownloadServi
 
         mTestContext.setResolver(mResolver);
         setContext(mTestContext);
+        setupService();
+        mSystemFacade = new FakeSystemFacade();
+        getService().mSystemFacade = mSystemFacade;
 
         mServer = new MockWebServer();
         mServer.play();
@@ -205,26 +215,55 @@ public class DownloadManagerFunctionalTest extends ServiceTestCase<DownloadServi
         assertEquals(Downloads.STATUS_PENDING, getDownloadStatus(downloadUri));
         assertTrue(mTestContext.mHasServiceBeenStarted);
 
-        startService(null);
-
-        RecordedRequest request = takeRequest();
+        RecordedRequest request = runUntilStatus(downloadUri, Downloads.STATUS_SUCCESS);
         assertEquals("GET", request.getMethod());
         assertEquals(path, request.getPath());
-
-        waitForDownloadToStop(downloadUri, Downloads.STATUS_SUCCESS);
         assertEquals(FILE_CONTENT, getDownloadContents(downloadUri));
-        checkForUnexpectedRequests();
+        assertStartsWith(Environment.getExternalStorageDirectory().getPath(),
+                         getDownloadFilename(downloadUri));
+    }
+
+    public void testDownloadToCache() throws Exception {
+        enqueueResponse(HTTP_OK, FILE_CONTENT);
+        Uri downloadUri = requestDownload("/path");
+        updateDownload(downloadUri, Downloads.COLUMN_DESTINATION,
+                       Integer.toString(Downloads.DESTINATION_CACHE_PARTITION));
+        runUntilStatus(downloadUri, Downloads.STATUS_SUCCESS);
+        assertEquals(FILE_CONTENT, getDownloadContents(downloadUri));
+        assertStartsWith(Environment.getDownloadCacheDirectory().getPath(),
+                         getDownloadFilename(downloadUri));
     }
 
     public void testFileNotFound() throws Exception {
         enqueueEmptyResponse(HTTP_NOT_FOUND);
         Uri downloadUri = requestDownload("/nonexistent_path");
         assertEquals(Downloads.STATUS_PENDING, getDownloadStatus(downloadUri));
+        runUntilStatus(downloadUri, HTTP_NOT_FOUND);
+    }
 
-        startService(null);
-        takeRequest();
-        waitForDownloadToStop(downloadUri, HTTP_NOT_FOUND);
-        checkForUnexpectedRequests();
+    public void testRetryAfter() throws Exception {
+        final int delay = 120;
+        enqueueEmptyResponse(HTTP_SERVICE_UNAVAILABLE).addHeader("Retry-after", delay);
+        Uri downloadUri = requestDownload("/path");
+        runUntilStatus(downloadUri, Downloads.STATUS_RUNNING_PAUSED);
+
+        // download manager adds random 0-30s offset
+        mSystemFacade.incrementTimeMillis((delay + 31) * 1000);
+
+        enqueueResponse(HTTP_OK, FILE_CONTENT);
+        runUntilStatus(downloadUri, Downloads.STATUS_SUCCESS);
+    }
+
+    public void testRedirect() throws Exception {
+        enqueueEmptyResponse(301).addHeader("Location", mServer.getUrl("/other_path").toString());
+        enqueueResponse(HTTP_OK, FILE_CONTENT);
+        Uri downloadUri = requestDownload("/path");
+        RecordedRequest request = runUntilStatus(downloadUri, Downloads.STATUS_RUNNING_PAUSED);
+        assertEquals("/path", request.getPath());
+
+        mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);
+        request = runUntilStatus(downloadUri, Downloads.STATUS_SUCCESS);
+        assertEquals("/other_path", request.getPath());
     }
 
     public void testBasicConnectivityChanges() throws Exception {
@@ -235,18 +274,13 @@ public class DownloadManagerFunctionalTest extends ServiceTestCase<DownloadServi
         mTestContext.mFakeIConnectivityManager.setNetworkState(NetworkInfo.State.DISCONNECTED);
         startService(null);
         waitForDownloadToStop(downloadUri, Downloads.STATUS_RUNNING_PAUSED);
-        checkForUnexpectedRequests();
 
         // connecting should start the download
         mTestContext.mFakeIConnectivityManager.setNetworkState(NetworkInfo.State.CONNECTED);
-        startService(null); // normally done by DownloadReceiver
-        takeRequest();
-        waitForDownloadToStop(downloadUri, Downloads.STATUS_SUCCESS);
-        checkForUnexpectedRequests();
+        runUntilStatus(downloadUri, Downloads.STATUS_SUCCESS);
     }
 
-    // disabled due to excessive sleep
-    public void disabledTestInterruptedDownload() throws Exception {
+    public void testInterruptedDownload() throws Exception {
         int initialLength = 5;
         String etag = "my_etag";
         int totalLength = FILE_CONTENT.length();
@@ -257,12 +291,9 @@ public class DownloadManagerFunctionalTest extends ServiceTestCase<DownloadServi
                 .setCloseConnectionAfter(true);
         Uri downloadUri = requestDownload("/path");
 
-        startService(null);
-        takeRequest();
-        waitForDownloadToStop(downloadUri, Downloads.STATUS_RUNNING_PAUSED);
+        runUntilStatus(downloadUri, Downloads.STATUS_RUNNING_PAUSED);
 
-        Thread.sleep(61 * 1000); // TODO: avoid this by stubbing the system clock
-        mServer.drainRequests();
+        mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);
         // the second response returns partial content for the rest of the data
         enqueueResponse(HTTP_PARTIAL_CONTENT, FILE_CONTENT.substring(initialLength))
                 .addHeader("Content-range",
@@ -270,17 +301,18 @@ public class DownloadManagerFunctionalTest extends ServiceTestCase<DownloadServi
                 .addHeader("Etag", etag);
         // TODO: ideally we wouldn't need to call startService again, but there's a bug where the
         // service won't retry a download until an intent comes in
-        startService(null);
-        waitForDownloadToStop(downloadUri, Downloads.STATUS_SUCCESS);
+        RecordedRequest request = runUntilStatus(downloadUri, Downloads.STATUS_SUCCESS);
 
-        RecordedRequest request = takeRequest();
         List<String> headers = request.getHeaders();
         assertTrue("No Range header: " + headers,
                    headers.contains("Range: bytes=" + initialLength + "-"));
         assertTrue("No ETag header: " + headers, headers.contains("If-Match: " + etag));
-
         assertEquals(FILE_CONTENT, getDownloadContents(downloadUri));
-        checkForUnexpectedRequests();
+    }
+
+    private void assertStartsWith(String expectedPrefix, String actual) {
+        String regex = "^" + expectedPrefix + ".*";
+        MoreAsserts.assertMatchesRegex(regex, actual);
     }
 
     /**
@@ -295,8 +327,19 @@ public class DownloadManagerFunctionalTest extends ServiceTestCase<DownloadServi
         return response;
     }
 
-    private void enqueueEmptyResponse(int status) {
-        enqueueResponse(status, "");
+    private MockResponse enqueueEmptyResponse(int status) {
+        return enqueueResponse(status, "");
+    }
+
+    /**
+     * Run the service and wait for a request and for the download to reach the given status.
+     * @return the request received
+     */
+    private RecordedRequest runUntilStatus(Uri downloadUri, int status) throws Exception {
+        startService(null);
+        RecordedRequest request = takeRequest();
+        waitForDownloadToStop(downloadUri, status);
+        return request;
     }
 
     /**
@@ -324,7 +367,7 @@ public class DownloadManagerFunctionalTest extends ServiceTestCase<DownloadServi
      * Wait for a download to given a given status, with a timeout.  Fails if the download reaches
      * any other final status.
      */
-    private void waitForDownloadToStop(Uri downloadUri, int expectedStatus) {
+    private void waitForDownloadToStop(Uri downloadUri, int expectedStatus) throws Exception {
         // TODO(showard): find a better way to accomplish this
         long startTimeMillis = System.currentTimeMillis();
         int status = getDownloadStatus(downloadUri);
@@ -335,11 +378,8 @@ public class DownloadManagerFunctionalTest extends ServiceTestCase<DownloadServi
             if (System.currentTimeMillis() > startTimeMillis + REQUEST_TIMEOUT_MILLIS) {
                 fail("Download timed out with status " + status);
             }
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException exc) {
-                // no problem
-            }
+            Thread.sleep(100);
+            mServer.checkForExceptions();
             status = getDownloadStatus(downloadUri);
         }
 
@@ -348,12 +388,20 @@ public class DownloadManagerFunctionalTest extends ServiceTestCase<DownloadServi
     }
 
     private int getDownloadStatus(Uri downloadUri) {
-        final String[] columns = new String[] {Downloads.COLUMN_STATUS};
+        return Integer.valueOf(getDownloadField(downloadUri, Downloads.COLUMN_STATUS));
+    }
+
+    private String getDownloadFilename(Uri downloadUri) {
+        return getDownloadField(downloadUri, Downloads._DATA);
+    }
+
+    private String getDownloadField(Uri downloadUri, String column) {
+        final String[] columns = new String[] {column};
         Cursor cursor = mResolver.query(downloadUri, columns, null, null, null);
         try {
             assertEquals(1, cursor.getCount());
             cursor.moveToFirst();
-            return cursor.getInt(0);
+            return cursor.getString(0);
         } finally {
             cursor.close();
         }
@@ -369,6 +417,16 @@ public class DownloadManagerFunctionalTest extends ServiceTestCase<DownloadServi
         return mResolver.insert(Downloads.CONTENT_URI, values);
     }
 
+    /**
+     * Update one field of a download in the provider.
+     */
+    private void updateDownload(Uri downloadUri, String column, String value) {
+        ContentValues values = new ContentValues();
+        values.put(column, value);
+        int numChanged = mResolver.update(downloadUri, values, null, null);
+        assertEquals(1, numChanged);
+    }
+
     private String readStream(InputStream inputStream) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         try {
@@ -379,17 +437,5 @@ public class DownloadManagerFunctionalTest extends ServiceTestCase<DownloadServi
         } finally {
             reader.close();
         }
-    }
-
-    /**
-     * Check for any extra requests made to the MockWebServer that weren't consumed with
-     * {@link #takeRequest()}.
-     */
-    private void checkForUnexpectedRequests() {
-        if (mServer == null) {
-            return;
-        }
-        List<RecordedRequest> extraRequests = mServer.drainRequests();
-        assertEquals("Invalid requests: " + extraRequests.toString(), 0, extraRequests.size());
     }
 }

@@ -106,6 +106,10 @@ class FakeIConnectivityManager implements IConnectivityManager {
         throw new UnsupportedOperationException();
     }
 
+    public void requestNetworkTransitionWakelock(String forWhom) {
+        throw new UnsupportedOperationException();
+    }
+
     public boolean requestRouteToHost(int networkType, int hostAddress) throws RemoteException {
         throw new UnsupportedOperationException();
     }

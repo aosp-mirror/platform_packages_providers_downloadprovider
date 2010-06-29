@@ -32,21 +32,22 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A scriptable web server. Callers supply canned responses and the server
  * replays them upon request in sequence.
+ *
+ * TODO: merge with the version from libcore/support/src/tests/java once it's in.
  */
 public final class MockWebServer {
-
     static final String ASCII = "US-ASCII";
 
     private final BlockingQueue<RecordedRequest> requestQueue
             = new LinkedBlockingQueue<RecordedRequest>();
     private final BlockingQueue<MockResponse> responseQueue
-            = new LinkedBlockingDeque<MockResponse>();
+            = new LinkedBlockingQueue<MockResponse>();
     private int bodyLimit = Integer.MAX_VALUE;
     private final ExecutorService executor = Executors.newCachedThreadPool();
 
@@ -86,6 +87,16 @@ public final class MockWebServer {
      */
     public RecordedRequest takeRequest() throws InterruptedException {
         return requestQueue.take();
+    }
+
+    public RecordedRequest takeRequestWithTimeout(long timeoutMillis) throws InterruptedException {
+        return requestQueue.poll(timeoutMillis, TimeUnit.MILLISECONDS);
+    }
+
+    public List<RecordedRequest> drainRequests() {
+        List<RecordedRequest> requests = new ArrayList<RecordedRequest>();
+        requestQueue.drainTo(requests);
+        return requests;
     }
 
     /**
@@ -130,7 +141,11 @@ public final class MockWebServer {
                         }
                     }
                     requestQueue.add(request);
-                    writeResponse(out, computeResponse(request));
+                    MockResponse response = computeResponse(request);
+                    writeResponse(out, response);
+                    if (response.shouldCloseConnectionAfter()) {
+                        break;
+                    }
                     sequenceNumber++;
                 }
 
@@ -146,7 +161,7 @@ public final class MockWebServer {
      */
     private RecordedRequest readRequest(InputStream in, int sequenceNumber) throws IOException {
         String request = readAsciiUntilCrlf(in);
-        if (request.isEmpty()) {
+        if (request.equals("")) {
             return null; // end of data; no more requests
         }
 
@@ -154,7 +169,7 @@ public final class MockWebServer {
         int contentLength = -1;
         boolean chunked = false;
         String header;
-        while (!(header = readAsciiUntilCrlf(in)).isEmpty()) {
+        while (!(header = readAsciiUntilCrlf(in)).equals("")) {
             headers.add(header);
             String lowercaseHeader = header.toLowerCase();
             if (contentLength == -1 && lowercaseHeader.startsWith("content-length:")) {
@@ -219,7 +234,6 @@ public final class MockWebServer {
         }
         out.write(("\r\n").getBytes(ASCII));
         out.write(response.getBody());
-        out.write(("\r\n").getBytes(ASCII));
         out.flush();
     }
 
@@ -260,7 +274,7 @@ public final class MockWebServer {
 
     private void readEmptyLine(InputStream in) throws IOException {
         String line = readAsciiUntilCrlf(in);
-        if (!line.isEmpty()) {
+        if (!line.equals("")) {
             throw new IllegalStateException("Expected empty but was: " + line);
         }
     }

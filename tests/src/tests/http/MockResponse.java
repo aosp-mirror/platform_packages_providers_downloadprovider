@@ -16,28 +16,29 @@
 
 package tests.http;
 
+import static tests.http.MockWebServer.ASCII;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import static tests.http.MockWebServer.ASCII;
+import java.util.Map;
 
 /**
  * A scripted response to be replayed by the mock web server.
  */
 public class MockResponse {
-    private static final String EMPTY_BODY_HEADER = "Content-Length: 0";
-    private static final String CHUNKED_BODY_HEADER = "Transfer-encoding: chunked";
     private static final byte[] EMPTY_BODY = new byte[0];
 
     private String status = "HTTP/1.1 200 OK";
-    private List<String> headers = new ArrayList<String>();
+    private Map<String, String> headers = new HashMap<String, String>();
     private byte[] body = EMPTY_BODY;
+    private boolean closeConnectionAfter = false;
 
     public MockResponse() {
-        headers.add(EMPTY_BODY_HEADER);
+        addHeader("Content-Length", 0);
     }
 
     /**
@@ -56,12 +57,20 @@ public class MockResponse {
      * Returns the HTTP headers, such as "Content-Length: 0".
      */
     public List<String> getHeaders() {
-        return headers;
+        List<String> headerStrings = new ArrayList<String>();
+        for (String header : headers.keySet()) {
+            headerStrings.add(header + ": " + headers.get(header));
+        }
+        return headerStrings;
     }
 
-    public MockResponse addHeader(String header) {
-        headers.add(header);
+    public MockResponse addHeader(String header, String value) {
+        headers.put(header.toLowerCase(), value);
         return this;
+    }
+
+    public MockResponse addHeader(String header, int value) {
+        return addHeader(header, Integer.toString(value));
     }
 
     /**
@@ -72,10 +81,7 @@ public class MockResponse {
     }
 
     public MockResponse setBody(byte[] body) {
-        if (this.body == EMPTY_BODY) {
-            headers.remove(EMPTY_BODY_HEADER);
-        }
-        this.headers.add("Content-Length: " + body.length);
+        addHeader("Content-Length", body.length);
         this.body = body;
         return this;
     }
@@ -89,8 +95,7 @@ public class MockResponse {
     }
 
     public MockResponse setChunkedBody(byte[] body, int maxChunkSize) throws IOException {
-        headers.remove(EMPTY_BODY_HEADER);
-        headers.add(CHUNKED_BODY_HEADER);
+        addHeader("Transfer-encoding", "chunked");
 
         ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
         int pos = 0;
@@ -113,5 +118,14 @@ public class MockResponse {
 
     @Override public String toString() {
         return status;
+    }
+
+    public boolean shouldCloseConnectionAfter() {
+        return closeConnectionAfter;
+    }
+
+    public MockResponse setCloseConnectionAfter(boolean closeConnectionAfter) {
+        this.closeConnectionAfter = closeConnectionAfter;
+        return this;
     }
 }

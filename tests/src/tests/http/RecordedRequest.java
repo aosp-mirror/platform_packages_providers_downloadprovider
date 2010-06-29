@@ -82,4 +82,12 @@ public final class RecordedRequest {
     @Override public String toString() {
         return requestLine;
     }
+
+    public String getMethod() {
+        return getRequestLine().split(" ")[0];
+    }
+
+    public String getPath() {
+        return getRequestLine().split(" ")[1];
+    }
 }

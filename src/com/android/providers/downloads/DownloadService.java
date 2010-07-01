@@ -17,6 +17,7 @@
 package com.android.providers.downloads;
 
 import com.google.android.collect.Lists;
+import com.google.common.annotations.VisibleForTesting;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -62,7 +63,7 @@ public class DownloadService extends Service {
 
     /** Observer to get notified when the content observer's data changes */
     private DownloadManagerContentObserver mObserver;
-    
+
     /** Class to handle Notification Manager updates */
     private DownloadNotification mNotifier;
 
@@ -108,6 +109,9 @@ public class DownloadService extends Service {
      * Array used when extracting strings from content provider
      */
     private CharArrayBuffer mNewChars;
+
+    @VisibleForTesting
+    SystemFacade mSystemFacade;
 
     /* ------------ Inner Classes ------------ */
 
@@ -200,6 +204,10 @@ public class DownloadService extends Service {
             Log.v(Constants.TAG, "Service onCreate");
         }
 
+        if (mSystemFacade == null) {
+            mSystemFacade = new RealSystemFacade();
+        }
+
         mDownloads = Lists.newArrayList();
 
         mObserver = new DownloadManagerContentObserver();
@@ -209,7 +217,7 @@ public class DownloadService extends Service {
         mMediaScannerService = null;
         mMediaScannerConnecting = false;
         mMediaScannerConnection = new MediaScannerConnection();
-        
+
         mNotifier = new DownloadNotification(this);
         mNotifier.mNotificationMgr.cancelAll();
         mNotifier.updateNotification();
@@ -259,10 +267,10 @@ public class DownloadService extends Service {
         public UpdateThread() {
             super("Download Service");
         }
-        
+
         public void run() {
             Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
-            
+
             boolean keepService = false;
             // for each update from the database, remember which download is
             // supposed to get restarted soonest in the future
@@ -292,7 +300,7 @@ public class DownloadService extends Service {
                                         DownloadReceiver.class.getName());
                                 alarms.set(
                                         AlarmManager.RTC_WAKEUP,
-                                        System.currentTimeMillis() + wakeUp,
+                                        mSystemFacade.currentTimeMillis() + wakeUp,
                                         PendingIntent.getBroadcast(DownloadService.this, 0, intent,
                                                 PendingIntent.FLAG_ONE_SHOT));
                             }
@@ -305,7 +313,7 @@ public class DownloadService extends Service {
                 }
                 boolean networkAvailable = Helpers.isNetworkAvailable(DownloadService.this);
                 boolean networkRoaming = Helpers.isNetworkRoaming(DownloadService.this);
-                long now = System.currentTimeMillis();
+                long now = mSystemFacade.currentTimeMillis();
 
                 Cursor cursor = getContentResolver().query(Downloads.Impl.CONTENT_URI,
                         null, null, null, Downloads.Impl._ID);
@@ -666,7 +674,7 @@ public class DownloadService extends Service {
                             ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, info.mId),
                             values, null, null);
                 }
-                DownloadThread downloader = new DownloadThread(this, info);
+                DownloadThread downloader = new DownloadThread(this, mSystemFacade, info);
                 info.mHasActiveThread = true;
                 downloader.start();
             }
@@ -757,7 +765,7 @@ public class DownloadService extends Service {
                 getContentResolver().update(
                         ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, info.mId),
                         values, null, null);
-                DownloadThread downloader = new DownloadThread(this, info);
+                DownloadThread downloader = new DownloadThread(this, mSystemFacade, info);
                 info.mHasActiveThread = true;
                 downloader.start();
             }

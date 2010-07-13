@@ -780,7 +780,7 @@ public class Helpers {
             }
 
             // anything we don't recognize
-            throw new IllegalArgumentException("illegal character");
+            throw new IllegalArgumentException("illegal character: " + chars[mOffset]);
         }
 
         private static final boolean isIdentifierStart(char c) {

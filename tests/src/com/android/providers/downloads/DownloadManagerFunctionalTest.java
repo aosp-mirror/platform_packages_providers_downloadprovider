@@ -16,38 +16,19 @@
 
 package com.android.providers.downloads;
 
-import android.content.ComponentName;
-import android.content.ContentProvider;
-import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.Downloads;
-import android.test.MoreAsserts;
-import android.test.RenamingDelegatingContext;
-import android.test.ServiceTestCase;
-import android.test.mock.MockContentResolver;
 import android.test.suitebuilder.annotation.LargeTest;
-import android.util.Log;
-import tests.http.MockResponse;
 import tests.http.MockWebServer;
 import tests.http.RecordedRequest;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * This test exercises the entire download manager working together -- it requests downloads through
@@ -56,157 +37,7 @@ import java.util.Set;
  * device to serve downloads.
  */
 @LargeTest
-public class DownloadManagerFunctionalTest extends ServiceTestCase<DownloadService> {
-    private static final String LOG_TAG = "DownloadManagerFunctionalTest";
-
-    private static final String PROVIDER_AUTHORITY = "downloads";
-    private static final int RETRY_DELAY_MILLIS = 61 * 1000;
-    private static final long REQUEST_TIMEOUT_MILLIS = 10 * 1000;
-    private static final String FILE_CONTENT = "hello world";
-
-    private static final int HTTP_OK = 200;
-    private static final int HTTP_PARTIAL_CONTENT = 206;
-    private static final int HTTP_NOT_FOUND = 404;
-    private static final int HTTP_SERVICE_UNAVAILABLE = 503;
-
-    private MockWebServer mServer;
-    // resolves requests to the DownloadProvider we set up
-    private MockContentResolver mResolver;
-    private TestContext mTestContext;
-    private FakeSystemFacade mSystemFacade;
-
-    /**
-     * Context passed to the provider and the service.  Allows most methods to pass through to the
-     * real Context (this is a LargeTest), with a few exceptions, including renaming file operations
-     * to avoid file and DB conflicts (via RenamingDelegatingContext).
-     */
-    private static class TestContext extends RenamingDelegatingContext {
-        private static final String FILENAME_PREFIX = "test.";
-
-        private Context mRealContext;
-        private Set<String> mAllowedSystemServices;
-        private ContentResolver mResolver;
-
-        boolean mHasServiceBeenStarted = false;
-        FakeIConnectivityManager mFakeIConnectivityManager;
-
-        public TestContext(Context realContext) {
-            super(realContext, FILENAME_PREFIX);
-            mRealContext = realContext;
-            mAllowedSystemServices = new HashSet<String>(Arrays.asList(new String[] {
-                    Context.NOTIFICATION_SERVICE,
-                    Context.POWER_SERVICE,
-            }));
-            mFakeIConnectivityManager = new FakeIConnectivityManager();
-        }
-
-        public void setResolver(ContentResolver resolver) {
-            mResolver = resolver;
-        }
-
-        /**
-         * Direct DownloadService to our test instance of DownloadProvider.
-         */
-        @Override
-        public ContentResolver getContentResolver() {
-            assert mResolver != null;
-            return mResolver;
-        }
-
-        /**
-         * Stub some system services, allow access to others, and block the rest.
-         */
-        @Override
-        public Object getSystemService(String name) {
-            if (name.equals(Context.CONNECTIVITY_SERVICE)) {
-                return new ConnectivityManager(mFakeIConnectivityManager);
-            }
-            if (mAllowedSystemServices.contains(name)) {
-                return mRealContext.getSystemService(name);
-            }
-            return super.getSystemService(name);
-        }
-
-        /**
-         * Record when DownloadProvider starts DownloadService.
-         */
-        @Override
-        public ComponentName startService(Intent service) {
-            if (service.getComponent().getClassName().equals(DownloadService.class.getName())) {
-                mHasServiceBeenStarted = true;
-                return service.getComponent();
-            }
-            throw new UnsupportedOperationException("Unexpected service: " + service);
-        }
-    }
-
-    public DownloadManagerFunctionalTest() {
-        super(DownloadService.class);
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        Context realContext = getContext();
-        mTestContext = new TestContext(realContext);
-        setupProviderAndResolver();
-        assert isDatabaseEmpty(); // ensure we're not messing with real data
-
-        mTestContext.setResolver(mResolver);
-        setContext(mTestContext);
-        setupService();
-        mSystemFacade = new FakeSystemFacade();
-        getService().mSystemFacade = mSystemFacade;
-
-        mServer = new MockWebServer();
-        mServer.play();
-    }
-
-    private void setupProviderAndResolver() {
-        ContentProvider provider = new DownloadProvider();
-        provider.attachInfo(mTestContext, null);
-        mResolver = new MockContentResolver();
-        mResolver.addProvider(PROVIDER_AUTHORITY, provider);
-    }
-
-    private boolean isDatabaseEmpty() {
-        Cursor cursor = mResolver.query(Downloads.CONTENT_URI, null, null, null, null);
-        try {
-            return cursor.getCount() == 0;
-        } finally {
-            cursor.close();
-        }
-    }
-
-    @Override
-    protected void tearDown() throws Exception {
-        cleanUpDownloads();
-        super.tearDown();
-    }
-
-    /**
-     * Remove any downloaded files and delete any lingering downloads.
-     */
-    private void cleanUpDownloads() {
-        if (mResolver == null) {
-            return;
-        }
-        String[] columns = new String[] {Downloads._DATA};
-        Cursor cursor = mResolver.query(Downloads.CONTENT_URI, columns, null, null, null);
-        try {
-            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-                String filePath = cursor.getString(0);
-                if (filePath == null) continue;
-                Log.d(LOG_TAG, "Deleting " + filePath);
-                new File(filePath).delete();
-            }
-        } finally {
-            cursor.close();
-        }
-        mResolver.delete(Downloads.CONTENT_URI, null, null);
-    }
-
+public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFunctionalTest {
     public void testBasicRequest() throws Exception {
         enqueueResponse(HTTP_OK, FILE_CONTENT);
 
@@ -273,7 +104,7 @@ public class DownloadManagerFunctionalTest extends ServiceTestCase<DownloadServi
         // without connectivity, download immediately pauses
         mTestContext.mFakeIConnectivityManager.setNetworkState(NetworkInfo.State.DISCONNECTED);
         startService(null);
-        waitForDownloadToStop(downloadUri, Downloads.STATUS_RUNNING_PAUSED);
+        super.waitForDownloadToStop(getStatusReader(downloadUri), Downloads.STATUS_RUNNING_PAUSED);
 
         // connecting should start the download
         mTestContext.mFakeIConnectivityManager.setNetworkState(NetworkInfo.State.CONNECTED);
@@ -310,47 +141,6 @@ public class DownloadManagerFunctionalTest extends ServiceTestCase<DownloadServi
         assertEquals(FILE_CONTENT, getDownloadContents(downloadUri));
     }
 
-    private void assertStartsWith(String expectedPrefix, String actual) {
-        String regex = "^" + expectedPrefix + ".*";
-        MoreAsserts.assertMatchesRegex(regex, actual);
-    }
-
-    /**
-     * Enqueue a response from the MockWebServer.
-     */
-    private MockResponse enqueueResponse(int status, String body) {
-        MockResponse response = new MockResponse()
-                        .setResponseCode(status)
-                        .setBody(body)
-                        .addHeader("Content-type", "text/plain");
-        mServer.enqueue(response);
-        return response;
-    }
-
-    private MockResponse enqueueEmptyResponse(int status) {
-        return enqueueResponse(status, "");
-    }
-
-    /**
-     * Run the service and wait for a request and for the download to reach the given status.
-     * @return the request received
-     */
-    private RecordedRequest runUntilStatus(Uri downloadUri, int status) throws Exception {
-        startService(null);
-        RecordedRequest request = takeRequest();
-        waitForDownloadToStop(downloadUri, status);
-        return request;
-    }
-
-    /**
-     * Wait for a request to come to the MockWebServer and return it.
-     */
-    private RecordedRequest takeRequest() throws InterruptedException {
-        RecordedRequest request = mServer.takeRequestWithTimeout(REQUEST_TIMEOUT_MILLIS);
-        assertNotNull("Timed out waiting for request", request);
-        return request;
-    }
-
     /**
      * Read a downloaded file from disk.
      */
@@ -363,31 +153,23 @@ public class DownloadManagerFunctionalTest extends ServiceTestCase<DownloadServi
         }
     }
 
-    /**
-     * Wait for a download to given a given status, with a timeout.  Fails if the download reaches
-     * any other final status.
-     */
-    private void waitForDownloadToStop(Uri downloadUri, int expectedStatus) throws Exception {
-        // TODO(showard): find a better way to accomplish this
-        long startTimeMillis = System.currentTimeMillis();
-        int status = getDownloadStatus(downloadUri);
-        while (status != expectedStatus) {
-            if (!Downloads.isStatusInformational(status)) {
-                fail("Download completed with unexpected status: " + status);
-            }
-            if (System.currentTimeMillis() > startTimeMillis + REQUEST_TIMEOUT_MILLIS) {
-                fail("Download timed out with status " + status);
-            }
-            Thread.sleep(100);
-            mServer.checkForExceptions();
-            status = getDownloadStatus(downloadUri);
-        }
-
-        long delta = System.currentTimeMillis() - startTimeMillis;
-        Log.d(LOG_TAG, "Status " + status + " reached after " + delta + "ms");
+    private RecordedRequest runUntilStatus(Uri downloadUri, int status) throws Exception {
+        return super.runUntilStatus(getStatusReader(downloadUri), status);
     }
 
-    private int getDownloadStatus(Uri downloadUri) {
+    private StatusReader getStatusReader(final Uri downloadUri) {
+        return new StatusReader() {
+            public int getStatus() {
+                return getDownloadStatus(downloadUri);
+            }
+
+            public boolean isComplete(int status) {
+                return !Downloads.isStatusInformational(status);
+            }
+        };
+    }
+
+    protected int getDownloadStatus(Uri downloadUri) {
         return Integer.valueOf(getDownloadField(downloadUri, Downloads.COLUMN_STATUS));
     }
 
@@ -412,7 +194,7 @@ public class DownloadManagerFunctionalTest extends ServiceTestCase<DownloadServi
      */
     private Uri requestDownload(String path) throws MalformedURLException {
         ContentValues values = new ContentValues();
-        values.put(Downloads.COLUMN_URI, mServer.getUrl(path).toString());
+        values.put(Downloads.COLUMN_URI, getServerUri(path));
         values.put(Downloads.COLUMN_DESTINATION, Downloads.DESTINATION_EXTERNAL);
         return mResolver.insert(Downloads.CONTENT_URI, values);
     }
@@ -425,17 +207,5 @@ public class DownloadManagerFunctionalTest extends ServiceTestCase<DownloadServi
         values.put(column, value);
         int numChanged = mResolver.update(downloadUri, values, null, null);
         assertEquals(1, numChanged);
-    }
-
-    private String readStream(InputStream inputStream) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        try {
-            char[] buffer = new char[1024];
-            int length = reader.read(buffer);
-            assertTrue("Failed to read anything from input stream", length > -1);
-            return String.valueOf(buffer, 0, length);
-        } finally {
-            reader.close();
-        }
     }
 }

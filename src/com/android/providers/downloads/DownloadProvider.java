@@ -16,6 +16,8 @@
 
 package com.android.providers.downloads;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
@@ -110,6 +112,9 @@ public final class DownloadProvider extends ContentProvider {
     private int mSystemUid = -1;
     private int mDefContainerUid = -1;
 
+    @VisibleForTesting
+    SystemFacade mSystemFacade;
+
     /**
      * Creates and updated database on demand when opening it.
      * Helper class to create database the first time the provider is
@@ -172,6 +177,10 @@ public final class DownloadProvider extends ContentProvider {
      */
     @Override
     public boolean onCreate() {
+        if (mSystemFacade == null) {
+            mSystemFacade = new RealSystemFacade();
+        }
+
         mOpenHelper = new DatabaseHelper(getContext());
         // Initialize the system uid
         mSystemUid = Process.SYSTEM_UID;
@@ -294,8 +303,15 @@ public final class DownloadProvider extends ContentProvider {
             if (getContext().checkCallingPermission(Downloads.Impl.PERMISSION_ACCESS_ADVANCED)
                     != PackageManager.PERMISSION_GRANTED
                     && dest != Downloads.Impl.DESTINATION_EXTERNAL
-                    && dest != Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE) {
+                    && dest != Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE
+                    && dest != Downloads.Impl.DESTINATION_FILE_URI) {
                 throw new SecurityException("unauthorized destination code");
+            }
+            if (dest == Downloads.Impl.DESTINATION_FILE_URI) {
+                getContext().enforcePermission(
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Binder.getCallingPid(), Binder.getCallingUid(),
+                        "need WRITE_EXTERNAL_STORAGE permission to use DESTINATION_FILE_URI");
             }
             filteredValues.put(Downloads.Impl.COLUMN_DESTINATION, dest);
         }
@@ -313,7 +329,8 @@ public final class DownloadProvider extends ContentProvider {
         }
         copyInteger(Downloads.Impl.COLUMN_CONTROL, values, filteredValues);
         filteredValues.put(Downloads.Impl.COLUMN_STATUS, Downloads.Impl.STATUS_PENDING);
-        filteredValues.put(Downloads.Impl.COLUMN_LAST_MODIFICATION, System.currentTimeMillis());
+        filteredValues.put(Downloads.Impl.COLUMN_LAST_MODIFICATION,
+                           mSystemFacade.currentTimeMillis());
         String pckg = values.getAsString(Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE);
         String clazz = values.getAsString(Downloads.Impl.COLUMN_NOTIFICATION_CLASS);
         if (pckg != null && clazz != null) {
@@ -733,7 +750,7 @@ public final class DownloadProvider extends ContentProvider {
             throw new FileNotFoundException("couldn't open file");
         } else {
             ContentValues values = new ContentValues();
-            values.put(Downloads.Impl.COLUMN_LAST_MODIFICATION, System.currentTimeMillis());
+            values.put(Downloads.Impl.COLUMN_LAST_MODIFICATION, mSystemFacade.currentTimeMillis());
             update(uri, values, null, null);
         }
         return ret;

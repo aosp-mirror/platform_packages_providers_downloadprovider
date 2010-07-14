@@ -17,7 +17,6 @@
 package com.android.providers.downloads;
 
 import android.content.ComponentName;
-import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -138,6 +137,7 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
     protected void setUp() throws Exception {
         super.setUp();
 
+        mSystemFacade = new FakeSystemFacade();
         Context realContext = getContext();
         mTestContext = new TestContext(realContext);
         setupProviderAndResolver();
@@ -146,7 +146,6 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
         mTestContext.setResolver(mResolver);
         setContext(mTestContext);
         setupService();
-        mSystemFacade = new FakeSystemFacade();
         getService().mSystemFacade = mSystemFacade;
 
         mServer = new MockWebServer();
@@ -169,7 +168,8 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
     }
 
     void setupProviderAndResolver() {
-        ContentProvider provider = new DownloadProvider();
+        DownloadProvider provider = new DownloadProvider();
+        provider.mSystemFacade = mSystemFacade;
         provider.attachInfo(mTestContext, null);
         mResolver = new MockContentResolver();
         mResolver.addProvider(PROVIDER_AUTHORITY, provider);

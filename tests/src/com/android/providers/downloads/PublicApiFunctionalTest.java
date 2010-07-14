@@ -22,14 +22,12 @@ import android.net.Uri;
 import android.os.Environment;
 import tests.http.RecordedRequest;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 
 public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTest {
-    /**
-     *
-     */
     private static final String REQUEST_PATH = "/path";
 
     class Download implements StatusReader {
@@ -87,11 +85,34 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
     }
 
     private DownloadManager mManager;
+    private File mTestDirectory;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         mManager = new DownloadManager(mResolver);
+
+        mTestDirectory = new File(Environment.getExternalStorageDirectory() + File.separator
+                                  + "download_manager_functional_test");
+        if (mTestDirectory.exists()) {
+            throw new RuntimeException(
+                    "Test directory on external storage already exists, cannot run");
+        }
+        if (!mTestDirectory.mkdir()) {
+            throw new RuntimeException("Couldn't create test directory: "
+                                       + mTestDirectory.getPath());
+        }
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        if (mTestDirectory != null) {
+            for (File file : mTestDirectory.listFiles()) {
+                file.delete();
+            }
+            mTestDirectory.delete();
+        }
+        super.tearDown();
     }
 
     public void testBasicRequest() throws Exception {
@@ -103,20 +124,25 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
         assertEquals(getServerUri(REQUEST_PATH),
                      download.getStringField(DownloadManager.COLUMN_URI));
         assertEquals(download.mId, download.getLongField(DownloadManager.COLUMN_ID));
+        assertEquals(mSystemFacade.currentTimeMillis(),
+                     download.getLongField(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP));
 
+        mSystemFacade.incrementTimeMillis(10);
         RecordedRequest request = download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
         assertEquals("GET", request.getMethod());
         assertEquals(REQUEST_PATH, request.getPath());
 
         Uri localUri = Uri.parse(download.getStringField(DownloadManager.COLUMN_LOCAL_URI));
         assertEquals("file", localUri.getScheme());
-        assertStartsWith(Environment.getDownloadCacheDirectory().getPath(),
+        assertStartsWith("//" + Environment.getDownloadCacheDirectory().getPath(),
                          localUri.getSchemeSpecificPart());
         assertEquals("text/plain", download.getStringField(DownloadManager.COLUMN_MEDIA_TYPE));
 
         int size = FILE_CONTENT.length();
         assertEquals(size, download.getLongField(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
         assertEquals(size, download.getLongField(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+        assertEquals(mSystemFacade.currentTimeMillis(),
+                     download.getLongField(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP));
 
         assertEquals(FILE_CONTENT, download.getContents());
     }
@@ -176,12 +202,16 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
         Download download1 = enqueueRequest(getRequest());
         download1.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
         enqueueEmptyResponse(HTTP_NOT_FOUND);
+
+        mSystemFacade.incrementTimeMillis(1); // ensure downloads are correctly ordered by time
         Download download2 = enqueueRequest(getRequest());
         download2.runUntilStatus(DownloadManager.STATUS_FAILED);
+
+        mSystemFacade.incrementTimeMillis(1);
         Download download3 = enqueueRequest(getRequest());
 
         Cursor cursor = mManager.query(new DownloadManager.Query());
-        checkAndCloseCursor(cursor, download1, download2, download3);
+        checkAndCloseCursor(cursor, download3, download2, download1);
 
         cursor = mManager.query(new DownloadManager.Query().setFilterById(download2.mId));
         checkAndCloseCursor(cursor, download2);
@@ -193,7 +223,7 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
         cursor = mManager.query(new DownloadManager.Query()
                                 .setFilterByStatus(DownloadManager.STATUS_FAILED
                                               | DownloadManager.STATUS_SUCCESSFUL));
-        checkAndCloseCursor(cursor, download1, download2);
+        checkAndCloseCursor(cursor, download2, download1);
 
         cursor = mManager.query(new DownloadManager.Query()
                                 .setFilterByStatus(DownloadManager.STATUS_RUNNING));
@@ -222,6 +252,23 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
         }
 
         fail("No exception thrown for invalid URI");
+    }
+
+    public void testDestination() throws Exception {
+        enqueueResponse(HTTP_OK, FILE_CONTENT);
+        Uri destination = Uri.fromFile(mTestDirectory).buildUpon().appendPath("testfile").build();
+        Download download = enqueueRequest(getRequest().setDestinationUri(destination));
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+
+        Uri localUri = Uri.parse(download.getStringField(DownloadManager.COLUMN_LOCAL_URI));
+        assertEquals(destination, localUri);
+
+        InputStream stream = new FileInputStream(destination.getSchemeSpecificPart());
+        try {
+            assertEquals(FILE_CONTENT, readStream(stream));
+        } finally {
+            stream.close();
+        }
     }
 
     private DownloadManager.Request getRequest() throws MalformedURLException {

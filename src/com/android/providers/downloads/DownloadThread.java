@@ -16,12 +16,6 @@
 
 package com.android.providers.downloads;
 
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.HttpClient;
-import org.apache.http.entity.StringEntity;
-
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -37,9 +31,11 @@ import android.provider.DrmStore;
 import android.util.Config;
 import android.util.Log;
 
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
 
 import java.io.File;
-import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -48,6 +44,7 @@ import java.io.SyncFailedException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Runs an actual download
@@ -189,12 +186,8 @@ http_request_loop:
                     Log.v(Constants.TAG, "initiating download for " + mInfo.mUri);
                 }
 
-                if (mInfo.mCookies != null) {
-                    request.addHeader("Cookie", mInfo.mCookies);
-                }
-                if (mInfo.mReferer != null) {
-                    request.addHeader("Referer", mInfo.mReferer);
-                }
+                addRequestHeaders(request);
+
                 if (continuingDownload) {
                     if (headerETag != null) {
                         request.addHeader("If-Match", headerETag);
@@ -724,6 +717,15 @@ http_request_loop:
             }
             notifyDownloadCompleted(finalStatus, countRetry, retryAfter, redirectCount,
                     gotData, filename, newUri, mimeType);
+        }
+    }
+
+    /**
+     * Add custom headers for this download to the HTTP request.
+     */
+    private void addRequestHeaders(HttpGet request) {
+        for (Map.Entry<String, String> header : mInfo.getHeaders().entrySet()) {
+            request.addHeader(header.getKey(), header.getValue());
         }
     }
 

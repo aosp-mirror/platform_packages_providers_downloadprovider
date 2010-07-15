@@ -555,41 +555,7 @@ public class DownloadService extends Service {
     private void insertDownload(
             Cursor cursor, int arrayPos,
             boolean networkAvailable, boolean networkRoaming, long now) {
-        int statusColumn = cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_STATUS);
-        int failedColumn = cursor.getColumnIndexOrThrow(Constants.FAILED_CONNECTIONS);
-        int retryRedirect =
-                cursor.getInt(cursor.getColumnIndexOrThrow(Constants.RETRY_AFTER_X_REDIRECT_COUNT));
-        DownloadInfo info = new DownloadInfo(
-                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.Impl._ID)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_URI)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(
-                        Downloads.Impl.COLUMN_NO_INTEGRITY)) == 1,
-                cursor.getString(cursor.getColumnIndexOrThrow(
-                        Downloads.Impl.COLUMN_FILE_NAME_HINT)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.Impl._DATA)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_MIME_TYPE)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_DESTINATION)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_VISIBILITY)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_CONTROL)),
-                cursor.getInt(statusColumn),
-                cursor.getInt(failedColumn),
-                retryRedirect & 0xfffffff,
-                retryRedirect >> 28,
-                cursor.getLong(cursor.getColumnIndexOrThrow(
-                        Downloads.Impl.COLUMN_LAST_MODIFICATION)),
-                cursor.getString(cursor.getColumnIndexOrThrow(
-                        Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE)),
-                cursor.getString(cursor.getColumnIndexOrThrow(
-                        Downloads.Impl.COLUMN_NOTIFICATION_CLASS)),
-                cursor.getString(cursor.getColumnIndexOrThrow(
-                        Downloads.Impl.COLUMN_NOTIFICATION_EXTRAS)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_COOKIE_DATA)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_USER_AGENT)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_REFERER)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_TOTAL_BYTES)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_CURRENT_BYTES)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Constants.ETAG)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(Constants.MEDIA_SCANNED)) == 1);
+        DownloadInfo info = new DownloadInfo(getContentResolver(), cursor);
 
         if (Constants.LOGVV) {
             Log.v(Constants.TAG, "Service adding new entry");

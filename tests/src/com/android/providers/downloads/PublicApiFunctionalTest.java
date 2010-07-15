@@ -20,6 +20,7 @@ import android.database.Cursor;
 import android.net.DownloadManager;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 import tests.http.RecordedRequest;
 
 import java.io.File;
@@ -268,6 +269,27 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
             assertEquals(FILE_CONTENT, readStream(stream));
         } finally {
             stream.close();
+        }
+    }
+
+    public void testRequestHeaders() throws Exception {
+        enqueueEmptyResponse(HTTP_OK);
+        Download download = enqueueRequest(getRequest().setRequestHeader("Header1", "value1")
+                                           .setRequestHeader("Header2", "value2"));
+        RecordedRequest request = download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+
+        assertTrue(request.getHeaders().contains("Header1: value1"));
+        assertTrue(request.getHeaders().contains("Header2: value2"));
+    }
+
+    public void testDelete() throws Exception {
+        Download download = enqueueRequest(getRequest().setRequestHeader("header", "value"));
+        mManager.remove(download.mId);
+        Cursor cursor = mManager.query(new DownloadManager.Query());
+        try {
+            assertEquals(0, cursor.getCount());
+        } finally {
+            cursor.close();
         }
     }
 

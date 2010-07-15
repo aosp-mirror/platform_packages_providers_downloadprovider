@@ -29,9 +29,9 @@ import android.widget.RemoteViews;
 import java.util.HashMap;
 
 /**
- * This class handles the updating of the Notification Manager for the 
+ * This class handles the updating of the Notification Manager for the
  * cases where there is an ongoing download. Once the download is complete
- * (be it successful or unsuccessful) it is no longer the responsibility 
+ * (be it successful or unsuccessful) it is no longer the responsibility
  * of this component to show the download in the notification manager.
  *
  */
@@ -40,9 +40,9 @@ class DownloadNotification {
     Context mContext;
     public NotificationManager mNotificationMgr;
     HashMap <String, NotificationItem> mNotifications;
-    
+
     static final String LOGTAG = "DownloadNotification";
-    static final String WHERE_RUNNING = 
+    static final String WHERE_RUNNING =
         "(" + Downloads.Impl.COLUMN_STATUS + " >= '100') AND (" +
         Downloads.Impl.COLUMN_STATUS + " <= '199') AND (" +
         Downloads.Impl.COLUMN_VISIBILITY + " IS NULL OR " +
@@ -53,8 +53,8 @@ class DownloadNotification {
         Downloads.Impl.COLUMN_STATUS + " >= '200' AND " +
         Downloads.Impl.COLUMN_VISIBILITY +
             " == '" + Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED + "'";
-    
-    
+
+
     /**
      * This inner class is used to collate downloads that are owned by
      * the same application. This is so that only one notification line
@@ -69,7 +69,7 @@ class DownloadNotification {
         String mPackageName;  // App package name
         String mDescription;
         String[] mTitles = new String[2]; // download titles.
-        
+
         /*
          * Add a second download to this notification item.
          */
@@ -86,11 +86,11 @@ class DownloadNotification {
             mTitleCount++;
         }
     }
-        
-    
+
+
     /**
      * Constructor
-     * @param ctx The context to use to obtain access to the 
+     * @param ctx The context to use to obtain access to the
      *            Notification Service
      */
     DownloadNotification(Context ctx) {
@@ -99,9 +99,9 @@ class DownloadNotification {
                 .getSystemService(Context.NOTIFICATION_SERVICE);
         mNotifications = new HashMap<String, NotificationItem>();
     }
-    
+
     /*
-     * Update the notification ui. 
+     * Update the notification ui.
      */
     public void updateNotification() {
         updateActiveNotification();
@@ -122,11 +122,11 @@ class DownloadNotification {
                         Downloads.Impl.COLUMN_STATUS
                 },
                 WHERE_RUNNING, null, Downloads.Impl._ID);
-        
+
         if (c == null) {
             return;
         }
-        
+
         // Columns match projection in query above
         final int idColumn = 0;
         final int titleColumn = 1;
@@ -160,10 +160,10 @@ class DownloadNotification {
                 item.addItem(title, progress, max);
                 mNotifications.put(packageName, item);
             }
-            
+
         }
         c.close();
-        
+
         // Add the notifications
         for (NotificationItem item : mNotifications.values()) {
             // Build the notification object
@@ -171,7 +171,7 @@ class DownloadNotification {
             n.icon = android.R.drawable.stat_sys_download;
 
             n.flags |= Notification.FLAG_ONGOING_EVENT;
-            
+
             // Build the RemoteView object
             RemoteViews expandedView = new RemoteViews(
                     "com.android.providers.downloads",
@@ -186,15 +186,15 @@ class DownloadNotification {
                             new Object[] { Integer.valueOf(item.mTitleCount - 2) }));
                 }
             } else {
-                expandedView.setTextViewText(R.id.description, 
+                expandedView.setTextViewText(R.id.description,
                         item.mDescription);
             }
             expandedView.setTextViewText(R.id.title, title);
-            expandedView.setProgressBar(R.id.progress_bar, 
+            expandedView.setProgressBar(R.id.progress_bar,
                     item.mTotalTotal,
                     item.mTotalCurrent,
                     item.mTotalTotal == -1);
-            expandedView.setTextViewText(R.id.progress_text, 
+            expandedView.setTextViewText(R.id.progress_text,
                     getDownloadingText(item.mTotalTotal, item.mTotalCurrent));
             expandedView.setImageViewResource(R.id.appIcon,
                     android.R.drawable.stat_sys_download);
@@ -209,7 +209,7 @@ class DownloadNotification {
             n.contentIntent = PendingIntent.getBroadcast(mContext, 0, intent, 0);
 
             mNotificationMgr.notify(item.mId, n);
-            
+
         }
     }
 
@@ -229,11 +229,11 @@ class DownloadNotification {
                         Downloads.Impl.COLUMN_DESTINATION
                 },
                 WHERE_COMPLETED, null, Downloads.Impl._ID);
-        
+
         if (c == null) {
             return;
         }
-        
+
         // Columns match projection in query above
         final int idColumn = 0;
         final int titleColumn = 1;
@@ -305,5 +305,5 @@ class DownloadNotification {
         sb.append('%');
         return sb.toString();
     }
-    
+
 }

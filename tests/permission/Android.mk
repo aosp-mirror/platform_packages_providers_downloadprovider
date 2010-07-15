@@ -6,9 +6,8 @@ LOCAL_MODULE_TAGS := tests
 
 # Include all test java files.
 LOCAL_SRC_FILES := $(call all-java-files-under, src)
-
+LOCAL_CERTIFICATE := media
 LOCAL_JAVA_LIBRARIES := android.test.runner
 LOCAL_PACKAGE_NAME := DownloadProviderPermissionTests
 
 include $(BUILD_PACKAGE)
-

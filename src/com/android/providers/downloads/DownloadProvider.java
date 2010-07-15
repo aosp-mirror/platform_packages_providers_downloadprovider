@@ -577,9 +577,8 @@ public final class DownloadProvider extends ContentProvider {
                        + getDownloadIdFromUri(uri);
         String[] projection = new String[] {Downloads.Impl.RequestHeaders.COLUMN_HEADER,
                                             Downloads.Impl.RequestHeaders.COLUMN_VALUE};
-        Cursor cursor = db.query(Downloads.Impl.RequestHeaders.HEADERS_DB_TABLE, projection, where,
-                                 null, null, null, null);
-        return new ReadOnlyCursorWrapper(cursor);
+        return db.query(Downloads.Impl.RequestHeaders.HEADERS_DB_TABLE, projection, where,
+                        null, null, null, null);
     }
 
     /**

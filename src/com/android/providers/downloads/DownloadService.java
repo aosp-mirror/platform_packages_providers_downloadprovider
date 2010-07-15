@@ -16,9 +16,6 @@
 
 package com.android.providers.downloads;
 
-import com.google.android.collect.Lists;
-import com.google.common.annotations.VisibleForTesting;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -45,11 +42,13 @@ import android.provider.Downloads;
 import android.util.Config;
 import android.util.Log;
 
+import com.google.android.collect.Lists;
+import com.google.common.annotations.VisibleForTesting;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 
 
 /**
@@ -205,7 +204,7 @@ public class DownloadService extends Service {
         }
 
         if (mSystemFacade == null) {
-            mSystemFacade = new RealSystemFacade();
+            mSystemFacade = new RealSystemFacade(this);
         }
 
         mDownloads = Lists.newArrayList();
@@ -311,8 +310,8 @@ public class DownloadService extends Service {
                     }
                     mPendingUpdate = false;
                 }
-                boolean networkAvailable = Helpers.isNetworkAvailable(DownloadService.this);
-                boolean networkRoaming = Helpers.isNetworkRoaming(DownloadService.this);
+                boolean networkAvailable = Helpers.isNetworkAvailable(mSystemFacade);
+                boolean networkRoaming = Helpers.isNetworkRoaming(mSystemFacade);
                 long now = mSystemFacade.currentTimeMillis();
 
                 Cursor cursor = getContentResolver().query(Downloads.Impl.CONTENT_URI,

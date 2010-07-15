@@ -247,7 +247,7 @@ public final class DownloadProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         if (mSystemFacade == null) {
-            mSystemFacade = new RealSystemFacade();
+            mSystemFacade = new RealSystemFacade(getContext());
         }
 
         mOpenHelper = new DatabaseHelper(getContext());

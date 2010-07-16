@@ -21,17 +21,24 @@ import android.net.ConnectivityManager;
 import android.net.DownloadManager;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.test.suitebuilder.annotation.LargeTest;
+import tests.http.MockResponse;
 import tests.http.RecordedRequest;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.util.List;
 
 @LargeTest
 public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTest {
+    private static final int HTTP_NOT_ACCEPTABLE = 406;
+    private static final int HTTP_LENGTH_REQUIRED = 411;
     private static final String REQUEST_PATH = "/path";
+    private static final String REDIRECTED_PATH = "/other_path";
+    private static final String ETAG = "my_etag";
 
     class Download implements StatusReader {
         final long mId;
@@ -73,8 +80,10 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
         }
 
         String getContents() throws Exception {
-            InputStream stream = new FileInputStream(
-                    mManager.openDownloadedFile(mId).getFileDescriptor());
+            ParcelFileDescriptor downloadedFile = mManager.openDownloadedFile(mId);
+            assertTrue("Invalid file descriptor: " + downloadedFile,
+                       downloadedFile.getFileDescriptor().valid());
+            InputStream stream = new FileInputStream(downloadedFile.getFileDescriptor());
             try {
                 return readStream(stream);
             } finally {
@@ -161,43 +170,53 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
 
     public void testDownloadError() throws Exception {
         enqueueEmptyResponse(HTTP_NOT_FOUND);
-        Download download = enqueueRequest(getRequest());
-        download.runUntilStatus(DownloadManager.STATUS_FAILED);
-        assertEquals(HTTP_NOT_FOUND, download.getLongField(DownloadManager.COLUMN_ERROR_CODE));
+        runSimpleFailureTest(HTTP_NOT_FOUND);
     }
 
     public void testUnhandledHttpStatus() throws Exception {
         enqueueEmptyResponse(1234); // some invalid HTTP status
-        Download download = enqueueRequest(getRequest());
-        download.runUntilStatus(DownloadManager.STATUS_FAILED);
-        assertEquals(DownloadManager.ERROR_UNHANDLED_HTTP_CODE,
-                     download.getLongField(DownloadManager.COLUMN_ERROR_CODE));
+        runSimpleFailureTest(DownloadManager.ERROR_UNHANDLED_HTTP_CODE);
     }
 
     public void testInterruptedDownload() throws Exception {
         int initialLength = 5;
-        String etag = "my_etag";
-        int totalLength = FILE_CONTENT.length();
-        // the first response has normal headers but unexpectedly closes after initialLength bytes
-        enqueueResponse(HTTP_OK, FILE_CONTENT.substring(0, initialLength))
-                .addHeader("Content-length", totalLength)
-                .addHeader("Etag", etag)
-                .setCloseConnectionAfter(true);
-        Download download = enqueueRequest(getRequest());
+        enqueueInterruptedDownloadResponses(initialLength);
 
+        Download download = enqueueRequest(getRequest());
         download.runUntilStatus(DownloadManager.STATUS_PAUSED);
         assertEquals(initialLength,
                      download.getLongField(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+        assertEquals(FILE_CONTENT.length(),
+                     download.getLongField(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
 
         mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);
+        RecordedRequest request = download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+        assertEquals(FILE_CONTENT.length(),
+                     download.getLongField(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+        assertEquals(FILE_CONTENT, download.getContents());
+
+        List<String> headers = request.getHeaders();
+        assertTrue("No Range header: " + headers,
+                   headers.contains("Range: bytes=" + initialLength + "-"));
+        assertTrue("No ETag header: " + headers, headers.contains("If-Match: " + ETAG));
+    }
+
+    private void enqueueInterruptedDownloadResponses(int initialLength) {
+        int totalLength = FILE_CONTENT.length();
+        // the first response has normal headers but unexpectedly closes after initialLength bytes
+        enqueuePartialResponse(initialLength);
         // the second response returns partial content for the rest of the data
         enqueueResponse(HTTP_PARTIAL_CONTENT, FILE_CONTENT.substring(initialLength))
                 .addHeader("Content-range",
                            "bytes " + initialLength + "-" + totalLength + "/" + totalLength)
-                .addHeader("Etag", etag);
-        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
-        assertEquals(totalLength,
-                     download.getLongField(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+                .addHeader("Etag", ETAG);
+    }
+
+    private MockResponse enqueuePartialResponse(int initialLength) {
+        return enqueueResponse(HTTP_OK, FILE_CONTENT.substring(0, initialLength))
+                               .addHeader("Content-length", FILE_CONTENT.length())
+                               .addHeader("Etag", ETAG)
+                               .setCloseConnectionAfter(true);
     }
 
     public void testFiltering() throws Exception {
@@ -321,6 +340,93 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
             startService(null);
             Thread.sleep(10);
         }
+    }
+
+    public void testRedirect301() throws Exception {
+        RecordedRequest lastRequest = runRedirectionTest(301);
+        // for 301, upon retry, we reuse the redirected URI
+        assertEquals(REDIRECTED_PATH, lastRequest.getPath());
+    }
+
+    // TODO: currently fails
+    public void disabledTestRedirect302() throws Exception {
+        RecordedRequest lastRequest = runRedirectionTest(302);
+        // for 302, upon retry, we use the original URI
+        assertEquals(REQUEST_PATH, lastRequest.getPath());
+    }
+
+    public void testNoEtag() throws Exception {
+        enqueuePartialResponse(5).removeHeader("Etag");
+        runSimpleFailureTest(HTTP_LENGTH_REQUIRED);
+    }
+
+    public void testSanitizeMediaType() throws Exception {
+        enqueueEmptyResponse(HTTP_OK).addHeader("Content-Type", "text/html; charset=ISO-8859-4");
+        Download download = enqueueRequest(getRequest());
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+        assertEquals("text/html", download.getStringField(DownloadManager.COLUMN_MEDIA_TYPE));
+    }
+
+    public void testNoContentLength() throws Exception {
+        enqueueEmptyResponse(HTTP_OK).removeHeader("Content-Length");
+        runSimpleFailureTest(HTTP_LENGTH_REQUIRED);
+    }
+
+    public void testNoContentType() throws Exception {
+        enqueueResponse(HTTP_OK, "", false);
+        runSimpleFailureTest(HTTP_NOT_ACCEPTABLE);
+    }
+
+    public void testInsufficientSpace() throws Exception {
+        // this would be better done by stubbing the system API to check available space, but in the
+        // meantime, just use an absurdly large header value
+        enqueueEmptyResponse(HTTP_OK).addHeader("Content-Length",
+                                                1024L * 1024 * 1024 * 1024 * 1024);
+        runSimpleFailureTest(DownloadManager.ERROR_INSUFFICIENT_SPACE);
+    }
+
+    public void testCancel() throws Exception {
+        enqueuePartialResponse(5);
+        Download download = enqueueRequest(getRequest());
+        download.runUntilStatus(DownloadManager.STATUS_PAUSED);
+
+        mManager.remove(download.mId);
+        mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);
+        startService(null);
+        Thread.sleep(500); // TODO: eliminate this when we can run the service synchronously
+    }
+
+    private void runSimpleFailureTest(int expectedErrorCode) throws Exception {
+        Download download = enqueueRequest(getRequest());
+        download.runUntilStatus(DownloadManager.STATUS_FAILED);
+        assertEquals(expectedErrorCode,
+                     download.getLongField(DownloadManager.COLUMN_ERROR_CODE));
+    }
+
+    /**
+     * Run a redirection test consisting of
+     * 1) Request to REQUEST_PATH with 3xx response redirecting to another URI
+     * 2) Request to REDIRECTED_PATH with interrupted partial response
+     * 3) Resume request to complete download
+     * @return the last request sent to the server, resuming after the interruption
+     */
+    private RecordedRequest runRedirectionTest(int status)
+            throws MalformedURLException, Exception {
+        enqueueEmptyResponse(status).addHeader("Location",
+                                               mServer.getUrl(REDIRECTED_PATH).toString());
+        enqueueInterruptedDownloadResponses(5);
+
+        Download download = enqueueRequest(getRequest());
+        RecordedRequest request = download.runUntilStatus(DownloadManager.STATUS_PAUSED);
+        assertEquals(REQUEST_PATH, request.getPath());
+
+        mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);
+        request = download.runUntilStatus(DownloadManager.STATUS_PAUSED);
+        assertEquals(REDIRECTED_PATH, request.getPath());
+
+        mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);
+        request = download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+        return request;
     }
 
     private DownloadManager.Request getRequest() throws MalformedURLException {

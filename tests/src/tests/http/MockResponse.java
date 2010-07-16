@@ -69,8 +69,13 @@ public class MockResponse {
         return this;
     }
 
-    public MockResponse addHeader(String header, int value) {
-        return addHeader(header, Integer.toString(value));
+    public MockResponse addHeader(String header, long value) {
+        return addHeader(header, Long.toString(value));
+    }
+
+    public MockResponse removeHeader(String header) {
+        headers.remove(header.toLowerCase());
+        return this;
     }
 
     /**

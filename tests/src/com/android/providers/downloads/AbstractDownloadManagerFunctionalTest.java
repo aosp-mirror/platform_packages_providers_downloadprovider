@@ -195,10 +195,16 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
      * Enqueue a response from the MockWebServer.
      */
     MockResponse enqueueResponse(int status, String body) {
+        return enqueueResponse(status, body, true);
+    }
+
+    MockResponse enqueueResponse(int status, String body, boolean includeContentType) {
         MockResponse response = new MockResponse()
-                        .setResponseCode(status)
-                        .setBody(body)
-                        .addHeader("Content-type", "text/plain");
+                                .setResponseCode(status)
+                                .setBody(body);
+        if (includeContentType) {
+            response.addHeader("Content-type", "text/plain");
+        }
         mServer.enqueue(response);
         return response;
     }

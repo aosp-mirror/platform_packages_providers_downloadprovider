@@ -33,7 +33,7 @@
     "adb shell am instrument -w com.android.providers.downloads.permission.tests/android.test.InstrumentationTestRunner"
     -->
     <instrumentation android:name="android.test.InstrumentationTestRunner"
-                     android:targetPackage="com.android.providers.downloads"
+                     android:targetPackage="com.android.providers.downloads.permission.tests"
                      android:label="Tests for Download provider permissions"/>
 
 </manifest>

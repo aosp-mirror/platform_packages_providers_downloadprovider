@@ -16,12 +16,16 @@
 
 package com.android.providers.downloads;
 
-import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.provider.Downloads;
+import android.provider.Downloads.Impl;
+import android.util.Log;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -59,9 +63,15 @@ public class DownloadInfo {
     public int mFuzz;
 
     public volatile boolean mHasActiveThread;
-    private Map<String, String> mRequestHeaders = new HashMap<String, String>();
 
-    public DownloadInfo(ContentResolver resolver, Cursor cursor) {
+    private Map<String, String> mRequestHeaders = new HashMap<String, String>();
+    private SystemFacade mSystemFacade;
+    private Context mContext;
+
+    public DownloadInfo(Context context, SystemFacade systemFacade, Cursor cursor) {
+        mContext = context;
+        mSystemFacade = systemFacade;
+
         int retryRedirect =
             cursor.getInt(cursor.getColumnIndexOrThrow(Constants.RETRY_AFTER_X_REDIRECT_COUNT));
         mId = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.Impl._ID));
@@ -101,14 +111,14 @@ public class DownloadInfo {
         mMediaScanned = cursor.getInt(cursor.getColumnIndexOrThrow(Constants.MEDIA_SCANNED)) == 1;
         mFuzz = Helpers.sRandom.nextInt(1001);
 
-        readRequestHeaders(resolver, mId);
+        readRequestHeaders(mId);
     }
 
-    private void readRequestHeaders(ContentResolver resolver, long downloadId) {
+    private void readRequestHeaders(long downloadId) {
         Uri headerUri = Downloads.Impl.CONTENT_URI.buildUpon()
                         .appendPath(Long.toString(downloadId))
                         .appendPath(Downloads.Impl.RequestHeaders.URI_SEGMENT).build();
-        Cursor cursor = resolver.query(headerUri, null, null, null, null);
+        Cursor cursor = mContext.getContentResolver().query(headerUri, null, null, null, null);
         try {
             int headerIndex =
                     cursor.getColumnIndexOrThrow(Downloads.Impl.RequestHeaders.COLUMN_HEADER);
@@ -133,7 +143,7 @@ public class DownloadInfo {
         return Collections.unmodifiableMap(mRequestHeaders);
     }
 
-    public void sendIntentIfRequested(Uri contentUri, Context context) {
+    public void sendIntentIfRequested(Uri contentUri) {
         if (mPackage != null && mClass != null) {
             Intent intent = new Intent(Downloads.Impl.ACTION_DOWNLOAD_COMPLETED);
             intent.setClassName(mPackage, mClass);
@@ -144,7 +154,7 @@ public class DownloadInfo {
             //     applications would have an easier time spoofing download results by
             //     sending spoofed intents.
             intent.setData(contentUri);
-            context.sendBroadcast(intent);
+            mContext.sendBroadcast(intent);
         }
     }
 
@@ -247,14 +257,57 @@ public class DownloadInfo {
     /**
      * Returns whether this download is allowed to use the network.
      */
-    public boolean canUseNetwork(boolean available, boolean roaming) {
-        if (!available) {
+    public boolean canUseNetwork() {
+        Integer networkType = mSystemFacade.getActiveNetworkType();
+        if (networkType == null) {
             return false;
         }
-        if (mDestination == Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING) {
-            return !roaming;
-        } else {
-            return true;
+        if (!isSizeAllowedForNetwork(networkType)) {
+            return false;
+        }
+        if (mDestination == Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING
+                && mSystemFacade.isNetworkRoaming()) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Check if the download's size prohibits it from running over the current network.
+     */
+    private boolean isSizeAllowedForNetwork(int networkType) {
+        if (mTotalBytes <= 0) {
+            return true; // we don't know the size yet
+        }
+        if (networkType == ConnectivityManager.TYPE_WIFI) {
+            return true; // anything goes over wifi
+        }
+        Integer maxBytesOverMobile = mSystemFacade.getMaxBytesOverMobile();
+        if (maxBytesOverMobile == null) {
+            return true; // no limit
+        }
+        return mTotalBytes <= maxBytesOverMobile;
+    }
+
+    void startIfReady(long now) {
+        if (isReadyToStart(now)) {
+            if (Constants.LOGV) {
+                Log.v(Constants.TAG, "Service spawning thread to handle download " + mId);
+            }
+            if (mHasActiveThread) {
+                throw new IllegalStateException("Multiple threads on same download");
+            }
+            if (mStatus != Impl.STATUS_RUNNING) {
+                mStatus = Impl.STATUS_RUNNING;
+                ContentValues values = new ContentValues();
+                values.put(Impl.COLUMN_STATUS, mStatus);
+                mContext.getContentResolver().update(
+                        ContentUris.withAppendedId(Impl.CONTENT_URI, mId),
+                        values, null, null);
+            }
+            DownloadThread downloader = new DownloadThread(mContext, mSystemFacade, this);
+            mHasActiveThread = true;
+            downloader.start();
         }
     }
 }

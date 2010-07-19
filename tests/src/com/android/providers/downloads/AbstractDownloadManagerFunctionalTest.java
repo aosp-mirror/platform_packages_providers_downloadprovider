@@ -21,7 +21,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
 import android.provider.Downloads;
 import android.test.MoreAsserts;
 import android.test.RenamingDelegatingContext;
@@ -77,7 +76,6 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
         private ContentResolver mResolver;
 
         boolean mHasServiceBeenStarted = false;
-        FakeIConnectivityManager mFakeIConnectivityManager;
 
         public TestContext(Context realContext) {
             super(realContext, FILENAME_PREFIX);
@@ -86,7 +84,6 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
                     Context.NOTIFICATION_SERVICE,
                     Context.POWER_SERVICE,
             }));
-            mFakeIConnectivityManager = new FakeIConnectivityManager();
         }
 
         public void setResolver(ContentResolver resolver) {
@@ -107,9 +104,6 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
          */
         @Override
         public Object getSystemService(String name) {
-            if (name.equals(Context.CONNECTIVITY_SERVICE)) {
-                return new ConnectivityManager(mFakeIConnectivityManager);
-            }
             if (mAllowedSystemServices.contains(name)) {
                 return mRealContext.getSystemService(name);
             }

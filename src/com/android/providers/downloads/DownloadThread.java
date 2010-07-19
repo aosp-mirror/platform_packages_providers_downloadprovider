@@ -202,6 +202,12 @@ http_request_loop:
                     request.addHeader("Range", "bytes=" + bytesSoFar + "-");
                 }
 
+                // check connectivity just before sending
+                if (!mInfo.canUseNetwork()) {
+                    finalStatus = Downloads.Impl.STATUS_RUNNING_PAUSED;
+                    break http_request_loop;
+                }
+
                 HttpResponse response;
                 try {
                     response = client.execute(request);
@@ -444,8 +450,15 @@ http_request_loop:
                         if (headerContentLength != null) {
                             contentLength = Integer.parseInt(headerContentLength);
                         }
+                        mInfo.mTotalBytes = contentLength;
                         values.put(Downloads.Impl.COLUMN_TOTAL_BYTES, contentLength);
                         mContext.getContentResolver().update(contentUri, values, null, null);
+                        // check connectivity again now that we know the total size
+                        if (!mInfo.canUseNetwork()) {
+                            finalStatus = Downloads.Impl.STATUS_RUNNING_PAUSED;
+                            request.abort();
+                            break http_request_loop;
+                        }
                     }
 
                     InputStream entityStream;
@@ -779,7 +792,7 @@ http_request_loop:
      */
     private void notifyThroughIntent() {
         Uri uri = Uri.parse(Downloads.Impl.CONTENT_URI + "/" + mInfo.mId);
-        mInfo.sendIntentIfRequested(uri, mContext);
+        mInfo.sendIntentIfRequested(uri);
     }
 
     /**

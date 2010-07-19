@@ -17,10 +17,11 @@
 package com.android.providers.downloads;
 
 import android.database.Cursor;
+import android.net.ConnectivityManager;
 import android.net.DownloadManager;
 import android.net.Uri;
 import android.os.Environment;
-import android.util.Log;
+import android.test.suitebuilder.annotation.LargeTest;
 import tests.http.RecordedRequest;
 
 import java.io.File;
@@ -28,6 +29,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 
+@LargeTest
 public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTest {
     private static final String REQUEST_PATH = "/path";
 
@@ -291,6 +293,21 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
         } finally {
             cursor.close();
         }
+    }
+
+    public void testSizeLimitOverMobile() throws Exception {
+        mSystemFacade.mMaxBytesOverMobile = FILE_CONTENT.length() - 1;
+
+        mSystemFacade.mActiveNetworkType = ConnectivityManager.TYPE_MOBILE;
+        enqueueResponse(HTTP_OK, FILE_CONTENT);
+        Download download = enqueueRequest(getRequest());
+        download.runUntilStatus(DownloadManager.STATUS_PAUSED);
+
+        mSystemFacade.mActiveNetworkType = ConnectivityManager.TYPE_WIFI;
+        // first response was read, but aborted after the DL manager processed the Content-Length
+        // header, so we need to enqueue a second one
+        enqueueResponse(HTTP_OK, FILE_CONTENT);
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
     }
 
     private DownloadManager.Request getRequest() throws MalformedURLException {

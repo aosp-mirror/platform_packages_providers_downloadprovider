@@ -310,8 +310,6 @@ public class DownloadService extends Service {
                     }
                     mPendingUpdate = false;
                 }
-                boolean networkAvailable = Helpers.isNetworkAvailable(mSystemFacade);
-                boolean networkRoaming = Helpers.isNetworkRoaming(mSystemFacade);
                 long now = mSystemFacade.currentTimeMillis();
 
                 Cursor cursor = getContentResolver().query(Downloads.Impl.CONTENT_URI,
@@ -368,7 +366,7 @@ public class DownloadService extends Service {
                         int id = cursor.getInt(idColumn);
 
                         if (arrayPos == mDownloads.size()) {
-                            insertDownload(cursor, arrayPos, networkAvailable, networkRoaming, now);
+                            insertDownload(cursor, arrayPos, now);
                             if (Constants.LOGVV) {
                                 Log.v(Constants.TAG, "Array update: appending " +
                                         id + " @ " + arrayPos);
@@ -405,9 +403,7 @@ public class DownloadService extends Service {
                                 deleteDownload(arrayPos); // this advances in the array
                             } else if (arrayId == id) {
                                 // This cursor row already exists in the stored array
-                                updateDownload(
-                                        cursor, arrayPos,
-                                        networkAvailable, networkRoaming, now);
+                                updateDownload(cursor, arrayPos, now);
                                 if (shouldScanFile(arrayPos)
                                         && (!mediaScannerConnected()
                                                 || !scanFile(cursor, arrayPos))) {
@@ -432,9 +428,7 @@ public class DownloadService extends Service {
                                     Log.v(Constants.TAG, "Array update: inserting " +
                                             id + " @ " + arrayPos);
                                 }
-                                insertDownload(
-                                        cursor, arrayPos,
-                                        networkAvailable, networkRoaming, now);
+                                insertDownload(cursor, arrayPos, now);
                                 if (shouldScanFile(arrayPos)
                                         && (!mediaScannerConnected()
                                                 || !scanFile(cursor, arrayPos))) {
@@ -551,10 +545,8 @@ public class DownloadService extends Service {
      * Keeps a local copy of the info about a download, and initiates the
      * download if appropriate.
      */
-    private void insertDownload(
-            Cursor cursor, int arrayPos,
-            boolean networkAvailable, boolean networkRoaming, long now) {
-        DownloadInfo info = new DownloadInfo(getContentResolver(), cursor);
+    private void insertDownload(Cursor cursor, int arrayPos, long now) {
+        DownloadInfo info = new DownloadInfo(this, mSystemFacade, cursor);
 
         if (Constants.LOGVV) {
             Log.v(Constants.TAG, "Service adding new entry");
@@ -617,51 +609,18 @@ public class DownloadService extends Service {
                 ContentValues values = new ContentValues();
                 values.put(Downloads.Impl.COLUMN_STATUS, Downloads.Impl.STATUS_NOT_ACCEPTABLE);
                 getContentResolver().update(uri, values, null, null);
-                info.sendIntentIfRequested(uri, this);
+                info.sendIntentIfRequested(uri);
                 return;
             }
         }
 
-        if (info.canUseNetwork(networkAvailable, networkRoaming)) {
-            if (info.isReadyToStart(now)) {
-                if (Constants.LOGV) {
-                    Log.v(Constants.TAG, "Service spawning thread to handle new download " +
-                            info.mId);
-                }
-                if (info.mHasActiveThread) {
-                    throw new IllegalStateException("Multiple threads on same download on insert");
-                }
-                if (info.mStatus != Downloads.Impl.STATUS_RUNNING) {
-                    info.mStatus = Downloads.Impl.STATUS_RUNNING;
-                    ContentValues values = new ContentValues();
-                    values.put(Downloads.Impl.COLUMN_STATUS, info.mStatus);
-                    getContentResolver().update(
-                            ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, info.mId),
-                            values, null, null);
-                }
-                DownloadThread downloader = new DownloadThread(this, mSystemFacade, info);
-                info.mHasActiveThread = true;
-                downloader.start();
-            }
-        } else {
-            if (info.mStatus == 0
-                    || info.mStatus == Downloads.Impl.STATUS_PENDING
-                    || info.mStatus == Downloads.Impl.STATUS_RUNNING) {
-                info.mStatus = Downloads.Impl.STATUS_RUNNING_PAUSED;
-                Uri uri = ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, info.mId);
-                ContentValues values = new ContentValues();
-                values.put(Downloads.Impl.COLUMN_STATUS, Downloads.Impl.STATUS_RUNNING_PAUSED);
-                getContentResolver().update(uri, values, null, null);
-            }
-        }
+        info.startIfReady(now);
     }
 
     /**
      * Updates the local copy of the info about a download.
      */
-    private void updateDownload(
-            Cursor cursor, int arrayPos,
-            boolean networkAvailable, boolean networkRoaming, long now) {
+    private void updateDownload(Cursor cursor, int arrayPos, long now) {
         DownloadInfo info = (DownloadInfo) mDownloads.get(arrayPos);
         int statusColumn = cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_STATUS);
         int failedColumn = cursor.getColumnIndexOrThrow(Constants.FAILED_CONNECTIONS);
@@ -715,26 +674,7 @@ public class DownloadService extends Service {
         info.mMediaScanned =
                 cursor.getInt(cursor.getColumnIndexOrThrow(Constants.MEDIA_SCANNED)) == 1;
 
-        if (info.canUseNetwork(networkAvailable, networkRoaming)) {
-            if (info.isReadyToRestart(now)) {
-                if (Constants.LOGV) {
-                    Log.v(Constants.TAG, "Service spawning thread to handle updated download " +
-                            info.mId);
-                }
-                if (info.mHasActiveThread) {
-                    throw new IllegalStateException("Multiple threads on same download on update");
-                }
-                info.mStatus = Downloads.Impl.STATUS_RUNNING;
-                ContentValues values = new ContentValues();
-                values.put(Downloads.Impl.COLUMN_STATUS, info.mStatus);
-                getContentResolver().update(
-                        ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, info.mId),
-                        values, null, null);
-                DownloadThread downloader = new DownloadThread(this, mSystemFacade, info);
-                info.mHasActiveThread = true;
-                downloader.start();
-            }
-        }
+        info.startIfReady(now);
     }
 
     /**

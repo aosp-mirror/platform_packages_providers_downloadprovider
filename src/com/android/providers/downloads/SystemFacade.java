@@ -1,7 +1,6 @@
 
 package com.android.providers.downloads;
 
-import java.util.BitSet;
 
 interface SystemFacade {
     /**
@@ -10,12 +9,19 @@ interface SystemFacade {
     public long currentTimeMillis();
 
     /**
-     * @return Network types (as in ConnectivityManager.TYPE_*) of all connected networks.
+     * @return Network type (as in ConnectivityManager.TYPE_*) of currently active network, or null
+     * if there's no active connection.
      */
-    public BitSet getConnectedNetworkTypes();
+    public Integer getActiveNetworkType();
 
     /**
      * @see android.telephony.TelephonyManager#isNetworkRoaming
      */
     public boolean isNetworkRoaming();
+
+    /**
+     * @return maximum size, in bytes, of downloads that may go over a mobile connection; or null if
+     * there's no limit
+     */
+    public Integer getMaxBytesOverMobile();
 }

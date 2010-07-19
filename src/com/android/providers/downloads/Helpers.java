@@ -23,14 +23,11 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.drm.mobile1.DrmRawContent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.StatFs;
 import android.os.SystemClock;
 import android.provider.Downloads;
-import android.telephony.TelephonyManager;
 import android.util.Config;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
@@ -515,14 +512,7 @@ public class Helpers {
      * Returns whether the network is available
      */
     public static boolean isNetworkAvailable(SystemFacade system) {
-        return !system.getConnectedNetworkTypes().isEmpty();
-    }
-
-    /**
-     * Returns whether the network is roaming
-     */
-    public static boolean isNetworkRoaming(SystemFacade system) {
-        return system.isNetworkRoaming();
+        return system.getActiveNetworkType() != null;
     }
 
     /**

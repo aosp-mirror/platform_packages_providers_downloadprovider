@@ -514,58 +514,15 @@ public class Helpers {
     /**
      * Returns whether the network is available
      */
-    public static boolean isNetworkAvailable(Context context) {
-        ConnectivityManager connectivity =
-                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivity == null) {
-            Log.w(Constants.TAG, "couldn't get connectivity manager");
-        } else {
-            NetworkInfo[] info = connectivity.getAllNetworkInfo();
-            if (info != null) {
-                for (int i = 0; i < info.length; i++) {
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
-                        if (Constants.LOGVV) {
-                            Log.v(Constants.TAG, "network is available");
-                        }
-                        return true;
-                    }
-                }
-            }
-        }
-        if (Constants.LOGVV) {
-            Log.v(Constants.TAG, "network is not available");
-        }
-        return false;
+    public static boolean isNetworkAvailable(SystemFacade system) {
+        return !system.getConnectedNetworkTypes().isEmpty();
     }
 
     /**
      * Returns whether the network is roaming
      */
-    public static boolean isNetworkRoaming(Context context) {
-        ConnectivityManager connectivity =
-                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivity == null) {
-            Log.w(Constants.TAG, "couldn't get connectivity manager");
-        } else {
-            NetworkInfo info = connectivity.getActiveNetworkInfo();
-            if (info != null && info.getType() == ConnectivityManager.TYPE_MOBILE) {
-                if (TelephonyManager.getDefault().isNetworkRoaming()) {
-                    if (Constants.LOGVV) {
-                        Log.v(Constants.TAG, "network is roaming");
-                    }
-                    return true;
-                } else {
-                    if (Constants.LOGVV) {
-                        Log.v(Constants.TAG, "network is not roaming");
-                    }
-                }
-            } else {
-                if (Constants.LOGVV) {
-                    Log.v(Constants.TAG, "not using mobile network");
-                }
-            }
-        }
-        return false;
+    public static boolean isNetworkRoaming(SystemFacade system) {
+        return system.isNetworkRoaming();
     }
 
     /**

@@ -18,7 +18,7 @@ package com.android.providers.downloads;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.net.NetworkInfo;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.Downloads;
@@ -102,12 +102,35 @@ public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFuncti
         Uri downloadUri = requestDownload("/path");
 
         // without connectivity, download immediately pauses
-        mTestContext.mFakeIConnectivityManager.setNetworkState(NetworkInfo.State.DISCONNECTED);
+        mSystemFacade.mActiveNetworkType = null;
         startService(null);
-        super.waitForDownloadToStop(getStatusReader(downloadUri), Downloads.STATUS_RUNNING_PAUSED);
+        waitForDownloadToStop(getStatusReader(downloadUri), Downloads.STATUS_RUNNING_PAUSED);
 
         // connecting should start the download
-        mTestContext.mFakeIConnectivityManager.setNetworkState(NetworkInfo.State.CONNECTED);
+        mSystemFacade.mActiveNetworkType = ConnectivityManager.TYPE_WIFI;
+        runUntilStatus(downloadUri, Downloads.STATUS_SUCCESS);
+    }
+
+    public void testRoaming() throws Exception {
+        mSystemFacade.mActiveNetworkType = ConnectivityManager.TYPE_MOBILE;
+        mSystemFacade.mIsRoaming = true;
+
+        // for a normal download, roaming is fine
+        enqueueResponse(HTTP_OK, FILE_CONTENT);
+        Uri downloadUri = requestDownload("/path");
+        startService(null);
+        runUntilStatus(downloadUri, Downloads.STATUS_SUCCESS);
+
+        // when roaming is disallowed, the download should pause...
+        downloadUri = requestDownload("/path");
+        updateDownload(downloadUri, Downloads.COLUMN_DESTINATION,
+                       Integer.toString(Downloads.DESTINATION_CACHE_PARTITION_NOROAMING));
+        startService(null);
+        waitForDownloadToStop(getStatusReader(downloadUri), Downloads.STATUS_RUNNING_PAUSED);
+
+        // ...and pick up when we're off roaming
+        enqueueResponse(HTTP_OK, FILE_CONTENT);
+        mSystemFacade.mIsRoaming = false;
         runUntilStatus(downloadUri, Downloads.STATUS_SUCCESS);
     }
 

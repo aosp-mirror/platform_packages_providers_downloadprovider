@@ -218,13 +218,13 @@ http_request_loop:
                     break http_request_loop;
                 } catch (IOException ex) {
                     if (Constants.LOGX) {
-                        if (Helpers.isNetworkAvailable(mContext)) {
+                        if (Helpers.isNetworkAvailable(mSystemFacade)) {
                             Log.i(Constants.TAG, "Execute Failed " + mInfo.mId + ", Net Up");
                         } else {
                             Log.i(Constants.TAG, "Execute Failed " + mInfo.mId + ", Net Down");
                         }
                     }
-                    if (!Helpers.isNetworkAvailable(mContext)) {
+                    if (!Helpers.isNetworkAvailable(mSystemFacade)) {
                         finalStatus = Downloads.Impl.STATUS_RUNNING_PAUSED;
                     } else if (mInfo.mNumFailed < Constants.MAX_RETRIES) {
                         finalStatus = Downloads.Impl.STATUS_RUNNING_PAUSED;
@@ -453,13 +453,13 @@ http_request_loop:
                         entityStream = response.getEntity().getContent();
                     } catch (IOException ex) {
                         if (Constants.LOGX) {
-                            if (Helpers.isNetworkAvailable(mContext)) {
+                            if (Helpers.isNetworkAvailable(mSystemFacade)) {
                                 Log.i(Constants.TAG, "Get Failed " + mInfo.mId + ", Net Up");
                             } else {
                                 Log.i(Constants.TAG, "Get Failed " + mInfo.mId + ", Net Down");
                             }
                         }
-                        if (!Helpers.isNetworkAvailable(mContext)) {
+                        if (!Helpers.isNetworkAvailable(mSystemFacade)) {
                             finalStatus = Downloads.Impl.STATUS_RUNNING_PAUSED;
                         } else if (mInfo.mNumFailed < Constants.MAX_RETRIES) {
                             finalStatus = Downloads.Impl.STATUS_RUNNING_PAUSED;
@@ -486,7 +486,7 @@ http_request_loop:
                             bytesRead = entityStream.read(data);
                         } catch (IOException ex) {
                             if (Constants.LOGX) {
-                                if (Helpers.isNetworkAvailable(mContext)) {
+                                if (Helpers.isNetworkAvailable(mSystemFacade)) {
                                     Log.i(Constants.TAG, "Read Failed " + mInfo.mId + ", Net Up");
                                 } else {
                                     Log.i(Constants.TAG, "Read Failed " + mInfo.mId + ", Net Down");
@@ -508,7 +508,7 @@ http_request_loop:
                                             "can't resume interrupted download with no ETag");
                                 }
                                 finalStatus = Downloads.Impl.STATUS_PRECONDITION_FAILED;
-                            } else if (!Helpers.isNetworkAvailable(mContext)) {
+                            } else if (!Helpers.isNetworkAvailable(mSystemFacade)) {
                                 finalStatus = Downloads.Impl.STATUS_RUNNING_PAUSED;
                             } else if (mInfo.mNumFailed < Constants.MAX_RETRIES) {
                                 finalStatus = Downloads.Impl.STATUS_RUNNING_PAUSED;
@@ -545,7 +545,7 @@ http_request_loop:
                                                 mInfo.mId);
                                     }
                                     finalStatus = Downloads.Impl.STATUS_LENGTH_REQUIRED;
-                                } else if (!Helpers.isNetworkAvailable(mContext)) {
+                                } else if (!Helpers.isNetworkAvailable(mSystemFacade)) {
                                     finalStatus = Downloads.Impl.STATUS_RUNNING_PAUSED;
                                 } else if (mInfo.mNumFailed < Constants.MAX_RETRIES) {
                                     finalStatus = Downloads.Impl.STATUS_RUNNING_PAUSED;

@@ -38,7 +38,13 @@ import java.io.File;
  */
 public class DownloadReceiver extends BroadcastReceiver {
 
+    SystemFacade mSystemFacade = null;
+
     public void onReceive(Context context, Intent intent) {
+        if (mSystemFacade == null) {
+            mSystemFacade = new RealSystemFacade(context);
+        }
+
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
             if (Constants.LOGVV) {
                 Log.v(Constants.TAG, "Receiver onBoot");
@@ -52,7 +58,7 @@ public class DownloadReceiver extends BroadcastReceiver {
                     intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
             if (info != null && info.isConnected()) {
                 if (Constants.LOGX) {
-                    if (Helpers.isNetworkAvailable(context)) {
+                    if (Helpers.isNetworkAvailable(mSystemFacade)) {
                         Log.i(Constants.TAG, "Broadcast: Network Up");
                     } else {
                         Log.i(Constants.TAG, "Broadcast: Network Up, Actually Down");
@@ -61,7 +67,7 @@ public class DownloadReceiver extends BroadcastReceiver {
                 context.startService(new Intent(context, DownloadService.class));
             } else {
                 if (Constants.LOGX) {
-                    if (Helpers.isNetworkAvailable(context)) {
+                    if (Helpers.isNetworkAvailable(mSystemFacade)) {
                         Log.i(Constants.TAG, "Broadcast: Network Down, Actually Up");
                     } else {
                         Log.i(Constants.TAG, "Broadcast: Network Down");

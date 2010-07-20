@@ -614,7 +614,9 @@ public class DownloadService extends Service {
             }
         }
 
-        info.startIfReady(now);
+        if (info.isReadyToStart(now)) {
+            info.start(now);
+        }
     }
 
     /**
@@ -674,7 +676,9 @@ public class DownloadService extends Service {
         info.mMediaScanned =
                 cursor.getInt(cursor.getColumnIndexOrThrow(Constants.MEDIA_SCANNED)) == 1;
 
-        info.startIfReady(now);
+        if (info.isReadyToRestart(now)) {
+            info.start(now);
+        }
     }
 
     /**

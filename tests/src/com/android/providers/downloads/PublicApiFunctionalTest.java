@@ -309,6 +309,19 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
         enqueueResponse(HTTP_OK, FILE_CONTENT);
         download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
     }
+    
+    /**
+     * Test for race conditions when the service is flooded with startService() calls while running
+     * a download.
+     */
+    public void testFloodServiceWithStarts() throws Exception {
+        enqueueResponse(HTTP_OK, FILE_CONTENT);
+        Download download = enqueueRequest(getRequest());
+        while (download.getStatus() != DownloadManager.STATUS_SUCCESSFUL) {
+            startService(null);
+            Thread.sleep(10);
+        }
+    }
 
     private DownloadManager.Request getRequest() throws MalformedURLException {
         return getRequest(getServerUri(REQUEST_PATH));

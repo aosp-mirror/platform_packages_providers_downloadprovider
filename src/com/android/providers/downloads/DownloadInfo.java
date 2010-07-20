@@ -289,25 +289,23 @@ public class DownloadInfo {
         return mTotalBytes <= maxBytesOverMobile;
     }
 
-    void startIfReady(long now) {
-        if (isReadyToStart(now)) {
-            if (Constants.LOGV) {
-                Log.v(Constants.TAG, "Service spawning thread to handle download " + mId);
-            }
-            if (mHasActiveThread) {
-                throw new IllegalStateException("Multiple threads on same download");
-            }
-            if (mStatus != Impl.STATUS_RUNNING) {
-                mStatus = Impl.STATUS_RUNNING;
-                ContentValues values = new ContentValues();
-                values.put(Impl.COLUMN_STATUS, mStatus);
-                mContext.getContentResolver().update(
-                        ContentUris.withAppendedId(Impl.CONTENT_URI, mId),
-                        values, null, null);
-            }
-            DownloadThread downloader = new DownloadThread(mContext, mSystemFacade, this);
-            mHasActiveThread = true;
-            downloader.start();
+    void start(long now) {
+        if (Constants.LOGV) {
+            Log.v(Constants.TAG, "Service spawning thread to handle download " + mId);
         }
+        if (mHasActiveThread) {
+            throw new IllegalStateException("Multiple threads on same download");
+        }
+        if (mStatus != Impl.STATUS_RUNNING) {
+            mStatus = Impl.STATUS_RUNNING;
+            ContentValues values = new ContentValues();
+            values.put(Impl.COLUMN_STATUS, mStatus);
+            mContext.getContentResolver().update(
+                    ContentUris.withAppendedId(Impl.CONTENT_URI, mId),
+                    values, null, null);
+        }
+        DownloadThread downloader = new DownloadThread(mContext, mSystemFacade, this);
+        mHasActiveThread = true;
+        downloader.start();
     }
 }

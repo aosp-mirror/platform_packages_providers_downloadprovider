@@ -85,18 +85,6 @@ public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFuncti
         runUntilStatus(downloadUri, Downloads.STATUS_SUCCESS);
     }
 
-    public void testRedirect() throws Exception {
-        enqueueEmptyResponse(301).addHeader("Location", mServer.getUrl("/other_path").toString());
-        enqueueResponse(HTTP_OK, FILE_CONTENT);
-        Uri downloadUri = requestDownload("/path");
-        RecordedRequest request = runUntilStatus(downloadUri, Downloads.STATUS_RUNNING_PAUSED);
-        assertEquals("/path", request.getPath());
-
-        mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);
-        request = runUntilStatus(downloadUri, Downloads.STATUS_SUCCESS);
-        assertEquals("/other_path", request.getPath());
-    }
-
     public void testBasicConnectivityChanges() throws Exception {
         enqueueResponse(HTTP_OK, FILE_CONTENT);
         Uri downloadUri = requestDownload("/path");
@@ -132,36 +120,6 @@ public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFuncti
         enqueueResponse(HTTP_OK, FILE_CONTENT);
         mSystemFacade.mIsRoaming = false;
         runUntilStatus(downloadUri, Downloads.STATUS_SUCCESS);
-    }
-
-    public void testInterruptedDownload() throws Exception {
-        int initialLength = 5;
-        String etag = "my_etag";
-        int totalLength = FILE_CONTENT.length();
-        // the first response has normal headers but unexpectedly closes after initialLength bytes
-        enqueueResponse(HTTP_OK, FILE_CONTENT.substring(0, initialLength))
-                .addHeader("Content-length", totalLength)
-                .addHeader("Etag", etag)
-                .setCloseConnectionAfter(true);
-        Uri downloadUri = requestDownload("/path");
-
-        runUntilStatus(downloadUri, Downloads.STATUS_RUNNING_PAUSED);
-
-        mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);
-        // the second response returns partial content for the rest of the data
-        enqueueResponse(HTTP_PARTIAL_CONTENT, FILE_CONTENT.substring(initialLength))
-                .addHeader("Content-range",
-                           "bytes " + initialLength + "-" + totalLength + "/" + totalLength)
-                .addHeader("Etag", etag);
-        // TODO: ideally we wouldn't need to call startService again, but there's a bug where the
-        // service won't retry a download until an intent comes in
-        RecordedRequest request = runUntilStatus(downloadUri, Downloads.STATUS_SUCCESS);
-
-        List<String> headers = request.getHeaders();
-        assertTrue("No Range header: " + headers,
-                   headers.contains("Range: bytes=" + initialLength + "-"));
-        assertTrue("No ETag header: " + headers, headers.contains("If-Match: " + etag));
-        assertEquals(FILE_CONTENT, getDownloadContents(downloadUri));
     }
 
     /**

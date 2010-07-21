@@ -374,6 +374,7 @@ public final class DownloadProvider extends ContentProvider {
         }
         copyString(Downloads.Impl.COLUMN_TITLE, values, filteredValues);
         copyString(Downloads.Impl.COLUMN_DESCRIPTION, values, filteredValues);
+        filteredValues.put(Downloads.Impl.COLUMN_TOTAL_BYTES, -1);
 
         if (Constants.LOGVV) {
             Log.v(Constants.TAG, "initiating download with UID "

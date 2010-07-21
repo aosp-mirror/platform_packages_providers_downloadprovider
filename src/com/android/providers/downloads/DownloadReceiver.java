@@ -16,6 +16,8 @@
 
 package com.android.providers.downloads;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
@@ -25,6 +27,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
+import android.net.DownloadManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.provider.Downloads;
@@ -37,7 +40,7 @@ import java.io.File;
  * Receives system broadcasts (boot, network connectivity)
  */
 public class DownloadReceiver extends BroadcastReceiver {
-
+    @VisibleForTesting
     SystemFacade mSystemFacade = null;
 
     public void onReceive(Context context, Intent intent) {
@@ -133,18 +136,29 @@ public class DownloadReceiver extends BroadcastReceiver {
                                 Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE);
                         int classColumn = cursor.getColumnIndexOrThrow(
                                 Downloads.Impl.COLUMN_NOTIFICATION_CLASS);
+                        int isPublicApiColumn = cursor.getColumnIndex(
+                                Downloads.Impl.COLUMN_IS_PUBLIC_API);
                         String pckg = cursor.getString(packageColumn);
                         String clazz = cursor.getString(classColumn);
-                        if (pckg != null && clazz != null) {
-                            Intent appIntent =
-                                    new Intent(Downloads.Impl.ACTION_NOTIFICATION_CLICKED);
-                            appIntent.setClassName(pckg, clazz);
-                            if (intent.getBooleanExtra("multiple", true)) {
-                                appIntent.setData(Downloads.Impl.CONTENT_URI);
-                            } else {
-                                appIntent.setData(intent.getData());
+                        boolean isPublicApi = cursor.getInt(isPublicApiColumn) != 0;
+
+                        if (pckg != null) {
+                            Intent appIntent = null;
+                            if (isPublicApi) {
+                                appIntent = new Intent(DownloadManager.ACTION_NOTIFICATION_CLICKED);
+                                appIntent.setPackage(pckg);
+                            } else if (clazz != null) { // legacy behavior
+                                appIntent = new Intent(Downloads.Impl.ACTION_NOTIFICATION_CLICKED);
+                                appIntent.setClassName(pckg, clazz);
+                                if (intent.getBooleanExtra("multiple", true)) {
+                                    appIntent.setData(Downloads.Impl.CONTENT_URI);
+                                } else {
+                                    appIntent.setData(intent.getData());
+                                }
                             }
-                            context.sendBroadcast(appIntent);
+                            if (appIntent != null) {
+                                mSystemFacade.sendBroadcast(appIntent);
+                            }
                         }
                     }
                 }

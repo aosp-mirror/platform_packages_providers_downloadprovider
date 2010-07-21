@@ -78,7 +78,8 @@ public class DownloadService extends Service {
      * The thread that updates the internal download list from the content
      * provider.
      */
-    private UpdateThread mUpdateThread;
+    @VisibleForTesting
+    UpdateThread mUpdateThread;
 
     /**
      * Whether the internal download list should be updated from the content

@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
+import android.net.DownloadManager;
 import android.net.Uri;
 import android.provider.Downloads;
 import android.provider.Downloads.Impl;
@@ -59,6 +60,9 @@ public class DownloadInfo {
     public long mCurrentBytes;
     public String mETag;
     public boolean mMediaScanned;
+    public boolean mIsPublicApi;
+    public int mAllowedNetworkTypes;
+    public boolean mAllowRoaming;
 
     public int mFuzz;
 
@@ -109,6 +113,12 @@ public class DownloadInfo {
                 cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_CURRENT_BYTES));
         mETag = cursor.getString(cursor.getColumnIndexOrThrow(Constants.ETAG));
         mMediaScanned = cursor.getInt(cursor.getColumnIndexOrThrow(Constants.MEDIA_SCANNED)) == 1;
+        mIsPublicApi = cursor.getInt(
+                cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_IS_PUBLIC_API)) != 0;
+        mAllowedNetworkTypes = cursor.getInt(
+                cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES));
+        mAllowRoaming = cursor.getInt(
+                cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_ALLOW_ROAMING)) != 0;
         mFuzz = Helpers.sRandom.nextInt(1001);
 
         readRequestHeaders(mId);
@@ -144,8 +154,20 @@ public class DownloadInfo {
     }
 
     public void sendIntentIfRequested(Uri contentUri) {
-        if (mPackage != null && mClass != null) {
-            Intent intent = new Intent(Downloads.Impl.ACTION_DOWNLOAD_COMPLETED);
+        if (mPackage == null) {
+            return;
+        }
+
+        Intent intent;
+        if (mIsPublicApi) {
+            intent = new Intent(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+            intent.setPackage(mPackage);
+            intent.putExtra(DownloadManager.EXTRA_DOWNLOAD_ID, (long) mId);
+        } else { // legacy behavior
+            if (mClass == null) {
+                return;
+            }
+            intent = new Intent(Downloads.Impl.ACTION_DOWNLOAD_COMPLETED);
             intent.setClassName(mPackage, mClass);
             if (mExtras != null) {
                 intent.putExtra(Downloads.Impl.COLUMN_NOTIFICATION_EXTRAS, mExtras);
@@ -154,8 +176,8 @@ public class DownloadInfo {
             //     applications would have an easier time spoofing download results by
             //     sending spoofed intents.
             intent.setData(contentUri);
-            mContext.sendBroadcast(intent);
         }
+        mSystemFacade.sendBroadcast(intent);
     }
 
     /**
@@ -262,14 +284,55 @@ public class DownloadInfo {
         if (networkType == null) {
             return false;
         }
-        if (!isSizeAllowedForNetwork(networkType)) {
+        if (!isNetworkTypeAllowed(networkType)) {
             return false;
         }
-        if (mDestination == Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING
-                && mSystemFacade.isNetworkRoaming()) {
+        if (!isRoamingAllowed() && mSystemFacade.isNetworkRoaming()) {
             return false;
         }
         return true;
+    }
+
+    private boolean isRoamingAllowed() {
+        if (mIsPublicApi) {
+            return mAllowRoaming;
+        } else { // legacy behavior
+            return mDestination != Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING;
+        }
+    }
+
+    /**
+     * Check if this download can proceed over the given network type.
+     * @param networkType a constant from ConnectivityManager.TYPE_*.
+     */
+    private boolean isNetworkTypeAllowed(int networkType) {
+        if (mIsPublicApi) {
+            int flag = translateNetworkTypeToApiFlag(networkType);
+            if ((flag & mAllowedNetworkTypes) == 0) {
+                return false;
+            }
+        }
+        return isSizeAllowedForNetwork(networkType);
+    }
+
+    /**
+     * Translate a ConnectivityManager.TYPE_* constant to the corresponding
+     * DownloadManager.Request.NETWORK_* bit flag.
+     */
+    private int translateNetworkTypeToApiFlag(int networkType) {
+        switch (networkType) {
+            case ConnectivityManager.TYPE_MOBILE:
+                return DownloadManager.Request.NETWORK_MOBILE;
+
+            case ConnectivityManager.TYPE_WIFI:
+                return DownloadManager.Request.NETWORK_WIFI;
+
+            case ConnectivityManager.TYPE_WIMAX:
+                return DownloadManager.Request.NETWORK_WIMAX;
+
+            default:
+                return 0;
+        }
     }
 
     /**

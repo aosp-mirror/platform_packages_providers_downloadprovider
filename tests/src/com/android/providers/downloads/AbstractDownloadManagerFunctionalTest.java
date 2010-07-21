@@ -148,8 +148,22 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
 
     @Override
     protected void tearDown() throws Exception {
+        waitForUpdateThread();
         cleanUpDownloads();
         super.tearDown();
+    }
+
+    private void waitForUpdateThread() throws InterruptedException {
+        DownloadService service = getService();
+        if (service == null) {
+            return;
+        }
+
+        long startTimeMillis = System.currentTimeMillis();
+        while (service.mUpdateThread != null
+                && System.currentTimeMillis() < startTimeMillis + 1000) {
+            Thread.sleep(50);
+        }
     }
 
     private boolean isDatabaseEmpty() {

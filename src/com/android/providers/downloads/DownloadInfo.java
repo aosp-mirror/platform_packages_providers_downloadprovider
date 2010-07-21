@@ -55,8 +55,8 @@ public class DownloadInfo {
     public String mCookies;
     public String mUserAgent;
     public String mReferer;
-    public int mTotalBytes;
-    public int mCurrentBytes;
+    public long mTotalBytes;
+    public long mCurrentBytes;
     public String mETag;
     public boolean mMediaScanned;
 

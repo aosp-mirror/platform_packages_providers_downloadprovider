@@ -94,7 +94,7 @@ public class Helpers {
             String contentLocation,
             String mimeType,
             int destination,
-            int contentLength) throws FileNotFoundException {
+            long contentLength) throws FileNotFoundException {
 
         if (!canHandleDownload(context, mimeType, destination)) {
             return new DownloadFileInfo(null, null, Downloads.Impl.STATUS_NOT_ACCEPTABLE);
@@ -134,7 +134,7 @@ public class Helpers {
 
     private static String chooseFullPath(Context context, String url, String hint,
                                          String contentDisposition, String contentLocation,
-                                         String mimeType, int destination, int contentLength)
+                                         String mimeType, int destination, long contentLength)
             throws GenerateSaveFileError {
         File base = locateDestinationDirectory(context, mimeType, destination, contentLength);
         String filename = chooseFilename(url, hint, contentDisposition, contentLocation,
@@ -201,7 +201,7 @@ public class Helpers {
     }
 
     private static File locateDestinationDirectory(Context context, String mimeType,
-                                                   int destination, int contentLength)
+                                                   int destination, long contentLength)
             throws GenerateSaveFileError {
         File base = null;
         StatFs stat = null;

@@ -1,6 +1,9 @@
 
 package com.android.providers.downloads;
 
+import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
+
 
 interface SystemFacade {
     /**
@@ -24,4 +27,14 @@ interface SystemFacade {
      * there's no limit
      */
     public Integer getMaxBytesOverMobile();
+
+    /**
+     * Send a broadcast intent.
+     */
+    public void sendBroadcast(Intent intent);
+
+    /**
+     * Returns true if the specified UID owns the specified package name.
+     */
+    public boolean userOwnsPackage(int uid, String pckg) throws NameNotFoundException;
 }

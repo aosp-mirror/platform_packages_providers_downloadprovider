@@ -16,12 +16,14 @@
 
 package com.android.providers.downloads;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.DownloadManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
+import android.provider.Downloads;
 import android.test.suitebuilder.annotation.LargeTest;
 import tests.http.MockResponse;
 import tests.http.RecordedRequest;
@@ -34,6 +36,7 @@ import java.util.List;
 
 @LargeTest
 public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTest {
+    private static final String PACKAGE_NAME = "my.package.name";
     private static final int HTTP_NOT_ACCEPTABLE = 406;
     private static final int HTTP_LENGTH_REQUIRED = 411;
     private static final String REQUEST_PATH = "/path";
@@ -102,13 +105,12 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mManager = new DownloadManager(mResolver);
+        mManager = new DownloadManager(mResolver, PACKAGE_NAME);
 
         mTestDirectory = new File(Environment.getExternalStorageDirectory() + File.separator
                                   + "download_manager_functional_test");
         if (mTestDirectory.exists()) {
-            throw new RuntimeException(
-                    "Test directory on external storage already exists, cannot run");
+            mTestDirectory.delete();
         }
         if (!mTestDirectory.mkdir()) {
             throw new RuntimeException("Couldn't create test directory: "
@@ -328,7 +330,7 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
         enqueueResponse(HTTP_OK, FILE_CONTENT);
         download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
     }
-    
+
     /**
      * Test for race conditions when the service is flooded with startService() calls while running
      * a download.
@@ -394,6 +396,80 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
         mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);
         startService(null);
         Thread.sleep(500); // TODO: eliminate this when we can run the service synchronously
+        // if the cancel didn't work, we should get an unexpected request to the HTTP server
+    }
+
+    public void testDownloadCompleteBroadcast() throws Exception {
+        enqueueEmptyResponse(HTTP_OK);
+        Download download = enqueueRequest(getRequest());
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+
+        long startTimeMillis = System.currentTimeMillis();
+        while (mSystemFacade.mBroadcastsSent.isEmpty()) {
+            Thread.sleep(100);
+            if (System.currentTimeMillis() > startTimeMillis + 500) {
+                fail("Timed out waiting for broadcast intent");
+            }
+        }
+        assertEquals(1, mSystemFacade.mBroadcastsSent.size());
+        Intent broadcast = mSystemFacade.mBroadcastsSent.get(0);
+        assertEquals(DownloadManager.ACTION_DOWNLOAD_COMPLETE, broadcast.getAction());
+        assertEquals(PACKAGE_NAME, broadcast.getPackage());
+        long intentId = broadcast.getExtras().getLong(DownloadManager.EXTRA_DOWNLOAD_ID);
+        assertEquals(download.mId, intentId);
+    }
+
+    public void testNotificationClickedBroadcast() throws Exception {
+        Download download = enqueueRequest(getRequest().setShowNotification(
+                DownloadManager.Request.NOTIFICATION_WHEN_RUNNING));
+
+        DownloadReceiver receiver = new DownloadReceiver();
+        receiver.mSystemFacade = mSystemFacade;
+        Intent intent = new Intent(Constants.ACTION_LIST);
+        intent.setData(Uri.parse(Downloads.Impl.CONTENT_URI + "/" + download.mId));
+        receiver.onReceive(mContext, intent);
+
+        assertEquals(1, mSystemFacade.mBroadcastsSent.size());
+        Intent broadcast = mSystemFacade.mBroadcastsSent.get(0);
+        assertEquals(DownloadManager.ACTION_NOTIFICATION_CLICKED, broadcast.getAction());
+        assertEquals(PACKAGE_NAME, broadcast.getPackage());
+    }
+
+    public void testAllowedNetworkTypes() throws Exception {
+        mSystemFacade.mActiveNetworkType = ConnectivityManager.TYPE_MOBILE;
+
+        // by default, use any connection
+        enqueueEmptyResponse(HTTP_OK);
+        Download download = enqueueRequest(getRequest());
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+
+        // restrict a download to wifi...
+        download = enqueueRequest(getRequest()
+                                  .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI));
+        startService(null);
+        waitForDownloadToStop(download, DownloadManager.STATUS_PAUSED);
+        // ...then enable wifi
+        mSystemFacade.mActiveNetworkType = ConnectivityManager.TYPE_WIFI;
+        enqueueEmptyResponse(HTTP_OK);
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+    }
+
+    public void testRoaming() throws Exception {
+        mSystemFacade.mIsRoaming = true;
+
+        // by default, allow roaming
+        enqueueEmptyResponse(HTTP_OK);
+        Download download = enqueueRequest(getRequest());
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+
+        // disallow roaming for a download...
+        download = enqueueRequest(getRequest().setAllowedOverRoaming(false));
+        startService(null);
+        waitForDownloadToStop(download, DownloadManager.STATUS_PAUSED);
+        // ...then turn off roaming
+        mSystemFacade.mIsRoaming = false;
+        enqueueEmptyResponse(HTTP_OK);
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
     }
 
     private void runSimpleFailureTest(int expectedErrorCode) throws Exception {

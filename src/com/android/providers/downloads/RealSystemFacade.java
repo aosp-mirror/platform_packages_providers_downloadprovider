@@ -1,6 +1,8 @@
 package com.android.providers.downloads;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
@@ -54,5 +56,15 @@ class RealSystemFacade implements SystemFacade {
 
     public Integer getMaxBytesOverMobile() {
         return null;
+    }
+
+    @Override
+    public void sendBroadcast(Intent intent) {
+        mContext.sendBroadcast(intent);
+    }
+
+    @Override
+    public boolean userOwnsPackage(int uid, String packageName) throws NameNotFoundException {
+        return mContext.getPackageManager().getApplicationInfo(packageName, 0).uid == uid;
     }
 }

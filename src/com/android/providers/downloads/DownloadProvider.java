@@ -56,7 +56,7 @@ public final class DownloadProvider extends ContentProvider {
     /** Database filename */
     private static final String DB_NAME = "downloads.db";
     /** Current database version */
-    private static final int DB_VERSION = 101;
+    private static final int DB_VERSION = 102;
     /** Name of table in the database */
     private static final String DB_TABLE = "downloads";
 
@@ -95,7 +95,7 @@ public final class DownloadProvider extends ContentProvider {
         Downloads.Impl.COLUMN_TOTAL_BYTES,
         Downloads.Impl.COLUMN_CURRENT_BYTES,
         Downloads.Impl.COLUMN_TITLE,
-        Downloads.Impl.COLUMN_DESCRIPTION
+        Downloads.Impl.COLUMN_DESCRIPTION,
     };
 
     private static HashSet<String> sAppReadableColumnsSet;
@@ -182,9 +182,30 @@ public final class DownloadProvider extends ContentProvider {
                     createHeadersTable(db);
                     break;
 
+                case 102:
+                    addColumn(db, DB_TABLE, Downloads.Impl.COLUMN_IS_PUBLIC_API,
+                              "INTEGER NOT NULL DEFAULT 0");
+                    addColumn(db, DB_TABLE, Downloads.Impl.COLUMN_ALLOW_ROAMING,
+                              "INTEGER NOT NULL DEFAULT 0");
+                    addColumn(db, DB_TABLE, Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES,
+                              "INTEGER NOT NULL DEFAULT 0");
+                    break;
+
                 default:
                     throw new IllegalStateException("Don't know how to upgrade to " + version);
             }
+        }
+
+        /**
+         * Add a column to a table using ALTER TABLE.
+         * @param dbTable name of the table
+         * @param columnName name of the column to add
+         * @param columnDefinition SQL for the column definition
+         */
+        private void addColumn(SQLiteDatabase db, String dbTable, String columnName,
+                               String columnDefinition) {
+            db.execSQL("ALTER TABLE " + dbTable + " ADD COLUMN " + columnName + " "
+                       + columnDefinition);
         }
 
         /**
@@ -346,15 +367,21 @@ public final class DownloadProvider extends ContentProvider {
         filteredValues.put(Downloads.Impl.COLUMN_STATUS, Downloads.Impl.STATUS_PENDING);
         filteredValues.put(Downloads.Impl.COLUMN_LAST_MODIFICATION,
                            mSystemFacade.currentTimeMillis());
+
+        copyBoolean(Downloads.Impl.COLUMN_IS_PUBLIC_API, values, filteredValues);
+        boolean isPublicApi =
+                values.getAsBoolean(Downloads.Impl.COLUMN_IS_PUBLIC_API) == Boolean.TRUE;
+
         String pckg = values.getAsString(Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE);
         String clazz = values.getAsString(Downloads.Impl.COLUMN_NOTIFICATION_CLASS);
-        if (pckg != null && clazz != null) {
+        if (pckg != null && (clazz != null || isPublicApi)) {
             int uid = Binder.getCallingUid();
             try {
-                if (uid == 0 ||
-                        getContext().getPackageManager().getApplicationInfo(pckg, 0).uid == uid) {
+                if (uid == 0 || mSystemFacade.userOwnsPackage(uid, pckg)) {
                     filteredValues.put(Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE, pckg);
-                    filteredValues.put(Downloads.Impl.COLUMN_NOTIFICATION_CLASS, clazz);
+                    if (clazz != null) {
+                        filteredValues.put(Downloads.Impl.COLUMN_NOTIFICATION_CLASS, clazz);
+                    }
                 }
             } catch (PackageManager.NameNotFoundException ex) {
                 /* ignored for now */
@@ -375,6 +402,11 @@ public final class DownloadProvider extends ContentProvider {
         copyString(Downloads.Impl.COLUMN_TITLE, values, filteredValues);
         copyString(Downloads.Impl.COLUMN_DESCRIPTION, values, filteredValues);
         filteredValues.put(Downloads.Impl.COLUMN_TOTAL_BYTES, -1);
+
+        if (isPublicApi) {
+            copyInteger(Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES, values, filteredValues);
+            copyBoolean(Downloads.Impl.COLUMN_ALLOW_ROAMING, values, filteredValues);
+        }
 
         if (Constants.LOGVV) {
             Log.v(Constants.TAG, "initiating download with UID "

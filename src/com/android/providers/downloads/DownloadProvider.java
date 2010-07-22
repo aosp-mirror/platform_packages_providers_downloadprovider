@@ -96,6 +96,7 @@ public final class DownloadProvider extends ContentProvider {
         Downloads.Impl.COLUMN_CURRENT_BYTES,
         Downloads.Impl.COLUMN_TITLE,
         Downloads.Impl.COLUMN_DESCRIPTION,
+        Downloads.Impl.COLUMN_URI,
     };
 
     private static HashSet<String> sAppReadableColumnsSet;
@@ -481,40 +482,21 @@ public final class DownloadProvider extends ContentProvider {
         }
 
         if (shouldRestrictVisibility()) {
-            boolean canSeeAllExternal;
             if (projection == null) {
                 projection = sAppReadableColumnsArray;
-                // sAppReadableColumnsArray includes _DATA, which is not allowed
-                // to be seen except by the initiating application
-                canSeeAllExternal = false;
             } else {
-                canSeeAllExternal = getContext().checkCallingPermission(
-                        Downloads.Impl.PERMISSION_SEE_ALL_EXTERNAL)
-                        == PackageManager.PERMISSION_GRANTED;
                 for (int i = 0; i < projection.length; ++i) {
                     if (!sAppReadableColumnsSet.contains(projection[i])) {
                         throw new IllegalArgumentException(
                                 "column " + projection[i] + " is not allowed in queries");
                     }
-                    canSeeAllExternal = canSeeAllExternal
-                            && !projection[i].equals(Downloads.Impl._DATA);
                 }
             }
             if (!emptyWhere) {
                 qb.appendWhere(" AND ");
                 emptyWhere = false;
             }
-            String validUid = "( " + Constants.UID + "="
-                    + Binder.getCallingUid() + " OR "
-                    + Downloads.Impl.COLUMN_OTHER_UID + "="
-                    + Binder.getCallingUid() + " )";
-            if (canSeeAllExternal) {
-                qb.appendWhere("( " + validUid + " OR "
-                        + Downloads.Impl.DESTINATION_EXTERNAL + " = "
-                        + Downloads.Impl.COLUMN_DESTINATION + " )");
-            } else {
-                qb.appendWhere(validUid);
-            }
+            qb.appendWhere(getRestrictedUidClause());
         }
 
         if (Constants.LOGVV) {
@@ -632,7 +614,7 @@ public final class DownloadProvider extends ContentProvider {
     }
 
     /**
-     * @return true if we should restrict this call to viewing only its own downloads
+     * @return true if we should restrict this caller to viewing only its own downloads
      */
     private boolean shouldRestrictVisibility() {
         int callingUid = Binder.getCallingUid();
@@ -640,6 +622,14 @@ public final class DownloadProvider extends ContentProvider {
                 callingUid != mSystemUid &&
                 callingUid != mDefContainerUid &&
                 Process.supportsProcesses();
+    }
+
+    /**
+     * @return a SQL WHERE clause to restrict the query to downloads accessible to the caller's UID
+     */
+    private String getRestrictedUidClause() {
+        return "( " + Constants.UID + "=" +  Binder.getCallingUid() + " OR "
+                + Downloads.Impl.COLUMN_OTHER_UID + "=" +  Binder.getCallingUid() + " )";
     }
 
     /**
@@ -702,12 +692,8 @@ public final class DownloadProvider extends ContentProvider {
                     rowId = Long.parseLong(segment);
                     myWhere += " ( " + Downloads.Impl._ID + " = " + rowId + " ) ";
                 }
-                int callingUid = Binder.getCallingUid();
-                if (Binder.getCallingPid() != Process.myPid() &&
-                        callingUid != mSystemUid &&
-                        callingUid != mDefContainerUid) {
-                    myWhere += " AND ( " + Constants.UID + "=" +  Binder.getCallingUid() + " OR "
-                            + Downloads.Impl.COLUMN_OTHER_UID + "=" +  Binder.getCallingUid() + " )";
+                if (shouldRestrictVisibility()) {
+                    myWhere += " AND " + getRestrictedUidClause();
                 }
                 if (filteredValues.size() > 0) {
                     count = db.update(DB_TABLE, filteredValues, myWhere, whereArgs);
@@ -761,13 +747,8 @@ public final class DownloadProvider extends ContentProvider {
                     long rowId = Long.parseLong(segment);
                     myWhere += " ( " + Downloads.Impl._ID + " = " + rowId + " ) ";
                 }
-                int callingUid = Binder.getCallingUid();
-                if (Binder.getCallingPid() != Process.myPid() &&
-                        callingUid != mSystemUid &&
-                        callingUid != mDefContainerUid) {
-                    myWhere += " AND ( " + Constants.UID + "=" +  Binder.getCallingUid() + " OR "
-                            + Downloads.Impl.COLUMN_OTHER_UID + "="
-                            +  Binder.getCallingUid() + " )";
+                if (shouldRestrictVisibility()) {
+                    myWhere += " AND " + getRestrictedUidClause();
                 }
                 deleteRequestHeaders(db, where, whereArgs);
                 count = db.delete(DB_TABLE, myWhere, whereArgs);

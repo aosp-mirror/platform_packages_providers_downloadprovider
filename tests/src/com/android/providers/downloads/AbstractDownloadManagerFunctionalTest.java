@@ -20,7 +20,9 @@ import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.ContentObserver;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.Downloads;
 import android.test.MoreAsserts;
 import android.test.RenamingDelegatingContext;
@@ -54,13 +56,28 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
     protected static final int HTTP_NOT_FOUND = 404;
     protected static final int HTTP_SERVICE_UNAVAILABLE = 503;
     protected MockWebServer mServer;
-    protected MockContentResolver mResolver;
+    protected MockContentResolverWithNotify mResolver;
     protected TestContext mTestContext;
     protected FakeSystemFacade mSystemFacade;
 
     static interface StatusReader {
         public int getStatus();
         public boolean isComplete(int status);
+    }
+
+    static class MockContentResolverWithNotify extends MockContentResolver {
+        public boolean mNotifyWasCalled = false;
+
+        public synchronized void resetNotified() {
+            mNotifyWasCalled = false;
+        }
+
+        @Override
+        public synchronized void notifyChange(Uri uri, ContentObserver observer,
+                boolean syncToNetwork) {
+            mNotifyWasCalled = true;
+            notifyAll();
+        }
     }
 
     /**
@@ -179,7 +196,7 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
         DownloadProvider provider = new DownloadProvider();
         provider.mSystemFacade = mSystemFacade;
         provider.attachInfo(mTestContext, null);
-        mResolver = new MockContentResolver();
+        mResolver = new MockContentResolverWithNotify();
         mResolver.addProvider(PROVIDER_AUTHORITY, provider);
     }
 
@@ -257,23 +274,41 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
      */
     protected void waitForDownloadToStop(StatusReader reader, int expectedStatus)
             throws Exception {
-        // TODO(showard): find a better way to accomplish this
         long startTimeMillis = System.currentTimeMillis();
+        long endTimeMillis = startTimeMillis + REQUEST_TIMEOUT_MILLIS;
         int status = reader.getStatus();
         while (status != expectedStatus) {
             if (reader.isComplete(status)) {
                 fail("Download completed with unexpected status: " + status);
             }
-            if (System.currentTimeMillis() > startTimeMillis + REQUEST_TIMEOUT_MILLIS) {
+            waitForChange(endTimeMillis);
+            if (startTimeMillis > endTimeMillis) {
                 fail("Download timed out with status " + status);
             }
-            Thread.sleep(100);
             mServer.checkForExceptions();
             status = reader.getStatus();
         }
 
-        long delta = System.currentTimeMillis() - startTimeMillis;
+        long delta = startTimeMillis - startTimeMillis;
         Log.d(LOG_TAG, "Status " + status + " reached after " + delta + "ms");
+    }
+
+    /**
+     * Wait until mResolver gets notifyChange() called, or endTimeMillis is reached.
+     */
+    private void waitForChange(long endTimeMillis) {
+        synchronized(mResolver) {
+            long now = System.currentTimeMillis();
+            while (!mResolver.mNotifyWasCalled && now < endTimeMillis) {
+                try {
+                    mResolver.wait(endTimeMillis - now);
+                } catch (InterruptedException exc) {
+                    // no problem
+                }
+                now = System.currentTimeMillis();
+            }
+            mResolver.resetNotified();
+        }
     }
 
     protected String readStream(InputStream inputStream) throws IOException {

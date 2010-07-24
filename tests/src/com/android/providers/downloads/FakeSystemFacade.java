@@ -1,11 +1,15 @@
 package com.android.providers.downloads;
 
+import android.app.Notification;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
+import android.test.AssertionFailedError;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FakeSystemFacade implements SystemFacade {
     long mTimeMillis = 0;
@@ -13,6 +17,8 @@ public class FakeSystemFacade implements SystemFacade {
     boolean mIsRoaming = false;
     Integer mMaxBytesOverMobile = null;
     List<Intent> mBroadcastsSent = new ArrayList<Intent>();
+    Map<Integer,Notification> mActiveNotifications = new HashMap<Integer,Notification>();
+    List<Notification> mCanceledNotifications = new ArrayList<Notification>();
 
     void incrementTimeMillis(long delta) {
         mTimeMillis += delta;
@@ -42,5 +48,28 @@ public class FakeSystemFacade implements SystemFacade {
     @Override
     public boolean userOwnsPackage(int uid, String pckg) throws NameNotFoundException {
         return true;
+    }
+
+    @Override
+    public void postNotification(int id, Notification notification) {
+        if (notification == null) {
+            throw new AssertionFailedError("Posting null notification");
+        }
+        mActiveNotifications.put(id, notification);
+    }
+
+    @Override
+    public void cancelNotification(int id) {
+        Notification notification = mActiveNotifications.remove(id);
+        if (notification != null) {
+            mCanceledNotifications.add(notification);
+        }
+    }
+
+    @Override
+    public void cancelAllNotifications() {
+        for (int id : mActiveNotifications.keySet()) {
+            cancelNotification(id);
+        }
     }
 }

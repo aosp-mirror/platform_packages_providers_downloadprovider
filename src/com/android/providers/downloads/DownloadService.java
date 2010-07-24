@@ -218,8 +218,8 @@ public class DownloadService extends Service {
         mMediaScannerConnecting = false;
         mMediaScannerConnection = new MediaScannerConnection();
 
-        mNotifier = new DownloadNotification(this);
-        mNotifier.mNotificationMgr.cancelAll();
+        mNotifier = new DownloadNotification(this, mSystemFacade);
+        mSystemFacade.cancelAllNotifications();
         mNotifier.updateNotification();
 
         trimDatabase();
@@ -641,7 +641,7 @@ public class DownloadService extends Service {
         if (info.mVisibility == Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
                 && newVisibility != Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
                 && Downloads.Impl.isStatusCompleted(info.mStatus)) {
-            mNotifier.mNotificationMgr.cancel(info.mId);
+            mSystemFacade.cancelNotification(info.mId);
         }
         info.mVisibility = newVisibility;
         synchronized (info) {
@@ -651,7 +651,7 @@ public class DownloadService extends Service {
         int newStatus = cursor.getInt(statusColumn);
         if (!Downloads.Impl.isStatusCompleted(info.mStatus) &&
                     Downloads.Impl.isStatusCompleted(newStatus)) {
-            mNotifier.mNotificationMgr.cancel(info.mId);
+            mSystemFacade.cancelNotification(info.mId);
         }
         info.mStatus = newStatus;
         info.mNumFailed = cursor.getInt(failedColumn);
@@ -724,7 +724,7 @@ public class DownloadService extends Service {
                     && info.mFileName != null) {
             new File(info.mFileName).delete();
         }
-        mNotifier.mNotificationMgr.cancel(info.mId);
+        mSystemFacade.cancelNotification(info.mId);
 
         mDownloads.remove(arrayPos);
     }

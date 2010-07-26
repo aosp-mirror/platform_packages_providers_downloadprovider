@@ -21,6 +21,12 @@
         android:description="@string/permdesc_downloadCompletedIntent"
         android:protectionLevel="signature" />
 
+    <!-- Allows to download non-purgeable files to the cache partition through the public API -->
+    <permission android:name="android.permission.DOWNLOAD_CACHE_NON_PURGEABLE"
+        android:label="@string/permlab_downloadCacheNonPurgeable"
+        android:description="@string/permdesc_downloadCacheNonPurgeable"
+        android:protectionLevel="dangerous"/>
+
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
     <uses-permission android:name="android.permission.ACCESS_DRM" />

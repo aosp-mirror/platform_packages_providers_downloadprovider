@@ -73,6 +73,15 @@
     <string name="permdesc_seeAllExternal">Allows the application to see all
         downloads to the SD card, regardless of which application downloaded
         them.</string>
+
+    <string name="permlab_downloadCacheNonPurgeable">Download non-purgeable
+      files to the cache</string>
+    <string name="permdesc_downloadCacheNonPurgeable">Allows the application to
+    download files to the download cache through the public API which will not
+    be automatically deleted when the download manager needs more space.
+    Malicious applications can use this to block other applications from using
+    the download cache.</string>
+
     <!-- This is the title that is used when displaying the notification
     for a download that doesn't have a title associated with it. -->
     <string name="download_unknown_title">&lt;Untitled&gt;</string>

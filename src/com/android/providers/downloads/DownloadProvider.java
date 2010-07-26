@@ -337,6 +337,11 @@ public final class DownloadProvider extends ContentProvider {
         copyBoolean(Downloads.Impl.COLUMN_NO_INTEGRITY, values, filteredValues);
         copyString(Downloads.Impl.COLUMN_FILE_NAME_HINT, values, filteredValues);
         copyString(Downloads.Impl.COLUMN_MIME_TYPE, values, filteredValues);
+
+        copyBoolean(Downloads.Impl.COLUMN_IS_PUBLIC_API, values, filteredValues);
+        boolean isPublicApi =
+                values.getAsBoolean(Downloads.Impl.COLUMN_IS_PUBLIC_API) == Boolean.TRUE;
+
         Integer dest = values.getAsInteger(Downloads.Impl.COLUMN_DESTINATION);
         if (dest != null) {
             if (getContext().checkCallingPermission(Downloads.Impl.PERMISSION_ACCESS_ADVANCED)
@@ -345,6 +350,16 @@ public final class DownloadProvider extends ContentProvider {
                     && dest != Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE
                     && dest != Downloads.Impl.DESTINATION_FILE_URI) {
                 throw new SecurityException("unauthorized destination code");
+            }
+            // for public API behavior, if an app has CACHE_NON_PURGEABLE permission, automatically
+            // switch to non-purgeable download
+            boolean hasNonPurgeablePermission =
+                    getContext().checkCallingPermission(
+                            Downloads.Impl.PERMISSION_CACHE_NON_PURGEABLE)
+                            == PackageManager.PERMISSION_GRANTED;
+            if (isPublicApi && dest == Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE
+                    && hasNonPurgeablePermission) {
+                dest = Downloads.Impl.DESTINATION_CACHE_PARTITION;
             }
             if (dest == Downloads.Impl.DESTINATION_FILE_URI) {
                 getContext().enforcePermission(
@@ -371,10 +386,6 @@ public final class DownloadProvider extends ContentProvider {
         filteredValues.put(Downloads.Impl.COLUMN_STATUS, Downloads.Impl.STATUS_PENDING);
         filteredValues.put(Downloads.Impl.COLUMN_LAST_MODIFICATION,
                            mSystemFacade.currentTimeMillis());
-
-        copyBoolean(Downloads.Impl.COLUMN_IS_PUBLIC_API, values, filteredValues);
-        boolean isPublicApi =
-                values.getAsBoolean(Downloads.Impl.COLUMN_IS_PUBLIC_API) == Boolean.TRUE;
 
         String pckg = values.getAsString(Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE);
         String clazz = values.getAsString(Downloads.Impl.COLUMN_NOTIFICATION_CLASS);
@@ -846,7 +857,7 @@ public final class DownloadProvider extends ContentProvider {
         getContext().getContentResolver().notifyChange(uri, null);
         return count;
     }
-    
+
     private void appendClause(StringBuilder whereClause, String newClause) {
         if (whereClause.length() != 0) {
             whereClause.append(" AND ");

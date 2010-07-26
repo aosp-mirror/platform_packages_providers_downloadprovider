@@ -34,8 +34,7 @@
     <application android:process="android.process.media"
                  android:label="@string/app_label">
         <provider android:name=".DownloadProvider"
-                android:authorities="downloads"
-                android:permission="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+                android:authorities="downloads" />
         <service android:name=".DownloadService"
                 android:permission="android.permission.ACCESS_DOWNLOAD_MANAGER" />
         <receiver android:name=".DownloadReceiver" android:exported="false">

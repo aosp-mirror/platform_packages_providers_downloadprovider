@@ -46,7 +46,7 @@ public class DownloadProviderPermissionsTest extends AndroidTestCase {
     /**
      * Test that an app cannot access the /cache filesystem
      * <p>Tests Permission:
-     *   {@link com.android.providers.downloads.Manifest.permission#ACCESS_CACHE_FILESYSTEM}
+     *   {@link android.Manifest.permission#ACCESS_CACHE_FILESYSTEM}
      */
     @MediumTest
     public void testAccessCacheFilesystem() throws IOException {
@@ -65,27 +65,14 @@ public class DownloadProviderPermissionsTest extends AndroidTestCase {
     }
 
     /**
-     * Test that an untrusted app cannot read from the download provider
-     * <p>Tests Permission:
-     *   {@link com.android.providers.downloads.Manifest.permission#ACCESS_DOWNLOAD_MANAGER}
-     */
-    @MediumTest
-    public void testReadDownloadProvider() throws IOException {
-        try {
-            mContentResolver.query(Downloads.Impl.CONTENT_URI, null, null, null, null);
-            fail("read from provider did not throw SecurityException as expected.");
-        } catch (SecurityException e) {
-            // expected
-        }
-    }
-
-    /**
      * Test that an untrusted app cannot write to the download provider
      * <p>Tests Permission:
      *   {@link com.android.providers.downloads.Manifest.permission#ACCESS_DOWNLOAD_MANAGER}
+     *   and
+     *   {@link android.Manifest.permission#INTERNET}
      */
     @MediumTest
-    public void testWriteDownloadProvider() throws IOException {
+    public void testWriteDownloadProvider() {
         try {
             ContentValues values = new ContentValues();
             values.put(Downloads.Impl.COLUMN_URI, "foo");
@@ -102,7 +89,7 @@ public class DownloadProviderPermissionsTest extends AndroidTestCase {
      *   {@link com.android.providers.downloads.Manifest.permission#ACCESS_DOWNLOAD_MANAGER}
      */
     @MediumTest
-    public void testStartDownloadService() throws IOException {
+    public void testStartDownloadService() {
         try {
             Intent downloadServiceIntent = new Intent();
             downloadServiceIntent.setClassName("com.android.providers.downloads",

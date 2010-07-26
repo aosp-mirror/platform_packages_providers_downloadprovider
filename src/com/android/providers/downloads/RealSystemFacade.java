@@ -1,5 +1,7 @@
 package com.android.providers.downloads;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -10,9 +12,12 @@ import android.util.Log;
 
 class RealSystemFacade implements SystemFacade {
     private Context mContext;
+    private NotificationManager mNotificationManager;
 
     public RealSystemFacade(Context context) {
         mContext = context;
+        mNotificationManager = (NotificationManager)
+                mContext.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     public long currentTimeMillis() {
@@ -66,5 +71,20 @@ class RealSystemFacade implements SystemFacade {
     @Override
     public boolean userOwnsPackage(int uid, String packageName) throws NameNotFoundException {
         return mContext.getPackageManager().getApplicationInfo(packageName, 0).uid == uid;
+    }
+
+    @Override
+    public void postNotification(int id, Notification notification) {
+        mNotificationManager.notify(id, notification);
+    }
+
+    @Override
+    public void cancelNotification(int id) {
+        mNotificationManager.cancel(id);
+    }
+
+    @Override
+    public void cancelAllNotifications() {
+        mNotificationManager.cancelAll();
     }
 }

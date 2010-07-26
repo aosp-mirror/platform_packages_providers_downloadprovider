@@ -165,12 +165,12 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
 
     @Override
     protected void tearDown() throws Exception {
-        waitForUpdateThread();
+        waitForThreads();
         cleanUpDownloads();
         super.tearDown();
     }
 
-    private void waitForUpdateThread() throws InterruptedException {
+    private void waitForThreads() throws InterruptedException {
         DownloadService service = getService();
         if (service == null) {
             return;
@@ -181,6 +181,10 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
                 && System.currentTimeMillis() < startTimeMillis + 1000) {
             Thread.sleep(50);
         }
+
+        // We can't explicitly wait for DownloadThreads, so just throw this last sleep in.  Ugly,
+        // but necessary to avoid unbearable flakiness until I can find a better solution.
+        Thread.sleep(50);
     }
 
     private boolean isDatabaseEmpty() {
@@ -289,7 +293,7 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
             status = reader.getStatus();
         }
 
-        long delta = startTimeMillis - startTimeMillis;
+        long delta = System.currentTimeMillis() - startTimeMillis;
         Log.d(LOG_TAG, "Status " + status + " reached after " + delta + "ms");
     }
 

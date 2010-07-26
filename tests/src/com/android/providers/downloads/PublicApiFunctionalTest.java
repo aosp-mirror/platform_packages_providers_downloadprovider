@@ -485,6 +485,24 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
         assertTrue(mResolver.mNotifyWasCalled);
     }
 
+    public void testNotifications() throws Exception {
+        enqueueEmptyResponse(HTTP_OK);
+        Download download = enqueueRequest(getRequest()); // no visibility requested
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+        assertEquals(0, mSystemFacade.mActiveNotifications.size());
+        assertEquals(0, mSystemFacade.mCanceledNotifications.size());
+        
+        enqueueEmptyResponse(HTTP_OK);
+        download = enqueueRequest(
+                getRequest()
+                .setShowNotification(DownloadManager.Request.NOTIFICATION_WHEN_RUNNING));
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+        assertEquals(1, mSystemFacade.mActiveNotifications.size());
+        // The notification doesn't actually get canceled until the UpdateThread runs again, which
+        // gets triggered by the DownloadThread updating the status in the provider.  This is
+        // tough to test right now, so I'll leave it until the overall structure is changed.
+    }
+
     private void runSimpleFailureTest(int expectedErrorCode) throws Exception {
         Download download = enqueueRequest(getRequest());
         download.runUntilStatus(DownloadManager.STATUS_FAILED);

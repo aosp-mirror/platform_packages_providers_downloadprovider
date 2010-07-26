@@ -17,7 +17,6 @@
 package com.android.providers.downloads;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -38,8 +37,8 @@ import java.util.HashMap;
 class DownloadNotification {
 
     Context mContext;
-    public NotificationManager mNotificationMgr;
     HashMap <String, NotificationItem> mNotifications;
+    private SystemFacade mSystemFacade;
 
     static final String LOGTAG = "DownloadNotification";
     static final String WHERE_RUNNING =
@@ -93,10 +92,9 @@ class DownloadNotification {
      * @param ctx The context to use to obtain access to the
      *            Notification Service
      */
-    DownloadNotification(Context ctx) {
+    DownloadNotification(Context ctx, SystemFacade systemFacade) {
         mContext = ctx;
-        mNotificationMgr = (NotificationManager) mContext
-                .getSystemService(Context.NOTIFICATION_SERVICE);
+        mSystemFacade = systemFacade;
         mNotifications = new HashMap<String, NotificationItem>();
     }
 
@@ -208,7 +206,7 @@ class DownloadNotification {
 
             n.contentIntent = PendingIntent.getBroadcast(mContext, 0, intent, 0);
 
-            mNotificationMgr.notify(item.mId, n);
+            mSystemFacade.postNotification(item.mId, n);
 
         }
     }
@@ -287,7 +285,7 @@ class DownloadNotification {
             intent.setData(contentUri);
             n.deleteIntent = PendingIntent.getBroadcast(mContext, 0, intent, 0);
 
-            mNotificationMgr.notify(c.getInt(idColumn), n);
+            mSystemFacade.postNotification(c.getInt(idColumn), n);
         }
         c.close();
     }

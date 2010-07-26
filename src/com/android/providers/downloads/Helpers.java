@@ -117,13 +117,7 @@ public class Helpers {
     }
 
     private static String getPathForFileUri(String hint) throws GenerateSaveFileError {
-        Uri uri = Uri.parse(hint);
-        if (!uri.getScheme().equals("file")) {
-            Log.d(Constants.TAG, "Not a file URI: " + hint);
-            throw new GenerateSaveFileError(Downloads.Impl.STATUS_FILE_ERROR);
-        }
-
-        String path = uri.getSchemeSpecificPart();
+        String path = Uri.parse(hint).getSchemeSpecificPart();
         if (new File(path).exists()) {
             Log.d(Constants.TAG, "File already exists: " + path);
             throw new GenerateSaveFileError(Downloads.Impl.STATUS_FILE_ERROR);

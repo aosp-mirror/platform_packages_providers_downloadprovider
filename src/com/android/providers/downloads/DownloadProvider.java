@@ -34,6 +34,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.os.Process;
 import android.provider.Downloads;
@@ -319,6 +320,7 @@ public final class DownloadProvider extends ContentProvider {
      */
     @Override
     public Uri insert(final Uri uri, final ContentValues values) {
+        checkInsertPermissions(values);
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 
         if (sURIMatcher.match(uri) != DOWNLOADS) {
@@ -349,6 +351,7 @@ public final class DownloadProvider extends ContentProvider {
                         android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Binder.getCallingPid(), Binder.getCallingUid(),
                         "need WRITE_EXTERNAL_STORAGE permission to use DESTINATION_FILE_URI");
+                checkFileUriDestination(values);
             }
             filteredValues.put(Downloads.Impl.COLUMN_DESTINATION, dest);
         }
@@ -437,6 +440,98 @@ public final class DownloadProvider extends ContentProvider {
         }
 
         return ret;
+    }
+
+    /**
+     * Check that the file URI provided for DESTINATION_FILE_URI is valid.
+     */
+    private void checkFileUriDestination(ContentValues values) {
+        String fileUri = values.getAsString(Downloads.Impl.COLUMN_FILE_NAME_HINT);
+        if (fileUri == null) {
+            throw new IllegalArgumentException(
+                    "DESTINATION_FILE_URI must include a file URI under COLUMN_FILE_NAME_HINT");
+        }
+        Uri uri = Uri.parse(fileUri);
+        if (!uri.getScheme().equals("file")) {
+            throw new IllegalArgumentException("Not a file URI: " + uri);
+        }
+        File path = new File(uri.getSchemeSpecificPart());
+        String externalPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        if (!path.getPath().startsWith(externalPath)) {
+            throw new SecurityException("Destination must be on external storage: " + uri);
+        }
+    }
+
+    /**
+     * Apps with the ACCESS_DOWNLOAD_MANAGER permission can access this provider freely, subject to
+     * constraints in the rest of the code. Apps without that may still access this provider through
+     * the public API, but additional restrictions are imposed. We check those restrictions here.
+     *
+     * @param values ContentValues provided to insert()
+     * @throws SecurityException if the caller has insufficient permissions
+     */
+    private void checkInsertPermissions(ContentValues values) {
+        if (getContext().checkCallingOrSelfPermission(Downloads.Impl.PERMISSION_ACCESS)
+                == PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        getContext().enforceCallingOrSelfPermission(android.Manifest.permission.INTERNET,
+                "INTERNET permission is required to use the download manager");
+
+        // ensure the request fits within the bounds of a public API request
+        // first copy so we can remove values
+        values = new ContentValues(values);
+
+        // check columns whose values are restricted
+        enforceAllowedValues(values, Downloads.Impl.COLUMN_IS_PUBLIC_API, Boolean.TRUE);
+        enforceAllowedValues(values, Downloads.Impl.COLUMN_DESTINATION,
+                Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE,
+                Downloads.Impl.DESTINATION_FILE_URI);
+        enforceAllowedValues(values, Downloads.Impl.COLUMN_VISIBILITY,
+                null, Downloads.Impl.VISIBILITY_VISIBLE);
+
+        // remove the rest of the columns that are allowed (with any value)
+        values.remove(Downloads.Impl.COLUMN_URI);
+        values.remove(Downloads.Impl.COLUMN_TITLE);
+        values.remove(Downloads.Impl.COLUMN_DESCRIPTION);
+        values.remove(Downloads.Impl.COLUMN_MIME_TYPE);
+        values.remove(Downloads.Impl.COLUMN_FILE_NAME_HINT); // checked later in insert()
+        values.remove(Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE); // checked later in insert()
+        values.remove(Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES);
+        values.remove(Downloads.Impl.COLUMN_ALLOW_ROAMING);
+
+        // any extra columns are extraneous and disallowed
+        if (values.size() > 0) {
+            StringBuilder error = new StringBuilder("Invalid columns in request: ");
+            boolean first = true;
+            for (Map.Entry<String, Object> entry : values.valueSet()) {
+                if (!first) {
+                    error.append(", ");
+                }
+                error.append(entry.getKey());
+            }
+            throw new SecurityException(error.toString());
+        }
+    }
+
+    /**
+     * Remove column from values, and throw a SecurityException if the value isn't within the
+     * specified allowedValues.
+     */
+    private void enforceAllowedValues(ContentValues values, String column,
+            Object... allowedValues) {
+        Object value = values.get(column);
+        values.remove(column);
+        for (Object allowedValue : allowedValues) {
+            if (value == null && allowedValue == null) {
+                return;
+            }
+            if (value != null && value.equals(allowedValue)) {
+                return;
+            }
+        }
+        throw new SecurityException("Invalid value for " + column + ": " + value);
     }
 
     /**
@@ -606,7 +701,7 @@ public final class DownloadProvider extends ContentProvider {
      */
     private void deleteRequestHeaders(SQLiteDatabase db, String where, String[] whereArgs) {
         String[] projection = new String[] {Downloads.Impl._ID};
-        Cursor cursor = db.query(DB_TABLE, projection , where, whereArgs, null, null, null, null);
+        Cursor cursor = db.query(DB_TABLE, projection, where, whereArgs, null, null, null, null);
         try {
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                 long id = cursor.getLong(0);
@@ -682,26 +777,9 @@ public final class DownloadProvider extends ContentProvider {
         switch (match) {
             case DOWNLOADS:
             case DOWNLOADS_ID: {
-                String myWhere;
-                if (where != null) {
-                    if (match == DOWNLOADS) {
-                        myWhere = "( " + where + " )";
-                    } else {
-                        myWhere = "( " + where + " ) AND ";
-                    }
-                } else {
-                    myWhere = "";
-                }
-                if (match == DOWNLOADS_ID) {
-                    String segment = getDownloadIdFromUri(uri);
-                    rowId = Long.parseLong(segment);
-                    myWhere += " ( " + Downloads.Impl._ID + " = " + rowId + " ) ";
-                }
-                if (shouldRestrictVisibility()) {
-                    myWhere += " AND " + getRestrictedUidClause();
-                }
+                String fullWhere = getWhereClause(uri, where);
                 if (filteredValues.size() > 0) {
-                    count = db.update(DB_TABLE, filteredValues, myWhere, whereArgs);
+                    count = db.update(DB_TABLE, filteredValues, fullWhere, whereArgs);
                 } else {
                     count = 0;
                 }
@@ -722,6 +800,22 @@ public final class DownloadProvider extends ContentProvider {
         return count;
     }
 
+    private String getWhereClause(final Uri uri, final String where) {
+        StringBuilder myWhere = new StringBuilder();
+        if (where != null) {
+            myWhere.append("( " + where + " )");
+        }
+        if (sURIMatcher.match(uri) == DOWNLOADS_ID) {
+            String segment = getDownloadIdFromUri(uri);
+            long rowId = Long.parseLong(segment);
+            appendClause(myWhere, " ( " + Downloads.Impl._ID + " = " + rowId + " ) ");
+        }
+        if (shouldRestrictVisibility()) {
+            appendClause(myWhere, getRestrictedUidClause());
+        }
+        return myWhere.toString();
+    }
+
     /**
      * Deletes a row in the database
      */
@@ -737,26 +831,9 @@ public final class DownloadProvider extends ContentProvider {
         switch (match) {
             case DOWNLOADS:
             case DOWNLOADS_ID: {
-                String myWhere;
-                if (where != null) {
-                    if (match == DOWNLOADS) {
-                        myWhere = "( " + where + " )";
-                    } else {
-                        myWhere = "( " + where + " ) AND ";
-                    }
-                } else {
-                    myWhere = "";
-                }
-                if (match == DOWNLOADS_ID) {
-                    String segment = getDownloadIdFromUri(uri);
-                    long rowId = Long.parseLong(segment);
-                    myWhere += " ( " + Downloads.Impl._ID + " = " + rowId + " ) ";
-                }
-                if (shouldRestrictVisibility()) {
-                    myWhere += " AND " + getRestrictedUidClause();
-                }
-                deleteRequestHeaders(db, where, whereArgs);
-                count = db.delete(DB_TABLE, myWhere, whereArgs);
+                String fullWhere = getWhereClause(uri, where);
+                deleteRequestHeaders(db, fullWhere, whereArgs);
+                count = db.delete(DB_TABLE, fullWhere, whereArgs);
                 break;
             }
             default: {
@@ -768,6 +845,13 @@ public final class DownloadProvider extends ContentProvider {
         }
         getContext().getContentResolver().notifyChange(uri, null);
         return count;
+    }
+    
+    private void appendClause(StringBuilder whereClause, String newClause) {
+        if (whereClause.length() != 0) {
+            whereClause.append(" AND ");
+        }
+        whereClause.append(newClause);
     }
 
     /**

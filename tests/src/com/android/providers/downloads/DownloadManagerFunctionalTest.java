@@ -28,7 +28,6 @@ import tests.http.RecordedRequest;
 
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.util.List;
 
 /**
  * This test exercises the entire download manager working together -- it requests downloads through
@@ -38,6 +37,10 @@ import java.util.List;
  */
 @LargeTest
 public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFunctionalTest {
+    public DownloadManagerFunctionalTest() {
+        super(new FakeSystemFacade());
+    }
+
     public void testBasicRequest() throws Exception {
         enqueueResponse(HTTP_OK, FILE_CONTENT);
 
@@ -46,7 +49,8 @@ public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFuncti
         assertEquals(Downloads.STATUS_PENDING, getDownloadStatus(downloadUri));
         assertTrue(mTestContext.mHasServiceBeenStarted);
 
-        RecordedRequest request = runUntilStatus(downloadUri, Downloads.STATUS_SUCCESS);
+        runUntilStatus(downloadUri, Downloads.STATUS_SUCCESS);
+        RecordedRequest request = takeRequest();
         assertEquals("GET", request.getMethod());
         assertEquals(path, request.getPath());
         assertEquals(FILE_CONTENT, getDownloadContents(downloadUri));
@@ -65,40 +69,6 @@ public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFuncti
                          getDownloadFilename(downloadUri));
     }
 
-    public void testFileNotFound() throws Exception {
-        enqueueEmptyResponse(HTTP_NOT_FOUND);
-        Uri downloadUri = requestDownload("/nonexistent_path");
-        assertEquals(Downloads.STATUS_PENDING, getDownloadStatus(downloadUri));
-        runUntilStatus(downloadUri, HTTP_NOT_FOUND);
-    }
-
-    public void testRetryAfter() throws Exception {
-        final int delay = 120;
-        enqueueEmptyResponse(HTTP_SERVICE_UNAVAILABLE).addHeader("Retry-after", delay);
-        Uri downloadUri = requestDownload("/path");
-        runUntilStatus(downloadUri, Downloads.STATUS_RUNNING_PAUSED);
-
-        // download manager adds random 0-30s offset
-        mSystemFacade.incrementTimeMillis((delay + 31) * 1000);
-
-        enqueueResponse(HTTP_OK, FILE_CONTENT);
-        runUntilStatus(downloadUri, Downloads.STATUS_SUCCESS);
-    }
-
-    public void testBasicConnectivityChanges() throws Exception {
-        enqueueResponse(HTTP_OK, FILE_CONTENT);
-        Uri downloadUri = requestDownload("/path");
-
-        // without connectivity, download immediately pauses
-        mSystemFacade.mActiveNetworkType = null;
-        startService(null);
-        waitForDownloadToStop(getStatusReader(downloadUri), Downloads.STATUS_RUNNING_PAUSED);
-
-        // connecting should start the download
-        mSystemFacade.mActiveNetworkType = ConnectivityManager.TYPE_WIFI;
-        runUntilStatus(downloadUri, Downloads.STATUS_SUCCESS);
-    }
-
     public void testRoaming() throws Exception {
         mSystemFacade.mActiveNetworkType = ConnectivityManager.TYPE_MOBILE;
         mSystemFacade.mIsRoaming = true;
@@ -106,15 +76,13 @@ public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFuncti
         // for a normal download, roaming is fine
         enqueueResponse(HTTP_OK, FILE_CONTENT);
         Uri downloadUri = requestDownload("/path");
-        startService(null);
         runUntilStatus(downloadUri, Downloads.STATUS_SUCCESS);
 
         // when roaming is disallowed, the download should pause...
         downloadUri = requestDownload("/path");
         updateDownload(downloadUri, Downloads.COLUMN_DESTINATION,
                        Integer.toString(Downloads.DESTINATION_CACHE_PARTITION_NOROAMING));
-        startService(null);
-        waitForDownloadToStop(getStatusReader(downloadUri), Downloads.STATUS_RUNNING_PAUSED);
+        runUntilStatus(downloadUri, Downloads.STATUS_RUNNING_PAUSED);
 
         // ...and pick up when we're off roaming
         enqueueResponse(HTTP_OK, FILE_CONTENT);
@@ -134,20 +102,9 @@ public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFuncti
         }
     }
 
-    private RecordedRequest runUntilStatus(Uri downloadUri, int status) throws Exception {
-        return super.runUntilStatus(getStatusReader(downloadUri), status);
-    }
-
-    private StatusReader getStatusReader(final Uri downloadUri) {
-        return new StatusReader() {
-            public int getStatus() {
-                return getDownloadStatus(downloadUri);
-            }
-
-            public boolean isComplete(int status) {
-                return !Downloads.isStatusInformational(status);
-            }
-        };
+    private void runUntilStatus(Uri downloadUri, int status) throws Exception {
+        runService();
+        assertEquals(status, getDownloadStatus(downloadUri));
     }
 
     protected int getDownloadStatus(Uri downloadUri) {

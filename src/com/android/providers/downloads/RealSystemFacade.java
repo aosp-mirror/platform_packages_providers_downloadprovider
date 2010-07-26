@@ -87,4 +87,9 @@ class RealSystemFacade implements SystemFacade {
     public void cancelAllNotifications() {
         mNotificationManager.cancelAll();
     }
+
+    @Override
+    public void startThread(Thread thread) {
+        thread.start();
+    }
 }

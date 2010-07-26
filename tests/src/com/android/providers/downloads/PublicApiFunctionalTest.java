@@ -472,6 +472,19 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
         download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
     }
 
+    public void testContentObserver() throws Exception {
+        enqueueEmptyResponse(HTTP_OK);
+        enqueueRequest(getRequest());
+        mResolver.resetNotified();
+        startService(null);
+        synchronized(mResolver) {
+            if (!mResolver.mNotifyWasCalled) {
+                mResolver.wait(2000);
+            }
+        }
+        assertTrue(mResolver.mNotifyWasCalled);
+    }
+
     private void runSimpleFailureTest(int expectedErrorCode) throws Exception {
         Download download = enqueueRequest(getRequest());
         download.runUntilStatus(DownloadManager.STATUS_FAILED);

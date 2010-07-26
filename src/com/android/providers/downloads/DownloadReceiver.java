@@ -16,9 +16,6 @@
 
 package com.android.providers.downloads;
 
-import com.google.common.annotations.VisibleForTesting;
-
-import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ContentUris;
@@ -33,6 +30,8 @@ import android.net.Uri;
 import android.provider.Downloads;
 import android.util.Config;
 import android.util.Log;
+
+import com.google.common.annotations.VisibleForTesting;
 
 import java.io.File;
 
@@ -164,11 +163,7 @@ public class DownloadReceiver extends BroadcastReceiver {
                 }
                 cursor.close();
             }
-            NotificationManager notMgr = (NotificationManager) context
-                    .getSystemService(Context.NOTIFICATION_SERVICE);
-            if (notMgr != null) {
-                notMgr.cancel((int) ContentUris.parseId(intent.getData()));
-            }
+            mSystemFacade.cancelNotification((int) ContentUris.parseId(intent.getData()));
         } else if (intent.getAction().equals(Constants.ACTION_HIDE)) {
             if (Constants.LOGVV) {
                 Log.v(Constants.TAG, "Receiver hide for " + intent.getData());

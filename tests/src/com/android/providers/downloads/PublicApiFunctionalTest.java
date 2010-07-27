@@ -293,14 +293,13 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
 
     public void testRedirect301() throws Exception {
         RecordedRequest lastRequest = runRedirectionTest(301);
-        // for 301, upon retry, we reuse the redirected URI
+        // for 301, upon retry/resume, we reuse the redirected URI
         assertEquals(REDIRECTED_PATH, lastRequest.getPath());
     }
 
-    // TODO: currently fails
-    public void disabledTestRedirect302() throws Exception {
+    public void testRedirect302() throws Exception {
         RecordedRequest lastRequest = runRedirectionTest(302);
-        // for 302, upon retry, we use the original URI
+        // for 302, upon retry/resume, we use the original URI
         assertEquals(REQUEST_PATH, lastRequest.getPath());
     }
 
@@ -485,11 +484,8 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         enqueueInterruptedDownloadResponses(5);
 
         Download download = enqueueRequest(getRequest());
-        download.runUntilStatus(DownloadManager.STATUS_PAUSED);
+        runService();
         assertEquals(REQUEST_PATH, takeRequest().getPath());
-
-        mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);
-        download.runUntilStatus(DownloadManager.STATUS_PAUSED);
         assertEquals(REDIRECTED_PATH, takeRequest().getPath());
 
         mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);

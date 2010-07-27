@@ -102,7 +102,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         assertEquals(mSystemFacade.currentTimeMillis(),
                      download.getLongField(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP));
 
-        assertEquals(FILE_CONTENT, download.getContents());
+        checkCompleteDownload(download);
     }
 
     public void testTitleAndDescription() throws Exception {
@@ -138,9 +138,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
 
         mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);
         download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
-        assertEquals(FILE_CONTENT.length(),
-                     download.getLongField(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
-        assertEquals(FILE_CONTENT, download.getContents());
+        checkCompleteDownload(download);
 
         List<String> headers = takeRequest().getHeaders();
         assertTrue("No Range header: " + headers,
@@ -150,30 +148,32 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
 
     public void testInterruptedExternalDownload() throws Exception {
         enqueueInterruptedDownloadResponses(5);
-        Uri destination = getExternalUri();
-        Download download = enqueueRequest(getRequest().setDestinationUri(destination));
+        Download download = enqueueRequest(getRequest().setDestinationUri(getExternalUri()));
         download.runUntilStatus(DownloadManager.STATUS_PAUSED);
         mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);
         download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
-        assertEquals(FILE_CONTENT, download.getContents());
+        checkCompleteDownload(download);
     }
 
     private void enqueueInterruptedDownloadResponses(int initialLength) {
-        int totalLength = FILE_CONTENT.length();
         // the first response has normal headers but unexpectedly closes after initialLength bytes
-        enqueuePartialResponse(initialLength);
+        enqueuePartialResponse(0, initialLength);
         // the second response returns partial content for the rest of the data
-        enqueueResponse(HTTP_PARTIAL_CONTENT, FILE_CONTENT.substring(initialLength))
-                .addHeader("Content-range",
-                           "bytes " + initialLength + "-" + totalLength + "/" + totalLength)
-                .addHeader("Etag", ETAG);
+        enqueuePartialResponse(initialLength, FILE_CONTENT.length());
     }
 
-    private MockResponse enqueuePartialResponse(int initialLength) {
-        return enqueueResponse(HTTP_OK, FILE_CONTENT.substring(0, initialLength))
-                               .addHeader("Content-length", FILE_CONTENT.length())
-                               .addHeader("Etag", ETAG)
-                               .setCloseConnectionAfter(true);
+    private MockResponse enqueuePartialResponse(int start, int end) {
+        int totalLength = FILE_CONTENT.length();
+        boolean isFirstResponse = (start == 0);
+        int status = isFirstResponse ? HTTP_OK : HTTP_PARTIAL_CONTENT;
+        MockResponse response = enqueueResponse(status, FILE_CONTENT.substring(start, end))
+                               .addHeader("Content-length", totalLength)
+                               .addHeader("Etag", ETAG);
+        if (!isFirstResponse) {
+            response.addHeader("Content-range",
+                    "bytes " + start + "-" + totalLength + "/" + totalLength);
+        }
+        return response;
     }
 
     public void testFiltering() throws Exception {
@@ -304,7 +304,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
     }
 
     public void testNoEtag() throws Exception {
-        enqueuePartialResponse(5).removeHeader("Etag");
+        enqueuePartialResponse(0, 5).removeHeader("Etag");
         runSimpleFailureTest(HTTP_LENGTH_REQUIRED);
     }
 
@@ -334,7 +334,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
     }
 
     public void testCancel() throws Exception {
-        enqueuePartialResponse(5);
+        enqueuePartialResponse(0, 5);
         Download download = enqueueRequest(getRequest());
         download.runUntilStatus(DownloadManager.STATUS_PAUSED);
 
@@ -461,6 +461,30 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
 
         enqueueEmptyResponse(HTTP_OK);
         download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+    }
+
+    public void testManyInterruptions() throws Exception {
+        int bytesPerResponse = 1;
+        int start = 0;
+
+        Download download = enqueueRequest(getRequest());
+        while (start + bytesPerResponse < FILE_CONTENT.length()) {
+            enqueuePartialResponse(start, start + bytesPerResponse);
+            download.runUntilStatus(DownloadManager.STATUS_PAUSED);
+            takeRequest();
+            start += bytesPerResponse;
+            mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);
+        }
+
+        enqueuePartialResponse(start, FILE_CONTENT.length());
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+        checkCompleteDownload(download);
+    }
+
+    private void checkCompleteDownload(Download download) throws Exception {
+        assertEquals(FILE_CONTENT.length(),
+                     download.getLongField(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+        assertEquals(FILE_CONTENT, download.getContents());
     }
 
     private void runSimpleFailureTest(int expectedErrorCode) throws Exception {

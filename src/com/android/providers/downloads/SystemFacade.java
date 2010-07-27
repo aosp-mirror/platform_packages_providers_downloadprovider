@@ -53,4 +53,9 @@ interface SystemFacade {
      * Cancel all system notifications.
      */
     public void cancelAllNotifications();
+
+    /**
+     * Start a thread.
+     */
+    public void startThread(Thread thread);
 }

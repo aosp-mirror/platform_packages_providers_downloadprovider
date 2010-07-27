@@ -369,6 +369,6 @@ public class DownloadInfo {
         }
         DownloadThread downloader = new DownloadThread(mContext, mSystemFacade, this);
         mHasActiveThread = true;
-        downloader.start();
+        mSystemFacade.startThread(downloader);
     }
 }

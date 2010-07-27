@@ -258,7 +258,7 @@ public class DownloadService extends Service {
             mPendingUpdate = true;
             if (mUpdateThread == null) {
                 mUpdateThread = new UpdateThread();
-                mUpdateThread.start();
+                mSystemFacade.startThread(mUpdateThread);
             }
         }
     }

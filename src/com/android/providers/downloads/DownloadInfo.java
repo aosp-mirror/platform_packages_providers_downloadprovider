@@ -345,7 +345,7 @@ public class DownloadInfo {
         if (networkType == ConnectivityManager.TYPE_WIFI) {
             return true; // anything goes over wifi
         }
-        Integer maxBytesOverMobile = mSystemFacade.getMaxBytesOverMobile();
+        Long maxBytesOverMobile = mSystemFacade.getMaxBytesOverMobile();
         if (maxBytesOverMobile == null) {
             return true; // no limit
         }

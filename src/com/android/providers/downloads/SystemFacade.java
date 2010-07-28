@@ -27,7 +27,7 @@ interface SystemFacade {
      * @return maximum size, in bytes, of downloads that may go over a mobile connection; or null if
      * there's no limit
      */
-    public Integer getMaxBytesOverMobile();
+    public Long getMaxBytesOverMobile();
 
     /**
      * Send a broadcast intent.

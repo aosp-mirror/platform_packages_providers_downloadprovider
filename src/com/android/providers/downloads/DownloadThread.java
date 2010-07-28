@@ -318,6 +318,7 @@ public class DownloadThread extends Thread {
             // close the file
             if (state.mStream != null) {
                 state.mStream.close();
+                state.mStream = null;
             }
         } catch (IOException ex) {
             if (Constants.LOGV) {

@@ -148,6 +148,16 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         assertTrue("No ETag header: " + headers, headers.contains("If-Match: " + ETAG));
     }
 
+    public void testInterruptedExternalDownload() throws Exception {
+        enqueueInterruptedDownloadResponses(5);
+        Uri destination = getExternalUri();
+        Download download = enqueueRequest(getRequest().setDestinationUri(destination));
+        download.runUntilStatus(DownloadManager.STATUS_PAUSED);
+        mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+        assertEquals(FILE_CONTENT, download.getContents());
+    }
+
     private void enqueueInterruptedDownloadResponses(int initialLength) {
         int totalLength = FILE_CONTENT.length();
         // the first response has normal headers but unexpectedly closes after initialLength bytes
@@ -225,7 +235,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
 
     public void testDestination() throws Exception {
         enqueueResponse(HTTP_OK, FILE_CONTENT);
-        Uri destination = Uri.fromFile(mTestDirectory).buildUpon().appendPath("testfile").build();
+        Uri destination = getExternalUri();
         Download download = enqueueRequest(getRequest().setDestinationUri(destination));
         download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
 
@@ -238,6 +248,10 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         } finally {
             stream.close();
         }
+    }
+
+    private Uri getExternalUri() {
+        return Uri.fromFile(mTestDirectory).buildUpon().appendPath("testfile").build();
     }
 
     public void testRequestHeaders() throws Exception {

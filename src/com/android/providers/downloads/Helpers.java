@@ -513,10 +513,9 @@ public class Helpers {
      * Checks whether the filename looks legitimate
      */
     public static boolean isFilenameValid(String filename) {
-        File dir = new File(filename).getParentFile();
-        return dir.equals(Environment.getDownloadCacheDirectory())
-                || dir.equals(new File(Environment.getExternalStorageDirectory()
-                        + Constants.DEFAULT_DL_SUBDIR));
+        filename = filename.replaceFirst("/+", "/"); // normalize leading slashes
+        return filename.startsWith(Environment.getDownloadCacheDirectory().toString())
+                || filename.startsWith(Environment.getExternalStorageDirectory().toString());
     }
 
     /**

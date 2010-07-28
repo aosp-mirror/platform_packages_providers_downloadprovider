@@ -48,22 +48,17 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
 
     protected static final String LOG_TAG = "DownloadManagerFunctionalTest";
     private static final String PROVIDER_AUTHORITY = "downloads";
-    protected static final long REQUEST_TIMEOUT_MILLIS = 10 * 1000;
     protected static final long RETRY_DELAY_MILLIS = 61 * 1000;
     protected static final String FILE_CONTENT = "hello world";
     protected static final int HTTP_OK = 200;
     protected static final int HTTP_PARTIAL_CONTENT = 206;
     protected static final int HTTP_NOT_FOUND = 404;
     protected static final int HTTP_SERVICE_UNAVAILABLE = 503;
+
     protected MockWebServer mServer;
     protected MockContentResolverWithNotify mResolver;
     protected TestContext mTestContext;
     protected FakeSystemFacade mSystemFacade;
-
-    static interface StatusReader {
-        public int getStatus();
-        public boolean isComplete(int status);
-    }
 
     static class MockContentResolverWithNotify extends MockContentResolver {
         public boolean mNotifyWasCalled = false;
@@ -140,15 +135,15 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
         }
     }
 
-    public AbstractDownloadManagerFunctionalTest() {
+    public AbstractDownloadManagerFunctionalTest(FakeSystemFacade systemFacade) {
         super(DownloadService.class);
+        mSystemFacade = systemFacade;
     }
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
 
-        mSystemFacade = new FakeSystemFacade();
         Context realContext = getContext();
         mTestContext = new TestContext(realContext);
         setupProviderAndResolver();
@@ -165,26 +160,8 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
 
     @Override
     protected void tearDown() throws Exception {
-        waitForThreads();
         cleanUpDownloads();
         super.tearDown();
-    }
-
-    private void waitForThreads() throws InterruptedException {
-        DownloadService service = getService();
-        if (service == null) {
-            return;
-        }
-
-        long startTimeMillis = System.currentTimeMillis();
-        while (service.mUpdateThread != null
-                && System.currentTimeMillis() < startTimeMillis + 1000) {
-            Thread.sleep(50);
-        }
-
-        // We can't explicitly wait for DownloadThreads, so just throw this last sleep in.  Ugly,
-        // but necessary to avoid unbearable flakiness until I can find a better solution.
-        Thread.sleep(50);
     }
 
     private boolean isDatabaseEmpty() {
@@ -230,16 +207,10 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
      * Enqueue a response from the MockWebServer.
      */
     MockResponse enqueueResponse(int status, String body) {
-        return enqueueResponse(status, body, true);
-    }
-
-    MockResponse enqueueResponse(int status, String body, boolean includeContentType) {
         MockResponse response = new MockResponse()
                                 .setResponseCode(status)
                                 .setBody(body);
-        if (includeContentType) {
-            response.addHeader("Content-type", "text/plain");
-        }
+        response.addHeader("Content-type", "text/plain");
         mServer.enqueue(response);
         return response;
     }
@@ -249,11 +220,11 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
     }
 
     /**
-     * Wait for a request to come to the MockWebServer and return it.
+     * Fetch the last request received by the MockWebServer.
      */
-    RecordedRequest takeRequest() throws InterruptedException {
-        RecordedRequest request = mServer.takeRequestWithTimeout(REQUEST_TIMEOUT_MILLIS);
-        assertNotNull("Timed out waiting for request", request);
+    protected RecordedRequest takeRequest() throws InterruptedException {
+        RecordedRequest request = mServer.takeRequestWithTimeout(0);
+        assertNotNull("Expected request was not made", request);
         return request;
     }
 
@@ -261,58 +232,10 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
         return mServer.getUrl(path).toString();
     }
 
-    /**
-     * Run the service and wait for a request and for the download to reach the given status.
-     * @return the request received
-     */
-    protected RecordedRequest runUntilStatus(StatusReader reader, int status) throws Exception {
+    public void runService() throws Exception {
         startService(null);
-        RecordedRequest request = takeRequest();
-        waitForDownloadToStop(reader, status);
-        return request;
-    }
-
-    /**
-     * Wait for a download to given a given status, with a timeout.  Fails if the download reaches
-     * any other final status.
-     */
-    protected void waitForDownloadToStop(StatusReader reader, int expectedStatus)
-            throws Exception {
-        long startTimeMillis = System.currentTimeMillis();
-        long endTimeMillis = startTimeMillis + REQUEST_TIMEOUT_MILLIS;
-        int status = reader.getStatus();
-        while (status != expectedStatus) {
-            if (reader.isComplete(status)) {
-                fail("Download completed with unexpected status: " + status);
-            }
-            waitForChange(endTimeMillis);
-            if (startTimeMillis > endTimeMillis) {
-                fail("Download timed out with status " + status);
-            }
-            mServer.checkForExceptions();
-            status = reader.getStatus();
-        }
-
-        long delta = System.currentTimeMillis() - startTimeMillis;
-        Log.d(LOG_TAG, "Status " + status + " reached after " + delta + "ms");
-    }
-
-    /**
-     * Wait until mResolver gets notifyChange() called, or endTimeMillis is reached.
-     */
-    private void waitForChange(long endTimeMillis) {
-        synchronized(mResolver) {
-            long now = System.currentTimeMillis();
-            while (!mResolver.mNotifyWasCalled && now < endTimeMillis) {
-                try {
-                    mResolver.wait(endTimeMillis - now);
-                } catch (InterruptedException exc) {
-                    // no problem
-                }
-                now = System.currentTimeMillis();
-            }
-            mResolver.resetNotified();
-        }
+        mSystemFacade.runAllThreads();
+        mServer.checkForExceptions();
     }
 
     protected String readStream(InputStream inputStream) throws IOException {

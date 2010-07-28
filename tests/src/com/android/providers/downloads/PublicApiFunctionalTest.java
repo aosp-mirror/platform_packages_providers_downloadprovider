@@ -22,7 +22,6 @@ import android.net.ConnectivityManager;
 import android.net.DownloadManager;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.ParcelFileDescriptor;
 import android.provider.Downloads;
 import android.test.suitebuilder.annotation.LargeTest;
 import tests.http.MockResponse;
@@ -35,77 +34,21 @@ import java.net.MalformedURLException;
 import java.util.List;
 
 @LargeTest
-public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTest {
-    private static final String PACKAGE_NAME = "my.package.name";
+public class PublicApiFunctionalTest extends AbstractPublicApiTest {
     private static final int HTTP_NOT_ACCEPTABLE = 406;
     private static final int HTTP_LENGTH_REQUIRED = 411;
-    private static final String REQUEST_PATH = "/path";
     private static final String REDIRECTED_PATH = "/other_path";
     private static final String ETAG = "my_etag";
 
-    class Download implements StatusReader {
-        final long mId;
+    protected File mTestDirectory;
 
-        private Download(long downloadId) {
-            this.mId = downloadId;
-        }
-
-        public int getStatus() {
-            return (int) getLongField(DownloadManager.COLUMN_STATUS);
-        }
-
-        public boolean isComplete(int status) {
-            return status != DownloadManager.STATUS_PENDING
-                    && status != DownloadManager.STATUS_RUNNING
-                    && status != DownloadManager.STATUS_PAUSED;
-        }
-
-        String getStringField(String field) {
-            Cursor cursor = mManager.query(new DownloadManager.Query().setFilterById(mId));
-            try {
-                assertEquals(1, cursor.getCount());
-                cursor.moveToFirst();
-                return cursor.getString(cursor.getColumnIndexOrThrow(field));
-            } finally {
-                cursor.close();
-            }
-        }
-
-        long getLongField(String field) {
-            Cursor cursor = mManager.query(new DownloadManager.Query().setFilterById(mId));
-            try {
-                assertEquals(1, cursor.getCount());
-                cursor.moveToFirst();
-                return cursor.getLong(cursor.getColumnIndexOrThrow(field));
-            } finally {
-                cursor.close();
-            }
-        }
-
-        String getContents() throws Exception {
-            ParcelFileDescriptor downloadedFile = mManager.openDownloadedFile(mId);
-            assertTrue("Invalid file descriptor: " + downloadedFile,
-                       downloadedFile.getFileDescriptor().valid());
-            InputStream stream = new FileInputStream(downloadedFile.getFileDescriptor());
-            try {
-                return readStream(stream);
-            } finally {
-                stream.close();
-            }
-        }
-
-        RecordedRequest runUntilStatus(int status) throws Exception {
-            return PublicApiFunctionalTest.this.runUntilStatus(this, status);
-        }
+    public PublicApiFunctionalTest() {
+        super(new FakeSystemFacade());
     }
-
-    private DownloadManager mManager;
-    private File mTestDirectory;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mManager = new DownloadManager(mResolver, PACKAGE_NAME);
 
         mTestDirectory = new File(Environment.getExternalStorageDirectory() + File.separator
                                   + "download_manager_functional_test");
@@ -142,7 +85,8 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
                      download.getLongField(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP));
 
         mSystemFacade.incrementTimeMillis(10);
-        RecordedRequest request = download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+        RecordedRequest request = takeRequest();
         assertEquals("GET", request.getMethod());
         assertEquals(REQUEST_PATH, request.getPath());
 
@@ -190,14 +134,15 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
                      download.getLongField(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
         assertEquals(FILE_CONTENT.length(),
                      download.getLongField(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+        takeRequest(); // get the first request out of the queue
 
         mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);
-        RecordedRequest request = download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
         assertEquals(FILE_CONTENT.length(),
                      download.getLongField(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
         assertEquals(FILE_CONTENT, download.getContents());
 
-        List<String> headers = request.getHeaders();
+        List<String> headers = takeRequest().getHeaders();
         assertTrue("No Range header: " + headers,
                    headers.contains("Range: bytes=" + initialLength + "-"));
         assertTrue("No ETag header: " + headers, headers.contains("If-Match: " + ETAG));
@@ -299,10 +244,11 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
         enqueueEmptyResponse(HTTP_OK);
         Download download = enqueueRequest(getRequest().setRequestHeader("Header1", "value1")
                                            .setRequestHeader("Header2", "value2"));
-        RecordedRequest request = download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
 
-        assertTrue(request.getHeaders().contains("Header1: value1"));
-        assertTrue(request.getHeaders().contains("Header2: value2"));
+        List<String> headers = takeRequest().getHeaders();
+        assertTrue(headers.contains("Header1: value1"));
+        assertTrue(headers.contains("Header2: value2"));
     }
 
     public void testDelete() throws Exception {
@@ -329,19 +275,6 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
         // header, so we need to enqueue a second one
         enqueueResponse(HTTP_OK, FILE_CONTENT);
         download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
-    }
-
-    /**
-     * Test for race conditions when the service is flooded with startService() calls while running
-     * a download.
-     */
-    public void testFloodServiceWithStarts() throws Exception {
-        enqueueResponse(HTTP_OK, FILE_CONTENT);
-        Download download = enqueueRequest(getRequest());
-        while (download.getStatus() != DownloadManager.STATUS_SUCCESSFUL) {
-            startService(null);
-            Thread.sleep(10);
-        }
     }
 
     public void testRedirect301() throws Exception {
@@ -375,7 +308,7 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
     }
 
     public void testNoContentType() throws Exception {
-        enqueueResponse(HTTP_OK, "", false);
+        enqueueResponse(HTTP_OK, "").removeHeader("Content-Type");
         runSimpleFailureTest(HTTP_NOT_ACCEPTABLE);
     }
 
@@ -394,8 +327,7 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
 
         mManager.remove(download.mId);
         mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);
-        startService(null);
-        Thread.sleep(500); // TODO: eliminate this when we can run the service synchronously
+        runService();
         // if the cancel didn't work, we should get an unexpected request to the HTTP server
     }
 
@@ -404,13 +336,6 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
         Download download = enqueueRequest(getRequest());
         download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
 
-        long startTimeMillis = System.currentTimeMillis();
-        while (mSystemFacade.mBroadcastsSent.isEmpty()) {
-            Thread.sleep(100);
-            if (System.currentTimeMillis() > startTimeMillis + 500) {
-                fail("Timed out waiting for broadcast intent");
-            }
-        }
         assertEquals(1, mSystemFacade.mBroadcastsSent.size());
         Intent broadcast = mSystemFacade.mBroadcastsSent.get(0);
         assertEquals(DownloadManager.ACTION_DOWNLOAD_COMPLETE, broadcast.getAction());
@@ -435,6 +360,19 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
         assertEquals(PACKAGE_NAME, broadcast.getPackage());
     }
 
+    public void testBasicConnectivityChanges() throws Exception {
+        enqueueResponse(HTTP_OK, FILE_CONTENT);
+        Download download = enqueueRequest(getRequest());
+
+        // without connectivity, download immediately pauses
+        mSystemFacade.mActiveNetworkType = null;
+        download.runUntilStatus(DownloadManager.STATUS_PAUSED);
+
+        // connecting should start the download
+        mSystemFacade.mActiveNetworkType = ConnectivityManager.TYPE_WIFI;
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+    }
+
     public void testAllowedNetworkTypes() throws Exception {
         mSystemFacade.mActiveNetworkType = ConnectivityManager.TYPE_MOBILE;
 
@@ -446,8 +384,7 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
         // restrict a download to wifi...
         download = enqueueRequest(getRequest()
                                   .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI));
-        startService(null);
-        waitForDownloadToStop(download, DownloadManager.STATUS_PAUSED);
+        download.runUntilStatus(DownloadManager.STATUS_PAUSED);
         // ...then enable wifi
         mSystemFacade.mActiveNetworkType = ConnectivityManager.TYPE_WIFI;
         enqueueEmptyResponse(HTTP_OK);
@@ -464,8 +401,7 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
 
         // disallow roaming for a download...
         download = enqueueRequest(getRequest().setAllowedOverRoaming(false));
-        startService(null);
-        waitForDownloadToStop(download, DownloadManager.STATUS_PAUSED);
+        download.runUntilStatus(DownloadManager.STATUS_PAUSED);
         // ...then turn off roaming
         mSystemFacade.mIsRoaming = false;
         enqueueEmptyResponse(HTTP_OK);
@@ -476,12 +412,7 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
         enqueueEmptyResponse(HTTP_OK);
         enqueueRequest(getRequest());
         mResolver.resetNotified();
-        startService(null);
-        synchronized(mResolver) {
-            if (!mResolver.mNotifyWasCalled) {
-                mResolver.wait(2000);
-            }
-        }
+        runService();
         assertTrue(mResolver.mNotifyWasCalled);
     }
 
@@ -491,16 +422,32 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
         download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
         assertEquals(0, mSystemFacade.mActiveNotifications.size());
         assertEquals(0, mSystemFacade.mCanceledNotifications.size());
-        
+
         enqueueEmptyResponse(HTTP_OK);
         download = enqueueRequest(
                 getRequest()
                 .setShowNotification(DownloadManager.Request.NOTIFICATION_WHEN_RUNNING));
         download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
         assertEquals(1, mSystemFacade.mActiveNotifications.size());
+
         // The notification doesn't actually get canceled until the UpdateThread runs again, which
-        // gets triggered by the DownloadThread updating the status in the provider.  This is
-        // tough to test right now, so I'll leave it until the overall structure is changed.
+        // gets triggered by the DownloadThread updating the status in the provider.
+        runService();
+        assertEquals(0, mSystemFacade.mActiveNotifications.size());
+        assertEquals(1, mSystemFacade.mCanceledNotifications.size());
+    }
+
+    public void testRetryAfter() throws Exception {
+        final int delay = 120;
+        enqueueEmptyResponse(HTTP_SERVICE_UNAVAILABLE).addHeader("Retry-after", delay);
+        Download download = enqueueRequest(getRequest());
+        download.runUntilStatus(DownloadManager.STATUS_PAUSED);
+
+        // download manager adds random 0-30s offset
+        mSystemFacade.incrementTimeMillis((delay + 31) * 1000);
+
+        enqueueEmptyResponse(HTTP_OK);
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
     }
 
     private void runSimpleFailureTest(int expectedErrorCode) throws Exception {
@@ -524,27 +471,15 @@ public class PublicApiFunctionalTest extends AbstractDownloadManagerFunctionalTe
         enqueueInterruptedDownloadResponses(5);
 
         Download download = enqueueRequest(getRequest());
-        RecordedRequest request = download.runUntilStatus(DownloadManager.STATUS_PAUSED);
-        assertEquals(REQUEST_PATH, request.getPath());
+        download.runUntilStatus(DownloadManager.STATUS_PAUSED);
+        assertEquals(REQUEST_PATH, takeRequest().getPath());
 
         mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);
-        request = download.runUntilStatus(DownloadManager.STATUS_PAUSED);
-        assertEquals(REDIRECTED_PATH, request.getPath());
+        download.runUntilStatus(DownloadManager.STATUS_PAUSED);
+        assertEquals(REDIRECTED_PATH, takeRequest().getPath());
 
         mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);
-        request = download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
-        return request;
-    }
-
-    private DownloadManager.Request getRequest() throws MalformedURLException {
-        return getRequest(getServerUri(REQUEST_PATH));
-    }
-
-    private DownloadManager.Request getRequest(String path) {
-        return new DownloadManager.Request(Uri.parse(path));
-    }
-
-    private Download enqueueRequest(DownloadManager.Request request) {
-        return new Download(mManager.enqueue(request));
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+        return takeRequest();
     }
 }

@@ -25,7 +25,13 @@
     <permission android:name="android.permission.DOWNLOAD_CACHE_NON_PURGEABLE"
         android:label="@string/permlab_downloadCacheNonPurgeable"
         android:description="@string/permdesc_downloadCacheNonPurgeable"
-        android:protectionLevel="dangerous"/>
+        android:protectionLevel="signatureOrSystem"/>
+
+    <!-- Allows to queue downloads without a notification shown while the download runs. -->
+    <permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"
+        android:label="@string/permlab_downloadWithoutNotification"
+        android:description="@string/permdesc_downloadWithoutNotification"
+        android:protectionLevel="signatureOrSystem"/>
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />

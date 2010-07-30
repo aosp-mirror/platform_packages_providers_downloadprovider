@@ -49,7 +49,7 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
     protected static final String LOG_TAG = "DownloadManagerFunctionalTest";
     private static final String PROVIDER_AUTHORITY = "downloads";
     protected static final long RETRY_DELAY_MILLIS = 61 * 1000;
-    protected static final String FILE_CONTENT = "hello world";
+    protected static final String FILE_CONTENT = "hello world hello world hello world hello world";
     protected static final int HTTP_OK = 200;
     protected static final int HTTP_PARTIAL_CONTENT = 206;
     protected static final int HTTP_NOT_FOUND = 404;
@@ -209,8 +209,9 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
     MockResponse enqueueResponse(int status, String body) {
         MockResponse response = new MockResponse()
                                 .setResponseCode(status)
-                                .setBody(body);
-        response.addHeader("Content-type", "text/plain");
+                                .setBody(body)
+                                .addHeader("Content-type", "text/plain")
+                                .setCloseConnectionAfter(true);
         mServer.enqueue(response);
         return response;
     }

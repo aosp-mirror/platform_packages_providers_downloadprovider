@@ -119,7 +119,13 @@ public class DownloadThread extends Thread {
      * Raised from methods called by run() to indicate that the current request should be stopped
      * immediately.
      */
-    private class StopRequest extends Exception {}
+    private class StopRequest extends Exception {
+        public StopRequest() {}
+
+        public StopRequest(Throwable throwable) {
+            super(throwable);
+        }
+    }
 
     /**
      * Raised from methods called by executeDownload() to indicate that the download should be
@@ -172,6 +178,9 @@ public class DownloadThread extends Thread {
             }
             state.mFinalStatus = Downloads.Impl.STATUS_SUCCESS;
         } catch (StopRequest error) {
+            if (Constants.LOGV) {
+                Log.v(Constants.TAG, "Aborting request for " + mInfo.mUri, error);
+            }
             // fall through to finally block
         } catch (FileNotFoundException ex) {
             Log.d(Constants.TAG, "FileNotFoundException for " + state.mFilename + " : " +  ex);
@@ -431,7 +440,7 @@ public class DownloadThread extends Thread {
             } catch (IOException ex) {
                 if (!Helpers.discardPurgeableFiles(mContext, Constants.BUFFER_SIZE)) {
                     state.mFinalStatus = Downloads.Impl.STATUS_FILE_ERROR;
-                    throw new StopRequest();
+                    throw new StopRequest(ex);
                 }
             }
         }
@@ -461,19 +470,8 @@ public class DownloadThread extends Thread {
                             mInfo.mId);
                 }
                 state.mFinalStatus = Downloads.Impl.STATUS_LENGTH_REQUIRED;
-            } else if (!Helpers.isNetworkAvailable(mSystemFacade)) {
-                state.mFinalStatus = Downloads.Impl.STATUS_RUNNING_PAUSED;
-            } else if (mInfo.mNumFailed < Constants.MAX_RETRIES) {
-                state.mFinalStatus = Downloads.Impl.STATUS_RUNNING_PAUSED;
-                state.mCountRetry = true;
             } else {
-                if (Constants.LOGV) {
-                    Log.v(Constants.TAG, "closed socket for " + mInfo.mUri);
-                } else if (Config.LOGD) {
-                    Log.d(Constants.TAG, "closed socket for download " +
-                            mInfo.mId);
-                }
-                state.mFinalStatus = Downloads.Impl.STATUS_HTTP_DATA_ERROR;
+                handleHttpError(state, "closed socket");
             }
             throw new StopRequest();
         }
@@ -490,30 +488,18 @@ public class DownloadThread extends Thread {
         try {
             return entityStream.read(data);
         } catch (IOException ex) {
-            if (Constants.LOGX) {
-                if (Helpers.isNetworkAvailable(mSystemFacade)) {
-                    Log.i(Constants.TAG, "Read Failed " + mInfo.mId + ", Net Up");
-                } else {
-                    Log.i(Constants.TAG, "Read Failed " + mInfo.mId + ", Net Down");
-                }
-            }
+            logNetworkState();
             ContentValues values = new ContentValues();
             values.put(Downloads.Impl.COLUMN_CURRENT_BYTES, innerState.mBytesSoFar);
             mContext.getContentResolver().update(state.mContentUri, values, null, null);
             if (!mInfo.mNoIntegrity && innerState.mHeaderETag == null) {
-                Log.d(Constants.TAG, "download IOException for download " + mInfo.mId + " : " + ex);
+                Log.d(Constants.TAG, "download IOException for download " + mInfo.mId, ex);
                 Log.d(Constants.TAG, "can't resume interrupted download with no ETag");
                 state.mFinalStatus = Downloads.Impl.STATUS_PRECONDITION_FAILED;
-            } else if (!Helpers.isNetworkAvailable(mSystemFacade)) {
-                state.mFinalStatus = Downloads.Impl.STATUS_RUNNING_PAUSED;
-            } else if (mInfo.mNumFailed < Constants.MAX_RETRIES) {
-                state.mFinalStatus = Downloads.Impl.STATUS_RUNNING_PAUSED;
-                state.mCountRetry = true;
             } else {
-                Log.d(Constants.TAG, "download IOException for download " + mInfo.mId + " : " + ex);
-                state.mFinalStatus = Downloads.Impl.STATUS_HTTP_DATA_ERROR;
+                handleHttpError(state, "download IOException");
             }
-            throw new StopRequest();
+            throw new StopRequest(ex);
         }
     }
 
@@ -526,32 +512,16 @@ public class DownloadThread extends Thread {
         try {
             return response.getEntity().getContent();
         } catch (IOException ex) {
-            if (Constants.LOGX) {
-                if (Helpers.isNetworkAvailable(mSystemFacade)) {
-                    Log.i(Constants.TAG, "Get Failed " + mInfo.mId + ", Net Up");
-                } else {
-                    Log.i(Constants.TAG, "Get Failed " + mInfo.mId + ", Net Down");
-                }
-            }
-            if (!Helpers.isNetworkAvailable(mSystemFacade)) {
-                state.mFinalStatus = Downloads.Impl.STATUS_RUNNING_PAUSED;
-            } else if (mInfo.mNumFailed < Constants.MAX_RETRIES) {
-                state.mFinalStatus = Downloads.Impl.STATUS_RUNNING_PAUSED;
-                state.mCountRetry = true;
-            } else {
-                if (Constants.LOGV) {
-                    Log.d(Constants.TAG,
-                            "IOException getting entity for " +
-                            mInfo.mUri +
-                            " : " +
-                            ex);
-                } else if (Config.LOGD) {
-                    Log.d(Constants.TAG, "IOException getting entity for download " +
-                            mInfo.mId + " : " + ex);
-                }
-                state.mFinalStatus = Downloads.Impl.STATUS_HTTP_DATA_ERROR;
-            }
-            throw new StopRequest();
+            logNetworkState();
+            handleHttpError(state, "IOException getting entity");
+            throw new StopRequest(ex);
+        }
+    }
+
+    private void logNetworkState() {
+        if (Constants.LOGX) {
+            Log.i(Constants.TAG,
+                    "Net " + (Helpers.isNetworkAvailable(mSystemFacade) ? "Up" : "Down"));
         }
     }
 
@@ -813,31 +783,27 @@ public class DownloadThread extends Thread {
                         mInfo.mId + " : " +  ex);
             }
             state.mFinalStatus = Downloads.Impl.STATUS_BAD_REQUEST;
-            throw new StopRequest();
+            throw new StopRequest(ex);
         } catch (IOException ex) {
-            if (Constants.LOGX) {
-                if (Helpers.isNetworkAvailable(mSystemFacade)) {
-                    Log.i(Constants.TAG, "Execute Failed " + mInfo.mId + ", Net Up");
-                } else {
-                    Log.i(Constants.TAG, "Execute Failed " + mInfo.mId + ", Net Down");
-                }
-            }
-            if (!Helpers.isNetworkAvailable(mSystemFacade)) {
-                state.mFinalStatus = Downloads.Impl.STATUS_RUNNING_PAUSED;
-            } else if (mInfo.mNumFailed < Constants.MAX_RETRIES) {
-                state.mFinalStatus = Downloads.Impl.STATUS_RUNNING_PAUSED;
-                state.mCountRetry = true;
-            } else {
-                if (Constants.LOGV) {
-                    Log.d(Constants.TAG, "IOException trying to execute request for " +
-                            mInfo.mUri + " : " + ex);
-                } else if (Config.LOGD) {
-                    Log.d(Constants.TAG, "IOException trying to execute request for " +
-                            mInfo.mId + " : " + ex);
-                }
-                state.mFinalStatus = Downloads.Impl.STATUS_HTTP_DATA_ERROR;
-            }
-            throw new StopRequest();
+            logNetworkState();
+            handleHttpError(state, "IOException trying to execute request");
+            throw new StopRequest(ex);
+        }
+    }
+
+    private void handleHttpError(State state, String message) {
+        if (Constants.LOGV) {
+            Log.d(Constants.TAG, message + " for " + mInfo.mUri);
+        }
+
+        if (!Helpers.isNetworkAvailable(mSystemFacade)) {
+            state.mFinalStatus = Downloads.Impl.STATUS_RUNNING_PAUSED;
+        } else if (mInfo.mNumFailed < Constants.MAX_RETRIES) {
+            state.mFinalStatus = Downloads.Impl.STATUS_RUNNING_PAUSED;
+            state.mCountRetry = true;
+        } else {
+            Log.d(Constants.TAG, "reached max retries: " + message + " for " + mInfo.mId);
+            state.mFinalStatus = Downloads.Impl.STATUS_HTTP_DATA_ERROR;
         }
     }
 

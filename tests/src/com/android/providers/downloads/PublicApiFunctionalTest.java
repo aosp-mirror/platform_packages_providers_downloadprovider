@@ -35,8 +35,6 @@ import java.util.List;
 
 @LargeTest
 public class PublicApiFunctionalTest extends AbstractPublicApiTest {
-    private static final int HTTP_NOT_ACCEPTABLE = 406;
-    private static final int HTTP_LENGTH_REQUIRED = 411;
     private static final String REDIRECTED_PATH = "/other_path";
     private static final String ETAG = "my_etag";
 
@@ -305,7 +303,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
 
     public void testNoEtag() throws Exception {
         enqueuePartialResponse(0, 5).removeHeader("Etag");
-        runSimpleFailureTest(HTTP_LENGTH_REQUIRED);
+        runSimpleFailureTest(DownloadManager.ERROR_CANNOT_RESUME);
     }
 
     public void testSanitizeMediaType() throws Exception {
@@ -317,12 +315,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
 
     public void testNoContentLength() throws Exception {
         enqueueEmptyResponse(HTTP_OK).removeHeader("Content-Length");
-        runSimpleFailureTest(HTTP_LENGTH_REQUIRED);
-    }
-
-    public void testNoContentType() throws Exception {
-        enqueueResponse(HTTP_OK, "").removeHeader("Content-Type");
-        runSimpleFailureTest(HTTP_NOT_ACCEPTABLE);
+        runSimpleFailureTest(DownloadManager.ERROR_HTTP_DATA_ERROR);
     }
 
     public void testInsufficientSpace() throws Exception {
@@ -476,6 +469,17 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         enqueuePartialResponse(start, FILE_CONTENT.length());
         download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
         checkCompleteDownload(download);
+    }
+
+    public void testExistingFile() throws Exception {
+        Uri destination = getExternalUri();
+        new File(destination.getSchemeSpecificPart()).createNewFile();
+
+        enqueueEmptyResponse(HTTP_OK);
+        Download download = enqueueRequest(getRequest().setDestinationUri(destination));
+        download.runUntilStatus(DownloadManager.STATUS_FAILED);
+        assertEquals(DownloadManager.ERROR_FILE_ERROR,
+                     download.getLongField(DownloadManager.COLUMN_ERROR_CODE));
     }
 
     private void checkCompleteDownload(Download download) throws Exception {

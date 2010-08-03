@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.provider.Settings;
+import android.provider.Settings.SettingNotFoundException;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -59,8 +61,13 @@ class RealSystemFacade implements SystemFacade {
         return isRoaming;
     }
 
-    public Integer getMaxBytesOverMobile() {
-        return null;
+    public Long getMaxBytesOverMobile() {
+        try {
+            return Settings.Secure.getLong(mContext.getContentResolver(),
+                    Settings.Secure.DOWNLOAD_MAX_BYTES_OVER_MOBILE);
+        } catch (SettingNotFoundException exc) {
+            return null;
+        }
     }
 
     @Override

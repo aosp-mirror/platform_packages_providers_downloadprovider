@@ -277,7 +277,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
     }
 
     public void testSizeLimitOverMobile() throws Exception {
-        mSystemFacade.mMaxBytesOverMobile = FILE_CONTENT.length() - 1;
+        mSystemFacade.mMaxBytesOverMobile = (long) FILE_CONTENT.length() - 1;
 
         mSystemFacade.mActiveNetworkType = ConnectivityManager.TYPE_MOBILE;
         enqueueResponse(HTTP_OK, FILE_CONTENT);

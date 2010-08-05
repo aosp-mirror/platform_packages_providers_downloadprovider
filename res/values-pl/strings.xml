@@ -25,6 +25,10 @@
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Umożliwia programowi wysyłanie powiadomień o ukończeniu pobierania. Szkodliwe programy mogą korzystać z tego uprawnienia, aby zakłócić działanie innych programów pobierających pliki."</string>
     <string name="permlab_seeAllExternal" msgid="140058400609165726">"Sprawdzanie wszystkich plików pobranych na kartę SD"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Zezwala aplikacji na sprawdzanie wszystkich plików pobranych na kartę SD niezależnie od tego, która aplikacja je pobrała."</string>
+    <!-- no translation found for permlab_downloadCacheNonPurgeable (1307578818761810651) -->
+    <skip />
+    <!-- no translation found for permdesc_downloadCacheNonPurgeable (5586955380146531589) -->
+    <skip />
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Bez nazwy&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" i inne (<xliff:g id="NUMBER">%d</xliff:g>)"</string>

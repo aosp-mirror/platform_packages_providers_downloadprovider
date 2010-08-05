@@ -25,6 +25,10 @@
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"下載完成時，允許應用程式送出通知。請注意：惡意程式可能使用此功能干擾其他下載檔案的應用程式。"</string>
     <string name="permlab_seeAllExternal" msgid="140058400609165726">"查看 SD 卡中的所有下載項目"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"允許應用程式查看 SD 卡中的所有下載項目，無論這些項目是透過何種應用程式進行下載。"</string>
+    <!-- no translation found for permlab_downloadCacheNonPurgeable (1307578818761810651) -->
+    <skip />
+    <!-- no translation found for permdesc_downloadCacheNonPurgeable (5586955380146531589) -->
+    <skip />
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;未命名&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">"， "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" 以及其他 <xliff:g id="NUMBER">%d</xliff:g> 個"</string>

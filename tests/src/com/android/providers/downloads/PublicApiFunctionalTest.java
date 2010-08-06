@@ -358,8 +358,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
     }
 
     public void testNotificationClickedBroadcast() throws Exception {
-        Download download = enqueueRequest(getRequest().setShowNotification(
-                DownloadManager.Request.NOTIFICATION_WHEN_RUNNING));
+        Download download = enqueueRequest(getRequest());
 
         DownloadReceiver receiver = new DownloadReceiver();
         receiver.mSystemFacade = mSystemFacade;
@@ -431,15 +430,13 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
 
     public void testNotifications() throws Exception {
         enqueueEmptyResponse(HTTP_OK);
-        Download download = enqueueRequest(getRequest()); // no visibility requested
+        Download download = enqueueRequest(getRequest().setShowRunningNotification(false));
         download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
         assertEquals(0, mSystemFacade.mActiveNotifications.size());
         assertEquals(0, mSystemFacade.mCanceledNotifications.size());
 
         enqueueEmptyResponse(HTTP_OK);
-        download = enqueueRequest(
-                getRequest()
-                .setShowNotification(DownloadManager.Request.NOTIFICATION_WHEN_RUNNING));
+        download = enqueueRequest(getRequest()); // notifications by default
         download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
         assertEquals(1, mSystemFacade.mActiveNotifications.size());
 

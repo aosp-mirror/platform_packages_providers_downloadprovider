@@ -74,13 +74,30 @@
         downloads to the SD card, regardless of which application downloaded
         them.</string>
 
-    <string name="permlab_downloadCacheNonPurgeable">Download non-purgeable
-      files to the cache</string>
+    <!-- The label for the permission to download files to the download cache
+    that can't be automatically deleted by the download manager to free up
+    space [CHAR LIMIT=50] -->
+    <string name="permlab_downloadCacheNonPurgeable">Reserve space in the
+    download cache</string>
+    <!-- The full sentence description for the permission to download files to
+    the download cache that can't be automatically deleted by the download
+    manager to free up space [CHAR LIMIT=160] -->
     <string name="permdesc_downloadCacheNonPurgeable">Allows the application to
-    download files to the download cache through the public API which will not
-    be automatically deleted when the download manager needs more space.
-    Malicious applications can use this to block other applications from using
-    the download cache.</string>
+    download files to the download cache which cannot be automatically deleted
+    when the download manager needs more space.</string>
+
+    <!-- The label for the permission to download files through the download
+    manager without any notification being shown to the user [CHAR LIMIT=50] -->
+    <string name="permlab_downloadWithoutNotification">Use download manager
+    without notification</string>
+
+    <!-- The full sentence description for the permission to download files
+    through the download manager without any notification being shown to the
+    user [CHAR LIMIT=160] -->
+    <string name="permdesc_downloadWithoutNotification">Allows the application
+    to download files through the download manager without any notification
+    being shown to the user.</string>
+
 
     <!-- This is the title that is used when displaying the notification
     for a download that doesn't have a title associated with it. -->

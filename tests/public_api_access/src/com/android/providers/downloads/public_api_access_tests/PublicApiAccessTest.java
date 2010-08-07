@@ -53,7 +53,7 @@ public class PublicApiAccessTest extends AndroidTestCase {
     @Override
     protected void tearDown() throws Exception {
         if (mContentResolver != null) {
-            mContentResolver.delete(Downloads.CONTENT_URI, null, null); 
+            mContentResolver.delete(Downloads.CONTENT_URI, null, null);
         }
         super.tearDown();
     }
@@ -61,7 +61,7 @@ public class PublicApiAccessTest extends AndroidTestCase {
     public void testMinimalValidWrite() {
         mContentResolver.insert(Downloads.Impl.CONTENT_URI, buildValidValues());
     }
-    
+
     public void testMaximalValidWrite() {
         ContentValues values = buildValidValues();
         values.put(Downloads.Impl.COLUMN_TITLE, "foo");
@@ -76,18 +76,19 @@ public class PublicApiAccessTest extends AndroidTestCase {
     private ContentValues buildValidValues() {
         ContentValues values = new ContentValues();
         values.put(Downloads.Impl.COLUMN_URI, "foo");
-        values.put(Downloads.Impl.COLUMN_DESTINATION, 
+        values.put(Downloads.Impl.COLUMN_DESTINATION,
                 Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE);
+        values.put(Downloads.Impl.COLUMN_VISIBILITY, Downloads.Impl.VISIBILITY_VISIBLE);
         values.put(Downloads.Impl.COLUMN_IS_PUBLIC_API, true);
         return values;
     }
-    
+
     public void testNoPublicApi() {
         ContentValues values = buildValidValues();
         values.remove(Downloads.Impl.COLUMN_IS_PUBLIC_API);
         testInvalidValues(values);
     }
-    
+
     public void testInvalidDestination() {
         ContentValues values = buildValidValues();
         values.put(Downloads.Impl.COLUMN_DESTINATION, Downloads.Impl.DESTINATION_EXTERNAL);
@@ -95,14 +96,20 @@ public class PublicApiAccessTest extends AndroidTestCase {
         values.put(Downloads.Impl.COLUMN_DESTINATION, Downloads.Impl.DESTINATION_CACHE_PARTITION);
         testInvalidValues(values);
     }
-    
+
     public void testInvalidVisibility() {
         ContentValues values = buildValidValues();
-        values.put(Downloads.Impl.COLUMN_VISIBILITY, 
+        values.put(Downloads.Impl.COLUMN_VISIBILITY,
                 Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         testInvalidValues(values);
+
+        values.put(Downloads.Impl.COLUMN_VISIBILITY, Downloads.Impl.VISIBILITY_HIDDEN);
+        testInvalidValues(values);
+
+        values.remove(Downloads.Impl.COLUMN_VISIBILITY);
+        testInvalidValues(values);
     }
-    
+
     public void testDisallowedColumns() {
         for (String column : DISALLOWED_COLUMNS) {
             ContentValues values = buildValidValues();
@@ -110,7 +117,7 @@ public class PublicApiAccessTest extends AndroidTestCase {
             testInvalidValues(values);
         }
     }
-    
+
     public void testFileUriWithoutExternalPermission() {
         ContentValues values = buildValidValues();
         values.put(Downloads.Impl.COLUMN_DESTINATION, Downloads.Impl.DESTINATION_FILE_URI);

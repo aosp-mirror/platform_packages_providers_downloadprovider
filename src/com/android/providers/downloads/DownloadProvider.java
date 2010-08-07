@@ -499,8 +499,15 @@ public final class DownloadProvider extends ContentProvider {
         enforceAllowedValues(values, Downloads.Impl.COLUMN_DESTINATION,
                 Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE,
                 Downloads.Impl.DESTINATION_FILE_URI);
-        enforceAllowedValues(values, Downloads.Impl.COLUMN_VISIBILITY,
-                null, Downloads.Impl.VISIBILITY_VISIBLE);
+
+        if (getContext().checkCallingOrSelfPermission(Downloads.Impl.PERMISSION_NO_NOTIFICATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            enforceAllowedValues(values, Downloads.Impl.COLUMN_VISIBILITY,
+                    Downloads.Impl.VISIBILITY_HIDDEN, Downloads.Impl.VISIBILITY_VISIBLE);
+        } else {
+            enforceAllowedValues(values, Downloads.Impl.COLUMN_VISIBILITY,
+                    Downloads.Impl.VISIBILITY_VISIBLE);
+        }
 
         // remove the rest of the columns that are allowed (with any value)
         values.remove(Downloads.Impl.COLUMN_URI);

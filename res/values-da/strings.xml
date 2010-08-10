@@ -25,9 +25,13 @@
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Tillader, at programmet sender meddelelser om afsluttede downloads. Ondsindede programmer kan bruge dette til at forvirre andre programmer, der downloader filer."</string>
     <string name="permlab_seeAllExternal" msgid="140058400609165726">"Se alle downloads til SD-kort"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Gør det muligt for programmet at se alle downloads til SD-kortet, uanset hvilket program, der downloadede dem."</string>
-    <!-- no translation found for permlab_downloadCacheNonPurgeable (1307578818761810651) -->
+    <!-- no translation found for permlab_downloadCacheNonPurgeable (3069534308882047412) -->
     <skip />
-    <!-- no translation found for permdesc_downloadCacheNonPurgeable (5586955380146531589) -->
+    <!-- no translation found for permdesc_downloadCacheNonPurgeable (1089583021652571424) -->
+    <skip />
+    <!-- no translation found for permlab_downloadWithoutNotification (3650349274034807567) -->
+    <skip />
+    <!-- no translation found for permdesc_downloadWithoutNotification (5174806530123417020) -->
     <skip />
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Uden titel&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>

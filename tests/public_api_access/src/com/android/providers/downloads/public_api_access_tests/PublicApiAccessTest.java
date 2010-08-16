@@ -18,6 +18,8 @@ package com.android.providers.downloads.public_api_access_tests;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.net.DownloadManager;
+import android.net.Uri;
 import android.provider.Downloads;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.MediumTest;
@@ -43,11 +45,13 @@ public class PublicApiAccessTest extends AndroidTestCase {
             };
 
     private ContentResolver mContentResolver;
+    private DownloadManager mManager;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         mContentResolver = getContext().getContentResolver();
+        mManager = new DownloadManager(mContentResolver, getContext().getPackageName());
     }
 
     @Override
@@ -70,6 +74,7 @@ public class PublicApiAccessTest extends AndroidTestCase {
         values.put(Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE, "foo");
         values.put(Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES, 0);
         values.put(Downloads.Impl.COLUMN_ALLOW_ROAMING, true);
+        values.put(Downloads.Impl.RequestHeaders.INSERT_KEY_PREFIX + "0", "X-Some-Header: value");
         mContentResolver.insert(Downloads.Impl.CONTENT_URI, values);
     }
 
@@ -132,5 +137,20 @@ public class PublicApiAccessTest extends AndroidTestCase {
         } catch (SecurityException exc) {
             // expected
         }
+    }
+
+    public void testDownloadManagerRequest() {
+        // first try a minimal request
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse("http://localhost/path"));
+        mManager.enqueue(request);
+
+        // now set everything we can, save for external destintion (for which we lack permission)
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
+        request.setAllowedOverRoaming(false);
+        request.setTitle("test");
+        request.setDescription("test");
+        request.setMediaType("text/html");
+        request.setRequestHeader("X-Some-Header", "value");
+        mManager.enqueue(request);
     }
 }

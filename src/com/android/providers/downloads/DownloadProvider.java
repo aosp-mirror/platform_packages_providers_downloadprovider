@@ -46,6 +46,7 @@ import com.google.common.annotations.VisibleForTesting;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 
 
@@ -518,6 +519,13 @@ public final class DownloadProvider extends ContentProvider {
         values.remove(Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE); // checked later in insert()
         values.remove(Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES);
         values.remove(Downloads.Impl.COLUMN_ALLOW_ROAMING);
+        Iterator<Map.Entry<String, Object>> iterator = values.valueSet().iterator();
+        while (iterator.hasNext()) {
+            String key = iterator.next().getKey();
+            if (key.startsWith(Downloads.Impl.RequestHeaders.INSERT_KEY_PREFIX)) {
+                iterator.remove();
+            }
+        }
 
         // any extra columns are extraneous and disallowed
         if (values.size() > 0) {

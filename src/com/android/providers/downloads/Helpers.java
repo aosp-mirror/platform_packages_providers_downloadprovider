@@ -94,9 +94,10 @@ public class Helpers {
             String contentLocation,
             String mimeType,
             int destination,
-            long contentLength) throws FileNotFoundException {
+            long contentLength,
+            boolean isPublicApi) throws FileNotFoundException {
 
-        if (!canHandleDownload(context, mimeType, destination)) {
+        if (!canHandleDownload(context, mimeType, destination, isPublicApi)) {
             return new DownloadFileInfo(null, null, Downloads.Impl.STATUS_NOT_ACCEPTABLE);
         }
 
@@ -156,7 +157,12 @@ public class Helpers {
         return chooseUniqueFilename(destination, filename, extension, recoveryDir);
     }
 
-    private static boolean canHandleDownload(Context context, String mimeType, int destination) {
+    private static boolean canHandleDownload(Context context, String mimeType, int destination,
+            boolean isPublicApi) {
+        if (isPublicApi) {
+            return true;
+        }
+
         if (destination == Downloads.Impl.DESTINATION_EXTERNAL
                 || destination == Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE) {
             if (mimeType == null) {

@@ -371,4 +371,10 @@ public class DownloadInfo {
         mHasActiveThread = true;
         mSystemFacade.startThread(downloader);
     }
+
+    public boolean isOnCache() {
+        return (mDestination == Downloads.Impl.DESTINATION_CACHE_PARTITION
+                || mDestination == Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING
+                || mDestination == Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE);
+    }
 }

@@ -25,14 +25,10 @@
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Permite a la aplicación enviar notificaciones acerca de las descargas completadas. Las aplicaciones maliciosas pueden utilizarlo para confundir a otras aplicaciones que descargan archivos."</string>
     <string name="permlab_seeAllExternal" msgid="140058400609165726">"Ver todas las descargas de la tarjeta SD"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Permite que la aplicación vea todas las descargas de la tarjeta SD, independientemente de qué aplicación las descargó."</string>
-    <!-- no translation found for permlab_downloadCacheNonPurgeable (3069534308882047412) -->
-    <skip />
-    <!-- no translation found for permdesc_downloadCacheNonPurgeable (1089583021652571424) -->
-    <skip />
-    <!-- no translation found for permlab_downloadWithoutNotification (3650349274034807567) -->
-    <skip />
-    <!-- no translation found for permdesc_downloadWithoutNotification (5174806530123417020) -->
-    <skip />
+    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Reservar espacio en el caché de descarga"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Permite que la aplicación descargue archivos al caché de descarga que no puede borrarse automáticamente cuando el administrador de descarga necesita más espacio."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="3650349274034807567">"Usar el administrador de descarga sin notificación"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Permite que la aplicación descargue archivos a través del administrador de descarga sin que se muestre una notificación al usuario."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Sin título&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" y <xliff:g id="NUMBER">%d</xliff:g> más"</string>

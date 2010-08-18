@@ -25,14 +25,10 @@
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Ermöglicht es der Anwendung, Benachrichtigungen zu abgeschlossenen Ladevorgängen zu senden. Diese Funktion kann von bösartigen Anwendungen dazu verwendet werden, den Ladevorgang anderer Anwendungen zu stören."</string>
     <string name="permlab_seeAllExternal" msgid="140058400609165726">"Alle Downloads an SD-Karte anzeigen"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Ermöglicht der Anwendung, alle Downloads an die SD-Karte anzuzeigen, unabhängig davon, von welcher Anwendung sie heruntergeladen wurden."</string>
-    <!-- no translation found for permlab_downloadCacheNonPurgeable (3069534308882047412) -->
-    <skip />
-    <!-- no translation found for permdesc_downloadCacheNonPurgeable (1089583021652571424) -->
-    <skip />
-    <!-- no translation found for permlab_downloadWithoutNotification (3650349274034807567) -->
-    <skip />
-    <!-- no translation found for permdesc_downloadWithoutNotification (5174806530123417020) -->
-    <skip />
+    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Speicherplatz im Download-Cache freigeben"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Dateien können in den Download-Cache, der nicht automatisch gelöscht werden kann, heruntergeladen werden, wenn der Download-Manager mehr Speicherplatz benötigt."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="3650349274034807567">"Download-Manager ohne Benachrichtigung verwenden"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Ermöglicht der Anwendung, Dateien über den Download-Manager herunterzuladen, ohne dass dem Nutzer Benachrichtigungen angezeigt werden."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Unbenannt&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" und <xliff:g id="NUMBER">%d</xliff:g> weitere"</string>

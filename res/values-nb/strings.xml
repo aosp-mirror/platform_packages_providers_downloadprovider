@@ -25,14 +25,10 @@
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Lar applikasjonen sende varslinger om ferdige nedlastinger. Ondsinnede applikasjoner kan bruke dette for å forvirre andre applikasjoner som laster ned filer."</string>
     <string name="permlab_seeAllExternal" msgid="140058400609165726">"Vis alle nedlastinger til minnekort"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Programmet viser alle nedlastinger til minnekort, uavhengig av hvilket program  som lastet dem ned."</string>
-    <!-- no translation found for permlab_downloadCacheNonPurgeable (3069534308882047412) -->
-    <skip />
-    <!-- no translation found for permdesc_downloadCacheNonPurgeable (1089583021652571424) -->
-    <skip />
-    <!-- no translation found for permlab_downloadWithoutNotification (3650349274034807567) -->
-    <skip />
-    <!-- no translation found for permdesc_downloadWithoutNotification (5174806530123417020) -->
-    <skip />
+    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Reserver lagringsplass i nedlastingsbufferen"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Gir programmet mulighet til å laste ned filer til nedlastingsbufferen, slik at de ikke slettes automatisk når nedlastingsbehandlingen trenger mer lagringsplass."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="3650349274034807567">"Bruk nedlastingsbehandling uten varsling"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Gjør at programmet kan laste ned filer via nedlastingsbehandlingen, uten at brukeren varsles."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Uten navn&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" og <xliff:g id="NUMBER">%d</xliff:g> til"</string>

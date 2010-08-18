@@ -482,6 +482,18 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
                      download.getLongField(DownloadManager.COLUMN_ERROR_CODE));
     }
 
+    public void testEmptyFields() throws Exception {
+        Download download = enqueueRequest(getRequest());
+        assertNull(download.getStringField(DownloadManager.COLUMN_LOCAL_URI));
+        assertEquals("", download.getStringField(DownloadManager.COLUMN_TITLE));
+        assertEquals("", download.getStringField(DownloadManager.COLUMN_DESCRIPTION));
+        assertNull(download.getStringField(DownloadManager.COLUMN_MEDIA_TYPE));
+        assertEquals(0, download.getLongField(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+        assertEquals(-1, download.getLongField(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+        // just ensure no exception is thrown
+        download.getLongField(DownloadManager.COLUMN_ERROR_CODE);
+    }
+
     private void checkCompleteDownload(Download download) throws Exception {
         assertEquals(FILE_CONTENT.length(),
                      download.getLongField(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));

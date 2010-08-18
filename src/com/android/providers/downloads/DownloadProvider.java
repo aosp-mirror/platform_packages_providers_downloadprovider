@@ -415,8 +415,8 @@ public final class DownloadProvider extends ContentProvider {
         if (Binder.getCallingUid() == 0) {
             copyInteger(Constants.UID, values, filteredValues);
         }
-        copyString(Downloads.Impl.COLUMN_TITLE, values, filteredValues);
-        copyString(Downloads.Impl.COLUMN_DESCRIPTION, values, filteredValues);
+        copyStringWithDefault(Downloads.Impl.COLUMN_TITLE, values, filteredValues, "");
+        copyStringWithDefault(Downloads.Impl.COLUMN_DESCRIPTION, values, filteredValues, "");
         filteredValues.put(Downloads.Impl.COLUMN_TOTAL_BYTES, -1);
 
         if (isPublicApi) {
@@ -978,6 +978,14 @@ public final class DownloadProvider extends ContentProvider {
         String s = from.getAsString(key);
         if (s != null) {
             to.put(key, s);
+        }
+    }
+
+    private static final void copyStringWithDefault(String key, ContentValues from,
+            ContentValues to, String defaultValue) {
+        copyString(key, from, to);
+        if (!to.containsKey(key)) {
+            to.put(key, defaultValue);
         }
     }
 }

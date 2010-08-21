@@ -252,7 +252,7 @@ public class DownloadInfo {
         if (mStatus == Downloads.Impl.STATUS_RUNNING_PAUSED) {
             if (mNumFailed == 0) {
                 // download is waiting for network connectivity to return before it can resume
-                return true;
+                return canUseNetwork();
             }
             if (restartTime() < now) {
                 // download was waiting for a delayed restart, and the delay has expired

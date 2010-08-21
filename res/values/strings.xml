@@ -134,5 +134,14 @@
         application, a content marketplace. -->
     <string name="notification_download_failed">Download unsuccessful</string>
 
+    <!-- When a download is paused because it's too large to download over a
+        mobile connection, and wifi is unavailable, this string is displayed in
+        the system notification for the running download, beneath the download
+        title and description.  Note that such a download could have been
+        initiated by a variety of applications, including (but not limited to)
+        the browser, an email application, a content marketplace.
+        [CHAR LIMIT=24] -->
+    <string name="notification_need_wifi_for_size">Need wifi due to size</string>
+
 
 </resources>

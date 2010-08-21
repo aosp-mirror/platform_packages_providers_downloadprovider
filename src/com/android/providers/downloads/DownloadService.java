@@ -220,7 +220,7 @@ public class DownloadService extends Service {
 
         mNotifier = new DownloadNotification(this, mSystemFacade);
         mSystemFacade.cancelAllNotifications();
-        mNotifier.updateNotification();
+        mNotifier.updateNotification(mDownloads);
 
         trimDatabase();
         removeSpuriousFiles();
@@ -453,7 +453,7 @@ public class DownloadService extends Service {
                     }
                 }
 
-                mNotifier.updateNotification();
+                mNotifier.updateNotification(mDownloads);
 
                 if (mustScan) {
                     if (!mMediaScannerConnecting) {

@@ -20,12 +20,14 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.provider.Downloads;
+import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * This class handles the updating of the Notification Manager for the
@@ -62,17 +64,18 @@ class DownloadNotification {
      */
     static class NotificationItem {
         int mId;  // This first db _id for the download for the app
-        int mTotalCurrent = 0;
-        int mTotalTotal = 0;
+        long mTotalCurrent = 0;
+        long mTotalTotal = 0;
         int mTitleCount = 0;
         String mPackageName;  // App package name
         String mDescription;
         String[] mTitles = new String[2]; // download titles.
+        String mPausedText = null;
 
         /*
          * Add a second download to this notification item.
          */
-        void addItem(String title, int currentBytes, int totalBytes) {
+        void addItem(String title, long currentBytes, long totalBytes) {
             mTotalCurrent += currentBytes;
             if (totalBytes <= 0 || mTotalTotal == -1) {
                 mTotalTotal = -1;
@@ -101,72 +104,57 @@ class DownloadNotification {
     /*
      * Update the notification ui.
      */
-    public void updateNotification() {
-        updateActiveNotification();
-        updateCompletedNotification();
+    public void updateNotification(List<DownloadInfo> downloads) {
+        updateActiveNotification(downloads);
+        updateCompletedNotification(downloads);
     }
 
-    private void updateActiveNotification() {
-        // Active downloads
-        Cursor c = mContext.getContentResolver().query(
-                Downloads.Impl.CONTENT_URI, new String [] {
-                        Downloads.Impl._ID,
-                        Downloads.Impl.COLUMN_TITLE,
-                        Downloads.Impl.COLUMN_DESCRIPTION,
-                        Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE,
-                        Downloads.Impl.COLUMN_NOTIFICATION_CLASS,
-                        Downloads.Impl.COLUMN_CURRENT_BYTES,
-                        Downloads.Impl.COLUMN_TOTAL_BYTES,
-                        Downloads.Impl.COLUMN_STATUS
-                },
-                WHERE_RUNNING, null, Downloads.Impl._ID);
-
-        if (c == null) {
-            return;
-        }
-
-        // Columns match projection in query above
-        final int idColumn = 0;
-        final int titleColumn = 1;
-        final int descColumn = 2;
-        final int ownerColumn = 3;
-        final int classOwnerColumn = 4;
-        final int currentBytesColumn = 5;
-        final int totalBytesColumn = 6;
-        final int statusColumn = 7;
-
+    private void updateActiveNotification(List<DownloadInfo> downloads) {
         // Collate the notifications
         mNotifications.clear();
-        for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-            String packageName = c.getString(ownerColumn);
-            int max = c.getInt(totalBytesColumn);
-            int progress = c.getInt(currentBytesColumn);
-            long id = c.getLong(idColumn);
-            String title = c.getString(titleColumn);
+        for (DownloadInfo download : downloads) {
+            if (!isActiveAndVisible(download)) {
+                continue;
+            }
+            String packageName = download.mPackage;
+            long max = download.mTotalBytes;
+            long progress = download.mCurrentBytes;
+            long id = download.mId;
+            String title = download.mTitle;
             if (title == null || title.length() == 0) {
                 title = mContext.getResources().getString(
                         R.string.download_unknown_title);
             }
+
+            NotificationItem item;
             if (mNotifications.containsKey(packageName)) {
-                mNotifications.get(packageName).addItem(title, progress, max);
+                item = mNotifications.get(packageName);
+                item.addItem(title, progress, max);
             } else {
-                NotificationItem item = new NotificationItem();
+                item = new NotificationItem();
                 item.mId = (int) id;
                 item.mPackageName = packageName;
-                item.mDescription = c.getString(descColumn);
-                String className = c.getString(classOwnerColumn);
+                item.mDescription = download.mDescription;
+                String className = download.mClass;
                 item.addItem(title, progress, max);
                 mNotifications.put(packageName, item);
             }
-
+            if (hasPausedReason(download) && item.mPausedText == null) {
+                item.mPausedText = download.mPausedReason;
+            }
         }
-        c.close();
 
         // Add the notifications
         for (NotificationItem item : mNotifications.values()) {
             // Build the notification object
             Notification n = new Notification();
-            n.icon = android.R.drawable.stat_sys_download;
+
+            boolean hasPausedText = (item.mPausedText != null);
+            int iconResource = android.R.drawable.stat_sys_download;
+            if (hasPausedText) {
+                iconResource = android.R.drawable.stat_sys_warning;
+            }
+            n.icon = iconResource;
 
             n.flags |= Notification.FLAG_ONGOING_EVENT;
 
@@ -188,14 +176,20 @@ class DownloadNotification {
                         item.mDescription);
             }
             expandedView.setTextViewText(R.id.title, title);
-            expandedView.setProgressBar(R.id.progress_bar,
-                    item.mTotalTotal,
-                    item.mTotalCurrent,
-                    item.mTotalTotal == -1);
+
+            if (hasPausedText) {
+                expandedView.setViewVisibility(R.id.progress_bar, View.GONE);
+                expandedView.setTextViewText(R.id.paused_text, item.mPausedText);
+            } else {
+                expandedView.setViewVisibility(R.id.paused_text, View.GONE);
+                expandedView.setProgressBar(R.id.progress_bar,
+                        (int) item.mTotalTotal,
+                        (int) item.mTotalCurrent,
+                        item.mTotalTotal == -1);
+            }
             expandedView.setTextViewText(R.id.progress_text,
                     getDownloadingText(item.mTotalTotal, item.mTotalCurrent));
-            expandedView.setImageViewResource(R.id.appIcon,
-                    android.R.drawable.stat_sys_download);
+            expandedView.setImageViewResource(R.id.appIcon, iconResource);
             n.contentView = expandedView;
 
             Intent intent = new Intent(Constants.ACTION_LIST);
@@ -211,46 +205,21 @@ class DownloadNotification {
         }
     }
 
-    private void updateCompletedNotification() {
-        // Completed downloads
-        Cursor c = mContext.getContentResolver().query(
-                Downloads.Impl.CONTENT_URI, new String [] {
-                        Downloads.Impl._ID,
-                        Downloads.Impl.COLUMN_TITLE,
-                        Downloads.Impl.COLUMN_DESCRIPTION,
-                        Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE,
-                        Downloads.Impl.COLUMN_NOTIFICATION_CLASS,
-                        Downloads.Impl.COLUMN_CURRENT_BYTES,
-                        Downloads.Impl.COLUMN_TOTAL_BYTES,
-                        Downloads.Impl.COLUMN_STATUS,
-                        Downloads.Impl.COLUMN_LAST_MODIFICATION,
-                        Downloads.Impl.COLUMN_DESTINATION
-                },
-                WHERE_COMPLETED, null, Downloads.Impl._ID);
+    private boolean hasPausedReason(DownloadInfo download) {
+        return download.mStatus == Downloads.STATUS_RUNNING_PAUSED && download.mPausedReason != null;
+    }
 
-        if (c == null) {
-            return;
-        }
-
-        // Columns match projection in query above
-        final int idColumn = 0;
-        final int titleColumn = 1;
-        final int descColumn = 2;
-        final int ownerColumn = 3;
-        final int classOwnerColumn = 4;
-        final int currentBytesColumn = 5;
-        final int totalBytesColumn = 6;
-        final int statusColumn = 7;
-        final int lastModColumnId = 8;
-        final int destinationColumnId = 9;
-
-        for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+    private void updateCompletedNotification(List<DownloadInfo> downloads) {
+        for (DownloadInfo download : downloads) {
+            if (!isCompleteAndVisible(download)) {
+                return;
+            }
             // Add the notifications
             Notification n = new Notification();
             n.icon = android.R.drawable.stat_sys_download_done;
 
-            long id = c.getLong(idColumn);
-            String title = c.getString(titleColumn);
+            long id = download.mId;
+            String title = download.mTitle;
             if (title == null || title.length() == 0) {
                 title = mContext.getResources().getString(
                         R.string.download_unknown_title);
@@ -258,14 +227,14 @@ class DownloadNotification {
             Uri contentUri = Uri.parse(Downloads.Impl.CONTENT_URI + "/" + id);
             String caption;
             Intent intent;
-            if (Downloads.Impl.isStatusError(c.getInt(statusColumn))) {
+            if (Downloads.Impl.isStatusError(download.mStatus)) {
                 caption = mContext.getResources()
                         .getString(R.string.notification_download_failed);
                 intent = new Intent(Constants.ACTION_LIST);
             } else {
                 caption = mContext.getResources()
                         .getString(R.string.notification_download_complete);
-                if (c.getInt(destinationColumnId) == Downloads.Impl.DESTINATION_EXTERNAL) {
+                if (download.mDestination == Downloads.Impl.DESTINATION_EXTERNAL) {
                     intent = new Intent(Constants.ACTION_OPEN);
                 } else {
                     intent = new Intent(Constants.ACTION_LIST);
@@ -275,7 +244,7 @@ class DownloadNotification {
                     DownloadReceiver.class.getName());
             intent.setData(contentUri);
 
-            n.when = c.getLong(lastModColumnId);
+            n.when = download.mLastMod;
             n.setLatestEventInfo(mContext, title, caption,
                     PendingIntent.getBroadcast(mContext, 0, intent, 0));
 
@@ -285,9 +254,18 @@ class DownloadNotification {
             intent.setData(contentUri);
             n.deleteIntent = PendingIntent.getBroadcast(mContext, 0, intent, 0);
 
-            mSystemFacade.postNotification(c.getInt(idColumn), n);
+            mSystemFacade.postNotification(download.mId, n);
         }
-        c.close();
+    }
+
+    private boolean isActiveAndVisible(DownloadInfo download) {
+        return 100 <= download.mStatus && download.mStatus < 200
+                && download.mVisibility != Downloads.VISIBILITY_HIDDEN;
+    }
+
+    private boolean isCompleteAndVisible(DownloadInfo download) {
+        return download.mStatus >= 200
+                && download.mVisibility == Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
     }
 
     /*

@@ -63,6 +63,9 @@ public class DownloadInfo {
     public boolean mIsPublicApi;
     public int mAllowedNetworkTypes;
     public boolean mAllowRoaming;
+    public String mTitle;
+    public String mDescription;
+    public String mPausedReason;
 
     public int mFuzz;
 
@@ -119,6 +122,9 @@ public class DownloadInfo {
                 cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES));
         mAllowRoaming = cursor.getInt(
                 cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_ALLOW_ROAMING)) != 0;
+        mTitle = cursor.getString(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_TITLE));
+        mDescription =
+            cursor.getString(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_DESCRIPTION));
         mFuzz = Helpers.sRandom.nextInt(1001);
 
         readRequestHeaders(mId);
@@ -312,7 +318,12 @@ public class DownloadInfo {
                 return false;
             }
         }
-        return isSizeAllowedForNetwork(networkType);
+        if (!isSizeAllowedForNetwork(networkType)) {
+            mPausedReason = mContext.getResources().getString(
+                    R.string.notification_need_wifi_for_size);
+            return false;
+        }
+        return true;
     }
 
     /**

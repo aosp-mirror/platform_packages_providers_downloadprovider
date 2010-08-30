@@ -31,7 +31,9 @@
     <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Разрешает приложению загружать файлы через диспетчер загрузки без уведомления пользователя."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;без названия&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
-    <string name="notification_filename_extras" msgid="5549729917695688191">" и еще <xliff:g id="NUMBER">%d</xliff:g>"</string>
+    <string name="notification_filename_extras" msgid="5549729917695688191">" и ещё <xliff:g id="NUMBER">%d</xliff:g>"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"Загрузка завершена"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Ошибка загрузки"</string>
+    <!-- no translation found for notification_need_wifi_for_size (7034174266881861838) -->
+    <skip />
 </resources>

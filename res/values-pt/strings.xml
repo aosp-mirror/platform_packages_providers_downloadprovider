@@ -34,4 +34,6 @@
     <string name="notification_filename_extras" msgid="5549729917695688191">" e <xliff:g id="NUMBER">%d</xliff:g> mais"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"Download concluído"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Falha no download"</string>
+    <!-- no translation found for notification_need_wifi_for_size (7034174266881861838) -->
+    <skip />
 </resources>

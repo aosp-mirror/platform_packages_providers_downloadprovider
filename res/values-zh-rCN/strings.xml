@@ -34,4 +34,6 @@
     <string name="notification_filename_extras" msgid="5549729917695688191">" 还有 <xliff:g id="NUMBER">%d</xliff:g> 项"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"下载完成"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"下载失败"</string>
+    <!-- no translation found for notification_need_wifi_for_size (7034174266881861838) -->
+    <skip />
 </resources>

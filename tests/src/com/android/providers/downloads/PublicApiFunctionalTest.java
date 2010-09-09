@@ -205,6 +205,48 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         cursor = mManager.query(new DownloadManager.Query()
                                 .setFilterByStatus(DownloadManager.STATUS_RUNNING));
         checkAndCloseCursor(cursor);
+
+        mSystemFacade.incrementTimeMillis(1);
+        Download invisibleDownload = enqueueRequest(getRequest().setVisibleInDownloadsUi(false));
+        cursor = mManager.query(new DownloadManager.Query());
+        checkAndCloseCursor(cursor, invisibleDownload, download3, download2, download1);
+        cursor = mManager.query(new DownloadManager.Query().setOnlyIncludeVisibleInDownloadsUi(true));
+        checkAndCloseCursor(cursor, download3, download2, download1);
+    }
+
+    public void testOrdering() throws Exception {
+        enqueueResponse(HTTP_OK, "small contents");
+        Download download1 = enqueueRequest(getRequest());
+        download1.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+
+        mSystemFacade.incrementTimeMillis(1);
+        enqueueResponse(HTTP_OK, "large contents large contents");
+        Download download2 = enqueueRequest(getRequest());
+        download2.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+
+        mSystemFacade.incrementTimeMillis(1);
+        enqueueEmptyResponse(HTTP_NOT_FOUND);
+        Download download3 = enqueueRequest(getRequest());
+        download3.runUntilStatus(DownloadManager.STATUS_FAILED);
+
+        // default ordering -- by timestamp descending
+        Cursor cursor = mManager.query(new DownloadManager.Query());
+        checkAndCloseCursor(cursor, download3, download2, download1);
+
+        cursor = mManager.query(new DownloadManager.Query()
+                .orderBy(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP,
+                        DownloadManager.Query.ORDER_ASCENDING));
+        checkAndCloseCursor(cursor, download1, download2, download3);
+
+        cursor = mManager.query(new DownloadManager.Query()
+                .orderBy(DownloadManager.COLUMN_TOTAL_SIZE_BYTES,
+                        DownloadManager.Query.ORDER_DESCENDING));
+        checkAndCloseCursor(cursor, download2, download1, download3);
+
+        cursor = mManager.query(new DownloadManager.Query()
+                .orderBy(DownloadManager.COLUMN_TOTAL_SIZE_BYTES,
+                        DownloadManager.Query.ORDER_ASCENDING));
+        checkAndCloseCursor(cursor, download3, download1, download2);
     }
 
     private void checkAndCloseCursor(Cursor cursor, Download... downloads) {
@@ -492,6 +534,18 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         assertEquals(-1, download.getLongField(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
         // just ensure no exception is thrown
         download.getLongField(DownloadManager.COLUMN_ERROR_CODE);
+    }
+
+    public void testRestart() throws Exception {
+        enqueueEmptyResponse(HTTP_NOT_FOUND);
+        Download download = enqueueRequest(getRequest());
+        download.runUntilStatus(DownloadManager.STATUS_FAILED);
+
+        enqueueEmptyResponse(HTTP_OK);
+        mManager.restartDownload(download.mId);
+        assertEquals(DownloadManager.STATUS_PENDING,
+                download.getLongField(DownloadManager.COLUMN_STATUS));
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
     }
 
     private void checkCompleteDownload(Download download) throws Exception {

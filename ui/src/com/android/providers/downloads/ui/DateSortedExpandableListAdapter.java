@@ -66,6 +66,16 @@ public class DateSortedExpandableListAdapter implements ExpandableListAdapter {
         }
     }
 
+    private class MyDataSetObserver extends DataSetObserver {
+        @Override
+        public void onChanged() {
+            buildMap();
+            for (DataSetObserver o : mObservers) {
+                o.onChanged();
+            }
+        }
+    }
+
     public DateSortedExpandableListAdapter(Context context, Cursor cursor,
             int dateIndex) {
         mContext = context;
@@ -74,6 +84,7 @@ public class DateSortedExpandableListAdapter implements ExpandableListAdapter {
         mCursor = cursor;
         mIdIndex = cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_ID);
         cursor.registerContentObserver(new ChangeObserver());
+        cursor.registerDataSetObserver(new MyDataSetObserver());
         mDateIndex = dateIndex;
         buildMap();
     }
@@ -255,10 +266,6 @@ public class DateSortedExpandableListAdapter implements ExpandableListAdapter {
             return;
         }
         mCursor.requery();
-        buildMap();
-        for (DataSetObserver o : mObservers) {
-            o.onChanged();
-        }
     }
 
     public View getGroupView(int groupPosition, boolean isExpanded,

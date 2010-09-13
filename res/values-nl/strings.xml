@@ -34,6 +34,5 @@
     <string name="notification_filename_extras" msgid="5549729917695688191">" en nog <xliff:g id="NUMBER">%d</xliff:g> meer"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"Downloaden is voltooid"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Downloaden is mislukt."</string>
-    <!-- no translation found for notification_need_wifi_for_size (7034174266881861838) -->
-    <skip />
+    <string name="notification_need_wifi_for_size" msgid="7034174266881861838">"Wi-Fi nodig door grootte"</string>
 </resources>

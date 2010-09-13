@@ -34,6 +34,5 @@
     <string name="notification_filename_extras" msgid="5549729917695688191">" y <xliff:g id="NUMBER">%d</xliff:g> más"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"Descarga completa"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"La descarga no se ha realizado correctamente"</string>
-    <!-- no translation found for notification_need_wifi_for_size (7034174266881861838) -->
-    <skip />
+    <string name="notification_need_wifi_for_size" msgid="7034174266881861838">"Es necesario wifi debido al tamaño"</string>
 </resources>

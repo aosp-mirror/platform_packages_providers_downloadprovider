@@ -58,7 +58,7 @@ public final class DownloadProvider extends ContentProvider {
     /** Database filename */
     private static final String DB_NAME = "downloads.db";
     /** Current database version */
-    private static final int DB_VERSION = 102;
+    private static final int DB_VERSION = 103;
     /** Name of table in the database */
     private static final String DB_TABLE = "downloads";
 
@@ -99,6 +99,7 @@ public final class DownloadProvider extends ContentProvider {
         Downloads.Impl.COLUMN_TITLE,
         Downloads.Impl.COLUMN_DESCRIPTION,
         Downloads.Impl.COLUMN_URI,
+        Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI,
     };
 
     private static HashSet<String> sAppReadableColumnsSet;
@@ -194,9 +195,26 @@ public final class DownloadProvider extends ContentProvider {
                               "INTEGER NOT NULL DEFAULT 0");
                     break;
 
+                case 103:
+                    addColumn(db, DB_TABLE, Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI,
+                              "INTEGER NOT NULL DEFAULT 1");
+                    makeCacheDownloadsInvisible(db);
+                    break;
+
                 default:
                     throw new IllegalStateException("Don't know how to upgrade to " + version);
             }
+        }
+
+        /**
+         * Set all existing downloads to the cache partition to be invisible in the downloads UI.
+         */
+        private void makeCacheDownloadsInvisible(SQLiteDatabase db) {
+            ContentValues values = new ContentValues();
+            values.put(Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI, false);
+            String cacheSelection = Downloads.Impl.COLUMN_DESTINATION
+                    + " != " + Downloads.Impl.DESTINATION_EXTERNAL;
+            db.update(DB_TABLE, values, cacheSelection, null);
         }
 
         /**
@@ -419,6 +437,14 @@ public final class DownloadProvider extends ContentProvider {
         copyStringWithDefault(Downloads.Impl.COLUMN_DESCRIPTION, values, filteredValues, "");
         filteredValues.put(Downloads.Impl.COLUMN_TOTAL_BYTES, -1);
 
+        if (values.containsKey(Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI)) {
+            copyBoolean(Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI, values, filteredValues);
+        } else {
+            // by default, make external downloads visible in the UI
+            boolean isExternal = (dest == null || dest == Downloads.Impl.DESTINATION_EXTERNAL);
+            filteredValues.put(Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI, isExternal);
+        }
+
         if (isPublicApi) {
             copyInteger(Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES, values, filteredValues);
             copyBoolean(Downloads.Impl.COLUMN_ALLOW_ROAMING, values, filteredValues);
@@ -519,6 +545,7 @@ public final class DownloadProvider extends ContentProvider {
         values.remove(Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE); // checked later in insert()
         values.remove(Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES);
         values.remove(Downloads.Impl.COLUMN_ALLOW_ROAMING);
+        values.remove(Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI);
         Iterator<Map.Entry<String, Object>> iterator = values.valueSet().iterator();
         while (iterator.hasNext()) {
             String key = iterator.next().getKey();
@@ -770,7 +797,6 @@ public final class DownloadProvider extends ContentProvider {
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 
         int count;
-        long rowId = 0;
         boolean startService = false;
 
         ContentValues filteredValues;
@@ -797,6 +823,12 @@ public final class DownloadProvider extends ContentProvider {
                             new File(filename).getName());
                 }
                 c.close();
+            }
+
+            Integer status = values.getAsInteger(Downloads.Impl.COLUMN_STATUS);
+            boolean isRestart = status != null && status == Downloads.Impl.STATUS_PENDING;
+            if (isRestart) {
+                startService = true;
             }
         }
         int match = sURIMatcher.match(uri);

@@ -22,7 +22,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Downloads;
-import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -212,7 +211,7 @@ class DownloadNotification {
     private void updateCompletedNotification(List<DownloadInfo> downloads) {
         for (DownloadInfo download : downloads) {
             if (!isCompleteAndVisible(download)) {
-                return;
+                continue;
             }
             // Add the notifications
             Notification n = new Notification();

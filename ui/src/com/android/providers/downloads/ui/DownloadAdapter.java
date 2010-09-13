@@ -96,8 +96,11 @@ public class DownloadAdapter extends CursorAdapter {
         // Retrieve the icon for this download
         retrieveAndSetIcon(convertView);
 
-        // TODO: default text for null title?
-        setTextForView(convertView, R.id.download_title, mCursor.getString(mTitleColumnId));
+        String title = mCursor.getString(mTitleColumnId);
+        if (title.isEmpty()) {
+            title = mResources.getString(R.string.missing_title);
+        }
+        setTextForView(convertView, R.id.download_title, title);
         setTextForView(convertView, R.id.domain, mCursor.getString(mDescriptionColumnId));
         setTextForView(convertView, R.id.size_text, getSizeText());
         setTextForView(convertView, R.id.status_text, mResources.getString(getStatusStringId()));

@@ -21,11 +21,14 @@ import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.DownloadManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Downloads;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,6 +47,7 @@ import android.widget.Toast;
 
 import com.android.providers.downloads.ui.DownloadItem.DownloadSelectListener;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -53,7 +57,7 @@ import java.util.Set;
  */
 public class DownloadList extends Activity
         implements OnChildClickListener, OnItemClickListener, DownloadSelectListener,
-        OnClickListener {
+        OnClickListener, OnCancelListener {
     private ExpandableListView mDateOrderedListView;
     private ListView mSizeOrderedListView;
     private View mEmptyView;
@@ -65,6 +69,7 @@ public class DownloadList extends Activity
     private DateSortedDownloadAdapter mDateSortedAdapter;
     private Cursor mSizeSortedCursor;
     private DownloadAdapter mSizeSortedAdapter;
+    private MyContentObserver mContentObserver = new MyContentObserver();
 
     private int mStatusColumnId;
     private int mIdColumnId;
@@ -74,14 +79,34 @@ public class DownloadList extends Activity
     private boolean mIsSortedBySize = false;
     private Set<Long> mSelectedIds = new HashSet<Long>();
 
+    /**
+     * We keep track of when a dialog is being displayed for a pending download, because if that
+     * download starts running, we want to immediately hide the dialog.
+     */
+    private Long mPendingDownloadId = null;
+    private AlertDialog mPendingDialog;
+
+    private class MyContentObserver extends ContentObserver {
+        public MyContentObserver() {
+            super(new Handler());
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            handleDownloadsChanged();
+        }
+    }
+
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setupViews();
 
         mDownloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        mDateSortedCursor = mDownloadManager.query(new DownloadManager.Query());
-        mSizeSortedCursor = mDownloadManager.query(new DownloadManager.Query()
+        DownloadManager.Query baseQuery = new DownloadManager.Query()
+                .setOnlyIncludeVisibleInDownloadsUi(true);
+        mDateSortedCursor = mDownloadManager.query(baseQuery);
+        mSizeSortedCursor = mDownloadManager.query(baseQuery
                                                   .orderBy(DownloadManager.COLUMN_TOTAL_SIZE_BYTES,
                                                           DownloadManager.Query.ORDER_DESCENDING));
 
@@ -131,12 +156,25 @@ public class DownloadList extends Activity
         mSelectionMenuView = (ViewGroup) findViewById(R.id.selection_menu);
         mSelectionDeleteButton = (Button) findViewById(R.id.selection_delete);
         mSelectionDeleteButton.setOnClickListener(this);
+
+        ((Button) findViewById(R.id.deselect_all)).setOnClickListener(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (mDateSortedCursor != null) {
+            mDateSortedCursor.registerContentObserver(mContentObserver);
+        }
         refresh();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mDateSortedCursor != null) {
+            mDateSortedCursor.unregisterContentObserver(mContentObserver);
+        }
     }
 
     @Override
@@ -237,11 +275,28 @@ public class DownloadList extends Activity
     }
 
     /**
+     * @return an OnClickListener to restart the given downloadId in the Download Manager
+     */
+    private DialogInterface.OnClickListener getRestartClickHandler(final long downloadId) {
+        return new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mDownloadManager.restartDownload(downloadId);
+            }
+        };
+    }
+
+    /**
      * Send an Intent to open the download currently pointed to by the given cursor.
      */
     private void openCurrentDownload(Cursor cursor) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
         Uri fileUri = Uri.parse(cursor.getString(mLocalUriColumnId));
+        if (!new File(fileUri.getPath()).exists()) {
+            showFailedDialog(cursor.getLong(mIdColumnId), R.string.dialog_file_missing_body);
+            return;
+        }
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(fileUri, cursor.getString(mMediaTypeColumnId));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
@@ -255,11 +310,13 @@ public class DownloadList extends Activity
         long id = cursor.getInt(mIdColumnId);
         switch (cursor.getInt(mStatusColumnId)) {
             case DownloadManager.STATUS_PENDING:
-                new AlertDialog.Builder(this)
+                mPendingDownloadId = id;
+                mPendingDialog = new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_title_not_available)
-                        .setMessage("This file is queued for future download.")
+                        .setMessage(R.string.dialog_queued_body)
                         .setPositiveButton(R.string.keep_queued_download, null)
                         .setNegativeButton(R.string.remove_download, getDeleteClickHandler(id))
+                        .setOnCancelListener(this)
                         .show();
                 break;
 
@@ -273,14 +330,18 @@ public class DownloadList extends Activity
                 break;
 
             case DownloadManager.STATUS_FAILED:
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.dialog_title_not_available)
-                        .setMessage(getResources().getString(R.string.dialog_failed_body))
-                        .setPositiveButton(R.string.remove_download, getDeleteClickHandler(id))
-                        // TODO button to retry download
-                        .show();
+                showFailedDialog(id, R.string.dialog_failed_body);
                 break;
         }
+    }
+
+    private void showFailedDialog(long downloadId, int dialogBodyResource) {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.dialog_title_not_available)
+                .setMessage(getResources().getString(dialogBodyResource))
+                .setPositiveButton(R.string.remove_download, getDeleteClickHandler(downloadId))
+                .setNegativeButton(R.string.retry_download, getRestartClickHandler(downloadId))
+                .show();
     }
 
     /**
@@ -377,7 +438,11 @@ public class DownloadList extends Activity
                     deleteDownload(downloadId);
                 }
                 clearSelection();
-                return;
+                break;
+
+            case R.id.deselect_all:
+                clearSelection();
+                break;
         }
     }
 
@@ -405,5 +470,61 @@ public class DownloadList extends Activity
     @Override
     public boolean isDownloadSelected(long id) {
         return mSelectedIds.contains(id);
+    }
+
+    /**
+     * Called when there's a change to the downloads database.
+     */
+    void handleDownloadsChanged() {
+        checkSelectionForDeletedEntries();
+
+        if (mPendingDownloadId != null && moveToDownload(mPendingDownloadId)) {
+            if (mDateSortedCursor.getInt(mStatusColumnId) != DownloadManager.STATUS_PENDING) {
+                mPendingDialog.cancel();
+            }
+        }
+    }
+
+    /**
+     * Check if any of the selected downloads have been deleted from the downloads database, and
+     * remove such downloads from the selection.
+     */
+    private void checkSelectionForDeletedEntries() {
+        // gather all existing IDs...
+        Set<Long> allIds = new HashSet<Long>();
+        for (mDateSortedCursor.moveToFirst(); !mDateSortedCursor.isAfterLast();
+                mDateSortedCursor.moveToNext()) {
+            allIds.add(mDateSortedCursor.getLong(mIdColumnId));
+        }
+
+        // ...and check if any selected IDs are now missing
+        for (Iterator<Long> iterator = mSelectedIds.iterator(); iterator.hasNext(); ) {
+            if (!allIds.contains(iterator.next())) {
+                iterator.remove();
+            }
+        }
+    }
+
+    /**
+     * Move {@link #mDateSortedCursor} to the download with the given ID.
+     * @return true if the specified download ID was found; false otherwise
+     */
+    private boolean moveToDownload(long downloadId) {
+        for (mDateSortedCursor.moveToFirst(); !mDateSortedCursor.isAfterLast();
+                mDateSortedCursor.moveToNext()) {
+            if (mDateSortedCursor.getLong(mIdColumnId) == downloadId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Called when a dialog for a pending download is canceled.
+     */
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        mPendingDownloadId = null;
+        mPendingDialog = null;
     }
 }

@@ -54,8 +54,11 @@
           <Button android:id="@+id/selection_delete"
                   android:layout_width="wrap_content"
                   android:layout_height="match_parent"
-                  android:textAppearance="?android:attr/textAppearanceMedium"
-                  android:paddingLeft="30dip"
-                  android:paddingRight="30dip"/>
+                  android:layout_weight="1"/>
+          <Button android:id="@+id/deselect_all"
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:layout_weight="1"
+                  android:text="@string/deselect_all"/>
       </LinearLayout>
 </LinearLayout>

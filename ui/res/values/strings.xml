@@ -23,6 +23,10 @@
          [CHAR LIMIT=200] -->
     <string name="no_downloads">No downloads.</string>
 
+    <!-- Default title for an item in the download list for which no title was provided by the app.
+         [CHAR LIMIT=20] -->
+    <string name="missing_title">&lt;Unknown&gt;</string>
+
     <!-- Menu items -->
 
     <!-- Menu option to sort the list of downloads by the size of the downloaded file
@@ -58,6 +62,9 @@
     <!-- Text for dialog when user clicks on a download that has not yet begun, but will be started
          in the future. [CHAR LIMIT=200] -->
     <string name="dialog_queued_body">This file is queued for future download.</string>
+    <!-- Text for dialog when user clicks on a completed download but the file is missing
+         [CHAR LIMIT=200] -->
+    <string name="dialog_file_missing_body">The downloaded file cannot be found.</string>
     <!-- Text for a toast appearing when a user clicks on a completed download, informing the user
          that there is no application on the device that can open the file that was downloaded
          [CHAR LIMIT=200] -->
@@ -75,4 +82,10 @@
     <string name="keep_queued_download">Keep</string>
     <!-- Text for button to cancel a download that is currently in progress [CHAR LIMIT=25] -->
     <string name="cancel_running_download">Cancel</string>
+    <!-- Text for button appearing in a dialog to restart a download, either one that failed or one
+         for which the downloaded file is now missing [CHAR LIMIT=25] -->
+    <string name="retry_download">Retry</string>
+    <!-- Text for button appearing in the pop-up selection menu to deselect all currently selected
+    downloads in the download list [CHAR LIMIT=25] -->
+    <string name="deselect_all">Clear selection</string>
 </resources>

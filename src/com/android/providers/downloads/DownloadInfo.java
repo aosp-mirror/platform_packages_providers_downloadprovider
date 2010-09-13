@@ -131,9 +131,8 @@ public class DownloadInfo {
     }
 
     private void readRequestHeaders(long downloadId) {
-        Uri headerUri = Downloads.Impl.CONTENT_URI.buildUpon()
-                        .appendPath(Long.toString(downloadId))
-                        .appendPath(Downloads.Impl.RequestHeaders.URI_SEGMENT).build();
+        Uri headerUri = Uri.withAppendedPath(
+                getAllDownloadsUri(), Downloads.Impl.RequestHeaders.URI_SEGMENT);
         Cursor cursor = mContext.getContentResolver().query(headerUri, null, null, null, null);
         try {
             int headerIndex =
@@ -159,7 +158,7 @@ public class DownloadInfo {
         return Collections.unmodifiableMap(mRequestHeaders);
     }
 
-    public void sendIntentIfRequested(Uri contentUri) {
+    public void sendIntentIfRequested() {
         if (mPackage == null) {
             return;
         }
@@ -181,7 +180,7 @@ public class DownloadInfo {
             // We only send the content: URI, for security reasons. Otherwise, malicious
             //     applications would have an easier time spoofing download results by
             //     sending spoofed intents.
-            intent.setData(contentUri);
+            intent.setData(getMyDownloadsUri());
         }
         mSystemFacade.sendBroadcast(intent);
     }
@@ -374,9 +373,7 @@ public class DownloadInfo {
             mStatus = Impl.STATUS_RUNNING;
             ContentValues values = new ContentValues();
             values.put(Impl.COLUMN_STATUS, mStatus);
-            mContext.getContentResolver().update(
-                    ContentUris.withAppendedId(Impl.CONTENT_URI, mId),
-                    values, null, null);
+            mContext.getContentResolver().update(getAllDownloadsUri(), values, null, null);
         }
         DownloadThread downloader = new DownloadThread(mContext, mSystemFacade, this);
         mHasActiveThread = true;
@@ -387,5 +384,13 @@ public class DownloadInfo {
         return (mDestination == Downloads.Impl.DESTINATION_CACHE_PARTITION
                 || mDestination == Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING
                 || mDestination == Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE);
+    }
+
+    public Uri getMyDownloadsUri() {
+        return ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, mId);
+    }
+
+    public Uri getAllDownloadsUri() {
+        return ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, mId);
     }
 }

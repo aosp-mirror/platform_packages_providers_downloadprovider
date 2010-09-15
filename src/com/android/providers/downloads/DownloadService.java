@@ -25,12 +25,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.database.CharArrayBuffer;
 import android.database.ContentObserver;
 import android.database.Cursor;
-import android.drm.mobile1.DrmRawContent;
 import android.media.IMediaScannerService;
 import android.net.Uri;
 import android.os.Environment;
@@ -39,27 +35,22 @@ import android.os.IBinder;
 import android.os.Process;
 import android.os.RemoteException;
 import android.provider.Downloads;
-import android.util.Config;
 import android.util.Log;
 
-import com.google.android.collect.Lists;
+import com.google.android.collect.Maps;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
  * Performs the background downloads requested by applications that use the Downloads provider.
  */
 public class DownloadService extends Service {
-
-    /* ------------ Constants ------------ */
-
-    /* ------------ Members ------------ */
-
     /** Observer to get notified when the content observer's data changes */
     private DownloadManagerContentObserver mObserver;
 
@@ -67,12 +58,12 @@ public class DownloadService extends Service {
     private DownloadNotification mNotifier;
 
     /**
-     * The Service's view of the list of downloads. This is kept independently
-     * from the content provider, and the Service only initiates downloads
-     * based on this data, so that it can deal with situation where the data
-     * in the content provider changes or disappears.
+     * The Service's view of the list of downloads, mapping download IDs to the corresponding info
+     * object. This is kept independently from the content provider, and the Service only initiates
+     * downloads based on this data, so that it can deal with situation where the data in the
+     * content provider changes or disappears.
      */
-    private ArrayList<DownloadInfo> mDownloads;
+    private Map<Long, DownloadInfo> mDownloads = Maps.newHashMap();
 
     /**
      * The thread that updates the internal download list from the content
@@ -100,20 +91,8 @@ public class DownloadService extends Service {
      */
     private IMediaScannerService mMediaScannerService;
 
-    /**
-     * Array used when extracting strings from content provider
-     */
-    private CharArrayBuffer oldChars;
-
-    /**
-     * Array used when extracting strings from content provider
-     */
-    private CharArrayBuffer mNewChars;
-
     @VisibleForTesting
     SystemFacade mSystemFacade;
-
-    /* ------------ Inner Classes ------------ */
 
     /**
      * Receives notifications when the data in the content provider changes
@@ -183,8 +162,6 @@ public class DownloadService extends Service {
         }
     }
 
-    /* ------------ Methods ------------ */
-
     /**
      * Returns an IBinder instance when someone wants to connect to this
      * service. Binding to this service is not allowed.
@@ -208,8 +185,6 @@ public class DownloadService extends Service {
             mSystemFacade = new RealSystemFacade(this);
         }
 
-        mDownloads = Lists.newArrayList();
-
         mObserver = new DownloadManagerContentObserver();
         getContentResolver().registerContentObserver(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
                 true, mObserver);
@@ -220,23 +195,20 @@ public class DownloadService extends Service {
 
         mNotifier = new DownloadNotification(this, mSystemFacade);
         mSystemFacade.cancelAllNotifications();
-        mNotifier.updateNotification(mDownloads);
 
         trimDatabase();
         removeSpuriousFiles();
         updateFromProvider();
     }
 
-    /**
-     * Responds to a call to startService
-     */
-    public void onStart(Intent intent, int startId) {
-        super.onStart(intent, startId);
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        int returnValue = super.onStartCommand(intent, flags, startId);
         if (Constants.LOGVV) {
             Log.v(Constants.TAG, "Service onStart");
         }
-
         updateFromProvider();
+        return returnValue;
     }
 
     /**
@@ -287,188 +259,100 @@ public class DownloadService extends Service {
                             stopSelf();
                         }
                         if (wakeUp != Long.MAX_VALUE) {
-                            AlarmManager alarms =
-                                    (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                            if (alarms == null) {
-                                Log.e(Constants.TAG, "couldn't get alarm manager");
-                            } else {
-                                if (Constants.LOGV) {
-                                    Log.v(Constants.TAG, "scheduling retry in " + wakeUp + "ms");
-                                }
-                                Intent intent = new Intent(Constants.ACTION_RETRY);
-                                intent.setClassName("com.android.providers.downloads",
-                                        DownloadReceiver.class.getName());
-                                alarms.set(
-                                        AlarmManager.RTC_WAKEUP,
-                                        mSystemFacade.currentTimeMillis() + wakeUp,
-                                        PendingIntent.getBroadcast(DownloadService.this, 0, intent,
-                                                PendingIntent.FLAG_ONE_SHOT));
-                            }
+                            scheduleAlarm(wakeUp);
                         }
-                        oldChars = null;
-                        mNewChars = null;
                         return;
                     }
                     mPendingUpdate = false;
                 }
+
                 long now = mSystemFacade.currentTimeMillis();
-
-                Cursor cursor = getContentResolver().query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
-                        null, null, null, Downloads.Impl._ID);
-
-                if (cursor == null) {
-                    // TODO: this doesn't look right, it'd leave the loop in an inconsistent state
-                    return;
-                }
-
-                cursor.moveToFirst();
-
-                int arrayPos = 0;
-
                 boolean mustScan = false;
                 keepService = false;
                 wakeUp = Long.MAX_VALUE;
+                Set<Long> idsNoLongerInDatabase = new HashSet<Long>(mDownloads.keySet());
 
-                boolean isAfterLast = cursor.isAfterLast();
+                Cursor cursor = getContentResolver().query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
+                        null, null, null, null);
+                if (cursor == null) {
+                    continue;
+                }
+                try {
+                    DownloadInfo.Reader reader =
+                            new DownloadInfo.Reader(getContentResolver(), cursor);
+                    int idColumn = cursor.getColumnIndexOrThrow(Downloads.Impl._ID);
 
-                int idColumn = cursor.getColumnIndexOrThrow(Downloads.Impl._ID);
-
-                /*
-                 * Walk the cursor and the local array to keep them in sync. The key
-                 *     to the algorithm is that the ids are unique and sorted both in
-                 *     the cursor and in the array, so that they can be processed in
-                 *     order in both sources at the same time: at each step, both
-                 *     sources point to the lowest id that hasn't been processed from
-                 *     that source, and the algorithm processes the lowest id from
-                 *     those two possibilities.
-                 * At each step:
-                 * -If the array contains an entry that's not in the cursor, remove the
-                 *     entry, move to next entry in the array.
-                 * -If the array contains an entry that's in the cursor, nothing to do,
-                 *     move to next cursor row and next array entry.
-                 * -If the cursor contains an entry that's not in the array, insert
-                 *     a new entry in the array, move to next cursor row and next
-                 *     array entry.
-                 */
-                while (!isAfterLast || arrayPos < mDownloads.size()) {
-                    if (isAfterLast) {
-                        // We're beyond the end of the cursor but there's still some
-                        //     stuff in the local array, which can only be junk
-                        if (Constants.LOGVV) {
-                            int arrayId = ((DownloadInfo) mDownloads.get(arrayPos)).mId;
-                            Log.v(Constants.TAG, "Array update: trimming " +
-                                    arrayId + " @ "  + arrayPos);
-                        }
-                        if (shouldScanFile(arrayPos) && mediaScannerConnected()) {
-                            scanFile(null, arrayPos);
-                        }
-                        deleteDownload(arrayPos); // this advances in the array
-                    } else {
-                        int id = cursor.getInt(idColumn);
-
-                        if (arrayPos == mDownloads.size()) {
-                            insertDownload(cursor, arrayPos, now);
-                            if (Constants.LOGVV) {
-                                Log.v(Constants.TAG, "Array update: appending " +
-                                        id + " @ " + arrayPos);
-                            }
-                            if (shouldScanFile(arrayPos)
-                                    && (!mediaScannerConnected() || !scanFile(cursor, arrayPos))) {
-                                mustScan = true;
-                                keepService = true;
-                            }
-                            if (visibleNotification(arrayPos)) {
-                                keepService = true;
-                            }
-                            long next = nextAction(arrayPos, now);
-                            if (next == 0) {
-                                keepService = true;
-                            } else if (next > 0 && next < wakeUp) {
-                                wakeUp = next;
-                            }
-                            ++arrayPos;
-                            cursor.moveToNext();
-                            isAfterLast = cursor.isAfterLast();
+                    for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                        long id = cursor.getLong(idColumn);
+                        idsNoLongerInDatabase.remove(id);
+                        DownloadInfo info = mDownloads.get(id);
+                        if (info != null) {
+                            updateDownload(reader, info, now);
                         } else {
-                            int arrayId = mDownloads.get(arrayPos).mId;
+                            info = insertDownload(reader, now);
+                        }
 
-                            if (arrayId < id) {
-                                // The array entry isn't in the cursor
-                                if (Constants.LOGVV) {
-                                    Log.v(Constants.TAG, "Array update: removing " + arrayId
-                                            + " @ " + arrayPos);
-                                }
-                                if (shouldScanFile(arrayPos) && mediaScannerConnected()) {
-                                    scanFile(null, arrayPos);
-                                }
-                                deleteDownload(arrayPos); // this advances in the array
-                            } else if (arrayId == id) {
-                                // This cursor row already exists in the stored array
-                                updateDownload(cursor, arrayPos, now);
-                                if (shouldScanFile(arrayPos)
-                                        && (!mediaScannerConnected()
-                                                || !scanFile(cursor, arrayPos))) {
-                                    mustScan = true;
-                                    keepService = true;
-                                }
-                                if (visibleNotification(arrayPos)) {
-                                    keepService = true;
-                                }
-                                long next = nextAction(arrayPos, now);
-                                if (next == 0) {
-                                    keepService = true;
-                                } else if (next > 0 && next < wakeUp) {
-                                    wakeUp = next;
-                                }
-                                ++arrayPos;
-                                cursor.moveToNext();
-                                isAfterLast = cursor.isAfterLast();
-                            } else {
-                                // This cursor entry didn't exist in the stored array
-                                if (Constants.LOGVV) {
-                                    Log.v(Constants.TAG, "Array update: inserting " +
-                                            id + " @ " + arrayPos);
-                                }
-                                insertDownload(cursor, arrayPos, now);
-                                if (shouldScanFile(arrayPos)
-                                        && (!mediaScannerConnected()
-                                                || !scanFile(cursor, arrayPos))) {
-                                    mustScan = true;
-                                    keepService = true;
-                                }
-                                if (visibleNotification(arrayPos)) {
-                                    keepService = true;
-                                }
-                                long next = nextAction(arrayPos, now);
-                                if (next == 0) {
-                                    keepService = true;
-                                } else if (next > 0 && next < wakeUp) {
-                                    wakeUp = next;
-                                }
-                                ++arrayPos;
-                                cursor.moveToNext();
-                                isAfterLast = cursor.isAfterLast();
-                            }
+                        if (info.shouldScanFile() && !scanFile(info, true)) {
+                            mustScan = true;
+                            keepService = true;
+                        }
+                        if (info.hasCompletionNotification()) {
+                            keepService = true;
+                        }
+                        long next = info.nextAction(now);
+                        if (next == 0) {
+                            keepService = true;
+                        } else if (next > 0 && next < wakeUp) {
+                            wakeUp = next;
                         }
                     }
+                } finally {
+                    cursor.close();
                 }
 
-                mNotifier.updateNotification(mDownloads);
+                for (Long id : idsNoLongerInDatabase) {
+                    deleteDownload(id);
+                }
+
+                mNotifier.updateNotification(mDownloads.values());
 
                 if (mustScan) {
-                    if (!mMediaScannerConnecting) {
-                        Intent intent = new Intent();
-                        intent.setClassName("com.android.providers.media",
-                                "com.android.providers.media.MediaScannerService");
-                        mMediaScannerConnecting = true;
-                        bindService(intent, mMediaScannerConnection, BIND_AUTO_CREATE);
-                    }
+                    bindMediaScanner();
                 } else {
                     mMediaScannerConnection.disconnectMediaScanner();
                 }
-
-                cursor.close();
             }
+        }
+
+        private void bindMediaScanner() {
+            if (!mMediaScannerConnecting) {
+                Intent intent = new Intent();
+                intent.setClassName("com.android.providers.media",
+                        "com.android.providers.media.MediaScannerService");
+                mMediaScannerConnecting = true;
+                bindService(intent, mMediaScannerConnection, BIND_AUTO_CREATE);
+            }
+        }
+
+        private void scheduleAlarm(long wakeUp) {
+            AlarmManager alarms = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            if (alarms == null) {
+                Log.e(Constants.TAG, "couldn't get alarm manager");
+                return;
+            }
+
+            if (Constants.LOGV) {
+                Log.v(Constants.TAG, "scheduling retry in " + wakeUp + "ms");
+            }
+
+            Intent intent = new Intent(Constants.ACTION_RETRY);
+            intent.setClassName("com.android.providers.downloads",
+                    DownloadReceiver.class.getName());
+            alarms.set(
+                    AlarmManager.RTC_WAKEUP,
+                    mSystemFacade.currentTimeMillis() + wakeUp,
+                    PendingIntent.getBroadcast(DownloadService.this, 0, intent,
+                            PendingIntent.FLAG_ONE_SHOT));
         }
     }
 
@@ -546,133 +430,40 @@ public class DownloadService extends Service {
      * Keeps a local copy of the info about a download, and initiates the
      * download if appropriate.
      */
-    private void insertDownload(Cursor cursor, int arrayPos, long now) {
-        DownloadInfo info = new DownloadInfo(this, mSystemFacade, cursor);
+    private DownloadInfo insertDownload(DownloadInfo.Reader reader, long now) {
+        DownloadInfo info = reader.newDownloadInfo(this, mSystemFacade);
+        mDownloads.put(info.mId, info);
 
         if (Constants.LOGVV) {
-            Log.v(Constants.TAG, "Service adding new entry");
-            Log.v(Constants.TAG, "ID      : " + info.mId);
-            Log.v(Constants.TAG, "URI     : " + ((info.mUri != null) ? "yes" : "no"));
-            Log.v(Constants.TAG, "NO_INTEG: " + info.mNoIntegrity);
-            Log.v(Constants.TAG, "HINT    : " + info.mHint);
-            Log.v(Constants.TAG, "FILENAME: " + info.mFileName);
-            Log.v(Constants.TAG, "MIMETYPE: " + info.mMimeType);
-            Log.v(Constants.TAG, "DESTINAT: " + info.mDestination);
-            Log.v(Constants.TAG, "VISIBILI: " + info.mVisibility);
-            Log.v(Constants.TAG, "CONTROL : " + info.mControl);
-            Log.v(Constants.TAG, "STATUS  : " + info.mStatus);
-            Log.v(Constants.TAG, "FAILED_C: " + info.mNumFailed);
-            Log.v(Constants.TAG, "RETRY_AF: " + info.mRetryAfter);
-            Log.v(Constants.TAG, "REDIRECT: " + info.mRedirectCount);
-            Log.v(Constants.TAG, "LAST_MOD: " + info.mLastMod);
-            Log.v(Constants.TAG, "PACKAGE : " + info.mPackage);
-            Log.v(Constants.TAG, "CLASS   : " + info.mClass);
-            Log.v(Constants.TAG, "COOKIES : " + ((info.mCookies != null) ? "yes" : "no"));
-            Log.v(Constants.TAG, "AGENT   : " + info.mUserAgent);
-            Log.v(Constants.TAG, "REFERER : " + ((info.mReferer != null) ? "yes" : "no"));
-            Log.v(Constants.TAG, "TOTAL   : " + info.mTotalBytes);
-            Log.v(Constants.TAG, "CURRENT : " + info.mCurrentBytes);
-            Log.v(Constants.TAG, "ETAG    : " + info.mETag);
-            Log.v(Constants.TAG, "SCANNED : " + info.mMediaScanned);
-        }
-
-        mDownloads.add(arrayPos, info);
-
-        if (info.mStatus == 0
-                && (info.mDestination == Downloads.Impl.DESTINATION_EXTERNAL
-                    || info.mDestination == Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE)
-                && info.mMimeType != null
-                && !DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING.equalsIgnoreCase(info.mMimeType)) {
-            // Check to see if we are allowed to download this file. Only files
-            // that can be handled by the platform can be downloaded.
-            // special case DRM files, which we should always allow downloading.
-            Intent mimetypeIntent = new Intent(Intent.ACTION_VIEW);
-
-            // We can provide data as either content: or file: URIs,
-            // so allow both.  (I think it would be nice if we just did
-            // everything as content: URIs)
-            // Actually, right now the download manager's UId restrictions
-            // prevent use from using content: so it's got to be file: or
-            // nothing
-
-            mimetypeIntent.setDataAndType(Uri.fromParts("file", "", null), info.mMimeType);
-            ResolveInfo ri = getPackageManager().resolveActivity(mimetypeIntent,
-                    PackageManager.MATCH_DEFAULT_ONLY);
-            //Log.i(Constants.TAG, "*** QUERY " + mimetypeIntent + ": " + list);
-
-            if (ri == null) {
-                Log.d(Constants.TAG, "no application to handle MIME type " + info.mMimeType);
-                info.mStatus = Downloads.Impl.STATUS_NOT_ACCEPTABLE;
-
-                ContentValues values = new ContentValues();
-                values.put(Downloads.Impl.COLUMN_STATUS, Downloads.Impl.STATUS_NOT_ACCEPTABLE);
-                getContentResolver().update(info.getAllDownloadsUri(), values, null, null);
-                info.sendIntentIfRequested();
-                return;
-            }
+            info.logVerboseInfo();
         }
 
         if (info.isReadyToStart(now)) {
             info.start(now);
         }
+
+        return info;
     }
 
     /**
      * Updates the local copy of the info about a download.
      */
-    private void updateDownload(Cursor cursor, int arrayPos, long now) {
-        DownloadInfo info = mDownloads.get(arrayPos);
-        int statusColumn = cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_STATUS);
-        int failedColumn = cursor.getColumnIndexOrThrow(Constants.FAILED_CONNECTIONS);
-        info.mId = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.Impl._ID));
-        info.mUri = stringFromCursor(info.mUri, cursor, Downloads.Impl.COLUMN_URI);
-        info.mNoIntegrity = cursor.getInt(cursor.getColumnIndexOrThrow(
-                Downloads.Impl.COLUMN_NO_INTEGRITY)) == 1;
-        info.mHint = stringFromCursor(info.mHint, cursor, Downloads.Impl.COLUMN_FILE_NAME_HINT);
-        info.mFileName = stringFromCursor(info.mFileName, cursor, Downloads.Impl._DATA);
-        info.mMimeType = stringFromCursor(info.mMimeType, cursor, Downloads.Impl.COLUMN_MIME_TYPE);
-        info.mDestination = cursor.getInt(cursor.getColumnIndexOrThrow(
-                Downloads.Impl.COLUMN_DESTINATION));
-        int newVisibility = cursor.getInt(cursor.getColumnIndexOrThrow(
-                Downloads.Impl.COLUMN_VISIBILITY));
-        if (info.mVisibility == Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
-                && newVisibility != Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
-                && Downloads.Impl.isStatusCompleted(info.mStatus)) {
+    private void updateDownload(DownloadInfo.Reader reader, DownloadInfo info, long now) {
+        int oldVisibility = info.mVisibility;
+        int oldStatus = info.mStatus;
+
+        reader.updateFromDatabase(info);
+
+        boolean lostVisibility =
+                oldVisibility == Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
+                && info.mVisibility != Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
+                && Downloads.Impl.isStatusCompleted(info.mStatus);
+        boolean justCompleted =
+                !Downloads.Impl.isStatusCompleted(oldStatus)
+                && Downloads.Impl.isStatusCompleted(info.mStatus);
+        if (lostVisibility || justCompleted) {
             mSystemFacade.cancelNotification(info.mId);
         }
-        info.mVisibility = newVisibility;
-        synchronized (info) {
-            info.mControl = cursor.getInt(cursor.getColumnIndexOrThrow(
-                    Downloads.Impl.COLUMN_CONTROL));
-        }
-        int newStatus = cursor.getInt(statusColumn);
-        if (!Downloads.Impl.isStatusCompleted(info.mStatus) &&
-                    Downloads.Impl.isStatusCompleted(newStatus)) {
-            mSystemFacade.cancelNotification(info.mId);
-        }
-        info.mStatus = newStatus;
-        info.mNumFailed = cursor.getInt(failedColumn);
-        int retryRedirect =
-                cursor.getInt(cursor.getColumnIndexOrThrow(Constants.RETRY_AFTER_X_REDIRECT_COUNT));
-        info.mRetryAfter = retryRedirect & 0xfffffff;
-        info.mRedirectCount = retryRedirect >> 28;
-        info.mLastMod = cursor.getLong(cursor.getColumnIndexOrThrow(
-                Downloads.Impl.COLUMN_LAST_MODIFICATION));
-        info.mPackage = stringFromCursor(
-                info.mPackage, cursor, Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE);
-        info.mClass = stringFromCursor(
-                info.mClass, cursor, Downloads.Impl.COLUMN_NOTIFICATION_CLASS);
-        info.mCookies = stringFromCursor(info.mCookies, cursor, Downloads.Impl.COLUMN_COOKIE_DATA);
-        info.mUserAgent = stringFromCursor(
-                info.mUserAgent, cursor, Downloads.Impl.COLUMN_USER_AGENT);
-        info.mReferer = stringFromCursor(info.mReferer, cursor, Downloads.Impl.COLUMN_REFERER);
-        info.mTotalBytes = cursor.getInt(cursor.getColumnIndexOrThrow(
-                Downloads.Impl.COLUMN_TOTAL_BYTES));
-        info.mCurrentBytes = cursor.getInt(cursor.getColumnIndexOrThrow(
-                Downloads.Impl.COLUMN_CURRENT_BYTES));
-        info.mETag = stringFromCursor(info.mETag, cursor, Constants.ETAG);
-        info.mMediaScanned =
-                cursor.getInt(cursor.getColumnIndexOrThrow(Constants.MEDIA_SCANNED)) == 1;
 
         if (info.isReadyToRestart(now)) {
             info.start(now);
@@ -680,128 +471,48 @@ public class DownloadService extends Service {
     }
 
     /**
-     * Returns a String that holds the current value of the column,
-     * optimizing for the case where the value hasn't changed.
-     */
-    private String stringFromCursor(String old, Cursor cursor, String column) {
-        int index = cursor.getColumnIndexOrThrow(column);
-        if (old == null) {
-            return cursor.getString(index);
-        }
-        if (mNewChars == null) {
-            mNewChars = new CharArrayBuffer(128);
-        }
-        cursor.copyStringToBuffer(index, mNewChars);
-        int length = mNewChars.sizeCopied;
-        if (length != old.length()) {
-            return cursor.getString(index);
-        }
-        if (oldChars == null || oldChars.sizeCopied < length) {
-            oldChars = new CharArrayBuffer(length);
-        }
-        char[] oldArray = oldChars.data;
-        char[] newArray = mNewChars.data;
-        old.getChars(0, length, oldArray, 0);
-        for (int i = length - 1; i >= 0; --i) {
-            if (oldArray[i] != newArray[i]) {
-                return new String(newArray, 0, length);
-            }
-        }
-        return old;
-    }
-
-    /**
      * Removes the local copy of the info about a download.
      */
-    private void deleteDownload(int arrayPos) {
-        DownloadInfo info = (DownloadInfo) mDownloads.get(arrayPos);
+    private void deleteDownload(long id) {
+        DownloadInfo info = mDownloads.get(id);
+        if (info.shouldScanFile()) {
+            scanFile(info, false);
+        }
         if (info.mStatus == Downloads.Impl.STATUS_RUNNING) {
             info.mStatus = Downloads.Impl.STATUS_CANCELED;
-        } else if (info.mDestination != Downloads.Impl.DESTINATION_EXTERNAL
-                    && info.mFileName != null) {
+        }
+        if (info.mDestination != Downloads.Impl.DESTINATION_EXTERNAL && info.mFileName != null) {
             new File(info.mFileName).delete();
         }
         mSystemFacade.cancelNotification(info.mId);
-
-        mDownloads.remove(arrayPos);
-    }
-
-    /**
-     * Returns the amount of time (as measured from the "now" parameter)
-     * at which a download will be active.
-     * 0 = immediately - service should stick around to handle this download.
-     * -1 = never - service can go away without ever waking up.
-     * positive value - service must wake up in the future, as specified in ms from "now"
-     */
-    private long nextAction(int arrayPos, long now) {
-        DownloadInfo info = (DownloadInfo) mDownloads.get(arrayPos);
-        if (Downloads.Impl.isStatusCompleted(info.mStatus)) {
-            return -1;
-        }
-        if (info.mStatus != Downloads.Impl.STATUS_RUNNING_PAUSED) {
-            return 0;
-        }
-        if (info.mNumFailed == 0) {
-            return 0;
-        }
-        long when = info.restartTime();
-        if (when <= now) {
-            return 0;
-        }
-        return when - now;
-    }
-
-    /**
-     * Returns whether there's a visible notification for this download
-     */
-    private boolean visibleNotification(int arrayPos) {
-        DownloadInfo info = (DownloadInfo) mDownloads.get(arrayPos);
-        return info.hasCompletionNotification();
-    }
-
-    /**
-     * Returns whether a file should be scanned
-     */
-    private boolean shouldScanFile(int arrayPos) {
-        DownloadInfo info = (DownloadInfo) mDownloads.get(arrayPos);
-        return !info.mMediaScanned
-                && info.mDestination == Downloads.Impl.DESTINATION_EXTERNAL
-                && Downloads.Impl.isStatusSuccess(info.mStatus)
-                && !DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING.equalsIgnoreCase(info.mMimeType);
-    }
-
-    /**
-     * Returns whether we have a live connection to the Media Scanner
-     */
-    private boolean mediaScannerConnected() {
-        return mMediaScannerService != null;
+        mDownloads.remove(info.mId);
     }
 
     /**
      * Attempts to scan the file if necessary.
-     * Returns true if the file has been properly scanned.
+     * @return true if the file has been properly scanned.
      */
-    private boolean scanFile(Cursor cursor, int arrayPos) {
-        DownloadInfo info = mDownloads.get(arrayPos);
+    private boolean scanFile(DownloadInfo info, boolean updateDatabase) {
         synchronized (this) {
-            if (mMediaScannerService != null) {
-                try {
-                    if (Constants.LOGV) {
-                        Log.v(Constants.TAG, "Scanning file " + info.mFileName);
-                    }
-                    mMediaScannerService.scanFile(info.mFileName, info.mMimeType);
-                    if (cursor != null) {
-                        ContentValues values = new ContentValues();
-                        values.put(Constants.MEDIA_SCANNED, 1);
-                        getContentResolver().update(info.getAllDownloadsUri(), values, null, null);
-                    }
-                    return true;
-                } catch (RemoteException e) {
-                    Log.d(Constants.TAG, "Failed to scan file " + info.mFileName);
+            if (mMediaScannerService == null) {
+                return false;
+            }
+            try {
+                if (Constants.LOGV) {
+                    Log.v(Constants.TAG, "Scanning file " + info.mFileName);
                 }
+                mMediaScannerService.scanFile(info.mFileName, info.mMimeType);
+                if (updateDatabase) {
+                    ContentValues values = new ContentValues();
+                    values.put(Constants.MEDIA_SCANNED, 1);
+                    getContentResolver().update(info.getAllDownloadsUri(), values, null, null);
+                }
+                return true;
+            } catch (RemoteException e) {
+                Log.d(Constants.TAG, "Failed to scan file " + info.mFileName);
+                return false;
             }
         }
-        return false;
     }
 
 }

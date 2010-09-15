@@ -28,7 +28,6 @@ import android.net.DownloadManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.provider.Downloads;
-import android.util.Config;
 import android.util.Log;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -47,146 +46,148 @@ public class DownloadReceiver extends BroadcastReceiver {
             mSystemFacade = new RealSystemFacade(context);
         }
 
-        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
-            if (Constants.LOGVV) {
-                Log.v(Constants.TAG, "Receiver onBoot");
-            }
-            context.startService(new Intent(context, DownloadService.class));
-        } else if (intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
-            if (Constants.LOGVV) {
-                Log.v(Constants.TAG, "Receiver onConnectivity");
-            }
+        String action = intent.getAction();
+        if (action.equals(Intent.ACTION_BOOT_COMPLETED)) {
+            startService(context);
+        } else if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
             NetworkInfo info = (NetworkInfo)
                     intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
             if (info != null && info.isConnected()) {
-                if (Constants.LOGX) {
-                    if (Helpers.isNetworkAvailable(mSystemFacade)) {
-                        Log.i(Constants.TAG, "Broadcast: Network Up");
-                    } else {
-                        Log.i(Constants.TAG, "Broadcast: Network Up, Actually Down");
-                    }
-                }
-                context.startService(new Intent(context, DownloadService.class));
-            } else {
-                if (Constants.LOGX) {
-                    if (Helpers.isNetworkAvailable(mSystemFacade)) {
-                        Log.i(Constants.TAG, "Broadcast: Network Down, Actually Up");
-                    } else {
-                        Log.i(Constants.TAG, "Broadcast: Network Down");
-                    }
-                }
+                startService(context);
             }
-        } else if (intent.getAction().equals(Constants.ACTION_RETRY)) {
-            if (Constants.LOGVV) {
-                Log.v(Constants.TAG, "Receiver retry");
-            }
-            context.startService(new Intent(context, DownloadService.class));
-        } else if (intent.getAction().equals(Constants.ACTION_OPEN)
-                || intent.getAction().equals(Constants.ACTION_LIST)) {
-            if (Constants.LOGVV) {
-                if (intent.getAction().equals(Constants.ACTION_OPEN)) {
-                    Log.v(Constants.TAG, "Receiver open for " + intent.getData());
-                } else {
-                    Log.v(Constants.TAG, "Receiver list for " + intent.getData());
-                }
-            }
-            Cursor cursor = context.getContentResolver().query(
-                    intent.getData(), null, null, null, null);
-            if (cursor != null) {
-                if (cursor.moveToFirst()) {
-                    int statusColumn = cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_STATUS);
-                    int status = cursor.getInt(statusColumn);
-                    int visibilityColumn =
-                            cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_VISIBILITY);
-                    int visibility = cursor.getInt(visibilityColumn);
-                    if (Downloads.Impl.isStatusCompleted(status)
-                            && visibility == Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED) {
-                        ContentValues values = new ContentValues();
-                        values.put(Downloads.Impl.COLUMN_VISIBILITY,
-                                Downloads.Impl.VISIBILITY_VISIBLE);
-                        context.getContentResolver().update(intent.getData(), values, null, null);
-                    }
+        } else if (action.equals(Constants.ACTION_RETRY)) {
+            startService(context);
+        } else if (action.equals(Constants.ACTION_OPEN)
+                || action.equals(Constants.ACTION_LIST)
+                || action.equals(Constants.ACTION_HIDE)) {
+            handleNotificationBroadcast(context, intent);
+        }
+    }
 
-                    if (intent.getAction().equals(Constants.ACTION_OPEN)) {
-                        int filenameColumn = cursor.getColumnIndexOrThrow(Downloads.Impl._DATA);
-                        int mimetypeColumn =
-                                cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_MIME_TYPE);
-                        String filename = cursor.getString(filenameColumn);
-                        String mimetype = cursor.getString(mimetypeColumn);
-                        Uri path = Uri.parse(filename);
-                        // If there is no scheme, then it must be a file
-                        if (path.getScheme() == null) {
-                            path = Uri.fromFile(new File(filename));
-                        }
-                        Intent activityIntent = new Intent(Intent.ACTION_VIEW);
-                        activityIntent.setDataAndType(path, mimetype);
-                        activityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        try {
-                            context.startActivity(activityIntent);
-                        } catch (ActivityNotFoundException ex) {
-                            if (Config.LOGD) {
-                                Log.d(Constants.TAG, "no activity for " + mimetype, ex);
-                            }
-                            // nothing anyone can do about this, but we're in a clean state,
-                            //     swallow the exception entirely
-                        }
-                    } else {
-                        int packageColumn = cursor.getColumnIndexOrThrow(
-                                Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE);
-                        int classColumn = cursor.getColumnIndexOrThrow(
-                                Downloads.Impl.COLUMN_NOTIFICATION_CLASS);
-                        int isPublicApiColumn = cursor.getColumnIndex(
-                                Downloads.Impl.COLUMN_IS_PUBLIC_API);
-                        String pckg = cursor.getString(packageColumn);
-                        String clazz = cursor.getString(classColumn);
-                        boolean isPublicApi = cursor.getInt(isPublicApiColumn) != 0;
-
-                        if (pckg != null) {
-                            Intent appIntent = null;
-                            if (isPublicApi) {
-                                appIntent = new Intent(DownloadManager.ACTION_NOTIFICATION_CLICKED);
-                                appIntent.setPackage(pckg);
-                            } else if (clazz != null) { // legacy behavior
-                                appIntent = new Intent(Downloads.Impl.ACTION_NOTIFICATION_CLICKED);
-                                appIntent.setClassName(pckg, clazz);
-                                if (intent.getBooleanExtra("multiple", true)) {
-                                    appIntent.setData(Downloads.Impl.CONTENT_URI);
-                                } else {
-                                    appIntent.setData(intent.getData());
-                                }
-                            }
-                            if (appIntent != null) {
-                                mSystemFacade.sendBroadcast(appIntent);
-                            }
-                        }
-                    }
-                }
-                cursor.close();
-            }
-            mSystemFacade.cancelNotification((int) ContentUris.parseId(intent.getData()));
-        } else if (intent.getAction().equals(Constants.ACTION_HIDE)) {
-            if (Constants.LOGVV) {
-                Log.v(Constants.TAG, "Receiver hide for " + intent.getData());
-            }
-            Cursor cursor = context.getContentResolver().query(
-                    intent.getData(), null, null, null, null);
-            if (cursor != null) {
-                if (cursor.moveToFirst()) {
-                    int statusColumn = cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_STATUS);
-                    int status = cursor.getInt(statusColumn);
-                    int visibilityColumn =
-                            cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_VISIBILITY);
-                    int visibility = cursor.getInt(visibilityColumn);
-                    if (Downloads.Impl.isStatusCompleted(status)
-                            && visibility == Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED) {
-                        ContentValues values = new ContentValues();
-                        values.put(Downloads.Impl.COLUMN_VISIBILITY,
-                                Downloads.Impl.VISIBILITY_VISIBLE);
-                        context.getContentResolver().update(intent.getData(), values, null, null);
-                    }
-                }
-                cursor.close();
+    /**
+     * Handle any broadcast related to a system notification.
+     */
+    private void handleNotificationBroadcast(Context context, Intent intent) {
+        Uri uri = intent.getData();
+        String action = intent.getAction();
+        if (Constants.LOGVV) {
+            if (action.equals(Constants.ACTION_OPEN)) {
+                Log.v(Constants.TAG, "Receiver open for " + uri);
+            } else if (action.equals(Constants.ACTION_LIST)) {
+                Log.v(Constants.TAG, "Receiver list for " + uri);
+            } else { // ACTION_HIDE
+                Log.v(Constants.TAG, "Receiver hide for " + uri);
             }
         }
+
+        Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+        if (cursor == null) {
+            return;
+        }
+        try {
+            if (!cursor.moveToFirst()) {
+                return;
+            }
+
+            if (action.equals(Constants.ACTION_OPEN)) {
+                openDownload(context, cursor);
+                hideNotification(context, uri, cursor);
+            } else if (action.equals(Constants.ACTION_LIST)) {
+                sendNotificationClickedIntent(intent, cursor);
+            } else { // ACTION_HIDE
+                hideNotification(context, uri, cursor);
+            }
+        } finally {
+            cursor.close();
+        }
+    }
+
+    /**
+     * Hide a system notification for a download.
+     * @param uri URI to update the download
+     * @param cursor Cursor for reading the download's fields
+     */
+    private void hideNotification(Context context, Uri uri, Cursor cursor) {
+        mSystemFacade.cancelNotification(ContentUris.parseId(uri));
+
+        int statusColumn = cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_STATUS);
+        int status = cursor.getInt(statusColumn);
+        int visibilityColumn =
+                cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_VISIBILITY);
+        int visibility = cursor.getInt(visibilityColumn);
+        if (Downloads.Impl.isStatusCompleted(status)
+                && visibility == Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED) {
+            ContentValues values = new ContentValues();
+            values.put(Downloads.Impl.COLUMN_VISIBILITY,
+                    Downloads.Impl.VISIBILITY_VISIBLE);
+            context.getContentResolver().update(uri, values, null, null);
+        }
+    }
+
+    /**
+     * Open the download that cursor is currently pointing to, since it's completed notification
+     * has been clicked.
+     */
+    private void openDownload(Context context, Cursor cursor) {
+        String filename = cursor.getString(cursor.getColumnIndexOrThrow(Downloads.Impl._DATA));
+        String mimetype =
+            cursor.getString(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_MIME_TYPE));
+        Uri path = Uri.parse(filename);
+        // If there is no scheme, then it must be a file
+        if (path.getScheme() == null) {
+            path = Uri.fromFile(new File(filename));
+        }
+
+        Intent activityIntent = new Intent(Intent.ACTION_VIEW);
+        activityIntent.setDataAndType(path, mimetype);
+        activityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        try {
+            context.startActivity(activityIntent);
+        } catch (ActivityNotFoundException ex) {
+            Log.d(Constants.TAG, "no activity for " + mimetype, ex);
+        }
+    }
+
+    /**
+     * Notify the owner of a running download that its notification was clicked.
+     * @param intent the broadcast intent sent by the notification manager
+     * @param cursor Cursor for reading the download's fields
+     */
+    private void sendNotificationClickedIntent(Intent intent, Cursor cursor) {
+        String pckg = cursor.getString(
+                cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE));
+        if (pckg == null) {
+            return;
+        }
+
+        String clazz = cursor.getString(
+                cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_NOTIFICATION_CLASS));
+        boolean isPublicApi =
+                cursor.getInt(cursor.getColumnIndex(Downloads.Impl.COLUMN_IS_PUBLIC_API)) != 0;
+
+        Intent appIntent = null;
+        if (isPublicApi) {
+            appIntent = new Intent(DownloadManager.ACTION_NOTIFICATION_CLICKED);
+            appIntent.setPackage(pckg);
+        } else { // legacy behavior
+            if (clazz == null) {
+                return;
+            }
+            appIntent = new Intent(Downloads.Impl.ACTION_NOTIFICATION_CLICKED);
+            appIntent.setClassName(pckg, clazz);
+            if (intent.getBooleanExtra("multiple", true)) {
+                appIntent.setData(Downloads.Impl.CONTENT_URI);
+            } else {
+                long downloadId = cursor.getLong(cursor.getColumnIndexOrThrow(Downloads.Impl._ID));
+                appIntent.setData(
+                        ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, downloadId));
+            }
+        }
+
+        mSystemFacade.sendBroadcast(appIntent);
+    }
+
+    private void startService(Context context) {
+        context.startService(new Intent(context, DownloadService.class));
     }
 }

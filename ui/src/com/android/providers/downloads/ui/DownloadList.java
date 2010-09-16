@@ -29,6 +29,7 @@ import android.database.Cursor;
 import android.net.DownloadManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.Downloads;
 import android.util.Log;
@@ -80,6 +81,7 @@ public class DownloadList extends Activity
     private int mIdColumnId;
     private int mLocalUriColumnId;
     private int mMediaTypeColumnId;
+    private int mErrorCodeColumndId;
 
     private boolean mIsSortedBySize = false;
     private Set<Long> mSelectedIds = new HashSet<Long>();
@@ -130,6 +132,8 @@ public class DownloadList extends Activity
                     mDateSortedCursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_URI);
             mMediaTypeColumnId =
                     mDateSortedCursor.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIA_TYPE);
+            mErrorCodeColumndId =
+                    mDateSortedCursor.getColumnIndexOrThrow(DownloadManager.COLUMN_ERROR_CODE);
 
             mDateSortedAdapter = new DateSortedDownloadAdapter(this, mDateSortedCursor, this);
             mDateOrderedListView.setAdapter(mDateSortedAdapter);
@@ -305,7 +309,8 @@ public class DownloadList extends Activity
             getContentResolver().openFileDescriptor(localUri, "r").close();
         } catch (FileNotFoundException exc) {
             Log.d(LOG_TAG, "Failed to open download " + cursor.getLong(mIdColumnId), exc);
-            showFailedDialog(cursor.getLong(mIdColumnId), R.string.dialog_file_missing_body);
+            showFailedDialog(cursor.getLong(mIdColumnId),
+                    getString(R.string.dialog_file_missing_body));
             return;
         } catch (IOException exc) {
             // close() failed, not a problem
@@ -345,15 +350,65 @@ public class DownloadList extends Activity
                 break;
 
             case DownloadManager.STATUS_FAILED:
-                showFailedDialog(id, R.string.dialog_failed_body);
+                showFailedDialog(id, getErrorMessage(cursor));
                 break;
         }
     }
 
-    private void showFailedDialog(long downloadId, int dialogBodyResource) {
+    /**
+     * @return the appropriate error message for the failed download pointed to by cursor
+     */
+    private String getErrorMessage(Cursor cursor) {
+        switch (cursor.getInt(mErrorCodeColumndId)) {
+            case DownloadManager.ERROR_FILE_ALREADY_EXISTS:
+                if (isOnExternalStorage(cursor)) {
+                    return getString(R.string.dialog_file_already_exists);
+                } else {
+                    // the download manager should always find a free filename for cache downloads,
+                    // so this indicates a strange internal error
+                    return getUnknownErrorMessage();
+                }
+
+            case DownloadManager.ERROR_INSUFFICIENT_SPACE:
+                if (isOnExternalStorage(cursor)) {
+                    return getString(R.string.dialog_insufficient_space_on_external);
+                } else {
+                    return getString(R.string.dialog_insufficient_space_on_cache);
+                }
+
+            case DownloadManager.ERROR_DEVICE_NOT_FOUND:
+                return getString(R.string.dialog_media_not_found);
+
+            case DownloadManager.ERROR_CANNOT_RESUME:
+                return getString(R.string.dialog_cannot_resume);
+
+            default:
+                return getUnknownErrorMessage();
+        }
+    }
+
+    private boolean isOnExternalStorage(Cursor cursor) {
+        String localUriString = cursor.getString(mLocalUriColumnId);
+        if (localUriString == null) {
+            return false;
+        }
+        Uri localUri = Uri.parse(localUriString);
+        if (!localUri.getScheme().equals("file")) {
+            return false;
+        }
+        String path = localUri.getPath();
+        String externalRoot = Environment.getExternalStorageDirectory().getPath();
+        return path.startsWith(externalRoot);
+    }
+
+    private String getUnknownErrorMessage() {
+        return getString(R.string.dialog_failed_body);
+    }
+
+    private void showFailedDialog(long downloadId, String dialogBody) {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.dialog_title_not_available)
-                .setMessage(getResources().getString(dialogBodyResource))
+                .setMessage(dialogBody)
                 .setPositiveButton(R.string.remove_download, getDeleteClickHandler(downloadId))
                 .setNegativeButton(R.string.retry_download, getRestartClickHandler(downloadId))
                 .show();

@@ -30,6 +30,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Downloads;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -47,7 +48,8 @@ import android.widget.Toast;
 
 import com.android.providers.downloads.ui.DownloadItem.DownloadSelectListener;
 
-import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -58,6 +60,8 @@ import java.util.Set;
 public class DownloadList extends Activity
         implements OnChildClickListener, OnItemClickListener, DownloadSelectListener,
         OnClickListener, OnCancelListener {
+    private static final String LOG_TAG = "DownloadList";
+
     private ExpandableListView mDateOrderedListView;
     private ListView mSizeOrderedListView;
     private View mEmptyView;
@@ -103,6 +107,7 @@ public class DownloadList extends Activity
         setupViews();
 
         mDownloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        mDownloadManager.setAccessAllDownloads(true);
         DownloadManager.Query baseQuery = new DownloadManager.Query()
                 .setOnlyIncludeVisibleInDownloadsUi(true);
         mDateSortedCursor = mDownloadManager.query(baseQuery);
@@ -112,7 +117,7 @@ public class DownloadList extends Activity
 
         // only attach everything to the listbox if we can access the download database. Otherwise,
         // just show it empty
-        if (mDateSortedCursor != null && mSizeSortedCursor != null) {
+        if (haveCursors()) {
             startManagingCursor(mDateSortedCursor);
             startManagingCursor(mSizeSortedCursor);
 
@@ -160,19 +165,23 @@ public class DownloadList extends Activity
         ((Button) findViewById(R.id.deselect_all)).setOnClickListener(this);
     }
 
+    private boolean haveCursors() {
+        return mDateSortedCursor != null && mSizeSortedCursor != null;
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        if (mDateSortedCursor != null) {
+        if (haveCursors()) {
             mDateSortedCursor.registerContentObserver(mContentObserver);
+            refresh();
         }
-        refresh();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (mDateSortedCursor != null) {
+        if (haveCursors()) {
             mDateSortedCursor.unregisterContentObserver(mContentObserver);
         }
     }
@@ -207,7 +216,7 @@ public class DownloadList extends Activity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (mDateSortedCursor != null) {
+        if (haveCursors()) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.download_menu, menu);
         }
@@ -243,7 +252,7 @@ public class DownloadList extends Activity
         mDateOrderedListView.setVisibility(View.GONE);
         mSizeOrderedListView.setVisibility(View.GONE);
 
-        if (mDateSortedCursor.getCount() == 0) {
+        if (mDateSortedCursor == null || mDateSortedCursor.getCount() == 0) {
             mEmptyView.setVisibility(View.VISIBLE);
         } else {
             mEmptyView.setVisibility(View.GONE);
@@ -290,15 +299,20 @@ public class DownloadList extends Activity
      * Send an Intent to open the download currently pointed to by the given cursor.
      */
     private void openCurrentDownload(Cursor cursor) {
-        Uri fileUri = Uri.parse(cursor.getString(mLocalUriColumnId));
-        if (!new File(fileUri.getPath()).exists()) {
+        Uri localUri = Uri.parse(cursor.getString(mLocalUriColumnId));
+        try {
+            getContentResolver().openFileDescriptor(localUri, "r").close();
+        } catch (FileNotFoundException exc) {
+            Log.d(LOG_TAG, "Failed to open download " + cursor.getLong(mIdColumnId), exc);
             showFailedDialog(cursor.getLong(mIdColumnId), R.string.dialog_file_missing_body);
             return;
+        } catch (IOException exc) {
+            // close() failed, not a problem
         }
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(fileUri, cursor.getString(mMediaTypeColumnId));
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setDataAndType(localUri, cursor.getString(mMediaTypeColumnId));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
         try {
             startActivity(intent);
         } catch (ActivityNotFoundException ex) {

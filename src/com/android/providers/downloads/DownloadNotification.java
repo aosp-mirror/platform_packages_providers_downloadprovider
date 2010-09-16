@@ -18,6 +18,7 @@ package com.android.providers.downloads;
 
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -194,7 +195,7 @@ class DownloadNotification {
             Intent intent = new Intent(Constants.ACTION_LIST);
             intent.setClassName("com.android.providers.downloads",
                     DownloadReceiver.class.getName());
-            intent.setData(Uri.parse(Downloads.Impl.CONTENT_URI + "/" + item.mId));
+            intent.setData(ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, item.mId));
             intent.putExtra("multiple", item.mTitleCount > 1);
 
             n.contentIntent = PendingIntent.getBroadcast(mContext, 0, intent, 0);
@@ -223,7 +224,7 @@ class DownloadNotification {
                 title = mContext.getResources().getString(
                         R.string.download_unknown_title);
             }
-            Uri contentUri = Uri.parse(Downloads.Impl.CONTENT_URI + "/" + id);
+            Uri contentUri = ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, id);
             String caption;
             Intent intent;
             if (Downloads.Impl.isStatusError(download.mStatus)) {

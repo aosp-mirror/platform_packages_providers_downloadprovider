@@ -17,6 +17,7 @@
 package com.android.providers.downloads;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -54,7 +55,6 @@ import java.util.Map;
  * Allows application to interact with the download manager.
  */
 public final class DownloadProvider extends ContentProvider {
-
     /** Database filename */
     private static final String DB_NAME = "downloads.db";
     /** Current database version */
@@ -69,18 +69,34 @@ public final class DownloadProvider extends ContentProvider {
 
     /** URI matcher used to recognize URIs sent by applications */
     private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-    /** URI matcher constant for the URI of the entire download list */
-    private static final int DOWNLOADS = 1;
+    /** URI matcher constant for the URI of all downloads belonging to the calling UID */
+    private static final int MY_DOWNLOADS = 1;
+    /** URI matcher constant for the URI of an individual download belonging to the calling UID */
+    private static final int MY_DOWNLOADS_ID = 2;
+    /** URI matcher constant for the URI of all downloads in the system */
+    private static final int ALL_DOWNLOADS = 3;
     /** URI matcher constant for the URI of an individual download */
-    private static final int DOWNLOADS_ID = 2;
+    private static final int ALL_DOWNLOADS_ID = 4;
     /** URI matcher constant for the URI of a download's request headers */
-    private static final int REQUEST_HEADERS_URI = 3;
+    private static final int REQUEST_HEADERS_URI = 5;
     static {
-        sURIMatcher.addURI("downloads", "download", DOWNLOADS);
-        sURIMatcher.addURI("downloads", "download/#", DOWNLOADS_ID);
-        sURIMatcher.addURI("downloads", "download/#/" + Downloads.Impl.RequestHeaders.URI_SEGMENT,
-                           REQUEST_HEADERS_URI);
+        sURIMatcher.addURI("downloads", "my_downloads", MY_DOWNLOADS);
+        sURIMatcher.addURI("downloads", "my_downloads/#", MY_DOWNLOADS_ID);
+        sURIMatcher.addURI("downloads", "all_downloads", ALL_DOWNLOADS);
+        sURIMatcher.addURI("downloads", "all_downloads/#", ALL_DOWNLOADS_ID);
+        sURIMatcher.addURI("downloads",
+                "my_downloads/#/" + Downloads.Impl.RequestHeaders.URI_SEGMENT,
+                REQUEST_HEADERS_URI);
+        sURIMatcher.addURI("downloads",
+                "all_downloads/#/" + Downloads.Impl.RequestHeaders.URI_SEGMENT,
+                REQUEST_HEADERS_URI);
     }
+
+    /** Different base URIs that could be used to access an individual download */
+    private static final Uri[] BASE_URIS = new Uri[] {
+            Downloads.Impl.CONTENT_URI,
+            Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
+    };
 
     private static final String[] sAppReadableColumnsArray = new String[] {
         Downloads.Impl._ID,
@@ -319,10 +335,10 @@ public final class DownloadProvider extends ContentProvider {
     public String getType(final Uri uri) {
         int match = sURIMatcher.match(uri);
         switch (match) {
-            case DOWNLOADS: {
+            case MY_DOWNLOADS: {
                 return DOWNLOAD_LIST_TYPE;
             }
-            case DOWNLOADS_ID: {
+            case MY_DOWNLOADS_ID: {
                 return DOWNLOAD_TYPE;
             }
             default: {
@@ -342,10 +358,10 @@ public final class DownloadProvider extends ContentProvider {
         checkInsertPermissions(values);
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 
-        if (sURIMatcher.match(uri) != DOWNLOADS) {
-            if (Config.LOGD) {
-                Log.d(Constants.TAG, "calling insert on an unknown/invalid URI: " + uri);
-            }
+        // note we disallow inserting into ALL_DOWNLOADS
+        int match = sURIMatcher.match(uri);
+        if (match != MY_DOWNLOADS) {
+            Log.d(Constants.TAG, "calling insert on an unknown/invalid URI: " + uri);
             throw new IllegalArgumentException("Unknown/Invalid URI " + uri);
         }
 
@@ -463,21 +479,15 @@ public final class DownloadProvider extends ContentProvider {
         context.startService(new Intent(context, DownloadService.class));
 
         long rowID = db.insert(DB_TABLE, null, filteredValues);
-        insertRequestHeaders(db, rowID, values);
-
-        Uri ret = null;
-
-        if (rowID != -1) {
-            context.startService(new Intent(context, DownloadService.class));
-            ret = Uri.parse(Downloads.Impl.CONTENT_URI + "/" + rowID);
-            context.getContentResolver().notifyChange(uri, null);
-        } else {
-            if (Config.LOGD) {
-                Log.d(Constants.TAG, "couldn't insert into downloads database");
-            }
+        if (rowID == -1) {
+            Log.d(Constants.TAG, "couldn't insert into downloads database");
+            return null;
         }
 
-        return ret;
+        insertRequestHeaders(db, rowID, values);
+        context.startService(new Intent(context, DownloadService.class));
+        notifyContentChanged(uri, match);
+        return ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, rowID);
     }
 
     /**
@@ -600,33 +610,27 @@ public final class DownloadProvider extends ContentProvider {
         SQLiteDatabase db = mOpenHelper.getReadableDatabase();
 
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+        qb.setTables(DB_TABLE);
 
         int match = sURIMatcher.match(uri);
-        boolean emptyWhere = true;
-        switch (match) {
-            case DOWNLOADS: {
-                qb.setTables(DB_TABLE);
-                break;
+        if (match == -1) {
+            if (Constants.LOGV) {
+                Log.v(Constants.TAG, "querying unknown URI: " + uri);
             }
-            case DOWNLOADS_ID: {
-                qb.setTables(DB_TABLE);
-                qb.appendWhere(Downloads.Impl._ID + "=");
-                qb.appendWhere(getDownloadIdFromUri(uri));
-                emptyWhere = false;
-                break;
+            throw new IllegalArgumentException("Unknown URI: " + uri);
+        }
+
+        if (match == REQUEST_HEADERS_URI) {
+            if (projection != null || selection != null || sort != null) {
+                throw new UnsupportedOperationException("Request header queries do not support "
+                                                        + "projections, selections or sorting");
             }
-            case REQUEST_HEADERS_URI:
-                if (projection != null || selection != null || sort != null) {
-                    throw new UnsupportedOperationException("Request header queries do not support "
-                                                            + "projections, selections or sorting");
-                }
-                return queryRequestHeaders(db, uri);
-            default: {
-                if (Constants.LOGV) {
-                    Log.v(Constants.TAG, "querying unknown URI: " + uri);
-                }
-                throw new IllegalArgumentException("Unknown URI: " + uri);
-            }
+            return queryRequestHeaders(db, uri);
+        }
+
+        String where = getWhereClause(uri, null, match);
+        if (!where.isEmpty()) {
+            qb.appendWhere(where);
         }
 
         if (shouldRestrictVisibility()) {
@@ -640,53 +644,10 @@ public final class DownloadProvider extends ContentProvider {
                     }
                 }
             }
-            if (!emptyWhere) {
-                qb.appendWhere(" AND ");
-                emptyWhere = false;
-            }
-            qb.appendWhere(getRestrictedUidClause());
         }
 
         if (Constants.LOGVV) {
-            java.lang.StringBuilder sb = new java.lang.StringBuilder();
-            sb.append("starting query, database is ");
-            if (db != null) {
-                sb.append("not ");
-            }
-            sb.append("null; ");
-            if (projection == null) {
-                sb.append("projection is null; ");
-            } else if (projection.length == 0) {
-                sb.append("projection is empty; ");
-            } else {
-                for (int i = 0; i < projection.length; ++i) {
-                    sb.append("projection[");
-                    sb.append(i);
-                    sb.append("] is ");
-                    sb.append(projection[i]);
-                    sb.append("; ");
-                }
-            }
-            sb.append("selection is ");
-            sb.append(selection);
-            sb.append("; ");
-            if (selectionArgs == null) {
-                sb.append("selectionArgs is null; ");
-            } else if (selectionArgs.length == 0) {
-                sb.append("selectionArgs is empty; ");
-            } else {
-                for (int i = 0; i < selectionArgs.length; ++i) {
-                    sb.append("selectionArgs[");
-                    sb.append(i);
-                    sb.append("] is ");
-                    sb.append(selectionArgs[i]);
-                    sb.append("; ");
-                }
-            }
-            sb.append("sort is ");
-            sb.append(sort);
-            sb.append(".");
-            Log.v(Constants.TAG, sb.toString());
+            logVerboseQueryInfo(projection, selection, selectionArgs, sort, db);
         }
 
         Cursor ret = qb.query(db, projection, selection, selectionArgs,
@@ -705,6 +666,49 @@ public final class DownloadProvider extends ContentProvider {
         }
 
         return ret;
+    }
+
+    private void logVerboseQueryInfo(String[] projection, final String selection,
+            final String[] selectionArgs, final String sort, SQLiteDatabase db) {
+        java.lang.StringBuilder sb = new java.lang.StringBuilder();
+        sb.append("starting query, database is ");
+        if (db != null) {
+            sb.append("not ");
+        }
+        sb.append("null; ");
+        if (projection == null) {
+            sb.append("projection is null; ");
+        } else if (projection.length == 0) {
+            sb.append("projection is empty; ");
+        } else {
+            for (int i = 0; i < projection.length; ++i) {
+                sb.append("projection[");
+                sb.append(i);
+                sb.append("] is ");
+                sb.append(projection[i]);
+                sb.append("; ");
+            }
+        }
+        sb.append("selection is ");
+        sb.append(selection);
+        sb.append("; ");
+        if (selectionArgs == null) {
+            sb.append("selectionArgs is null; ");
+        } else if (selectionArgs.length == 0) {
+            sb.append("selectionArgs is empty; ");
+        } else {
+            for (int i = 0; i < selectionArgs.length; ++i) {
+                sb.append("selectionArgs[");
+                sb.append(i);
+                sb.append("] is ");
+                sb.append(selectionArgs[i]);
+                sb.append("; ");
+            }
+        }
+        sb.append("sort is ");
+        sb.append(sort);
+        sb.append(".");
+        Log.v(Constants.TAG, sb.toString());
     }
 
     private String getDownloadIdFromUri(final Uri uri) {
@@ -762,7 +766,7 @@ public final class DownloadProvider extends ContentProvider {
     }
 
     /**
-     * @return true if we should restrict this caller to viewing only its own downloads
+     * @return true if we should restrict the columns readable by this caller
      */
     private boolean shouldRestrictVisibility() {
         int callingUid = Binder.getCallingUid();
@@ -826,26 +830,27 @@ public final class DownloadProvider extends ContentProvider {
                 startService = true;
             }
         }
+
         int match = sURIMatcher.match(uri);
         switch (match) {
-            case DOWNLOADS:
-            case DOWNLOADS_ID: {
-                String fullWhere = getWhereClause(uri, where);
+            case MY_DOWNLOADS:
+            case MY_DOWNLOADS_ID:
+            case ALL_DOWNLOADS:
+            case ALL_DOWNLOADS_ID:
+                String fullWhere = getWhereClause(uri, where, match);
                 if (filteredValues.size() > 0) {
                     count = db.update(DB_TABLE, filteredValues, fullWhere, whereArgs);
                 } else {
                     count = 0;
                 }
                 break;
-            }
-            default: {
-                if (Config.LOGD) {
-                    Log.d(Constants.TAG, "updating unknown/invalid URI: " + uri);
-                }
+
+            default:
+                Log.d(Constants.TAG, "updating unknown/invalid URI: " + uri);
                 throw new UnsupportedOperationException("Cannot update URI: " + uri);
-            }
         }
-        getContext().getContentResolver().notifyChange(uri, null);
+
+        notifyContentChanged(uri, match);
         if (startService) {
             Context context = getContext();
             context.startService(new Intent(context, DownloadService.class));
@@ -853,17 +858,34 @@ public final class DownloadProvider extends ContentProvider {
         return count;
     }
 
-    private String getWhereClause(final Uri uri, final String where) {
+    /**
+     * Notify of a change through both URIs (/my_downloads and /all_downloads)
+     * @param uri either URI for the changed download(s)
+     * @param uriMatch the match ID from {@link #sURIMatcher}
+     */
+    private void notifyContentChanged(final Uri uri, int uriMatch) {
+        Long downloadId = null;
+        if (uriMatch == MY_DOWNLOADS_ID || uriMatch == ALL_DOWNLOADS_ID) {
+            downloadId = Long.parseLong(getDownloadIdFromUri(uri));
+        }
+        for (Uri uriToNotify : BASE_URIS) {
+            if (downloadId != null) {
+                uriToNotify = ContentUris.withAppendedId(uriToNotify, downloadId);
+            }
+            getContext().getContentResolver().notifyChange(uriToNotify, null);
+        }
+    }
+
+    private String getWhereClause(final Uri uri, final String where, int uriMatch) {
         StringBuilder myWhere = new StringBuilder();
         if (where != null) {
             myWhere.append("( " + where + " )");
         }
-        if (sURIMatcher.match(uri) == DOWNLOADS_ID) {
-            String segment = getDownloadIdFromUri(uri);
-            long rowId = Long.parseLong(segment);
-            appendClause(myWhere, " ( " + Downloads.Impl._ID + " = " + rowId + " ) ");
+        if (uriMatch == MY_DOWNLOADS_ID || uriMatch == ALL_DOWNLOADS_ID) {
+            appendClause(myWhere,
+                    " ( " + Downloads.Impl._ID + " = " + getDownloadIdFromUri(uri) + " ) ");
         }
-        if (shouldRestrictVisibility()) {
+        if (uriMatch == MY_DOWNLOADS || uriMatch == MY_DOWNLOADS_ID) {
             appendClause(myWhere, getRestrictedUidClause());
         }
         return myWhere.toString();
@@ -882,21 +904,20 @@ public final class DownloadProvider extends ContentProvider {
         int count;
         int match = sURIMatcher.match(uri);
         switch (match) {
-            case DOWNLOADS:
-            case DOWNLOADS_ID: {
-                String fullWhere = getWhereClause(uri, where);
+            case MY_DOWNLOADS:
+            case MY_DOWNLOADS_ID:
+            case ALL_DOWNLOADS:
+            case ALL_DOWNLOADS_ID:
+                String fullWhere = getWhereClause(uri, where, match);
                 deleteRequestHeaders(db, fullWhere, whereArgs);
                 count = db.delete(DB_TABLE, fullWhere, whereArgs);
                 break;
-            }
-            default: {
-                if (Config.LOGD) {
-                    Log.d(Constants.TAG, "deleting unknown/invalid URI: " + uri);
-                }
+
+            default:
+                Log.d(Constants.TAG, "deleting unknown/invalid URI: " + uri);
                 throw new UnsupportedOperationException("Cannot delete URI: " + uri);
-            }
         }
-        getContext().getContentResolver().notifyChange(uri, null);
+        notifyContentChanged(uri, match);
         return count;
     }
 
@@ -911,71 +932,41 @@ public final class DownloadProvider extends ContentProvider {
      * Remotely opens a file
      */
     @Override
-    public ParcelFileDescriptor openFile(Uri uri, String mode)
-            throws FileNotFoundException {
+    public ParcelFileDescriptor openFile(Uri uri, String mode) throws FileNotFoundException {
         if (Constants.LOGVV) {
-            Log.v(Constants.TAG, "openFile uri: " + uri + ", mode: " + mode
-                    + ", uid: " + Binder.getCallingUid());
-            Cursor cursor = query(Downloads.Impl.CONTENT_URI,
-                    new String[] { "_id" }, null, null, "_id");
-            if (cursor == null) {
-                Log.v(Constants.TAG, "null cursor in openFile");
-            } else {
-                if (!cursor.moveToFirst()) {
-                    Log.v(Constants.TAG, "empty cursor in openFile");
-                } else {
-                    do {
-                        Log.v(Constants.TAG, "row " + cursor.getInt(0) + " available");
-                    } while(cursor.moveToNext());
+            logVerboseOpenFileInfo(uri, mode);
+        }
+
+        Cursor cursor = query(uri, new String[] {"_data"}, null, null, null);
+        String path;
+        try {
+            int count = (cursor != null) ? cursor.getCount() : 0;
+            if (count != 1) {
+                // If there is not exactly one result, throw an appropriate exception.
+                if (count == 0) {
+                    throw new FileNotFoundException("No entry for " + uri);
                 }
+                throw new FileNotFoundException("Multiple items at " + uri);
+            }
+
+            cursor.moveToFirst();
+            path = cursor.getString(0);
+        } finally {
+            if (cursor != null) {
                 cursor.close();
             }
-            cursor = query(uri, new String[] { "_data" }, null, null, null);
-            if (cursor == null) {
-                Log.v(Constants.TAG, "null cursor in openFile");
-            } else {
-                if (!cursor.moveToFirst()) {
-                    Log.v(Constants.TAG, "empty cursor in openFile");
-                } else {
-                    String filename = cursor.getString(0);
-                    Log.v(Constants.TAG, "filename in openFile: " + filename);
-                    if (new java.io.File(filename).isFile()) {
-                        Log.v(Constants.TAG, "file exists in openFile");
-                    }
-                }
-               cursor.close();
-            }
         }
 
-        // This logic is mostly copied form openFileHelper. If openFileHelper eventually
-        //     gets split into small bits (to extract the filename and the modebits),
-        //     this code could use the separate bits and be deeply simplified.
-        Cursor c = query(uri, new String[]{"_data"}, null, null, null);
-        int count = (c != null) ? c.getCount() : 0;
-        if (count != 1) {
-            // If there is not exactly one result, throw an appropriate exception.
-            if (c != null) {
-                c.close();
-            }
-            if (count == 0) {
-                throw new FileNotFoundException("No entry for " + uri);
-            }
-            throw new FileNotFoundException("Multiple items at " + uri);
-        }
-
-        c.moveToFirst();
-        String path = c.getString(0);
-        c.close();
         if (path == null) {
             throw new FileNotFoundException("No filename found.");
         }
         if (!Helpers.isFilenameValid(path)) {
             throw new FileNotFoundException("Invalid filename.");
         }
-
         if (!"r".equals(mode)) {
             throw new FileNotFoundException("Bad mode for " + uri + ": " + mode);
         }
+
         ParcelFileDescriptor ret = ParcelFileDescriptor.open(new File(path),
                 ParcelFileDescriptor.MODE_READ_ONLY);
 
@@ -984,12 +975,42 @@ public final class DownloadProvider extends ContentProvider {
                 Log.v(Constants.TAG, "couldn't open file");
             }
             throw new FileNotFoundException("couldn't open file");
-        } else {
-            ContentValues values = new ContentValues();
-            values.put(Downloads.Impl.COLUMN_LAST_MODIFICATION, mSystemFacade.currentTimeMillis());
-            update(uri, values, null, null);
         }
         return ret;
+    }
+
+    private void logVerboseOpenFileInfo(Uri uri, String mode) {
+        Log.v(Constants.TAG, "openFile uri: " + uri + ", mode: " + mode
+                + ", uid: " + Binder.getCallingUid());
+        Cursor cursor = query(Downloads.Impl.CONTENT_URI,
+                new String[] { "_id" }, null, null, "_id");
+        if (cursor == null) {
+            Log.v(Constants.TAG, "null cursor in openFile");
+        } else {
+            if (!cursor.moveToFirst()) {
+                Log.v(Constants.TAG, "empty cursor in openFile");
+            } else {
+                do {
+                    Log.v(Constants.TAG, "row " + cursor.getInt(0) + " available");
+                } while(cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        cursor = query(uri, new String[] { "_data" }, null, null, null);
+        if (cursor == null) {
+            Log.v(Constants.TAG, "null cursor in openFile");
+        } else {
+            if (!cursor.moveToFirst()) {
+                Log.v(Constants.TAG, "empty cursor in openFile");
+            } else {
+                String filename = cursor.getString(0);
+                Log.v(Constants.TAG, "filename in openFile: " + filename);
+                if (new java.io.File(filename).isFile()) {
+                    Log.v(Constants.TAG, "file exists in openFile");
+                }
+            }
+           cursor.close();
+        }
     }
 
     private static final void copyInteger(String key, ContentValues from, ContentValues to) {

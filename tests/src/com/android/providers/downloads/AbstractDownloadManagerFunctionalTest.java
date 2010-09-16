@@ -165,7 +165,8 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
     }
 
     private boolean isDatabaseEmpty() {
-        Cursor cursor = mResolver.query(Downloads.CONTENT_URI, null, null, null, null);
+        Cursor cursor = mResolver.query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
+                null, null, null, null);
         try {
             return cursor.getCount() == 0;
         } finally {

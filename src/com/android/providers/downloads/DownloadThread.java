@@ -18,7 +18,6 @@ package com.android.providers.downloads;
 
 import org.apache.http.conn.params.ConnRouteParams;
 
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -88,14 +87,12 @@ public class DownloadThread extends Thread {
         public int mRetryAfter = 0;
         public int mRedirectCount = 0;
         public String mNewUri;
-        public Uri mContentUri;
         public boolean mGotData = false;
         public String mRequestUri;
 
         public State(DownloadInfo info) {
             mMimeType = sanitizeMimeType(info.mMimeType);
             mRedirectCount = info.mRedirectCount;
-            mContentUri = Uri.parse(Downloads.Impl.CONTENT_URI + "/" + info.mId);
             mRequestUri = info.mUri;
             mFilename = info.mFileName;
         }
@@ -412,8 +409,7 @@ public class DownloadThread extends Thread {
                         > Constants.MIN_PROGRESS_TIME) {
             ContentValues values = new ContentValues();
             values.put(Downloads.Impl.COLUMN_CURRENT_BYTES, innerState.mBytesSoFar);
-            mContext.getContentResolver().update(
-                    state.mContentUri, values, null, null);
+            mContext.getContentResolver().update(mInfo.getAllDownloadsUri(), values, null, null);
             innerState.mBytesNotified = innerState.mBytesSoFar;
             innerState.mTimeLastNotification = now;
         }
@@ -457,7 +453,7 @@ public class DownloadThread extends Thread {
         if (innerState.mHeaderContentLength == null) {
             values.put(Downloads.Impl.COLUMN_TOTAL_BYTES, innerState.mBytesSoFar);
         }
-        mContext.getContentResolver().update(state.mContentUri, values, null, null);
+        mContext.getContentResolver().update(mInfo.getAllDownloadsUri(), values, null, null);
 
         boolean lengthMismatched = (innerState.mHeaderContentLength != null)
                 && (innerState.mBytesSoFar != Integer.parseInt(innerState.mHeaderContentLength));
@@ -495,7 +491,7 @@ public class DownloadThread extends Thread {
             logNetworkState();
             ContentValues values = new ContentValues();
             values.put(Downloads.Impl.COLUMN_CURRENT_BYTES, innerState.mBytesSoFar);
-            mContext.getContentResolver().update(state.mContentUri, values, null, null);
+            mContext.getContentResolver().update(mInfo.getAllDownloadsUri(), values, null, null);
             if (cannotResume(innerState)) {
                 Log.d(Constants.TAG, "download IOException for download " + mInfo.mId, ex);
                 Log.d(Constants.TAG, "can't resume interrupted download with no ETag");
@@ -579,7 +575,7 @@ public class DownloadThread extends Thread {
             values.put(Downloads.Impl.COLUMN_MIME_TYPE, state.mMimeType);
         }
         values.put(Downloads.Impl.COLUMN_TOTAL_BYTES, mInfo.mTotalBytes);
-        mContext.getContentResolver().update(state.mContentUri, values, null, null);
+        mContext.getContentResolver().update(mInfo.getAllDownloadsUri(), values, null, null);
     }
 
     /**
@@ -875,7 +871,7 @@ public class DownloadThread extends Thread {
         notifyThroughDatabase(
                 status, countRetry, retryAfter, redirectCount, gotData, filename, uri, mimeType);
         if (Downloads.Impl.isStatusCompleted(status)) {
-            notifyThroughIntent();
+            mInfo.sendIntentIfRequested();
         }
     }
 
@@ -899,17 +895,7 @@ public class DownloadThread extends Thread {
             values.put(Constants.FAILED_CONNECTIONS, mInfo.mNumFailed + 1);
         }
 
-        mContext.getContentResolver().update(ContentUris.withAppendedId(
-                Downloads.Impl.CONTENT_URI, mInfo.mId), values, null, null);
-    }
-
-    /**
-     * Notifies the initiating app if it requested it. That way, it can know that the
-     * download completed even if it's not actively watching the cursor.
-     */
-    private void notifyThroughIntent() {
-        Uri uri = Uri.parse(Downloads.Impl.CONTENT_URI + "/" + mInfo.mId);
-        mInfo.sendIntentIfRequested(uri);
+        mContext.getContentResolver().update(mInfo.getAllDownloadsUri(), values, null, null);
     }
 
     /**

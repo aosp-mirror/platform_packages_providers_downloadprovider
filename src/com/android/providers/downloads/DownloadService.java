@@ -211,7 +211,7 @@ public class DownloadService extends Service {
         mDownloads = Lists.newArrayList();
 
         mObserver = new DownloadManagerContentObserver();
-        getContentResolver().registerContentObserver(Downloads.Impl.CONTENT_URI,
+        getContentResolver().registerContentObserver(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
                 true, mObserver);
 
         mMediaScannerService = null;
@@ -313,7 +313,7 @@ public class DownloadService extends Service {
                 }
                 long now = mSystemFacade.currentTimeMillis();
 
-                Cursor cursor = getContentResolver().query(Downloads.Impl.CONTENT_URI,
+                Cursor cursor = getContentResolver().query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
                         null, null, null, Downloads.Impl._ID);
 
                 if (cursor == null) {
@@ -482,7 +482,7 @@ public class DownloadService extends Service {
             // when running the simulator).
             return;
         }
-        HashSet<String> fileSet = new HashSet();
+        HashSet<String> fileSet = new HashSet<String>();
         for (int i = 0; i < files.length; i++) {
             if (files[i].getName().equals(Constants.KNOWN_SPURIOUS_FILENAME)) {
                 continue;
@@ -493,7 +493,7 @@ public class DownloadService extends Service {
             fileSet.add(files[i].getPath());
         }
 
-        Cursor cursor = getContentResolver().query(Downloads.Impl.CONTENT_URI,
+        Cursor cursor = getContentResolver().query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
                 new String[] { Downloads.Impl._DATA }, null, null, null);
         if (cursor != null) {
             if (cursor.moveToFirst()) {
@@ -517,7 +517,7 @@ public class DownloadService extends Service {
      * Drops old rows from the database to prevent it from growing too large
      */
     private void trimDatabase() {
-        Cursor cursor = getContentResolver().query(Downloads.Impl.CONTENT_URI,
+        Cursor cursor = getContentResolver().query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
                 new String[] { Downloads.Impl._ID },
                 Downloads.Impl.COLUMN_STATUS + " >= '200'", null,
                 Downloads.Impl.COLUMN_LAST_MODIFICATION);
@@ -530,9 +530,9 @@ public class DownloadService extends Service {
             int numDelete = cursor.getCount() - Constants.MAX_DOWNLOADS;
             int columnId = cursor.getColumnIndexOrThrow(Downloads.Impl._ID);
             while (numDelete > 0) {
-                getContentResolver().delete(
-                        ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI,
-                        cursor.getLong(columnId)), null, null);
+                Uri downloadUri = ContentUris.withAppendedId(
+                        Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, cursor.getLong(columnId));
+                getContentResolver().delete(downloadUri, null, null);
                 if (!cursor.moveToNext()) {
                     break;
                 }
@@ -601,16 +601,13 @@ public class DownloadService extends Service {
             //Log.i(Constants.TAG, "*** QUERY " + mimetypeIntent + ": " + list);
 
             if (ri == null) {
-                if (Config.LOGD) {
-                    Log.d(Constants.TAG, "no application to handle MIME type " + info.mMimeType);
-                }
+                Log.d(Constants.TAG, "no application to handle MIME type " + info.mMimeType);
                 info.mStatus = Downloads.Impl.STATUS_NOT_ACCEPTABLE;
 
-                Uri uri = ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, info.mId);
                 ContentValues values = new ContentValues();
                 values.put(Downloads.Impl.COLUMN_STATUS, Downloads.Impl.STATUS_NOT_ACCEPTABLE);
-                getContentResolver().update(uri, values, null, null);
-                info.sendIntentIfRequested(uri);
+                getContentResolver().update(info.getAllDownloadsUri(), values, null, null);
+                info.sendIntentIfRequested();
                 return;
             }
         }
@@ -624,7 +621,7 @@ public class DownloadService extends Service {
      * Updates the local copy of the info about a download.
      */
     private void updateDownload(Cursor cursor, int arrayPos, long now) {
-        DownloadInfo info = (DownloadInfo) mDownloads.get(arrayPos);
+        DownloadInfo info = mDownloads.get(arrayPos);
         int statusColumn = cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_STATUS);
         int failedColumn = cursor.getColumnIndexOrThrow(Constants.FAILED_CONNECTIONS);
         info.mId = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.Impl._ID));
@@ -785,7 +782,7 @@ public class DownloadService extends Service {
      * Returns true if the file has been properly scanned.
      */
     private boolean scanFile(Cursor cursor, int arrayPos) {
-        DownloadInfo info = (DownloadInfo) mDownloads.get(arrayPos);
+        DownloadInfo info = mDownloads.get(arrayPos);
         synchronized (this) {
             if (mMediaScannerService != null) {
                 try {
@@ -796,16 +793,11 @@ public class DownloadService extends Service {
                     if (cursor != null) {
                         ContentValues values = new ContentValues();
                         values.put(Constants.MEDIA_SCANNED, 1);
-                        getContentResolver().update(ContentUris.withAppendedId(
-                                       Downloads.Impl.CONTENT_URI, cursor.getLong(
-                                               cursor.getColumnIndexOrThrow(Downloads.Impl._ID))),
-                                values, null, null);
+                        getContentResolver().update(info.getAllDownloadsUri(), values, null, null);
                     }
                     return true;
                 } catch (RemoteException e) {
-                    if (Config.LOGD) {
-                        Log.d(Constants.TAG, "Failed to scan file " + info.mFileName);
-                    }
+                    Log.d(Constants.TAG, "Failed to scan file " + info.mFileName);
                 }
             }
         }

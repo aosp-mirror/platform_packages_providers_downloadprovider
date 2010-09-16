@@ -470,7 +470,7 @@ public class Helpers {
      */
     public static final boolean discardPurgeableFiles(Context context, long targetBytes) {
         Cursor cursor = context.getContentResolver().query(
-                Downloads.Impl.CONTENT_URI,
+                Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
                 null,
                 "( " +
                 Downloads.Impl.COLUMN_STATUS + " = '" + Downloads.Impl.STATUS_SUCCESS + "' AND " +
@@ -494,7 +494,8 @@ public class Helpers {
                 file.delete();
                 long id = cursor.getLong(cursor.getColumnIndex(Downloads.Impl._ID));
                 context.getContentResolver().delete(
-                        ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, id), null, null);
+                        ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id),
+                        null, null);
                 cursor.moveToNext();
             }
         } finally {

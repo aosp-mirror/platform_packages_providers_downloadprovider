@@ -33,6 +33,14 @@
         android:description="@string/permdesc_downloadWithoutNotification"
         android:protectionLevel="signatureOrSystem"/>
 
+    <!-- Allows an app to access all downloads in the system via the /all_downloads/ URIs.  The
+         protection level could be relaxed in the future to support third-party download
+         managers. -->
+    <permission android:name="android.permission.ACCESS_ALL_DOWNLOADS"
+        android:label="@string/permlab_accessAllDownloads"
+        android:description="@string/permdesc_accessAllDownloads"
+        android:protectionLevel="signature"/>
+
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
     <uses-permission android:name="android.permission.ACCESS_DRM" />
@@ -42,11 +50,21 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INSTALL_DRM" />
+    <uses-permission android:name="android.permission.ACCESS_ALL_DOWNLOADS" />
 
     <application android:process="android.process.media"
                  android:label="@string/app_label">
         <provider android:name=".DownloadProvider"
-                android:authorities="downloads" />
+                  android:authorities="downloads"
+                  android:permission="android.permission.ACCESS_ALL_DOWNLOADS">
+          <!-- Anyone can access /my_downloads, the provider internally restricts access by UID for
+               these URIs -->
+          <path-permission android:pathPrefix="/my_downloads"
+                           android:permission="android.permission.INTERNET"/>
+          <!-- Apps with access to /all_downloads/... can grant permissions, allowing them to share
+               downloaded files with other viewers -->
+          <grant-uri-permission android:pathPrefix="/all_downloads/"/>
+        </provider>
         <service android:name=".DownloadService"
                 android:permission="android.permission.ACCESS_DOWNLOAD_MANAGER" />
         <receiver android:name=".DownloadReceiver" android:exported="false">

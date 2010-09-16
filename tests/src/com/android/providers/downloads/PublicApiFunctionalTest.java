@@ -29,6 +29,8 @@ import tests.http.RecordedRequest;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.util.List;
@@ -89,9 +91,8 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         assertEquals(REQUEST_PATH, request.getPath());
 
         Uri localUri = Uri.parse(download.getStringField(DownloadManager.COLUMN_LOCAL_URI));
-        assertEquals("file", localUri.getScheme());
-        assertStartsWith("//" + Environment.getDownloadCacheDirectory().getPath(),
-                         localUri.getSchemeSpecificPart());
+        assertEquals("content", localUri.getScheme());
+        checkUriContent(localUri);
         assertEquals("text/plain", download.getStringField(DownloadManager.COLUMN_MEDIA_TYPE));
 
         int size = FILE_CONTENT.length();
@@ -101,6 +102,15 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
                      download.getLongField(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP));
 
         checkCompleteDownload(download);
+    }
+
+    private void checkUriContent(Uri uri) throws FileNotFoundException, IOException {
+        InputStream inputStream = mResolver.openInputStream(uri);
+        try {
+            assertEquals(FILE_CONTENT, readStream(inputStream));
+        } finally {
+            inputStream.close();
+        }
     }
 
     public void testTitleAndDescription() throws Exception {

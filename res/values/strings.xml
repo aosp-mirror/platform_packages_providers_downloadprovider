@@ -98,6 +98,17 @@
     to download files through the download manager without any notification
     being shown to the user.</string>
 
+    <!-- The label for the permission to access all downloads in the download
+    manager, not just those owned by the calling user [CHAR LIMIT=50] -->
+    <string name="permlab_accessAllDownloads">Access all system
+    downloads</string>
+
+    <!-- The full sentence description for the permission to access all
+    downloads in the download manager, not just those owned by the calling user
+    [CHAR LIMIT=160] -->
+    <string name="permdesc_accessAllDownloads">Allows the application to view
+    and modify all initiated by any application on the system.</string>
+
 
     <!-- This is the title that is used when displaying the notification
     for a download that doesn't have a title associated with it. -->

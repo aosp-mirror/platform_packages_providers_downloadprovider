@@ -71,6 +71,16 @@ class RealSystemFacade implements SystemFacade {
     }
 
     @Override
+    public Long getRecommendedMaxBytesOverMobile() {
+        try {
+            return Settings.Secure.getLong(mContext.getContentResolver(),
+                    Settings.Secure.DOWNLOAD_RECOMMENDED_MAX_BYTES_OVER_MOBILE);
+        } catch (SettingNotFoundException exc) {
+            return null;
+        }
+    }
+
+    @Override
     public void sendBroadcast(Intent intent) {
         mContext.sendBroadcast(intent);
     }

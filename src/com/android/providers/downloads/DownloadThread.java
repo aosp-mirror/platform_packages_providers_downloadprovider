@@ -240,7 +240,13 @@ public class DownloadThread extends Thread {
      * Check if current connectivity is valid for this request.
      */
     private void checkConnectivity(State state) throws StopRequest {
-        if (!mInfo.canUseNetwork()) {
+        int networkUsable = mInfo.checkCanUseNetwork();
+        if (networkUsable != DownloadInfo.NETWORK_OK) {
+            if (networkUsable == DownloadInfo.NETWORK_UNUSABLE_DUE_TO_SIZE) {
+                mInfo.notifyPauseDueToSize(true);
+            } else if (networkUsable == DownloadInfo.NETWORK_RECOMMENDED_UNUSABLE_DUE_TO_SIZE) {
+                mInfo.notifyPauseDueToSize(false);
+            }
             throw new StopRequest(Downloads.Impl.STATUS_RUNNING_PAUSED);
         }
     }

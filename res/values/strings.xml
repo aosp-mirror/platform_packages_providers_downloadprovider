@@ -154,5 +154,50 @@
         [CHAR LIMIT=24] -->
     <string name="notification_need_wifi_for_size">Need wifi due to size</string>
 
+    <!-- Title for dialog when a download exceeds the carrier-specified maximum size of downloads
+        over the mobile network and WiFi is required.  The user has the choice to either queue the
+        download to start next time WiFi is available or cancel the download altogether. [CHAR
+        LIMIT=50] -->
+    <string name="wifi_required_title">Download too large for operator network</string>
+
+    <!-- Text for dialog when a download exceeds the carrier-specified maximum size of downloads
+        over the mobile network and WiFi is required.  The user has the choice to either queue the
+        download to start next time WiFi is available or cancel the download altogether. [CHAR
+        LIMIT=200] -->
+    <string name="wifi_required_body">You must use WiFi to complete this <xliff:g id="size"
+        example="12.3KB">%s</xliff:g> download.\n\nClick \"<xliff:g id="queue_text"
+        example="Queue">%s</xliff:g>\" below to begin this download the next time you are connected
+        to a WiFi network.</string>
+
+    <!-- Title for dialog when a download exceeds the carrier-specified recommended maximum size of
+        downloads over the mobile network, and the user may choose to start the download over mobile
+        anyway or to queue for download to start next time a WiFi connection is available [CHAR
+        LIMIT=50] -->
+    <string name="wifi_recommended_title">Queue for download later?</string>
+
+    <!-- Text for dialog when a download exceeds the carrier-specified recommended maximum size of
+        downloads over the mobile network, and the user may choose to start the download over mobile
+        anyway or to queue for download to start next time a WiFi connection is available [CHAR
+        LIMIT=200] -->
+    <string name="wifi_recommended_body">Starting this <xliff:g id="size" example="12.3KB">%s
+        </xliff:g> download now may shorten your battery life and/or result in excessive usage of
+        your mobile data connection, which can lead to charges by your mobile operator depending on
+        your data plan.\n\nClick \"<xliff:g id="queue_text" example="Queue">%s</xliff:g>\" below to
+        begin this download the next time you are connected to a WiFi network.</string>
+
+
+    <!-- Text for button to queue a download to start next time WiFi is available [CHAR LIMIT=25]
+        -->
+    <string name="button_queue_for_wifi">Queue</string>
+
+    <!-- Text for button to cancel a download because it's too large to proceed over the mobile
+         network and the user does not want to queue it for WiFi [CHAR LIMIT=25] -->
+    <string name="button_cancel_download">Cancel</string>
+
+    <!-- Text for button to start a download over the mobile connection now, even though it's over
+         the carrier-specified recommended maximum size for downloads over the mobile connection
+         [CHAR LIMIT=25] -->
+    <string name="button_start_now">Start now</string>
+
 
 </resources>

@@ -30,6 +30,13 @@ interface SystemFacade {
     public Long getMaxBytesOverMobile();
 
     /**
+     * @return recommended maximum size, in bytes, of downloads that may go over a mobile
+     * connection; or null if there's no recommended limit.  The user will have the option to bypass
+     * this limit.
+     */
+    public Long getRecommendedMaxBytesOverMobile();
+
+    /**
      * Send a broadcast intent.
      */
     public void sendBroadcast(Intent intent);

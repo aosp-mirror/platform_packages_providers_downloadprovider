@@ -87,6 +87,8 @@ public class DownloadInfo {
             info.mAllowRoaming = getInt(Downloads.Impl.COLUMN_ALLOW_ROAMING) != 0;
             info.mTitle = getString(info.mTitle, Downloads.Impl.COLUMN_TITLE);
             info.mDescription = getString(info.mDescription, Downloads.Impl.COLUMN_DESCRIPTION);
+            info.mBypassRecommendedSizeLimit =
+                    getInt(Downloads.Impl.COLUMN_BYPASS_RECOMMENDED_SIZE_LIMIT);
 
             synchronized (this) {
                 info.mControl = getInt(Downloads.Impl.COLUMN_CONTROL);
@@ -159,6 +161,37 @@ public class DownloadInfo {
         }
     }
 
+    // the following NETWORK_* constants are used to indicates specfic reasons for disallowing a
+    // download from using a network, since specific causes can require special handling
+
+    /**
+     * The network is usable for the given download.
+     */
+    public static final int NETWORK_OK = 1;
+
+    /**
+     * The network is unusuable for some unspecified reason.
+     */
+    public static final int NETWORK_UNUSABLE_GENERIC = 2;
+
+    /**
+     * The download exceeds the maximum size for this network.
+     */
+    public static final int NETWORK_UNUSABLE_DUE_TO_SIZE = 3;
+
+    /**
+     * The download exceeds the recommended maximum size for this network, the user must confirm for
+     * this download to proceed without WiFi.
+     */
+    public static final int NETWORK_RECOMMENDED_UNUSABLE_DUE_TO_SIZE = 4;
+
+    /**
+     * For intents used to notify the user that a download exceeds a size threshold, if this extra
+     * is true, WiFi is required for this download size; otherwise, it is only recommended.
+     */
+    public static final String EXTRA_IS_WIFI_REQUIRED = "isWifiRequired";
+
+
     public long mId;
     public String mUri;
     public boolean mNoIntegrity;
@@ -188,6 +221,7 @@ public class DownloadInfo {
     public boolean mAllowRoaming;
     public String mTitle;
     public String mDescription;
+    public int mBypassRecommendedSizeLimit;
     public String mPausedReason;
 
     public int mFuzz;
@@ -307,7 +341,7 @@ public class DownloadInfo {
         if (mStatus == Downloads.Impl.STATUS_RUNNING_PAUSED) {
             if (mNumFailed == 0) {
                 // download is waiting for network connectivity to return before it can resume
-                return canUseNetwork();
+                return checkCanUseNetwork() == NETWORK_OK;
             }
             if (restartTime() < now) {
                 // download was waiting for a delayed restart, and the delay has expired
@@ -333,19 +367,17 @@ public class DownloadInfo {
 
     /**
      * Returns whether this download is allowed to use the network.
+     * @return one of the NETWORK_* constants
      */
-    public boolean canUseNetwork() {
+    public int checkCanUseNetwork() {
         Integer networkType = mSystemFacade.getActiveNetworkType();
         if (networkType == null) {
-            return false;
-        }
-        if (!isNetworkTypeAllowed(networkType)) {
-            return false;
+            return NETWORK_UNUSABLE_GENERIC;
         }
         if (!isRoamingAllowed() && mSystemFacade.isNetworkRoaming()) {
-            return false;
+            return NETWORK_UNUSABLE_GENERIC;
         }
-        return true;
+        return checkIsNetworkTypeAllowed(networkType);
     }
 
     private boolean isRoamingAllowed() {
@@ -359,20 +391,16 @@ public class DownloadInfo {
     /**
      * Check if this download can proceed over the given network type.
      * @param networkType a constant from ConnectivityManager.TYPE_*.
+     * @return one of the NETWORK_* constants
      */
-    private boolean isNetworkTypeAllowed(int networkType) {
+    private int checkIsNetworkTypeAllowed(int networkType) {
         if (mIsPublicApi) {
             int flag = translateNetworkTypeToApiFlag(networkType);
             if ((flag & mAllowedNetworkTypes) == 0) {
-                return false;
+                return NETWORK_UNUSABLE_GENERIC;
             }
         }
-        if (!isSizeAllowedForNetwork(networkType)) {
-            mPausedReason = mContext.getResources().getString(
-                    R.string.notification_need_wifi_for_size);
-            return false;
-        }
-        return true;
+        return checkSizeAllowedForNetwork(networkType);
     }
 
     /**
@@ -397,19 +425,27 @@ public class DownloadInfo {
 
     /**
      * Check if the download's size prohibits it from running over the current network.
+     * @return one of the NETWORK_* constants
      */
-    private boolean isSizeAllowedForNetwork(int networkType) {
+    private int checkSizeAllowedForNetwork(int networkType) {
         if (mTotalBytes <= 0) {
-            return true; // we don't know the size yet
+            return NETWORK_OK; // we don't know the size yet
         }
         if (networkType == ConnectivityManager.TYPE_WIFI) {
-            return true; // anything goes over wifi
+            return NETWORK_OK; // anything goes over wifi
         }
         Long maxBytesOverMobile = mSystemFacade.getMaxBytesOverMobile();
-        if (maxBytesOverMobile == null) {
-            return true; // no limit
+        if (maxBytesOverMobile != null && mTotalBytes > maxBytesOverMobile) {
+            return NETWORK_UNUSABLE_DUE_TO_SIZE;
         }
-        return mTotalBytes <= maxBytesOverMobile;
+        if (mBypassRecommendedSizeLimit == 0) {
+            Long recommendedMaxBytesOverMobile = mSystemFacade.getRecommendedMaxBytesOverMobile();
+            if (recommendedMaxBytesOverMobile != null
+                    && mTotalBytes > recommendedMaxBytesOverMobile) {
+                return NETWORK_RECOMMENDED_UNUSABLE_DUE_TO_SIZE;
+            }
+        }
+        return NETWORK_OK;
     }
 
     void start(long now) {
@@ -504,5 +540,17 @@ public class DownloadInfo {
                 && mDestination == Downloads.Impl.DESTINATION_EXTERNAL
                 && Downloads.Impl.isStatusSuccess(mStatus)
                 && !DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING.equalsIgnoreCase(mMimeType);
+    }
+
+    void notifyPauseDueToSize(boolean isWifiRequired) {
+        mPausedReason = mContext.getResources().getString(
+                R.string.notification_need_wifi_for_size);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(getAllDownloadsUri());
+        intent.setClassName(SizeLimitActivity.class.getPackage().getName(),
+                SizeLimitActivity.class.getName());
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(EXTRA_IS_WIFI_REQUIRED, isWifiRequired);
+        mContext.startActivity(intent);
     }
 }

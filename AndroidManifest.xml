@@ -61,6 +61,9 @@
                these URIs -->
           <path-permission android:pathPrefix="/my_downloads"
                            android:permission="android.permission.INTERNET"/>
+          <!-- Temporary, for backwards compatibility -->
+          <path-permission android:pathPrefix="/download"
+                           android:permission="android.permission.INTERNET"/>
           <!-- Apps with access to /all_downloads/... can grant permissions, allowing them to share
                downloaded files with other viewers -->
           <grant-uri-permission android:pathPrefix="/all_downloads/"/>

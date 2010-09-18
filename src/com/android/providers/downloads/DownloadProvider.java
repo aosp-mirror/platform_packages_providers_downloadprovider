@@ -39,7 +39,6 @@ import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.os.Process;
 import android.provider.Downloads;
-import android.util.Config;
 import android.util.Log;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -89,6 +88,12 @@ public final class DownloadProvider extends ContentProvider {
                 REQUEST_HEADERS_URI);
         sURIMatcher.addURI("downloads",
                 "all_downloads/#/" + Downloads.Impl.RequestHeaders.URI_SEGMENT,
+                REQUEST_HEADERS_URI);
+        // temporary, for backwards compatibility
+        sURIMatcher.addURI("downloads", "download", MY_DOWNLOADS);
+        sURIMatcher.addURI("downloads", "download/#", MY_DOWNLOADS_ID);
+        sURIMatcher.addURI("downloads",
+                "download/#/" + Downloads.Impl.RequestHeaders.URI_SEGMENT,
                 REQUEST_HEADERS_URI);
     }
 

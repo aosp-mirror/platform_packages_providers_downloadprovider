@@ -434,9 +434,18 @@ public class DownloadThread extends Thread {
                 }
                 return;
             } catch (IOException ex) {
-                if (mInfo.isOnCache()
-                        && Helpers.discardPurgeableFiles(mContext, Constants.BUFFER_SIZE)) {
-                    continue;
+                if (mInfo.isOnCache()) {
+                    if (Helpers.discardPurgeableFiles(mContext, Constants.BUFFER_SIZE)) {
+                        continue;
+                    }
+                } else if (!Helpers.isExternalMediaMounted()) {
+                    throw new StopRequest(Downloads.Impl.STATUS_DEVICE_NOT_FOUND_ERROR);
+                }
+
+                long availableBytes =
+                    Helpers.getAvailableBytes(Helpers.getFilesystemRoot(state.mFilename));
+                if (availableBytes < bytesRead) {
+                    throw new StopRequest(Downloads.Impl.STATUS_INSUFFICIENT_SPACE_ERROR, ex);
                 }
                 throw new StopRequest(Downloads.Impl.STATUS_FILE_ERROR, ex);
             }

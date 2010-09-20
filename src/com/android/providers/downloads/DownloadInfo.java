@@ -16,11 +16,14 @@
 
 package com.android.providers.downloads;
 
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.CharArrayBuffer;
 import android.database.Cursor;
+import android.drm.mobile1.DrmRawContent;
 import android.net.ConnectivityManager;
 import android.net.DownloadManager;
 import android.net.Uri;
@@ -36,7 +39,127 @@ import java.util.Map;
  * Stores information about an individual download.
  */
 public class DownloadInfo {
-    public int mId;
+    public static class Reader {
+        private ContentResolver mResolver;
+        private Cursor mCursor;
+        private CharArrayBuffer mOldChars;
+        private CharArrayBuffer mNewChars;
+
+        public Reader(ContentResolver resolver, Cursor cursor) {
+            mResolver = resolver;
+            mCursor = cursor;
+        }
+
+        public DownloadInfo newDownloadInfo(Context context, SystemFacade systemFacade) {
+            DownloadInfo info = new DownloadInfo(context, systemFacade);
+            updateFromDatabase(info);
+            readRequestHeaders(info);
+            return info;
+        }
+
+        public void updateFromDatabase(DownloadInfo info) {
+            info.mId = getLong(Downloads.Impl._ID);
+            info.mUri = getString(info.mUri, Downloads.Impl.COLUMN_URI);
+            info.mNoIntegrity = getInt(Downloads.Impl.COLUMN_NO_INTEGRITY) == 1;
+            info.mHint = getString(info.mHint, Downloads.Impl.COLUMN_FILE_NAME_HINT);
+            info.mFileName = getString(info.mFileName, Downloads.Impl._DATA);
+            info.mMimeType = getString(info.mMimeType, Downloads.Impl.COLUMN_MIME_TYPE);
+            info.mDestination = getInt(Downloads.Impl.COLUMN_DESTINATION);
+            info.mVisibility = getInt(Downloads.Impl.COLUMN_VISIBILITY);
+            info.mStatus = getInt(Downloads.Impl.COLUMN_STATUS);
+            info.mNumFailed = getInt(Constants.FAILED_CONNECTIONS);
+            int retryRedirect = getInt(Constants.RETRY_AFTER_X_REDIRECT_COUNT);
+            info.mRetryAfter = retryRedirect & 0xfffffff;
+            info.mRedirectCount = retryRedirect >> 28;
+            info.mLastMod = getLong(Downloads.Impl.COLUMN_LAST_MODIFICATION);
+            info.mPackage = getString(info.mPackage, Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE);
+            info.mClass = getString(info.mClass, Downloads.Impl.COLUMN_NOTIFICATION_CLASS);
+            info.mExtras = getString(info.mExtras, Downloads.Impl.COLUMN_NOTIFICATION_EXTRAS);
+            info.mCookies = getString(info.mCookies, Downloads.Impl.COLUMN_COOKIE_DATA);
+            info.mUserAgent = getString(info.mUserAgent, Downloads.Impl.COLUMN_USER_AGENT);
+            info.mReferer = getString(info.mReferer, Downloads.Impl.COLUMN_REFERER);
+            info.mTotalBytes = getLong(Downloads.Impl.COLUMN_TOTAL_BYTES);
+            info.mCurrentBytes = getLong(Downloads.Impl.COLUMN_CURRENT_BYTES);
+            info.mETag = getString(info.mETag, Constants.ETAG);
+            info.mMediaScanned = getInt(Constants.MEDIA_SCANNED) == 1;
+            info.mIsPublicApi = getInt(Downloads.Impl.COLUMN_IS_PUBLIC_API) != 0;
+            info.mAllowedNetworkTypes = getInt(Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES);
+            info.mAllowRoaming = getInt(Downloads.Impl.COLUMN_ALLOW_ROAMING) != 0;
+            info.mTitle = getString(info.mTitle, Downloads.Impl.COLUMN_TITLE);
+            info.mDescription = getString(info.mDescription, Downloads.Impl.COLUMN_DESCRIPTION);
+
+            synchronized (this) {
+                info.mControl = getInt(Downloads.Impl.COLUMN_CONTROL);
+            }
+        }
+
+        private void readRequestHeaders(DownloadInfo info) {
+            info.mRequestHeaders.clear();
+            Uri headerUri = Uri.withAppendedPath(
+                    info.getAllDownloadsUri(), Downloads.Impl.RequestHeaders.URI_SEGMENT);
+            Cursor cursor = mResolver.query(headerUri, null, null, null, null);
+            try {
+                int headerIndex =
+                        cursor.getColumnIndexOrThrow(Downloads.Impl.RequestHeaders.COLUMN_HEADER);
+                int valueIndex =
+                        cursor.getColumnIndexOrThrow(Downloads.Impl.RequestHeaders.COLUMN_VALUE);
+                for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                    info.mRequestHeaders.put(
+                            cursor.getString(headerIndex), cursor.getString(valueIndex));
+                }
+            } finally {
+                cursor.close();
+            }
+
+            if (info.mCookies != null) {
+                info.mRequestHeaders.put("Cookie", info.mCookies);
+            }
+            if (info.mReferer != null) {
+                info.mRequestHeaders.put("Referer", info.mReferer);
+            }
+        }
+
+        /**
+         * Returns a String that holds the current value of the column, optimizing for the case
+         * where the value hasn't changed.
+         */
+        private String getString(String old, String column) {
+            int index = mCursor.getColumnIndexOrThrow(column);
+            if (old == null) {
+                return mCursor.getString(index);
+            }
+            if (mNewChars == null) {
+                mNewChars = new CharArrayBuffer(128);
+            }
+            mCursor.copyStringToBuffer(index, mNewChars);
+            int length = mNewChars.sizeCopied;
+            if (length != old.length()) {
+                return new String(mNewChars.data, 0, length);
+            }
+            if (mOldChars == null || mOldChars.sizeCopied < length) {
+                mOldChars = new CharArrayBuffer(length);
+            }
+            char[] oldArray = mOldChars.data;
+            char[] newArray = mNewChars.data;
+            old.getChars(0, length, oldArray, 0);
+            for (int i = length - 1; i >= 0; --i) {
+                if (oldArray[i] != newArray[i]) {
+                    return new String(newArray, 0, length);
+                }
+            }
+            return old;
+        }
+
+        private Integer getInt(String column) {
+            return mCursor.getInt(mCursor.getColumnIndexOrThrow(column));
+        }
+
+        private Long getLong(String column) {
+            return mCursor.getLong(mCursor.getColumnIndexOrThrow(column));
+        }
+    }
+
+    public long mId;
     public String mUri;
     public boolean mNoIntegrity;
     public String mHint;
@@ -75,83 +198,10 @@ public class DownloadInfo {
     private SystemFacade mSystemFacade;
     private Context mContext;
 
-    public DownloadInfo(Context context, SystemFacade systemFacade, Cursor cursor) {
+    private DownloadInfo(Context context, SystemFacade systemFacade) {
         mContext = context;
         mSystemFacade = systemFacade;
-
-        int retryRedirect =
-            cursor.getInt(cursor.getColumnIndexOrThrow(Constants.RETRY_AFTER_X_REDIRECT_COUNT));
-        mId = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.Impl._ID));
-        mUri = cursor.getString(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_URI));
-        mNoIntegrity = cursor.getInt(cursor.getColumnIndexOrThrow(
-                                        Downloads.Impl.COLUMN_NO_INTEGRITY)) == 1;
-        mHint = cursor.getString(cursor.getColumnIndexOrThrow(
-                                        Downloads.Impl.COLUMN_FILE_NAME_HINT));
-        mFileName = cursor.getString(cursor.getColumnIndexOrThrow(Downloads.Impl._DATA));
-        mMimeType = cursor.getString(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_MIME_TYPE));
-        mDestination =
-                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_DESTINATION));
-        mVisibility = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_VISIBILITY));
-        mControl = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_CONTROL));
-        mStatus = cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_STATUS));
-        mNumFailed = cursor.getInt(cursor.getColumnIndexOrThrow(Constants.FAILED_CONNECTIONS));
-        mRetryAfter = retryRedirect & 0xfffffff;
-        mRedirectCount = retryRedirect >> 28;
-        mLastMod = cursor.getLong(cursor.getColumnIndexOrThrow(
-                                        Downloads.Impl.COLUMN_LAST_MODIFICATION));
-        mPackage = cursor.getString(cursor.getColumnIndexOrThrow(
-                                        Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE));
-        mClass = cursor.getString(cursor.getColumnIndexOrThrow(
-                                        Downloads.Impl.COLUMN_NOTIFICATION_CLASS));
-        mExtras = cursor.getString(cursor.getColumnIndexOrThrow(
-                                        Downloads.Impl.COLUMN_NOTIFICATION_EXTRAS));
-        mCookies =
-                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_COOKIE_DATA));
-        mUserAgent =
-                cursor.getString(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_USER_AGENT));
-        mReferer = cursor.getString(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_REFERER));
-        mTotalBytes =
-                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_TOTAL_BYTES));
-        mCurrentBytes =
-                cursor.getInt(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_CURRENT_BYTES));
-        mETag = cursor.getString(cursor.getColumnIndexOrThrow(Constants.ETAG));
-        mMediaScanned = cursor.getInt(cursor.getColumnIndexOrThrow(Constants.MEDIA_SCANNED)) == 1;
-        mIsPublicApi = cursor.getInt(
-                cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_IS_PUBLIC_API)) != 0;
-        mAllowedNetworkTypes = cursor.getInt(
-                cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES));
-        mAllowRoaming = cursor.getInt(
-                cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_ALLOW_ROAMING)) != 0;
-        mTitle = cursor.getString(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_TITLE));
-        mDescription =
-            cursor.getString(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_DESCRIPTION));
         mFuzz = Helpers.sRandom.nextInt(1001);
-
-        readRequestHeaders(mId);
-    }
-
-    private void readRequestHeaders(long downloadId) {
-        Uri headerUri = Uri.withAppendedPath(
-                getAllDownloadsUri(), Downloads.Impl.RequestHeaders.URI_SEGMENT);
-        Cursor cursor = mContext.getContentResolver().query(headerUri, null, null, null, null);
-        try {
-            int headerIndex =
-                    cursor.getColumnIndexOrThrow(Downloads.Impl.RequestHeaders.COLUMN_HEADER);
-            int valueIndex =
-                    cursor.getColumnIndexOrThrow(Downloads.Impl.RequestHeaders.COLUMN_VALUE);
-            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-                mRequestHeaders.put(cursor.getString(headerIndex), cursor.getString(valueIndex));
-            }
-        } finally {
-            cursor.close();
-        }
-
-        if (mCookies != null) {
-            mRequestHeaders.put("Cookie", mCookies);
-        }
-        if (mReferer != null) {
-            mRequestHeaders.put("Referer", mReferer);
-        }
     }
 
     public Map<String, String> getHeaders() {
@@ -167,7 +217,7 @@ public class DownloadInfo {
         if (mIsPublicApi) {
             intent = new Intent(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
             intent.setPackage(mPackage);
-            intent.putExtra(DownloadManager.EXTRA_DOWNLOAD_ID, (long) mId);
+            intent.putExtra(DownloadManager.EXTRA_DOWNLOAD_ID, mId);
         } else { // legacy behavior
             if (mClass == null) {
                 return;
@@ -392,5 +442,67 @@ public class DownloadInfo {
 
     public Uri getAllDownloadsUri() {
         return ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, mId);
+    }
+
+
+    public void logVerboseInfo() {
+        Log.v(Constants.TAG, "Service adding new entry");
+        Log.v(Constants.TAG, "ID      : " + mId);
+        Log.v(Constants.TAG, "URI     : " + ((mUri != null) ? "yes" : "no"));
+        Log.v(Constants.TAG, "NO_INTEG: " + mNoIntegrity);
+        Log.v(Constants.TAG, "HINT    : " + mHint);
+        Log.v(Constants.TAG, "FILENAME: " + mFileName);
+        Log.v(Constants.TAG, "MIMETYPE: " + mMimeType);
+        Log.v(Constants.TAG, "DESTINAT: " + mDestination);
+        Log.v(Constants.TAG, "VISIBILI: " + mVisibility);
+        Log.v(Constants.TAG, "CONTROL : " + mControl);
+        Log.v(Constants.TAG, "STATUS  : " + mStatus);
+        Log.v(Constants.TAG, "FAILED_C: " + mNumFailed);
+        Log.v(Constants.TAG, "RETRY_AF: " + mRetryAfter);
+        Log.v(Constants.TAG, "REDIRECT: " + mRedirectCount);
+        Log.v(Constants.TAG, "LAST_MOD: " + mLastMod);
+        Log.v(Constants.TAG, "PACKAGE : " + mPackage);
+        Log.v(Constants.TAG, "CLASS   : " + mClass);
+        Log.v(Constants.TAG, "COOKIES : " + ((mCookies != null) ? "yes" : "no"));
+        Log.v(Constants.TAG, "AGENT   : " + mUserAgent);
+        Log.v(Constants.TAG, "REFERER : " + ((mReferer != null) ? "yes" : "no"));
+        Log.v(Constants.TAG, "TOTAL   : " + mTotalBytes);
+        Log.v(Constants.TAG, "CURRENT : " + mCurrentBytes);
+        Log.v(Constants.TAG, "ETAG    : " + mETag);
+        Log.v(Constants.TAG, "SCANNED : " + mMediaScanned);
+    }
+
+    /**
+     * Returns the amount of time (as measured from the "now" parameter)
+     * at which a download will be active.
+     * 0 = immediately - service should stick around to handle this download.
+     * -1 = never - service can go away without ever waking up.
+     * positive value - service must wake up in the future, as specified in ms from "now"
+     */
+    long nextAction(long now) {
+        if (Downloads.Impl.isStatusCompleted(mStatus)) {
+            return -1;
+        }
+        if (mStatus != Downloads.Impl.STATUS_RUNNING_PAUSED) {
+            return 0;
+        }
+        if (mNumFailed == 0) {
+            return 0;
+        }
+        long when = restartTime();
+        if (when <= now) {
+            return 0;
+        }
+        return when - now;
+    }
+
+    /**
+     * Returns whether a file should be scanned
+     */
+    boolean shouldScanFile() {
+        return !mMediaScanned
+                && mDestination == Downloads.Impl.DESTINATION_EXTERNAL
+                && Downloads.Impl.isStatusSuccess(mStatus)
+                && !DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING.equalsIgnoreCase(mMimeType);
     }
 }

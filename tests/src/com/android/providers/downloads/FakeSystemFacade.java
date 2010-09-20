@@ -19,7 +19,7 @@ public class FakeSystemFacade implements SystemFacade {
     boolean mIsRoaming = false;
     Long mMaxBytesOverMobile = null;
     List<Intent> mBroadcastsSent = new ArrayList<Intent>();
-    Map<Integer,Notification> mActiveNotifications = new HashMap<Integer,Notification>();
+    Map<Long,Notification> mActiveNotifications = new HashMap<Long,Notification>();
     List<Notification> mCanceledNotifications = new ArrayList<Notification>();
     Queue<Thread> mStartedThreads = new LinkedList<Thread>();
 
@@ -54,7 +54,7 @@ public class FakeSystemFacade implements SystemFacade {
     }
 
     @Override
-    public void postNotification(int id, Notification notification) {
+    public void postNotification(long id, Notification notification) {
         if (notification == null) {
             throw new AssertionFailedError("Posting null notification");
         }
@@ -62,7 +62,7 @@ public class FakeSystemFacade implements SystemFacade {
     }
 
     @Override
-    public void cancelNotification(int id) {
+    public void cancelNotification(long id) {
         Notification notification = mActiveNotifications.remove(id);
         if (notification != null) {
             mCanceledNotifications.add(notification);
@@ -71,7 +71,7 @@ public class FakeSystemFacade implements SystemFacade {
 
     @Override
     public void cancelAllNotifications() {
-        for (int id : mActiveNotifications.keySet()) {
+        for (long id : mActiveNotifications.keySet()) {
             cancelNotification(id);
         }
     }

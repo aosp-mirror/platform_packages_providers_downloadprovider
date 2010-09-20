@@ -26,8 +26,8 @@ import android.provider.Downloads;
 import android.view.View;
 import android.widget.RemoteViews;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * This class handles the updating of the Notification Manager for the
@@ -104,12 +104,12 @@ class DownloadNotification {
     /*
      * Update the notification ui.
      */
-    public void updateNotification(List<DownloadInfo> downloads) {
+    public void updateNotification(Collection<DownloadInfo> downloads) {
         updateActiveNotification(downloads);
         updateCompletedNotification(downloads);
     }
 
-    private void updateActiveNotification(List<DownloadInfo> downloads) {
+    private void updateActiveNotification(Collection<DownloadInfo> downloads) {
         // Collate the notifications
         mNotifications.clear();
         for (DownloadInfo download : downloads) {
@@ -135,7 +135,6 @@ class DownloadNotification {
                 item.mId = (int) id;
                 item.mPackageName = packageName;
                 item.mDescription = download.mDescription;
-                String className = download.mClass;
                 item.addItem(title, progress, max);
                 mNotifications.put(packageName, item);
             }
@@ -195,7 +194,8 @@ class DownloadNotification {
             Intent intent = new Intent(Constants.ACTION_LIST);
             intent.setClassName("com.android.providers.downloads",
                     DownloadReceiver.class.getName());
-            intent.setData(ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, item.mId));
+            intent.setData(
+                    ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, item.mId));
             intent.putExtra("multiple", item.mTitleCount > 1);
 
             n.contentIntent = PendingIntent.getBroadcast(mContext, 0, intent, 0);
@@ -209,7 +209,7 @@ class DownloadNotification {
         return download.mStatus == Downloads.STATUS_RUNNING_PAUSED && download.mPausedReason != null;
     }
 
-    private void updateCompletedNotification(List<DownloadInfo> downloads) {
+    private void updateCompletedNotification(Collection<DownloadInfo> downloads) {
         for (DownloadInfo download : downloads) {
             if (!isCompleteAndVisible(download)) {
                 continue;
@@ -224,7 +224,8 @@ class DownloadNotification {
                 title = mContext.getResources().getString(
                         R.string.download_unknown_title);
             }
-            Uri contentUri = ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, id);
+            Uri contentUri =
+                ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id);
             String caption;
             Intent intent;
             if (Downloads.Impl.isStatusError(download.mStatus)) {

@@ -20,5 +20,5 @@
         android:icon="@android:drawable/ic_menu_sort_by_size" />
     <item android:id="@+id/download_menu_sort_by_date"
         android:title="@string/download_menu_sort_by_date"
-        android:icon="@android:drawable/ic_menu_day" />
+        android:icon="@drawable/ic_menu_desk_clock" />
 </menu>

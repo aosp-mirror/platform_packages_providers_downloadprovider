@@ -19,6 +19,7 @@ package com.android.providers.downloads.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
@@ -365,7 +366,7 @@ public class DownloadList extends Activity
         Intent intent = new Intent("android.intent.action.DOWNLOAD_LIST");
         intent.setClassName("com.android.providers.downloads",
                 "com.android.providers.downloads.DownloadReceiver");
-        intent.setData(Uri.parse(Downloads.Impl.CONTENT_URI + "/" + id));
+        intent.setData(ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id));
         intent.putExtra("multiple", false);
         sendBroadcast(intent);
     }

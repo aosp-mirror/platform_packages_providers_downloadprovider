@@ -822,9 +822,8 @@ public final class DownloadProvider extends ContentProvider {
             if (filename != null) {
                 Cursor c = query(uri, new String[]
                         { Downloads.Impl.COLUMN_TITLE }, null, null, null);
-                if (!c.moveToFirst() || c.getString(0) == null) {
-                    values.put(Downloads.Impl.COLUMN_TITLE,
-                            new File(filename).getName());
+                if (!c.moveToFirst() || c.getString(0).isEmpty()) {
+                    values.put(Downloads.Impl.COLUMN_TITLE, new File(filename).getName());
                 }
                 c.close();
             }

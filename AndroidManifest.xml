@@ -29,9 +29,10 @@
 
     <!-- Allows to queue downloads without a notification shown while the download runs. -->
     <permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"
+        android:permissionGroup="android.permission-group.NETWORK"
         android:label="@string/permlab_downloadWithoutNotification"
         android:description="@string/permdesc_downloadWithoutNotification"
-        android:protectionLevel="signatureOrSystem"/>
+        android:protectionLevel="normal"/>
 
     <!-- Allows an app to access all downloads in the system via the /all_downloads/ URIs.  The
          protection level could be relaxed in the future to support third-party download

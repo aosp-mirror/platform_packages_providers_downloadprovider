@@ -536,7 +536,6 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
 
     public void testEmptyFields() throws Exception {
         Download download = enqueueRequest(getRequest());
-        assertNull(download.getStringField(DownloadManager.COLUMN_LOCAL_URI));
         assertEquals("", download.getStringField(DownloadManager.COLUMN_TITLE));
         assertEquals("", download.getStringField(DownloadManager.COLUMN_DESCRIPTION));
         assertNull(download.getStringField(DownloadManager.COLUMN_MEDIA_TYPE));

@@ -57,7 +57,7 @@ public final class DownloadProvider extends ContentProvider {
     /** Database filename */
     private static final String DB_NAME = "downloads.db";
     /** Current database version */
-    private static final int DB_VERSION = 103;
+    private static final int DB_VERSION = 104;
     /** Name of table in the database */
     private static final String DB_TABLE = "downloads";
 
@@ -221,6 +221,11 @@ public final class DownloadProvider extends ContentProvider {
                     addColumn(db, DB_TABLE, Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI,
                               "INTEGER NOT NULL DEFAULT 1");
                     makeCacheDownloadsInvisible(db);
+                    break;
+
+                case 104:
+                    addColumn(db, DB_TABLE, Downloads.Impl.COLUMN_BYPASS_RECOMMENDED_SIZE_LIMIT,
+                            "INTEGER NOT NULL DEFAULT 0");
                     break;
 
                 default:
@@ -839,7 +844,9 @@ public final class DownloadProvider extends ContentProvider {
 
             Integer status = values.getAsInteger(Downloads.Impl.COLUMN_STATUS);
             boolean isRestart = status != null && status == Downloads.Impl.STATUS_PENDING;
-            if (isRestart) {
+            boolean isUserBypassingSizeLimit =
+                values.containsKey(Downloads.Impl.COLUMN_BYPASS_RECOMMENDED_SIZE_LIMIT);
+            if (isRestart || isUserBypassingSizeLimit) {
                 startService = true;
             }
         }

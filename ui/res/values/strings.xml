@@ -34,7 +34,7 @@
     <string name="download_menu_sort_by_size">Sort by size</string>
     <!-- Menu option to sort the list of downloads by the date/time of the last activity related to
          the download [CHAR LIMIT=25] -->
-    <string name="download_menu_sort_by_date">Sort by date</string>
+    <string name="download_menu_sort_by_date">Sort by time</string>
 
     <!-- Status messages -->
 
@@ -65,6 +65,25 @@
     <!-- Text for dialog when user clicks on a completed download but the file is missing
          [CHAR LIMIT=200] -->
     <string name="dialog_file_missing_body">The downloaded file cannot be found.</string>
+    <!-- Text for dialog when user clicks on a download that failed due to insufficient space on
+         external storage [CHAR LIMIT=200] -->
+    <string name="dialog_insufficient_space_on_external">Cannot finish download. There is not
+        enough space on external storage.</string>
+    <!-- Text for dialog when user clicks on a download that failed due to insufficient space on
+         the internal download cache [CHAR LIMIT=200] -->
+    <string name="dialog_insufficient_space_on_cache">Cannot finish download. There is not enough
+        space on internal download storage.</string>
+    <!-- Text for dialog when user clicks on a download that failed because it was interrupted and
+         the server doesn't support resuming downloads [CHAR LIMIT=200] -->
+    <string name="dialog_cannot_resume">Download interrupted. It cannot be resumed.</string>
+    <!-- Text for dialog when user clicks on a download that failed because the requested
+         destination file already exists [CHAR LIMIT=200] -->
+    <string name="dialog_file_already_exists">Cannot download. The destination file already exists.
+    </string>
+    <!-- Text for dialog when user clicks on a download that failed because it was requested to go
+         on the external media, which is not mounted [CHAR LIMIT=200] -->
+    <string name="dialog_media_not_found">Cannot download. The external media is not available.
+    </string>
     <!-- Text for a toast appearing when a user clicks on a completed download, informing the user
          that there is no application on the device that can open the file that was downloaded
          [CHAR LIMIT=200] -->

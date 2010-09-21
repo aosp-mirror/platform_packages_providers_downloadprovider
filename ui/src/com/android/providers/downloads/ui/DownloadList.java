@@ -19,6 +19,7 @@ package com.android.providers.downloads.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
@@ -28,6 +29,7 @@ import android.database.Cursor;
 import android.net.DownloadManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.Downloads;
 import android.util.Log;
@@ -48,6 +50,7 @@ import android.widget.Toast;
 
 import com.android.providers.downloads.ui.DownloadItem.DownloadSelectListener;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashSet;
@@ -79,6 +82,7 @@ public class DownloadList extends Activity
     private int mIdColumnId;
     private int mLocalUriColumnId;
     private int mMediaTypeColumnId;
+    private int mErrorCodeColumndId;
 
     private boolean mIsSortedBySize = false;
     private Set<Long> mSelectedIds = new HashSet<Long>();
@@ -129,6 +133,8 @@ public class DownloadList extends Activity
                     mDateSortedCursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_URI);
             mMediaTypeColumnId =
                     mDateSortedCursor.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIA_TYPE);
+            mErrorCodeColumndId =
+                    mDateSortedCursor.getColumnIndexOrThrow(DownloadManager.COLUMN_ERROR_CODE);
 
             mDateSortedAdapter = new DateSortedDownloadAdapter(this, mDateSortedCursor, this);
             mDateOrderedListView.setAdapter(mDateSortedAdapter);
@@ -304,7 +310,8 @@ public class DownloadList extends Activity
             getContentResolver().openFileDescriptor(localUri, "r").close();
         } catch (FileNotFoundException exc) {
             Log.d(LOG_TAG, "Failed to open download " + cursor.getLong(mIdColumnId), exc);
-            showFailedDialog(cursor.getLong(mIdColumnId), R.string.dialog_file_missing_body);
+            showFailedDialog(cursor.getLong(mIdColumnId),
+                    getString(R.string.dialog_file_missing_body));
             return;
         } catch (IOException exc) {
             // close() failed, not a problem
@@ -344,15 +351,65 @@ public class DownloadList extends Activity
                 break;
 
             case DownloadManager.STATUS_FAILED:
-                showFailedDialog(id, R.string.dialog_failed_body);
+                showFailedDialog(id, getErrorMessage(cursor));
                 break;
         }
     }
 
-    private void showFailedDialog(long downloadId, int dialogBodyResource) {
+    /**
+     * @return the appropriate error message for the failed download pointed to by cursor
+     */
+    private String getErrorMessage(Cursor cursor) {
+        switch (cursor.getInt(mErrorCodeColumndId)) {
+            case DownloadManager.ERROR_FILE_ALREADY_EXISTS:
+                if (isOnExternalStorage(cursor)) {
+                    return getString(R.string.dialog_file_already_exists);
+                } else {
+                    // the download manager should always find a free filename for cache downloads,
+                    // so this indicates a strange internal error
+                    return getUnknownErrorMessage();
+                }
+
+            case DownloadManager.ERROR_INSUFFICIENT_SPACE:
+                if (isOnExternalStorage(cursor)) {
+                    return getString(R.string.dialog_insufficient_space_on_external);
+                } else {
+                    return getString(R.string.dialog_insufficient_space_on_cache);
+                }
+
+            case DownloadManager.ERROR_DEVICE_NOT_FOUND:
+                return getString(R.string.dialog_media_not_found);
+
+            case DownloadManager.ERROR_CANNOT_RESUME:
+                return getString(R.string.dialog_cannot_resume);
+
+            default:
+                return getUnknownErrorMessage();
+        }
+    }
+
+    private boolean isOnExternalStorage(Cursor cursor) {
+        String localUriString = cursor.getString(mLocalUriColumnId);
+        if (localUriString == null) {
+            return false;
+        }
+        Uri localUri = Uri.parse(localUriString);
+        if (!localUri.getScheme().equals("file")) {
+            return false;
+        }
+        String path = localUri.getPath();
+        String externalRoot = Environment.getExternalStorageDirectory().getPath();
+        return path.startsWith(externalRoot);
+    }
+
+    private String getUnknownErrorMessage() {
+        return getString(R.string.dialog_failed_body);
+    }
+
+    private void showFailedDialog(long downloadId, String dialogBody) {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.dialog_title_not_available)
-                .setMessage(getResources().getString(dialogBodyResource))
+                .setMessage(dialogBody)
                 .setPositiveButton(R.string.remove_download, getDeleteClickHandler(downloadId))
                 .setNegativeButton(R.string.retry_download, getRestartClickHandler(downloadId))
                 .show();
@@ -365,7 +422,7 @@ public class DownloadList extends Activity
         Intent intent = new Intent("android.intent.action.DOWNLOAD_LIST");
         intent.setClassName("com.android.providers.downloads",
                 "com.android.providers.downloads.DownloadReceiver");
-        intent.setData(Uri.parse(Downloads.Impl.CONTENT_URI + "/" + id));
+        intent.setData(ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id));
         intent.putExtra("multiple", false);
         sendBroadcast(intent);
     }
@@ -477,8 +534,35 @@ public class DownloadList extends Activity
     /**
      * Delete a download from the Download Manager.
      */
-    private void deleteDownload(Long downloadId) {
+    private void deleteDownload(long downloadId) {
+        if (moveToDownload(downloadId)) {
+            int status = mDateSortedCursor.getInt(mStatusColumnId);
+            if (status == DownloadManager.STATUS_SUCCESSFUL
+                    || status == DownloadManager.STATUS_FAILED) {
+                String path = Uri.parse(mDateSortedCursor.getString(mLocalUriColumnId)).getPath();
+                if (path.startsWith(Environment.getExternalStorageDirectory().getPath())) {
+                    String mediaType = mDateSortedCursor.getString(mMediaTypeColumnId);
+                    deleteDownloadedFile(path, mediaType);
+                }
+            }
+        }
         mDownloadManager.remove(downloadId);
+    }
+
+    /**
+     * Delete the file at the given path.  Try sending an intent to delete it, but if that goes
+     * unhandled, delete it ourselves.
+     * @param path path to the file to delete
+     */
+    private void deleteDownloadedFile(String path, String mediaType) {
+        Intent intent = new Intent(Intent.ACTION_DELETE);
+        File file = new File(path);
+        intent.setDataAndType(Uri.fromFile(file), mediaType);
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException exc) {
+            file.delete();
+        }
     }
 
     @Override

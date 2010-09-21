@@ -7,7 +7,8 @@
     <uses-permission android:name="android.permission.ACCESS_ALL_DOWNLOADS" />
 
     <application android:process="android.process.media"
-                 android:label="@string/app_label">
+                 android:label="@string/app_label"
+                 android:icon="@drawable/ic_launcher_download">
         <activity android:name=".DownloadList">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -292,7 +292,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         Uri localUri = Uri.parse(download.getStringField(DownloadManager.COLUMN_LOCAL_URI));
         assertEquals(destination, localUri);
 
-        InputStream stream = new FileInputStream(destination.getSchemeSpecificPart());
+        InputStream stream = new FileInputStream(destination.getPath());
         try {
             assertEquals(FILE_CONTENT, readStream(stream));
         } finally {
@@ -525,12 +525,12 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
 
     public void testExistingFile() throws Exception {
         Uri destination = getExternalUri();
-        new File(destination.getSchemeSpecificPart()).createNewFile();
+        new File(destination.getPath()).createNewFile();
 
         enqueueEmptyResponse(HTTP_OK);
         Download download = enqueueRequest(getRequest().setDestinationUri(destination));
         download.runUntilStatus(DownloadManager.STATUS_FAILED);
-        assertEquals(DownloadManager.ERROR_FILE_ERROR,
+        assertEquals(DownloadManager.ERROR_FILE_ALREADY_EXISTS,
                      download.getLongField(DownloadManager.COLUMN_ERROR_CODE));
     }
 

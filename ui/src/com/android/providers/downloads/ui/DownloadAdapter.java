@@ -38,7 +38,9 @@ import android.widget.TextView;
 import com.android.providers.downloads.ui.DownloadItem.DownloadSelectListener;
 
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -50,6 +52,7 @@ public class DownloadAdapter extends CursorAdapter {
     private DownloadSelectListener mDownloadSelectionListener;
     private Resources mResources;
     private DateFormat mDateFormat;
+    private DateFormat mTimeFormat;
 
     private int mTitleColumnId;
     private int mDescriptionColumnId;
@@ -67,6 +70,7 @@ public class DownloadAdapter extends CursorAdapter {
         mResources = mContext.getResources();
         mDownloadSelectionListener = selectionListener;
         mDateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
+        mTimeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
 
         mIdColumnId = cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_ID);
         mTitleColumnId = cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TITLE);
@@ -112,7 +116,20 @@ public class DownloadAdapter extends CursorAdapter {
 
     private String getDateString() {
         Date date = new Date(mCursor.getLong(mDateColumnId));
-        return mDateFormat.format(date);
+        if (date.before(getStartOfToday())) {
+            return mDateFormat.format(date);
+        } else {
+            return mTimeFormat.format(date);
+        }
+    }
+
+    private Date getStartOfToday() {
+        Calendar today = new GregorianCalendar();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        today.set(Calendar.MILLISECOND, 0);
+        return today.getTime();
     }
 
     private String getSizeText() {

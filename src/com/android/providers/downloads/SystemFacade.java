@@ -42,12 +42,12 @@ interface SystemFacade {
     /**
      * Post a system notification to the NotificationManager.
      */
-    public void postNotification(int id, Notification notification);
+    public void postNotification(long id, Notification notification);
 
     /**
      * Cancel a system notification.
      */
-    public void cancelNotification(int id);
+    public void cancelNotification(long id);
 
     /**
      * Cancel all system notifications.

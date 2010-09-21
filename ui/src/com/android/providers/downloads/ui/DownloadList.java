@@ -50,6 +50,7 @@ import android.widget.Toast;
 
 import com.android.providers.downloads.ui.DownloadItem.DownloadSelectListener;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashSet;
@@ -533,8 +534,35 @@ public class DownloadList extends Activity
     /**
      * Delete a download from the Download Manager.
      */
-    private void deleteDownload(Long downloadId) {
+    private void deleteDownload(long downloadId) {
+        if (moveToDownload(downloadId)) {
+            int status = mDateSortedCursor.getInt(mStatusColumnId);
+            if (status == DownloadManager.STATUS_SUCCESSFUL
+                    || status == DownloadManager.STATUS_FAILED) {
+                String path = Uri.parse(mDateSortedCursor.getString(mLocalUriColumnId)).getPath();
+                if (path.startsWith(Environment.getExternalStorageDirectory().getPath())) {
+                    String mediaType = mDateSortedCursor.getString(mMediaTypeColumnId);
+                    deleteDownloadedFile(path, mediaType);
+                }
+            }
+        }
         mDownloadManager.remove(downloadId);
+    }
+
+    /**
+     * Delete the file at the given path.  Try sending an intent to delete it, but if that goes
+     * unhandled, delete it ourselves.
+     * @param path path to the file to delete
+     */
+    private void deleteDownloadedFile(String path, String mediaType) {
+        Intent intent = new Intent(Intent.ACTION_DELETE);
+        File file = new File(path);
+        intent.setDataAndType(Uri.fromFile(file), mediaType);
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException exc) {
+            file.delete();
+        }
     }
 
     @Override

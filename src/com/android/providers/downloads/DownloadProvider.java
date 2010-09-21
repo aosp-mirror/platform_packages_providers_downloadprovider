@@ -121,6 +121,7 @@ public final class DownloadProvider extends ContentProvider {
         Downloads.Impl.COLUMN_DESCRIPTION,
         Downloads.Impl.COLUMN_URI,
         Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI,
+        Downloads.Impl.COLUMN_FILE_NAME_HINT,
     };
 
     private static HashSet<String> sAppReadableColumnsSet;
@@ -508,9 +509,12 @@ public final class DownloadProvider extends ContentProvider {
         if (!uri.getScheme().equals("file")) {
             throw new IllegalArgumentException("Not a file URI: " + uri);
         }
-        File path = new File(uri.getSchemeSpecificPart());
+        String path = uri.getPath();
+        if (path == null) {
+            throw new IllegalArgumentException("Invalid file URI: " + uri);
+        }
         String externalPath = Environment.getExternalStorageDirectory().getAbsolutePath();
-        if (!path.getPath().startsWith(externalPath)) {
+        if (!path.startsWith(externalPath)) {
             throw new SecurityException("Destination must be on external storage: " + uri);
         }
     }

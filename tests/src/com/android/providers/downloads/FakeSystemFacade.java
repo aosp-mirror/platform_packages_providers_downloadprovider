@@ -18,6 +18,7 @@ public class FakeSystemFacade implements SystemFacade {
     Integer mActiveNetworkType = ConnectivityManager.TYPE_WIFI;
     boolean mIsRoaming = false;
     Long mMaxBytesOverMobile = null;
+    Long mRecommendedMaxBytesOverMobile = null;
     List<Intent> mBroadcastsSent = new ArrayList<Intent>();
     Map<Long,Notification> mActiveNotifications = new HashMap<Long,Notification>();
     List<Notification> mCanceledNotifications = new ArrayList<Notification>();
@@ -41,6 +42,10 @@ public class FakeSystemFacade implements SystemFacade {
 
     public Long getMaxBytesOverMobile() {
         return mMaxBytesOverMobile ;
+    }
+
+    public Long getRecommendedMaxBytesOverMobile() {
+        return mRecommendedMaxBytesOverMobile ;
     }
 
     @Override

@@ -32,6 +32,7 @@ import android.provider.Downloads;
 import android.provider.DrmStore;
 import android.util.Config;
 import android.util.Log;
+import android.util.Pair;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -46,7 +47,6 @@ import java.io.SyncFailedException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * Runs an actual download
@@ -865,8 +865,8 @@ public class DownloadThread extends Thread {
      * Add custom headers for this download to the HTTP request.
      */
     private void addRequestHeaders(InnerState innerState, HttpGet request) {
-        for (Map.Entry<String, String> header : mInfo.getHeaders().entrySet()) {
-            request.addHeader(header.getKey(), header.getValue());
+        for (Pair<String, String> header : mInfo.getHeaders()) {
+            request.addHeader(header.first, header.second);
         }
 
         if (innerState.mContinuingDownload) {

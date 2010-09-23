@@ -57,7 +57,7 @@ public final class DownloadProvider extends ContentProvider {
     /** Database filename */
     private static final String DB_NAME = "downloads.db";
     /** Current database version */
-    private static final int DB_VERSION = 104;
+    private static final int DB_VERSION = 105;
     /** Name of table in the database */
     private static final String DB_TABLE = "downloads";
 
@@ -228,9 +228,35 @@ public final class DownloadProvider extends ContentProvider {
                             "INTEGER NOT NULL DEFAULT 0");
                     break;
 
+                case 105:
+                    fillNullValues(db);
+                    break;
+
                 default:
                     throw new IllegalStateException("Don't know how to upgrade to " + version);
             }
+        }
+
+        /**
+         * insert() now ensures these four columns are never null for new downloads, so this method
+         * makes that true for existing columns, so that code can rely on this assumption.
+         */
+        private void fillNullValues(SQLiteDatabase db) {
+            ContentValues values = new ContentValues();
+            values.put(Downloads.Impl.COLUMN_CURRENT_BYTES, 0);
+            fillNullValuesForColumn(db, values);
+            values.put(Downloads.Impl.COLUMN_TOTAL_BYTES, -1);
+            fillNullValuesForColumn(db, values);
+            values.put(Downloads.Impl.COLUMN_TITLE, "");
+            fillNullValuesForColumn(db, values);
+            values.put(Downloads.Impl.COLUMN_DESCRIPTION, "");
+            fillNullValuesForColumn(db, values);
+        }
+
+        private void fillNullValuesForColumn(SQLiteDatabase db, ContentValues values) {
+            String column = values.valueSet().iterator().next().getKey();
+            db.update(DB_TABLE, values, column + " is null", null);
+            values.clear();
         }
 
         /**
@@ -463,6 +489,7 @@ public final class DownloadProvider extends ContentProvider {
         copyStringWithDefault(Downloads.Impl.COLUMN_TITLE, values, filteredValues, "");
         copyStringWithDefault(Downloads.Impl.COLUMN_DESCRIPTION, values, filteredValues, "");
         filteredValues.put(Downloads.Impl.COLUMN_TOTAL_BYTES, -1);
+        filteredValues.put(Downloads.Impl.COLUMN_CURRENT_BYTES, 0);
 
         if (values.containsKey(Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI)) {
             copyBoolean(Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI, values, filteredValues);

@@ -30,10 +30,12 @@ import android.net.Uri;
 import android.provider.Downloads;
 import android.provider.Downloads.Impl;
 import android.util.Log;
+import android.util.Pair;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 /**
  * Stores information about an individual download.
@@ -106,19 +108,22 @@ public class DownloadInfo {
                 int valueIndex =
                         cursor.getColumnIndexOrThrow(Downloads.Impl.RequestHeaders.COLUMN_VALUE);
                 for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-                    info.mRequestHeaders.put(
-                            cursor.getString(headerIndex), cursor.getString(valueIndex));
+                    addHeader(info, cursor.getString(headerIndex), cursor.getString(valueIndex));
                 }
             } finally {
                 cursor.close();
             }
 
             if (info.mCookies != null) {
-                info.mRequestHeaders.put("Cookie", info.mCookies);
+                addHeader(info, "Cookie", info.mCookies);
             }
             if (info.mReferer != null) {
-                info.mRequestHeaders.put("Referer", info.mReferer);
+                addHeader(info, "Referer", info.mReferer);
             }
+        }
+
+        private void addHeader(DownloadInfo info, String header, String value) {
+            info.mRequestHeaders.add(Pair.create(header, value));
         }
 
         /**
@@ -228,7 +233,7 @@ public class DownloadInfo {
 
     public volatile boolean mHasActiveThread;
 
-    private Map<String, String> mRequestHeaders = new HashMap<String, String>();
+    private List<Pair<String, String>> mRequestHeaders = new ArrayList<Pair<String, String>>();
     private SystemFacade mSystemFacade;
     private Context mContext;
 
@@ -238,8 +243,8 @@ public class DownloadInfo {
         mFuzz = Helpers.sRandom.nextInt(1001);
     }
 
-    public Map<String, String> getHeaders() {
-        return Collections.unmodifiableMap(mRequestHeaders);
+    public Collection<Pair<String, String>> getHeaders() {
+        return Collections.unmodifiableList(mRequestHeaders);
     }
 
     public void sendIntentIfRequested() {
@@ -414,9 +419,6 @@ public class DownloadInfo {
 
             case ConnectivityManager.TYPE_WIFI:
                 return DownloadManager.Request.NETWORK_WIFI;
-
-            case ConnectivityManager.TYPE_WIMAX:
-                return DownloadManager.Request.NETWORK_WIMAX;
 
             default:
                 return 0;

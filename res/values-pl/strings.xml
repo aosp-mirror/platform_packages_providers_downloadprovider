@@ -27,12 +27,31 @@
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Zezwala aplikacji na sprawdzanie wszystkich plików pobranych na kartę SD niezależnie od tego, która aplikacja je pobrała."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Zarezerwuj miejsce w pamięci podręcznej pobierania"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Zezwala aplikacji na pobieranie plików do pamięci podręcznej, której nie można automatycznie usunąć, gdy menedżer pobierania wymaga więcej miejsca."</string>
-    <string name="permlab_downloadWithoutNotification" msgid="3650349274034807567">"Użyj menedżera pobierania bez powiadamiania"</string>
+    <!-- no translation found for permlab_downloadWithoutNotification (8837971946078327262) -->
+    <skip />
     <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Zezwala aplikacji na pobieranie plików za pomocą menedżera pobierania bez wyświetlania powiadomienia."</string>
+    <!-- no translation found for permlab_accessAllDownloads (2436240495424393717) -->
+    <skip />
+    <!-- no translation found for permdesc_accessAllDownloads (4575801130424505112) -->
+    <skip />
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Bez nazwy&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" i inne (<xliff:g id="NUMBER">%d</xliff:g>)"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"Pobieranie zakończone."</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Pobieranie nie powiodło się"</string>
-    <string name="notification_need_wifi_for_size" msgid="7034174266881861838">"Za duży plik, użyj Wi-Fi"</string>
+    <string name="notification_need_wifi_for_size" msgid="7034174266881861838">"Za duży plik – użyj Wi-Fi"</string>
+    <!-- no translation found for wifi_required_title (1995971416871498179) -->
+    <skip />
+    <!-- no translation found for wifi_required_body (236265653997704213) -->
+    <skip />
+    <!-- no translation found for wifi_recommended_title (7441589306734687400) -->
+    <skip />
+    <!-- no translation found for wifi_recommended_body (2814345390059518237) -->
+    <skip />
+    <!-- no translation found for button_queue_for_wifi (422576726189179221) -->
+    <skip />
+    <!-- no translation found for button_cancel_download (2430166148737975604) -->
+    <skip />
+    <!-- no translation found for button_start_now (792123674007840864) -->
+    <skip />
 </resources>

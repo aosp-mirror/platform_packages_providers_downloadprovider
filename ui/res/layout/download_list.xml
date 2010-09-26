@@ -55,6 +55,12 @@
                   android:layout_width="wrap_content"
                   android:layout_height="match_parent"
                   android:layout_weight="1"/>
+          <Button android:id="@+id/selection_retry"
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"
+                  android:layout_weight="1"
+                  android:text="@string/retry_download"
+                  android:visibility="gone"/>
           <Button android:id="@+id/deselect_all"
                   android:layout_width="wrap_content"
                   android:layout_height="match_parent"

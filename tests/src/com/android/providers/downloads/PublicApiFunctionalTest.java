@@ -306,8 +306,8 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
 
     public void testRequestHeaders() throws Exception {
         enqueueEmptyResponse(HTTP_OK);
-        Download download = enqueueRequest(getRequest().setRequestHeader("Header1", "value1")
-                                           .setRequestHeader("Header2", "value2"));
+        Download download = enqueueRequest(getRequest().addRequestHeader("Header1", "value1")
+                                           .addRequestHeader("Header2", "value2"));
         download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
 
         List<String> headers = takeRequest().getHeaders();
@@ -316,7 +316,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
     }
 
     public void testDelete() throws Exception {
-        Download download = enqueueRequest(getRequest().setRequestHeader("header", "value"));
+        Download download = enqueueRequest(getRequest().addRequestHeader("header", "value"));
         mManager.remove(download.mId);
         Cursor cursor = mManager.query(new DownloadManager.Query());
         try {

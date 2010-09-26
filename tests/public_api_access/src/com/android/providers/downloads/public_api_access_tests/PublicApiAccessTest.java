@@ -149,8 +149,8 @@ public class PublicApiAccessTest extends AndroidTestCase {
         request.setAllowedOverRoaming(false);
         request.setTitle("test");
         request.setDescription("test");
-        request.setMediaType("text/html");
-        request.setRequestHeader("X-Some-Header", "value");
+        request.setMimeType("text/html");
+        request.addRequestHeader("X-Some-Header", "value");
         mManager.enqueue(request);
     }
 }

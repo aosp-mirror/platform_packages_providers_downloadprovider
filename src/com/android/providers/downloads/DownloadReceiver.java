@@ -16,6 +16,7 @@
 
 package com.android.providers.downloads;
 
+import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ContentUris;
@@ -24,7 +25,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
-import android.net.DownloadManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.provider.Downloads;

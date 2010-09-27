@@ -79,6 +79,7 @@
         </receiver>
 
         <activity android:name=".SizeLimitActivity"
-                  android:launchMode="singleTask" />
+                  android:launchMode="singleTask"
+                  android:theme="@style/Theme.Translucent"/>
     </application>
 </manifest>

@@ -26,6 +26,7 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.net.DownloadManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -78,6 +79,7 @@ public class DownloadList extends Activity
     private Cursor mSizeSortedCursor;
     private DownloadAdapter mSizeSortedAdapter;
     private MyContentObserver mContentObserver = new MyContentObserver();
+    private MyDataSetObserver mDataSetObserver = new MyDataSetObserver();
 
     private int mStatusColumnId;
     private int mIdColumnId;
@@ -103,6 +105,15 @@ public class DownloadList extends Activity
         @Override
         public void onChange(boolean selfChange) {
             handleDownloadsChanged();
+        }
+    }
+
+    private class MyDataSetObserver extends DataSetObserver {
+        @Override
+        public void onChanged() {
+            // may need to switch to or from the empty view
+            chooseListToShow();
+            ensureSomeGroupIsExpanded();
         }
     }
 
@@ -142,17 +153,29 @@ public class DownloadList extends Activity
             mSizeSortedAdapter = new DownloadAdapter(this, mSizeSortedCursor, this);
             mSizeOrderedListView.setAdapter(mSizeSortedAdapter);
 
-            // have the first group be open by default
-            mDateOrderedListView.post(new Runnable() {
-                public void run() {
-                    if (mDateSortedAdapter.getGroupCount() > 0) {
-                        mDateOrderedListView.expandGroup(0);
-                    }
-                }
-            });
+            ensureSomeGroupIsExpanded();
         }
 
         chooseListToShow();
+    }
+
+    /**
+     * If no group is expanded in the date-sorted list, expand the first one.
+     */
+    private void ensureSomeGroupIsExpanded() {
+        mDateOrderedListView.post(new Runnable() {
+            public void run() {
+                if (mDateSortedAdapter.getGroupCount() == 0) {
+                    return;
+                }
+                for (int group = 0; group < mDateSortedAdapter.getGroupCount(); group++) {
+                    if (mDateOrderedListView.isGroupExpanded(group)) {
+                        return;
+                    }
+                }
+                mDateOrderedListView.expandGroup(0);
+            }
+        });
     }
 
     private void setupViews() {
@@ -183,6 +206,7 @@ public class DownloadList extends Activity
         super.onResume();
         if (haveCursors()) {
             mDateSortedCursor.registerContentObserver(mContentObserver);
+            mDateSortedCursor.registerDataSetObserver(mDataSetObserver);
             refresh();
         }
     }
@@ -192,6 +216,7 @@ public class DownloadList extends Activity
         super.onPause();
         if (haveCursors()) {
             mDateSortedCursor.unregisterContentObserver(mContentObserver);
+            mDateSortedCursor.unregisterDataSetObserver(mDataSetObserver);
         }
     }
 

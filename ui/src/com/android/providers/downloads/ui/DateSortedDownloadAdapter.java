@@ -19,9 +19,9 @@ package com.android.providers.downloads.ui;
 
 import com.android.providers.downloads.ui.DownloadItem.DownloadSelectListener;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.DownloadManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;

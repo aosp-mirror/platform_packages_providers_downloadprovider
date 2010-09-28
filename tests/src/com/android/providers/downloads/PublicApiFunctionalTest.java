@@ -16,10 +16,10 @@
 
 package com.android.providers.downloads;
 
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
-import android.net.DownloadManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.Downloads;

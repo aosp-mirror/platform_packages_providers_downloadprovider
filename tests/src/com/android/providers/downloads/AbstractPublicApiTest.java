@@ -16,8 +16,8 @@
 
 package com.android.providers.downloads;
 
+import android.app.DownloadManager;
 import android.database.Cursor;
-import android.net.DownloadManager;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 

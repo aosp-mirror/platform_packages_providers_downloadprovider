@@ -16,6 +16,7 @@
 
 package com.android.providers.downloads;
 
+import android.app.DownloadManager;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -25,7 +26,6 @@ import android.database.CharArrayBuffer;
 import android.database.Cursor;
 import android.drm.mobile1.DrmRawContent;
 import android.net.ConnectivityManager;
-import android.net.DownloadManager;
 import android.net.Uri;
 import android.provider.Downloads;
 import android.provider.Downloads.Impl;

@@ -16,7 +16,7 @@
 
 package com.android.providers.downloads;
 
-import android.net.DownloadManager;
+import android.app.DownloadManager;
 import android.test.suitebuilder.annotation.LargeTest;
 
 /**

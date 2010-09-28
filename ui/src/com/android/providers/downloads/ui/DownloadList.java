@@ -18,6 +18,7 @@ package com.android.providers.downloads.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.Context;
@@ -27,7 +28,6 @@ import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.database.DataSetObserver;
-import android.net.DownloadManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;

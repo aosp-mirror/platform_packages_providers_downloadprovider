@@ -196,8 +196,6 @@ public class DownloadService extends Service {
         mNotifier = new DownloadNotification(this, mSystemFacade);
         mSystemFacade.cancelAllNotifications();
 
-        trimDatabase();
-        removeSpuriousFiles();
         updateFromProvider();
     }
 
@@ -242,6 +240,9 @@ public class DownloadService extends Service {
 
         public void run() {
             Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+
+            trimDatabase();
+            removeSpuriousFiles();
 
             boolean keepService = false;
             // for each update from the database, remember which download is

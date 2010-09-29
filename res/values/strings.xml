@@ -67,8 +67,10 @@
         can use this to confuse other applications that download
         files.</string>
 
+    <!-- Title for permission to see all downloads to EXTERNAL [CHAR LIMIT=25] -->
+    <string name="permlab_seeAllExternal" product="nosdcard">See all downloads to shared storage</string>
     <!-- Title for permission to see all downloads to EXTERNAL -->
-    <string name="permlab_seeAllExternal">See all downloads to SD card</string>
+    <string name="permlab_seeAllExternal" product="default">See all downloads to SD card</string>
     <!-- Description for the permission to see all downloads to EXTERNAL -->
     <string name="permdesc_seeAllExternal">Allows the application to see all
         downloads to the SD card, regardless of which application downloaded

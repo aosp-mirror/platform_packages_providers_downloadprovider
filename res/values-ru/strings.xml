@@ -23,7 +23,8 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Предоставляет приложению доступ к расширенным функциям диспетчера загрузки. Вредоносное ПО может этим воспользоваться для прерывания загрузки и доступа к личной информации."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Отправить оповещение о загрузке."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Позволяет приложению отправлять оповещения о завершенных загрузках. Вредоносное ПО может пользоваться этим, мешая работе приложений, загружающих файлы."</string>
-    <string name="permlab_seeAllExternal" msgid="140058400609165726">"Просмотреть все загрузки на SD-карту"</string>
+    <!-- outdated translation 140058400609165726 -->     <string name="permlab_seeAllExternal" product="nosdcard" msgid="3423239546637683653">"Просмотреть все загрузки на SD-карту"</string>
+    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Просмотреть все загрузки на SD-карту"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Разрешить программе доступ ко всем загрузкам на SD-карту независимо от того, через какое приложение они были загружены."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Резервировать место в кэше загрузки"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Разрешает приложению загружать файлы в кэш загрузки (который не может быть автоматически очищен), если менеджеру загрузки потребуется больше места."</string>
@@ -38,14 +39,14 @@
     <string name="notification_filename_extras" msgid="5549729917695688191">" и ещё <xliff:g id="NUMBER">%d</xliff:g>"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"Загрузка завершена"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Ошибка загрузки"</string>
-    <string name="notification_need_wifi_for_size" msgid="7034174266881861838">"Размер требует Wi-Fi"</string>
-    <!-- no translation found for wifi_required_title (1995971416871498179) -->
+    <!-- outdated translation 7034174266881861838 -->     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Размер требует Wi-Fi"</string>
+    <!-- no translation found for wifi_required_title (1003041298526831643) -->
     <skip />
-    <!-- no translation found for wifi_required_body (236265653997704213) -->
+    <!-- no translation found for wifi_required_body (515230018902671203) -->
     <skip />
-    <!-- no translation found for wifi_recommended_title (7441589306734687400) -->
+    <!-- no translation found for wifi_recommended_title (5539971631114967735) -->
     <skip />
-    <!-- no translation found for wifi_recommended_body (2814345390059518237) -->
+    <!-- no translation found for wifi_recommended_body (6723283448732519545) -->
     <skip />
     <!-- no translation found for button_queue_for_wifi (422576726189179221) -->
     <skip />

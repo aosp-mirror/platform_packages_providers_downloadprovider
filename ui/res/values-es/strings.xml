@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Copyright (C) 2010 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label" msgid="3070921713463294774">"Descargas"</string>
+    <string name="download_title" msgid="2470985874255839247">"Descargas"</string>
+    <string name="no_downloads" msgid="1029667411186146836">"No hay descargas."</string>
+    <string name="missing_title" msgid="830115697868833773">"&lt;Desconocido&gt;"</string>
+    <string name="download_menu_sort_by_size" msgid="2276438658769422878">"Ordenar por tamaño"</string>
+    <!-- no translation found for download_menu_sort_by_date (4300882048968609945) -->
+    <skip />
+    <string name="download_pending" msgid="446474554414082313">"En cola"</string>
+    <string name="download_running" msgid="4656462962155580641">"En curso"</string>
+    <string name="download_success" msgid="7006048006543495236">"Completada"</string>
+    <string name="download_error" msgid="3107369653921738690">"Con error"</string>
+    <string name="dialog_title_not_available" msgid="7778534318108794843">"Archivo no disponible"</string>
+    <string name="dialog_failed_body" msgid="6156768789629578318">"Se ha producido un error al realizar la descarga."</string>
+    <string name="dialog_queued_body" msgid="2506935748423351902">"Este archivo está en cola para descargarlo más tarde."</string>
+    <string name="dialog_file_missing_body" msgid="2783781332668129395">"No se puede encontrar el archivo descargado."</string>
+    <!-- no translation found for dialog_insufficient_space_on_external (7534108515812329821) -->
+    <skip />
+    <!-- no translation found for dialog_insufficient_space_on_cache (8387210487235302129) -->
+    <skip />
+    <!-- no translation found for dialog_cannot_resume (7704082031608361756) -->
+    <skip />
+    <!-- no translation found for dialog_file_already_exists (2663737850617642888) -->
+    <skip />
+    <!-- no translation found for dialog_media_not_found (5308602145105720991) -->
+    <skip />
+    <string name="download_no_application_title" msgid="3501359021635168387">"No se puede abrir el archivo."</string>
+    <string name="remove_download" msgid="6372920256257247857">"Quitar"</string>
+    <string name="delete_download" msgid="76629022653866471">"Eliminar"</string>
+    <string name="keep_queued_download" msgid="5144882786014818569">"Conservar"</string>
+    <string name="cancel_running_download" msgid="5232704030969221112">"Cancelar"</string>
+    <string name="retry_download" msgid="7617100787922717912">"Reintentar"</string>
+    <string name="deselect_all" msgid="5638030443515705047">"Borrar selección"</string>
+</resources>

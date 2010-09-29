@@ -57,6 +57,7 @@ public class DownloadAdapter extends CursorAdapter {
     private int mTitleColumnId;
     private int mDescriptionColumnId;
     private int mStatusColumnId;
+    private int mReasonColumnId;
     private int mTotalBytesColumnId;
     private int mMediaTypeColumnId;
     private int mDateColumnId;
@@ -76,6 +77,7 @@ public class DownloadAdapter extends CursorAdapter {
         mTitleColumnId = cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TITLE);
         mDescriptionColumnId = cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_DESCRIPTION);
         mStatusColumnId = cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS);
+        mReasonColumnId = cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_REASON);
         mTotalBytesColumnId = cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES);
         mMediaTypeColumnId = cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIA_TYPE);
         mDateColumnId =
@@ -150,11 +152,15 @@ public class DownloadAdapter extends CursorAdapter {
                 return R.string.download_success;
 
             case DownloadManager.STATUS_PENDING:
-                return R.string.download_pending;
-
             case DownloadManager.STATUS_RUNNING:
-            case DownloadManager.STATUS_PAUSED:
                 return R.string.download_running;
+
+            case DownloadManager.STATUS_PAUSED:
+                if (mCursor.getInt(mReasonColumnId) == DownloadManager.PAUSED_QUEUED_FOR_WIFI) {
+                    return R.string.download_queued;
+                } else {
+                    return R.string.download_running;
+                }
         }
         throw new IllegalStateException("Unknown status: " + mCursor.getInt(mStatusColumnId));
     }

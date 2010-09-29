@@ -82,7 +82,7 @@ public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFuncti
         downloadUri = requestDownload("/path");
         updateDownload(downloadUri, Downloads.COLUMN_DESTINATION,
                        Integer.toString(Downloads.DESTINATION_CACHE_PARTITION_NOROAMING));
-        runUntilStatus(downloadUri, Downloads.STATUS_RUNNING_PAUSED);
+        runUntilStatus(downloadUri, Downloads.Impl.STATUS_WAITING_FOR_NETWORK);
 
         // ...and pick up when we're off roaming
         enqueueResponse(HTTP_OK, FILE_CONTENT);

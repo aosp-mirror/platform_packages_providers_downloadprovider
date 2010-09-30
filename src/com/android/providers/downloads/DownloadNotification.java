@@ -138,8 +138,10 @@ class DownloadNotification {
                 item.addItem(title, progress, max);
                 mNotifications.put(packageName, item);
             }
-            if (hasPausedReason(download) && item.mPausedText == null) {
-                item.mPausedText = download.mPausedReason;
+            if (download.mStatus == Downloads.Impl.STATUS_QUEUED_FOR_WIFI
+                    && item.mPausedText == null) {
+                item.mPausedText = mContext.getResources().getString(
+                        R.string.notification_need_wifi_for_size);
             }
         }
 
@@ -203,10 +205,6 @@ class DownloadNotification {
             mSystemFacade.postNotification(item.mId, n);
 
         }
-    }
-
-    private boolean hasPausedReason(DownloadInfo download) {
-        return download.mStatus == Downloads.STATUS_RUNNING_PAUSED && download.mPausedReason != null;
     }
 
     private void updateCompletedNotification(Collection<DownloadInfo> downloads) {

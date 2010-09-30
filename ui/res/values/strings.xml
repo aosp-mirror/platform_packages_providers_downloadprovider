@@ -38,9 +38,9 @@
 
     <!-- Status messages -->
 
-    <!-- Status indicating that the download has not yet begun.  Appears for an individual item in
-         the download list.  [CHAR LIMIT=11] -->
-    <string name="download_pending">Queued</string>
+    <!-- Status indicating that the download has been queued to start in the future.  Appears for an
+         individual item in the download list.  [CHAR LIMIT=11] -->
+    <string name="download_queued">Queued</string>
     <!-- Status indicating that the system is currently downloading the file.  Appears for an
          individual item in the download list.  [CHAR LIMIT=11] -->
     <string name="download_running">In progress</string>

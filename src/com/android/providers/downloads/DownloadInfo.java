@@ -227,7 +227,6 @@ public class DownloadInfo {
     public String mTitle;
     public String mDescription;
     public int mBypassRecommendedSizeLimit;
-    public String mPausedReason;
 
     public int mFuzz;
 
@@ -275,10 +274,12 @@ public class DownloadInfo {
     }
 
     /**
-     * Returns the time when a download should be restarted. Must only
-     * be called when numFailed > 0.
+     * Returns the time when a download should be restarted.
      */
-    public long restartTime() {
+    public long restartTime(long now) {
+        if (mNumFailed == 0) {
+            return now;
+        }
         if (mRetryAfter > 0) {
             return mLastMod + mRetryAfter;
         }
@@ -291,67 +292,29 @@ public class DownloadInfo {
      * Returns whether this download (which the download manager hasn't seen yet)
      * should be started.
      */
-    public boolean isReadyToStart(long now) {
+    private boolean isReadyToStart(long now) {
+        if (mHasActiveThread) {
+            // already running
+            return false;
+        }
         if (mControl == Downloads.Impl.CONTROL_PAUSED) {
             // the download is paused, so it's not going to start
             return false;
         }
-        if (mStatus == 0) {
-            // status hasn't been initialized yet, this is a new download
-            return true;
-        }
-        if (mStatus == Downloads.Impl.STATUS_PENDING) {
-            // download is explicit marked as ready to start
-            return true;
-        }
-        if (mStatus == Downloads.Impl.STATUS_RUNNING) {
-            // download was interrupted (process killed, loss of power) while it was running,
-            //     without a chance to update the database
-            return true;
-        }
-        if (mStatus == Downloads.Impl.STATUS_RUNNING_PAUSED) {
-            if (mNumFailed == 0) {
-                // download is waiting for network connectivity to return before it can resume
+        switch (mStatus) {
+            case 0: // status hasn't been initialized yet, this is a new download
+            case Downloads.Impl.STATUS_PENDING: // download is explicit marked as ready to start
+            case Downloads.Impl.STATUS_RUNNING: // download interrupted (process killed etc) while
+                                                // running, without a chance to update the database
                 return true;
-            }
-            if (restartTime() < now) {
-                // download was waiting for a delayed restart, and the delay has expired
-                return true;
-            }
-        }
-        return false;
-    }
 
-    /**
-     * Returns whether this download (which the download manager has already seen
-     * and therefore potentially started) should be restarted.
-     *
-     * In a nutshell, this returns true if the download isn't already running
-     * but should be, and it can know whether the download is already running
-     * by checking the status.
-     */
-    public boolean isReadyToRestart(long now) {
-        if (mControl == Downloads.Impl.CONTROL_PAUSED) {
-            // the download is paused, so it's not going to restart
-            return false;
-        }
-        if (mStatus == 0) {
-            // download hadn't been initialized yet
-            return true;
-        }
-        if (mStatus == Downloads.Impl.STATUS_PENDING) {
-            // download is explicit marked as ready to start
-            return true;
-        }
-        if (mStatus == Downloads.Impl.STATUS_RUNNING_PAUSED) {
-            if (mNumFailed == 0) {
-                // download is waiting for network connectivity to return before it can resume
+            case Downloads.Impl.STATUS_WAITING_FOR_NETWORK:
+            case Downloads.Impl.STATUS_QUEUED_FOR_WIFI:
                 return checkCanUseNetwork() == NETWORK_OK;
-            }
-            if (restartTime() < now) {
-                // download was waiting for a delayed restart, and the delay has expired
-                return true;
-            }
+
+            case Downloads.Impl.STATUS_WAITING_TO_RETRY:
+                // download was waiting for a delayed restart
+                return restartTime(now) <= now;
         }
         return false;
     }
@@ -450,7 +413,11 @@ public class DownloadInfo {
         return NETWORK_OK;
     }
 
-    void start(long now) {
+    void startIfReady(long now) {
+        if (!isReadyToStart(now)) {
+            return;
+        }
+
         if (Constants.LOGV) {
             Log.v(Constants.TAG, "Service spawning thread to handle download " + mId);
         }
@@ -521,13 +488,10 @@ public class DownloadInfo {
         if (Downloads.Impl.isStatusCompleted(mStatus)) {
             return -1;
         }
-        if (mStatus != Downloads.Impl.STATUS_RUNNING_PAUSED) {
+        if (mStatus != Downloads.Impl.STATUS_WAITING_TO_RETRY) {
             return 0;
         }
-        if (mNumFailed == 0) {
-            return 0;
-        }
-        long when = restartTime();
+        long when = restartTime(now);
         if (when <= now) {
             return 0;
         }
@@ -545,8 +509,6 @@ public class DownloadInfo {
     }
 
     void notifyPauseDueToSize(boolean isWifiRequired) {
-        mPausedReason = mContext.getResources().getString(
-                R.string.notification_need_wifi_for_size);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(getAllDownloadsUri());
         intent.setClassName(SizeLimitActivity.class.getPackage().getName(),

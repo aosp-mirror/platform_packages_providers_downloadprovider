@@ -23,7 +23,8 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"애플리케이션이 다운로드 관리자의 고급 기능에 액세스할 수 있도록 허용합니다. 이 경우 악성 애플리케이션이 다운로드를 중단시키고 개인 정보에 액세스할 수 있습니다."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"다운로드 알림을 전송합니다."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"애플리케이션이 완료된 다운로드에 대한 알림을 보낼 수 있도록 허용합니다. 이 경우 악성 애플리케이션이 파일을 다운로드하는 다른 애플리케이션에 혼란을 야기할 할 수 있습니다."</string>
-    <string name="permlab_seeAllExternal" msgid="140058400609165726">"SD 카드에 다운로드한 모든 항목 보기"</string>
+    <!-- outdated translation 140058400609165726 -->     <string name="permlab_seeAllExternal" product="nosdcard" msgid="3423239546637683653">"SD 카드에 다운로드한 모든 항목 보기"</string>
+    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"SD 카드에 다운로드한 모든 항목 보기"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"어떤 애플리케이션을 사용하여 다운로드했는지에 관계없이 SD 카드에 다운로드한 모든 항목을 애플리케이션에 표시합니다."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"다운로드 캐시에 공간 보유"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"다운로드 관리자가 추가 공간이 필요한 경우 애플리케이션이 자동으로 삭제되지 않는 다운로드 캐시에 파일을 다운로드하도록 허용합니다."</string>
@@ -38,14 +39,14 @@
     <string name="notification_filename_extras" msgid="5549729917695688191">" 외 <xliff:g id="NUMBER">%d</xliff:g>개"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"다운로드 완료"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"다운로드 실패"</string>
-    <string name="notification_need_wifi_for_size" msgid="7034174266881861838">"대용량. Wifi 필요"</string>
-    <!-- no translation found for wifi_required_title (1995971416871498179) -->
+    <!-- outdated translation 7034174266881861838 -->     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"대용량. Wifi 필요"</string>
+    <!-- no translation found for wifi_required_title (1003041298526831643) -->
     <skip />
-    <!-- no translation found for wifi_required_body (236265653997704213) -->
+    <!-- no translation found for wifi_required_body (515230018902671203) -->
     <skip />
-    <!-- no translation found for wifi_recommended_title (7441589306734687400) -->
+    <!-- no translation found for wifi_recommended_title (5539971631114967735) -->
     <skip />
-    <!-- no translation found for wifi_recommended_body (2814345390059518237) -->
+    <!-- no translation found for wifi_recommended_body (6723283448732519545) -->
     <skip />
     <!-- no translation found for button_queue_for_wifi (422576726189179221) -->
     <skip />

@@ -145,7 +145,6 @@ public class DownloadThread extends Thread {
         AndroidHttpClient client = null;
         PowerManager.WakeLock wakeLock = null;
         int finalStatus = Downloads.Impl.STATUS_UNKNOWN_ERROR;
-        mInfo.mPausedReason = null;
 
         try {
             PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
@@ -161,6 +160,7 @@ public class DownloadThread extends Thread {
 
             boolean finished = false;
             while(!finished) {
+                Log.i(Constants.TAG, "Initiating request for download " + mInfo.mId);
                 // Set or unset proxy, which may have changed since last GET request.
                 // setDefaultProxy() supports null as proxy parameter.
                 ConnRouteParams.setDefaultProxy(client.getParams(),
@@ -183,25 +183,19 @@ public class DownloadThread extends Thread {
             finalizeDestinationFile(state);
             finalStatus = Downloads.Impl.STATUS_SUCCESS;
         } catch (StopRequest error) {
-            if (Constants.LOGV) {
-                Log.v(Constants.TAG, "Aborting request for " + mInfo.mUri, error);
-            }
+            // remove the cause before printing, in case it contains PII
+            Log.w(Constants.TAG, "Aborting request for download " + mInfo.mId, removeCause(error));
             finalStatus = error.mFinalStatus;
             // fall through to finally block
         } catch (FileNotFoundException ex) {
-            Log.d(Constants.TAG, "FileNotFoundException for " + state.mFilename + " : " +  ex);
+            Log.w(Constants.TAG, "FileNotFoundException for " + state.mFilename, ex);
             finalStatus = Downloads.Impl.STATUS_FILE_ERROR;
             // falls through to the code that reports an error
-        } catch (RuntimeException ex) { //sometimes the socket code throws unchecked exceptions
-            if (Constants.LOGV) {
-                Log.d(Constants.TAG, "Exception for " + mInfo.mUri, ex);
-            } else if (Config.LOGD) {
-                Log.d(Constants.TAG, "Exception for id " + mInfo.mId, ex);
-            }
+        } catch (Throwable ex) { //sometimes the socket code throws unchecked exceptions
+            Log.w(Constants.TAG, "Exception for id " + mInfo.mId, ex);
             finalStatus = Downloads.Impl.STATUS_UNKNOWN_ERROR;
             // falls through to the code that reports an error
         } finally {
-            mInfo.mHasActiveThread = false;
             if (wakeLock != null) {
                 wakeLock.release();
                 wakeLock = null;
@@ -214,7 +208,17 @@ public class DownloadThread extends Thread {
             notifyDownloadCompleted(finalStatus, state.mCountRetry, state.mRetryAfter,
                                     state.mRedirectCount, state.mGotData, state.mFilename,
                                     state.mNewUri, state.mMimeType);
+            mInfo.mHasActiveThread = false;
         }
+    }
+
+    /**
+     * @return an identical StopRequest but with the cause removed.
+     */
+    private StopRequest removeCause(StopRequest error) {
+        StopRequest newException = new StopRequest(error.mFinalStatus);
+        newException.setStackTrace(error.getStackTrace());
+        return newException;
     }
 
     /**
@@ -250,12 +254,15 @@ public class DownloadThread extends Thread {
     private void checkConnectivity(State state) throws StopRequest {
         int networkUsable = mInfo.checkCanUseNetwork();
         if (networkUsable != DownloadInfo.NETWORK_OK) {
+            int status = Downloads.Impl.STATUS_WAITING_FOR_NETWORK;
             if (networkUsable == DownloadInfo.NETWORK_UNUSABLE_DUE_TO_SIZE) {
+                status = Downloads.Impl.STATUS_QUEUED_FOR_WIFI;
                 mInfo.notifyPauseDueToSize(true);
             } else if (networkUsable == DownloadInfo.NETWORK_RECOMMENDED_UNUSABLE_DUE_TO_SIZE) {
+                status = Downloads.Impl.STATUS_QUEUED_FOR_WIFI;
                 mInfo.notifyPauseDueToSize(false);
             }
-            throw new StopRequest(Downloads.Impl.STATUS_RUNNING_PAUSED);
+            throw new StopRequest(status);
         }
     }
 
@@ -393,7 +400,7 @@ public class DownloadThread extends Thread {
                 if (Constants.LOGV) {
                     Log.v(Constants.TAG, "paused " + mInfo.mUri);
                 }
-                throw new StopRequest(Downloads.Impl.STATUS_RUNNING_PAUSED);
+                throw new StopRequest(Downloads.Impl.STATUS_PAUSED_BY_APP);
             }
         }
         if (mInfo.mStatus == Downloads.Impl.STATUS_CANCELED) {
@@ -774,7 +781,7 @@ public class DownloadThread extends Thread {
                // ignored - retryAfter stays 0 in this case.
            }
         }
-        throw new StopRequest(Downloads.Impl.STATUS_RUNNING_PAUSED);
+        throw new StopRequest(Downloads.Impl.STATUS_WAITING_TO_RETRY);
     }
 
     /**
@@ -809,10 +816,10 @@ public class DownloadThread extends Thread {
         }
 
         if (!Helpers.isNetworkAvailable(mSystemFacade)) {
-            return Downloads.Impl.STATUS_RUNNING_PAUSED;
+            return Downloads.Impl.STATUS_WAITING_FOR_NETWORK;
         } else if (mInfo.mNumFailed < Constants.MAX_RETRIES) {
             state.mCountRetry = true;
-            return Downloads.Impl.STATUS_RUNNING_PAUSED;
+            return Downloads.Impl.STATUS_WAITING_TO_RETRY;
         } else {
             Log.d(Constants.TAG, "reached max retries: " + message + " for " + mInfo.mId);
             return Downloads.Impl.STATUS_HTTP_DATA_ERROR;

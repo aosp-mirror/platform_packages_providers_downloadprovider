@@ -439,10 +439,7 @@ public class DownloadService extends Service {
             info.logVerboseInfo();
         }
 
-        if (info.isReadyToStart(now)) {
-            info.start(now);
-        }
-
+        info.startIfReady(now);
         return info;
     }
 
@@ -466,9 +463,7 @@ public class DownloadService extends Service {
             mSystemFacade.cancelNotification(info.mId);
         }
 
-        if (info.isReadyToRestart(now)) {
-            info.start(now);
-        }
+        info.startIfReady(now);
     }
 
     /**

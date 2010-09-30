@@ -85,7 +85,7 @@ public class DownloadList extends Activity
     private int mIdColumnId;
     private int mLocalUriColumnId;
     private int mMediaTypeColumnId;
-    private int mErrorCodeColumndId;
+    private int mReasonColumndId;
 
     private boolean mIsSortedBySize = false;
     private Set<Long> mSelectedIds = new HashSet<Long>();
@@ -94,8 +94,9 @@ public class DownloadList extends Activity
      * We keep track of when a dialog is being displayed for a pending download, because if that
      * download starts running, we want to immediately hide the dialog.
      */
-    private Long mPendingDownloadId = null;
-    private AlertDialog mPendingDialog;
+    private Long mQueuedDownloadId = null;
+    private AlertDialog mQueuedDialog;
+
 
     private class MyContentObserver extends ContentObserver {
         public MyContentObserver() {
@@ -145,8 +146,8 @@ public class DownloadList extends Activity
                     mDateSortedCursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_URI);
             mMediaTypeColumnId =
                     mDateSortedCursor.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIA_TYPE);
-            mErrorCodeColumndId =
-                    mDateSortedCursor.getColumnIndexOrThrow(DownloadManager.COLUMN_ERROR_CODE);
+            mReasonColumndId =
+                    mDateSortedCursor.getColumnIndexOrThrow(DownloadManager.COLUMN_REASON);
 
             mDateSortedAdapter = new DateSortedDownloadAdapter(this, mDateSortedCursor, this);
             mDateOrderedListView.setAdapter(mDateSortedAdapter);
@@ -359,19 +360,23 @@ public class DownloadList extends Activity
         long id = cursor.getInt(mIdColumnId);
         switch (cursor.getInt(mStatusColumnId)) {
             case DownloadManager.STATUS_PENDING:
-                mPendingDownloadId = id;
-                mPendingDialog = new AlertDialog.Builder(this)
-                        .setTitle(R.string.dialog_title_not_available)
-                        .setMessage(R.string.dialog_queued_body)
-                        .setPositiveButton(R.string.keep_queued_download, null)
-                        .setNegativeButton(R.string.remove_download, getDeleteClickHandler(id))
-                        .setOnCancelListener(this)
-                        .show();
+            case DownloadManager.STATUS_RUNNING:
+                sendRunningDownloadClickedBroadcast(id);
                 break;
 
-            case DownloadManager.STATUS_RUNNING:
             case DownloadManager.STATUS_PAUSED:
-                sendRunningDownloadClickedBroadcast(id);
+                if (isPausedForWifi(cursor)) {
+                    mQueuedDownloadId = id;
+                    mQueuedDialog = new AlertDialog.Builder(this)
+                            .setTitle(R.string.dialog_title_not_available)
+                            .setMessage(R.string.dialog_queued_body)
+                            .setPositiveButton(R.string.keep_queued_download, null)
+                            .setNegativeButton(R.string.remove_download, getDeleteClickHandler(id))
+                            .setOnCancelListener(this)
+                            .show();
+                } else {
+                    sendRunningDownloadClickedBroadcast(id);
+                }
                 break;
 
             case DownloadManager.STATUS_SUCCESSFUL:
@@ -388,7 +393,7 @@ public class DownloadList extends Activity
      * @return the appropriate error message for the failed download pointed to by cursor
      */
     private String getErrorMessage(Cursor cursor) {
-        switch (cursor.getInt(mErrorCodeColumndId)) {
+        switch (cursor.getInt(mReasonColumndId)) {
             case DownloadManager.ERROR_FILE_ALREADY_EXISTS:
                 if (isOnExternalStorage(cursor)) {
                     return getString(R.string.dialog_file_already_exists);
@@ -616,11 +621,16 @@ public class DownloadList extends Activity
     void handleDownloadsChanged() {
         checkSelectionForDeletedEntries();
 
-        if (mPendingDownloadId != null && moveToDownload(mPendingDownloadId)) {
-            if (mDateSortedCursor.getInt(mStatusColumnId) != DownloadManager.STATUS_PENDING) {
-                mPendingDialog.cancel();
+        if (mQueuedDownloadId != null && moveToDownload(mQueuedDownloadId)) {
+            if (mDateSortedCursor.getInt(mStatusColumnId) != DownloadManager.STATUS_PAUSED
+                    || !isPausedForWifi(mDateSortedCursor)) {
+                mQueuedDialog.cancel();
             }
         }
+    }
+
+    private boolean isPausedForWifi(Cursor cursor) {
+        return cursor.getInt(mReasonColumndId) == DownloadManager.PAUSED_QUEUED_FOR_WIFI;
     }
 
     /**
@@ -662,7 +672,7 @@ public class DownloadList extends Activity
      */
     @Override
     public void onCancel(DialogInterface dialog) {
-        mPendingDownloadId = null;
-        mPendingDialog = null;
+        mQueuedDownloadId = null;
+        mQueuedDialog = null;
     }
 }

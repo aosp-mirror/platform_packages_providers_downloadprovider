@@ -23,7 +23,8 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Consente l\'accesso dell\'applicazione alle funzioni avanzate di gestione dei download. Le applicazioni dannose possono sfruttare questa possibilità per interrompere download e accedere a informazioni riservate."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Inviare notifiche di download."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Consente l\'invio da parte dell\'applicazione di notifiche relative ai download completati. Le applicazioni dannose possono sfruttare questa possibilità per \"confondere\" altre applicazioni usate per scaricare file."</string>
-    <string name="permlab_seeAllExternal" msgid="140058400609165726">"Visualizza tutti i download sulla scheda SD"</string>
+    <!-- outdated translation 140058400609165726 -->     <string name="permlab_seeAllExternal" product="nosdcard" msgid="3423239546637683653">"Visualizza tutti i download sulla scheda SD"</string>
+    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Visualizza tutti i download sulla scheda SD"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Consente all\'applicazione di visualizzare tutti i download sulla scheda SD, indipendentemente dall\'applicazione che li ha scaricati."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Conserva spazio nella cache dei download"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Consente all\'applicazione di scaricare nella cache i file che non possono essere eliminati automaticamente quando a gestione dei download serve più spazio."</string>
@@ -38,14 +39,14 @@
     <string name="notification_filename_extras" msgid="5549729917695688191">" e <xliff:g id="NUMBER">%d</xliff:g> altri"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"Download completato"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Download non riuscito"</string>
-    <string name="notification_need_wifi_for_size" msgid="7034174266881861838">"Dim. elev. Serve Wi-Fi"</string>
-    <!-- no translation found for wifi_required_title (1995971416871498179) -->
+    <!-- outdated translation 7034174266881861838 -->     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Dim. elev. Serve Wi-Fi"</string>
+    <!-- no translation found for wifi_required_title (1003041298526831643) -->
     <skip />
-    <!-- no translation found for wifi_required_body (236265653997704213) -->
+    <!-- no translation found for wifi_required_body (515230018902671203) -->
     <skip />
-    <!-- no translation found for wifi_recommended_title (7441589306734687400) -->
+    <!-- no translation found for wifi_recommended_title (5539971631114967735) -->
     <skip />
-    <!-- no translation found for wifi_recommended_body (2814345390059518237) -->
+    <!-- no translation found for wifi_recommended_body (6723283448732519545) -->
     <skip />
     <!-- no translation found for button_queue_for_wifi (422576726189179221) -->
     <skip />

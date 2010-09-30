@@ -23,7 +23,8 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Tillader, at programmet får adgang til de avancerede funktioner i downloadadministratoren. Ondsindede programmer kan bruge dette til at afbryde downloads og få adgang til personlige oplysninger."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Send downloadmeddelelser."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Tillader, at programmet sender meddelelser om afsluttede downloads. Ondsindede programmer kan bruge dette til at forvirre andre programmer, der downloader filer."</string>
-    <string name="permlab_seeAllExternal" msgid="140058400609165726">"Se alle downloads til SD-kort"</string>
+    <!-- outdated translation 140058400609165726 -->     <string name="permlab_seeAllExternal" product="nosdcard" msgid="3423239546637683653">"Se alle downloads til SD-kort"</string>
+    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Se alle downloads til SD-kort"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Gør det muligt for programmet at se alle downloads til SD-kortet, uanset hvilket program, der downloadede dem."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Reserver plads i downloadcache"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Programmet kan downloade filer til downloadcachen, som ikke automatisk kan slettes, når downloadmanageren har brug for mere plads."</string>
@@ -38,14 +39,14 @@
     <string name="notification_filename_extras" msgid="5549729917695688191">" og <xliff:g id="NUMBER">%d</xliff:g> mere"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"Download afsluttet"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Download mislykkedes"</string>
-    <string name="notification_need_wifi_for_size" msgid="7034174266881861838">"Wi-Fi kræves pga. str."</string>
-    <!-- no translation found for wifi_required_title (1995971416871498179) -->
+    <!-- outdated translation 7034174266881861838 -->     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Wi-Fi kræves pga. str."</string>
+    <!-- no translation found for wifi_required_title (1003041298526831643) -->
     <skip />
-    <!-- no translation found for wifi_required_body (236265653997704213) -->
+    <!-- no translation found for wifi_required_body (515230018902671203) -->
     <skip />
-    <!-- no translation found for wifi_recommended_title (7441589306734687400) -->
+    <!-- no translation found for wifi_recommended_title (5539971631114967735) -->
     <skip />
-    <!-- no translation found for wifi_recommended_body (2814345390059518237) -->
+    <!-- no translation found for wifi_recommended_body (6723283448732519545) -->
     <skip />
     <!-- no translation found for button_queue_for_wifi (422576726189179221) -->
     <skip />

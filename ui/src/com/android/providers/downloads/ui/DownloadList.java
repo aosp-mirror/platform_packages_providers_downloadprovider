@@ -582,9 +582,11 @@ public class DownloadList extends Activity
     private void deleteDownload(long downloadId) {
         if (moveToDownload(downloadId)) {
             int status = mDateSortedCursor.getInt(mStatusColumnId);
-            if (status == DownloadManager.STATUS_SUCCESSFUL
-                    || status == DownloadManager.STATUS_FAILED) {
-                String path = Uri.parse(mDateSortedCursor.getString(mLocalUriColumnId)).getPath();
+            boolean isComplete = status == DownloadManager.STATUS_SUCCESSFUL
+                    || status == DownloadManager.STATUS_FAILED;
+            String localUri = mDateSortedCursor.getString(mLocalUriColumnId);
+            if (isComplete && localUri != null) {
+                String path = Uri.parse(localUri).getPath();
                 if (path.startsWith(Environment.getExternalStorageDirectory().getPath())) {
                     String mediaType = mDateSortedCursor.getString(mMediaTypeColumnId);
                     deleteDownloadedFile(path, mediaType);

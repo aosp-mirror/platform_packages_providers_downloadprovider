@@ -23,7 +23,8 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Tillåter att ett program får åtkomst till hämtningshanterarens avancerade funktioner. Skadliga program kan använda detta för att störa hämtningar och komma åt privat information."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Skicka meddelande om hämtning."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Tillåter att ett program skickar meddelanden om slutförda hämtningar. Skadliga program kan använda detta för att störa andra program som hämtar filer."</string>
-    <string name="permlab_seeAllExternal" msgid="140058400609165726">"Visa alla hämtningar till SD-kort"</string>
+    <!-- outdated translation 140058400609165726 -->     <string name="permlab_seeAllExternal" product="nosdcard" msgid="3423239546637683653">"Visa alla hämtningar till SD-kort"</string>
+    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Visa alla hämtningar till SD-kort"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Tillåter att programmet ser alla hämtningar till SD-kortet, oavsett vilket program som hämtat innehållet."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Reservera utrymme i hämtningscachen"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Tillåter att programmet hämtar filer till hämtningscachen som inte kan tas bort automatiskt när hämtningshanteraren behöver mer utrymme."</string>
@@ -38,14 +39,14 @@
     <string name="notification_filename_extras" msgid="5549729917695688191">" och <xliff:g id="NUMBER">%d</xliff:g> till"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"Hämtning slutförd"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Det gick inte att hämta"</string>
-    <string name="notification_need_wifi_for_size" msgid="7034174266881861838">"Wifi krävs pga storlek"</string>
-    <!-- no translation found for wifi_required_title (1995971416871498179) -->
+    <!-- outdated translation 7034174266881861838 -->     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Wifi krävs pga storlek"</string>
+    <!-- no translation found for wifi_required_title (1003041298526831643) -->
     <skip />
-    <!-- no translation found for wifi_required_body (236265653997704213) -->
+    <!-- no translation found for wifi_required_body (515230018902671203) -->
     <skip />
-    <!-- no translation found for wifi_recommended_title (7441589306734687400) -->
+    <!-- no translation found for wifi_recommended_title (5539971631114967735) -->
     <skip />
-    <!-- no translation found for wifi_recommended_body (2814345390059518237) -->
+    <!-- no translation found for wifi_recommended_body (6723283448732519545) -->
     <skip />
     <!-- no translation found for button_queue_for_wifi (422576726189179221) -->
     <skip />

@@ -175,9 +175,9 @@ public class DownloadInfo {
     public static final int NETWORK_OK = 1;
 
     /**
-     * The network is unusuable for some unspecified reason.
+     * There is no network connectivity.
      */
-    public static final int NETWORK_UNUSABLE_GENERIC = 2;
+    public static final int NETWORK_NO_CONNECTION = 2;
 
     /**
      * The download exceeds the maximum size for this network.
@@ -189,6 +189,16 @@ public class DownloadInfo {
      * this download to proceed without WiFi.
      */
     public static final int NETWORK_RECOMMENDED_UNUSABLE_DUE_TO_SIZE = 4;
+
+    /**
+     * The current connection is roaming, and the download can't proceed over a roaming connection.
+     */
+    public static final int NETWORK_CANNOT_USE_ROAMING = 5;
+
+    /**
+     * The app requesting the download specific that it can't use the current network connection.
+     */
+    public static final int NETWORK_TYPE_DISALLOWED_BY_REQUESTOR = 6;
 
     /**
      * For intents used to notify the user that a download exceeds a size threshold, if this extra
@@ -340,10 +350,10 @@ public class DownloadInfo {
     public int checkCanUseNetwork() {
         Integer networkType = mSystemFacade.getActiveNetworkType();
         if (networkType == null) {
-            return NETWORK_UNUSABLE_GENERIC;
+            return NETWORK_NO_CONNECTION;
         }
         if (!isRoamingAllowed() && mSystemFacade.isNetworkRoaming()) {
-            return NETWORK_UNUSABLE_GENERIC;
+            return NETWORK_CANNOT_USE_ROAMING;
         }
         return checkIsNetworkTypeAllowed(networkType);
     }
@@ -357,6 +367,32 @@ public class DownloadInfo {
     }
 
     /**
+     * @return a non-localized string appropriate for logging corresponding to one of the
+     * NETWORK_* constants.
+     */
+    public String getLogMessageForNetworkError(int networkError) {
+        switch (networkError) {
+            case NETWORK_RECOMMENDED_UNUSABLE_DUE_TO_SIZE:
+                return "download size exceeds recommended limit for mobile network";
+
+            case NETWORK_UNUSABLE_DUE_TO_SIZE:
+                return "download size exceeds limit for mobile network";
+
+            case NETWORK_NO_CONNECTION:
+                return "no network connection available";
+
+            case NETWORK_CANNOT_USE_ROAMING:
+                return "download cannot use the current network connection because it is roaming";
+
+            case NETWORK_TYPE_DISALLOWED_BY_REQUESTOR:
+                return "download was requested to not use the current network type";
+
+            default:
+                return "unknown error with network connectivity";
+        }
+    }
+
+    /**
      * Check if this download can proceed over the given network type.
      * @param networkType a constant from ConnectivityManager.TYPE_*.
      * @return one of the NETWORK_* constants
@@ -365,7 +401,7 @@ public class DownloadInfo {
         if (mIsPublicApi) {
             int flag = translateNetworkTypeToApiFlag(networkType);
             if ((flag & mAllowedNetworkTypes) == 0) {
-                return NETWORK_UNUSABLE_GENERIC;
+                return NETWORK_TYPE_DISALLOWED_BY_REQUESTOR;
             }
         }
         return checkSizeAllowedForNetwork(networkType);

@@ -538,7 +538,8 @@ public final class DownloadProvider extends ContentProvider {
                     "DESTINATION_FILE_URI must include a file URI under COLUMN_FILE_NAME_HINT");
         }
         Uri uri = Uri.parse(fileUri);
-        if (!uri.getScheme().equals("file")) {
+        String scheme = uri.getScheme();
+        if (scheme == null || !scheme.equals("file")) {
             throw new IllegalArgumentException("Not a file URI: " + uri);
         }
         String path = uri.getPath();

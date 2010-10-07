@@ -30,10 +30,8 @@
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Επιτρέπει στην εφαρμογή τη λήψη αρχείων στην προσωρινή μνήμη λήψης, η οποία δεν είναι δυνατό να διαγραφεί αυτόματα όταν παρουσιαστεί έλλειψη χώρου στον διαχειριστή λήψης."</string>
     <!-- outdated translation 3650349274034807567 -->     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"Χρησιμοποιήστε το διαχειριστή λήψης χωρίς ειδοποίηση"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Επιτρέπει στην εφαρμογή τη λήψη αρχείων μέσω του διαχειριστή λήψης χωρίς την εμφάνιση καμίας ειδοποίησης στο χρήστη."</string>
-    <!-- no translation found for permlab_accessAllDownloads (2436240495424393717) -->
-    <skip />
-    <!-- no translation found for permdesc_accessAllDownloads (4575801130424505112) -->
-    <skip />
+    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Πρόσβαση σε όλα τα στοιχεία λήψης"</string>
+    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Επιτρέπει στην εφαρμογή την παρακολούθηση και την τροποποίηση όλων όσων εκκινούνται από οποιαδήποτε εφαρμογή στο σύστημα."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Χωρίς τίτλο&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" και <xliff:g id="NUMBER">%d</xliff:g> ακόμα"</string>

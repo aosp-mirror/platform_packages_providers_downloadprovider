@@ -30,10 +30,8 @@
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"ダウンロードマネージャーで領域が不足しているときに、自動的に削除できないダウンロードキャッシュへのファイルのダウンロードをアプリケーションに許可します。"</string>
     <!-- outdated translation 3650349274034807567 -->     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"通知せずにダウンロードマネージャーを使用"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"ユーザー通知なしでのダウンロードマネージャー経由のファイルのダウンロードをアプリケーションに許可します。"</string>
-    <!-- no translation found for permlab_accessAllDownloads (2436240495424393717) -->
-    <skip />
-    <!-- no translation found for permdesc_accessAllDownloads (4575801130424505112) -->
-    <skip />
+    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"すべてのシステムダウンロードにアクセス"</string>
+    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"システム上のアプリケーションによるすべてのダウンロードの表示と変更をアプリケーションに許可します。"</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;無題&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">"、 "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" その他<xliff:g id="NUMBER">%d</xliff:g>件"</string>

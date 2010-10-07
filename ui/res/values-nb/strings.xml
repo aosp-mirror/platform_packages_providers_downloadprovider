@@ -21,9 +21,9 @@
     <string name="no_downloads" msgid="1029667411186146836">"Ingen nedlastinger."</string>
     <string name="missing_title" msgid="830115697868833773">"&lt;Ukjent&gt;"</string>
     <string name="download_menu_sort_by_size" msgid="2276438658769422878">"Sorter etter størrelse"</string>
-    <!-- no translation found for download_menu_sort_by_date (4300882048968609945) -->
+    <string name="download_menu_sort_by_date" msgid="4300882048968609945">"Sortér etter tid"</string>
+    <!-- no translation found for download_queued (104973307780629904) -->
     <skip />
-    <string name="download_pending" msgid="446474554414082313">"I kø"</string>
     <string name="download_running" msgid="4656462962155580641">"Arbeider"</string>
     <string name="download_success" msgid="7006048006543495236">"Fullført"</string>
     <string name="download_error" msgid="3107369653921738690">"Mislyktes"</string>
@@ -31,16 +31,11 @@
     <string name="dialog_failed_body" msgid="6156768789629578318">"Nedlastingen mislyktes."</string>
     <string name="dialog_queued_body" msgid="2506935748423351902">"Filen er satt i kø for nedlasting."</string>
     <string name="dialog_file_missing_body" msgid="2783781332668129395">"Finner ikke den nedlastede filen."</string>
-    <!-- no translation found for dialog_insufficient_space_on_external (7534108515812329821) -->
-    <skip />
-    <!-- no translation found for dialog_insufficient_space_on_cache (8387210487235302129) -->
-    <skip />
-    <!-- no translation found for dialog_cannot_resume (7704082031608361756) -->
-    <skip />
-    <!-- no translation found for dialog_file_already_exists (2663737850617642888) -->
-    <skip />
-    <!-- no translation found for dialog_media_not_found (5308602145105720991) -->
-    <skip />
+    <string name="dialog_insufficient_space_on_external" msgid="7534108515812329821">"Kan ikke fullføre nedlastingen. Det er ikke tilstrekkelig plass på ekstern lagringsenhet."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="8387210487235302129">"Kan ikke fullføre nedlastingen. Det er ikke tilstrekkelig plass på intern lagringsenhet."</string>
+    <string name="dialog_cannot_resume" msgid="7704082031608361756">"Nedlasting avbrutt. Den kan ikke gjenopptas."</string>
+    <string name="dialog_file_already_exists" msgid="2663737850617642888">"Kan ikke laste ned. Målfilen finnes allerede."</string>
+    <string name="dialog_media_not_found" msgid="5308602145105720991">"Kan ikke laste ned. Eksternt medium er ikke tilgjengelig."</string>
     <string name="download_no_application_title" msgid="3501359021635168387">"Kan ikke åpne filen"</string>
     <string name="remove_download" msgid="6372920256257247857">"Fjern"</string>
     <string name="delete_download" msgid="76629022653866471">"Slett"</string>

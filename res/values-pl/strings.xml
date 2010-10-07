@@ -30,10 +30,8 @@
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Zezwala aplikacji na pobieranie plików do pamięci podręcznej, której nie można automatycznie usunąć, gdy menedżer pobierania wymaga więcej miejsca."</string>
     <!-- outdated translation 3650349274034807567 -->     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"Użyj menedżera pobierania bez powiadamiania"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Zezwala aplikacji na pobieranie plików za pomocą menedżera pobierania bez wyświetlania powiadomienia."</string>
-    <!-- no translation found for permlab_accessAllDownloads (2436240495424393717) -->
-    <skip />
-    <!-- no translation found for permdesc_accessAllDownloads (4575801130424505112) -->
-    <skip />
+    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Dostęp do wszystkich pobranych pozycji w systemie"</string>
+    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Umożliwia aplikacji wyświetlanie i modyfikowanie wszystkich pobierań przez każdą aplikację w systemie."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Bez nazwy&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" i inne (<xliff:g id="NUMBER">%d</xliff:g>)"</string>

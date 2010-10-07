@@ -30,10 +30,8 @@
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"允許應用程式將檔案下載至下載快取空間，確保檔案不會因為下載管理員需要更多空間而遭到自動刪除。"</string>
     <!-- outdated translation 3650349274034807567 -->     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"使用下載管理員時不需顯示通知"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"允許應用程式不需通知使用者，即可透過下載管理員下載檔案。"</string>
-    <!-- no translation found for permlab_accessAllDownloads (2436240495424393717) -->
-    <skip />
-    <!-- no translation found for permdesc_accessAllDownloads (4575801130424505112) -->
-    <skip />
+    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"存取所有系統下載內容"</string>
+    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"可讓應用程式檢視與修改系統上任一應用程式所下載的所有內容。"</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;未命名&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">"， "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" 以及其他 <xliff:g id="NUMBER">%d</xliff:g> 個"</string>

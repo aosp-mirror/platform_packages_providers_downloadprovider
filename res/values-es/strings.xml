@@ -30,10 +30,8 @@
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Permite que la aplicación descargue archivos en la caché de descargas que no se pueden eliminar de forma automática cuando falta espacio en el administrador de descargas."</string>
     <!-- outdated translation 3650349274034807567 -->     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"Usar administrador de descargas sin notificación"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Permite que la aplicación descargue archivos a través del administrador de descargas sin mostrar notificación al usuario."</string>
-    <!-- no translation found for permlab_accessAllDownloads (2436240495424393717) -->
-    <skip />
-    <!-- no translation found for permdesc_accessAllDownloads (4575801130424505112) -->
-    <skip />
+    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Acceso a todas las descargas del sistema"</string>
+    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Permite que la aplicación vea y modifique todas las acciones iniciadas por cualquier aplicación del sistema."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Sin título&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" y <xliff:g id="NUMBER">%d</xliff:g> más"</string>

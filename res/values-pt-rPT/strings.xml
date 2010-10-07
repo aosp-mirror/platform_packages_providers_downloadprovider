@@ -30,10 +30,8 @@
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Permite à aplic. transf. ficheiros para a cache de transf., os quais não podem ser automatic. eliminados quando o gestor de transf. necessitar de mais espaço."</string>
     <!-- outdated translation 3650349274034807567 -->     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"Utilizar o gestor de transfer. sem notificação"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Permite à aplic. transf. ficheiros através do gestor de transf. sem qualquer notificação apresentada ao utilizador."</string>
-    <!-- no translation found for permlab_accessAllDownloads (2436240495424393717) -->
-    <skip />
-    <!-- no translation found for permdesc_accessAllDownloads (4575801130424505112) -->
-    <skip />
+    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Aceder a todas as transferências do sistema"</string>
+    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Permite à aplicação ver e alterar as transferências iniciadas por todas as aplicações no sistema."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Sem nome&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" e mais <xliff:g id="NUMBER">%d</xliff:g>"</string>

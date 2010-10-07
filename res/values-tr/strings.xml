@@ -30,10 +30,8 @@
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Uygulamanın dosyaları, indirme önbelleğine indirmesine izin verir. İndirme önbelleği indirme yöneticisi daha fazla alana ihtiyaç duyduğunda otomatik olarak silinemez."</string>
     <!-- outdated translation 3650349274034807567 -->     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"İndirme yöneticisini bildirimde bulunmadan kullan"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Uygulamanın dosyaları, kullanıcıya herhangi bir bildirim göstermeden indirme yöneticisi ile indirmesine izin verir."</string>
-    <!-- no translation found for permlab_accessAllDownloads (2436240495424393717) -->
-    <skip />
-    <!-- no translation found for permdesc_accessAllDownloads (4575801130424505112) -->
-    <skip />
+    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Tüm sistem indirmelerine erişim"</string>
+    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Uygulamanın, sistemdeki herhangi bir uygulama tarafından başlatılan tüm işlemleri görüntülemesine ve değiştirmesine olanak tanır."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Adsız&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" ve <xliff:g id="NUMBER">%d</xliff:g> adet daha"</string>

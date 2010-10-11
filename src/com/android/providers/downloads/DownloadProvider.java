@@ -32,7 +32,6 @@ import android.database.CursorWrapper;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Environment;
@@ -45,8 +44,10 @@ import com.google.common.annotations.VisibleForTesting;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 
@@ -141,6 +142,43 @@ public final class DownloadProvider extends ContentProvider {
 
     @VisibleForTesting
     SystemFacade mSystemFacade;
+
+    /**
+     * This class encapsulates a SQL where clause and its parameters.  It makes it possible for
+     * shared methods (like {@link DownloadProvider#getWhereClause(Uri, String, String[], int)})
+     * to return both pieces of information, and provides some utility logic to ease piece-by-piece
+     * construction of selections.
+     */
+    private static class SqlSelection {
+        public StringBuilder mWhereClause = new StringBuilder();
+        public List<String> mParameters = new ArrayList<String>();
+
+        public <T> void appendClause(String newClause, final T... parameters) {
+            if (newClause == null || newClause.isEmpty()) {
+                return;
+            }
+            if (mWhereClause.length() != 0) {
+                mWhereClause.append(" AND ");
+            }
+            mWhereClause.append("(");
+            mWhereClause.append(newClause);
+            mWhereClause.append(")");
+            if (parameters != null) {
+                for (Object parameter : parameters) {
+                    mParameters.add(parameter.toString());
+                }
+            }
+        }
+
+        public String getSelection() {
+            return mWhereClause.toString();
+        }
+
+        public String[] getParameters() {
+            String[] array = new String[mParameters.size()];
+            return mParameters.toArray(array);
+        }
+    }
 
     /**
      * Creates and updated database on demand when opening it.
@@ -651,9 +689,6 @@ public final class DownloadProvider extends ContentProvider {
 
         SQLiteDatabase db = mOpenHelper.getReadableDatabase();
 
-        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        qb.setTables(DB_TABLE);
-
         int match = sURIMatcher.match(uri);
         if (match == -1) {
             if (Constants.LOGV) {
@@ -670,10 +705,7 @@ public final class DownloadProvider extends ContentProvider {
             return queryRequestHeaders(db, uri);
         }
 
-        String where = getWhereClause(uri, null, match);
-        if (!where.isEmpty()) {
-            qb.appendWhere(where);
-        }
+        SqlSelection fullSelection = getWhereClause(uri, selection, selectionArgs, match);
 
         if (shouldRestrictVisibility()) {
             if (projection == null) {
@@ -692,8 +724,8 @@ public final class DownloadProvider extends ContentProvider {
             logVerboseQueryInfo(projection, selection, selectionArgs, sort, db);
         }
 
-        Cursor ret = qb.query(db, projection, selection, selectionArgs,
-                              null, null, sort);
+        Cursor ret = db.query(DB_TABLE, projection, fullSelection.getSelection(),
+                fullSelection.getParameters(), null, null, sort);
 
         if (ret != null) {
             ret.setNotificationUri(getContext().getContentResolver(), uri);
@@ -819,14 +851,6 @@ public final class DownloadProvider extends ContentProvider {
     }
 
     /**
-     * @return a SQL WHERE clause to restrict the query to downloads accessible to the caller's UID
-     */
-    private String getRestrictedUidClause() {
-        return "( " + Constants.UID + "=" +  Binder.getCallingUid() + " OR "
-                + Downloads.Impl.COLUMN_OTHER_UID + "=" +  Binder.getCallingUid() + " )";
-    }
-
-    /**
      * Updates a row in the database
      */
     @Override
@@ -880,9 +904,10 @@ public final class DownloadProvider extends ContentProvider {
             case MY_DOWNLOADS_ID:
             case ALL_DOWNLOADS:
             case ALL_DOWNLOADS_ID:
-                String fullWhere = getWhereClause(uri, where, match);
+                SqlSelection selection = getWhereClause(uri, where, whereArgs, match);
                 if (filteredValues.size() > 0) {
-                    count = db.update(DB_TABLE, filteredValues, fullWhere, whereArgs);
+                    count = db.update(DB_TABLE, filteredValues, selection.getSelection(),
+                            selection.getParameters());
                 } else {
                     count = 0;
                 }
@@ -919,19 +944,19 @@ public final class DownloadProvider extends ContentProvider {
         }
     }
 
-    private String getWhereClause(final Uri uri, final String where, int uriMatch) {
-        StringBuilder myWhere = new StringBuilder();
-        if (where != null) {
-            myWhere.append("( " + where + " )");
-        }
+    private SqlSelection getWhereClause(final Uri uri, final String where, final String[] whereArgs,
+            int uriMatch) {
+        SqlSelection selection = new SqlSelection();
+        selection.appendClause(where, whereArgs);
         if (uriMatch == MY_DOWNLOADS_ID || uriMatch == ALL_DOWNLOADS_ID) {
-            appendClause(myWhere,
-                    " ( " + Downloads.Impl._ID + " = " + getDownloadIdFromUri(uri) + " ) ");
+            selection.appendClause(Downloads.Impl._ID + " = ?", getDownloadIdFromUri(uri));
         }
         if (uriMatch == MY_DOWNLOADS || uriMatch == MY_DOWNLOADS_ID) {
-            appendClause(myWhere, getRestrictedUidClause());
+            selection.appendClause(
+                    Constants.UID + "= ? OR " + Downloads.Impl.COLUMN_OTHER_UID + "= ?",
+                    Binder.getCallingUid(), Binder.getCallingPid());
         }
-        return myWhere.toString();
+        return selection;
     }
 
     /**
@@ -951,9 +976,9 @@ public final class DownloadProvider extends ContentProvider {
             case MY_DOWNLOADS_ID:
             case ALL_DOWNLOADS:
             case ALL_DOWNLOADS_ID:
-                String fullWhere = getWhereClause(uri, where, match);
-                deleteRequestHeaders(db, fullWhere, whereArgs);
-                count = db.delete(DB_TABLE, fullWhere, whereArgs);
+                SqlSelection selection = getWhereClause(uri, where, whereArgs, match);
+                deleteRequestHeaders(db, selection.getSelection(), selection.getParameters());
+                count = db.delete(DB_TABLE, selection.getSelection(), selection.getParameters());
                 break;
 
             default:
@@ -962,13 +987,6 @@ public final class DownloadProvider extends ContentProvider {
         }
         notifyContentChanged(uri, match);
         return count;
-    }
-
-    private void appendClause(StringBuilder whereClause, String newClause) {
-        if (whereClause.length() != 0) {
-            whereClause.append(" AND ");
-        }
-        whereClause.append(newClause);
     }
 
     /**

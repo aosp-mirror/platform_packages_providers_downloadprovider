@@ -49,6 +49,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -58,7 +59,7 @@ public final class DownloadProvider extends ContentProvider {
     /** Database filename */
     private static final String DB_NAME = "downloads.db";
     /** Current database version */
-    private static final int DB_VERSION = 105;
+    private static final int DB_VERSION = 106;
     /** Name of table in the database */
     private static final String DB_TABLE = "downloads";
 
@@ -123,6 +124,8 @@ public final class DownloadProvider extends ContentProvider {
         Downloads.Impl.COLUMN_URI,
         Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI,
         Downloads.Impl.COLUMN_FILE_NAME_HINT,
+        Downloads.Impl.COLUMN_MEDIAPROVIDER_URI,
+        Downloads.Impl.COLUMN_DELETED,
     };
 
     private static HashSet<String> sAppReadableColumnsSet;
@@ -270,6 +273,12 @@ public final class DownloadProvider extends ContentProvider {
                     fillNullValues(db);
                     break;
 
+                case 106:
+                    addColumn(db, DB_TABLE, Downloads.Impl.COLUMN_MEDIAPROVIDER_URI, "TEXT");
+                    addColumn(db, DB_TABLE, Downloads.Impl.COLUMN_DELETED,
+                            "BOOLEAN NOT NULL DEFAULT 0");
+                    break;
+
                 default:
                     throw new IllegalStateException("Don't know how to upgrade to " + version);
             }
@@ -356,7 +365,9 @@ public final class DownloadProvider extends ContentProvider {
                         Downloads.Impl.COLUMN_OTHER_UID + " INTEGER, " +
                         Downloads.Impl.COLUMN_TITLE + " TEXT, " +
                         Downloads.Impl.COLUMN_DESCRIPTION + " TEXT, " +
-                        Constants.MEDIA_SCANNED + " BOOLEAN);");
+                        Constants.MEDIA_SCANNED + " BOOLEAN, " +
+                        Downloads.Impl.COLUMN_MEDIAPROVIDER_URI + " TEXT, " +
+                        Downloads.Impl.COLUMN_DELETED + " BOOLEAN NOT NULL DEFAULT 1);");
             } catch (SQLException ex) {
                 Log.e(Constants.TAG, "couldn't create table in downloads database");
                 throw ex;
@@ -869,6 +880,13 @@ public final class DownloadProvider extends ContentProvider {
         int count;
         boolean startService = false;
 
+        if (values.containsKey(Downloads.Impl.COLUMN_DELETED)) {
+            if (values.getAsInteger(Downloads.Impl.COLUMN_DELETED) == 1) {
+                // some rows are to be 'deleted'. need to start DownloadService.
+                startService = true;
+            }
+        }
+
         ContentValues filteredValues;
         if (Binder.getCallingPid() != Process.myPid()) {
             filteredValues = new ContentValues();
@@ -879,9 +897,12 @@ public final class DownloadProvider extends ContentProvider {
                 filteredValues.put(Downloads.Impl.COLUMN_CONTROL, i);
                 startService = true;
             }
+
             copyInteger(Downloads.Impl.COLUMN_CONTROL, values, filteredValues);
             copyString(Downloads.Impl.COLUMN_TITLE, values, filteredValues);
+            copyString(Downloads.Impl.COLUMN_MEDIAPROVIDER_URI, values, filteredValues);
             copyString(Downloads.Impl.COLUMN_DESCRIPTION, values, filteredValues);
+            copyInteger(Downloads.Impl.COLUMN_DELETED, values, filteredValues);
         } else {
             filteredValues = values;
             String filename = values.getAsString(Downloads.Impl._DATA);

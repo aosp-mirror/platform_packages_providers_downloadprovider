@@ -29,6 +29,7 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.provider.Downloads;
 import android.provider.Downloads.Impl;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 
@@ -84,6 +85,9 @@ public class DownloadInfo {
             info.mCurrentBytes = getLong(Downloads.Impl.COLUMN_CURRENT_BYTES);
             info.mETag = getString(info.mETag, Constants.ETAG);
             info.mMediaScanned = getInt(Constants.MEDIA_SCANNED) == 1;
+            info.mDeleted = getInt(Downloads.Impl.COLUMN_DELETED) == 1;
+            info.mMediaProviderUri = getString(info.mMediaProviderUri,
+                    Downloads.Impl.COLUMN_MEDIAPROVIDER_URI);
             info.mIsPublicApi = getInt(Downloads.Impl.COLUMN_IS_PUBLIC_API) != 0;
             info.mAllowedNetworkTypes = getInt(Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES);
             info.mAllowRoaming = getInt(Downloads.Impl.COLUMN_ALLOW_ROAMING) != 0;
@@ -231,6 +235,8 @@ public class DownloadInfo {
     public long mCurrentBytes;
     public String mETag;
     public boolean mMediaScanned;
+    public boolean mDeleted;
+    public String mMediaProviderUri;
     public boolean mIsPublicApi;
     public int mAllowedNetworkTypes;
     public boolean mAllowRoaming;
@@ -511,6 +517,8 @@ public class DownloadInfo {
         Log.v(Constants.TAG, "CURRENT : " + mCurrentBytes);
         Log.v(Constants.TAG, "ETAG    : " + mETag);
         Log.v(Constants.TAG, "SCANNED : " + mMediaScanned);
+        Log.v(Constants.TAG, "DELETED : " + mDeleted);
+        Log.v(Constants.TAG, "MEDIAPROVIDER_URI : " + mMediaProviderUri);
     }
 
     /**

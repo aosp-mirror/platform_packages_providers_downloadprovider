@@ -33,6 +33,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.Downloads;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -51,7 +52,6 @@ import android.widget.Toast;
 
 import com.android.providers.downloads.ui.DownloadItem.DownloadSelectListener;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashSet;
@@ -86,6 +86,7 @@ public class DownloadList extends Activity
     private int mLocalUriColumnId;
     private int mMediaTypeColumnId;
     private int mReasonColumndId;
+    private int mMediaProviderUriId;
 
     private boolean mIsSortedBySize = false;
     private Set<Long> mSelectedIds = new HashSet<Long>();
@@ -148,6 +149,9 @@ public class DownloadList extends Activity
                     mDateSortedCursor.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIA_TYPE);
             mReasonColumndId =
                     mDateSortedCursor.getColumnIndexOrThrow(DownloadManager.COLUMN_REASON);
+            mMediaProviderUriId =
+                    mDateSortedCursor.getColumnIndexOrThrow(
+                            DownloadManager.COLUMN_MEDIAPROVIDER_URI);
 
             mDateSortedAdapter = new DateSortedDownloadAdapter(this, mDateSortedCursor, this);
             mDateOrderedListView.setAdapter(mDateSortedAdapter);
@@ -588,28 +592,23 @@ public class DownloadList extends Activity
             if (isComplete && localUri != null) {
                 String path = Uri.parse(localUri).getPath();
                 if (path.startsWith(Environment.getExternalStorageDirectory().getPath())) {
-                    String mediaType = mDateSortedCursor.getString(mMediaTypeColumnId);
-                    deleteDownloadedFile(path, mediaType);
+                    String mediaProviderUri = mDateSortedCursor.getString(mMediaProviderUriId);
+                    if (TextUtils.isEmpty(mediaProviderUri)) {
+                        // downloads database doesn't have the mediaprovider_uri. It means
+                        // this download occurred before mediaprovider_uri column existed
+                        // in downloads table. Since MediaProvider needs the mediaprovider_uri to
+                        // delete this download, just set the 'deleted' flag to 1 on this row
+                        // in the database. DownloadService, upon seeing this flag set to 1, will
+                        // re-scan the file and get the MediaProviderUri and then delete the file
+                        mDownloadManager.markRowDeleted(downloadId);
+                        return;
+                    } else {
+                        getContentResolver().delete(Uri.parse(mediaProviderUri), null, null);
+                    }
                 }
             }
         }
         mDownloadManager.remove(downloadId);
-    }
-
-    /**
-     * Delete the file at the given path.  Try sending an intent to delete it, but if that goes
-     * unhandled, delete it ourselves.
-     * @param path path to the file to delete
-     */
-    private void deleteDownloadedFile(String path, String mediaType) {
-        Intent intent = new Intent(Intent.ACTION_DELETE);
-        File file = new File(path);
-        intent.setDataAndType(Uri.fromFile(file), mediaType);
-        try {
-            startActivity(intent);
-        } catch (ActivityNotFoundException exc) {
-            file.delete();
-        }
     }
 
     @Override

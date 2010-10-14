@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.media.IMediaScannerListener;
 import android.media.IMediaScannerService;
 import android.net.Uri;
 import android.os.Environment;
@@ -35,12 +36,14 @@ import android.os.IBinder;
 import android.os.Process;
 import android.os.RemoteException;
 import android.provider.Downloads;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.collect.Maps;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -94,6 +97,18 @@ public class DownloadService extends Service {
     @VisibleForTesting
     SystemFacade mSystemFacade;
 
+    /** Before calling
+     * {@link IMediaScannerService#requestScanFile(String, String, IMediaScannerListener)},
+     * a (key,value) pair of (filepath, uri-to-update-the-row-in-dowloads-db)
+     * is stored in the following struct.
+     * When the callback from
+     * {@link IMediaScannerService#requestScanFile(String, String, IMediaScannerListener)} is
+     * received with params (filepath, uri-to-update-the-row-in-mediaprovider-db),
+     * this struct comes in handy to locate the row in downloads table whose mediaprovier-uri
+     * column is to be updated with the value returned by this callback method.
+     */
+    private final HashMap<String, Uri> downloadsToBeUpdated = new HashMap<String, Uri>();
+
     /**
      * Receives notifications when the data in the content provider changes
      */
@@ -125,17 +140,20 @@ public class DownloadService extends Service {
             if (Constants.LOGVV) {
                 Log.v(Constants.TAG, "Connected to Media Scanner");
             }
-            mMediaScannerConnecting = false;
             synchronized (DownloadService.this) {
+                mMediaScannerConnecting = false;
                 mMediaScannerService = IMediaScannerService.Stub.asInterface(service);
                 if (mMediaScannerService != null) {
                     updateFromProvider();
                 }
+                // notify anyone waiting on successful connection to MediaService
+                DownloadService.this.notifyAll();
             }
         }
 
         public void disconnectMediaScanner() {
             synchronized (DownloadService.this) {
+                mMediaScannerConnecting = false;
                 if (mMediaScannerService != null) {
                     mMediaScannerService = null;
                     if (Constants.LOGVV) {
@@ -144,11 +162,11 @@ public class DownloadService extends Service {
                     try {
                         unbindService(this);
                     } catch (IllegalArgumentException ex) {
-                        if (Constants.LOGV) {
-                            Log.v(Constants.TAG, "unbindService threw up: " + ex);
-                        }
+                        Log.w(Constants.TAG, "unbindService failed: " + ex);
                     }
                 }
+                // notify anyone waiting on unsuccessful connection to MediaService
+                DownloadService.this.notifyAll();
             }
         }
 
@@ -158,6 +176,9 @@ public class DownloadService extends Service {
             }
             synchronized (DownloadService.this) {
                 mMediaScannerService = null;
+                mMediaScannerConnecting = false;
+                // notify anyone waiting on disconnect from MediaService
+                DownloadService.this.notifyAll();
             }
         }
     }
@@ -315,12 +336,47 @@ public class DownloadService extends Service {
                     deleteDownload(id);
                 }
 
+                // is there a need to start the DownloadService? yes, if there are rows to be
+                // deleted.
+                if (!mustScan) {
+                    for (DownloadInfo info : mDownloads.values()) {
+                        if (info.mDeleted && TextUtils.isEmpty(info.mMediaProviderUri)) {
+                            mustScan = true;
+                            keepService = true;
+                            break;
+                        }
+                    }
+                }
                 mNotifier.updateNotification(mDownloads.values());
-
                 if (mustScan) {
                     bindMediaScanner();
                 } else {
                     mMediaScannerConnection.disconnectMediaScanner();
+                }
+
+                // look for all rows with deleted flag set and delete the rows from the database
+                // permanently
+                for (DownloadInfo info : mDownloads.values()) {
+                    if (info.mDeleted) {
+                        // this row is to be deleted from the database. but does it have
+                        // mediaProviderUri?
+                        if (TextUtils.isEmpty(info.mMediaProviderUri)) {
+                            // initiate rescan of the file to - which will populate mediaProviderUri
+                            // column in this row
+                            if (!scanFile(info, true)) {
+                                throw new IllegalStateException("scanFile failed!");
+                            }
+                        } else {
+                            // yes it has mediaProviderUri column already filled in.
+                            // delete it from MediaProvider database and then from downloads table
+                            // in DownProvider database (the order of deletion is important).
+                            getContentResolver().delete(Uri.parse(info.mMediaProviderUri), null,
+                                    null);
+                            getContentResolver().delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
+                                    Downloads.Impl._ID + " = ? ",
+                                    new String[]{String.valueOf(info.mId)});
+                        }
+                    }
                 }
             }
         }
@@ -491,24 +547,60 @@ public class DownloadService extends Service {
     private boolean scanFile(DownloadInfo info, boolean updateDatabase) {
         synchronized (this) {
             if (mMediaScannerService == null) {
+                // not bound to mediaservice. but if in the process of connecting to it, wait until
+                // connection is resolved
+                while (mMediaScannerConnecting) {
+                    Log.d(Constants.TAG, "waiting for mMediaScannerService service: ");
+                    try {
+                        this.wait();
+                    } catch (InterruptedException e1) {
+                        throw new IllegalStateException("wait interrupted");
+                    }
+                }
+            }
+            // do we have mediaservice?
+            if (mMediaScannerService == null) {
+                // no available MediaService And not even in the process of connecting to it
                 return false;
             }
+            if (Constants.LOGV) {
+                Log.v(Constants.TAG, "Scanning file " + info.mFileName);
+            }
+            if (updateDatabase) {
+                synchronized(downloadsToBeUpdated) {
+                    Uri value = info.getAllDownloadsUri();
+                    if (value != null) {
+                        downloadsToBeUpdated.put(info.mFileName, value);
+                    }
+                }
+            }
             try {
-                if (Constants.LOGV) {
-                    Log.v(Constants.TAG, "Scanning file " + info.mFileName);
-                }
-                mMediaScannerService.scanFile(info.mFileName, info.mMimeType);
-                if (updateDatabase) {
-                    ContentValues values = new ContentValues();
-                    values.put(Constants.MEDIA_SCANNED, 1);
-                    getContentResolver().update(info.getAllDownloadsUri(), values, null, null);
-                }
+                mMediaScannerService.requestScanFile(info.mFileName, info.mMimeType,
+                        new IMediaScannerListener.Stub() {
+                            public void scanCompleted(String path, Uri uri) {
+                                Uri key;
+                                boolean updateMediaproviderUriColumn;
+                                synchronized(downloadsToBeUpdated) {
+                                    key = downloadsToBeUpdated.get(path);
+                                    updateMediaproviderUriColumn = (key != null);
+                                }
+                                if (updateMediaproviderUriColumn) {
+                                    ContentValues values = new ContentValues();
+                                    values.put(Constants.MEDIA_SCANNED, 1);
+                                    values.put(Downloads.Impl.COLUMN_MEDIAPROVIDER_URI,
+                                            uri.toString());
+                                    getContentResolver().update(key, values, null, null);
+                                    synchronized(downloadsToBeUpdated) {
+                                        downloadsToBeUpdated.remove(path);
+                                    }
+                                }
+                            }
+                        });
                 return true;
             } catch (RemoteException e) {
-                Log.d(Constants.TAG, "Failed to scan file " + info.mFileName);
+                Log.w(Constants.TAG, "Failed to scan file " + info.mFileName);
                 return false;
             }
         }
     }
-
 }

@@ -365,9 +365,7 @@ public final class DownloadProvider extends ContentProvider {
                         Downloads.Impl.COLUMN_OTHER_UID + " INTEGER, " +
                         Downloads.Impl.COLUMN_TITLE + " TEXT, " +
                         Downloads.Impl.COLUMN_DESCRIPTION + " TEXT, " +
-                        Constants.MEDIA_SCANNED + " BOOLEAN, " +
-                        Downloads.Impl.COLUMN_MEDIAPROVIDER_URI + " TEXT, " +
-                        Downloads.Impl.COLUMN_DELETED + " BOOLEAN NOT NULL DEFAULT 1);");
+                        Constants.MEDIA_SCANNED + " BOOLEAN);");
             } catch (SQLException ex) {
                 Log.e(Constants.TAG, "couldn't create table in downloads database");
                 throw ex;

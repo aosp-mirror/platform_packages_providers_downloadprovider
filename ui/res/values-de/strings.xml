@@ -22,8 +22,7 @@
     <string name="missing_title" msgid="830115697868833773">"&lt;Unbekannt&gt;"</string>
     <string name="download_menu_sort_by_size" msgid="2276438658769422878">"Nach Größe sortieren"</string>
     <string name="download_menu_sort_by_date" msgid="4300882048968609945">"Zeitlich sortieren"</string>
-    <!-- no translation found for download_queued (104973307780629904) -->
-    <skip />
+    <string name="download_queued" msgid="104973307780629904">"Wartet"</string>
     <string name="download_running" msgid="4656462962155580641">"Läuft"</string>
     <string name="download_success" msgid="7006048006543495236">"Fertig"</string>
     <string name="download_error" msgid="3107369653921738690">"Fehler"</string>
@@ -42,5 +41,5 @@
     <string name="keep_queued_download" msgid="5144882786014818569">"Beibehalten"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Abbrechen"</string>
     <string name="retry_download" msgid="7617100787922717912">"Wiederholen"</string>
-    <string name="deselect_all" msgid="5638030443515705047">"Auswahl löschen"</string>
+    <string name="deselect_all" msgid="5638030443515705047">"Auswahl aufheben"</string>
 </resources>

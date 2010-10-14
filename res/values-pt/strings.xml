@@ -23,12 +23,12 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Permite que o aplicativo acesse as funções avançadas do gerenciador de downloads. Aplicativos maliciosos podem usar isso para interromper os downloads e acessar informações particulares."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Enviar notificações de download."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Permite que o aplicativo envie notificações sobre downloads concluídos. Aplicativos maliciosos podem usar isso para confundir outros aplicativos que fazem download de arquivos."</string>
-    <!-- outdated translation 140058400609165726 -->     <string name="permlab_seeAllExternal" product="nosdcard" msgid="3423239546637683653">"Ver todos os downloads para o cartão SD"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="3423239546637683653">"Ver download armaz. comp."</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Ver todos os downloads para o cartão SD"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Permite que o aplicativo veja todos os downloads feitos no cartão SD, independentemente do aplicativo que fez o download."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Reservar espaço no cache de download"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Permite que o aplicativo faça download de arquivos no cache de downloads, que não pode ser excluído automaticamente quando o gerenciador precisa de mais espaço."</string>
-    <!-- outdated translation 3650349274034807567 -->     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"Usar o gerenciador de downloads sem notificações"</string>
+    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"fazer download de arquivos sem notificação"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Permite que o aplicativo faça download de arquivos por meio do gerenciador de download sem exibir notificações ao usuário."</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Acessar todos os downloads do sistema"</string>
     <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Permite que o aplicativo visualize e modifique todos os processos iniciados por qualquer aplicativo no sistema."</string>
@@ -37,19 +37,12 @@
     <string name="notification_filename_extras" msgid="5549729917695688191">" e <xliff:g id="NUMBER">%d</xliff:g> mais"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"Download concluído"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Falha no download"</string>
-    <!-- outdated translation 7034174266881861838 -->     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Tamanho exige Wi-Fi"</string>
-    <!-- no translation found for wifi_required_title (1003041298526831643) -->
-    <skip />
-    <!-- no translation found for wifi_required_body (515230018902671203) -->
-    <skip />
-    <!-- no translation found for wifi_recommended_title (5539971631114967735) -->
-    <skip />
-    <!-- no translation found for wifi_recommended_body (6723283448732519545) -->
-    <skip />
-    <!-- no translation found for button_queue_for_wifi (422576726189179221) -->
-    <skip />
-    <!-- no translation found for button_cancel_download (2430166148737975604) -->
-    <skip />
-    <!-- no translation found for button_start_now (792123674007840864) -->
-    <skip />
+    <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"O tamanho requer Wi-Fi"</string>
+    <string name="wifi_required_title" msgid="1003041298526831643">"Download muito grande para a rede móvel"</string>
+    <string name="wifi_required_body" msgid="515230018902671203">"Não é possível fazer o download de um arquivo <xliff:g id="SIZE">%s </xliff:g> nesta rede móvel."\n\n"Toque em <xliff:g id="QUEUE_TEXT">%s </xliff:g> para fazer o download deste arquivo na próxima vez que se conectar a uma rede Wi-Fi."</string>
+    <string name="wifi_recommended_title" msgid="5539971631114967735">"Colocar em fila para download da rede Wi-Fi?"</string>
+    <string name="wifi_recommended_body" msgid="6723283448732519545">"O download do arquivo <xliff:g id="SIZE">%s </xliff:g> nesta rede móvel pode consumir a bateria e causar cobranças da operadora."\n\n"Toque em <xliff:g id="QUEUE_TEXT">%s</xliff:g> para download do arquivo na próxima vez que se conectar a uma rede Wi-Fi."</string>
+    <string name="button_queue_for_wifi" msgid="422576726189179221">"Fila"</string>
+    <string name="button_cancel_download" msgid="2430166148737975604">"Cancelar"</string>
+    <string name="button_start_now" msgid="792123674007840864">"Iniciar agora"</string>
 </resources>

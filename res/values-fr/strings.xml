@@ -23,12 +23,12 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Permet à l\'application d\'accéder aux fonctions avancées du gestionnaire de téléchargements. Des applications malveillantes peuvent utiliser cette option pour perturber les téléchargements et accéder à des informations personnelles."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Envoyer des notifications de téléchargement."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Permet à l\'application d\'envoyer des notifications concernant les téléchargements effectués. Les applications malveillantes peuvent s\'en servir pour tromper les autres applications de téléchargement de fichiers."</string>
-    <!-- outdated translation 140058400609165726 -->     <string name="permlab_seeAllExternal" product="nosdcard" msgid="3423239546637683653">"Voir tous les téléchargements effectués sur la carte SD"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="3423239546637683653">"Voir tous les téléchargements effectués sur le stockage partagé"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Voir tous les téléchargements effectués sur la carte SD"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Permet à l\'application d\'afficher tous les téléchargements effectués sur la carte SD, quelle que soit l\'application de téléchargement utilisée."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Réserver un espace dans le cache de téléchargement"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Autorise l\'application à télécharger des fichiers dans le cache de téléchargement et empêche leur effacement automatique par le gestionnaire de téléchargement."</string>
-    <!-- outdated translation 3650349274034807567 -->     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"Activer gestionnaire de téléch. sans notification"</string>
+    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"télécharger les fichiers sans m\'avertir"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Autorise l\'application à télécharger des fichiers via le gestionnaire de téléchargement sans afficher de notification à l\'utilisateur."</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Accéder à tous les téléchargements système"</string>
     <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Permet à l\'application de connaître et de modifier tous les téléchargements initiés par les programmes du système."</string>
@@ -37,19 +37,12 @@
     <string name="notification_filename_extras" msgid="5549729917695688191">" et <xliff:g id="NUMBER">%d</xliff:g> autres"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"Téléchargement terminé."</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Échec du téléchargement"</string>
-    <!-- outdated translation 7034174266881861838 -->     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Wi-Fi requis (taille)"</string>
-    <!-- no translation found for wifi_required_title (1003041298526831643) -->
-    <skip />
-    <!-- no translation found for wifi_required_body (515230018902671203) -->
-    <skip />
-    <!-- no translation found for wifi_recommended_title (5539971631114967735) -->
-    <skip />
-    <!-- no translation found for wifi_recommended_body (6723283448732519545) -->
-    <skip />
-    <!-- no translation found for button_queue_for_wifi (422576726189179221) -->
-    <skip />
-    <!-- no translation found for button_cancel_download (2430166148737975604) -->
-    <skip />
-    <!-- no translation found for button_start_now (792123674007840864) -->
-    <skip />
+    <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"La taille du téléchargement exige une connexion Wi-Fi"</string>
+    <string name="wifi_required_title" msgid="1003041298526831643">"Téléchargement trop important pour le réseau mobile"</string>
+    <string name="wifi_required_body" msgid="515230018902671203">"Vous ne pouvez pas télécharger un fichier <xliff:g id="SIZE">%s </xliff:g> sur ce réseau mobile."\n\n"Appuyez sur <xliff:g id="QUEUE_TEXT">%s </xliff:g> pour télécharger ce fichier la prochaine fois que vous vous connecterez à un réseau Wi-Fi."</string>
+    <string name="wifi_recommended_title" msgid="5539971631114967735">"Ajouter à la file d\'attente des téléchargements Wi-Fi ?"</string>
+    <string name="wifi_recommended_body" msgid="6723283448732519545">"En téléchargeant ce fichier <xliff:g id="SIZE">%s </xliff:g> sur ce réseau mobile, vous risquez d\'épuiser votre batterie et d\'être surtaxé par votre opérateur."\n\n"Appuyez sur <xliff:g id="QUEUE_TEXT">%s</xliff:g> pour télécharger ce fichier la prochaine fois que vous vous connecterez à un réseau Wi-Fi."</string>
+    <string name="button_queue_for_wifi" msgid="422576726189179221">"File d\'attente"</string>
+    <string name="button_cancel_download" msgid="2430166148737975604">"Annuler"</string>
+    <string name="button_start_now" msgid="792123674007840864">"Commencer"</string>
 </resources>

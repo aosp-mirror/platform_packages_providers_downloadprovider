@@ -183,12 +183,13 @@ public class DownloadAdapter extends CursorAdapter {
             List<ResolveInfo> list = pm.queryIntentActivities(intent,
                     PackageManager.MATCH_DEFAULT_ONLY);
             if (list.size() == 0) {
-                return;
+                // no icon found for this mediatype. use "unknown" icon
+                iconView.setImageResource(R.drawable.ic_download_misc_file_type);
+            } else {
+                Drawable icon = list.get(0).activityInfo.loadIcon(pm);
+                iconView.setImageDrawable(icon);
             }
-            Drawable icon = list.get(0).activityInfo.loadIcon(pm);
-            iconView.setImageDrawable(icon);
         }
-
         iconView.setVisibility(View.VISIBLE);
     }
 

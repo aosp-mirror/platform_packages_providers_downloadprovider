@@ -56,9 +56,13 @@
     <!-- Title of dialog that is shown when the user clicks a download for which no file is
          available, either because the download hasn't started or because the download failed
          [CHAR LIMIT=25] -->
-    <string name="dialog_title_not_available">File not available</string>
+    <string name="dialog_title_not_available">Download Failed</string>
     <!-- Text for dialog when user clicks on a download that failed [CHAR LIMIT=200] -->
-    <string name="dialog_failed_body">This download was unsuccessful. </string>
+    <string name="dialog_failed_body">Do you want to retry downloading the file later
+          or delete it from the queue?</string>
+    <!-- Title for dialog when user clicks on a download that has not yet begun, but will be started
+         in the future. [CHAR LIMIT=25] -->
+    <string name="dialog_title_queued_body">File not yet available</string>
     <!-- Text for dialog when user clicks on a download that has not yet begun, but will be started
          in the future. [CHAR LIMIT=200] -->
     <string name="dialog_queued_body">This file is queued for future download.</string>

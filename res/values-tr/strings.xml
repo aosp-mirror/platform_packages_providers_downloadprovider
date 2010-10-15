@@ -23,12 +23,12 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Uygulamaya indirme yöneticisinin gelişmiş işlevlerine erişme izni verir. Kötü niyetli uygulamalar, indirme işlemlerini bozmak ve özel bilgilere erişmek için bunu kullanabilir."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"İndirme bildirimleri gönder."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Uygulamaya tamamlanan indirme işlemleri ile ilgili bildirimler gönderme izni verir. Kötü amaçlı uygulamalar bunu dosya indiren diğer uygulamaları yanıltmak için kullanabilir."</string>
-    <!-- outdated translation 140058400609165726 -->     <string name="permlab_seeAllExternal" product="nosdcard" msgid="3423239546637683653">"SD karta yapılan tüm indirmeleri gör"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="3423239546637683653">"Pay dep birm yapln tüm indr göster"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"SD karta yapılan tüm indirmeleri gör"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Uygulamanın SD karta yapılan tüm indirmeleri, indirme işlemini yapan uygulamadan bağımsız olarak görmesine izin verir."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"İndirme önbelleğinde alan ayır"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Uygulamanın dosyaları, indirme önbelleğine indirmesine izin verir. İndirme önbelleği indirme yöneticisi daha fazla alana ihtiyaç duyduğunda otomatik olarak silinemez."</string>
-    <!-- outdated translation 3650349274034807567 -->     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"İndirme yöneticisini bildirimde bulunmadan kullan"</string>
+    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"dosyaları bildirimde bulunmadan indir"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Uygulamanın dosyaları, kullanıcıya herhangi bir bildirim göstermeden indirme yöneticisi ile indirmesine izin verir."</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Tüm sistem indirmelerine erişim"</string>
     <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Uygulamanın, sistemdeki herhangi bir uygulama tarafından başlatılan tüm işlemleri görüntülemesine ve değiştirmesine olanak tanır."</string>
@@ -37,19 +37,12 @@
     <string name="notification_filename_extras" msgid="5549729917695688191">" ve <xliff:g id="NUMBER">%d</xliff:g> adet daha"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"İndirme işlemi tamamlandı"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"İndirme işlemi başarısız"</string>
-    <!-- outdated translation 7034174266881861838 -->     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Boyut için kablsuz gerkr"</string>
-    <!-- no translation found for wifi_required_title (1003041298526831643) -->
-    <skip />
-    <!-- no translation found for wifi_required_body (515230018902671203) -->
-    <skip />
-    <!-- no translation found for wifi_recommended_title (5539971631114967735) -->
-    <skip />
-    <!-- no translation found for wifi_recommended_body (6723283448732519545) -->
-    <skip />
-    <!-- no translation found for button_queue_for_wifi (422576726189179221) -->
-    <skip />
-    <!-- no translation found for button_cancel_download (2430166148737975604) -->
-    <skip />
-    <!-- no translation found for button_start_now (792123674007840864) -->
-    <skip />
+    <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"İndr boyutu Kablsz bağ gerkt"</string>
+    <string name="wifi_required_title" msgid="1003041298526831643">"İndirme boyutu mobil ağ için çok büyük"</string>
+    <string name="wifi_required_body" msgid="515230018902671203">"Bu mobil ağda <xliff:g id="SIZE">%s </xliff:g> boyutunda bir dosyayı indiremezsiniz."\n\n"Bu dosyayı, Kablosuz ağa yeniden bağlandığınızda indirmek için <xliff:g id="QUEUE_TEXT">%s </xliff:g> simgesine dokunun."</string>
+    <string name="wifi_recommended_title" msgid="5539971631114967735">"Kablosuz indirme için kuyruğa alınsın mı?"</string>
+    <string name="wifi_recommended_body" msgid="6723283448732519545">"Bu mobil ağda <xliff:g id="SIZE">%s </xliff:g> boyutlu bu dosyanın indirilmesi pilin bitmesine ve operatörünüzün ek ücret almasına yol açabilir."\n\n"Bu dosyayı, Kablosuz ağa yeniden bağl. indirmek için <xliff:g id="QUEUE_TEXT">%s</xliff:g> simg. dokunun."</string>
+    <string name="button_queue_for_wifi" msgid="422576726189179221">"Kuyruğa al"</string>
+    <string name="button_cancel_download" msgid="2430166148737975604">"İptal"</string>
+    <string name="button_start_now" msgid="792123674007840864">"Şimdi başlat"</string>
 </resources>

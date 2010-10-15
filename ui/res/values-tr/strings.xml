@@ -22,8 +22,7 @@
     <string name="missing_title" msgid="830115697868833773">"&lt;Bilinmiyor&gt;"</string>
     <string name="download_menu_sort_by_size" msgid="2276438658769422878">"Boyuta göre sırala"</string>
     <string name="download_menu_sort_by_date" msgid="4300882048968609945">"Saate göre sırala"</string>
-    <!-- no translation found for download_queued (104973307780629904) -->
-    <skip />
+    <string name="download_queued" msgid="104973307780629904">"Kuyrğ alndı"</string>
     <string name="download_running" msgid="4656462962155580641">"Dvm ediyor"</string>
     <string name="download_success" msgid="7006048006543495236">"Tamamlandı"</string>
     <string name="download_error" msgid="3107369653921738690">"Başarısız"</string>

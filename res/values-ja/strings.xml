@@ -23,12 +23,12 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"ダウンロードマネージャーの高度な機能にアプリケーションからアクセスできるようにします。これにより、悪意のあるアプリケーションがダウンロードに深刻な影響を与えたり個人情報にアクセスしたりできるようになります。"</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"ダウンロード通知を送信します。"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"ダウンロード完了の通知の送信をアプリケーションに許可します。悪意のあるアプリケーションがファイルをダウンロードする他のアプリケーションの処理を妨害する恐れがあります。"</string>
-    <!-- outdated translation 140058400609165726 -->     <string name="permlab_seeAllExternal" product="nosdcard" msgid="3423239546637683653">"SDカードへのダウンロードをすべて参照する"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="3423239546637683653">"共有ストレージへの全ダウンロードを見る"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"SDカードへのダウンロードをすべて参照する"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"どのアプリケーションでダウンロードされたかにかかわらず、SDカードにダウンロードされたすべてのファイルの参照をアプリケーションに許可します。"</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"ダウンロードキャッシュの領域を予約"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"ダウンロードマネージャーで領域が不足しているときに、自動的に削除できないダウンロードキャッシュへのファイルのダウンロードをアプリケーションに許可します。"</string>
-    <!-- outdated translation 3650349274034807567 -->     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"通知せずにダウンロードマネージャーを使用"</string>
+    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"通知なしでファイルをダウンロードする"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"ユーザー通知なしでのダウンロードマネージャー経由のファイルのダウンロードをアプリケーションに許可します。"</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"すべてのシステムダウンロードにアクセス"</string>
     <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"システム上のアプリケーションによるすべてのダウンロードの表示と変更をアプリケーションに許可します。"</string>
@@ -37,19 +37,12 @@
     <string name="notification_filename_extras" msgid="5549729917695688191">" その他<xliff:g id="NUMBER">%d</xliff:g>件"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"ダウンロード完了"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"ダウンロードに失敗しました"</string>
-    <!-- outdated translation 7034174266881861838 -->     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Wi-Fiが必要なサイズです"</string>
-    <!-- no translation found for wifi_required_title (1003041298526831643) -->
-    <skip />
-    <!-- no translation found for wifi_required_body (515230018902671203) -->
-    <skip />
-    <!-- no translation found for wifi_recommended_title (5539971631114967735) -->
-    <skip />
-    <!-- no translation found for wifi_recommended_body (6723283448732519545) -->
-    <skip />
-    <!-- no translation found for button_queue_for_wifi (422576726189179221) -->
-    <skip />
-    <!-- no translation found for button_cancel_download (2430166148737975604) -->
-    <skip />
-    <!-- no translation found for button_start_now (792123674007840864) -->
-    <skip />
+    <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Wi-Fiが必要なサイズです"</string>
+    <string name="wifi_required_title" msgid="1003041298526831643">"ダウンロードするサイズが大きすぎます"</string>
+    <string name="wifi_required_body" msgid="515230018902671203">"このモバイルネットワークでは<xliff:g id="SIZE">%s </xliff:g>のファイルをダウンロードできません。"\n\n"<xliff:g id="QUEUE_TEXT">%s </xliff:g>をタップすると次にWi-Fiネットワークに繋がったときにダウンロードされます。"</string>
+    <string name="wifi_recommended_title" msgid="5539971631114967735">"Wi-Fiでのダウンロードをキューに登録しますか？"</string>
+    <string name="wifi_recommended_body" msgid="6723283448732519545">"このネットワークで<xliff:g id="SIZE">%s </xliff:g>をダウンロードすると、電池を消耗し携帯通信会社から追加料金を請求される場合があります。"\n\n"<xliff:g id="QUEUE_TEXT">%s</xliff:g>をタップすると次にWi-Fiネットワークに繋がったときにダウンロードされます。"</string>
+    <string name="button_queue_for_wifi" msgid="422576726189179221">"キューに登録"</string>
+    <string name="button_cancel_download" msgid="2430166148737975604">"キャンセル"</string>
+    <string name="button_start_now" msgid="792123674007840864">"今すぐ開始"</string>
 </resources>

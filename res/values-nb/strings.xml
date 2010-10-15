@@ -23,12 +23,12 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Gir programmet tilgang til avanserte funksjoner i nedlastingsprogrammene. Skadelige programmer kan bruke dette til å forstyrre nedlastninger og gi tilgang til privat informasjon."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Sende nedlastingsvarslinger"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Lar applikasjonen sende varslinger om ferdige nedlastinger. Ondsinnede applikasjoner kan bruke dette for å forvirre andre applikasjoner som laster ned filer."</string>
-    <!-- outdated translation 140058400609165726 -->     <string name="permlab_seeAllExternal" product="nosdcard" msgid="3423239546637683653">"Vis alle nedlastinger til minnekort"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="3423239546637683653">"Vis nedl. i delt lagring"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Vis alle nedlastinger til minnekort"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Programmet viser alle nedlastinger til minnekort, uavhengig av hvilket program  som lastet dem ned."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Reserver lagringsplass i nedlastingsbufferen"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Gir programmet mulighet til å laste ned filer til nedlastingsbufferen, slik at de ikke slettes automatisk når nedlastingsbehandlingen trenger mer lagringsplass."</string>
-    <!-- outdated translation 3650349274034807567 -->     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"Bruk nedlastingsbehandling uten varsling"</string>
+    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"last ned filer uten varsling"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Gjør at programmet kan laste ned filer via nedlastingsbehandlingen, uten at brukeren varsles."</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Tilgang til alle systemnedlastinger"</string>
     <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Tillater programmet å vise og endre prosesser igangsatt av andre programmer i systemet."</string>
@@ -37,19 +37,12 @@
     <string name="notification_filename_extras" msgid="5549729917695688191">" og <xliff:g id="NUMBER">%d</xliff:g> til"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"Ferdig nedlasting"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Mislykket nedlasting"</string>
-    <!-- outdated translation 7034174266881861838 -->     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Må ha WiFi pga. str."</string>
-    <!-- no translation found for wifi_required_title (1003041298526831643) -->
-    <skip />
-    <!-- no translation found for wifi_required_body (515230018902671203) -->
-    <skip />
-    <!-- no translation found for wifi_recommended_title (5539971631114967735) -->
-    <skip />
-    <!-- no translation found for wifi_recommended_body (6723283448732519545) -->
-    <skip />
-    <!-- no translation found for button_queue_for_wifi (422576726189179221) -->
-    <skip />
-    <!-- no translation found for button_cancel_download (2430166148737975604) -->
-    <skip />
-    <!-- no translation found for button_start_now (792123674007840864) -->
-    <skip />
+    <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Str. krever Wi-Fi"</string>
+    <string name="wifi_required_title" msgid="1003041298526831643">"Nedlastingen for stor for mobilnettverket"</string>
+    <string name="wifi_required_body" msgid="515230018902671203">"Du kan ikke laste ned en <xliff:g id="SIZE">%s </xliff:g>-fil på dette mobilnettverket. "\n\n"Trykk på <xliff:g id="QUEUE_TEXT">%s </xliff:g> for å laste ned denne filen ved neste tilkobling til et Wi-Fi-nettverk."</string>
+    <string name="wifi_recommended_title" msgid="5539971631114967735">"Vil du sette nedlastingen i kø for Wi-Fi-nedl.?"</string>
+    <string name="wifi_recommended_body" msgid="6723283448732519545">"Nedlasting av <xliff:g id="SIZE">%s </xliff:g>-filen på dette mobilnettverket kan gi økt batteribruk og ekstrakostnader fra operatør."\n\n"Trykk på <xliff:g id="QUEUE_TEXT">%s</xliff:g> for å laste ned filen ved neste tilkobling til et Wi-Fi-nettverk."</string>
+    <string name="button_queue_for_wifi" msgid="422576726189179221">"Kø"</string>
+    <string name="button_cancel_download" msgid="2430166148737975604">"Avbryt"</string>
+    <string name="button_start_now" msgid="792123674007840864">"Start nå"</string>
 </resources>

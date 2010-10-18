@@ -20,6 +20,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -54,6 +55,9 @@ import java.util.Set;
  * Performs the background downloads requested by applications that use the Downloads provider.
  */
 public class DownloadService extends Service {
+    /** amount of time to wait to connect to MediaScannerService before timing out */
+    private static final long WAIT_TIMEOUT = 10 * 1000;
+
     /** Observer to get notified when the content observer's data changes */
     private DownloadManagerContentObserver mObserver;
 
@@ -97,18 +101,6 @@ public class DownloadService extends Service {
     @VisibleForTesting
     SystemFacade mSystemFacade;
 
-    /** Before calling
-     * {@link IMediaScannerService#requestScanFile(String, String, IMediaScannerListener)},
-     * a (key,value) pair of (filepath, uri-to-update-the-row-in-dowloads-db)
-     * is stored in the following struct.
-     * When the callback from
-     * {@link IMediaScannerService#requestScanFile(String, String, IMediaScannerListener)} is
-     * received with params (filepath, uri-to-update-the-row-in-mediaprovider-db),
-     * this struct comes in handy to locate the row in downloads table whose mediaprovier-uri
-     * column is to be updated with the value returned by this callback method.
-     */
-    private final HashMap<String, Uri> downloadsToBeUpdated = new HashMap<String, Uri>();
-
     /**
      * Receives notifications when the data in the content provider changes
      */
@@ -141,13 +133,16 @@ public class DownloadService extends Service {
                 Log.v(Constants.TAG, "Connected to Media Scanner");
             }
             synchronized (DownloadService.this) {
-                mMediaScannerConnecting = false;
-                mMediaScannerService = IMediaScannerService.Stub.asInterface(service);
-                if (mMediaScannerService != null) {
-                    updateFromProvider();
+                try {
+                    mMediaScannerConnecting = false;
+                    mMediaScannerService = IMediaScannerService.Stub.asInterface(service);
+                    if (mMediaScannerService != null) {
+                        updateFromProvider();
+                    }
+                } finally {
+                    // notify anyone waiting on successful connection to MediaService
+                    DownloadService.this.notifyAll();
                 }
-                // notify anyone waiting on successful connection to MediaService
-                DownloadService.this.notifyAll();
             }
         }
 
@@ -163,22 +158,26 @@ public class DownloadService extends Service {
                         unbindService(this);
                     } catch (IllegalArgumentException ex) {
                         Log.w(Constants.TAG, "unbindService failed: " + ex);
+                    } finally {
+                        // notify anyone waiting on unsuccessful connection to MediaService
+                        DownloadService.this.notifyAll();
                     }
                 }
-                // notify anyone waiting on unsuccessful connection to MediaService
-                DownloadService.this.notifyAll();
             }
         }
 
         public void onServiceDisconnected(ComponentName className) {
-            if (Constants.LOGVV) {
-                Log.v(Constants.TAG, "Disconnected from Media Scanner");
-            }
-            synchronized (DownloadService.this) {
-                mMediaScannerService = null;
-                mMediaScannerConnecting = false;
-                // notify anyone waiting on disconnect from MediaService
-                DownloadService.this.notifyAll();
+            try {
+                if (Constants.LOGVV) {
+                    Log.v(Constants.TAG, "Disconnected from Media Scanner");
+                }
+            } finally {
+                synchronized (DownloadService.this) {
+                    mMediaScannerService = null;
+                    mMediaScannerConnecting = false;
+                    // notify anyone waiting on disconnect from MediaService
+                    DownloadService.this.notifyAll();
+                }
             }
         }
     }
@@ -314,7 +313,7 @@ public class DownloadService extends Service {
                             info = insertDownload(reader, now);
                         }
 
-                        if (info.shouldScanFile() && !scanFile(info, true)) {
+                        if (info.shouldScanFile() && !scanFile(info, true, false)) {
                             mustScan = true;
                             keepService = true;
                         }
@@ -361,10 +360,16 @@ public class DownloadService extends Service {
                         // this row is to be deleted from the database. but does it have
                         // mediaProviderUri?
                         if (TextUtils.isEmpty(info.mMediaProviderUri)) {
-                            // initiate rescan of the file to - which will populate mediaProviderUri
-                            // column in this row
-                            if (!scanFile(info, true)) {
-                                throw new IllegalStateException("scanFile failed!");
+                            if (info.shouldScanFile()) {
+                                // initiate rescan of the file to - which will populate
+                                // mediaProviderUri column in this row
+                                if (!scanFile(info, true, false)) {
+                                    throw new IllegalStateException("scanFile failed!");
+                                }
+                            } else {
+                                // this file should NOT be scanned. delete the file.
+                                Helpers.deleteFile(getContentResolver(), info.mId, info.mFileName,
+                                        info.mMimeType);
                             }
                         } else {
                             // yes it has mediaProviderUri column already filled in.
@@ -528,7 +533,7 @@ public class DownloadService extends Service {
     private void deleteDownload(long id) {
         DownloadInfo info = mDownloads.get(id);
         if (info.shouldScanFile()) {
-            scanFile(info, false);
+            scanFile(info, false, false);
         }
         if (info.mStatus == Downloads.Impl.STATUS_RUNNING) {
             info.mStatus = Downloads.Impl.STATUS_CANCELED;
@@ -544,7 +549,8 @@ public class DownloadService extends Service {
      * Attempts to scan the file if necessary.
      * @return true if the file has been properly scanned.
      */
-    private boolean scanFile(DownloadInfo info, boolean updateDatabase) {
+    private boolean scanFile(DownloadInfo info, final boolean updateDatabase,
+            final boolean deleteFile) {
         synchronized (this) {
             if (mMediaScannerService == null) {
                 // not bound to mediaservice. but if in the process of connecting to it, wait until
@@ -552,7 +558,7 @@ public class DownloadService extends Service {
                 while (mMediaScannerConnecting) {
                     Log.d(Constants.TAG, "waiting for mMediaScannerService service: ");
                     try {
-                        this.wait();
+                        this.wait(WAIT_TIMEOUT);
                     } catch (InterruptedException e1) {
                         throw new IllegalStateException("wait interrupted");
                     }
@@ -566,33 +572,30 @@ public class DownloadService extends Service {
             if (Constants.LOGV) {
                 Log.v(Constants.TAG, "Scanning file " + info.mFileName);
             }
-            if (updateDatabase) {
-                synchronized(downloadsToBeUpdated) {
-                    Uri value = info.getAllDownloadsUri();
-                    if (value != null) {
-                        downloadsToBeUpdated.put(info.mFileName, value);
-                    }
-                }
-            }
             try {
+                final Uri key = info.getAllDownloadsUri();
+                final String mimeType = info.mMimeType;
+                final ContentResolver resolver = getContentResolver();
+                final long id = info.mId;
                 mMediaScannerService.requestScanFile(info.mFileName, info.mMimeType,
                         new IMediaScannerListener.Stub() {
                             public void scanCompleted(String path, Uri uri) {
-                                Uri key;
-                                boolean updateMediaproviderUriColumn;
-                                synchronized(downloadsToBeUpdated) {
-                                    key = downloadsToBeUpdated.get(path);
-                                    updateMediaproviderUriColumn = (key != null);
-                                }
-                                if (updateMediaproviderUriColumn) {
+                                if (uri != null && updateDatabase) {
+                                    // file is scanned and mediaprovider returned uri. store it in downloads
+                                    // table (i.e., update this downloaded file's row)
                                     ContentValues values = new ContentValues();
                                     values.put(Constants.MEDIA_SCANNED, 1);
                                     values.put(Downloads.Impl.COLUMN_MEDIAPROVIDER_URI,
                                             uri.toString());
                                     getContentResolver().update(key, values, null, null);
-                                    synchronized(downloadsToBeUpdated) {
-                                        downloadsToBeUpdated.remove(path);
-                                    }
+                                } else if (uri == null && deleteFile) {
+                                    // callback returned NO uri..that means this file doesn't
+                                    // exist in MediaProvider. but it still needs to be deleted
+                                    // TODO don't scan files that are not scannable by MediaScanner.
+                                    //      create a public method in MediaFile.java to return false
+                                    //      if the given file's mimetype is not any of the types
+                                    //      the mediaprovider is interested in.
+                                    Helpers.deleteFile(resolver, id, path, mimeType);
                                 }
                             }
                         });

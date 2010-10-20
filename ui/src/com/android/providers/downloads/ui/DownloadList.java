@@ -71,7 +71,6 @@ public class DownloadList extends Activity
     private View mEmptyView;
     private ViewGroup mSelectionMenuView;
     private Button mSelectionDeleteButton;
-    private Button mSelectionRestartButton;
 
     private DownloadManager mDownloadManager;
     private Cursor mDateSortedCursor;
@@ -196,8 +195,6 @@ public class DownloadList extends Activity
         mSelectionMenuView = (ViewGroup) findViewById(R.id.selection_menu);
         mSelectionDeleteButton = (Button) findViewById(R.id.selection_delete);
         mSelectionDeleteButton.setOnClickListener(this);
-        mSelectionRestartButton = (Button) findViewById(R.id.selection_retry);
-        mSelectionRestartButton.setOnClickListener(this);
 
         ((Button) findViewById(R.id.deselect_all)).setOnClickListener(this);
     }
@@ -372,7 +369,7 @@ public class DownloadList extends Activity
                 if (isPausedForWifi(cursor)) {
                     mQueuedDownloadId = id;
                     mQueuedDialog = new AlertDialog.Builder(this)
-                            .setTitle(R.string.dialog_title_not_available)
+                            .setTitle(R.string.dialog_title_queued_body)
                             .setMessage(R.string.dialog_queued_body)
                             .setPositiveButton(R.string.keep_queued_download, null)
                             .setNegativeButton(R.string.remove_download, getDeleteClickHandler(id))
@@ -447,8 +444,8 @@ public class DownloadList extends Activity
         new AlertDialog.Builder(this)
                 .setTitle(R.string.dialog_title_not_available)
                 .setMessage(dialogBody)
-                .setPositiveButton(R.string.remove_download, getDeleteClickHandler(downloadId))
-                .setNegativeButton(R.string.retry_download, getRestartClickHandler(downloadId))
+                .setNegativeButton(R.string.delete_download, getDeleteClickHandler(downloadId))
+                .setPositiveButton(R.string.retry_download, getRestartClickHandler(downloadId))
                 .show();
     }
 
@@ -514,7 +511,6 @@ public class DownloadList extends Activity
      * Set up the contents of the selection menu based on the current selection.
      */
     private void updateSelectionMenu() {
-        mSelectionRestartButton.setVisibility(View.GONE);
         int deleteButtonStringId = R.string.delete_download;
         if (mSelectedIds.size() == 1) {
             Cursor cursor = mDownloadManager.query(new DownloadManager.Query()
@@ -523,8 +519,7 @@ public class DownloadList extends Activity
                 cursor.moveToFirst();
                 switch (cursor.getInt(mStatusColumnId)) {
                     case DownloadManager.STATUS_FAILED:
-                        deleteButtonStringId = R.string.remove_download;
-                        mSelectionRestartButton.setVisibility(View.VISIBLE);
+                        deleteButtonStringId = R.string.delete_download;
                         break;
 
                     case DownloadManager.STATUS_PENDING:
@@ -549,13 +544,6 @@ public class DownloadList extends Activity
             case R.id.selection_delete:
                 for (Long downloadId : mSelectedIds) {
                     deleteDownload(downloadId);
-                }
-                clearSelection();
-                break;
-
-            case R.id.selection_retry:
-                for (Long downloadId : mSelectedIds) {
-                    mDownloadManager.restartDownload(downloadId);
                 }
                 clearSelection();
                 break;

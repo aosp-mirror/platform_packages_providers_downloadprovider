@@ -19,5 +19,6 @@
         android:layout_height="wrap_content"
         android:minHeight="?android:attr/listPreferredItemHeight"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:paddingLeft="35dip"
+        android:paddingLeft="43dip"
+        android:layout_gravity="center_vertical"
         android:gravity="center_vertical"/>

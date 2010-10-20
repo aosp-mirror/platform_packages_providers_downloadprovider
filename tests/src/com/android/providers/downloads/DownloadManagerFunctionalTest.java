@@ -46,10 +46,10 @@ public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFuncti
 
         String path = "/download_manager_test_path";
         Uri downloadUri = requestDownload(path);
-        assertEquals(Downloads.STATUS_PENDING, getDownloadStatus(downloadUri));
+        assertEquals(Downloads.Impl.STATUS_PENDING, getDownloadStatus(downloadUri));
         assertTrue(mTestContext.mHasServiceBeenStarted);
 
-        runUntilStatus(downloadUri, Downloads.STATUS_SUCCESS);
+        runUntilStatus(downloadUri, Downloads.Impl.STATUS_SUCCESS);
         RecordedRequest request = takeRequest();
         assertEquals("GET", request.getMethod());
         assertEquals(path, request.getPath());
@@ -61,9 +61,9 @@ public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFuncti
     public void testDownloadToCache() throws Exception {
         enqueueResponse(HTTP_OK, FILE_CONTENT);
         Uri downloadUri = requestDownload("/path");
-        updateDownload(downloadUri, Downloads.COLUMN_DESTINATION,
-                       Integer.toString(Downloads.DESTINATION_CACHE_PARTITION));
-        runUntilStatus(downloadUri, Downloads.STATUS_SUCCESS);
+        updateDownload(downloadUri, Downloads.Impl.COLUMN_DESTINATION,
+                       Integer.toString(Downloads.Impl.DESTINATION_CACHE_PARTITION));
+        runUntilStatus(downloadUri, Downloads.Impl.STATUS_SUCCESS);
         assertEquals(FILE_CONTENT, getDownloadContents(downloadUri));
         assertStartsWith(Environment.getDownloadCacheDirectory().getPath(),
                          getDownloadFilename(downloadUri));
@@ -76,18 +76,18 @@ public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFuncti
         // for a normal download, roaming is fine
         enqueueResponse(HTTP_OK, FILE_CONTENT);
         Uri downloadUri = requestDownload("/path");
-        runUntilStatus(downloadUri, Downloads.STATUS_SUCCESS);
+        runUntilStatus(downloadUri, Downloads.Impl.STATUS_SUCCESS);
 
         // when roaming is disallowed, the download should pause...
         downloadUri = requestDownload("/path");
-        updateDownload(downloadUri, Downloads.COLUMN_DESTINATION,
-                       Integer.toString(Downloads.DESTINATION_CACHE_PARTITION_NOROAMING));
+        updateDownload(downloadUri, Downloads.Impl.COLUMN_DESTINATION,
+                       Integer.toString(Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING));
         runUntilStatus(downloadUri, Downloads.Impl.STATUS_WAITING_FOR_NETWORK);
 
         // ...and pick up when we're off roaming
         enqueueResponse(HTTP_OK, FILE_CONTENT);
         mSystemFacade.mIsRoaming = false;
-        runUntilStatus(downloadUri, Downloads.STATUS_SUCCESS);
+        runUntilStatus(downloadUri, Downloads.Impl.STATUS_SUCCESS);
     }
 
     /**
@@ -108,11 +108,11 @@ public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFuncti
     }
 
     protected int getDownloadStatus(Uri downloadUri) {
-        return Integer.valueOf(getDownloadField(downloadUri, Downloads.COLUMN_STATUS));
+        return Integer.valueOf(getDownloadField(downloadUri, Downloads.Impl.COLUMN_STATUS));
     }
 
     private String getDownloadFilename(Uri downloadUri) {
-        return getDownloadField(downloadUri, Downloads._DATA);
+        return getDownloadField(downloadUri, Downloads.Impl._DATA);
     }
 
     private String getDownloadField(Uri downloadUri, String column) {
@@ -132,9 +132,9 @@ public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFuncti
      */
     private Uri requestDownload(String path) throws MalformedURLException {
         ContentValues values = new ContentValues();
-        values.put(Downloads.COLUMN_URI, getServerUri(path));
-        values.put(Downloads.COLUMN_DESTINATION, Downloads.DESTINATION_EXTERNAL);
-        return mResolver.insert(Downloads.CONTENT_URI, values);
+        values.put(Downloads.Impl.COLUMN_URI, getServerUri(path));
+        values.put(Downloads.Impl.COLUMN_DESTINATION, Downloads.Impl.DESTINATION_EXTERNAL);
+        return mResolver.insert(Downloads.Impl.CONTENT_URI, values);
     }
 
     /**

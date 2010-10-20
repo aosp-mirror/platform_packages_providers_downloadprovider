@@ -44,7 +44,6 @@ import com.google.android.collect.Maps;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -114,6 +113,7 @@ public class DownloadService extends Service {
          * Receives notification when the data in the observed content
          * provider changes.
          */
+        @Override
         public void onChange(final boolean selfChange) {
             if (Constants.LOGVV) {
                 Log.v(Constants.TAG, "Service ContentObserver received notification");
@@ -188,6 +188,7 @@ public class DownloadService extends Service {
      *
      * @throws UnsupportedOperationException
      */
+    @Override
     public IBinder onBind(Intent i) {
         throw new UnsupportedOperationException("Cannot bind to Download Manager Service");
     }
@@ -195,6 +196,7 @@ public class DownloadService extends Service {
     /**
      * Initializes the service when it is first created
      */
+    @Override
     public void onCreate() {
         super.onCreate();
         if (Constants.LOGVV) {
@@ -232,6 +234,7 @@ public class DownloadService extends Service {
     /**
      * Cleans up when the service is destroyed
      */
+    @Override
     public void onDestroy() {
         getContentResolver().unregisterContentObserver(mObserver);
         if (Constants.LOGVV) {
@@ -258,6 +261,7 @@ public class DownloadService extends Service {
             super("Download Service");
         }
 
+        @Override
         public void run() {
             Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
 

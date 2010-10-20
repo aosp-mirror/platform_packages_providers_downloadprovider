@@ -41,6 +41,7 @@ public class DownloadReceiver extends BroadcastReceiver {
     @VisibleForTesting
     SystemFacade mSystemFacade = null;
 
+    @Override
     public void onReceive(Context context, Intent intent) {
         if (mSystemFacade == null) {
             mSystemFacade = new RealSystemFacade(context);

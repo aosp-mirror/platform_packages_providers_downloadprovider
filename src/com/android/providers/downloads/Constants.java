@@ -16,7 +16,6 @@
 
 package com.android.providers.downloads;
 
-import android.util.Config;
 import android.util.Log;
 
 /**
@@ -145,8 +144,7 @@ public class Constants {
 
     /** Enable verbose logging - use with "setprop log.tag.DownloadManager VERBOSE" */
     private static final boolean LOCAL_LOGV = false;
-    public static final boolean LOGV = Config.LOGV
-            || (Config.LOGD && LOCAL_LOGV && Log.isLoggable(TAG, Log.VERBOSE));
+    public static final boolean LOGV = LOCAL_LOGV && Log.isLoggable(TAG, Log.VERBOSE);
 
     /** Enable super-verbose logging */
     private static final boolean LOCAL_LOGVV = false;

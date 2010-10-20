@@ -57,7 +57,7 @@ public class PublicApiAccessTest extends AndroidTestCase {
     @Override
     protected void tearDown() throws Exception {
         if (mContentResolver != null) {
-            mContentResolver.delete(Downloads.CONTENT_URI, null, null);
+            mContentResolver.delete(Downloads.Impl.CONTENT_URI, null, null);
         }
         super.tearDown();
     }

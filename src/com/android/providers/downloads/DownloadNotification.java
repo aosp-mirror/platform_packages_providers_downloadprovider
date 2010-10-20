@@ -259,12 +259,12 @@ class DownloadNotification {
 
     private boolean isActiveAndVisible(DownloadInfo download) {
         return 100 <= download.mStatus && download.mStatus < 200
-                && download.mVisibility != Downloads.VISIBILITY_HIDDEN;
+                && download.mVisibility != Downloads.Impl.VISIBILITY_HIDDEN;
     }
 
     private boolean isCompleteAndVisible(DownloadInfo download) {
         return download.mStatus >= 200
-                && download.mVisibility == Downloads.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
+                && download.mVisibility == Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
     }
 
     /*

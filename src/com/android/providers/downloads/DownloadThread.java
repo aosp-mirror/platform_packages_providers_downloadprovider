@@ -24,7 +24,6 @@ import android.content.Intent;
 import android.drm.mobile1.DrmRawContent;
 import android.net.http.AndroidHttpClient;
 import android.net.Proxy;
-import android.net.Uri;
 import android.os.FileUtils;
 import android.os.PowerManager;
 import android.os.Process;

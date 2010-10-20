@@ -189,8 +189,8 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
         if (mResolver == null) {
             return;
         }
-        String[] columns = new String[] {Downloads._DATA};
-        Cursor cursor = mResolver.query(Downloads.CONTENT_URI, columns, null, null, null);
+        String[] columns = new String[] {Downloads.Impl._DATA};
+        Cursor cursor = mResolver.query(Downloads.Impl.CONTENT_URI, columns, null, null, null);
         try {
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                 String filePath = cursor.getString(0);
@@ -201,7 +201,7 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
         } finally {
             cursor.close();
         }
-        mResolver.delete(Downloads.CONTENT_URI, null, null);
+        mResolver.delete(Downloads.Impl.CONTENT_URI, null, null);
     }
 
     /**

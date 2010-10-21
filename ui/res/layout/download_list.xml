@@ -50,21 +50,17 @@
                   android:paddingRight="4dip"
                   android:paddingBottom="1dip"
                   android:gravity="center"
+                  android:layout_gravity="center"
                   android:background="@android:drawable/bottom_bar">
           <Button android:id="@+id/selection_delete"
-                  android:layout_width="wrap_content"
+                  android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:layout_weight="1"/>
-          <Button android:id="@+id/selection_retry"
-                  android:layout_width="wrap_content"
-                  android:layout_height="match_parent"
-                  android:layout_weight="1"
-                  android:text="@string/retry_download"
-                  android:visibility="gone"/>
           <Button android:id="@+id/deselect_all"
-                  android:layout_width="wrap_content"
+                  android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:layout_weight="1"
                   android:text="@string/deselect_all"/>
+
       </LinearLayout>
 </LinearLayout>

@@ -23,7 +23,7 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Der Anwendung wird ermöglicht, auf die erweiterten Funktionen des Download-Managers zuzugreifen. Schädliche Anwendungen können so Downloads unterbrechen und auf persönliche Daten zugreifen."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Benachrichtigungen zu Ladevorgängen senden"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Ermöglicht es der Anwendung, Benachrichtigungen zu abgeschlossenen Ladevorgängen zu senden. Diese Funktion kann von bösartigen Anwendungen dazu verwendet werden, den Ladevorgang anderer Anwendungen zu stören."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="3423239546637683653">"Downloads im gem. Speicher sehen"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Alle USB-Speicher-Downloads anz."</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Alle Downloads an SD-Karte anzeigen"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Ermöglicht der Anwendung, alle Downloads an die SD-Karte anzuzeigen, unabhängig davon, von welcher Anwendung sie heruntergeladen wurden."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Speicherplatz im Download-Cache reservieren"</string>
@@ -38,10 +38,10 @@
     <string name="notification_download_complete" msgid="840713937779273632">"Ladevorgang abgeschlossen"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Fehler beim Ladevorgang"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Downloadgröße erfordert WLAN"</string>
-    <string name="wifi_required_title" msgid="1003041298526831643">"Download ist zu groß für mobiles Netzwerk"</string>
-    <string name="wifi_required_body" msgid="515230018902671203">"Sie können keine <xliff:g id="SIZE">%s </xliff:g> große Datei mit diesem mobilen Netzwerk herunterladen."\n\n"Tippen Sie auf <xliff:g id="QUEUE_TEXT">%s </xliff:g>, um diese Datei herunterzuladen, wenn Sie mit einem WLAN-Netzwerk verbunden sind."</string>
-    <string name="wifi_recommended_title" msgid="5539971631114967735">"In Warteschlange für WLAN-Download?"</string>
-    <string name="wifi_recommended_body" msgid="6723283448732519545">"Wenn Sie diese <xliff:g id="SIZE">%s </xliff:g> große Datei mit diesem mobilen Netzwerk herunterladen, wird Ihr Akku möglicherweise unnötig belastet und es fallen eventuell zusätzliche Gebühren Ihres Mobilfunkanbieters an."\n\n"Tippen Sie auf <xliff:g id="QUEUE_TEXT">%s</xliff:g>, um diese Datei herunterzuladen, wenn Sie mit einem WLAN-Netzwerk verbunden sind."</string>
+    <!-- outdated translation 1003041298526831643 -->     <string name="wifi_required_title" msgid="1995971416871498179">"Download ist zu groß für mobiles Netzwerk"</string>
+    <!-- outdated translation 515230018902671203 -->     <string name="wifi_required_body" msgid="1675692697446715831">"Sie können keine <xliff:g id="SIZE">%s </xliff:g> große Datei mit diesem mobilen Netzwerk herunterladen."\n\n"Tippen Sie auf <xliff:g id="QUEUE_TEXT">%s </xliff:g>, um diese Datei herunterzuladen, wenn Sie mit einem WLAN-Netzwerk verbunden sind."</string>
+    <!-- outdated translation 5539971631114967735 -->     <string name="wifi_recommended_title" msgid="7441589306734687400">"In Warteschlange für WLAN-Download?"</string>
+    <!-- outdated translation 6723283448732519545 -->     <string name="wifi_recommended_body" msgid="7574517147645381271">"Wenn Sie diese <xliff:g id="SIZE">%s </xliff:g> große Datei mit diesem mobilen Netzwerk herunterladen, wird Ihr Akku möglicherweise unnötig belastet und es fallen eventuell zusätzliche Gebühren Ihres Mobilfunkanbieters an."\n\n"Tippen Sie auf <xliff:g id="QUEUE_TEXT">%s</xliff:g>, um diese Datei herunterzuladen, wenn Sie mit einem WLAN-Netzwerk verbunden sind."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Warteschlange"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Abbrechen"</string>
     <string name="button_start_now" msgid="792123674007840864">"Jetzt starten"</string>

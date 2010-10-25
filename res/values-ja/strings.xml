@@ -23,7 +23,7 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"ダウンロードマネージャーの高度な機能にアプリケーションからアクセスできるようにします。これにより、悪意のあるアプリケーションがダウンロードに深刻な影響を与えたり個人情報にアクセスしたりできるようになります。"</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"ダウンロード通知を送信します。"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"ダウンロード完了の通知の送信をアプリケーションに許可します。悪意のあるアプリケーションがファイルをダウンロードする他のアプリケーションの処理を妨害する恐れがあります。"</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="3423239546637683653">"共有ストレージへの全ダウンロードを見る"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"USBストレージへの全ダウンロードを見る"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"SDカードへのダウンロードをすべて参照する"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"どのアプリケーションでダウンロードされたかにかかわらず、SDカードにダウンロードされたすべてのファイルの参照をアプリケーションに許可します。"</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"ダウンロードキャッシュの領域を予約"</string>
@@ -38,10 +38,10 @@
     <string name="notification_download_complete" msgid="840713937779273632">"ダウンロード完了"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"ダウンロードに失敗しました"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Wi-Fiが必要なサイズです"</string>
-    <string name="wifi_required_title" msgid="1003041298526831643">"ダウンロードするサイズが大きすぎます"</string>
-    <string name="wifi_required_body" msgid="515230018902671203">"このモバイルネットワークでは<xliff:g id="SIZE">%s </xliff:g>のファイルをダウンロードできません。"\n\n"<xliff:g id="QUEUE_TEXT">%s </xliff:g>をタップすると次にWi-Fiネットワークに繋がったときにダウンロードされます。"</string>
-    <string name="wifi_recommended_title" msgid="5539971631114967735">"Wi-Fiでのダウンロードをキューに登録しますか？"</string>
-    <string name="wifi_recommended_body" msgid="6723283448732519545">"このネットワークで<xliff:g id="SIZE">%s </xliff:g>をダウンロードすると、電池を消耗し携帯通信会社から追加料金を請求される場合があります。"\n\n"<xliff:g id="QUEUE_TEXT">%s</xliff:g>をタップすると次にWi-Fiネットワークに繋がったときにダウンロードされます。"</string>
+    <!-- outdated translation 1003041298526831643 -->     <string name="wifi_required_title" msgid="1995971416871498179">"ダウンロードするサイズが大きすぎます"</string>
+    <!-- outdated translation 515230018902671203 -->     <string name="wifi_required_body" msgid="1675692697446715831">"このモバイルネットワークでは<xliff:g id="SIZE">%s </xliff:g>のファイルをダウンロードできません。"\n\n"<xliff:g id="QUEUE_TEXT">%s </xliff:g>をタップすると次にWi-Fiネットワークに繋がったときにダウンロードされます。"</string>
+    <!-- outdated translation 5539971631114967735 -->     <string name="wifi_recommended_title" msgid="7441589306734687400">"Wi-Fiでのダウンロードをキューに登録しますか？"</string>
+    <!-- outdated translation 6723283448732519545 -->     <string name="wifi_recommended_body" msgid="7574517147645381271">"このネットワークで<xliff:g id="SIZE">%s </xliff:g>をダウンロードすると、電池を消耗し携帯通信会社から追加料金を請求される場合があります。"\n\n"<xliff:g id="QUEUE_TEXT">%s</xliff:g>をタップすると次にWi-Fiネットワークに繋がったときにダウンロードされます。"</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"キューに登録"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"キャンセル"</string>
     <string name="button_start_now" msgid="792123674007840864">"今すぐ開始"</string>

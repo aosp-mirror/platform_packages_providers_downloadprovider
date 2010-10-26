@@ -23,7 +23,7 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"允許應用程式存取下載管理員的進階功能 (惡意應用程式可能會利用此功能讓下載發生錯誤並存取私人資訊)。"</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"傳送下載通知。"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"下載完成時，允許應用程式送出通知。請注意：惡意程式可能使用此功能干擾其他下載檔案的應用程式。"</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="3423239546637683653">"查看所有下載到共用儲存裝置的內容"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"查看所有下載到 USB 儲存裝置的內容"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"查看 SD 卡中的所有下載項目"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"允許應用程式查看 SD 卡中的所有下載項目，無論這些項目是透過何種應用程式進行下載。"</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"保留下載快取空間"</string>
@@ -38,10 +38,10 @@
     <string name="notification_download_complete" msgid="840713937779273632">"完成下載"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"下載失敗"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"這個檔案較大，需要 Wi-Fi 才能下載"</string>
-    <string name="wifi_required_title" msgid="1003041298526831643">"下載檔案過大，超過行動網路上限"</string>
-    <string name="wifi_required_body" msgid="515230018902671203">"您無法透過這個行動網路下載 <xliff:g id="SIZE">%s </xliff:g> 的檔案。"\n\n"請輕觸 [<xliff:g id="QUEUE_TEXT">%s </xliff:g>]，即可在下次連上 Wi-Fi 網路時下載這個檔案。"</string>
-    <string name="wifi_recommended_title" msgid="5539971631114967735">"排入 Wi-Fi 下載佇列？"</string>
-    <string name="wifi_recommended_body" msgid="6723283448732519545">"透過這個行動網路下載這個 <xliff:g id="SIZE">%s </xliff:g> 的檔案可能會耗盡電池電量，而且行動通訊業者會額外收費。"\n\n"請輕觸 [<xliff:g id="QUEUE_TEXT">%s</xliff:g>]，即可在下次連上 Wi-Fi 網路時下載這個檔案。"</string>
+    <!-- outdated translation 1003041298526831643 -->     <string name="wifi_required_title" msgid="1995971416871498179">"下載檔案過大，超過行動網路上限"</string>
+    <!-- outdated translation 515230018902671203 -->     <string name="wifi_required_body" msgid="1675692697446715831">"您無法透過這個行動網路下載 <xliff:g id="SIZE">%s </xliff:g> 的檔案。"\n\n"請輕觸 [<xliff:g id="QUEUE_TEXT">%s </xliff:g>]，即可在下次連上 Wi-Fi 網路時下載這個檔案。"</string>
+    <!-- outdated translation 5539971631114967735 -->     <string name="wifi_recommended_title" msgid="7441589306734687400">"排入 Wi-Fi 下載佇列？"</string>
+    <!-- outdated translation 6723283448732519545 -->     <string name="wifi_recommended_body" msgid="7574517147645381271">"透過這個行動網路下載這個 <xliff:g id="SIZE">%s </xliff:g> 的檔案可能會耗盡電池電量，而且行動通訊業者會額外收費。"\n\n"請輕觸 [<xliff:g id="QUEUE_TEXT">%s</xliff:g>]，即可在下次連上 Wi-Fi 網路時下載這個檔案。"</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"佇列"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"取消"</string>
     <string name="button_start_now" msgid="792123674007840864">"立即開始"</string>

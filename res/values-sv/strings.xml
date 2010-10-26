@@ -23,7 +23,7 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Tillåter att ett program får åtkomst till hämtningshanterarens avancerade funktioner. Skadliga program kan använda detta för att störa hämtningar och komma åt privat information."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Skicka meddelande om hämtning."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Tillåter att ett program skickar meddelanden om slutförda hämtningar. Skadliga program kan använda detta för att störa andra program som hämtar filer."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="3423239546637683653">"Visa hämtningar till SD"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Visa hämtningar till USB"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Visa alla hämtningar till SD-kort"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Tillåter att programmet ser alla hämtningar till SD-kortet, oavsett vilket program som hämtat innehållet."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Reservera utrymme i hämtningscachen"</string>
@@ -38,10 +38,10 @@
     <string name="notification_download_complete" msgid="840713937779273632">"Hämtning slutförd"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Det gick inte att hämta"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Hämtningen kräver Wi-Fi"</string>
-    <string name="wifi_required_title" msgid="1003041298526831643">"Hämtningen är för stor för det mobila nätverket"</string>
-    <string name="wifi_required_body" msgid="515230018902671203">"Det går inte att hämta en <xliff:g id="SIZE">%s </xliff:g>-fil i det här mobila nätverket."\n\n"Tryck på <xliff:g id="QUEUE_TEXT">%s </xliff:g> om du vill hämta filen nästa gång du är ansluten till ett Wi-Fi-nätverk."</string>
-    <string name="wifi_recommended_title" msgid="5539971631114967735">"Vill du ställa den i kö för Wi-Fi-hämtning?"</string>
-    <string name="wifi_recommended_body" msgid="6723283448732519545">"Om du hämtar den här <xliff:g id="SIZE">%s </xliff:g>-filen i mobilnätet kan batteriet ta slut och du kan dra på dig extra avgifter."\n\n"Tryck på <xliff:g id="QUEUE_TEXT">%s</xliff:g> om du vill hämta filen nästa gång du är ansluten till Wi-Fi."</string>
+    <!-- outdated translation 1003041298526831643 -->     <string name="wifi_required_title" msgid="1995971416871498179">"Hämtningen är för stor för det mobila nätverket"</string>
+    <!-- outdated translation 515230018902671203 -->     <string name="wifi_required_body" msgid="1675692697446715831">"Det går inte att hämta en <xliff:g id="SIZE">%s </xliff:g>-fil i det här mobila nätverket."\n\n"Tryck på <xliff:g id="QUEUE_TEXT">%s </xliff:g> om du vill hämta filen nästa gång du är ansluten till ett Wi-Fi-nätverk."</string>
+    <!-- outdated translation 5539971631114967735 -->     <string name="wifi_recommended_title" msgid="7441589306734687400">"Vill du ställa den i kö för Wi-Fi-hämtning?"</string>
+    <!-- outdated translation 6723283448732519545 -->     <string name="wifi_recommended_body" msgid="7574517147645381271">"Om du hämtar den här <xliff:g id="SIZE">%s </xliff:g>-filen i mobilnätet kan batteriet ta slut och du kan dra på dig extra avgifter."\n\n"Tryck på <xliff:g id="QUEUE_TEXT">%s</xliff:g> om du vill hämta filen nästa gång du är ansluten till Wi-Fi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Kö"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Avbryt"</string>
     <string name="button_start_now" msgid="792123674007840864">"Starta nu"</string>

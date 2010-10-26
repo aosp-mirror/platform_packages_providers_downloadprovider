@@ -23,7 +23,7 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"애플리케이션이 다운로드 관리자의 고급 기능에 액세스할 수 있도록 허용합니다. 이 경우 악성 애플리케이션이 다운로드를 중단시키고 개인 정보에 액세스할 수 있습니다."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"다운로드 알림을 전송합니다."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"애플리케이션이 완료된 다운로드에 대한 알림을 보낼 수 있도록 허용합니다. 이 경우 악성 애플리케이션이 파일을 다운로드하는 다른 애플리케이션에 혼란을 야기할 할 수 있습니다."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="3423239546637683653">"공유 저장용량에 다운로드한 전체 항목 보기"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"USB 저장소에 다운로드한 전체 항목 보기"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"SD 카드에 다운로드한 모든 항목 보기"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"어떤 애플리케이션을 사용하여 다운로드했는지에 관계없이 SD 카드에 다운로드한 모든 항목을 애플리케이션에 표시합니다."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"다운로드 캐시에 공간 보유"</string>
@@ -38,10 +38,10 @@
     <string name="notification_download_complete" msgid="840713937779273632">"다운로드 완료"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"다운로드 실패"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"너무 커서 Wi-Fi로 다운로드해야 합니다."</string>
-    <string name="wifi_required_title" msgid="1003041298526831643">"너무 커서 모바일 네트워크로 다운로드할 수 없습니다."</string>
-    <string name="wifi_required_body" msgid="515230018902671203">"사용하시는 모바일 네트워크에서 <xliff:g id="SIZE">%s </xliff:g> 크기의 파일을 다운로드할 수 없습니다."\n\n"이 파일을 다운로드하려면 다음에 Wi-Fi 네트워크에 연결될 때 <xliff:g id="QUEUE_TEXT">%s </xliff:g>을(를) 터치하세요."</string>
-    <string name="wifi_recommended_title" msgid="5539971631114967735">"Wi-Fi 다운로드용으로 대기할까요?"</string>
-    <string name="wifi_recommended_body" msgid="6723283448732519545">"사용하시는 모바일 네트워크에서 <xliff:g id="SIZE">%s </xliff:g> 크기의 파일을 다운로드하면 배터리가 많이 소모되고 이동통신사로부터 추가 요금이 발생할 수 있습니다."\n\n"이 파일을 다운로드하려면 다음에 Wi-Fi 네트워크에 연결될 때 <xliff:g id="QUEUE_TEXT">%s</xliff:g>을(를) 터치하세요."</string>
+    <!-- outdated translation 1003041298526831643 -->     <string name="wifi_required_title" msgid="1995971416871498179">"너무 커서 모바일 네트워크로 다운로드할 수 없습니다."</string>
+    <!-- outdated translation 515230018902671203 -->     <string name="wifi_required_body" msgid="1675692697446715831">"사용하시는 모바일 네트워크에서 <xliff:g id="SIZE">%s </xliff:g> 크기의 파일을 다운로드할 수 없습니다."\n\n"이 파일을 다운로드하려면 다음에 Wi-Fi 네트워크에 연결될 때 <xliff:g id="QUEUE_TEXT">%s </xliff:g>을(를) 터치하세요."</string>
+    <!-- outdated translation 5539971631114967735 -->     <string name="wifi_recommended_title" msgid="7441589306734687400">"Wi-Fi 다운로드용으로 대기할까요?"</string>
+    <!-- outdated translation 6723283448732519545 -->     <string name="wifi_recommended_body" msgid="7574517147645381271">"사용하시는 모바일 네트워크에서 <xliff:g id="SIZE">%s </xliff:g> 크기의 파일을 다운로드하면 배터리가 많이 소모되고 이동통신사로부터 추가 요금이 발생할 수 있습니다."\n\n"이 파일을 다운로드하려면 다음에 Wi-Fi 네트워크에 연결될 때 <xliff:g id="QUEUE_TEXT">%s</xliff:g>을(를) 터치하세요."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"대기열"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"취소"</string>
     <string name="button_start_now" msgid="792123674007840864">"지금 시작"</string>

@@ -170,11 +170,21 @@ public class DownloadReceiver extends BroadcastReceiver {
         if (isPublicApi) {
             appIntent = new Intent(DownloadManager.ACTION_NOTIFICATION_CLICKED);
             appIntent.setPackage(pckg);
+            // send id of the items clicked on.
+            if (intent.getBooleanExtra("multiple", false)) {
+                // broadcast received saying click occurred on a notification with multiple titles.
+                // don't include any ids at all - let the caller query all downloads belonging to it
+                // TODO modify the broadcast to include ids of those multiple notifications.
+            } else {
+                appIntent.putExtra(DownloadManager.EXTRA_NOTIFICATION_CLICK_DOWNLOAD_IDS,
+                        new long[] {
+                                cursor.getLong(cursor.getColumnIndexOrThrow(Downloads.Impl._ID))});
+            }
         } else { // legacy behavior
             if (clazz == null) {
                 return;
             }
-            appIntent = new Intent(Downloads.Impl.ACTION_NOTIFICATION_CLICKED);
+            appIntent = new Intent(DownloadManager.ACTION_NOTIFICATION_CLICKED);
             appIntent.setClassName(pckg, clazz);
             if (intent.getBooleanExtra("multiple", true)) {
                 appIntent.setData(Downloads.Impl.CONTENT_URI);

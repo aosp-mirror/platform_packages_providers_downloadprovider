@@ -143,10 +143,10 @@ public class Constants {
     static final boolean LOGX = false;
 
     /** Enable verbose logging - use with "setprop log.tag.DownloadManager VERBOSE" */
-    private static final boolean LOCAL_LOGV = false;
+    private static final boolean LOCAL_LOGV = true; // STOPSHIP change this to false before shipping
     public static final boolean LOGV = LOCAL_LOGV && Log.isLoggable(TAG, Log.VERBOSE);
 
     /** Enable super-verbose logging */
-    private static final boolean LOCAL_LOGVV = false;
+    private static final boolean LOCAL_LOGVV = true; // STOPSHIP change this to false before shipping
     public static final boolean LOGVV = LOCAL_LOGVV && LOGV;
 }

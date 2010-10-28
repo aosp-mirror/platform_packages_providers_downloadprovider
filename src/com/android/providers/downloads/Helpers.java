@@ -99,25 +99,22 @@ public class Helpers {
             boolean isPublicApi) throws GenerateSaveFileError {
         checkCanHandleDownload(context, mimeType, destination, isPublicApi);
         if (destination == Downloads.Impl.DESTINATION_FILE_URI) {
-            return getPathForFileUri(hint, contentLength);
+            String path = verifyFileUri(hint, contentLength);
+            String c = getFullPath(path, mimeType, destination, null);
+            return c;
         } else {
             return chooseFullPath(context, url, hint, contentDisposition, contentLocation, mimeType,
                     destination, contentLength);
         }
     }
 
-    private static String getPathForFileUri(String hint, long contentLength)
+    private static String verifyFileUri(String hint, long contentLength)
             throws GenerateSaveFileError {
         if (!isExternalMediaMounted()) {
             throw new GenerateSaveFileError(Downloads.Impl.STATUS_DEVICE_NOT_FOUND_ERROR,
                     "external media not mounted");
         }
         String path = Uri.parse(hint).getPath();
-        if (new File(path).exists()) {
-            Log.d(Constants.TAG, "File already exists: " + path);
-            throw new GenerateSaveFileError(Downloads.Impl.STATUS_FILE_ALREADY_EXISTS_ERROR,
-                    "requested destination file already exists");
-        }
         if (getAvailableBytes(getFilesystemRoot(path)) < contentLength) {
             throw new GenerateSaveFileError(Downloads.Impl.STATUS_INSUFFICIENT_SPACE_ERROR,
                     "insufficient space on external storage");
@@ -148,11 +145,15 @@ public class Helpers {
         File base = locateDestinationDirectory(context, mimeType, destination, contentLength);
         String filename = chooseFilename(url, hint, contentDisposition, contentLocation,
                                          destination);
+        return getFullPath(filename, mimeType, destination, base);
+    }
 
+    private static String getFullPath(String filename, String mimeType, int destination,
+        File base) throws GenerateSaveFileError {
         // Split filename between base and extension
         // Add an extension if filename does not have one
         String extension = null;
-        int dotIndex = filename.indexOf('.');
+        int dotIndex = filename.lastIndexOf('.');
         if (dotIndex < 0) {
             extension = chooseExtensionFromMimeType(mimeType, true);
         } else {
@@ -162,12 +163,13 @@ public class Helpers {
 
         boolean recoveryDir = Constants.RECOVERY_DIRECTORY.equalsIgnoreCase(filename + extension);
 
-        filename = base.getPath() + File.separator + filename;
+        if (base != null) {
+            filename = base.getPath() + File.separator + filename;
+        }
 
         if (Constants.LOGVV) {
             Log.v(Constants.TAG, "target file: " + filename + extension);
         }
-
         return chooseUniqueFilename(destination, filename, extension, recoveryDir);
     }
 

@@ -16,7 +16,6 @@
 
 package com.android.providers.downloads;
 
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -851,20 +850,5 @@ public class Helpers {
             }
         }
         return sb.toString();
-    }
-
-    /*
-     * Delete the given file from device
-     * and delete its row from the downloads database.
-     */
-    /* package */ static void deleteFile(ContentResolver resolver, long id, String path, String mimeType) {
-        try {
-            File file = new File(path);
-            file.delete();
-        } catch (Exception e) {
-            Log.w(Constants.TAG, "file: '" + path + "' couldn't be deleted", e);
-        }
-        resolver.delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, Downloads.Impl._ID + " = ? ",
-                new String[]{String.valueOf(id)});
     }
 }

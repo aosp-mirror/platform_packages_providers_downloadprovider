@@ -370,21 +370,20 @@ public class DownloadService extends Service {
                                 if (!scanFile(info, false, true)) {
                                     throw new IllegalStateException("scanFile failed!");
                                 }
-                            } else {
-                                // this file should NOT be scanned. delete the file.
-                                Helpers.deleteFile(getContentResolver(), info.mId, info.mFileName,
-                                        info.mMimeType);
+                                continue;
                             }
                         } else {
                             // yes it has mediaProviderUri column already filled in.
-                            // delete it from MediaProvider database and then from downloads table
-                            // in DownProvider database (the order of deletion is important).
+                            // delete it from MediaProvider database.
                             getContentResolver().delete(Uri.parse(info.mMediaProviderUri), null,
                                     null);
-                            getContentResolver().delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
-                                    Downloads.Impl._ID + " = ? ",
-                                    new String[]{String.valueOf(info.mId)});
                         }
+                        // delete the file
+                        deleteFileIfExists(info.mFileName);
+                        // delete from the downloads db
+                        getContentResolver().delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
+                                Downloads.Impl._ID + " = ? ",
+                                new String[]{String.valueOf(info.mId)});
                     }
                 }
             }
@@ -601,7 +600,11 @@ public class DownloadService extends Service {
                                         getContentResolver().delete(uri, null, null);
                                     }
                                     // delete the file and delete its row from the downloads db
-                                    Helpers.deleteFile(resolver, id, path, mimeType);
+                                    deleteFileIfExists(path);
+                                    getContentResolver().delete(
+                                            Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
+                                            Downloads.Impl._ID + " = ? ",
+                                            new String[]{String.valueOf(id)});
                                 }
                             }
                         });
@@ -610,6 +613,17 @@ public class DownloadService extends Service {
                 Log.w(Constants.TAG, "Failed to scan file " + info.mFileName);
                 return false;
             }
+        }
+    }
+
+    private void deleteFileIfExists(String path) {
+        try {
+            if (!TextUtils.isEmpty(path)) {
+                File file = new File(path);
+                file.delete();
+            }
+        } catch (Exception e) {
+            Log.w(Constants.TAG, "file: '" + path + "' couldn't be deleted", e);
         }
     }
 }

@@ -547,7 +547,8 @@ public class DownloadInfo {
      */
     boolean shouldScanFile() {
         return !mMediaScanned
-                && mDestination == Downloads.Impl.DESTINATION_EXTERNAL
+                && (mDestination == Downloads.Impl.DESTINATION_EXTERNAL ||
+                        mDestination == Downloads.Impl.DESTINATION_FILE_URI)
                 && Downloads.Impl.isStatusSuccess(mStatus)
                 && !DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING.equalsIgnoreCase(mMimeType);
     }

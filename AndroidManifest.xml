@@ -62,6 +62,8 @@
                these URIs -->
           <path-permission android:pathPrefix="/my_downloads"
                            android:permission="android.permission.INTERNET"/>
+          <path-permission android:pathPrefix="/public_downloads"
+                           android:permission="android.permission.INTERNET"/>
           <!-- Temporary, for backwards compatibility -->
           <path-permission android:pathPrefix="/download"
                            android:permission="android.permission.INTERNET"/>

@@ -16,6 +16,7 @@
 
 package com.android.providers.downloads;
 
+import android.app.DownloadManager;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -26,6 +27,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -35,6 +37,7 @@ import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.os.Process;
 import android.provider.Downloads;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -76,6 +79,11 @@ public final class DownloadProvider extends ContentProvider {
     private static final int ALL_DOWNLOADS_ID = 4;
     /** URI matcher constant for the URI of a download's request headers */
     private static final int REQUEST_HEADERS_URI = 5;
+    /** URI matcher constant for the public URI returned by
+     * {@link DownloadManager#getUriForDownloadedFile(long)} if the given downloaded file
+     * is publicly accessible.
+     */
+    private static final int PUBLIC_DOWNLOAD_ID = 6;
     static {
         sURIMatcher.addURI("downloads", "my_downloads", MY_DOWNLOADS);
         sURIMatcher.addURI("downloads", "my_downloads/#", MY_DOWNLOADS_ID);
@@ -93,6 +101,9 @@ public final class DownloadProvider extends ContentProvider {
         sURIMatcher.addURI("downloads",
                 "download/#/" + Downloads.Impl.RequestHeaders.URI_SEGMENT,
                 REQUEST_HEADERS_URI);
+        sURIMatcher.addURI("downloads",
+                Downloads.Impl.PUBLICLY_ACCESSIBLE_DOWNLOADS_URI_SEGMENT + "/#",
+                PUBLIC_DOWNLOAD_ID);
     }
 
     /** Different base URIs that could be used to access an individual download */
@@ -420,6 +431,15 @@ public final class DownloadProvider extends ContentProvider {
             }
             case MY_DOWNLOADS_ID: {
                 return DOWNLOAD_TYPE;
+            }
+            case PUBLIC_DOWNLOAD_ID: {
+                // return the mimetype of this id from the database
+                final String id = getDownloadIdFromUri(uri);
+                final SQLiteDatabase db = mOpenHelper.getReadableDatabase();
+                return DatabaseUtils.stringForQuery(db,
+                        "SELECT " + Downloads.Impl.COLUMN_MIME_TYPE + " FROM " + DB_TABLE +
+                        " WHERE " + Downloads.Impl._ID + " = ?",
+                        new String[]{id});
             }
             default: {
                 if (Constants.LOGV) {
@@ -963,7 +983,8 @@ public final class DownloadProvider extends ContentProvider {
             int uriMatch) {
         SqlSelection selection = new SqlSelection();
         selection.appendClause(where, whereArgs);
-        if (uriMatch == MY_DOWNLOADS_ID || uriMatch == ALL_DOWNLOADS_ID) {
+        if (uriMatch == MY_DOWNLOADS_ID || uriMatch == ALL_DOWNLOADS_ID ||
+                uriMatch == PUBLIC_DOWNLOAD_ID) {
             selection.appendClause(Downloads.Impl._ID + " = ?", getDownloadIdFromUri(uri));
         }
         if (uriMatch == MY_DOWNLOADS || uriMatch == MY_DOWNLOADS_ID) {

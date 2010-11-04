@@ -84,7 +84,7 @@ public class DownloadInfo {
             info.mTotalBytes = getLong(Downloads.Impl.COLUMN_TOTAL_BYTES);
             info.mCurrentBytes = getLong(Downloads.Impl.COLUMN_CURRENT_BYTES);
             info.mETag = getString(info.mETag, Constants.ETAG);
-            info.mMediaScanned = getInt(Constants.MEDIA_SCANNED) == 1;
+            info.mMediaScanned = getInt(Constants.MEDIA_SCANNED) > 0;
             info.mDeleted = getInt(Downloads.Impl.COLUMN_DELETED) == 1;
             info.mMediaProviderUri = getString(info.mMediaProviderUri,
                     Downloads.Impl.COLUMN_MEDIAPROVIDER_URI);

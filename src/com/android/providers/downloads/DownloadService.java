@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
 import android.media.IMediaScannerListener;
 import android.media.IMediaScannerService;
 import android.net.Uri;
@@ -466,29 +467,41 @@ public class DownloadService extends Service {
      * Drops old rows from the database to prevent it from growing too large
      */
     private void trimDatabase() {
-        Cursor cursor = getContentResolver().query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
-                new String[] { Downloads.Impl._ID },
-                Downloads.Impl.COLUMN_STATUS + " >= '200'", null,
-                Downloads.Impl.COLUMN_LAST_MODIFICATION);
-        if (cursor == null) {
-            // This isn't good - if we can't do basic queries in our database, nothing's gonna work
-            Log.e(Constants.TAG, "null cursor in trimDatabase");
-            return;
-        }
-        if (cursor.moveToFirst()) {
-            int numDelete = cursor.getCount() - Constants.MAX_DOWNLOADS;
-            int columnId = cursor.getColumnIndexOrThrow(Downloads.Impl._ID);
-            while (numDelete > 0) {
-                Uri downloadUri = ContentUris.withAppendedId(
-                        Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, cursor.getLong(columnId));
-                getContentResolver().delete(downloadUri, null, null);
-                if (!cursor.moveToNext()) {
-                    break;
+        Cursor cursor = null;
+        try {
+            cursor = getContentResolver().query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
+                    new String[] { Downloads.Impl._ID },
+                    Downloads.Impl.COLUMN_STATUS + " >= '200'", null,
+                    Downloads.Impl.COLUMN_LAST_MODIFICATION);
+            if (cursor == null) {
+                // This isn't good - if we can't do basic queries in our database, nothing's gonna work
+                Log.e(Constants.TAG, "null cursor in trimDatabase");
+                return;
+            }
+            if (cursor.moveToFirst()) {
+                int numDelete = cursor.getCount() - Constants.MAX_DOWNLOADS;
+                int columnId = cursor.getColumnIndexOrThrow(Downloads.Impl._ID);
+                while (numDelete > 0) {
+                    Uri downloadUri = ContentUris.withAppendedId(
+                            Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, cursor.getLong(columnId));
+                    getContentResolver().delete(downloadUri, null, null);
+                    if (!cursor.moveToNext()) {
+                        break;
+                    }
+                    numDelete--;
                 }
-                numDelete--;
+            }
+        } catch (SQLiteException e) {
+            // trimming the database raised an exception. alright, ignore the exception
+            // and return silently. trimming database is not exactly a critical operation
+            // and there is no need to propagate the exception.
+            Log.w(Constants.TAG, "trimDatabase failed with exception: " + e.getMessage());
+            return;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
             }
         }
-        cursor.close();
     }
 
     /**

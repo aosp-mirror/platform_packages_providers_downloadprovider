@@ -33,7 +33,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.Downloads;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -572,31 +571,10 @@ public class DownloadList extends Activity
      * Delete a download from the Download Manager.
      */
     private void deleteDownload(long downloadId) {
-        if (moveToDownload(downloadId)) {
-            int status = mDateSortedCursor.getInt(mStatusColumnId);
-            boolean isComplete = status == DownloadManager.STATUS_SUCCESSFUL
-                    || status == DownloadManager.STATUS_FAILED;
-            String localUri = mDateSortedCursor.getString(mLocalUriColumnId);
-            if (isComplete && localUri != null) {
-                String path = Uri.parse(localUri).getPath();
-                if (path.startsWith(Environment.getExternalStorageDirectory().getPath())) {
-                    String mediaProviderUri = mDateSortedCursor.getString(mMediaProviderUriId);
-                    if (TextUtils.isEmpty(mediaProviderUri)) {
-                        // downloads database doesn't have the mediaprovider_uri. It means
-                        // this download occurred before mediaprovider_uri column existed
-                        // in downloads table. Since MediaProvider needs the mediaprovider_uri to
-                        // delete this download, just set the 'deleted' flag to 1 on this row
-                        // in the database. DownloadService, upon seeing this flag set to 1, will
-                        // re-scan the file and get the MediaProviderUri and then delete the file
-                        mDownloadManager.markRowDeleted(downloadId);
-                        return;
-                    } else {
-                        getContentResolver().delete(Uri.parse(mediaProviderUri), null, null);
-                    }
-                }
-            }
-        }
-        mDownloadManager.remove(downloadId);
+        // let DownloadService do the job of cleaning up the downloads db, mediaprovider db,
+        // and removal of file from sdcard
+        // TODO do the following in asynctask - not on main thread.
+        mDownloadManager.markRowDeleted(downloadId);
     }
 
     @Override

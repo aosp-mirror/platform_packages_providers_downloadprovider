@@ -37,7 +37,6 @@ import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.os.Process;
 import android.provider.Downloads;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -45,6 +44,7 @@ import com.google.common.annotations.VisibleForTesting;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -142,6 +142,8 @@ public final class DownloadProvider extends ContentProvider {
             sAppReadableColumnsSet.add(sAppReadableColumnsArray[i]);
         }
     }
+    private static final List<String> downloadManagerColumnsList =
+            Arrays.asList(DownloadManager.UNDERLYING_COLUMNS);
 
     /** The database that lies underneath this content provider */
     private SQLiteOpenHelper mOpenHelper = null;
@@ -741,8 +743,10 @@ public final class DownloadProvider extends ContentProvider {
             if (projection == null) {
                 projection = sAppReadableColumnsArray;
             } else {
+                // check the validity of the columns in projection 
                 for (int i = 0; i < projection.length; ++i) {
-                    if (!sAppReadableColumnsSet.contains(projection[i])) {
+                    if (!sAppReadableColumnsSet.contains(projection[i]) &&
+                            !downloadManagerColumnsList.contains(projection[i])) {
                         throw new IllegalArgumentException(
                                 "column " + projection[i] + " is not allowed in queries");
                     }

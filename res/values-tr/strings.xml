@@ -38,10 +38,10 @@
     <string name="notification_download_complete" msgid="840713937779273632">"İndirme işlemi tamamlandı"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"İndirme işlemi başarısız"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"İndr boyutu Kablsz bağ gerkt"</string>
-    <!-- outdated translation 1003041298526831643 -->     <string name="wifi_required_title" msgid="1995971416871498179">"İndirme boyutu mobil ağ için çok büyük"</string>
-    <!-- outdated translation 515230018902671203 -->     <string name="wifi_required_body" msgid="1675692697446715831">"Bu mobil ağda <xliff:g id="SIZE">%s </xliff:g> boyutunda bir dosyayı indiremezsiniz."\n\n"Bu dosyayı, Kablosuz ağa yeniden bağlandığınızda indirmek için <xliff:g id="QUEUE_TEXT">%s </xliff:g> simgesine dokunun."</string>
-    <!-- outdated translation 5539971631114967735 -->     <string name="wifi_recommended_title" msgid="7441589306734687400">"Kablosuz indirme için kuyruğa alınsın mı?"</string>
-    <!-- outdated translation 6723283448732519545 -->     <string name="wifi_recommended_body" msgid="7574517147645381271">"Bu mobil ağda <xliff:g id="SIZE">%s </xliff:g> boyutlu bu dosyanın indirilmesi pilin bitmesine ve operatörünüzün ek ücret almasına yol açabilir."\n\n"Bu dosyayı, Kablosuz ağa yeniden bağl. indirmek için <xliff:g id="QUEUE_TEXT">%s</xliff:g> simg. dokunun."</string>
+    <string name="wifi_required_title" msgid="1995971416871498179">"İndirme boyutu operatör ağı için çok büyük"</string>
+    <string name="wifi_required_body" msgid="1675692697446715831">"<xliff:g id="SIZE">%s </xliff:g> boyutundaki bu indirmeyi tamamlamak için Kablosuz bağlantı kullanmalısınız. "\n\n"Bu indirmeyi Kablosuz ağa bağlandığınızda başlatmak için <xliff:g id="QUEUE_TEXT">%s </xliff:g> düğmesini tıklayın."</string>
+    <string name="wifi_recommended_title" msgid="7441589306734687400">"Daha sonra indirmek için kuyruğa alınsın mı?"</string>
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"<xliff:g id="SIZE">%s </xliff:g> boyutundaki bu indirmeyi şimdi başlatmanız pil ömrünü kısaltabilir ve/veya mobil veri bağlantınızın aşırı kullanılmasına yol açıp tarifenize göre mobil operatörünüzün sizden ek ücret almasına neden olabilir."\n\n" Bunu Kablosuz ağa bağlandığınızda başlatmak için aşağıdaki <xliff:g id="QUEUE_TEXT">%s</xliff:g> düğmesini tıklayın."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Kuyruğa al"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"İptal"</string>
     <string name="button_start_now" msgid="792123674007840864">"Şimdi başlat"</string>

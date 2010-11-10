@@ -38,10 +38,10 @@
     <string name="notification_download_complete" msgid="840713937779273632">"Stahování bylo dokončeno"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Stažení se nezdařilo."</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Vyžaduje WiFi (velikost)"</string>
-    <!-- outdated translation 1003041298526831643 -->     <string name="wifi_required_title" msgid="1995971416871498179">"Stahovaný soubor je pro mobilní síť příliš velký"</string>
-    <!-- outdated translation 515230018902671203 -->     <string name="wifi_required_body" msgid="1675692697446715831">"V této mobilní síti nelze stáhnout soubor o velikosti <xliff:g id="SIZE">%s </xliff:g>."\n\n"Dotkněte se fronty <xliff:g id="QUEUE_TEXT">%s </xliff:g> a soubor bude stažen při příštím připojení k síti Wi-Fi."</string>
-    <!-- outdated translation 5539971631114967735 -->     <string name="wifi_recommended_title" msgid="7441589306734687400">"Zařadit do fronty ke stažení v síti Wi-Fi?"</string>
-    <!-- outdated translation 6723283448732519545 -->     <string name="wifi_recommended_body" msgid="7574517147645381271">"Stažením tohoto souboru o velikosti <xliff:g id="SIZE">%s </xliff:g> v této mobilní síti riskujete vybití baterie a dodatečné poplatky."\n\n"Dotkněte se fronty <xliff:g id="QUEUE_TEXT">%s</xliff:g> a soubor se stáhne při příštím připojení k síti Wi-Fi."</string>
+    <string name="wifi_required_title" msgid="1995971416871498179">"Stahovaný soubor je pro síť operátora příliš velký"</string>
+    <string name="wifi_required_body" msgid="1675692697446715831">"Ke stažení tohoto souboru o velikosti <xliff:g id="SIZE">%s </xliff:g> je třeba použít síť WiFi. "\n\n"Kliknete-li na tlačítko <xliff:g id="QUEUE_TEXT">%s </xliff:g>, soubor se stáhne při příštím připojení k síti WiFi."</string>
+    <string name="wifi_recommended_title" msgid="7441589306734687400">"Zařadit do fronty pro pozdější stažení?"</string>
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"Pokud toto (<xliff:g id="SIZE">%s </xliff:g>) stáhnete nyní, zkrátí se výdrž baterie a operátor vám stahování těchto dat může naúčtovat."\n\n" Kliknete-li na tlačítko <xliff:g id="QUEUE_TEXT">%s</xliff:g>, ke stažení dojde při příštím připojení k síti WiFi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Fronta"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Zrušit"</string>
     <string name="button_start_now" msgid="792123674007840864">"Spustit"</string>

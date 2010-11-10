@@ -38,10 +38,10 @@
     <string name="notification_download_complete" msgid="840713937779273632">"ダウンロード完了"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"ダウンロードに失敗しました"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Wi-Fiが必要なサイズです"</string>
-    <!-- outdated translation 1003041298526831643 -->     <string name="wifi_required_title" msgid="1995971416871498179">"ダウンロードするサイズが大きすぎます"</string>
-    <!-- outdated translation 515230018902671203 -->     <string name="wifi_required_body" msgid="1675692697446715831">"このモバイルネットワークでは<xliff:g id="SIZE">%s </xliff:g>のファイルをダウンロードできません。"\n\n"<xliff:g id="QUEUE_TEXT">%s </xliff:g>をタップすると次にWi-Fiネットワークに繋がったときにダウンロードされます。"</string>
-    <!-- outdated translation 5539971631114967735 -->     <string name="wifi_recommended_title" msgid="7441589306734687400">"Wi-Fiでのダウンロードをキューに登録しますか？"</string>
-    <!-- outdated translation 6723283448732519545 -->     <string name="wifi_recommended_body" msgid="7574517147645381271">"このネットワークで<xliff:g id="SIZE">%s </xliff:g>をダウンロードすると、電池を消耗し携帯通信会社から追加料金を請求される場合があります。"\n\n"<xliff:g id="QUEUE_TEXT">%s</xliff:g>をタップすると次にWi-Fiネットワークに繋がったときにダウンロードされます。"</string>
+    <string name="wifi_required_title" msgid="1995971416871498179">"ダウンロードするサイズが大きすぎます"</string>
+    <string name="wifi_required_body" msgid="1675692697446715831">"この<xliff:g id="SIZE">%s </xliff:g>のダウンロードを完了するにはWi-Fi接続が必要です。"\n\n"次にWi-Fiネットワークに接続したときに<xliff:g id="QUEUE_TEXT">%s </xliff:g>をタップしてこのダウンロードを開始してください。"</string>
+    <string name="wifi_recommended_title" msgid="7441589306734687400">"キューに登録して後でダウンロードしますか？"</string>
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"この<xliff:g id="SIZE">%s </xliff:g>のダウンロードを開始すると電池消費量が増えたり、データ通信量が増えてご契約の通信プランによっては携帯通信会社の料金が発生したりする場合があります。"\n\n"次にWi-Fiネットワークに接続したときに下の<xliff:g id="QUEUE_TEXT">%s</xliff:g>をタップしてこのダウンロードを開始してください。"</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"キューに登録"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"キャンセル"</string>
     <string name="button_start_now" msgid="792123674007840864">"今すぐ開始"</string>

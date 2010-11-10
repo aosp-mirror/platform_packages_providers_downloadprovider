@@ -38,10 +38,10 @@
     <string name="notification_download_complete" msgid="840713937779273632">"Download concluído"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Falha no download"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"O tamanho requer Wi-Fi"</string>
-    <!-- outdated translation 1003041298526831643 -->     <string name="wifi_required_title" msgid="1995971416871498179">"Download muito grande para a rede móvel"</string>
-    <!-- outdated translation 515230018902671203 -->     <string name="wifi_required_body" msgid="1675692697446715831">"Não é possível fazer o download de um arquivo <xliff:g id="SIZE">%s </xliff:g> nesta rede móvel."\n\n"Toque em <xliff:g id="QUEUE_TEXT">%s </xliff:g> para fazer o download deste arquivo na próxima vez que se conectar a uma rede Wi-Fi."</string>
-    <!-- outdated translation 5539971631114967735 -->     <string name="wifi_recommended_title" msgid="7441589306734687400">"Colocar em fila para download da rede Wi-Fi?"</string>
-    <!-- outdated translation 6723283448732519545 -->     <string name="wifi_recommended_body" msgid="7574517147645381271">"O download do arquivo <xliff:g id="SIZE">%s </xliff:g> nesta rede móvel pode consumir a bateria e causar cobranças da operadora."\n\n"Toque em <xliff:g id="QUEUE_TEXT">%s</xliff:g> para download do arquivo na próxima vez que se conectar a uma rede Wi-Fi."</string>
+    <string name="wifi_required_title" msgid="1995971416871498179">"Download muito grande para a rede da operadora"</string>
+    <string name="wifi_required_body" msgid="1675692697446715831">"Você deve usar uma rede WiFi para concluir este download de <xliff:g id="SIZE">%s </xliff:g>. "\n\n"Clique em <xliff:g id="QUEUE_TEXT">%s </xliff:g> para iniciar este download na próxima vez que estiver conectado a uma rede WiFi."</string>
+    <string name="wifi_recommended_title" msgid="7441589306734687400">"Colocar em fila para download mais tarde?"</string>
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"O download de <xliff:g id="SIZE">%s </xliff:g> peduz a bateria e/ou usa em excesso a conexão de dados móveis e pode ter custos."\n\n" Clique em <xliff:g id="QUEUE_TEXT">%s</xliff:g> e inicie o download a próxima vez que conectar à WiFi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Fila"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Cancelar"</string>
     <string name="button_start_now" msgid="792123674007840864">"Iniciar agora"</string>

@@ -23,7 +23,7 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Предоставляет приложению доступ к расширенным функциям диспетчера загрузки. Вредоносное ПО может этим воспользоваться для прерывания загрузки и доступа к личной информации."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Отправить оповещение о загрузке."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Позволяет приложению отправлять оповещения о завершенных загрузках. Вредоносное ПО может пользоваться этим, мешая работе приложений, загружающих файлы."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Отслеживать все загрузки на общий накопитель"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Отслеживать все загрузки на USB-накопитель"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Просмотреть все загрузки на SD-карту"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Разрешить программе доступ ко всем загрузкам на SD-карту независимо от того, через какое приложение они были загружены."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Резервировать место в кэше загрузки"</string>
@@ -38,10 +38,10 @@
     <string name="notification_download_complete" msgid="840713937779273632">"Загрузка завершена"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Ошибка загрузки"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Размер файла требует Wi-Fi"</string>
-    <!-- outdated translation 1003041298526831643 -->     <string name="wifi_required_title" msgid="1995971416871498179">"Слишком большой файл для мобильной сети"</string>
-    <!-- outdated translation 515230018902671203 -->     <string name="wifi_required_body" msgid="1675692697446715831">"Вы не можете загрузить файл (<xliff:g id="SIZE">%s </xliff:g>) в этой мобильной сети."\n\n"Нажмите <xliff:g id="QUEUE_TEXT">%s </xliff:g>, чтобы загрузить этот файл при следующем подключении к сети Wi-Fi."</string>
-    <!-- outdated translation 5539971631114967735 -->     <string name="wifi_recommended_title" msgid="7441589306734687400">"Добавить загрузку в очередь Wi-Fi?"</string>
-    <!-- outdated translation 6723283448732519545 -->     <string name="wifi_recommended_body" msgid="7574517147645381271">"Загрузка файла (<xliff:g id="SIZE">%s </xliff:g>) в этой мобильной сети может привести к разрядке батареи и дополнительным расходам."\n\n"Нажмите <xliff:g id="QUEUE_TEXT">%s</xliff:g>, чтобы загрузить этот файл при следующем подключении к сети Wi-Fi."</string>
+    <string name="wifi_required_title" msgid="1995971416871498179">"Слишком большой файл для сети оператора"</string>
+    <string name="wifi_required_body" msgid="1675692697446715831">"Необходимо использовать Wi-Fi для выполнения этой загрузки (<xliff:g id="SIZE">%s </xliff:g>). "\n\n"Нажмите <xliff:g id="QUEUE_TEXT">%s </xliff:g>, чтобы начать эту загрузку в следующий раз, когда подключитесь к сети Wi-Fi."</string>
+    <string name="wifi_recommended_title" msgid="7441589306734687400">"Поставить в очередь на загрузку позже?"</string>
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"Если начать сейчас эту загрузку (<xliff:g id="SIZE">%s </xliff:g>), это может сократить срок службы батареи и/или привести к чрезмерному использованию мобильных данных и расходам на связь в соответствии с вашим тарифным планом."\n\n"Нажмите <xliff:g id="QUEUE_TEXT">%s</xliff:g>, чтобы начать эту загрузку в следующий раз, когда подключитесь к сети Wi-Fi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Добавить в очередь"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Отмена"</string>
     <string name="button_start_now" msgid="792123674007840864">"Запустить"</string>

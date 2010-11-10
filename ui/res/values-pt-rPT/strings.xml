@@ -26,10 +26,9 @@
     <string name="download_running" msgid="4656462962155580641">"Em curso"</string>
     <string name="download_success" msgid="7006048006543495236">"Concluído"</string>
     <string name="download_error" msgid="3107369653921738690">"Falhou"</string>
-    <!-- outdated translation 7778534318108794843 -->     <string name="dialog_title_not_available" msgid="4479021195995400471">"Ficheiro não disponível"</string>
-    <!-- outdated translation 6156768789629578318 -->     <string name="dialog_failed_body" msgid="587545111677064427">"Esta transferência não teve êxito."</string>
-    <!-- no translation found for dialog_title_queued_body (3062862079904954824) -->
-    <skip />
+    <string name="dialog_title_not_available" msgid="4479021195995400471">"A transferência falhou"</string>
+    <string name="dialog_failed_body" msgid="587545111677064427">"Quer tentar novamente a transferência mais tarde ou eliminá-la da fila?"</string>
+    <string name="dialog_title_queued_body" msgid="3062862079904954824">"Ficheiro ainda não disp."</string>
     <string name="dialog_queued_body" msgid="2506935748423351902">"O ficheiro está colocado em fila para uma futura transferência."</string>
     <string name="dialog_file_missing_body" msgid="2783781332668129395">"Não é possível encontrar o ficheiro transferido."</string>
     <string name="dialog_insufficient_space_on_external" msgid="7534108515812329821">"Não é possível concluir a transferência; o armazenamento externo não tem espaço suficiente."</string>

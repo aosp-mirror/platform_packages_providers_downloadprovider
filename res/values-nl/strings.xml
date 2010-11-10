@@ -38,10 +38,10 @@
     <string name="notification_download_complete" msgid="840713937779273632">"Downloaden is voltooid"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Downloaden is mislukt."</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Wi-Fi nodig wegens grootte"</string>
-    <!-- outdated translation 1003041298526831643 -->     <string name="wifi_required_title" msgid="1995971416871498179">"Download te groot voor mobiel netwerk"</string>
-    <!-- outdated translation 515230018902671203 -->     <string name="wifi_required_body" msgid="1675692697446715831">"U kunt geen bestand van <xliff:g id="SIZE">%s </xliff:g> downloaden via dit mobiele netwerk."\n\n"Raak <xliff:g id="QUEUE_TEXT">%s </xliff:g> aan om dit bestand te downloaden wanneer u de volgende keer verbinding maakt met een Wi-Fi-netwerk."</string>
-    <!-- outdated translation 5539971631114967735 -->     <string name="wifi_recommended_title" msgid="7441589306734687400">"In wachtrij voor download via Wi-Fi?"</string>
-    <!-- outdated translation 6723283448732519545 -->     <string name="wifi_recommended_body" msgid="7574517147645381271">"Het downloaden van dit bestand van <xliff:g id="SIZE">%s </xliff:g> via dit netwerk genereert hoog accuverbruik en extra providerkosten."\n\n"Raak <xliff:g id="QUEUE_TEXT">%s</xliff:g> aan om het te downloaden wanneer u verbinding heeft met een Wi-Fi-netwerk."</string>
+    <string name="wifi_required_title" msgid="1995971416871498179">"Download te groot voor providernetwerk"</string>
+    <string name="wifi_required_body" msgid="1675692697446715831">"U moet Wi-Fi gebruiken om deze download van <xliff:g id="SIZE">%s </xliff:g> te voltooien. "\n\n"Klik op \'<xliff:g id="QUEUE_TEXT">%s </xliff:g>\' om deze download te starten wanneer u verbinding heeft met een Wi-Fi-netwerk."</string>
+    <string name="wifi_recommended_title" msgid="7441589306734687400">"In wachtrij plaatsen voor later downloaden?"</string>
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"Als u deze <xliff:g id="SIZE">%s </xliff:g> nu downloadt, kan dit de levensduur van de accu verkorten en/of leiden tot bovenmatig gebruik van uw mobiele gegevensverbinding. Uw provider kan hiervoor kosten rekenen."\n\n" Klik hieronder op \'<xliff:g id="QUEUE_TEXT">%s</xliff:g>\' om deze download te starten wanneer u verbinding heeft met een Wi-Fi-netwerk."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Wachtrij"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Annuleren"</string>
     <string name="button_start_now" msgid="792123674007840864">"Nu starten"</string>

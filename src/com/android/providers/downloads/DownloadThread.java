@@ -29,6 +29,7 @@ import android.os.PowerManager;
 import android.os.Process;
 import android.provider.Downloads;
 import android.provider.DrmStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 
@@ -148,6 +149,7 @@ public class DownloadThread extends Thread {
         AndroidHttpClient client = null;
         PowerManager.WakeLock wakeLock = null;
         int finalStatus = Downloads.Impl.STATUS_UNKNOWN_ERROR;
+        String errorMsg = null;
 
         try {
             PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
@@ -187,11 +189,12 @@ public class DownloadThread extends Thread {
             finalStatus = Downloads.Impl.STATUS_SUCCESS;
         } catch (StopRequest error) {
             // remove the cause before printing, in case it contains PII
-            Log.w(Constants.TAG,
-                    "Aborting request for download " + mInfo.mId + ": " + error.getMessage());
+            errorMsg = "Aborting request for download " + mInfo.mId + ": " + error.getMessage();
+            Log.w(Constants.TAG, errorMsg);
             finalStatus = error.mFinalStatus;
             // fall through to finally block
         } catch (Throwable ex) { //sometimes the socket code throws unchecked exceptions
+            errorMsg = "Exception for id " + mInfo.mId + ": " + ex.getMessage();
             Log.w(Constants.TAG, "Exception for id " + mInfo.mId + ": " + ex);
             finalStatus = Downloads.Impl.STATUS_UNKNOWN_ERROR;
             // falls through to the code that reports an error
@@ -207,7 +210,7 @@ public class DownloadThread extends Thread {
             cleanupDestination(state, finalStatus);
             notifyDownloadCompleted(finalStatus, state.mCountRetry, state.mRetryAfter,
                                     state.mRedirectCount, state.mGotData, state.mFilename,
-                                    state.mNewUri, state.mMimeType);
+                                    state.mNewUri, state.mMimeType, errorMsg);
             mInfo.mHasActiveThread = false;
         }
     }
@@ -686,7 +689,8 @@ public class DownloadThread extends Thread {
         } else {
             finalStatus = Downloads.Impl.STATUS_UNHANDLED_HTTP_CODE;
         }
-        throw new StopRequest(finalStatus, "http error " + statusCode);
+        throw new StopRequest(finalStatus, "http error " + statusCode + ", mContinuingDownload: " +
+                innerState.mContinuingDownload);
     }
 
     /**
@@ -861,9 +865,10 @@ public class DownloadThread extends Thread {
      */
     private void notifyDownloadCompleted(
             int status, boolean countRetry, int retryAfter, int redirectCount, boolean gotData,
-            String filename, String uri, String mimeType) {
+            String filename, String uri, String mimeType, String errorMsg) {
         notifyThroughDatabase(
-                status, countRetry, retryAfter, redirectCount, gotData, filename, uri, mimeType);
+                status, countRetry, retryAfter, redirectCount, gotData, filename, uri, mimeType,
+                errorMsg);
         if (Downloads.Impl.isStatusCompleted(status)) {
             mInfo.sendIntentIfRequested();
         }
@@ -871,7 +876,7 @@ public class DownloadThread extends Thread {
 
     private void notifyThroughDatabase(
             int status, boolean countRetry, int retryAfter, int redirectCount, boolean gotData,
-            String filename, String uri, String mimeType) {
+            String filename, String uri, String mimeType, String errorMsg) {
         ContentValues values = new ContentValues();
         values.put(Downloads.Impl.COLUMN_STATUS, status);
         values.put(Downloads.Impl._DATA, filename);
@@ -888,7 +893,11 @@ public class DownloadThread extends Thread {
         } else {
             values.put(Constants.FAILED_CONNECTIONS, mInfo.mNumFailed + 1);
         }
-
+        // STOPSHIP begin delete the following lines
+        if (!TextUtils.isEmpty(errorMsg)) {
+            values.put(Downloads.Impl.COLUMN_ERROR_MSG, errorMsg);
+        }
+        // STOPSHIP end
         mContext.getContentResolver().update(mInfo.getAllDownloadsUri(), values, null, null);
     }
 

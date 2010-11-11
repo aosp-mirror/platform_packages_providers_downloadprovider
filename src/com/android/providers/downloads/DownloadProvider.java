@@ -58,7 +58,7 @@ public final class DownloadProvider extends ContentProvider {
     /** Database filename */
     private static final String DB_NAME = "downloads.db";
     /** Current database version */
-    private static final int DB_VERSION = 106;
+    private static final int DB_VERSION = 107;
     /** Name of table in the database */
     private static final String DB_TABLE = "downloads";
 
@@ -284,6 +284,10 @@ public final class DownloadProvider extends ContentProvider {
                     addColumn(db, DB_TABLE, Downloads.Impl.COLUMN_MEDIAPROVIDER_URI, "TEXT");
                     addColumn(db, DB_TABLE, Downloads.Impl.COLUMN_DELETED,
                             "BOOLEAN NOT NULL DEFAULT 0");
+                    break;
+
+                case 107:
+                    addColumn(db, DB_TABLE, Downloads.Impl.COLUMN_ERROR_MSG, "TEXT");
                     break;
 
                 default:

@@ -56,14 +56,14 @@
     <application android:process="android.process.media"
                  android:label="@string/app_label">
         <provider android:name=".DownloadProvider"
-                  android:authorities="downloads"
-                  android:permission="android.permission.ACCESS_ALL_DOWNLOADS">
+                  android:authorities="downloads">
           <!-- Anyone can access /my_downloads, the provider internally restricts access by UID for
                these URIs -->
           <path-permission android:pathPrefix="/my_downloads"
                            android:permission="android.permission.INTERNET"/>
-          <path-permission android:pathPrefix="/public_downloads"
-                           android:permission="android.permission.INTERNET"/>
+          <!-- to access /all_downloads, ACCESS_ALL_DOWNLOADS permission is required -->
+          <path-permission android:pathPrefix="/all_downloads"
+                           android:permission="android.permission.ACCESS_ALL_DOWNLOADS"/>
           <!-- Temporary, for backwards compatibility -->
           <path-permission android:pathPrefix="/download"
                            android:permission="android.permission.INTERNET"/>

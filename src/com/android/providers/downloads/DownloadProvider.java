@@ -996,7 +996,9 @@ public final class DownloadProvider extends ContentProvider {
                 uriMatch == PUBLIC_DOWNLOAD_ID) {
             selection.appendClause(Downloads.Impl._ID + " = ?", getDownloadIdFromUri(uri));
         }
-        if (uriMatch == MY_DOWNLOADS || uriMatch == MY_DOWNLOADS_ID) {
+        if ((uriMatch == MY_DOWNLOADS || uriMatch == MY_DOWNLOADS_ID)
+                && getContext().checkCallingPermission(Downloads.Impl.PERMISSION_ACCESS_ALL)
+                != PackageManager.PERMISSION_GRANTED) {
             selection.appendClause(
                     Constants.UID + "= ? OR " + Downloads.Impl.COLUMN_OTHER_UID + "= ?",
                     Binder.getCallingUid(), Binder.getCallingPid());

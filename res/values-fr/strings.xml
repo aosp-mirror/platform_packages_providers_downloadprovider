@@ -23,7 +23,7 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Permet à l\'application d\'accéder aux fonctions avancées du gestionnaire de téléchargements. Des applications malveillantes peuvent utiliser cette option pour perturber les téléchargements et accéder à des informations personnelles."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Envoyer des notifications de téléchargement."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Permet à l\'application d\'envoyer des notifications concernant les téléchargements effectués. Les applications malveillantes peuvent s\'en servir pour tromper les autres applications de téléchargement de fichiers."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Téléchargements stockage USB"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Voir téléchargements sur stockage USB"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Voir tous les téléchargements effectués sur la carte SD"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Permet à l\'application d\'afficher tous les téléchargements effectués sur la carte SD, quelle que soit l\'application de téléchargement utilisée."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Réserver un espace dans le cache de téléchargement"</string>
@@ -38,10 +38,10 @@
     <string name="notification_download_complete" msgid="840713937779273632">"Téléchargement terminé."</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Échec du téléchargement"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"La taille du téléchargement exige une connexion Wi-Fi"</string>
-    <!-- outdated translation 1003041298526831643 -->     <string name="wifi_required_title" msgid="1995971416871498179">"Téléchargement trop important pour le réseau mobile"</string>
-    <string name="wifi_required_body" msgid="1675692697446715831">"Une connexion Wi-Fi est requise pour télécharger <xliff:g id="SIZE">%s </xliff:g>. "\n\n"Cliquez sur <xliff:g id="QUEUE_TEXT">%s </xliff:g> pour le lancer lors de votre prochaine connexion à un réseau Wi-Fi."</string>
-    <!-- outdated translation 5539971631114967735 -->     <string name="wifi_recommended_title" msgid="7441589306734687400">"Ajouter à la file d\'attente des téléchargements Wi-Fi ?"</string>
-    <string name="wifi_recommended_body" msgid="7574517147645381271">"Ce téléchargement (<xliff:g id="SIZE">%s </xliff:g>) risque de décharger votre batterie et/ou d\'utiliser de manière excessive votre connexion de données. Selon votre forfait, votre opérateur pourra facturer cette opération."\n\n" Cliquez sur <xliff:g id="QUEUE_TEXT">%s</xliff:g> pour lancer le téléchargement lors de votre prochaine connexion à un réseau Wi-Fi."</string>
+    <string name="wifi_required_title" msgid="1995971416871498179">"Téléchargement trop volumineux pour l\'opérateur"</string>
+    <string name="wifi_required_body" msgid="1675692697446715831">"Une connexion Wi-Fi est requise pour télécharger <xliff:g id="SIZE">%s </xliff:g>. "\n\n"Cliquez sur <xliff:g id="QUEUE_TEXT">%s </xliff:g> pour lancer le téléchargement la prochaine fois que vous vous connectez à un réseau Wi-Fi."</string>
+    <string name="wifi_recommended_title" msgid="7441589306734687400">"Ajouter à la file d\'attente des téléchargements ?"</string>
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"Ce téléchargement (<xliff:g id="SIZE">%s </xliff:g>) risque de décharger votre batterie, de trop solliciter votre connexion Internet et de vous être facturé par votre opérateur, en fonction de votre forfait."\n\n" Cliquez sur <xliff:g id="QUEUE_TEXT">%s</xliff:g> pour lancer le téléchargement lors de votre prochaine connexion à un réseau Wi-Fi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"File d\'attente"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Annuler"</string>
     <string name="button_start_now" msgid="792123674007840864">"Commencer"</string>

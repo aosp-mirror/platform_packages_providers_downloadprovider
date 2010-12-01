@@ -38,10 +38,10 @@
     <string name="notification_download_complete" msgid="840713937779273632">"完成下載"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"下載失敗"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"這個檔案較大，需要 Wi-Fi 才能下載"</string>
-    <!-- outdated translation 1003041298526831643 -->     <string name="wifi_required_title" msgid="1995971416871498179">"下載檔案過大，超過行動網路上限"</string>
-    <!-- outdated translation 515230018902671203 -->     <string name="wifi_required_body" msgid="1675692697446715831">"您無法透過這個行動網路下載 <xliff:g id="SIZE">%s </xliff:g> 的檔案。"\n\n"請輕觸 [<xliff:g id="QUEUE_TEXT">%s </xliff:g>]，即可在下次連上 Wi-Fi 網路時下載這個檔案。"</string>
-    <!-- outdated translation 5539971631114967735 -->     <string name="wifi_recommended_title" msgid="7441589306734687400">"排入 Wi-Fi 下載佇列？"</string>
-    <!-- outdated translation 6723283448732519545 -->     <string name="wifi_recommended_body" msgid="7574517147645381271">"透過這個行動網路下載這個 <xliff:g id="SIZE">%s </xliff:g> 的檔案可能會耗盡電池電量，而且行動通訊業者會額外收費。"\n\n"請輕觸 [<xliff:g id="QUEUE_TEXT">%s</xliff:g>]，即可在下次連上 Wi-Fi 網路時下載這個檔案。"</string>
+    <string name="wifi_required_title" msgid="1995971416871498179">"檔案過大，無法透過行動電話業者的網路下載"</string>
+    <string name="wifi_required_body" msgid="1675692697446715831">"您必須使用 WiFi 才能完整下載這個 <xliff:g id="SIZE">%s </xliff:g> 的檔案。"\n\n"請按一下 [<xliff:g id="QUEUE_TEXT">%s </xliff:g>]，在下次連上 WiFi 網路時再進行下載。"</string>
+    <string name="wifi_recommended_title" msgid="7441589306734687400">"排入佇列以供日後下載？"</string>
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"現在下載這個 <xliff:g id="SIZE">%s </xliff:g> 的檔案，可能會減少電池可使用的時間，並/或過度使用行動數據連線，導致電信業者向您收費。"\n\n"請按下方的 [<xliff:g id="QUEUE_TEXT">%s</xliff:g>]，可在下次連上 WiFi 網路時才下載。"</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"佇列"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"取消"</string>
     <string name="button_start_now" msgid="792123674007840864">"立即開始"</string>

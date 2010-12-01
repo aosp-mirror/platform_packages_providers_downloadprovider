@@ -38,10 +38,10 @@
     <string name="notification_download_complete" msgid="840713937779273632">"Ladevorgang abgeschlossen"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Fehler beim Ladevorgang"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Downloadgröße erfordert WLAN"</string>
-    <!-- outdated translation 1003041298526831643 -->     <string name="wifi_required_title" msgid="1995971416871498179">"Download ist zu groß für mobiles Netzwerk"</string>
-    <!-- outdated translation 515230018902671203 -->     <string name="wifi_required_body" msgid="1675692697446715831">"Sie können keine <xliff:g id="SIZE">%s </xliff:g> große Datei mit diesem mobilen Netzwerk herunterladen."\n\n"Tippen Sie auf <xliff:g id="QUEUE_TEXT">%s </xliff:g>, um diese Datei herunterzuladen, wenn Sie mit einem WLAN-Netzwerk verbunden sind."</string>
-    <!-- outdated translation 5539971631114967735 -->     <string name="wifi_recommended_title" msgid="7441589306734687400">"In Warteschlange für WLAN-Download?"</string>
-    <!-- outdated translation 6723283448732519545 -->     <string name="wifi_recommended_body" msgid="7574517147645381271">"Wenn Sie diese <xliff:g id="SIZE">%s </xliff:g> große Datei mit diesem mobilen Netzwerk herunterladen, wird Ihr Akku möglicherweise unnötig belastet und es fallen eventuell zusätzliche Gebühren Ihres Mobilfunkanbieters an."\n\n"Tippen Sie auf <xliff:g id="QUEUE_TEXT">%s</xliff:g>, um diese Datei herunterzuladen, wenn Sie mit einem WLAN-Netzwerk verbunden sind."</string>
+    <string name="wifi_required_title" msgid="1995971416871498179">"Download zu groß für Netzwerk dieses Betreibers."</string>
+    <string name="wifi_required_body" msgid="1675692697446715831">"Dieser Download (<xliff:g id="SIZE">%s </xliff:g>) ist nur über WLAN möglich. "\n\n"Klicken Sie auf <xliff:g id="QUEUE_TEXT">%s </xliff:g> und der Download wird bei Ihrer nächsten WLAN-Einwahl durchgeführt."</string>
+    <string name="wifi_recommended_title" msgid="7441589306734687400">"In Warteschlange für späteren Download?"</string>
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"Dieser Download (<xliff:g id="SIZE">%s </xliff:g>) könnte die Akkulaufzeit verkürzen und/oder Ihre mobile Datenverbindung überlasten. Je nach Vertrag können Ihnen zusätzliche Kosten entstehen."\n\n" Klicken Sie auf <xliff:g id="QUEUE_TEXT">%s</xliff:g> und der Download wird bei Ihrer nächsten WLAN-Einwahl durchgeführt."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Warteschlange"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Abbrechen"</string>
     <string name="button_start_now" msgid="792123674007840864">"Jetzt starten"</string>

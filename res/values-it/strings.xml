@@ -23,7 +23,7 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Consente l\'accesso dell\'applicazione alle funzioni avanzate di gestione dei download. Le applicazioni dannose possono sfruttare questa possibilità per interrompere download e accedere a informazioni riservate."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Inviare notifiche di download."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Consente l\'invio da parte dell\'applicazione di notifiche relative ai download completati. Le applicazioni dannose possono sfruttare questa possibilità per \"confondere\" altre applicazioni usate per scaricare file."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Download archivio USB"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Tutti i download in archivio USB"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Visualizza tutti i download sulla scheda SD"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Consente all\'applicazione di visualizzare tutti i download sulla scheda SD, indipendentemente dall\'applicazione che li ha scaricati."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Conserva spazio nella cache dei download"</string>
@@ -38,10 +38,10 @@
     <string name="notification_download_complete" msgid="840713937779273632">"Download completato"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Download non riuscito"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Wi-Fi richiesto per download"</string>
-    <!-- outdated translation 1003041298526831643 -->     <string name="wifi_required_title" msgid="1995971416871498179">"Dimensioni download troppo grandi per rete mobile"</string>
-    <!-- outdated translation 515230018902671203 -->     <string name="wifi_required_body" msgid="1675692697446715831">"Non puoi scaricare un file di <xliff:g id="SIZE">%s </xliff:g> su questa rete mobile."\n\n"Tocca <xliff:g id="QUEUE_TEXT">%s </xliff:g> per scaricare il file quando ti collegherai a una rete Wi-Fi."</string>
-    <!-- outdated translation 5539971631114967735 -->     <string name="wifi_recommended_title" msgid="7441589306734687400">"Mettere in coda per download Wi-Fi?"</string>
-    <!-- outdated translation 6723283448732519545 -->     <string name="wifi_recommended_body" msgid="7574517147645381271">"Il download del file di <xliff:g id="SIZE">%s </xliff:g> su rete mobile potrebbe comportare consumo della batteria e costi extra dell\'operatore."\n\n"Tocca <xliff:g id="QUEUE_TEXT">%s</xliff:g> per scaricare il file quando ti collegherai a una rete Wi-Fi."</string>
+    <string name="wifi_required_title" msgid="1995971416871498179">"Download troppo grande per rete operatore"</string>
+    <string name="wifi_required_body" msgid="1675692697446715831">"Devi utilizzare una rete WiFi per completare questo download di <xliff:g id="SIZE">%s </xliff:g>. "\n\n"Fai clic su <xliff:g id="QUEUE_TEXT">%s </xliff:g> per iniziare il download alla prossima connessione a una rete WiFi."</string>
+    <string name="wifi_recommended_title" msgid="7441589306734687400">"Mettere in coda per scaricare più tardi?"</string>
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"L\'avvio di questo download di <xliff:g id="SIZE">%s </xliff:g> ora può ridurre la durata della batteria e/o causare un uso eccessivo della connessione dati mobile, con potenziali addebiti dell\'operatore mobile in base al piano dati."\n\n" Fai clic su <xliff:g id="QUEUE_TEXT">%s</xliff:g> sotto per iniziare il download alla prossima connessione a una rete WiFi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Metti in coda"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Annulla"</string>
     <string name="button_start_now" msgid="792123674007840864">"Avvia adesso"</string>

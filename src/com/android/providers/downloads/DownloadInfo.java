@@ -45,8 +45,6 @@ public class DownloadInfo {
     public static class Reader {
         private ContentResolver mResolver;
         private Cursor mCursor;
-        private CharArrayBuffer mOldChars;
-        private CharArrayBuffer mNewChars;
 
         public Reader(ContentResolver resolver, Cursor cursor) {
             mResolver = resolver;
@@ -62,11 +60,11 @@ public class DownloadInfo {
 
         public void updateFromDatabase(DownloadInfo info) {
             info.mId = getLong(Downloads.Impl._ID);
-            info.mUri = getString(info.mUri, Downloads.Impl.COLUMN_URI);
+            info.mUri = getString(Downloads.Impl.COLUMN_URI);
             info.mNoIntegrity = getInt(Downloads.Impl.COLUMN_NO_INTEGRITY) == 1;
-            info.mHint = getString(info.mHint, Downloads.Impl.COLUMN_FILE_NAME_HINT);
-            info.mFileName = getString(info.mFileName, Downloads.Impl._DATA);
-            info.mMimeType = getString(info.mMimeType, Downloads.Impl.COLUMN_MIME_TYPE);
+            info.mHint = getString(Downloads.Impl.COLUMN_FILE_NAME_HINT);
+            info.mFileName = getString(Downloads.Impl._DATA);
+            info.mMimeType = getString(Downloads.Impl.COLUMN_MIME_TYPE);
             info.mDestination = getInt(Downloads.Impl.COLUMN_DESTINATION);
             info.mVisibility = getInt(Downloads.Impl.COLUMN_VISIBILITY);
             info.mStatus = getInt(Downloads.Impl.COLUMN_STATUS);
@@ -75,24 +73,23 @@ public class DownloadInfo {
             info.mRetryAfter = retryRedirect & 0xfffffff;
             info.mRedirectCount = retryRedirect >> 28;
             info.mLastMod = getLong(Downloads.Impl.COLUMN_LAST_MODIFICATION);
-            info.mPackage = getString(info.mPackage, Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE);
-            info.mClass = getString(info.mClass, Downloads.Impl.COLUMN_NOTIFICATION_CLASS);
-            info.mExtras = getString(info.mExtras, Downloads.Impl.COLUMN_NOTIFICATION_EXTRAS);
-            info.mCookies = getString(info.mCookies, Downloads.Impl.COLUMN_COOKIE_DATA);
-            info.mUserAgent = getString(info.mUserAgent, Downloads.Impl.COLUMN_USER_AGENT);
-            info.mReferer = getString(info.mReferer, Downloads.Impl.COLUMN_REFERER);
+            info.mPackage = getString(Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE);
+            info.mClass = getString(Downloads.Impl.COLUMN_NOTIFICATION_CLASS);
+            info.mExtras = getString(Downloads.Impl.COLUMN_NOTIFICATION_EXTRAS);
+            info.mCookies = getString(Downloads.Impl.COLUMN_COOKIE_DATA);
+            info.mUserAgent = getString(Downloads.Impl.COLUMN_USER_AGENT);
+            info.mReferer = getString(Downloads.Impl.COLUMN_REFERER);
             info.mTotalBytes = getLong(Downloads.Impl.COLUMN_TOTAL_BYTES);
             info.mCurrentBytes = getLong(Downloads.Impl.COLUMN_CURRENT_BYTES);
-            info.mETag = getString(info.mETag, Constants.ETAG);
-            info.mMediaScanned = getInt(Constants.MEDIA_SCANNED) > 0;
+            info.mETag = getString(Constants.ETAG);
+            info.mMediaScanned = getInt(Constants.MEDIA_SCANNED) == 1;
             info.mDeleted = getInt(Downloads.Impl.COLUMN_DELETED) == 1;
-            info.mMediaProviderUri = getString(info.mMediaProviderUri,
-                    Downloads.Impl.COLUMN_MEDIAPROVIDER_URI);
+            info.mMediaProviderUri = getString(Downloads.Impl.COLUMN_MEDIAPROVIDER_URI);
             info.mIsPublicApi = getInt(Downloads.Impl.COLUMN_IS_PUBLIC_API) != 0;
             info.mAllowedNetworkTypes = getInt(Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES);
             info.mAllowRoaming = getInt(Downloads.Impl.COLUMN_ALLOW_ROAMING) != 0;
-            info.mTitle = getString(info.mTitle, Downloads.Impl.COLUMN_TITLE);
-            info.mDescription = getString(info.mDescription, Downloads.Impl.COLUMN_DESCRIPTION);
+            info.mTitle = getString(Downloads.Impl.COLUMN_TITLE);
+            info.mDescription = getString(Downloads.Impl.COLUMN_DESCRIPTION);
             info.mBypassRecommendedSizeLimit =
                     getInt(Downloads.Impl.COLUMN_BYPASS_RECOMMENDED_SIZE_LIMIT);
 
@@ -130,35 +127,10 @@ public class DownloadInfo {
             info.mRequestHeaders.add(Pair.create(header, value));
         }
 
-        /**
-         * Returns a String that holds the current value of the column, optimizing for the case
-         * where the value hasn't changed.
-         */
-        private String getString(String old, String column) {
+        private String getString(String column) {
             int index = mCursor.getColumnIndexOrThrow(column);
-            if (old == null) {
-                return mCursor.getString(index);
-            }
-            if (mNewChars == null) {
-                mNewChars = new CharArrayBuffer(128);
-            }
-            mCursor.copyStringToBuffer(index, mNewChars);
-            int length = mNewChars.sizeCopied;
-            if (length != old.length()) {
-                return new String(mNewChars.data, 0, length);
-            }
-            if (mOldChars == null || mOldChars.sizeCopied < length) {
-                mOldChars = new CharArrayBuffer(length);
-            }
-            char[] oldArray = mOldChars.data;
-            char[] newArray = mNewChars.data;
-            old.getChars(0, length, oldArray, 0);
-            for (int i = length - 1; i >= 0; --i) {
-                if (oldArray[i] != newArray[i]) {
-                    return new String(newArray, 0, length);
-                }
-            }
-            return old;
+            String s = mCursor.getString(index);
+            return (TextUtils.isEmpty(s)) ? null : s;
         }
 
         private Integer getInt(String column) {

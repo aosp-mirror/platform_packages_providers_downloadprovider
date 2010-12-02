@@ -26,10 +26,9 @@
     <string name="download_running" msgid="4656462962155580641">"正在下载"</string>
     <string name="download_success" msgid="7006048006543495236">"已完成"</string>
     <string name="download_error" msgid="3107369653921738690">"下载失败"</string>
-    <!-- outdated translation 7778534318108794843 -->     <string name="dialog_title_not_available" msgid="4479021195995400471">"文件不可用"</string>
-    <!-- outdated translation 6156768789629578318 -->     <string name="dialog_failed_body" msgid="587545111677064427">"该下载失败。"</string>
-    <!-- no translation found for dialog_title_queued_body (3062862079904954824) -->
-    <skip />
+    <string name="dialog_title_not_available" msgid="4479021195995400471">"下载失败"</string>
+    <string name="dialog_failed_body" msgid="587545111677064427">"您想要稍后重新尝试下载该文件，还是将其从队列中删除？"</string>
+    <string name="dialog_title_queued_body" msgid="3062862079904954824">"文件尚不可用"</string>
     <string name="dialog_queued_body" msgid="2506935748423351902">"该文件已加入队列，供以后下载。"</string>
     <string name="dialog_file_missing_body" msgid="2783781332668129395">"未找到已下载的文件。"</string>
     <string name="dialog_insufficient_space_on_external" msgid="7534108515812329821">"无法完成下载，外部存储器的空间不足。"</string>

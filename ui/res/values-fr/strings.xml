@@ -28,7 +28,7 @@
     <string name="download_error" msgid="3107369653921738690">"Échec"</string>
     <string name="dialog_title_not_available" msgid="4479021195995400471">"Échec du téléchargement"</string>
     <string name="dialog_failed_body" msgid="587545111677064427">"Souhaitez-vous réessayer de télécharger le fichier ultérieurement ou préférez-vous le supprimer de la file d\'attente ?"</string>
-    <string name="dialog_title_queued_body" msgid="3062862079904954824">"Fichier indisponible"</string>
+    <string name="dialog_title_queued_body" msgid="3062862079904954824">"Fichier non téléchargé"</string>
     <string name="dialog_queued_body" msgid="2506935748423351902">"Ce fichier est mis en file d\'attente et sera téléchargé ultérieurement."</string>
     <string name="dialog_file_missing_body" msgid="2783781332668129395">"Le fichier téléchargé est introuvable."</string>
     <string name="dialog_insufficient_space_on_external" msgid="7534108515812329821">"Impossible de terminer le téléchargement. L\'espace disponible sur le support de stockage externe est insuffisant."</string>

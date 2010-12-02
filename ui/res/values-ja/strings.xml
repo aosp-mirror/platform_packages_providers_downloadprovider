@@ -26,10 +26,9 @@
     <string name="download_running" msgid="4656462962155580641">"処理中"</string>
     <string name="download_success" msgid="7006048006543495236">"完了"</string>
     <string name="download_error" msgid="3107369653921738690">"失敗"</string>
-    <!-- outdated translation 7778534318108794843 -->     <string name="dialog_title_not_available" msgid="4479021195995400471">"ファイルを利用できません"</string>
-    <!-- outdated translation 6156768789629578318 -->     <string name="dialog_failed_body" msgid="587545111677064427">"このダウンロードは失敗しました。"</string>
-    <!-- no translation found for dialog_title_queued_body (3062862079904954824) -->
-    <skip />
+    <string name="dialog_title_not_available" msgid="4479021195995400471">"ダウンロードできません"</string>
+    <string name="dialog_failed_body" msgid="587545111677064427">"ファイルのダウンロードを再試行しますか、またはキューから削除しますか？"</string>
+    <string name="dialog_title_queued_body" msgid="3062862079904954824">"まだ利用できません"</string>
     <string name="dialog_queued_body" msgid="2506935748423351902">"このファイルはダウンロード待機中です。"</string>
     <string name="dialog_file_missing_body" msgid="2783781332668129395">"ダウンロードしたファイルが見つかりません。"</string>
     <string name="dialog_insufficient_space_on_external" msgid="7534108515812329821">"ダウンロードを完了できません。外部ストレージに十分な空き領域がありません。"</string>

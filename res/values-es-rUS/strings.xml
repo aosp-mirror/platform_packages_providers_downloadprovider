@@ -23,7 +23,7 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Permite a la aplicación acceder a las funciones avanzadas del administrador de descarga. Las aplicaciones maliciosas pueden utilizarlo para interrumpir las descargas y acceder a información privada."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Enviar notificaciones de descarga."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Permite a la aplicación enviar notificaciones acerca de las descargas completadas. Las aplicaciones maliciosas pueden utilizarlo para confundir a otras aplicaciones que descargan archivos."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Ver todas las descargas almacenadas en USB"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Ver todas las descargas de almacenamiento USB"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Ver todas las descargas de la tarjeta SD"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Permite que la aplicación vea todas las descargas de la tarjeta SD, independientemente de qué aplicación las descargó."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Reservar espacio en el caché de descarga"</string>
@@ -40,7 +40,7 @@
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"El tamaño de la descarga requiere Wi-Fi."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Descarga demasiado grande para una red móvil"</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"Debes usar WiFi para completar esta <xliff:g id="SIZE">%s </xliff:g>descarga. "\n\n"Haz clic en <xliff:g id="QUEUE_TEXT">%s </xliff:g> para iniciar esta descarga la próxima vez que te conectes a una red de WiFi."</string>
-    <string name="wifi_recommended_title" msgid="7441589306734687400">"¿Poner en una fila de archivos para descargar más tarde?"</string>
+    <string name="wifi_recommended_title" msgid="7441589306734687400">"¿Agregar a la lista para descargar más tarde?"</string>
     <string name="wifi_recommended_body" msgid="7574517147645381271">"Iniciar esta <xliff:g id="SIZE">%s </xliff:g> descarga ahora puede acortar la vida útil de la batería u ocasionar un uso excesivo de la conexión de datos móviles. Esto, a su vez, puede producir cargos de tu operador móvil dependiendo de tu plan de datos."\n\n" Haz clic <xliff:g id="QUEUE_TEXT">%s</xliff:g> a continuación para comenzar esta descarga la próxima vez que te conectes a una red de WiFi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Cola"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Cancelar"</string>

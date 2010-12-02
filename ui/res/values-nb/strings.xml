@@ -26,10 +26,9 @@
     <string name="download_running" msgid="4656462962155580641">"Arbeider"</string>
     <string name="download_success" msgid="7006048006543495236">"Fullført"</string>
     <string name="download_error" msgid="3107369653921738690">"Mislyktes"</string>
-    <!-- outdated translation 7778534318108794843 -->     <string name="dialog_title_not_available" msgid="4479021195995400471">"Filen er ikke tilgj."</string>
-    <!-- outdated translation 6156768789629578318 -->     <string name="dialog_failed_body" msgid="587545111677064427">"Nedlastingen mislyktes."</string>
-    <!-- no translation found for dialog_title_queued_body (3062862079904954824) -->
-    <skip />
+    <string name="dialog_title_not_available" msgid="4479021195995400471">"Nedlastingen mislyktes"</string>
+    <string name="dialog_failed_body" msgid="587545111677064427">"Vil du prøve å laste ned filen senere, eller vil du slette den fra køen?"</string>
+    <string name="dialog_title_queued_body" msgid="3062862079904954824">"Filen er ikke tilgj."</string>
     <string name="dialog_queued_body" msgid="2506935748423351902">"Filen er satt i kø for nedlasting."</string>
     <string name="dialog_file_missing_body" msgid="2783781332668129395">"Finner ikke den nedlastede filen."</string>
     <string name="dialog_insufficient_space_on_external" msgid="7534108515812329821">"Kan ikke fullføre nedlastingen. Det er ikke tilstrekkelig plass på ekstern lagringsenhet."</string>

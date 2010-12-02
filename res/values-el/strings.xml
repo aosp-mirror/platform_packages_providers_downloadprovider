@@ -23,7 +23,7 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Επιτρέπει στην εφαρμογή την πρόσβαση στις σύνθετες λειτουργίες των προγραμμάτων διαχείρισης λήψεων. Κακόβουλες εφαρμογές μπορούν να το χρησιμοποιήσουν για να διακόψουν λήψεις και για να αποκτήσουν πρόσβαση σε προσωπικές πληροφορίες."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Αποστολή ειδοποιήσεων λήψης."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Επιτρέπει στην εφαρμογή να στέλνει ειδοποιήσεις σχετικά με τις ολοκληρωμένες λήψεις. Κακόβουλες εφαρμογές μπορούν να το χρησιμοποιήσουν για να μπερδέψουν άλλες εφαρμογές που πραγματοποιούν λήψεις αρχείων."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Λήψεις σε χώρο αποθ. USB"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Δείτε τις λήψεις στο USB"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Εμφάνιση όλων των λήψεων στην κάρτα SD"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Επιτρέπει στην εφαρμογή την εμφάνιση όλων των λήψεων στην κάρτα SD, ανεξάρτητα από την εφαρμογή που πραγματοποίησε τις λήψεις τους."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Διατηρήστε χώρο στην προσωρινή μνήμη λήψης"</string>
@@ -38,10 +38,10 @@
     <string name="notification_download_complete" msgid="840713937779273632">"Ολοκλήρωση λήψης"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Ανεπιτυχής λήψη"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Μέγ. λήψης απαιτεί Wi-Fi"</string>
-    <!-- outdated translation 1003041298526831643 -->     <string name="wifi_required_title" msgid="1995971416871498179">"Πολύ μεγάλο αρχείο λήψης για το δίκτυο κιν. τηλεφ."</string>
-    <!-- outdated translation 515230018902671203 -->     <string name="wifi_required_body" msgid="1675692697446715831">"Δεν είναι δυνατή η λήψη ενός αρχείου <xliff:g id="SIZE">%s </xliff:g> σε αυτό το δίκτυο κινητής τηλεφωνίας."\n\n"Αγγίξτε την επιλογή <xliff:g id="QUEUE_TEXT">%s </xliff:g> για να πραγματοποιήσετε λήψη του αρχείου όταν είστε συνδεδεμένοι σε δίκτυο Wi-Fi."</string>
-    <!-- outdated translation 5539971631114967735 -->     <string name="wifi_recommended_title" msgid="7441589306734687400">"Να γίνει λήψη όταν συνδεθείτε σε Wi-Fi;"</string>
-    <!-- outdated translation 6723283448732519545 -->     <string name="wifi_recommended_body" msgid="7574517147645381271">"Με τη λήψη του αρχείου <xliff:g id="SIZE">%s </xliff:g> στο δίκτυο κιν. τηλεφ. διακινδυνεύετε εξάντληση της μπαταρίας και επιπλέον χρέωση."\n\n"Αγγίξτε το <xliff:g id="QUEUE_TEXT">%s</xliff:g> για λήψη του αρχείου όταν θα συνδεθείτε ξανά σε δίκτυο Wi-Fi."</string>
+    <string name="wifi_required_title" msgid="1995971416871498179">"Πολύ μεγάλο αρχείο λήψης για δίκτυο παρόχου."</string>
+    <string name="wifi_required_body" msgid="1675692697446715831">"Πρέπει να χρησιμοποιήσετε WiFi για να ολοκληρώσετε τη λήψη <xliff:g id="SIZE">%s </xliff:g>. "\n\n"Κάντε κλικ στο <xliff:g id="QUEUE_TEXT">%s </xliff:g> για να ξεκινήσετε τη λήψη την επόμενη φορά που θα συνδεθείτε σε δίκτυο WiFi."</string>
+    <string name="wifi_recommended_title" msgid="7441589306734687400">"Προσθήκη στην ουρά για να κάνετε λήψη αργότερα;"</string>
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"Η έναρξη της λήψης <xliff:g id="SIZE">%s </xliff:g> τώρα, ίσως μειώσει τη διάρκεια ζωής της μπαταρίας ή/και να καταλήξει σε μεγάλη χρήση της σύνδ. δεδομ. κιν. τηλεφ. και να επιφέρει χρεώσεις, ανάλογα με το πρόγρ. δεδομ."\n\n" Κάντε κλικ στο στοιχείο <xliff:g id="QUEUE_TEXT">%s</xliff:g> παρακάτω, για να ξεκινήσετε τη λήψη όταν θα συνδεθείτε σε δίκτυο WiFi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Ουρά"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Άκυρο"</string>
     <string name="button_start_now" msgid="792123674007840864">"Έναρξη τώρα"</string>

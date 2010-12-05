@@ -799,7 +799,7 @@ public class DownloadThread extends Thread {
      */
     private void setupDestinationFile(State state, InnerState innerState)
             throws StopRequest {
-        if (TextUtils.isEmpty(state.mFilename)) { // only true if we've already run a thread for this download
+        if (!TextUtils.isEmpty(state.mFilename)) { // only true if we've already run a thread for this download
             if (!Helpers.isFilenameValid(state.mFilename)) {
                 // this should never happen
                 throw new StopRequest(Downloads.Impl.STATUS_FILE_ERROR,

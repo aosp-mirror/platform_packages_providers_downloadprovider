@@ -41,7 +41,7 @@ public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFuncti
         super(new FakeSystemFacade());
     }
 
-    public void testBasicRequest() throws Exception {
+    public void testDownloadTextFile() throws Exception {
         enqueueResponse(HTTP_OK, FILE_CONTENT);
 
         String path = "/download_manager_test_path";

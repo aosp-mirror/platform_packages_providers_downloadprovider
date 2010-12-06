@@ -20,6 +20,8 @@ import android.app.DownloadManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
+import android.provider.Downloads;
+import android.util.Log;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -39,6 +41,22 @@ public abstract class AbstractPublicApiTest extends AbstractDownloadManagerFunct
 
         public int getStatus() {
             return (int) getLongField(DownloadManager.COLUMN_STATUS);
+        }
+
+        public int getStatusIfExists() {
+            Cursor cursor = mManager.query(new DownloadManager.Query().setFilterById(mId));
+            try {
+                if (cursor.getCount() > 0) {
+                    cursor.moveToFirst();
+                    return (int) cursor.getLong(cursor.getColumnIndexOrThrow(
+                            DownloadManager.COLUMN_STATUS));
+                } else {
+                    // the row doesn't exist
+                    return -1;
+                }
+            } finally {
+                cursor.close();
+            }
         }
 
         String getStringField(String field) {
@@ -78,6 +96,63 @@ public abstract class AbstractPublicApiTest extends AbstractDownloadManagerFunct
         void runUntilStatus(int status) throws Exception {
             runService();
             assertEquals(status, getStatus());
+        }
+
+        // max time to wait before giving up on the current download operation.
+        private static final int MAX_TIME_TO_WAIT_FOR_OPERATION = 5;
+        // while waiting for the above time period, sleep this long to yield to the
+        // download thread
+        private static final int TIME_TO_SLEEP = 1000;
+
+        int runUntilDone() throws InterruptedException {
+            int sleepCounter = MAX_TIME_TO_WAIT_FOR_OPERATION * 1000 / TIME_TO_SLEEP;
+            for (int i = 0; i < sleepCounter; i++) {
+                int status = getStatusIfExists();
+                if (status == -1 || Downloads.Impl.isStatusCompleted(getStatus())) {
+                    // row doesn't exist or the download is done
+                    return status;
+                }
+                // download not done yet. sleep a while and try again
+                Thread.sleep(TIME_TO_SLEEP);
+            }
+            return 0; // failed
+        }
+
+        // waits until progress_so_far is >= (progress)%
+        boolean runUntilProgress(int progress) throws InterruptedException {
+            int sleepCounter = MAX_TIME_TO_WAIT_FOR_OPERATION * 1000 / TIME_TO_SLEEP;
+            int numBytesReceivedSoFar = 0;
+            int totalBytes = 0;
+            for (int i = 0; i < sleepCounter; i++) {
+                Cursor cursor = mManager.query(new DownloadManager.Query().setFilterById(mId));
+                try {
+                    assertEquals(1, cursor.getCount());
+                    cursor.moveToFirst();
+                    numBytesReceivedSoFar = cursor.getInt(
+                            cursor.getColumnIndexOrThrow(
+                                    DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+                    totalBytes = cursor.getInt(
+                            cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+                } finally {
+                    cursor.close();
+                }
+                Log.i(LOG_TAG, "in runUntilProgress, numBytesReceivedSoFar: " +
+                        numBytesReceivedSoFar + ", totalBytes: " + totalBytes);
+                if (totalBytes == 0) {
+                    fail("total_bytes should not be zero");
+                    return false;
+                } else {
+                    if (numBytesReceivedSoFar * 100 / totalBytes >= progress) {
+                        // progress_so_far is >= progress%. we are done
+                        return true;
+                    }
+                }
+                // download not done yet. sleep a while and try again
+                Thread.sleep(TIME_TO_SLEEP);
+            }
+            Log.i(LOG_TAG, "FAILED in runUntilProgress, numBytesReceivedSoFar: " +
+                    numBytesReceivedSoFar + ", totalBytes: " + totalBytes);
+            return false; // failed
         }
     }
 

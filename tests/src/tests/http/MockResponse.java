@@ -36,6 +36,7 @@ public class MockResponse {
     private Map<String, String> headers = new HashMap<String, String>();
     private byte[] body = EMPTY_BODY;
     private boolean closeConnectionAfter = false;
+    private int numPackets = 0;
 
     public MockResponse() {
         addHeader("Content-Length", 0);
@@ -133,4 +134,14 @@ public class MockResponse {
         this.closeConnectionAfter = closeConnectionAfter;
         return this;
     }
+
+    public int getNumPackets() {
+        return numPackets;
+    }
+
+    public MockResponse setNumPackets(int numPackets) {
+        this.numPackets = numPackets;
+        return this;
+    }
+
 }

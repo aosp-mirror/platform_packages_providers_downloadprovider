@@ -16,6 +16,9 @@
 
 package tests.http;
 
+import android.text.TextUtils;
+import android.util.Log;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -59,6 +62,7 @@ public final class MockWebServer {
     private final Queue<Future<?>> futures = new LinkedList<Future<?>>();
 
     private int port = -1;
+    private ServerSocket serverSocket;
 
     public int getPort() {
         if (port == -1) {
@@ -111,24 +115,33 @@ public final class MockWebServer {
      * down.
      */
     public void play() throws IOException {
-        final ServerSocket ss = new ServerSocket(0);
-        ss.setReuseAddress(true);
-        port = ss.getLocalPort();
+        serverSocket = new ServerSocket(0);
+        serverSocket.setReuseAddress(true);
+        port = serverSocket.getLocalPort();
         submitCallable(new Callable<Void>() {
             public Void call() throws Exception {
                 int count = 0;
                 while (true) {
                     if (count > 0 && responseQueue.isEmpty()) {
-                        ss.close();
+                        serverSocket.close();
                         executor.shutdown();
                         return null;
                     }
 
-                    serveConnection(ss.accept());
+                    serveConnection(serverSocket.accept());
                     count++;
                 }
             }
         });
+    }
+
+    /**
+     * shutdown the webserver
+     */
+    public void shutdown() throws IOException {
+        responseQueue.clear();
+        serverSocket.close();
+        executor.shutdown();
     }
 
     private void serveConnection(final Socket s) {
@@ -148,8 +161,7 @@ public final class MockWebServer {
                         }
                     }
                     requestQueue.add(request);
-                    MockResponse response = computeResponse(request);
-                    writeResponse(out, response);
+                    MockResponse response = sendResponse(out, request);
                     if (response.shouldCloseConnectionAfter()) {
                         break;
                     }
@@ -241,7 +253,6 @@ public final class MockWebServer {
         } else {
             throw new UnsupportedOperationException("Unexpected method: " + request);
         }
-
         return new RecordedRequest(request, headers, chunkSizes,
                 requestBody.numBytesReceived, requestBody.toByteArray(), sequenceNumber);
     }
@@ -249,14 +260,32 @@ public final class MockWebServer {
     /**
      * Returns a response to satisfy {@code request}.
      */
-    private MockResponse computeResponse(RecordedRequest request) throws InterruptedException {
+    private MockResponse sendResponse(OutputStream out, RecordedRequest request)
+            throws InterruptedException, IOException {
         if (responseQueue.isEmpty()) {
             throw new IllegalStateException("Unexpected request: " + request);
         }
-        return responseQueue.take();
-    }
+        MockResponse response = responseQueue.take();
+        writeResponse(out, response, false);
+        if (response.getNumPackets() > 0) {
+            // there are continuing packets to send as part of this response.
+            for (int i = 0; i < response.getNumPackets(); i++) {
+                writeResponse(out, response, true);
+                // delay sending next continuing response just a little bit
+                Thread.sleep(100);
+            }
+        }
+        return response;
+     }
 
-    private void writeResponse(OutputStream out, MockResponse response) throws IOException {
+    private void writeResponse(OutputStream out, MockResponse response,
+            boolean continuingPacket) throws IOException {
+        if (continuingPacket) {
+            // this is a continuing response - just send the body - no headers, status
+            out.write(response.getBody());
+            out.flush();
+            return;
+        }
         out.write((response.getStatus() + "\r\n").getBytes(ASCII));
         for (String header : response.getHeaders()) {
             out.write((header + "\r\n").getBytes(ASCII));

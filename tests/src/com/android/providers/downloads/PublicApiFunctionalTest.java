@@ -16,6 +16,7 @@
 
 package com.android.providers.downloads;
 
+
 import android.app.DownloadManager;
 import android.content.Intent;
 import android.database.Cursor;
@@ -53,17 +54,18 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         mTestDirectory = new File(Environment.getExternalStorageDirectory() + File.separator
                                   + "download_manager_functional_test");
         if (mTestDirectory.exists()) {
-            mTestDirectory.delete();
+            for (File file : mTestDirectory.listFiles()) {
+                file.delete();
+            }
+        } else {
+            mTestDirectory.mkdir();
         }
-        if (!mTestDirectory.mkdir()) {
-            throw new RuntimeException("Couldn't create test directory: "
-                                       + mTestDirectory.getPath());
-        }
+        mSystemFacade.setStartThreadsWithoutWaiting(false);
     }
 
     @Override
     protected void tearDown() throws Exception {
-        if (mTestDirectory != null) {
+        if (mTestDirectory != null && mTestDirectory.exists()) {
             for (File file : mTestDirectory.listFiles()) {
                 file.delete();
             }
@@ -184,6 +186,18 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         return response;
     }
 
+    // enqueue a huge response to keep the receiveing thread in DownloadThread.java busy for a while
+    // give enough time to do something (cancel/remove etc) on that downloadrequest
+    // while it is in progress
+    private void enqueueContinuingResponse() {
+        int numPackets = 100;
+        int contentLength =  STRING_1K.length() * numPackets;
+        enqueueResponse(HTTP_OK, STRING_1K)
+               .addHeader("Content-length", contentLength)
+               .addHeader("Etag", ETAG)
+               .setNumPackets(numPackets);
+    }
+
     public void testFiltering() throws Exception {
         enqueueEmptyResponse(HTTP_OK);
         Download download1 = enqueueRequest(getRequest());
@@ -301,7 +315,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
     }
 
     private Uri getExternalUri() {
-        return Uri.fromFile(mTestDirectory).buildUpon().appendPath("testfile").build();
+        return Uri.fromFile(mTestDirectory).buildUpon().appendPath("testfile.txt").build();
     }
 
     public void testRequestHeaders() throws Exception {
@@ -379,14 +393,22 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
     }
 
     public void testCancel() throws Exception {
-        enqueuePartialResponse(0, 5);
+        mSystemFacade.setStartThreadsWithoutWaiting(true);
+        // return 'real time' from FakeSystemFacade so that DownloadThread will report progress
+        mSystemFacade.setReturnActualTime(true);
+        enqueueContinuingResponse();
         Download download = enqueueRequest(getRequest());
-        download.runUntilStatus(DownloadManager.STATUS_PAUSED);
-
+        startService(null);
+        // give the download time to get started and progress to 1% completion
+        // before cancelling it.
+        boolean rslt = download.runUntilProgress(1);
+        assertTrue(rslt);
         mManager.remove(download.mId);
-        mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);
-        runService();
-        // if the cancel didn't work, we should get an unexpected request to the HTTP server
+        startService(null);
+        int status = download.runUntilDone();
+        // make sure the row is gone from the database
+        assertEquals(-1, status);
+        mSystemFacade.setReturnActualTime(false);
     }
 
     public void testDownloadCompleteBroadcast() throws Exception {
@@ -524,14 +546,15 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
     }
 
     public void testExistingFile() throws Exception {
+        // download a file which already exists.
+        // downloadservice should simply create filename with "-" and a number attached
+        // at the end; i.e., download shouldnot fail.
         Uri destination = getExternalUri();
         new File(destination.getPath()).createNewFile();
 
         enqueueEmptyResponse(HTTP_OK);
         Download download = enqueueRequest(getRequest().setDestinationUri(destination));
-        download.runUntilStatus(DownloadManager.STATUS_FAILED);
-        assertEquals(DownloadManager.ERROR_FILE_ALREADY_EXISTS,
-                     download.getLongField(DownloadManager.COLUMN_REASON));
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
     }
 
     public void testEmptyFields() throws Exception {

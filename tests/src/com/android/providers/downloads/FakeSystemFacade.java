@@ -23,12 +23,16 @@ public class FakeSystemFacade implements SystemFacade {
     Map<Long,Notification> mActiveNotifications = new HashMap<Long,Notification>();
     List<Notification> mCanceledNotifications = new ArrayList<Notification>();
     Queue<Thread> mStartedThreads = new LinkedList<Thread>();
+    private boolean returnActualTime = false;
 
     void incrementTimeMillis(long delta) {
         mTimeMillis += delta;
     }
 
     public long currentTimeMillis() {
+        if (returnActualTime) {
+            return System.currentTimeMillis();
+        }
         return mTimeMillis;
     }
 
@@ -81,14 +85,27 @@ public class FakeSystemFacade implements SystemFacade {
         }
     }
 
+    public boolean startThreadsWithoutWaiting = false;
+    public void setStartThreadsWithoutWaiting(boolean flag) {
+        this.startThreadsWithoutWaiting = flag;
+    }
+
     @Override
     public void startThread(Thread thread) {
-        mStartedThreads.add(thread);
+        if (startThreadsWithoutWaiting) {
+            thread.start();
+        } else {
+            mStartedThreads.add(thread);
+        }
     }
 
     public void runAllThreads() {
         while (!mStartedThreads.isEmpty()) {
             mStartedThreads.poll().run();
         }
+    }
+
+    public void setReturnActualTime(boolean flag) {
+        returnActualTime = flag;
     }
 }

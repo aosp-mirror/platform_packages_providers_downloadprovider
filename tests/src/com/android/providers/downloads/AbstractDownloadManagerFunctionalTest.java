@@ -59,6 +59,14 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
     protected MockContentResolverWithNotify mResolver;
     protected TestContext mTestContext;
     protected FakeSystemFacade mSystemFacade;
+    protected static String STRING_1K;
+    static {
+        StringBuilder buff = new StringBuilder();
+        for (int i = 0; i < 1024; i++) {
+            buff.append("a" + i % 26);
+        }
+        STRING_1K = buff.toString();
+    }
 
     static class MockContentResolverWithNotify extends MockContentResolver {
         public boolean mNotifyWasCalled = false;
@@ -161,6 +169,7 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
     @Override
     protected void tearDown() throws Exception {
         cleanUpDownloads();
+        mServer.shutdown();
         super.tearDown();
     }
 
@@ -205,9 +214,21 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
     }
 
     /**
-     * Enqueue a response from the MockWebServer.
+     * Enqueue a String response from the MockWebServer.
      */
     MockResponse enqueueResponse(int status, String body) {
+        MockResponse response = new MockResponse()
+                                .setResponseCode(status)
+                                .setBody(body)
+                                .addHeader("Content-type", "text/plain")
+                                .setCloseConnectionAfter(true);
+        mServer.enqueue(response);
+        return response;
+    }
+    /**
+     * Enqueue a byte[] response from the MockWebServer.
+     */
+    MockResponse enqueueResponse(int status, byte[] body) {
         MockResponse response = new MockResponse()
                                 .setResponseCode(status)
                                 .setBody(body)

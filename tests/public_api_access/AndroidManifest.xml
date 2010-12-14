@@ -23,6 +23,9 @@
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- The tests in this package can access /cache. so they need the following permission -->
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER_ADVANCED"/>
+    <uses-permission android:name="android.permission.ACCESS_CACHE_FILESYSTEM"/>
 
     <!--
     The test declared in this instrumentation can be run via this command

@@ -437,7 +437,8 @@ public class DownloadThread extends Thread {
                 return;
             } catch (IOException ex) {
                 if (mInfo.isOnCache()) {
-                    if (Helpers.discardPurgeableFiles(mContext, Constants.BUFFER_SIZE)) {
+                    if (Helpers.discardPurgeableFiles(mInfo.mDestination, mContext,
+                            Constants.BUFFER_SIZE)) {
                         continue;
                     }
                 } else if (!Helpers.isExternalMediaMounted()) {
@@ -446,7 +447,7 @@ public class DownloadThread extends Thread {
                 }
 
                 long availableBytes =
-                    Helpers.getAvailableBytes(Helpers.getFilesystemRoot(state.mFilename));
+                    Helpers.getAvailableBytes(Helpers.getFilesystemRoot(mContext, state.mFilename));
                 if (availableBytes < bytesRead) {
                     throw new StopRequest(Downloads.Impl.STATUS_INSUFFICIENT_SPACE_ERROR,
                             "insufficient space while writing destination file", ex);
@@ -802,7 +803,8 @@ public class DownloadThread extends Thread {
     private void setupDestinationFile(State state, InnerState innerState)
             throws StopRequest {
         if (!TextUtils.isEmpty(state.mFilename)) { // only true if we've already run a thread for this download
-            if (!Helpers.isFilenameValid(state.mFilename)) {
+            if (!Helpers.isFilenameValid(state.mFilename, 
+                    Helpers.getDownloadsDataDirectory(mContext))) {
                 // this should never happen
                 throw new StopRequest(Downloads.Impl.STATUS_FILE_ERROR,
                         "found invalid internal destination filename");

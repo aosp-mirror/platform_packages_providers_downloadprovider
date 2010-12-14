@@ -98,7 +98,7 @@ public class Helpers {
             boolean isPublicApi) throws GenerateSaveFileError {
         checkCanHandleDownload(context, mimeType, destination, isPublicApi);
         if (destination == Downloads.Impl.DESTINATION_FILE_URI) {
-            String path = verifyFileUri(hint, contentLength);
+            String path = verifyFileUri(context, hint, contentLength);
             String c = getFullPath(path, mimeType, destination, null);
             return c;
         } else {
@@ -107,14 +107,14 @@ public class Helpers {
         }
     }
 
-    private static String verifyFileUri(String hint, long contentLength)
+    private static String verifyFileUri(Context context, String hint, long contentLength)
             throws GenerateSaveFileError {
         if (!isExternalMediaMounted()) {
             throw new GenerateSaveFileError(Downloads.Impl.STATUS_DEVICE_NOT_FOUND_ERROR,
                     "external media not mounted");
         }
         String path = Uri.parse(hint).getPath();
-        if (getAvailableBytes(getFilesystemRoot(path)) < contentLength) {
+        if (getAvailableBytes(getFilesystemRoot(context, path)) < contentLength) {
             throw new GenerateSaveFileError(Downloads.Impl.STATUS_INSUFFICIENT_SPACE_ERROR,
                     "insufficient space on external storage");
         }
@@ -125,10 +125,14 @@ public class Helpers {
     /**
      * @return the root of the filesystem containing the given path
      */
-    public static File getFilesystemRoot(String path) {
+    static File getFilesystemRoot(Context context, String path) {
         File cache = Environment.getDownloadCacheDirectory();
         if (path.startsWith(cache.getPath())) {
             return cache;
+        }
+        File systemCache = Helpers.getDownloadsDataDirectory(context);
+        if (path.startsWith(systemCache.getPath())) {
+            return systemCache;
         }
         File external = Environment.getExternalStorageDirectory();
         if (path.startsWith(external.getPath())) {
@@ -221,8 +225,9 @@ public class Helpers {
         if (destination == Downloads.Impl.DESTINATION_CACHE_PARTITION
                 || destination == Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE
                 || destination == Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING
+                || destination == Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION
                 || DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING.equalsIgnoreCase(mimeType)) {
-            return getCacheDestination(context, contentLength);
+            return getCacheDestination(context, contentLength, destination);
         }
 
         return getExternalDestination(contentLength);
@@ -261,18 +266,20 @@ public class Helpers {
         return true;
     }
 
-    private static File getCacheDestination(Context context, long contentLength)
+    private static File getCacheDestination(Context context, long contentLength, int destination)
             throws GenerateSaveFileError {
         File base;
-        base = Environment.getDownloadCacheDirectory();
+        base = (destination == Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION) ?
+                Environment.getDownloadCacheDirectory() :
+                Helpers.getDownloadsDataDirectory(context);
         long bytesAvailable = getAvailableBytes(base);
         while (bytesAvailable < contentLength) {
             // Insufficient space; try discarding purgeable files.
-            if (!discardPurgeableFiles(context, contentLength - bytesAvailable)) {
+            if (!discardPurgeableFiles(destination, context, contentLength - bytesAvailable)) {
                 // No files to purge, give up.
                 throw new GenerateSaveFileError(Downloads.Impl.STATUS_INSUFFICIENT_SPACE_ERROR,
-                        "not enough free space in internal download storage, unable to free any "
-                        + "more");
+                        "not enough free space in internal download storage: " + base +
+                        ", unable to free any more");
             }
             bytesAvailable = getAvailableBytes(base);
         }
@@ -443,6 +450,7 @@ public class Helpers {
         if (!new File(fullFilename).exists()
                 && (!recoveryDir ||
                 (destination != Downloads.Impl.DESTINATION_CACHE_PARTITION &&
+                        destination != Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION &&
                         destination != Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE &&
                         destination != Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING))) {
             return fullFilename;
@@ -484,15 +492,19 @@ public class Helpers {
      * the matching database entries. Files are deleted in LRU order until
      * the total byte size is greater than targetBytes.
      */
-    public static final boolean discardPurgeableFiles(Context context, long targetBytes) {
+    static final boolean discardPurgeableFiles(int destination, Context context,
+            long targetBytes) {
+        String destStr  = (destination == Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION) ?
+                String.valueOf(destination) :
+                String.valueOf(Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE);
+        String[] bindArgs = new String[]{destStr};
         Cursor cursor = context.getContentResolver().query(
                 Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
                 null,
                 "( " +
                 Downloads.Impl.COLUMN_STATUS + " = '" + Downloads.Impl.STATUS_SUCCESS + "' AND " +
-                Downloads.Impl.COLUMN_DESTINATION +
-                        " = '" + Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE + "' )",
-                null,
+                Downloads.Impl.COLUMN_DESTINATION + " = '?' )",
+                bindArgs,
                 Downloads.Impl.COLUMN_LAST_MODIFICATION);
         if (cursor == null) {
             return false;
@@ -536,9 +548,10 @@ public class Helpers {
     /**
      * Checks whether the filename looks legitimate
      */
-    public static boolean isFilenameValid(String filename) {
+    static boolean isFilenameValid(String filename, File downloadsDataDir) {
         filename = filename.replaceFirst("/+", "/"); // normalize leading slashes
         return filename.startsWith(Environment.getDownloadCacheDirectory().toString())
+                || filename.startsWith(downloadsDataDir.toString())
                 || filename.startsWith(Environment.getExternalStorageDirectory().toString());
     }
 
@@ -850,5 +863,8 @@ public class Helpers {
             }
         }
         return sb.toString();
+    }
+    static final File getDownloadsDataDirectory(Context context) {
+        return context.getCacheDir();
     }
 }

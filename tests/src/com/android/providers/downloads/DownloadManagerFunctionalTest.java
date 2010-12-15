@@ -69,6 +69,21 @@ public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFuncti
                          getDownloadFilename(downloadUri));
     }
 
+    /**
+     * downloading to system cache should succeed because this tests package has 
+     * the permission android.permission.ACCESS_CACHE_FILESYSTEM
+     */
+    public void testDownloadToSystemCache() throws Exception {
+        enqueueResponse(HTTP_OK, FILE_CONTENT);
+        Uri downloadUri = requestDownload("/path");
+        updateDownload(downloadUri, Downloads.Impl.COLUMN_DESTINATION,
+                       Integer.toString(Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION));
+        runUntilStatus(downloadUri, Downloads.Impl.STATUS_SUCCESS);
+        assertEquals(FILE_CONTENT, getDownloadContents(downloadUri));
+        assertStartsWith(Environment.getDownloadCacheDirectory().getPath(),
+                         getDownloadFilename(downloadUri));
+    }
+
     public void testRoaming() throws Exception {
         mSystemFacade.mActiveNetworkType = ConnectivityManager.TYPE_MOBILE;
         mSystemFacade.mIsRoaming = true;

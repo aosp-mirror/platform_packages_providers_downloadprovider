@@ -93,10 +93,14 @@ public class DownloadService extends Service {
 
     private boolean mMediaScannerConnecting;
 
+    private static final int LOCATION_SYSTEM_CACHE = 1;
+    private static final int LOCATION_DOWNLOAD_DATA_DIR = 2;
+
     /**
      * The IPC interface to the Media Scanner
      */
     private IMediaScannerService mMediaScannerService;
+    private File mDownloadsDataDir;
 
     @VisibleForTesting
     SystemFacade mSystemFacade;
@@ -218,7 +222,7 @@ public class DownloadService extends Service {
 
         mNotifier = new DownloadNotification(this, mSystemFacade);
         mSystemFacade.cancelAllNotifications();
-
+        mDownloadsDataDir = Helpers.getDownloadsDataDirectory(getApplicationContext());
         updateFromProvider();
     }
 
@@ -267,7 +271,10 @@ public class DownloadService extends Service {
             Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
 
             trimDatabase();
-            removeSpuriousFiles();
+            // remove spurious files from system cache
+            removeSpuriousFiles(LOCATION_SYSTEM_CACHE);
+            // remove spurious files from downloads dir
+            removeSpuriousFiles(LOCATION_DOWNLOAD_DATA_DIR);
 
             boolean keepService = false;
             // for each update from the database, remember which download is
@@ -423,10 +430,13 @@ public class DownloadService extends Service {
     }
 
     /**
-     * Removes files that may have been left behind in the cache directory
+     * Removes files that may have been left behind in the systemcache or
+     * /data/downloads directory
      */
-    private void removeSpuriousFiles() {
-        File[] files = Environment.getDownloadCacheDirectory().listFiles();
+    private void removeSpuriousFiles(int location) {
+        File base = (location == LOCATION_SYSTEM_CACHE) ?
+                Environment.getDownloadCacheDirectory() : mDownloadsDataDir;
+        File[] files = base.listFiles();
         if (files == null) {
             // The cache folder doesn't appear to exist (this is likely the case
             // when running the simulator).

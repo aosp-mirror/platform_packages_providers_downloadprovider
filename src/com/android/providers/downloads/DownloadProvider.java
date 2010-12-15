@@ -151,6 +151,7 @@ public final class DownloadProvider extends ContentProvider {
     /** List of uids that can access the downloads */
     private int mSystemUid = -1;
     private int mDefContainerUid = -1;
+    private File mDownloadsDataDir;
 
     @VisibleForTesting
     SystemFacade mSystemFacade;
@@ -421,6 +422,7 @@ public final class DownloadProvider extends ContentProvider {
         if (appInfo != null) {
             mDefContainerUid = appInfo.uid;
         }
+        mDownloadsDataDir = Helpers.getDownloadsDataDirectory(getContext());
         return true;
     }
 
@@ -490,7 +492,8 @@ public final class DownloadProvider extends ContentProvider {
                     && dest != Downloads.Impl.DESTINATION_EXTERNAL
                     && dest != Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE
                     && dest != Downloads.Impl.DESTINATION_FILE_URI) {
-                throw new SecurityException("unauthorized destination code");
+                throw new SecurityException("setting destination to : " + dest +
+                        " not allowed, unless PERMISSION_ACCESS_ADVANCED is granted");
             }
             // for public API behavior, if an app has CACHE_NON_PURGEABLE permission, automatically
             // switch to non-purgeable download
@@ -508,6 +511,11 @@ public final class DownloadProvider extends ContentProvider {
                         Binder.getCallingPid(), Binder.getCallingUid(),
                         "need WRITE_EXTERNAL_STORAGE permission to use DESTINATION_FILE_URI");
                 checkFileUriDestination(values);
+            } else if (dest == Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION) {
+                getContext().enforcePermission(
+                        android.Manifest.permission.ACCESS_CACHE_FILESYSTEM,
+                        Binder.getCallingPid(), Binder.getCallingUid(),
+                        "need ACCESS_CACHE_FILESYSTEM permission to use system cache");
             }
             filteredValues.put(Downloads.Impl.COLUMN_DESTINATION, dest);
         }
@@ -1068,7 +1076,7 @@ public final class DownloadProvider extends ContentProvider {
         if (path == null) {
             throw new FileNotFoundException("No filename found.");
         }
-        if (!Helpers.isFilenameValid(path)) {
+        if (!Helpers.isFilenameValid(path, mDownloadsDataDir)) {
             throw new FileNotFoundException("Invalid filename.");
         }
         if (!"r".equals(mode)) {

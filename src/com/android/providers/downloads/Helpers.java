@@ -503,7 +503,7 @@ public class Helpers {
                 null,
                 "( " +
                 Downloads.Impl.COLUMN_STATUS + " = '" + Downloads.Impl.STATUS_SUCCESS + "' AND " +
-                Downloads.Impl.COLUMN_DESTINATION + " = '?' )",
+                Downloads.Impl.COLUMN_DESTINATION + " = ? )",
                 bindArgs,
                 Downloads.Impl.COLUMN_LAST_MODIFICATION);
         if (cursor == null) {

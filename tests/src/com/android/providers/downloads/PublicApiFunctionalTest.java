@@ -25,6 +25,8 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.Downloads;
 import android.test.suitebuilder.annotation.LargeTest;
+import android.test.suitebuilder.annotation.Suppress;
+
 import tests.http.MockResponse;
 import tests.http.RecordedRequest;
 
@@ -384,6 +386,10 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         runSimpleFailureTest(DownloadManager.ERROR_HTTP_DATA_ERROR);
     }
 
+    /**
+     * un-suppress this test once the bug 3286430 is fixed
+     */
+    @Suppress
     public void testInsufficientSpace() throws Exception {
         // this would be better done by stubbing the system API to check available space, but in the
         // meantime, just use an absurdly large header value

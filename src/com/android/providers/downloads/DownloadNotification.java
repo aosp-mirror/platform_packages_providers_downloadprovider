@@ -233,7 +233,7 @@ class DownloadNotification {
             } else {
                 caption = mContext.getResources()
                         .getString(R.string.notification_download_complete);
-                if (download.mDestination == Downloads.Impl.DESTINATION_EXTERNAL) {
+                if (download.mDestination != Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION) {
                     intent = new Intent(Constants.ACTION_OPEN);
                 } else {
                     intent = new Intent(Constants.ACTION_LIST);

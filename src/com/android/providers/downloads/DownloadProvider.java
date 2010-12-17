@@ -422,7 +422,11 @@ public final class DownloadProvider extends ContentProvider {
         if (appInfo != null) {
             mDefContainerUid = appInfo.uid;
         }
-        mDownloadsDataDir = Helpers.getDownloadsDataDirectory(getContext());
+        // start the DownloadService class. don't wait for the 1st download to be issued.
+        // saves us by getting some initialization code in DownloadService out of the way.
+        Context context = getContext();
+        context.startService(new Intent(context, DownloadService.class));
+        mDownloadsDataDir = StorageManager.getInstance(getContext()).getDownloadDataDirectory();
         return true;
     }
 

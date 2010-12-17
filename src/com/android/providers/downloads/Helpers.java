@@ -16,16 +16,13 @@
 
 package com.android.providers.downloads;
 
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.database.Cursor;
 import android.drm.mobile1.DrmRawContent;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.StatFs;
 import android.os.SystemClock;
 import android.provider.Downloads;
 import android.util.Config;
@@ -42,7 +39,6 @@ import java.util.regex.Pattern;
  * Some helper functions for the download manager
  */
 public class Helpers {
-
     public static Random sRandom = new Random(SystemClock.uptimeMillis());
 
     /** Regex used to parse content-disposition headers */
@@ -71,22 +67,9 @@ public class Helpers {
     }
 
     /**
-     * Exception thrown from methods called by generateSaveFile() for any fatal error.
-     */
-    public static class GenerateSaveFileError extends Exception {
-        int mStatus;
-        String mMessage;
-
-        public GenerateSaveFileError(int status, String message) {
-            mStatus = status;
-            mMessage = message;
-        }
-    }
-
-    /**
      * Creates a filename (where the file should be saved) from info about a download.
      */
-    public static String generateSaveFile(
+    static String generateSaveFile(
             Context context,
             String url,
             String hint,
@@ -95,64 +78,24 @@ public class Helpers {
             String mimeType,
             int destination,
             long contentLength,
-            boolean isPublicApi) throws GenerateSaveFileError {
+            boolean isPublicApi, StorageManager storageManager) throws StopRequestException {
         checkCanHandleDownload(context, mimeType, destination, isPublicApi);
+        String path;
+        File base = null;
         if (destination == Downloads.Impl.DESTINATION_FILE_URI) {
-            String path = verifyFileUri(context, hint, contentLength);
-            String c = getFullPath(path, mimeType, destination, null);
-            return c;
+            path = Uri.parse(hint).getPath();
         } else {
-            return chooseFullPath(context, url, hint, contentDisposition, contentLocation, mimeType,
-                    destination, contentLength);
+            base = storageManager.locateDestinationDirectory(mimeType, destination,
+                    contentLength);
+            path = chooseFilename(url, hint, contentDisposition, contentLocation,
+                                             destination);
         }
-    }
-
-    private static String verifyFileUri(Context context, String hint, long contentLength)
-            throws GenerateSaveFileError {
-        if (!isExternalMediaMounted()) {
-            throw new GenerateSaveFileError(Downloads.Impl.STATUS_DEVICE_NOT_FOUND_ERROR,
-                    "external media not mounted");
-        }
-        String path = Uri.parse(hint).getPath();
-        if (getAvailableBytes(getFilesystemRoot(context, path)) < contentLength) {
-            throw new GenerateSaveFileError(Downloads.Impl.STATUS_INSUFFICIENT_SPACE_ERROR,
-                    "insufficient space on external storage");
-        }
-
-        return path;
-    }
-
-    /**
-     * @return the root of the filesystem containing the given path
-     */
-    static File getFilesystemRoot(Context context, String path) {
-        File cache = Environment.getDownloadCacheDirectory();
-        if (path.startsWith(cache.getPath())) {
-            return cache;
-        }
-        File systemCache = Helpers.getDownloadsDataDirectory(context);
-        if (path.startsWith(systemCache.getPath())) {
-            return systemCache;
-        }
-        File external = Environment.getExternalStorageDirectory();
-        if (path.startsWith(external.getPath())) {
-            return external;
-        }
-        throw new IllegalArgumentException("Cannot determine filesystem root for " + path);
-    }
-
-    private static String chooseFullPath(Context context, String url, String hint,
-                                         String contentDisposition, String contentLocation,
-                                         String mimeType, int destination, long contentLength)
-            throws GenerateSaveFileError {
-        File base = locateDestinationDirectory(context, mimeType, destination, contentLength);
-        String filename = chooseFilename(url, hint, contentDisposition, contentLocation,
-                                         destination);
-        return getFullPath(filename, mimeType, destination, base);
+        storageManager.verifySpace(destination, path, contentLength);
+        return getFullPath(path, mimeType, destination, base);
     }
 
     private static String getFullPath(String filename, String mimeType, int destination,
-        File base) throws GenerateSaveFileError {
+        File base) throws StopRequestException {
         // Split filename between base and extension
         // Add an extension if filename does not have one
         String extension = null;
@@ -178,7 +121,7 @@ public class Helpers {
     }
 
     private static void checkCanHandleDownload(Context context, String mimeType, int destination,
-            boolean isPublicApi) throws GenerateSaveFileError {
+            boolean isPublicApi) throws StopRequestException {
         if (isPublicApi) {
             return;
         }
@@ -186,7 +129,7 @@ public class Helpers {
         if (destination == Downloads.Impl.DESTINATION_EXTERNAL
                 || destination == Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE) {
             if (mimeType == null) {
-                throw new GenerateSaveFileError(Downloads.Impl.STATUS_NOT_ACCEPTABLE,
+                throw new StopRequestException(Downloads.Impl.STATUS_NOT_ACCEPTABLE,
                         "external download with no mime type not allowed");
             }
             if (!DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING.equalsIgnoreCase(mimeType)) {
@@ -211,90 +154,11 @@ public class Helpers {
                     if (Constants.LOGV) {
                         Log.v(Constants.TAG, "no handler found for type " + mimeType);
                     }
-                    throw new GenerateSaveFileError(Downloads.Impl.STATUS_NOT_ACCEPTABLE,
+                    throw new StopRequestException(Downloads.Impl.STATUS_NOT_ACCEPTABLE,
                             "no handler found for this download type");
                 }
             }
         }
-    }
-
-    private static File locateDestinationDirectory(Context context, String mimeType,
-                                                   int destination, long contentLength)
-            throws GenerateSaveFileError {
-        // DRM messages should be temporarily stored internally and then passed to
-        // the DRM content provider
-        if (destination == Downloads.Impl.DESTINATION_CACHE_PARTITION
-                || destination == Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE
-                || destination == Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING
-                || destination == Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION
-                || DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING.equalsIgnoreCase(mimeType)) {
-            return getCacheDestination(context, contentLength, destination);
-        }
-
-        return getExternalDestination(contentLength);
-    }
-
-    private static File getExternalDestination(long contentLength) throws GenerateSaveFileError {
-        if (!isExternalMediaMounted()) {
-            throw new GenerateSaveFileError(Downloads.Impl.STATUS_DEVICE_NOT_FOUND_ERROR,
-                    "external media not mounted");
-        }
-
-        File root = Environment.getExternalStorageDirectory();
-        if (getAvailableBytes(root) < contentLength) {
-            // Insufficient space.
-            Log.d(Constants.TAG, "download aborted - not enough free space");
-            throw new GenerateSaveFileError(Downloads.Impl.STATUS_INSUFFICIENT_SPACE_ERROR,
-                    "insufficient space on external media");
-        }
-
-        File base = new File(root.getPath() + Constants.DEFAULT_DL_SUBDIR);
-        if (!base.isDirectory() && !base.mkdir()) {
-            // Can't create download directory, e.g. because a file called "download"
-            // already exists at the root level, or the SD card filesystem is read-only.
-            throw new GenerateSaveFileError(Downloads.Impl.STATUS_FILE_ERROR,
-                    "unable to create external downloads directory " + base.getPath());
-        }
-        return base;
-    }
-
-    public static boolean isExternalMediaMounted() {
-        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            // No SD card found.
-            Log.d(Constants.TAG, "no external storage");
-            return false;
-        }
-        return true;
-    }
-
-    private static File getCacheDestination(Context context, long contentLength, int destination)
-            throws GenerateSaveFileError {
-        File base;
-        base = (destination == Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION) ?
-                Environment.getDownloadCacheDirectory() :
-                Helpers.getDownloadsDataDirectory(context);
-        long bytesAvailable = getAvailableBytes(base);
-        while (bytesAvailable < contentLength) {
-            // Insufficient space; try discarding purgeable files.
-            if (!discardPurgeableFiles(destination, context, contentLength - bytesAvailable)) {
-                // No files to purge, give up.
-                throw new GenerateSaveFileError(Downloads.Impl.STATUS_INSUFFICIENT_SPACE_ERROR,
-                        "not enough free space in internal download storage: " + base +
-                        ", unable to free any more");
-            }
-            bytesAvailable = getAvailableBytes(base);
-        }
-        return base;
-    }
-
-    /**
-     * @return the number of bytes available on the filesystem rooted at the given File
-     */
-    public static long getAvailableBytes(File root) {
-        StatFs stat = new StatFs(root.getPath());
-        // put a bit of margin (in case creating the file grows the system by a few blocks)
-        long availableBlocks = (long) stat.getAvailableBlocks() - 4;
-        return stat.getBlockSize() * availableBlocks;
     }
 
     private static String chooseFilename(String url, String hint, String contentDisposition,
@@ -445,7 +309,7 @@ public class Helpers {
     }
 
     private static String chooseUniqueFilename(int destination, String filename,
-            String extension, boolean recoveryDir) throws GenerateSaveFileError {
+            String extension, boolean recoveryDir) throws StopRequestException {
         String fullFilename = filename + extension;
         if (!new File(fullFilename).exists()
                 && (!recoveryDir ||
@@ -483,59 +347,8 @@ public class Helpers {
                 sequence += sRandom.nextInt(magnitude) + 1;
             }
         }
-        throw new GenerateSaveFileError(Downloads.Impl.STATUS_FILE_ERROR,
+        throw new StopRequestException(Downloads.Impl.STATUS_FILE_ERROR,
                 "failed to generate an unused filename on internal download storage");
-    }
-
-    /**
-     * Deletes purgeable files from the cache partition. This also deletes
-     * the matching database entries. Files are deleted in LRU order until
-     * the total byte size is greater than targetBytes.
-     */
-    static final boolean discardPurgeableFiles(int destination, Context context,
-            long targetBytes) {
-        String destStr  = (destination == Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION) ?
-                String.valueOf(destination) :
-                String.valueOf(Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE);
-        String[] bindArgs = new String[]{destStr};
-        Cursor cursor = context.getContentResolver().query(
-                Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
-                null,
-                "( " +
-                Downloads.Impl.COLUMN_STATUS + " = '" + Downloads.Impl.STATUS_SUCCESS + "' AND " +
-                Downloads.Impl.COLUMN_DESTINATION + " = ? )",
-                bindArgs,
-                Downloads.Impl.COLUMN_LAST_MODIFICATION);
-        if (cursor == null) {
-            return false;
-        }
-        long totalFreed = 0;
-        try {
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast() && totalFreed < targetBytes) {
-                File file = new File(cursor.getString(cursor.getColumnIndex(Downloads.Impl._DATA)));
-                if (Constants.LOGVV) {
-                    Log.v(Constants.TAG, "purging " + file.getAbsolutePath() + " for " +
-                            file.length() + " bytes");
-                }
-                totalFreed += file.length();
-                file.delete();
-                long id = cursor.getLong(cursor.getColumnIndex(Downloads.Impl._ID));
-                context.getContentResolver().delete(
-                        ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id),
-                        null, null);
-                cursor.moveToNext();
-            }
-        } finally {
-            cursor.close();
-        }
-        if (Constants.LOGV) {
-            if (totalFreed > 0) {
-                Log.v(Constants.TAG, "Purged files, freed " + totalFreed + " for " +
-                        targetBytes + " requested");
-            }
-        }
-        return totalFreed > 0;
     }
 
     /**
@@ -863,8 +676,5 @@ public class Helpers {
             }
         }
         return sb.toString();
-    }
-    static final File getDownloadsDataDirectory(Context context) {
-        return context.getCacheDir();
     }
 }

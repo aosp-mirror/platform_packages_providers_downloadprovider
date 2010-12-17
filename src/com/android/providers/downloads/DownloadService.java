@@ -16,23 +16,23 @@
 
 package com.android.providers.downloads;
 
+import com.google.android.collect.Maps;
+import com.google.common.annotations.VisibleForTesting;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.database.ContentObserver;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteException;
 import android.media.IMediaScannerListener;
 import android.media.IMediaScannerService;
 import android.net.Uri;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Process;
@@ -41,12 +41,8 @@ import android.provider.Downloads;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.google.android.collect.Maps;
-import com.google.common.annotations.VisibleForTesting;
-
 import java.io.File;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -93,17 +89,15 @@ public class DownloadService extends Service {
 
     private boolean mMediaScannerConnecting;
 
-    private static final int LOCATION_SYSTEM_CACHE = 1;
-    private static final int LOCATION_DOWNLOAD_DATA_DIR = 2;
-
     /**
      * The IPC interface to the Media Scanner
      */
     private IMediaScannerService mMediaScannerService;
-    private File mDownloadsDataDir;
 
     @VisibleForTesting
     SystemFacade mSystemFacade;
+
+    private StorageManager mStorageManager;
 
     /**
      * Receives notifications when the data in the content provider changes
@@ -222,7 +216,7 @@ public class DownloadService extends Service {
 
         mNotifier = new DownloadNotification(this, mSystemFacade);
         mSystemFacade.cancelAllNotifications();
-        mDownloadsDataDir = Helpers.getDownloadsDataDirectory(getApplicationContext());
+        mStorageManager = StorageManager.getInstance(getApplicationContext());
         updateFromProvider();
     }
 
@@ -269,13 +263,6 @@ public class DownloadService extends Service {
         @Override
         public void run() {
             Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
-
-            trimDatabase();
-            // remove spurious files from system cache
-            removeSpuriousFiles(LOCATION_SYSTEM_CACHE);
-            // remove spurious files from downloads dir
-            removeSpuriousFiles(LOCATION_DOWNLOAD_DATA_DIR);
-
             boolean keepService = false;
             // for each update from the database, remember which download is
             // supposed to get restarted soonest in the future
@@ -430,91 +417,6 @@ public class DownloadService extends Service {
     }
 
     /**
-     * Removes files that may have been left behind in the systemcache or
-     * /data/downloads directory
-     */
-    private void removeSpuriousFiles(int location) {
-        File base = (location == LOCATION_SYSTEM_CACHE) ?
-                Environment.getDownloadCacheDirectory() : mDownloadsDataDir;
-        File[] files = base.listFiles();
-        if (files == null) {
-            // The cache folder doesn't appear to exist (this is likely the case
-            // when running the simulator).
-            return;
-        }
-        HashSet<String> fileSet = new HashSet<String>();
-        for (int i = 0; i < files.length; i++) {
-            if (files[i].getName().equals(Constants.KNOWN_SPURIOUS_FILENAME)) {
-                continue;
-            }
-            if (files[i].getName().equalsIgnoreCase(Constants.RECOVERY_DIRECTORY)) {
-                continue;
-            }
-            fileSet.add(files[i].getPath());
-        }
-
-        Cursor cursor = getContentResolver().query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
-                new String[] { Downloads.Impl._DATA }, null, null, null);
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                do {
-                    fileSet.remove(cursor.getString(0));
-                } while (cursor.moveToNext());
-            }
-            cursor.close();
-        }
-        Iterator<String> iterator = fileSet.iterator();
-        while (iterator.hasNext()) {
-            String filename = iterator.next();
-            if (Constants.LOGV) {
-                Log.v(Constants.TAG, "deleting spurious file " + filename);
-            }
-            new File(filename).delete();
-        }
-    }
-
-    /**
-     * Drops old rows from the database to prevent it from growing too large
-     */
-    private void trimDatabase() {
-        Cursor cursor = null;
-        try {
-            cursor = getContentResolver().query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
-                    new String[] { Downloads.Impl._ID },
-                    Downloads.Impl.COLUMN_STATUS + " >= '200'", null,
-                    Downloads.Impl.COLUMN_LAST_MODIFICATION);
-            if (cursor == null) {
-                // This isn't good - if we can't do basic queries in our database, nothing's gonna work
-                Log.e(Constants.TAG, "null cursor in trimDatabase");
-                return;
-            }
-            if (cursor.moveToFirst()) {
-                int numDelete = cursor.getCount() - Constants.MAX_DOWNLOADS;
-                int columnId = cursor.getColumnIndexOrThrow(Downloads.Impl._ID);
-                while (numDelete > 0) {
-                    Uri downloadUri = ContentUris.withAppendedId(
-                            Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, cursor.getLong(columnId));
-                    getContentResolver().delete(downloadUri, null, null);
-                    if (!cursor.moveToNext()) {
-                        break;
-                    }
-                    numDelete--;
-                }
-            }
-        } catch (SQLiteException e) {
-            // trimming the database raised an exception. alright, ignore the exception
-            // and return silently. trimming database is not exactly a critical operation
-            // and there is no need to propagate the exception.
-            Log.w(Constants.TAG, "trimDatabase failed with exception: " + e.getMessage());
-            return;
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
-
-    /**
      * Keeps a local copy of the info about a download, and initiates the
      * download if appropriate.
      */
@@ -526,7 +428,7 @@ public class DownloadService extends Service {
             info.logVerboseInfo();
         }
 
-        info.startIfReady(now);
+        info.startIfReady(now, mStorageManager);
         return info;
     }
 
@@ -550,7 +452,7 @@ public class DownloadService extends Service {
             mSystemFacade.cancelNotification(info.mId);
         }
 
-        info.startIfReady(now);
+        info.startIfReady(now, mStorageManager);
     }
 
     /**

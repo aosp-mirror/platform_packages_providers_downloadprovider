@@ -22,7 +22,6 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.CharArrayBuffer;
 import android.database.Cursor;
 import android.drm.mobile1.DrmRawContent;
 import android.net.ConnectivityManager;
@@ -427,7 +426,7 @@ public class DownloadInfo {
         return NETWORK_OK;
     }
 
-    void startIfReady(long now) {
+    void startIfReady(long now, StorageManager storageManager) {
         if (!isReadyToStart(now)) {
             return;
         }
@@ -444,7 +443,8 @@ public class DownloadInfo {
             values.put(Impl.COLUMN_STATUS, mStatus);
             mContext.getContentResolver().update(getAllDownloadsUri(), values, null, null);
         }
-        DownloadThread downloader = new DownloadThread(mContext, mSystemFacade, this);
+        DownloadThread downloader = new DownloadThread(mContext, mSystemFacade, this,
+                storageManager);
         mHasActiveThread = true;
         mSystemFacade.startThread(downloader);
     }

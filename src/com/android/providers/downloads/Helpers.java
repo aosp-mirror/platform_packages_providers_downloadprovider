@@ -157,7 +157,8 @@ public class Helpers {
         // Add an extension if filename does not have one
         String extension = null;
         int dotIndex = filename.lastIndexOf('.');
-        if (dotIndex < 0) {
+        boolean missingExtension = dotIndex < 0 || dotIndex < filename.lastIndexOf("/");
+        if (missingExtension) {
             extension = chooseExtensionFromMimeType(mimeType, true);
         } else {
             extension = chooseExtensionFromFilename(mimeType, destination, filename, dotIndex);
@@ -414,12 +415,11 @@ public class Helpers {
     }
 
     private static String chooseExtensionFromFilename(String mimeType, int destination,
-            String filename, int dotIndex) {
+            String filename, int lastDotIndex) {
         String extension = null;
         if (mimeType != null) {
             // Compare the last segment of the extension against the mime type.
             // If there's a mismatch, discard the entire extension.
-            int lastDotIndex = filename.lastIndexOf('.');
             String typeFromExt = MimeTypeMap.getSingleton().getMimeTypeFromExtension(
                     filename.substring(lastDotIndex + 1));
             if (typeFromExt == null || !typeFromExt.equalsIgnoreCase(mimeType)) {
@@ -439,7 +439,7 @@ public class Helpers {
             if (Constants.LOGVV) {
                 Log.v(Constants.TAG, "keeping extension");
             }
-            extension = filename.substring(dotIndex);
+            extension = filename.substring(lastDotIndex);
         }
         return extension;
     }

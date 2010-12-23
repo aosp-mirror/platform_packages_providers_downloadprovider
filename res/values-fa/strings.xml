@@ -23,40 +23,26 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"به برنامه کاربردی اجازه می دهد به عملکرد Download Manager دسترسی پیدا کند. برنامه های مخرب می توانند از این ویژگی برای ایجاد اختلال در دانلودها و دسترسی به اطلاعات خصوصی استفاده کنند."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"اعلان های دانلود ارسال شود."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"به برنامه کاربردی اجازه می دهد درباره دانلودهای کامل شده اعلان هایی ارسال کند. برنامه های مخرب می توانند از این ویژگی برای گمراه کردن سایر برنامه هایی که فایل ها را دانلود می کنند، استفاده نمایند."</string>
-    <!-- outdated translation 140058400609165726 -->     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"مشاهده همه دانلودها در کارت SD"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"مشاهده همه دانلودها در حافظه USB"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"مشاهده همه دانلودها در کارت SD"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"به برنامه کاربردی اجازه می دهد همه موارد دانلود شده در کارت SD را صرفنظر از برنامه مورد استفاده برای دانلود آنها مشاهده کند."</string>
-    <!-- no translation found for permlab_downloadCacheNonPurgeable (3069534308882047412) -->
-    <skip />
-    <!-- no translation found for permdesc_downloadCacheNonPurgeable (1089583021652571424) -->
-    <skip />
-    <!-- no translation found for permlab_downloadWithoutNotification (8837971946078327262) -->
-    <skip />
-    <!-- no translation found for permdesc_downloadWithoutNotification (5174806530123417020) -->
-    <skip />
-    <!-- no translation found for permlab_accessAllDownloads (2436240495424393717) -->
-    <skip />
-    <!-- no translation found for permdesc_accessAllDownloads (4575801130424505112) -->
-    <skip />
+    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"رزرو فضا در حافظه موقت دانلود"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"به برنامه کاربردی اجازه می دهد فایل ها را در حافظه موقت دانلود کند که وقتی مدیر دانلود به فضای بیشتری احتیاج دارد به طور خودکار حذف نشوند."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"دانلود فایلها بدون اطلاع"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"بدون نمایش اعلان به کاربر، به برنامه کاربردی اجازه می دهد فایل ها را از طریق مدیر دانلود، دانلود کند."</string>
+    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"دسترسی به همه دانلودهای سیستم"</string>
+    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"به برنامه کاربردی اجازه می دهد همه موارد راه اندازی شده توسط برنامه های روی سیستم را مشاهده و ویرایش کند."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;بدون عنوان&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">"، "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" و <xliff:g id="NUMBER">%d</xliff:g> بیشتر"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"دانلود انجام شد"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"دانلود ناموفق"</string>
-    <!-- no translation found for notification_need_wifi_for_size (5973127997598540499) -->
-    <skip />
-    <!-- no translation found for wifi_required_title (1995971416871498179) -->
-    <skip />
-    <!-- no translation found for wifi_required_body (1675692697446715831) -->
-    <skip />
-    <!-- no translation found for wifi_recommended_title (7441589306734687400) -->
-    <skip />
-    <!-- no translation found for wifi_recommended_body (7574517147645381271) -->
-    <skip />
-    <!-- no translation found for button_queue_for_wifi (422576726189179221) -->
-    <skip />
-    <!-- no translation found for button_cancel_download (2430166148737975604) -->
-    <skip />
-    <!-- no translation found for button_start_now (792123674007840864) -->
-    <skip />
+    <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"اندازه دانلود به Wi-Fi احتیاج دارد"</string>
+    <string name="wifi_required_title" msgid="1995971416871498179">"دانلود برای شبکه اپراتور بسیار بزرگ است"</string>
+    <string name="wifi_required_body" msgid="1675692697446715831">"برای دانلود این <xliff:g id="SIZE">%s </xliff:g> باید از WiFi استفاده کنید. برای اینکه دفعه بعد که به شبکه WiFi وصل می شوید، این دانلود شود، روی"\n\n"کلیک کنید <xliff:g id="QUEUE_TEXT">%s </xliff:g>."</string>
+    <string name="wifi_recommended_title" msgid="7441589306734687400">"برای دانلود در فرصتی دیگر در صف گذاشته شود؟"</string>
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"شروع دانلود این <xliff:g id="SIZE">%s </xliff:g> ممکن است باعث کاهش عمر باتری شما و/یا استفاده بیش از حد از اتصال داده تلفن همراه شما شود که بسته به برنامه داده شما می تواند منجر به هزینه توسط اپراتور تلفن همراه شما شود. "\n\n" برای اینکه دفعه بعد که به شبکه WiFi وصل می شوید این دانلود انجام شود، روی <xliff:g id="QUEUE_TEXT">%s</xliff:g> در زیر کلیک کنید."</string>
+    <string name="button_queue_for_wifi" msgid="422576726189179221">"صف"</string>
+    <string name="button_cancel_download" msgid="2430166148737975604">"لغو"</string>
+    <string name="button_start_now" msgid="792123674007840864">"اکنون شروع"</string>
 </resources>

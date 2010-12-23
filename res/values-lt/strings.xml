@@ -23,40 +23,26 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Leidžia programai pasiekti išplėstines atsisiuntimo tvarkyklės funkcijas. Kenkėjiškos programos gali naudoti tai ir trikdyti atsisiuntimus bei pasiekti asmeninę informaciją."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Siųsti atsisiuntimo pranešimus."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Leidžia programai siųsti pranešimus apie užbaigtus atsisiuntimus. Kenkėjiškos programos gali naudoti tai, kad suklaidintų kitas programas, kurios atsisiunčia failus."</string>
-    <!-- outdated translation 140058400609165726 -->     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Žiūrėti visus atsisiuntimus į SD kortelę"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Žr. visus atsis. į USB atm."</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Žiūrėti visus atsisiuntimus į SD kortelę"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Leidžia programai žiūrėti visus atsisiuntimus į SD kortelę, nepriklausomai nuo to, kuri programa juos atsisiuntė."</string>
-    <!-- no translation found for permlab_downloadCacheNonPurgeable (3069534308882047412) -->
-    <skip />
-    <!-- no translation found for permdesc_downloadCacheNonPurgeable (1089583021652571424) -->
-    <skip />
-    <!-- no translation found for permlab_downloadWithoutNotification (8837971946078327262) -->
-    <skip />
-    <!-- no translation found for permdesc_downloadWithoutNotification (5174806530123417020) -->
-    <skip />
-    <!-- no translation found for permlab_accessAllDownloads (2436240495424393717) -->
-    <skip />
-    <!-- no translation found for permdesc_accessAllDownloads (4575801130424505112) -->
-    <skip />
+    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Rezervuoti vietą atsisiuntimo talpykloje"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Leidžiama programai atsisiųsti failus į atsisiuntimo talpyklą, kurios negalima automatiškai ištrinti, kai atsisiuntimo tvarkyklei prireikia daugiau vietos."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"atsisiųsti failus be pranešimo"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Leidžiama programai atsisiųsti failus per atsisiuntimo tvarkyklę naudotojui neparodžius jokio pranešimo."</string>
+    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Pasiekti visus sistemos atsisiuntimus"</string>
+    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Leidžiama programai žiūrėti ir keisti viską, kas sistemoje pradėta bet kokios programos."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Be pavadinimo&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" ir dar <xliff:g id="NUMBER">%d</xliff:g>"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"Atsisiuntimas baigtas"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Atsisiuntimas nesėkmingas"</string>
-    <!-- no translation found for notification_need_wifi_for_size (5973127997598540499) -->
-    <skip />
-    <!-- no translation found for wifi_required_title (1995971416871498179) -->
-    <skip />
-    <!-- no translation found for wifi_required_body (1675692697446715831) -->
-    <skip />
-    <!-- no translation found for wifi_recommended_title (7441589306734687400) -->
-    <skip />
-    <!-- no translation found for wifi_recommended_body (7574517147645381271) -->
-    <skip />
-    <!-- no translation found for button_queue_for_wifi (422576726189179221) -->
-    <skip />
-    <!-- no translation found for button_cancel_download (2430166148737975604) -->
-    <skip />
-    <!-- no translation found for button_start_now (792123674007840864) -->
-    <skip />
+    <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Tokio dydžio atsis. reik. „Wi-Fi“"</string>
+    <string name="wifi_required_title" msgid="1995971416871498179">"Atsisiuntimas per didelis operatoriaus tinklui"</string>
+    <string name="wifi_required_body" msgid="1675692697446715831">"Šiam <xliff:g id="SIZE">%s </xliff:g> atsisiuntimui užbaigti reikia naudoti „WiFi“. "\n\n"Kad pradėtumėte šį atsisiuntimą kitą kartą prisijungę prie „WiFi“ tinklo, spustelėkite <xliff:g id="QUEUE_TEXT">%s </xliff:g>."</string>
+    <string name="wifi_recommended_title" msgid="7441589306734687400">"Įtraukti į eilę, norint vėliau atsisiųsti?"</string>
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"Jei dabar pradės. šį <xliff:g id="SIZE">%s </xliff:g> atsisiunt., gali sutrump. akum. naud. trukmė ir (arba) gali būti dideliais kiekiais naud. mobil. duomenų ryšys, dėl to mobil. operat. gali taikyti mokesč. pagal duom. planą. Kad pradėt. šį atsisiunt. kitą kartą prisij. prie „WiFi“ tinklo, toliau"\n\n", spust. <xliff:g id="QUEUE_TEXT">%s</xliff:g>."</string>
+    <string name="button_queue_for_wifi" msgid="422576726189179221">"Eilė"</string>
+    <string name="button_cancel_download" msgid="2430166148737975604">"Atšaukti"</string>
+    <string name="button_start_now" msgid="792123674007840864">"Pradėti dabar"</string>
 </resources>

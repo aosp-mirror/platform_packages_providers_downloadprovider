@@ -25,7 +25,7 @@
 
     <!--
     The test declared in this instrumentation can be run via this command
-    "adb shell am instrument -w com.android.providers.downloads/android.test.InstrumentationTestRunner"
+    "adb shell am instrument -w com.android.providers.downloads.tests/android.test.InstrumentationTestRunner"
     -->
     <instrumentation android:name="android.test.InstrumentationTestRunner"
                      android:targetPackage="com.android.providers.downloads"

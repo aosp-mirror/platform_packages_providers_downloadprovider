@@ -94,13 +94,13 @@ public class Helpers {
         return getFullPath(path, mimeType, destination, base);
     }
 
-    private static String getFullPath(String filename, String mimeType, int destination,
+    static String getFullPath(String filename, String mimeType, int destination,
         File base) throws StopRequestException {
         // Split filename between base and extension
         // Add an extension if filename does not have one
         String extension = null;
         int dotIndex = filename.lastIndexOf('.');
-        boolean missingExtension = dotIndex < 0 || dotIndex < filename.lastIndexOf("/");
+        boolean missingExtension = dotIndex < 0 || dotIndex < filename.lastIndexOf('/');
         if (missingExtension) {
             extension = chooseExtensionFromMimeType(mimeType, true);
         } else {

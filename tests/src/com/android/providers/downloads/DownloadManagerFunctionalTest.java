@@ -65,7 +65,7 @@ public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFuncti
                        Integer.toString(Downloads.Impl.DESTINATION_CACHE_PARTITION));
         runUntilStatus(downloadUri, Downloads.Impl.STATUS_SUCCESS);
         assertEquals(FILE_CONTENT, getDownloadContents(downloadUri));
-        assertStartsWith(Helpers.getDownloadsDataDirectory(getContext()).getAbsolutePath(),
+        assertStartsWith(getContext().getCacheDir().getAbsolutePath(),
                          getDownloadFilename(downloadUri));
     }
 

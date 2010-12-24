@@ -16,6 +16,7 @@
 
 package com.android.providers.downloads;
 
+import android.os.Environment;
 import android.util.Log;
 
 /**
@@ -79,7 +80,7 @@ public class Constants {
     public static final String FILENAME_SEQUENCE_SEPARATOR = "-";
 
     /** Where we store downloaded files on the external storage */
-    public static final String DEFAULT_DL_SUBDIR = "/download";
+    public static final String DEFAULT_DL_SUBDIR = "/" + Environment.DIRECTORY_DOWNLOADS;
 
     /** A magic filename that is allowed to exist within the system cache */
     public static final String KNOWN_SPURIOUS_FILENAME = "lost+found";

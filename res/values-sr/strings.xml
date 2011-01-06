@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Copyright (C) 2007 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label" msgid="3658948994665187911">"Менаџер преузимања"</string>
+    <string name="permlab_downloadManager" msgid="7779544811202855500">"Приступ менаџеру преузимања."</string>
+    <string name="permdesc_downloadManager" msgid="4240298564918160337">"Омогућава апликацији да приступи менаџеру преузимања и да помоћу њега преузме датотеке. Злонамерне апликације то могу да искористе за ометање преузимања и приступ приватним информацијама."</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Напредне функције менаџера преузимања."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Омогућава апликацији да приступи напредним функцијама менаџера преузимања. Злонамерне апликације то могу да искористе за ометање преузимања и приступ приватним информацијама."</string>
+    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Шаљите обавештења о преузимањима."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Омогућава апликацији да шаље обавештења о довршеним преузимањима. Злонамерне апликације то могу да искористе да наведу друге апликације да преузму датотеке."</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Погледајте сва преузимања у USB меморију"</string>
+    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Сва преузимања на SD картицу"</string>
+    <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Омогућава апликацији да види све што је преузето на SD картицу, без обзира на то помоћу којих апликација је то урађено."</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Резервиши простор у кешу за преузимање"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Омогућава да апликација преузме датотеке у кешза преузимање која не може аутоматски да се избрише када је менаџеру потребно још времена."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"преузми датотеке без обавештења"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Омогућава да апликација преузме датотеке преко менаџера за преузимање без претходног обавештавања корисника."</string>
+    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Приступи свим системским преузимањима"</string>
+    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Дозвољава да апликација прикаже и измени све што је започела апликација на систему."</string>
+    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Без наслова&gt;"</string>
+    <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
+    <string name="notification_filename_extras" msgid="5549729917695688191">" и још <xliff:g id="NUMBER">%d</xliff:g>"</string>
+    <string name="notification_download_complete" msgid="840713937779273632">"Преузимање је довршено"</string>
+    <string name="notification_download_failed" msgid="5343637375905111462">"Преузимање није успело"</string>
+    <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Величина за преузимање захтева Wi-Fi"</string>
+    <string name="wifi_required_title" msgid="1995971416871498179">"Преузимање је превелико за мрежу оператера"</string>
+    <string name="wifi_required_body" msgid="1675692697446715831">"Потребно је да користите WiFi да бисте довршили ово <xliff:g id="SIZE">%s </xliff:g> преузимање. "\n\n"Кликните на <xliff:g id="QUEUE_TEXT">%s </xliff:g> да бисте започели са преузимањем следећи пут када сте повезани са WiFi мрежом."</string>
+    <string name="wifi_recommended_title" msgid="7441589306734687400">"Желите ли да ставите у ред за будуће преузимање?"</string>
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"Покретање овог преузимања од <xliff:g id="SIZE">%s </xliff:g> може да скрати радни век батерије и/или доведе до претераног коришћења везе за мобилне податке, а то може да проузрокује додатне наплате мобилног оператера, у зависности од тарифног пакета."\n\n" Кликните на <xliff:g id="QUEUE_TEXT">%s</xliff:g> испод да бисте започели ово преузимање када се следећи пут повежете са WiFi мрежом."</string>
+    <string name="button_queue_for_wifi" msgid="422576726189179221">"Ред"</string>
+    <string name="button_cancel_download" msgid="2430166148737975604">"Откажи"</string>
+    <string name="button_start_now" msgid="792123674007840864">"Започни одмах"</string>
+</resources>

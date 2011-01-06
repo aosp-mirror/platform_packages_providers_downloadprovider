@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Copyright (C) 2007 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label" msgid="3658948994665187911">"Managerul de descărcare"</string>
+    <string name="permlab_downloadManager" msgid="7779544811202855500">"Accesaţi managerul de descărcare."</string>
+    <string name="permdesc_downloadManager" msgid="4240298564918160337">"Permite aplicaţiei accesul la funcţiile managerului de descărcare în scopul descărcării fişierelor. Unele aplicaţii rău intenţionate se pot folosi de această funcţie pentru a întrerupe descărcările şi a accesa informaţiile private."</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Funcţii avansate ale managerului de descărcare."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Permite aplicaţiei accesul la funcţiile avansate ale managerului de descărcare. Unele aplicaţii rău intenţionate se pot folosi de această funcţie pentru a întrerupe descărcările şi a accesa informaţiile private."</string>
+    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Trimiteţi notificările descărcării."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Permite aplicaţiei să trimită notificări despre descărcările efectuate. Unele aplicaţii rău intenţionate se pot folosi de această funcţie pentru a genera confuzie în rândul altor aplicaţii care descarcă fişiere."</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Vedeţi desc. în stoc. USB"</string>
+    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Vizualizaţi toate descărcările pe cardul SD"</string>
+    <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Permite aplicaţiei să vadă toate descărcările de pe cardul SD, independent de cele pe care le-a realizat chiar aplicaţia."</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Rezervaţi spaţiu în memoria cache de descărcare"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Permite aplicaţiei să descarce fişiere în memoria cache de descărcare, care nu poate fi ştearsă în mod automat când managerul de descărcări are nevoie de mai mult spaţiu."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"descărcarea fişierelor fără notificare"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Permite aplicaţiei să descarce fişiere prin intermediul managerului de descărcări fără a afişa notificări utilizatorului."</string>
+    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Accesaţi toate descărcările din sistem"</string>
+    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Permite aplicaţiei să vizualizeze şi să modifice toate descărcările iniţiate de aplicaţii din sistem."</string>
+    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Fără titlu&gt;"</string>
+    <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
+    <string name="notification_filename_extras" msgid="5549729917695688191">" şi încă <xliff:g id="NUMBER">%d</xliff:g>"</string>
+    <string name="notification_download_complete" msgid="840713937779273632">"Descărcare completă"</string>
+    <string name="notification_download_failed" msgid="5343637375905111462">"Descărcare nereuşită"</string>
+    <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Dim. desc. necesită Wi-Fi"</string>
+    <string name="wifi_required_title" msgid="1995971416871498179">"Descărcare prea mare pentru reţeaua operatorului"</string>
+    <string name="wifi_required_body" msgid="1675692697446715831">"Trebuie să utilizaţi WiFi pentru a finaliza această descărcare de <xliff:g id="SIZE">%s </xliff:g>. "\n\n"Faceţi clic pe <xliff:g id="QUEUE_TEXT">%s </xliff:g> pentru a începe această descărcare cu proxima ocazie în care vă conectaţi la o reţea WiFi."</string>
+    <string name="wifi_recommended_title" msgid="7441589306734687400">"Puneţi în aşteptare pentru descărcare ulterioară?"</string>
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"Dacă porniţi această descărcare de <xliff:g id="SIZE">%s </xliff:g> acum este posibil să scurtaţi viaţa bateriei şi/sau să utilizaţi în mod excesiv conexiunea dvs. de date mobilă, ceea ce poate determina aplicarea unor taxe de către operatorul dvs. de telefonie mobilă, în funcţie de planul de date aplicat în cazul dvs."\n\n" Faceţi clic pe <xliff:g id="QUEUE_TEXT">%s</xliff:g> de mai jos pentru a începe această descărcare cu proxima ocazie în care vă conectaţi la o reţea WiFi."</string>
+    <string name="button_queue_for_wifi" msgid="422576726189179221">"Listă de aşteptare"</string>
+    <string name="button_cancel_download" msgid="2430166148737975604">"Anulaţi"</string>
+    <string name="button_start_now" msgid="792123674007840864">"Începeţi acum"</string>
+</resources>

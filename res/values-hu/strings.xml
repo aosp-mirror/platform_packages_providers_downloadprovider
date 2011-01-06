@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Copyright (C) 2007 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label" msgid="3658948994665187911">"Letöltéskezelő"</string>
+    <string name="permlab_downloadManager" msgid="7779544811202855500">"Hozzáférés a letöltéskezelőhöz."</string>
+    <string name="permdesc_downloadManager" msgid="4240298564918160337">"Lehetővé teszi az alkalmazás számára a letöltéskezelő elérését és fájlok letöltésére való felhasználását. A rosszindulatú alkalmazások ezt a letöltés megzavarására és a személyes adatokhoz való hozzáféréshez használhatják fel."</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Speciális letöltéskezelő-funkciók."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Lehetővé teszi az alkalmazás számára a letöltéskezelő speciális funkcióihoz való hozzáférést. A rosszindulatú alkalmazások ezt a letöltés megzavarására és a személyes adatokhoz való hozzáféréshez használhatják fel."</string>
+    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Letöltési értesítések küldése."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Lehetővé teszi az alkalmazás számára, hogy értesítéseket küldjön a befejezett letöltésekről. A rosszindulatú alkalmazások arra használhatják ezt, hogy megzavarjanak más, fájlokat letöltő alkalmazásokat."</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"USB-tár letöltéseit látja"</string>
+    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"SD-kártyára irányuló összes letöltés megtekintése"</string>
+    <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Lehetővé teszi az alkalmazás számára az SD-kártyán levő összes letöltés megtekintését, függetlenül attól, hogy melyik alkalmazás töltötte le azokat."</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Hely lefoglalása a letöltési gyorsítótárban"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Az alkalmazások letölthetnek fájlokat a letöltési gyorsítótárba, amelyeket a letöltéskezelő nem törölhet automatikusan, ha helyre van szüksége."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"fájlok letöltése értesítés nélkül"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Az alkalmazások letölthetnek fájlokat a letöltéskezelő segítségével anélkül, hogy értesítenék róla a felhasználót."</string>
+    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Hozzáférés a rendszer összes letöltéséhez"</string>
+    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Az alkalmazások megnézhetik és módosíthatják a rendszer bármelyik alkalmazása által kezdeményezett letöltéseket."</string>
+    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Névtelen&gt;"</string>
+    <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
+    <string name="notification_filename_extras" msgid="5549729917695688191">" és további <xliff:g id="NUMBER">%d</xliff:g>"</string>
+    <string name="notification_download_complete" msgid="840713937779273632">"A letöltés befejeződött."</string>
+    <string name="notification_download_failed" msgid="5343637375905111462">"A letöltés nem sikerült"</string>
+    <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"A letöltéshez Wi-Fi kell"</string>
+    <string name="wifi_required_title" msgid="1995971416871498179">"A letöltés túl nagy a szolgáltató hálózatához"</string>
+    <string name="wifi_required_body" msgid="1675692697446715831">"Wi-Fit kell használnia a letöltéshez (<xliff:g id="SIZE">%s </xliff:g>). "\n\n"Kattintson a <xliff:g id="QUEUE_TEXT">%s </xliff:g> gombra, hogy a letöltést akkor kezdje, ha legközelebb Wi-Fi hálózathoz csatlakozik."</string>
+    <string name="wifi_recommended_title" msgid="7441589306734687400">"Várólistára teszi későbbi letöltés céljából?"</string>
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"A fájl (<xliff:g id="SIZE">%s </xliff:g>) letöltése miatt hamarabb lemerülhet az akkumulátor és magasabb lehet a mobil adathasználat, így előfizetésétől függően további költségei lehetnek."\n\n" A <xliff:g id="QUEUE_TEXT">%s</xliff:g> lehetőség csak Wi-Fi hálózatban indítja el a letöltést."</string>
+    <string name="button_queue_for_wifi" msgid="422576726189179221">"Várólista"</string>
+    <string name="button_cancel_download" msgid="2430166148737975604">"Mégse"</string>
+    <string name="button_start_now" msgid="792123674007840864">"Indítás most"</string>
+</resources>

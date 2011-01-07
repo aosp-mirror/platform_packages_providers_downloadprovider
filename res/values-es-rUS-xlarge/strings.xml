@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- XL -->
+    <string name="app_label" msgid="8975892289137558042">"Administrador de descarga"</string>
+    <!-- XL -->
+    <string name="wifi_required_title" msgid="1552884667970728815">"La descarga es demasiado grande para una red móvil"</string>
+    <!-- XL -->
+    <string name="wifi_required_body" msgid="1306428181581336527">"Debes usar Wi-Fi para completar esta <xliff:g id="SIZE">%s </xliff:g>descarga. "\n\n"Haz clic en <xliff:g id="QUEUE_TEXT">%s </xliff:g> para iniciar esta descarga la próxima vez que te conectes a una red de Wi-Fi."</string>
+</resources>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Copyright (C) 2007 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label" msgid="3658948994665187911">"Менеджер завантаж."</string>
+    <string name="permlab_downloadManager" msgid="7779544811202855500">"Доступ до менедж. завантаж."</string>
+    <string name="permdesc_downloadManager" msgid="4240298564918160337">"Дозволяє програмі отрим. доступ до менеджера завантаж. і викор. його для завантаж. файлів. Шкідливі прогр. можуть викор. цей дозвіл для перерив. завантаж. і доступу до особ. інф."</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Розширені функції менеджера завантаж."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Дозволяє програмі отрим. доступ до розширених функцій менеджера завантаж. Шкідливі прогр. можуть викор. цей дозвіл для перерив. завантаж. і доступу до особистої інфор."</string>
+    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Надсилати сповіщ. про завантаж."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Дозволяє програмі надсилати сповіщення про завершені завантаж. Шкідливі програми можуть викор. цей дозвіл, щоб заважати роботі ін. програм, які завантаж. файли."</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Див. всі завантаж. на USB"</string>
+    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Див. всі завантаж. на карту SD"</string>
+    <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Дозволяє програмі бачити всі завантаження на карту SD, незалежно від програми, яка їх завантажила."</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Резервувати місце в кеші завантажень"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Дозволяє програмі завантажувати файли в кеш завантажень, який неможливо автоматично видалити, коли менеджеру завантажень потрібно більше місця."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"завантажувати файли без сповіщення"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Дозволяє програмі завантажувати файли за допомогою менеджера завантажень, не відображаючи сповіщення для користувача."</string>
+    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Отримувати доступ до всіх завантажень у системі"</string>
+    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Дозволяє програмі переглядати та змінювати всі завантаження, ініційовані будь-якою програмою в системі."</string>
+    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Без назви&gt;"</string>
+    <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
+    <string name="notification_filename_extras" msgid="5549729917695688191">" і ще <xliff:g id="NUMBER">%d</xliff:g>"</string>
+    <string name="notification_download_complete" msgid="840713937779273632">"Завантажено"</string>
+    <string name="notification_download_failed" msgid="5343637375905111462">"Завантаж. не здійснено"</string>
+    <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Для завант. потр. Wi-Fi"</string>
+    <string name="wifi_required_title" msgid="1995971416871498179">"Завантаження завелике для мережі оператора"</string>
+    <string name="wifi_required_body" msgid="1675692697446715831">"Для завершення цього завантаження розміром <xliff:g id="SIZE">%s </xliff:g> потрібне з\'єднання WiFi. "\n\n"Натисніть <xliff:g id="QUEUE_TEXT">%s </xliff:g>, щоб почати це завантаження під час наступного з\'єднання з мережею WiFi."</string>
+    <string name="wifi_recommended_title" msgid="7441589306734687400">"Поставити в чергу, щоб завантажити пізніше?"</string>
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"Початок завантаж. цих даних обсягом <xliff:g id="SIZE">%s </xliff:g> може скоротити час роботи батареї та/чи спричинити надмірне використ. мобільної передачі даних, за що мобільний оператор може стягувати плату залежно від тариф. плану."\n\n" Натисніть <xliff:g id="QUEUE_TEXT">%s</xliff:g> нижче, щоб почати завантаж. під час наступного з\'єднання з мережею WiFi."</string>
+    <string name="button_queue_for_wifi" msgid="422576726189179221">"У чергу"</string>
+    <string name="button_cancel_download" msgid="2430166148737975604">"Скасувати"</string>
+    <string name="button_start_now" msgid="792123674007840864">"Почати зараз"</string>
+</resources>

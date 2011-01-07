@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Copyright (C) 2007 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label" msgid="3658948994665187911">"Lataustenhallinta"</string>
+    <string name="permlab_downloadManager" msgid="7779544811202855500">"Lataustenhallinnan käyttö."</string>
+    <string name="permdesc_downloadManager" msgid="4240298564918160337">"Sallii sovelluksen käyttää lataustenhallintaa tiedostojen lataamiseen. Haittasovellukset voivat häiritä latauksia ja käyttää yksityisiä tietoja tällä toiminnolla."</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Lataustenhallinnan lisätoiminnot."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Sallii sovelluksen käyttää lataustenhallinnan lisätoimintoja. Haittaohjelmat voivat häiritä latauksia ja käyttää yksityisiä tietoja tällä toiminnolla."</string>
+    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Latausilmoitusten lähetys."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Sallii sovelluksen lähettää ilmoituksia suoritetuista latauksista. Haittasovellukset voivat sekoittaa tällä toiminnolla muita sovelluksia, jotka lataavat tiedostoja."</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Kaikki USB-lataukset"</string>
+    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"SD-kortin kaikkien latausten tarkastelu."</string>
+    <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Sallii sovelluksen nähdä SD-kortin kaikki lataukset riippumatta siitä, mikä sovellus tiedostot on ladannut."</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Varaa tilaa latausvälimuistista"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Antaa sovelluksen ladata tiedostoja latausvälimuistiin, jota ei voi automaattisesti poistaa latauksen hallinnan tarvitessa lisää tilaa."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"lataa tiedostoja ilmoittamatta"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Antaa sovelluksen ladata tiedostoja latauksen hallinnan kautta ilmoittamatta siitä käyttäjälle."</string>
+    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Käytä kaikkia järjestelmän latauksia"</string>
+    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Antaa sovelluksen tarkastella ja muokata kaikkien sovelluksien aloittamia latauksia."</string>
+    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Nimetön&gt;"</string>
+    <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
+    <string name="notification_filename_extras" msgid="5549729917695688191">" ja <xliff:g id="NUMBER">%d</xliff:g> muuta"</string>
+    <string name="notification_download_complete" msgid="840713937779273632">"Lataus valmis"</string>
+    <string name="notification_download_failed" msgid="5343637375905111462">"Lataus epäonnistui"</string>
+    <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Lataa wifi-yhteydellä"</string>
+    <string name="wifi_required_title" msgid="1995971416871498179">"Lataus liian suuri operaattorin verkolle"</string>
+    <string name="wifi_required_body" msgid="1675692697446715831">"Käytä wifi-yhteyttä ladataksesi tämän <xliff:g id="SIZE">%s </xliff:g>-kokoisen latauksen loppuun. "\n\n"Napsauta <xliff:g id="QUEUE_TEXT">%s </xliff:g> aloittaaksesi tämän latauksen, kun muodostat seuraavan kerran yhteyden wifi-verkkoon."</string>
+    <string name="wifi_recommended_title" msgid="7441589306734687400">"Asetetaanko myöhemmin ladattavaksi?"</string>
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"Tämän <xliff:g id="SIZE">%s </xliff:g>-kokoisen latauksen aloittaminen voi lyhentää akun kestoaikaa ja/tai johtaa kasvaneeseen tiedonsiirtomäärään, josta voi koitua sinulle kuluja tiedonsiirtopaketistasi riippuen."\n\n" Napsauta <xliff:g id="QUEUE_TEXT">%s</xliff:g> alta aloittaaksesi tämän latauksen muodostaessasi seuraavan kerran yhteyden wifi-verkkoon."</string>
+    <string name="button_queue_for_wifi" msgid="422576726189179221">"Jono"</string>
+    <string name="button_cancel_download" msgid="2430166148737975604">"Peruuta"</string>
+    <string name="button_start_now" msgid="792123674007840864">"Aloita nyt"</string>
+</resources>

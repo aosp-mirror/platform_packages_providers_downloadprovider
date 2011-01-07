@@ -270,8 +270,8 @@ public class DownloadThread extends Thread {
             reportProgress(state, innerState);
 
             if (Constants.LOGVV) {
-                Log.v(Constants.TAG, "downloaded " + innerState.mBytesSoFar +
-                      ", file: " + mInfo.mFileName + ", uri: " + mInfo.mUri);
+                Log.v(Constants.TAG, "downloaded " + innerState.mBytesSoFar + " for "
+                      + mInfo.mUri);
             }
 
             checkPausedOrCanceled(state);

@@ -89,7 +89,7 @@ class StorageManager {
 
     private StorageManager(Context context) { // constructor is private
         mContext = context;
-        mDownloadDataDir = context.getFilesDir();
+        mDownloadDataDir = context.getCacheDir();
         mExternalStorageDir = Environment.getExternalStorageDirectory();
         mSystemCacheDir = Environment.getDownloadCacheDirectory();
         startThreadToCleanupDatabaseAndPurgeFileSystem();
@@ -419,14 +419,8 @@ class StorageManager {
                 int numDelete = cursor.getCount() - Constants.MAX_DOWNLOADS;
                 int columnId = cursor.getColumnIndexOrThrow(Downloads.Impl._ID);
                 while (numDelete > 0) {
-                    long id =  cursor.getLong(columnId);
                     Uri downloadUri = ContentUris.withAppendedId(
-                            Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id);
-                    if (Constants.LOGV) {
-                        Log.i(Constants.TAG, "in trimDatabase, deleing _id: " + id +
-                                ", file: " +
-                                cursor.getString(cursor.getColumnIndex(Downloads.Impl._DATA)));
-                    }
+                            Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, cursor.getLong(columnId));
                     mContext.getContentResolver().delete(downloadUri, null, null);
                     if (!cursor.moveToNext()) {
                         break;

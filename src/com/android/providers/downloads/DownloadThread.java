@@ -180,11 +180,8 @@ public class DownloadThread extends Thread {
             // fall through to finally block
         } catch (Throwable ex) { //sometimes the socket code throws unchecked exceptions
             errorMsg = "Exception for id " + mInfo.mId + ": " + ex.getMessage();
-            Log.w(Constants.TAG, errorMsg);
+            Log.w(Constants.TAG, errorMsg, ex);
             finalStatus = Downloads.Impl.STATUS_UNKNOWN_ERROR;
-            if (Constants.LOGV) {
-                Log.w(Constants.TAG, errorMsg, ex);
-            }
             // falls through to the code that reports an error
         } finally {
             if (wakeLock != null) {

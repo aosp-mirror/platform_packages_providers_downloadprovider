@@ -416,7 +416,8 @@ public class DownloadThread extends Thread {
                 if (state.mStream == null) {
                     state.mStream = new FileOutputStream(state.mFilename, true);
                 }
-                mStorageManager.verifySpaceBeforeWritingToFile(mInfo.mDestination, null, bytesRead);
+                mStorageManager.verifySpaceBeforeWritingToFile(mInfo.mDestination, state.mFilename,
+                        bytesRead);
                 state.mStream.write(data, 0, bytesRead);
                 if (mInfo.mDestination == Downloads.Impl.DESTINATION_EXTERNAL
                             && !isDrmFile(state)) {
@@ -424,7 +425,12 @@ public class DownloadThread extends Thread {
                 }
                 return;
             } catch (IOException ex) {
-                mStorageManager.verifySpace(mInfo.mDestination, null, bytesRead);
+                // couldn't write to file. are we out of space? check.
+                // TODO this check should only be done once. why is this being done 
+                // in a while(true) loop (see the enclosing statement: for(;;)
+                if (state.mStream != null) {
+                    mStorageManager.verifySpace(mInfo.mDestination, state.mFilename, bytesRead);
+                }
             }
         }
     }

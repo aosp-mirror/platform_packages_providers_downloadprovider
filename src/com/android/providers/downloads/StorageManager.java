@@ -138,6 +138,13 @@ class StorageManager {
     void verifySpace(int destination, String path, long length) throws StopRequestException {
         resetBytesDownloadedSinceLastCheckOnSpace();
         File dir = null;
+        if (Constants.LOGV) {
+            Log.i(Constants.TAG, "in verifySpace, destination: " + destination +
+                    ", path: " + path + ", length: " + length);
+        }
+        if (path == null) {
+            throw new IllegalArgumentException("path can't be null");
+        }
         switch (destination) {
             case Downloads.Impl.DESTINATION_CACHE_PARTITION:
             case Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING:

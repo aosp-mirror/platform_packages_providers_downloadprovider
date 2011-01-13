@@ -26,6 +26,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.StatFs;
 import android.provider.Downloads;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.internal.R;
@@ -373,14 +374,20 @@ class StorageManager {
         if (files.size() == 0) {
             return;
         }
-
         Cursor cursor = mContext.getContentResolver().query(
                 Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
                 new String[] { Downloads.Impl._DATA }, null, null, null);
         try {
             if (cursor != null) {
                 while (cursor.moveToNext()) {
-                    files.remove(cursor.getString(0));
+                    String filename = cursor.getString(0);
+                    if (!TextUtils.isEmpty(filename)) {
+                        if (Constants.LOGV) {
+                            Log.i(Constants.TAG, "in removeSpuriousFiles, preserving file " +
+                                    filename);
+                        }
+                        files.remove(new File(filename));
+                    }
                 }
             }
         } finally {

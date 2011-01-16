@@ -94,7 +94,6 @@ public class DownloadThread extends Thread {
 
         public State(DownloadInfo info) {
             mMimeType = sanitizeMimeType(info.mMimeType);
-            mRedirectCount = info.mRedirectCount;
             mRequestUri = info.mUri;
             mFilename = info.mFileName;
         }
@@ -194,7 +193,7 @@ public class DownloadThread extends Thread {
             }
             cleanupDestination(state, finalStatus);
             notifyDownloadCompleted(finalStatus, state.mCountRetry, state.mRetryAfter,
-                                    state.mRedirectCount, state.mGotData, state.mFilename,
+                                    state.mGotData, state.mFilename,
                                     state.mNewUri, state.mMimeType, errorMsg);
             mInfo.mHasActiveThread = false;
         }
@@ -865,10 +864,10 @@ public class DownloadThread extends Thread {
      * Stores information about the completed download, and notifies the initiating application.
      */
     private void notifyDownloadCompleted(
-            int status, boolean countRetry, int retryAfter, int redirectCount, boolean gotData,
+            int status, boolean countRetry, int retryAfter, boolean gotData,
             String filename, String uri, String mimeType, String errorMsg) {
         notifyThroughDatabase(
-                status, countRetry, retryAfter, redirectCount, gotData, filename, uri, mimeType,
+                status, countRetry, retryAfter, gotData, filename, uri, mimeType,
                 errorMsg);
         if (Downloads.Impl.isStatusCompleted(status)) {
             mInfo.sendIntentIfRequested();
@@ -876,7 +875,7 @@ public class DownloadThread extends Thread {
     }
 
     private void notifyThroughDatabase(
-            int status, boolean countRetry, int retryAfter, int redirectCount, boolean gotData,
+            int status, boolean countRetry, int retryAfter, boolean gotData,
             String filename, String uri, String mimeType, String errorMsg) {
         ContentValues values = new ContentValues();
         values.put(Downloads.Impl.COLUMN_STATUS, status);
@@ -886,7 +885,7 @@ public class DownloadThread extends Thread {
         }
         values.put(Downloads.Impl.COLUMN_MIME_TYPE, mimeType);
         values.put(Downloads.Impl.COLUMN_LAST_MODIFICATION, mSystemFacade.currentTimeMillis());
-        values.put(Constants.RETRY_AFTER_X_REDIRECT_COUNT, retryAfter + (redirectCount << 28));
+        values.put(Constants.RETRY_AFTER_X_REDIRECT_COUNT, retryAfter);
         if (!countRetry) {
             values.put(Constants.FAILED_CONNECTIONS, 0);
         } else if (gotData) {

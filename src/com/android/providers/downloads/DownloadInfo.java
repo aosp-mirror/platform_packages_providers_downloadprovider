@@ -70,7 +70,6 @@ public class DownloadInfo {
             info.mNumFailed = getInt(Constants.FAILED_CONNECTIONS);
             int retryRedirect = getInt(Constants.RETRY_AFTER_X_REDIRECT_COUNT);
             info.mRetryAfter = retryRedirect & 0xfffffff;
-            info.mRedirectCount = retryRedirect >> 28;
             info.mLastMod = getLong(Downloads.Impl.COLUMN_LAST_MODIFICATION);
             info.mPackage = getString(Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE);
             info.mClass = getString(Downloads.Impl.COLUMN_NOTIFICATION_CLASS);
@@ -194,7 +193,6 @@ public class DownloadInfo {
     public int mStatus;
     public int mNumFailed;
     public int mRetryAfter;
-    public int mRedirectCount;
     public long mLastMod;
     public String mPackage;
     public String mClass;
@@ -479,7 +477,6 @@ public class DownloadInfo {
         Log.v(Constants.TAG, "STATUS  : " + mStatus);
         Log.v(Constants.TAG, "FAILED_C: " + mNumFailed);
         Log.v(Constants.TAG, "RETRY_AF: " + mRetryAfter);
-        Log.v(Constants.TAG, "REDIRECT: " + mRedirectCount);
         Log.v(Constants.TAG, "LAST_MOD: " + mLastMod);
         Log.v(Constants.TAG, "PACKAGE : " + mPackage);
         Log.v(Constants.TAG, "CLASS   : " + mClass);

@@ -363,7 +363,7 @@ public class DownloadService extends Service {
                             if (info.shouldScanFile()) {
                                 // initiate rescan of the file to - which will populate
                                 // mediaProviderUri column in this row
-                                if (!scanFile(info, true, false)) {
+                                if (!scanFile(info, false, true)) {
                                     throw new IllegalStateException("scanFile failed!");
                                 }
                             } else {
@@ -377,9 +377,9 @@ public class DownloadService extends Service {
                             // in DownProvider database (the order of deletion is important).
                             getContentResolver().delete(Uri.parse(info.mMediaProviderUri), null,
                                     null);
-                            getContentResolver().delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
-                                    Downloads.Impl._ID + " = ? ",
-                                    new String[]{String.valueOf(info.mId)});
+                            // the following deletes the file and then deletes it from downloads db
+                            Helpers.deleteFile(getContentResolver(), info.mId, info.mFileName,
+                                    info.mMimeType);
                         }
                     }
                 }
@@ -580,21 +580,23 @@ public class DownloadService extends Service {
                 mMediaScannerService.requestScanFile(info.mFileName, info.mMimeType,
                         new IMediaScannerListener.Stub() {
                             public void scanCompleted(String path, Uri uri) {
-                                if (uri != null && updateDatabase) {
-                                    // file is scanned and mediaprovider returned uri. store it in downloads
-                                    // table (i.e., update this downloaded file's row)
+                                if (updateDatabase) {
+                                    // Mark this as 'scanned' in the database
+                                    // so that it is NOT subject to re-scanning by MediaScanner
+                                    // next time this database row is encountered
                                     ContentValues values = new ContentValues();
                                     values.put(Constants.MEDIA_SCANNED, 1);
-                                    values.put(Downloads.Impl.COLUMN_MEDIAPROVIDER_URI,
-                                            uri.toString());
+                                    if (uri != null) {
+                                        values.put(Downloads.Impl.COLUMN_MEDIAPROVIDER_URI,
+                                                uri.toString());
+                                    }
                                     getContentResolver().update(key, values, null, null);
-                                } else if (uri == null && deleteFile) {
-                                    // callback returned NO uri..that means this file doesn't
-                                    // exist in MediaProvider. but it still needs to be deleted
-                                    // TODO don't scan files that are not scannable by MediaScanner.
-                                    //      create a public method in MediaFile.java to return false
-                                    //      if the given file's mimetype is not any of the types
-                                    //      the mediaprovider is interested in.
+                                } else if (deleteFile) {
+                                    if (uri != null) {
+                                        // use the Uri returned to delete it from the MediaProvider
+                                        getContentResolver().delete(uri, null, null);
+                                    }
+                                    // delete the file and delete its row from the downloads db
                                     Helpers.deleteFile(resolver, id, path, mimeType);
                                 }
                             }

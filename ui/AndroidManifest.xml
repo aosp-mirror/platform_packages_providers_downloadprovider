@@ -8,7 +8,8 @@
 
     <application android:process="android.process.media"
                  android:label="@string/app_label"
-                 android:icon="@mipmap/ic_launcher_download">
+                 android:icon="@mipmap/ic_launcher_download"
+                 android:hardwareAccelerated="true">
         <activity android:name=".DownloadList"
                   android:launchMode="singleTop">
             <intent-filter>

@@ -477,25 +477,26 @@ public final class DownloadProvider extends ContentProvider {
             throw new IllegalArgumentException("Unknown/Invalid URI " + uri);
         }
 
+        // copy some of the input values as it
         ContentValues filteredValues = new ContentValues();
-
         copyString(Downloads.Impl.COLUMN_URI, values, filteredValues);
         copyString(Downloads.Impl.COLUMN_APP_DATA, values, filteredValues);
         copyBoolean(Downloads.Impl.COLUMN_NO_INTEGRITY, values, filteredValues);
         copyString(Downloads.Impl.COLUMN_FILE_NAME_HINT, values, filteredValues);
         copyString(Downloads.Impl.COLUMN_MIME_TYPE, values, filteredValues);
-
         copyBoolean(Downloads.Impl.COLUMN_IS_PUBLIC_API, values, filteredValues);
+
         boolean isPublicApi =
                 values.getAsBoolean(Downloads.Impl.COLUMN_IS_PUBLIC_API) == Boolean.TRUE;
 
+        // validate the destination column
         Integer dest = values.getAsInteger(Downloads.Impl.COLUMN_DESTINATION);
         if (dest != null) {
             if (getContext().checkCallingPermission(Downloads.Impl.PERMISSION_ACCESS_ADVANCED)
                     != PackageManager.PERMISSION_GRANTED
-                    && dest != Downloads.Impl.DESTINATION_EXTERNAL
-                    && dest != Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE
-                    && dest != Downloads.Impl.DESTINATION_FILE_URI) {
+                    && (dest == Downloads.Impl.DESTINATION_CACHE_PARTITION
+                            || dest == Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING
+                            || dest == Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION)) {
                 throw new SecurityException("setting destination to : " + dest +
                         " not allowed, unless PERMISSION_ACCESS_ADVANCED is granted");
             }
@@ -523,6 +524,8 @@ public final class DownloadProvider extends ContentProvider {
             }
             filteredValues.put(Downloads.Impl.COLUMN_DESTINATION, dest);
         }
+
+        // validate the visibility column
         Integer vis = values.getAsInteger(Downloads.Impl.COLUMN_VISIBILITY);
         if (vis == null) {
             if (dest == Downloads.Impl.DESTINATION_EXTERNAL) {
@@ -535,11 +538,34 @@ public final class DownloadProvider extends ContentProvider {
         } else {
             filteredValues.put(Downloads.Impl.COLUMN_VISIBILITY, vis);
         }
+        // copy the control column as is
         copyInteger(Downloads.Impl.COLUMN_CONTROL, values, filteredValues);
-        filteredValues.put(Downloads.Impl.COLUMN_STATUS, Downloads.Impl.STATUS_PENDING);
+
+        /*
+         * requests coming from
+         * DownloadManager.completedDownload(String, String, String, boolean, String,
+         * String, long) need special treatment
+         */
+        if (values.getAsInteger(Downloads.Impl.COLUMN_DESTINATION) ==
+                Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD) {
+            // these requests always are marked as 'completed'
+            filteredValues.put(Downloads.Impl.COLUMN_STATUS, Downloads.Impl.STATUS_SUCCESS);
+            filteredValues.put(Downloads.Impl.COLUMN_TOTAL_BYTES,
+                    values.getAsLong(Downloads.Impl.COLUMN_TOTAL_BYTES));
+            filteredValues.put(Downloads.Impl.COLUMN_CURRENT_BYTES, 0);
+            copyInteger(Downloads.Impl.COLUMN_MEDIA_SCANNED, values, filteredValues);
+            copyString(Downloads.Impl._DATA, values, filteredValues);
+        } else {
+            filteredValues.put(Downloads.Impl.COLUMN_STATUS, Downloads.Impl.STATUS_PENDING);
+            filteredValues.put(Downloads.Impl.COLUMN_TOTAL_BYTES, -1);
+            filteredValues.put(Downloads.Impl.COLUMN_CURRENT_BYTES, 0);
+        }
+
+        // set lastupdate to current time
         filteredValues.put(Downloads.Impl.COLUMN_LAST_MODIFICATION,
                            mSystemFacade.currentTimeMillis());
 
+        // use packagename of the caller to set the notification columns
         String pckg = values.getAsString(Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE);
         String clazz = values.getAsString(Downloads.Impl.COLUMN_NOTIFICATION_CLASS);
         if (pckg != null && (clazz != null || isPublicApi)) {
@@ -555,10 +581,14 @@ public final class DownloadProvider extends ContentProvider {
                 /* ignored for now */
             }
         }
+
+        // copy some more columns as is
         copyString(Downloads.Impl.COLUMN_NOTIFICATION_EXTRAS, values, filteredValues);
         copyString(Downloads.Impl.COLUMN_COOKIE_DATA, values, filteredValues);
         copyString(Downloads.Impl.COLUMN_USER_AGENT, values, filteredValues);
         copyString(Downloads.Impl.COLUMN_REFERER, values, filteredValues);
+
+        // UID, PID columns
         if (getContext().checkCallingPermission(Downloads.Impl.PERMISSION_ACCESS_ADVANCED)
                 == PackageManager.PERMISSION_GRANTED) {
             copyInteger(Downloads.Impl.COLUMN_OTHER_UID, values, filteredValues);
@@ -567,11 +597,12 @@ public final class DownloadProvider extends ContentProvider {
         if (Binder.getCallingUid() == 0) {
             copyInteger(Constants.UID, values, filteredValues);
         }
+
+        // copy some more columns as is
         copyStringWithDefault(Downloads.Impl.COLUMN_TITLE, values, filteredValues, "");
         copyStringWithDefault(Downloads.Impl.COLUMN_DESCRIPTION, values, filteredValues, "");
-        filteredValues.put(Downloads.Impl.COLUMN_TOTAL_BYTES, -1);
-        filteredValues.put(Downloads.Impl.COLUMN_CURRENT_BYTES, 0);
 
+        // is_visible_in_downloads_ui column
         if (values.containsKey(Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI)) {
             copyBoolean(Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI, values, filteredValues);
         } else {
@@ -580,6 +611,7 @@ public final class DownloadProvider extends ContentProvider {
             filteredValues.put(Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI, isExternal);
         }
 
+        // public api requests and networktypes/roaming columns
         if (isPublicApi) {
             copyInteger(Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES, values, filteredValues);
             copyBoolean(Downloads.Impl.COLUMN_ALLOW_ROAMING, values, filteredValues);
@@ -656,9 +688,22 @@ public final class DownloadProvider extends ContentProvider {
 
         // check columns whose values are restricted
         enforceAllowedValues(values, Downloads.Impl.COLUMN_IS_PUBLIC_API, Boolean.TRUE);
+
+        // validate the destination column
+        if (values.getAsInteger(Downloads.Impl.COLUMN_DESTINATION) ==
+                Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD) {
+            /* this row is inserted by
+             * DownloadManager.completedDownload(String, String, String, boolean, String,
+             * String, long)
+             */
+            values.remove(Downloads.Impl.COLUMN_TOTAL_BYTES);
+            values.remove(Downloads.Impl._DATA);
+            values.remove(Downloads.Impl.COLUMN_STATUS);
+        }
         enforceAllowedValues(values, Downloads.Impl.COLUMN_DESTINATION,
                 Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE,
-                Downloads.Impl.DESTINATION_FILE_URI);
+                Downloads.Impl.DESTINATION_FILE_URI,
+                Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD);
 
         if (getContext().checkCallingOrSelfPermission(Downloads.Impl.PERMISSION_NO_NOTIFICATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -680,6 +725,7 @@ public final class DownloadProvider extends ContentProvider {
         values.remove(Downloads.Impl.COLUMN_ALLOW_ROAMING);
         values.remove(Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI);
         values.remove(Downloads.Impl.COLUMN_MEDIA_SCANNED);
+
         Iterator<Map.Entry<String, Object>> iterator = values.valueSet().iterator();
         while (iterator.hasNext()) {
             String key = iterator.next().getKey();
@@ -1081,7 +1127,7 @@ public final class DownloadProvider extends ContentProvider {
             throw new FileNotFoundException("No filename found.");
         }
         if (!Helpers.isFilenameValid(path, mDownloadsDataDir)) {
-            throw new FileNotFoundException("Invalid filename.");
+            throw new FileNotFoundException("Invalid filename: " + path);
         }
         if (!"r".equals(mode)) {
             throw new FileNotFoundException("Bad mode for " + uri + ": " + mode);

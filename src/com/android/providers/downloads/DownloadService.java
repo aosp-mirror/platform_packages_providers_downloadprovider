@@ -502,8 +502,6 @@ public class DownloadService extends Service {
             }
             try {
                 final Uri key = info.getAllDownloadsUri();
-                final String mimeType = info.mMimeType;
-                final ContentResolver resolver = getContentResolver();
                 final long id = info.mId;
                 mMediaScannerService.requestScanFile(info.mFileName, info.mMimeType,
                         new IMediaScannerListener.Stub() {

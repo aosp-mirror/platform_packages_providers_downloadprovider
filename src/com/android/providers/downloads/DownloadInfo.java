@@ -80,7 +80,7 @@ public class DownloadInfo {
             info.mTotalBytes = getLong(Downloads.Impl.COLUMN_TOTAL_BYTES);
             info.mCurrentBytes = getLong(Downloads.Impl.COLUMN_CURRENT_BYTES);
             info.mETag = getString(Constants.ETAG);
-            info.mMediaScanned = getInt(Constants.MEDIA_SCANNED) == 1;
+            info.mMediaScanned = getInt(Constants.MEDIA_SCANNED);
             info.mDeleted = getInt(Downloads.Impl.COLUMN_DELETED) == 1;
             info.mMediaProviderUri = getString(Downloads.Impl.COLUMN_MEDIAPROVIDER_URI);
             info.mIsPublicApi = getInt(Downloads.Impl.COLUMN_IS_PUBLIC_API) != 0;
@@ -203,7 +203,7 @@ public class DownloadInfo {
     public long mTotalBytes;
     public long mCurrentBytes;
     public String mETag;
-    public boolean mMediaScanned;
+    public int mMediaScanned;
     public boolean mDeleted;
     public String mMediaProviderUri;
     public boolean mIsPublicApi;
@@ -516,9 +516,10 @@ public class DownloadInfo {
      * Returns whether a file should be scanned
      */
     boolean shouldScanFile() {
-        return !mMediaScanned
+        return (mMediaScanned == 0)
                 && (mDestination == Downloads.Impl.DESTINATION_EXTERNAL ||
-                        mDestination == Downloads.Impl.DESTINATION_FILE_URI)
+                        mDestination == Downloads.Impl.DESTINATION_FILE_URI ||
+                        mDestination == Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD)
                 && Downloads.Impl.isStatusSuccess(mStatus)
                 && !DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING.equalsIgnoreCase(mMimeType);
     }

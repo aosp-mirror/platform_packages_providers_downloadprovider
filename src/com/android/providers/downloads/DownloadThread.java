@@ -213,7 +213,7 @@ public class DownloadThread extends Thread {
         addRequestHeaders(innerState, request);
 
         // check just before sending the request to avoid using an invalid connection at all
-        checkConnectivity(state);
+        checkConnectivity();
 
         HttpResponse response = sendRequest(state, client, request);
         handleExceptionalStatus(state, innerState, response);
@@ -230,7 +230,7 @@ public class DownloadThread extends Thread {
     /**
      * Check if current connectivity is valid for this request.
      */
-    private void checkConnectivity(State state) throws StopRequestException {
+    private void checkConnectivity() throws StopRequestException {
         int networkUsable = mInfo.checkCanUseNetwork();
         if (networkUsable != DownloadInfo.NETWORK_OK) {
             int status = Downloads.Impl.STATUS_WAITING_FOR_NETWORK;
@@ -548,7 +548,7 @@ public class DownloadThread extends Thread {
 
         updateDatabaseFromHeaders(state, innerState);
         // check connectivity again now that we know the total size
-        checkConnectivity(state);
+        checkConnectivity();
     }
 
     /**
@@ -763,8 +763,12 @@ public class DownloadThread extends Thread {
     }
 
     private int getFinalStatusForHttpError(State state) {
-        if (!Helpers.isNetworkAvailable(mSystemFacade)) {
-            return Downloads.Impl.STATUS_WAITING_FOR_NETWORK;
+        int networkUsable = mInfo.checkCanUseNetwork();
+        if (networkUsable != DownloadInfo.NETWORK_OK) {
+            return (networkUsable == DownloadInfo.NETWORK_UNUSABLE_DUE_TO_SIZE ||
+                    networkUsable == DownloadInfo.NETWORK_RECOMMENDED_UNUSABLE_DUE_TO_SIZE)
+                    ? Downloads.Impl.STATUS_QUEUED_FOR_WIFI
+                    : Downloads.Impl.STATUS_WAITING_FOR_NETWORK;
         } else if (mInfo.mNumFailed < Constants.MAX_RETRIES) {
             state.mCountRetry = true;
             return Downloads.Impl.STATUS_WAITING_TO_RETRY;

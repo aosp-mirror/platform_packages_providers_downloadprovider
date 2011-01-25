@@ -159,6 +159,12 @@ public class DownloadList extends Activity
             ensureSomeGroupIsExpanded();
         }
 
+        // did the caller want  to display the data sorted by size?
+        Bundle extras = getIntent().getExtras();
+        if (extras != null &&
+                extras.getBoolean(DownloadManager.INTENT_EXTRAS_SORT_BY_SIZE, false)) {
+            mIsSortedBySize = true;
+        }
         chooseListToShow();
     }
 

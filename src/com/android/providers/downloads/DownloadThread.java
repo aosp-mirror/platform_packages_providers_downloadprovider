@@ -897,11 +897,10 @@ public class DownloadThread extends Thread {
         } else {
             values.put(Constants.FAILED_CONNECTIONS, mInfo.mNumFailed + 1);
         }
-        // STOPSHIP begin delete the following lines
+        // save the error message. could be useful to developers.
         if (!TextUtils.isEmpty(errorMsg)) {
             values.put(Downloads.Impl.COLUMN_ERROR_MSG, errorMsg);
         }
-        // STOPSHIP end
         mContext.getContentResolver().update(mInfo.getAllDownloadsUri(), values, null, null);
     }
 

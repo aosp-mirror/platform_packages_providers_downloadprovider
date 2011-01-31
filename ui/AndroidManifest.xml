@@ -10,7 +10,8 @@
                  android:label="@string/app_label"
                  android:icon="@mipmap/ic_launcher_download">
         <activity android:name=".DownloadList"
-                  android:launchMode="singleTop">
+                  android:launchMode="singleTop"
+                  android:hardwareAccelerated="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

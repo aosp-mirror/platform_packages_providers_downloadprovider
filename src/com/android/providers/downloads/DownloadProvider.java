@@ -621,7 +621,7 @@ public final class DownloadProvider extends ContentProvider {
         }
 
         // TODO: replace this hack with something cleaner
-        if (pckg.equals(GSF_PACKAGE_NAME) &&
+        if (pckg != null && pckg.equals(GSF_PACKAGE_NAME) &&
                 (getContext().checkCallingPermission(Downloads.Impl.PERMISSION_ACCESS_ADVANCED)
                         == PackageManager.PERMISSION_GRANTED)) {
             filteredValues.put(Constants.OTA_UPDATE, Boolean.TRUE);

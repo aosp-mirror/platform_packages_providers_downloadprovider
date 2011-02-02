@@ -145,6 +145,9 @@ public final class DownloadProvider extends ContentProvider {
     private static final List<String> downloadManagerColumnsList =
             Arrays.asList(DownloadManager.UNDERLYING_COLUMNS);
 
+    // TODO is there a better way to get this package name
+    private static final Object GSF_PACKAGE_NAME = "com.google.android.gsf";
+
     /** The database that lies underneath this content provider */
     private SQLiteOpenHelper mOpenHelper = null;
 
@@ -615,6 +618,13 @@ public final class DownloadProvider extends ContentProvider {
         if (isPublicApi) {
             copyInteger(Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES, values, filteredValues);
             copyBoolean(Downloads.Impl.COLUMN_ALLOW_ROAMING, values, filteredValues);
+        }
+
+        // TODO: replace this hack with something cleaner
+        if (pckg.equals(GSF_PACKAGE_NAME) &&
+                (getContext().checkCallingPermission(Downloads.Impl.PERMISSION_ACCESS_ADVANCED)
+                        == PackageManager.PERMISSION_GRANTED)) {
+            filteredValues.put(Constants.OTA_UPDATE, Boolean.TRUE);
         }
 
         if (Constants.LOGVV) {

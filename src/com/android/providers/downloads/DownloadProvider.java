@@ -694,6 +694,7 @@ public final class DownloadProvider extends ContentProvider {
         values.remove(Downloads.Impl.COLUMN_ALLOW_ROAMING);
         values.remove(Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI);
         values.remove(Downloads.Impl.COLUMN_MEDIA_SCANNED);
+        values.remove(Downloads.Impl.COLUMN_IGNORE_SIZE_LIMITS);
         Iterator<Map.Entry<String, Object>> iterator = values.valueSet().iterator();
         while (iterator.hasNext()) {
             String key = iterator.next().getKey();

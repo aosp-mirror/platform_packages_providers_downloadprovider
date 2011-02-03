@@ -90,7 +90,7 @@ public class DownloadInfo {
             info.mDescription = getString(Downloads.Impl.COLUMN_DESCRIPTION);
             info.mBypassRecommendedSizeLimit =
                     getInt(Downloads.Impl.COLUMN_BYPASS_RECOMMENDED_SIZE_LIMIT);
-            info.mOtaUpdate = getInt(Constants.OTA_UPDATE) == 1;
+            info.mOtaUpdate = getInt(Downloads.Impl.COLUMN_IGNORE_SIZE_LIMITS) == 1;
 
             synchronized (this) {
                 info.mControl = getInt(Downloads.Impl.COLUMN_CONTROL);

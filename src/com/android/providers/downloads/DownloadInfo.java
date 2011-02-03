@@ -90,7 +90,6 @@ public class DownloadInfo {
             info.mDescription = getString(Downloads.Impl.COLUMN_DESCRIPTION);
             info.mBypassRecommendedSizeLimit =
                     getInt(Downloads.Impl.COLUMN_BYPASS_RECOMMENDED_SIZE_LIMIT);
-            info.mOtaUpdate = getInt(Constants.OTA_UPDATE) == 1;
 
             synchronized (this) {
                 info.mControl = getInt(Downloads.Impl.COLUMN_CONTROL);
@@ -213,7 +212,6 @@ public class DownloadInfo {
     public String mTitle;
     public String mDescription;
     public int mBypassRecommendedSizeLimit;
-    public boolean mOtaUpdate;
 
     public int mFuzz;
 
@@ -411,10 +409,6 @@ public class DownloadInfo {
         }
         if (networkType == ConnectivityManager.TYPE_WIFI) {
             return NETWORK_OK; // anything goes over wifi
-        }
-        if (mOtaUpdate) {
-            // OTA update download can use mobile network with no size limits
-            return NETWORK_OK;
         }
         Long maxBytesOverMobile = mSystemFacade.getMaxBytesOverMobile();
         if (maxBytesOverMobile != null && mTotalBytes > maxBytesOverMobile) {

@@ -359,7 +359,7 @@ public final class DownloadProvider extends ContentProvider {
                         Downloads.Impl.COLUMN_APP_DATA + " TEXT, " +
                         Downloads.Impl.COLUMN_NO_INTEGRITY + " BOOLEAN, " +
                         Downloads.Impl.COLUMN_FILE_NAME_HINT + " TEXT, " +
-                        Downloads.Impl.COLUMN_IGNORE_SIZE_LIMITS + " BOOLEAN, " +
+                        Constants.OTA_UPDATE + " BOOLEAN, " +
                         Downloads.Impl._DATA + " TEXT, " +
                         Downloads.Impl.COLUMN_MIME_TYPE + " TEXT, " +
                         Downloads.Impl.COLUMN_DESTINATION + " INTEGER, " +
@@ -588,15 +588,11 @@ public final class DownloadProvider extends ContentProvider {
             copyBoolean(Downloads.Impl.COLUMN_ALLOW_ROAMING, values, filteredValues);
         }
 
-        if (values.containsKey(Downloads.Impl.COLUMN_IGNORE_SIZE_LIMITS)) {
-            boolean ignoreLimits = values.getAsBoolean(Downloads.Impl.COLUMN_IGNORE_SIZE_LIMITS);
-            if (ignoreLimits &&
+        // TODO: replace this hack with something cleaner
+        if (pckg.equals(GSF_PACKAGE_NAME) &&
                 (getContext().checkCallingPermission(Downloads.Impl.PERMISSION_ACCESS_ADVANCED)
-                        != PackageManager.PERMISSION_GRANTED)) {
-                throw new SecurityException("seting ignore_size_limits flag to true NOT allowed, " +
-                        "unless android.permission.ACCESS_DOWNLOAD_MANAGER_ADVANCED is granted");
-            }
-            filteredValues.put(Downloads.Impl.COLUMN_IGNORE_SIZE_LIMITS, ignoreLimits);
+                        == PackageManager.PERMISSION_GRANTED)) {
+            filteredValues.put(Constants.OTA_UPDATE, Boolean.TRUE);
         }
 
         if (Constants.LOGVV) {

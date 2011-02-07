@@ -39,9 +39,9 @@
     <string name="notification_download_failed" msgid="5343637375905111462">"다운로드 실패"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"너무 커서 Wi-Fi로 다운로드해야 합니다."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"너무 커서 운영자 네트워크로 다운로드할 수 없습니다."</string>
-    <string name="wifi_required_body" msgid="1675692697446715831">"<xliff:g id="SIZE">%s </xliff:g> 다운로드를 완료하려면 WiFi를 사용해야 합니다. "\n\n"다음에 WiFi 네트워크에 연결할 때 이 다운로드를 시작하려면 <xliff:g id="QUEUE_TEXT">%s </xliff:g>을(를) 클릭하세요."</string>
+    <string name="wifi_required_body" msgid="1675692697446715831">"<xliff:g id="SIZE">%s </xliff:g> 다운로드를 완료하려면 Wi-Fi를 사용해야 합니다. "\n\n"다음에 Wi-Fi 네트워크에 연결할 때 이 다운로드를 시작하려면 <xliff:g id="QUEUE_TEXT">%s </xliff:g>을(를) 클릭하세요."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"나중에 다운로드하도록 대기 하시겠습니까?"</string>
-    <string name="wifi_recommended_body" msgid="7574517147645381271">"이 <xliff:g id="SIZE">%s </xliff:g> 다운로드를 시작하면 배터리 수명이 단축되거나 모바일 데이터 연결 사용량이 초과될 수 있습니다. 이로 인해 데이터 요금제에 따라 이동통신사에서 요금을 부과할 수 있습니다."\n\n" 다음에 WiFi 네트워크에 연결할 때 이 다운로드를 시작하려면 아래의 <xliff:g id="QUEUE_TEXT">%s</xliff:g>을(를) 클릭하세요."</string>
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"이 <xliff:g id="SIZE">%s </xliff:g> 다운로드를 시작하면 배터리 수명이 단축되거나 모바일 데이터 연결 사용량이 초과될 수 있습니다. 이로 인해 데이터 요금제에 따라 이동통신사에서 요금을 부과할 수 있습니다."\n\n" 다음에 Wi-Fi 네트워크에 연결할 때 이 다운로드를 시작하려면 아래의 <xliff:g id="QUEUE_TEXT">%s</xliff:g>을(를) 클릭하세요."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"대기열"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"취소"</string>
     <string name="button_start_now" msgid="792123674007840864">"지금 시작"</string>

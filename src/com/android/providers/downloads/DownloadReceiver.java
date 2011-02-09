@@ -49,6 +49,16 @@ public class DownloadReceiver extends BroadcastReceiver {
 
         String action = intent.getAction();
         if (action.equals(Intent.ACTION_BOOT_COMPLETED)) {
+            if (Constants.LOGVV) {
+                Log.v(Constants.TAG, "Received broadcast intent for " +
+                        Intent.ACTION_BOOT_COMPLETED);
+            }
+            startService(context);
+        } else if (action.equals(Intent.ACTION_MEDIA_MOUNTED)) {
+            if (Constants.LOGVV) {
+                Log.v(Constants.TAG, "Received broadcast intent for " +
+                        Intent.ACTION_MEDIA_MOUNTED);
+            }
             startService(context);
         } else if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
             NetworkInfo info = (NetworkInfo)

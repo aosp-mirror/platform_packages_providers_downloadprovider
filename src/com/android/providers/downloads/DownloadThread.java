@@ -836,6 +836,7 @@ public class DownloadThread extends Thread {
                     innerState.mContinuingDownload = true;
                     if (Constants.LOGV) {
                         Log.i(Constants.TAG, "resuming download for id: " + mInfo.mId +
+                                ", innerState.mBytesSoFar: " + innerState.mBytesSoFar +
                                 ", and setting mContinuingDownload to true: ");
                     }
                 }
@@ -861,6 +862,10 @@ public class DownloadThread extends Thread {
                 request.addHeader("If-Match", innerState.mHeaderETag);
             }
             request.addHeader("Range", "bytes=" + innerState.mBytesSoFar + "-");
+            if (Constants.LOGV) {
+                Log.i(Constants.TAG, "Adding Range header: " +
+                        "bytes=" + innerState.mBytesSoFar + "-");
+            }
         }
     }
 

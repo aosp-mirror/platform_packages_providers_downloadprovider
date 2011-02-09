@@ -301,7 +301,10 @@ public class DownloadService extends Service {
                     DownloadInfo.Reader reader =
                             new DownloadInfo.Reader(getContentResolver(), cursor);
                     int idColumn = cursor.getColumnIndexOrThrow(Downloads.Impl._ID);
-
+                    if (Constants.LOGVV) {
+                        Log.i(Constants.TAG, "number of rows from downloads-db: " +
+                                cursor.getCount());
+                    }
                     for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                         long id = cursor.getLong(idColumn);
                         idsNoLongerInDatabase.remove(id);
@@ -425,7 +428,7 @@ public class DownloadService extends Service {
         mDownloads.put(info.mId, info);
 
         if (Constants.LOGVV) {
-            info.logVerboseInfo();
+            Log.v(Constants.TAG, "processing inserted download " + info.mId);
         }
 
         info.startIfReady(now, mStorageManager);
@@ -440,6 +443,8 @@ public class DownloadService extends Service {
         int oldStatus = info.mStatus;
 
         reader.updateFromDatabase(info);
+        Log.v(Constants.TAG, "processing updated download " + info.mId +
+                ", status: " + info.mStatus);
 
         boolean lostVisibility =
                 oldVisibility == Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED

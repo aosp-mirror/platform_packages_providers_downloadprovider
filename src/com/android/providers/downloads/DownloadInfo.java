@@ -26,6 +26,7 @@ import android.database.Cursor;
 import android.drm.mobile1.DrmRawContent;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.Downloads;
 import android.provider.Downloads.Impl;
 import android.text.TextUtils;
@@ -300,6 +301,15 @@ public class DownloadInfo {
             case Downloads.Impl.STATUS_WAITING_TO_RETRY:
                 // download was waiting for a delayed restart
                 return restartTime(now) <= now;
+            case Downloads.Impl.STATUS_DEVICE_NOT_FOUND_ERROR:
+                // is the media mounted?
+                return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+            case Downloads.Impl.STATUS_INSUFFICIENT_SPACE_ERROR:
+                // should check space to make sure it is worth retrying the download.
+                // but thats the first thing done by the thread when it retries to download
+                // it will fail pretty quickly if there is no space.
+                // so, it is not that bad to skip checking space availability here.
+                return true;
         }
         return false;
     }

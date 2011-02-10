@@ -111,6 +111,7 @@ public class DownloadThread extends Thread {
         public String mHeaderContentLocation;
         public int mBytesNotified = 0;
         public long mTimeLastNotification = 0;
+        public long mTotalBytes = -1;
     }
 
     /**
@@ -600,7 +601,8 @@ public class DownloadThread extends Thread {
             header = response.getFirstHeader("Content-Length");
             if (header != null) {
                 innerState.mHeaderContentLength = header.getValue();
-                mInfo.mTotalBytes = Long.parseLong(innerState.mHeaderContentLength);
+                innerState.mTotalBytes = mInfo.mTotalBytes =
+                        Long.parseLong(innerState.mHeaderContentLength);
             }
         } else {
             // Ignore content-length with transfer-encoding - 2616 4.4 3
@@ -656,6 +658,13 @@ public class DownloadThread extends Thread {
      */
     private void handleOtherStatus(State state, InnerState innerState, int statusCode)
             throws StopRequestException {
+        // STOPSHIP remove this. should help in debugging http://b/issue?id=3422868
+        if (statusCode == 416) {
+            // range request failed. it should never fail.
+            throw new IllegalStateException("Http Range request failure: totalBytes = " +
+                    innerState.mTotalBytes + ", bytes recvd so far: " + innerState.mBytesSoFar);
+        }
+        // END STOPSHIP
         int finalStatus;
         if (Downloads.Impl.isStatusError(statusCode)) {
             finalStatus = statusCode;

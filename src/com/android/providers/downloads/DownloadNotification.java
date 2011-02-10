@@ -212,49 +212,51 @@ class DownloadNotification {
             if (!isCompleteAndVisible(download)) {
                 continue;
             }
-            // Add the notifications
-            Notification n = new Notification();
-            n.icon = android.R.drawable.stat_sys_download_done;
-
-            long id = download.mId;
-            String title = download.mTitle;
-            if (title == null || title.length() == 0) {
-                title = mContext.getResources().getString(
-                        R.string.download_unknown_title);
-            }
-            Uri contentUri =
-                ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id);
-            String caption;
-            Intent intent;
-            if (Downloads.Impl.isStatusError(download.mStatus)) {
-                caption = mContext.getResources()
-                        .getString(R.string.notification_download_failed);
-                intent = new Intent(Constants.ACTION_LIST);
-            } else {
-                caption = mContext.getResources()
-                        .getString(R.string.notification_download_complete);
-                if (download.mDestination != Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION) {
-                    intent = new Intent(Constants.ACTION_OPEN);
-                } else {
-                    intent = new Intent(Constants.ACTION_LIST);
-                }
-            }
-            intent.setClassName("com.android.providers.downloads",
-                    DownloadReceiver.class.getName());
-            intent.setData(contentUri);
-
-            n.when = download.mLastMod;
-            n.setLatestEventInfo(mContext, title, caption,
-                    PendingIntent.getBroadcast(mContext, 0, intent, 0));
-
-            intent = new Intent(Constants.ACTION_HIDE);
-            intent.setClassName("com.android.providers.downloads",
-                    DownloadReceiver.class.getName());
-            intent.setData(contentUri);
-            n.deleteIntent = PendingIntent.getBroadcast(mContext, 0, intent, 0);
-
-            mSystemFacade.postNotification(download.mId, n);
+            notificationForCompletedDownload(download.mId, download.mTitle,
+                    download.mStatus, download.mDestination, download.mLastMod);
         }
+    }
+    void notificationForCompletedDownload(long id, String title, int status,
+            int destination, long lastMod) {
+        // Add the notifications
+        Notification n = new Notification();
+        n.icon = android.R.drawable.stat_sys_download_done;
+        if (title == null || title.length() == 0) {
+            title = mContext.getResources().getString(
+                    R.string.download_unknown_title);
+        }
+        Uri contentUri =
+            ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id);
+        String caption;
+        Intent intent;
+        if (Downloads.Impl.isStatusError(status)) {
+            caption = mContext.getResources()
+                    .getString(R.string.notification_download_failed);
+            intent = new Intent(Constants.ACTION_LIST);
+        } else {
+            caption = mContext.getResources()
+                    .getString(R.string.notification_download_complete);
+            if (destination != Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION) {
+                intent = new Intent(Constants.ACTION_OPEN);
+            } else {
+                intent = new Intent(Constants.ACTION_LIST);
+            }
+        }
+        intent.setClassName("com.android.providers.downloads",
+                DownloadReceiver.class.getName());
+        intent.setData(contentUri);
+
+        n.when = lastMod;
+        n.setLatestEventInfo(mContext, title, caption,
+                PendingIntent.getBroadcast(mContext, 0, intent, 0));
+
+        intent = new Intent(Constants.ACTION_HIDE);
+        intent.setClassName("com.android.providers.downloads",
+                DownloadReceiver.class.getName());
+        intent.setData(contentUri);
+        n.deleteIntent = PendingIntent.getBroadcast(mContext, 0, intent, 0);
+
+        mSystemFacade.postNotification(id, n);
     }
 
     private boolean isActiveAndVisible(DownloadInfo download) {

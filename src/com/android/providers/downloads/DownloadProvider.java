@@ -562,8 +562,8 @@ public final class DownloadProvider extends ContentProvider {
         }
 
         // set lastupdate to current time
-        filteredValues.put(Downloads.Impl.COLUMN_LAST_MODIFICATION,
-                           mSystemFacade.currentTimeMillis());
+        long lastMod = mSystemFacade.currentTimeMillis();
+        filteredValues.put(Downloads.Impl.COLUMN_LAST_MODIFICATION, lastMod);
 
         // use packagename of the caller to set the notification columns
         String pckg = values.getAsString(Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE);
@@ -626,9 +626,6 @@ public final class DownloadProvider extends ContentProvider {
             }
         }
 
-        Context context = getContext();
-        context.startService(new Intent(context, DownloadService.class));
-
         long rowID = db.insert(DB_TABLE, null, filteredValues);
         if (rowID == -1) {
             Log.d(Constants.TAG, "couldn't insert into downloads database");
@@ -636,7 +633,27 @@ public final class DownloadProvider extends ContentProvider {
         }
 
         insertRequestHeaders(db, rowID, values);
-        context.startService(new Intent(context, DownloadService.class));
+        /*
+         * requests coming from
+         * DownloadManager.completedDownload(String, String, String, boolean, String,
+         * String, long) need special treatment
+         */
+        Context context = getContext();
+        if (values.getAsInteger(Downloads.Impl.COLUMN_DESTINATION) ==
+                Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD) {
+            // don't start downloadservice because it has nothing to do in this case.
+            // but does a completion notification need to be sent?
+            if (Downloads.Impl.isNotificationToBeDisplayed(vis)) {
+                DownloadNotification notifier = new DownloadNotification(context, mSystemFacade);
+                notifier.notificationForCompletedDownload(rowID,
+                        values.getAsString(Downloads.Impl.COLUMN_TITLE),
+                        Downloads.Impl.STATUS_SUCCESS,
+                        Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD,
+                        lastMod);
+            }
+        } else {
+            context.startService(new Intent(context, DownloadService.class));
+        }
         notifyContentChanged(uri, match);
         return ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, rowID);
     }
@@ -708,10 +725,12 @@ public final class DownloadProvider extends ContentProvider {
         if (getContext().checkCallingOrSelfPermission(Downloads.Impl.PERMISSION_NO_NOTIFICATION)
                 == PackageManager.PERMISSION_GRANTED) {
             enforceAllowedValues(values, Downloads.Impl.COLUMN_VISIBILITY,
-                    Downloads.Impl.VISIBILITY_HIDDEN, Downloads.Impl.VISIBILITY_VISIBLE);
+                    Downloads.Impl.VISIBILITY_HIDDEN, Downloads.Impl.VISIBILITY_VISIBLE,
+                    DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION);
         } else {
             enforceAllowedValues(values, Downloads.Impl.COLUMN_VISIBILITY,
-                    Downloads.Impl.VISIBILITY_VISIBLE);
+                    Downloads.Impl.VISIBILITY_VISIBLE,
+                    DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION);
         }
 
         // remove the rest of the columns that are allowed (with any value)

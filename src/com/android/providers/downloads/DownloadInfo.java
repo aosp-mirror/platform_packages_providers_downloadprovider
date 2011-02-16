@@ -23,7 +23,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.drm.mobile1.DrmRawContent;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Environment;
@@ -522,8 +521,7 @@ public class DownloadInfo {
                 && (mDestination == Downloads.Impl.DESTINATION_EXTERNAL ||
                         mDestination == Downloads.Impl.DESTINATION_FILE_URI ||
                         mDestination == Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD)
-                && Downloads.Impl.isStatusSuccess(mStatus)
-                && !DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING.equalsIgnoreCase(mMimeType);
+                && Downloads.Impl.isStatusSuccess(mStatus);
     }
 
     void notifyPauseDueToSize(boolean isWifiRequired) {

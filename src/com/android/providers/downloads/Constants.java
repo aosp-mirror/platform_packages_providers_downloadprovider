@@ -91,10 +91,6 @@ public class Constants {
     /** The default user agent used for downloads */
     public static final String DEFAULT_USER_AGENT = "AndroidDownloadManager";
 
-    /** The MIME type of special DRM files */
-    public static final String MIMETYPE_DRM_MESSAGE =
-            android.drm.mobile1.DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING;
-
     /** The MIME type of APKs */
     public static final String MIMETYPE_APK = "application/vnd.android.package";
 

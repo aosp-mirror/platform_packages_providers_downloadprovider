@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
-import android.drm.mobile1.DrmRawContent;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.StatFs;
@@ -293,11 +292,6 @@ class StorageManager {
                 }
                 return base;
             default:
-                // DRM messages should be temporarily stored internally and then passed to
-                // the DRM content provider
-                if (DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING.equalsIgnoreCase(mimeType)) {
-                    return mDownloadDataDir;
-                }
                 throw new IllegalStateException("unexpected value for destination: " + destination);
         }
     }

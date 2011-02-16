@@ -21,14 +21,12 @@ import org.apache.http.conn.params.ConnRouteParams;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.drm.mobile1.DrmRawContent;
 import android.net.http.AndroidHttpClient;
 import android.net.Proxy;
 import android.os.FileUtils;
 import android.os.PowerManager;
 import android.os.Process;
 import android.provider.Downloads;
-import android.provider.DrmStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
@@ -56,6 +54,7 @@ public class DownloadThread extends Thread {
     private final DownloadInfo mInfo;
     private final SystemFacade mSystemFacade;
     private final StorageManager mStorageManager;
+    private DrmConvertSession mDrmConvertSession;
 
     public DownloadThread(Context context, SystemFacade systemFacade, DownloadInfo info,
             StorageManager storageManager) {
@@ -281,13 +280,9 @@ public class DownloadThread extends Thread {
      * Called after a successful completion to take any necessary action on the downloaded file.
      */
     private void finalizeDestinationFile(State state) throws StopRequestException {
-        if (isDrmFile(state)) {
-            transferToDrm(state);
-        } else {
-            // make sure the file is readable
-            FileUtils.setPermissions(state.mFilename, 0644, -1, -1);
-            syncDestination(state);
-        }
+        // make sure the file is readable
+        FileUtils.setPermissions(state.mFilename, 0644, -1, -1);
+        syncDestination(state);
     }
 
     /**
@@ -295,6 +290,10 @@ public class DownloadThread extends Thread {
      * the downloaded file.
      */
     private void cleanupDestination(State state, int finalStatus) {
+        if (mDrmConvertSession != null) {
+            finalStatus = mDrmConvertSession.close(state.mFilename);
+        }
+
         closeDestination(state);
         if (state.mFilename != null && Downloads.Impl.isStatusError(finalStatus)) {
             new File(state.mFilename).delete();
@@ -328,30 +327,6 @@ public class DownloadThread extends Thread {
                     Log.w(Constants.TAG, "exception while closing file: ", ex);
                 }
             }
-        }
-    }
-
-    /**
-     * @return true if the current download is a DRM file
-     */
-    private boolean isDrmFile(State state) {
-        return DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING.equalsIgnoreCase(state.mMimeType);
-    }
-
-    /**
-     * Transfer the downloaded destination file to the DRM store.
-     */
-    private void transferToDrm(State state) throws StopRequestException {
-        File file = new File(state.mFilename);
-        Intent item = DrmStore.addDrmFile(mContext.getContentResolver(), file, null);
-        file.delete();
-
-        if (item == null) {
-            throw new StopRequestException(Downloads.Impl.STATUS_UNKNOWN_ERROR,
-                    "unable to add file to DrmProvider");
-        } else {
-            state.mFilename = item.getDataString();
-            state.mMimeType = item.getType();
         }
     }
 
@@ -420,10 +395,16 @@ public class DownloadThread extends Thread {
                 }
                 mStorageManager.verifySpaceBeforeWritingToFile(mInfo.mDestination, state.mFilename,
                         bytesRead);
-                state.mStream.write(data, 0, bytesRead);
-                if (mInfo.mDestination == Downloads.Impl.DESTINATION_EXTERNAL
-                            && !isDrmFile(state)) {
-                    closeDestination(state);
+                if (!DownloadDrmHelper.isDrmConvertNeeded(mInfo.mMimeType)) {
+                    state.mStream.write(data, 0, bytesRead);
+                } else {
+                    byte[] convertedData = mDrmConvertSession.convert(data, bytesRead);
+                    if (convertedData != null) {
+                        state.mStream.write(convertedData, 0, convertedData.length);
+                    } else {
+                        throw new StopRequestException(Downloads.Impl.STATUS_FILE_ERROR,
+                                "Error converting drm data.");
+                    }
                 }
                 return;
             } catch (IOException ex) {
@@ -432,6 +413,10 @@ public class DownloadThread extends Thread {
                 // in a while(true) loop (see the enclosing statement: for(;;)
                 if (state.mStream != null) {
                     mStorageManager.verifySpace(mInfo.mDestination, state.mFilename, bytesRead);
+                }
+            } finally {
+                if (mInfo.mDestination == Downloads.Impl.DESTINATION_EXTERNAL) {
+                    closeDestination(state);
                 }
             }
         }
@@ -527,6 +512,13 @@ public class DownloadThread extends Thread {
         }
 
         readResponseHeaders(state, innerState, response);
+        if (DownloadDrmHelper.isDrmConvertNeeded(state.mMimeType)) {
+            mDrmConvertSession = DrmConvertSession.open(mContext, state.mMimeType);
+            if (mDrmConvertSession == null) {
+                throw new StopRequestException(Downloads.Impl.STATUS_NOT_ACCEPTABLE, "Mimetype "
+                        + state.mMimeType + " can not be converted.");
+            }
+        }
 
         state.mFilename = Helpers.generateSaveFile(
                 mContext,
@@ -852,8 +844,7 @@ public class DownloadThread extends Thread {
             }
         }
 
-        if (state.mStream != null && mInfo.mDestination == Downloads.Impl.DESTINATION_EXTERNAL
-                && !isDrmFile(state)) {
+        if (state.mStream != null && mInfo.mDestination == Downloads.Impl.DESTINATION_EXTERNAL) {
             closeDestination(state);
         }
     }

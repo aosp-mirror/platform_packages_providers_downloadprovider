@@ -21,7 +21,7 @@
     <string name="no_downloads" msgid="1029667411186146836">"Žádná stahování"</string>
     <string name="missing_title" msgid="830115697868833773">"&lt;Neznámé&gt;"</string>
     <string name="download_menu_sort_by_size" msgid="2276438658769422878">"Řadit podle velikosti"</string>
-    <string name="download_menu_sort_by_date" msgid="4300882048968609945">"Seřadit podle času"</string>
+    <string name="download_menu_sort_by_date" msgid="4300882048968609945">"Řadit podle času"</string>
     <string name="download_queued" msgid="104973307780629904">"Ve frontě"</string>
     <string name="download_running" msgid="4656462962155580641">"Probíhá"</string>
     <string name="download_success" msgid="7006048006543495236">"Dokončeno"</string>

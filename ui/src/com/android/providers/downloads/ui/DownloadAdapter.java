@@ -35,8 +35,6 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.providers.downloads.ui.DownloadItem.DownloadSelectListener;
-
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,9 +45,8 @@ import java.util.List;
  * List adapter for Cursors returned by {@link DownloadManager}.
  */
 public class DownloadAdapter extends CursorAdapter {
-    private Context mContext;
+    private final DownloadList mDownloadList;
     private Cursor mCursor;
-    private DownloadSelectListener mDownloadSelectionListener;
     private Resources mResources;
     private DateFormat mDateFormat;
     private DateFormat mTimeFormat;
@@ -63,13 +60,11 @@ public class DownloadAdapter extends CursorAdapter {
     private int mDateColumnId;
     private int mIdColumnId;
 
-    public DownloadAdapter(Context context, Cursor cursor,
-            DownloadSelectListener selectionListener) {
-        super(context, cursor);
-        mContext = context;
+    public DownloadAdapter(DownloadList downloadList, Cursor cursor) {
+        super(downloadList, cursor);
+        mDownloadList = downloadList;
         mCursor = cursor;
-        mResources = mContext.getResources();
-        mDownloadSelectionListener = selectionListener;
+        mResources = mDownloadList.getResources();
         mDateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
         mTimeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
 
@@ -85,19 +80,20 @@ public class DownloadAdapter extends CursorAdapter {
     }
 
     public View newView() {
-        DownloadItem view = (DownloadItem) LayoutInflater.from(mContext)
+        DownloadItem view = (DownloadItem) LayoutInflater.from(mDownloadList)
                 .inflate(R.layout.download_list_item, null);
-        view.setSelectListener(mDownloadSelectionListener);
+        view.setDownloadListObj(mDownloadList);
         return view;
     }
 
-    public void bindView(View convertView) {
+    public void bindView(View convertView, int position) {
         if (!(convertView instanceof DownloadItem)) {
             return;
         }
 
         long downloadId = mCursor.getLong(mIdColumnId);
-        ((DownloadItem) convertView).setDownloadId(downloadId);
+        ((DownloadItem) convertView).setData(downloadId, position);
+        
 
         // Retrieve the icon for this download
         retrieveAndSetIcon(convertView);
@@ -113,7 +109,7 @@ public class DownloadAdapter extends CursorAdapter {
         setTextForView(convertView, R.id.last_modified_date, getDateString());
 
         CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.download_checkbox);
-        checkBox.setChecked(mDownloadSelectionListener.isDownloadSelected(downloadId));
+        checkBox.setChecked(mDownloadList.isDownloadSelected(downloadId));
     }
 
     private String getDateString() {
@@ -207,6 +203,6 @@ public class DownloadAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        bindView(view);
+        bindView(view, cursor.getPosition());
     }
 }

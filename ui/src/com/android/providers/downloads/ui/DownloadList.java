@@ -23,7 +23,6 @@ import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
@@ -34,22 +33,19 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.Downloads;
 import android.util.Log;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
+import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.android.providers.downloads.ui.DownloadItem.DownloadSelectListener;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -60,16 +56,12 @@ import java.util.Set;
 /**
  *  View showing a list of all downloads the Download Manager knows about.
  */
-public class DownloadList extends Activity
-        implements OnChildClickListener, OnItemClickListener, DownloadSelectListener,
-        OnClickListener, OnCancelListener {
+public class DownloadList extends Activity {
     private static final String LOG_TAG = "DownloadList";
 
     private ExpandableListView mDateOrderedListView;
     private ListView mSizeOrderedListView;
     private View mEmptyView;
-    private ViewGroup mSelectionMenuView;
-    private Button mSelectionDeleteButton;
 
     private DownloadManager mDownloadManager;
     private Cursor mDateSortedCursor;
@@ -84,10 +76,11 @@ public class DownloadList extends Activity
     private int mLocalUriColumnId;
     private int mMediaTypeColumnId;
     private int mReasonColumndId;
-    private int mMediaProviderUriId;
 
+    private final Set<Long> mSelectedIds = new HashSet<Long>();
+    ListView mCurrentView;
+    Cursor mCurrentCursor;
     private boolean mIsSortedBySize = false;
-    private Set<Long> mSelectedIds = new HashSet<Long>();
 
     /**
      * We keep track of when a dialog is being displayed for a pending download, because if that
@@ -95,6 +88,7 @@ public class DownloadList extends Activity
      */
     private Long mQueuedDownloadId = null;
     private AlertDialog mQueuedDialog;
+    String mSelectedCountFormat;
 
 
     private class MyContentObserver extends ContentObserver {
@@ -120,12 +114,14 @@ public class DownloadList extends Activity
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+        setFinishOnTouchOutside(true);
         setupViews();
 
         mDownloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         mDownloadManager.setAccessAllDownloads(true);
         DownloadManager.Query baseQuery = new DownloadManager.Query()
                 .setOnlyIncludeVisibleInDownloadsUi(true);
+        //TODO don't do both queries - do them as needed
         mDateSortedCursor = mDownloadManager.query(baseQuery);
         mSizeSortedCursor = mDownloadManager.query(baseQuery
                                                   .orderBy(DownloadManager.COLUMN_TOTAL_SIZE_BYTES,
@@ -147,13 +143,10 @@ public class DownloadList extends Activity
                     mDateSortedCursor.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIA_TYPE);
             mReasonColumndId =
                     mDateSortedCursor.getColumnIndexOrThrow(DownloadManager.COLUMN_REASON);
-            mMediaProviderUriId =
-                    mDateSortedCursor.getColumnIndexOrThrow(
-                            DownloadManager.COLUMN_MEDIAPROVIDER_URI);
 
-            mDateSortedAdapter = new DateSortedDownloadAdapter(this, mDateSortedCursor, this);
+            mDateSortedAdapter = new DateSortedDownloadAdapter(this, mDateSortedCursor);
             mDateOrderedListView.setAdapter(mDateSortedAdapter);
-            mSizeSortedAdapter = new DownloadAdapter(this, mSizeSortedCursor, this);
+            mSizeSortedAdapter = new DownloadAdapter(this, mSizeSortedCursor);
             mSizeOrderedListView.setAdapter(mSizeSortedAdapter);
 
             ensureSomeGroupIsExpanded();
@@ -166,6 +159,7 @@ public class DownloadList extends Activity
             mIsSortedBySize = true;
         }
         chooseListToShow();
+        mSelectedCountFormat = getString(R.string.selected_count);
     }
 
     /**
@@ -189,19 +183,106 @@ public class DownloadList extends Activity
 
     private void setupViews() {
         setContentView(R.layout.download_list);
-        setTitle(getText(R.string.download_title));
 
+        //TODO don't create both views. create only the one needed.
         mDateOrderedListView = (ExpandableListView) findViewById(R.id.date_ordered_list);
-        mDateOrderedListView.setOnChildClickListener(this);
+        mDateOrderedListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        mDateOrderedListView.setMultiChoiceModeListener(new ModalCallback(this));
+        mDateOrderedListView.setOnChildClickListener(new OnChildClickListener() {
+            // called when a child is clicked on (this is NOT the checkbox click)
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                    int groupPosition, int childPosition, long id) {
+                mDateSortedAdapter.moveCursorToChildPosition(groupPosition, childPosition);
+                handleItemClick(mDateSortedCursor);
+                return true;
+            }
+        });
         mSizeOrderedListView = (ListView) findViewById(R.id.size_ordered_list);
-        mSizeOrderedListView.setOnItemClickListener(this);
+        mSizeOrderedListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        mSizeOrderedListView.setMultiChoiceModeListener(new ModalCallback(this));
+        mSizeOrderedListView.setOnItemClickListener(new OnItemClickListener() {
+            // handle a click from the size-sorted list. (this is NOT the checkbox click)
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mSizeSortedCursor.moveToPosition(position);
+                handleItemClick(mSizeSortedCursor);
+            }
+        });
         mEmptyView = findViewById(R.id.empty);
+    }
 
-        mSelectionMenuView = (ViewGroup) findViewById(R.id.selection_menu);
-        mSelectionDeleteButton = (Button) findViewById(R.id.selection_delete);
-        mSelectionDeleteButton.setOnClickListener(this);
+    private static class ModalCallback implements MultiChoiceModeListener {
+        private final DownloadList mDownloadList;
 
-        ((Button) findViewById(R.id.deselect_all)).setOnClickListener(this);
+        public ModalCallback(DownloadList downloadList) {
+            mDownloadList = downloadList;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            populateMenuItems(menu);
+            return true;
+        }
+
+        private void populateMenuItems(Menu menu) {
+            menu.findItem(R.id.download_menu_sort_by_size)
+                    .setVisible(!mDownloadList.mIsSortedBySize);
+            menu.findItem(R.id.download_menu_sort_by_date)
+                    .setVisible(mDownloadList.mIsSortedBySize);
+        }
+
+        @Override public void onDestroyActionMode(ActionMode mode) {}
+    
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            if (mDownloadList.haveCursors()) {
+                final MenuInflater inflater = mDownloadList.getMenuInflater();
+                inflater.inflate(R.menu.download_menu, menu);
+                populateMenuItems(menu);
+            }
+            return true;
+        }
+    
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            mDownloadList.handleMenuItemSelected(item);
+            int itemId = item.getItemId();
+            if (itemId == R.id.delete_download ||
+                    itemId == R.id.download_menu_sort_by_date ||
+                    itemId == R.id.download_menu_sort_by_size) {
+                // uncheck all checked items
+                ListView lv = mDownloadList.getCurrentView();
+                SparseBooleanArray checkedPositionList = lv.getCheckedItemPositions();
+                int checkedPositionListSize = checkedPositionList.size();
+                for (int i = 0; i < checkedPositionListSize; i++) {
+                    int position = checkedPositionList.keyAt(i);
+                    if (checkedPositionList.get(position, false)) {
+                        lv.setItemChecked(position, false);
+                        onItemCheckedStateChanged(mode, position, 0, false);
+                    }
+                }
+                mDownloadList.mSelectedIds.clear();
+            }
+            // update the subtitle
+            onItemCheckedStateChanged(mode, 1, 0, false);
+            // update the menu
+            populateMenuItems(mode.getMenu());
+            return true;
+        }
+    
+        @Override
+        public void onItemCheckedStateChanged(ActionMode mode, int position, long id,
+                boolean checked) {
+            ListView lv = mDownloadList.getCurrentView();
+            int numChecked = lv.getCheckedItemCount();
+            if (numChecked > 0) {
+                mode.setTitle(String.format(mDownloadList.mSelectedCountFormat, numChecked,
+                        mDownloadList.mCurrentCursor.getCount()));
+            } else {
+                mode.setTitle("");
+            }
+        }
     }
 
     private boolean haveCursors() {
@@ -252,38 +333,26 @@ public class DownloadList extends Activity
             mSelectedIds.add(selectedId);
         }
         chooseListToShow();
-        showOrHideSelectionMenu();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (haveCursors()) {
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.download_menu, menu);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.download_menu_sort_by_size).setVisible(!mIsSortedBySize);
-        menu.findItem(R.id.download_menu_sort_by_date).setVisible(mIsSortedBySize);
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    void handleMenuItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.download_menu_sort_by_size:
                 mIsSortedBySize = true;
                 chooseListToShow();
-                return true;
+                break;
+
             case R.id.download_menu_sort_by_date:
                 mIsSortedBySize = false;
                 chooseListToShow();
-                return true;
+                break;
+
+            case R.id.delete_download:
+                for (Long downloadId : mSelectedIds) {
+                    deleteDownload(downloadId);
+                }
+                break;
         }
-        return false;
     }
 
     /**
@@ -297,19 +366,29 @@ public class DownloadList extends Activity
             mEmptyView.setVisibility(View.VISIBLE);
         } else {
             mEmptyView.setVisibility(View.GONE);
-            activeListView().setVisibility(View.VISIBLE);
-            activeListView().invalidateViews(); // ensure checkboxes get updated
+            ListView lv = activeListView();
+            lv.setVisibility(View.VISIBLE);
+            lv.invalidateViews(); // ensure checkboxes get updated
+            invalidateOptionsMenu();
         }
+        mSelectedIds.clear();
     }
 
-    /**
-     * @return the ListView that should currently be visible.
-     */
+    ListView getCurrentView() {
+        return mCurrentView;
+    }
+
     private ListView activeListView() {
         if (mIsSortedBySize) {
-            return mSizeOrderedListView;
+            mCurrentCursor = mSizeSortedCursor;
+            mCurrentView = mSizeOrderedListView;
+            setTitle(R.string.download_title_sorted_by_size);
+        } else {
+            mCurrentCursor = mDateSortedCursor;
+            mCurrentView = mDateOrderedListView;
+            setTitle(R.string.download_title_sorted_by_date);
         }
-        return mDateOrderedListView;
+        return mCurrentView;
     }
 
     /**
@@ -378,7 +457,16 @@ public class DownloadList extends Activity
                             .setMessage(R.string.dialog_queued_body)
                             .setPositiveButton(R.string.keep_queued_download, null)
                             .setNegativeButton(R.string.remove_download, getDeleteClickHandler(id))
-                            .setOnCancelListener(this)
+                            .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                /**
+                                 * Called when a dialog for a pending download is canceled.
+                                 */
+                                @Override
+                                public void onCancel(DialogInterface dialog) {
+                                    mQueuedDownloadId = null;
+                                    mQueuedDialog = null;
+                                }
+                            })
                             .show();
                 } else {
                     sendRunningDownloadClickedBroadcast(id);
@@ -466,96 +554,12 @@ public class DownloadList extends Activity
         sendBroadcast(intent);
     }
 
-    // handle a click from the date-sorted list
-    @Override
-    public boolean onChildClick(ExpandableListView parent, View v,
-            int groupPosition, int childPosition, long id) {
-        mDateSortedAdapter.moveCursorToChildPosition(groupPosition, childPosition);
-        handleItemClick(mDateSortedCursor);
-        return true;
-    }
-
-    // handle a click from the size-sorted list
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        mSizeSortedCursor.moveToPosition(position);
-        handleItemClick(mSizeSortedCursor);
-    }
-
     // handle a click on one of the download item checkboxes
-    @Override
     public void onDownloadSelectionChanged(long downloadId, boolean isSelected) {
         if (isSelected) {
             mSelectedIds.add(downloadId);
         } else {
             mSelectedIds.remove(downloadId);
-        }
-        showOrHideSelectionMenu();
-    }
-
-    private void showOrHideSelectionMenu() {
-        boolean shouldBeVisible = !mSelectedIds.isEmpty();
-        boolean isVisible = mSelectionMenuView.getVisibility() == View.VISIBLE;
-        if (shouldBeVisible) {
-            updateSelectionMenu();
-            if (!isVisible) {
-                // show menu
-                mSelectionMenuView.setVisibility(View.VISIBLE);
-                mSelectionMenuView.startAnimation(
-                        AnimationUtils.loadAnimation(this, R.anim.footer_appear));
-            }
-        } else if (!shouldBeVisible && isVisible) {
-            // hide menu
-            mSelectionMenuView.setVisibility(View.GONE);
-            mSelectionMenuView.startAnimation(
-                    AnimationUtils.loadAnimation(this, R.anim.footer_disappear));
-        }
-    }
-
-    /**
-     * Set up the contents of the selection menu based on the current selection.
-     */
-    private void updateSelectionMenu() {
-        int deleteButtonStringId = R.string.delete_download;
-        if (mSelectedIds.size() == 1) {
-            Cursor cursor = mDownloadManager.query(new DownloadManager.Query()
-                    .setFilterById(mSelectedIds.iterator().next()));
-            try {
-                cursor.moveToFirst();
-                switch (cursor.getInt(mStatusColumnId)) {
-                    case DownloadManager.STATUS_FAILED:
-                        deleteButtonStringId = R.string.delete_download;
-                        break;
-
-                    case DownloadManager.STATUS_PENDING:
-                        deleteButtonStringId = R.string.remove_download;
-                        break;
-
-                    case DownloadManager.STATUS_PAUSED:
-                    case DownloadManager.STATUS_RUNNING:
-                        deleteButtonStringId = R.string.cancel_running_download;
-                        break;
-                }
-            } finally {
-                cursor.close();
-            }
-        }
-        mSelectionDeleteButton.setText(deleteButtonStringId);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.selection_delete:
-                for (Long downloadId : mSelectedIds) {
-                    deleteDownload(downloadId);
-                }
-                clearSelection();
-                break;
-
-            case R.id.deselect_all:
-                clearSelection();
-                break;
         }
     }
 
@@ -568,11 +572,6 @@ public class DownloadList extends Activity
         // Adapters get notification of changes and update automatically
     }
 
-    private void clearSelection() {
-        mSelectedIds.clear();
-        showOrHideSelectionMenu();
-    }
-
     /**
      * Delete a download from the Download Manager.
      */
@@ -583,7 +582,6 @@ public class DownloadList extends Activity
         mDownloadManager.markRowDeleted(downloadId);
     }
 
-    @Override
     public boolean isDownloadSelected(long id) {
         return mSelectedIds.contains(id);
     }
@@ -638,14 +636,5 @@ public class DownloadList extends Activity
             }
         }
         return false;
-    }
-
-    /**
-     * Called when a dialog for a pending download is canceled.
-     */
-    @Override
-    public void onCancel(DialogInterface dialog) {
-        mQueuedDownloadId = null;
-        mQueuedDialog = null;
     }
 }

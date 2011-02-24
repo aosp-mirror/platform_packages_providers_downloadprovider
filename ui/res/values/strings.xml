@@ -16,8 +16,10 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- The name of the application that appears in the launcher [CHAR LIMIT=15] -->
     <string name="app_label">Downloads</string>
-    <!-- The title that appears at the top of the activity listing downloads [CHAR LIMIT=25] -->
-    <string name="download_title">Downloads</string>
+    <!-- The title that appears at the top of the activity listing downloads sorted by date [CHAR LIMIT=40] -->
+    <string name="download_title_sorted_by_date">Downloads - Sorted by date</string>
+    <!-- The title that appears at the top of the activity listing downloads sorted by size [CHAR LIMIT=40] -->
+    <string name="download_title_sorted_by_size">Downloads - Sorted by size</string>
 
     <!-- Appears in lieu of the list of downloads if there are no downloads to view
          [CHAR LIMIT=200] -->
@@ -34,7 +36,7 @@
     <string name="download_menu_sort_by_size">Sort by size</string>
     <!-- Menu option to sort the list of downloads by the date/time of the last activity related to
          the download [CHAR LIMIT=25] -->
-    <string name="download_menu_sort_by_date">Sort by time</string>
+    <string name="download_menu_sort_by_date">Sort by date</string>
 
     <!-- Status messages -->
 
@@ -110,5 +112,10 @@
     <string name="retry_download">Retry</string>
     <!-- Text for button appearing in the pop-up selection menu to deselect all currently selected
     downloads in the download list [CHAR LIMIT=25] -->
-    <string name="deselect_all">Clear selection</string>
+    <string name="deselect_all">Deselect All</string>
+    <!-- Text for menu to select all downloads in the download list [CHAR LIMIT=25] -->
+    <string name="select_all">Select All</string>
+    <!-- number of downloads selected [CHAR LIMIT=50] -->
+    <string name="selected_count">Selected %1$d out of %2$d</string>
+
 </resources>

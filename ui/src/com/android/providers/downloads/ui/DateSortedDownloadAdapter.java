@@ -17,10 +17,7 @@
 
 package com.android.providers.downloads.ui;
 
-import com.android.providers.downloads.ui.DownloadItem.DownloadSelectListener;
-
 import android.app.DownloadManager;
-import android.content.Context;
 import android.database.Cursor;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,11 +30,10 @@ import android.widget.RelativeLayout;
 public class DateSortedDownloadAdapter extends DateSortedExpandableListAdapter {
     private DownloadAdapter mDelegate;
 
-    public DateSortedDownloadAdapter(Context context, Cursor cursor,
-            DownloadSelectListener selectionListener) {
-        super(context, cursor,
+    public DateSortedDownloadAdapter(DownloadList downloadList, Cursor cursor) {
+        super(downloadList, cursor,
                 cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP));
-        mDelegate = new DownloadAdapter(context, cursor, selectionListener);
+        mDelegate = new DownloadAdapter(downloadList, cursor);
     }
 
     @Override
@@ -53,7 +49,8 @@ public class DateSortedDownloadAdapter extends DateSortedExpandableListAdapter {
             return convertView;
         }
 
-        mDelegate.bindView(convertView);
+        int pos = getAbsolutePositionForGroupAndChildPositions(groupPosition, childPosition);
+        mDelegate.bindView(convertView, pos);
         return convertView;
     }
 }

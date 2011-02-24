@@ -17,8 +17,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/download_menu_sort_by_size"
         android:title="@string/download_menu_sort_by_size"
-        android:icon="@android:drawable/ic_menu_sort_by_size" />
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:showAsAction="ifRoom" />
+
     <item android:id="@+id/download_menu_sort_by_date"
         android:title="@string/download_menu_sort_by_date"
-        android:icon="@drawable/ic_menu_desk_clock" />
+        android:showAsAction="ifRoom" />
+
+    <item android:id="@+id/delete_download"
+          android:title="@string/delete_download"
+          android:icon="@android:drawable/ic_menu_delete"
+          android:showAsAction="ifRoom" />
+
+    <item android:id="@+id/select_all"
+          android:title="@string/select_all"
+          android:showAsAction="ifRoom" />
 </menu>

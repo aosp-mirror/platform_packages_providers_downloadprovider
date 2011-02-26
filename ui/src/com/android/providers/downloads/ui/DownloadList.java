@@ -31,6 +31,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.provider.Downloads;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -39,25 +40,32 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 /**
  *  View showing a list of all downloads the Download Manager knows about.
  */
 public class DownloadList extends Activity {
-    private static final String LOG_TAG = "DownloadList";
+    static final String LOG_TAG = "DownloadList";
 
     private ExpandableListView mDateOrderedListView;
     private ListView mSizeOrderedListView;
@@ -68,6 +76,7 @@ public class DownloadList extends Activity {
     private DateSortedDownloadAdapter mDateSortedAdapter;
     private Cursor mSizeSortedCursor;
     private DownloadAdapter mSizeSortedAdapter;
+    private ActionMode mActionMode;
     private MyContentObserver mContentObserver = new MyContentObserver();
     private MyDataSetObserver mDataSetObserver = new MyDataSetObserver();
 
@@ -77,7 +86,23 @@ public class DownloadList extends Activity {
     private int mMediaTypeColumnId;
     private int mReasonColumndId;
 
-    private final Set<Long> mSelectedIds = new HashSet<Long>();
+    // TODO this shouldn't be necessary
+    private final Map<Long, SelectionObjAttrs> mSelectedIds =
+            new HashMap<Long, SelectionObjAttrs>();
+    private static class SelectionObjAttrs {
+        private String mFileName;
+        private String mMimeType;
+        SelectionObjAttrs(String fileName, String mimeType) {
+            mFileName = fileName;
+            mMimeType = mimeType;
+        }
+        String getFileName() {
+            return mFileName;
+        }
+        String getMimeType() {
+            return mMimeType;
+        }
+    }
     ListView mCurrentView;
     Cursor mCurrentCursor;
     private boolean mIsSortedBySize = false;
@@ -90,6 +115,7 @@ public class DownloadList extends Activity {
     private AlertDialog mQueuedDialog;
     String mSelectedCountFormat;
 
+    private Button mSortOption;
 
     private class MyContentObserver extends ContentObserver {
         public MyContentObserver() {
@@ -158,6 +184,16 @@ public class DownloadList extends Activity {
                 extras.getBoolean(DownloadManager.INTENT_EXTRAS_SORT_BY_SIZE, false)) {
             mIsSortedBySize = true;
         }
+        mSortOption = (Button) findViewById(R.id.sort_button);
+        mSortOption.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // flip the view
+                mIsSortedBySize = !mIsSortedBySize;
+                chooseListToShow();
+            }
+        });
+
         chooseListToShow();
         mSelectedCountFormat = getString(R.string.selected_count);
     }
@@ -183,11 +219,12 @@ public class DownloadList extends Activity {
 
     private void setupViews() {
         setContentView(R.layout.download_list);
+        ModeCallback modeCallback = new ModeCallback(this);
 
         //TODO don't create both views. create only the one needed.
         mDateOrderedListView = (ExpandableListView) findViewById(R.id.date_ordered_list);
         mDateOrderedListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-        mDateOrderedListView.setMultiChoiceModeListener(new ModalCallback(this));
+        mDateOrderedListView.setMultiChoiceModeListener(modeCallback);
         mDateOrderedListView.setOnChildClickListener(new OnChildClickListener() {
             // called when a child is clicked on (this is NOT the checkbox click)
             @Override
@@ -200,7 +237,7 @@ public class DownloadList extends Activity {
         });
         mSizeOrderedListView = (ListView) findViewById(R.id.size_ordered_list);
         mSizeOrderedListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-        mSizeOrderedListView.setMultiChoiceModeListener(new ModalCallback(this));
+        mSizeOrderedListView.setMultiChoiceModeListener(modeCallback);
         mSizeOrderedListView.setOnItemClickListener(new OnItemClickListener() {
             // handle a click from the size-sorted list. (this is NOT the checkbox click)
             @Override
@@ -212,65 +249,66 @@ public class DownloadList extends Activity {
         mEmptyView = findViewById(R.id.empty);
     }
 
-    private static class ModalCallback implements MultiChoiceModeListener {
+    private static class ModeCallback implements MultiChoiceModeListener {
         private final DownloadList mDownloadList;
 
-        public ModalCallback(DownloadList downloadList) {
+        public ModeCallback(DownloadList downloadList) {
             mDownloadList = downloadList;
+        }
+
+        @Override public void onDestroyActionMode(ActionMode mode) {
+            mDownloadList.mActionMode = null;
         }
 
         @Override
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            populateMenuItems(menu);
             return true;
         }
 
-        private void populateMenuItems(Menu menu) {
-            menu.findItem(R.id.download_menu_sort_by_size)
-                    .setVisible(!mDownloadList.mIsSortedBySize);
-            menu.findItem(R.id.download_menu_sort_by_date)
-                    .setVisible(mDownloadList.mIsSortedBySize);
-        }
-
-        @Override public void onDestroyActionMode(ActionMode mode) {}
-    
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             if (mDownloadList.haveCursors()) {
                 final MenuInflater inflater = mDownloadList.getMenuInflater();
                 inflater.inflate(R.menu.download_menu, menu);
-                populateMenuItems(menu);
             }
+            mDownloadList.mActionMode = mode;
             return true;
         }
-    
+
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            mDownloadList.handleMenuItemSelected(item);
-            int itemId = item.getItemId();
-            if (itemId == R.id.delete_download ||
-                    itemId == R.id.download_menu_sort_by_date ||
-                    itemId == R.id.download_menu_sort_by_size) {
-                // uncheck all checked items
-                ListView lv = mDownloadList.getCurrentView();
-                SparseBooleanArray checkedPositionList = lv.getCheckedItemPositions();
-                int checkedPositionListSize = checkedPositionList.size();
-                for (int i = 0; i < checkedPositionListSize; i++) {
-                    int position = checkedPositionList.keyAt(i);
-                    if (checkedPositionList.get(position, false)) {
-                        lv.setItemChecked(position, false);
-                        onItemCheckedStateChanged(mode, position, 0, false);
-                    }
-                }
-                mDownloadList.mSelectedIds.clear();
+            if (mDownloadList.mSelectedIds.size() == 0) {
+                // nothing selected.
+                return true;
             }
-            // update the subtitle
-            onItemCheckedStateChanged(mode, 1, 0, false);
-            // update the menu
-            populateMenuItems(mode.getMenu());
+            switch (item.getItemId()) {
+                case R.id.delete_download:
+                    for (Long downloadId : mDownloadList.mSelectedIds.keySet()) {
+                        mDownloadList.deleteDownload(downloadId);
+                    }
+                    // uncheck all checked items
+                    ListView lv = mDownloadList.getCurrentView();
+                    SparseBooleanArray checkedPositionList = lv.getCheckedItemPositions();
+                    int checkedPositionListSize = checkedPositionList.size();
+                    ArrayList<DownloadItem> sharedFiles = null;
+                    for (int i = 0; i < checkedPositionListSize; i++) {
+                        int position = checkedPositionList.keyAt(i);
+                        if (checkedPositionList.get(position, false)) {
+                            lv.setItemChecked(position, false);
+                            onItemCheckedStateChanged(mode, position, 0, false);
+                        }
+                    }
+                    mDownloadList.mSelectedIds.clear();
+                    // update the subtitle
+                    onItemCheckedStateChanged(mode, 1, 0, false);
+                    break;
+                case R.id.share_download:
+                    mDownloadList.shareDownloadedFiles();
+                    break;
+            }
             return true;
         }
-    
+
         @Override
         public void onItemCheckedStateChanged(ActionMode mode, int position, long id,
                 boolean checked) {
@@ -308,20 +346,30 @@ public class DownloadList extends Activity {
         }
     }
 
+    private static final String BUNDLE_SAVED_DOWNLOAD_IDS = "download_ids";
+    private static final String BUNDLE_SAVED_FILENAMES = "filenames";
+    private static final String BUNDLE_SAVED_MIMETYPES = "mimetypes";
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean("isSortedBySize", mIsSortedBySize);
-        outState.putLongArray("selection", getSelectionAsArray());
-    }
-
-    private long[] getSelectionAsArray() {
-        long[] selectedIds = new long[mSelectedIds.size()];
-        Iterator<Long> iterator = mSelectedIds.iterator();
-        for (int i = 0; i < selectedIds.length; i++) {
-            selectedIds[i] = iterator.next();
+        int len = mSelectedIds.size();
+        if (len == 0) {
+            return;
         }
-        return selectedIds;
+        long[] selectedIds = new long[len];
+        String[] fileNames = new String[len];
+        String[] mimeTypes = new String[len];
+        int i = 0;
+        for (long id : mSelectedIds.keySet()) {
+            selectedIds[i] = id;
+            SelectionObjAttrs obj = mSelectedIds.get(id);
+            fileNames[i] = obj.getFileName();
+            mimeTypes[i] = obj.getMimeType();
+        }
+        outState.putLongArray(BUNDLE_SAVED_DOWNLOAD_IDS, selectedIds);
+        outState.putStringArray(BUNDLE_SAVED_FILENAMES, fileNames);
+        outState.putStringArray(BUNDLE_SAVED_MIMETYPES, mimeTypes);
     }
 
     @Override
@@ -329,30 +377,15 @@ public class DownloadList extends Activity {
         super.onRestoreInstanceState(savedInstanceState);
         mIsSortedBySize = savedInstanceState.getBoolean("isSortedBySize");
         mSelectedIds.clear();
-        for (long selectedId : savedInstanceState.getLongArray("selection")) {
-            mSelectedIds.add(selectedId);
+        long[] selectedIds = savedInstanceState.getLongArray(BUNDLE_SAVED_DOWNLOAD_IDS);
+        String[] fileNames = savedInstanceState.getStringArray(BUNDLE_SAVED_FILENAMES);
+        String[] mimeTypes = savedInstanceState.getStringArray(BUNDLE_SAVED_MIMETYPES);
+        if (selectedIds != null && selectedIds.length > 0) {
+            for (int i = 0; i < selectedIds.length; i++) {
+                mSelectedIds.put(selectedIds[i], new SelectionObjAttrs(fileNames[i], mimeTypes[i]));
+            }
         }
         chooseListToShow();
-    }
-
-    void handleMenuItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.download_menu_sort_by_size:
-                mIsSortedBySize = true;
-                chooseListToShow();
-                break;
-
-            case R.id.download_menu_sort_by_date:
-                mIsSortedBySize = false;
-                chooseListToShow();
-                break;
-
-            case R.id.delete_download:
-                for (Long downloadId : mSelectedIds) {
-                    deleteDownload(downloadId);
-                }
-                break;
-        }
     }
 
     /**
@@ -369,7 +402,6 @@ public class DownloadList extends Activity {
             ListView lv = activeListView();
             lv.setVisibility(View.VISIBLE);
             lv.invalidateViews(); // ensure checkboxes get updated
-            invalidateOptionsMenu();
         }
         mSelectedIds.clear();
     }
@@ -383,10 +415,15 @@ public class DownloadList extends Activity {
             mCurrentCursor = mSizeSortedCursor;
             mCurrentView = mSizeOrderedListView;
             setTitle(R.string.download_title_sorted_by_size);
+            mSortOption.setText(R.string.button_sort_by_date);
         } else {
             mCurrentCursor = mDateSortedCursor;
             mCurrentView = mDateOrderedListView;
             setTitle(R.string.download_title_sorted_by_date);
+            mSortOption.setText(R.string.button_sort_by_size);
+        }
+        if (mActionMode != null) {
+            mActionMode.finish();
         }
         return mCurrentView;
     }
@@ -555,9 +592,10 @@ public class DownloadList extends Activity {
     }
 
     // handle a click on one of the download item checkboxes
-    public void onDownloadSelectionChanged(long downloadId, boolean isSelected) {
+    public void onDownloadSelectionChanged(long downloadId, boolean isSelected,
+            String fileName, String mimeType) {
         if (isSelected) {
-            mSelectedIds.add(downloadId);
+            mSelectedIds.put(downloadId, new SelectionObjAttrs(fileName, mimeType));
         } else {
             mSelectedIds.remove(downloadId);
         }
@@ -583,7 +621,7 @@ public class DownloadList extends Activity {
     }
 
     public boolean isDownloadSelected(long id) {
-        return mSelectedIds.contains(id);
+        return mSelectedIds.containsKey(id);
     }
 
     /**
@@ -617,7 +655,7 @@ public class DownloadList extends Activity {
         }
 
         // ...and check if any selected IDs are now missing
-        for (Iterator<Long> iterator = mSelectedIds.iterator(); iterator.hasNext(); ) {
+        for (Iterator<Long> iterator = mSelectedIds.keySet().iterator(); iterator.hasNext(); ) {
             if (!allIds.contains(iterator.next())) {
                 iterator.remove();
             }
@@ -636,5 +674,69 @@ public class DownloadList extends Activity {
             }
         }
         return false;
+    }
+
+    /**
+     * handle share menu button click when one more files are selected for sharing
+     */
+    public boolean shareDownloadedFiles() {
+        Intent intent = new Intent();
+        if (mSelectedIds.size() > 1) {
+            intent.setAction(Intent.ACTION_SEND_MULTIPLE);
+            ArrayList<Parcelable> attachments = new ArrayList<Parcelable>();
+            ArrayList<String> mimeTypes = new ArrayList<String>();
+            for (SelectionObjAttrs item : mSelectedIds.values()) {
+                String fileName = item.getFileName();
+                String mimeType = item.getMimeType();
+                attachments.add(Uri.fromFile(new File(fileName)));
+                mimeTypes.add(mimeType);
+            }
+            intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, attachments);
+            intent.setType(findCommonMimeType(mimeTypes));
+        } else {
+            // get the entry
+            // since there is ONLY one entry in this, we can do the following
+            for (SelectionObjAttrs item : mSelectedIds.values()) {
+                intent.setAction(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(item.getFileName())));
+                intent.setType(item.getMimeType());
+            }
+        }
+        Intent intentNew = Intent.createChooser(intent, getText(R.string.download_share_dialog));
+        startActivity(intent);
+        return true;
+    }
+    private String findCommonMimeType(ArrayList<String> mimeTypes) {
+        // are all mimeypes the same?
+        String str = findCommonString(mimeTypes);
+        if (str != null) {
+            return str;
+        }
+
+        // are all prefixes of the given mimetypes the same?
+        ArrayList<String> mimeTypePrefixes = new ArrayList<String>();
+        for (String s : mimeTypes) {
+            mimeTypePrefixes.add(s.substring(0, s.indexOf('/')));
+        }
+        str = findCommonString(mimeTypePrefixes);
+        if (str != null) {
+            return str + "/*";
+        }
+
+        // return generic mimetype
+        return "*/*";
+    }
+    private String findCommonString(Collection<String> set) {
+        String str = null;
+        boolean found = true;
+        for (String s : set) {
+            if (str == null) {
+                str = s;
+            } else if (!str.equals(s)) {
+                found = false;
+                break;
+            }
+        }
+        return (found) ? str : null;
     }
 }

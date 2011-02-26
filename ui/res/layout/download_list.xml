@@ -19,12 +19,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:divider="?android:attr/dividerHorizontal"
+              android:showDividers="middle"
+              android:dividerPadding="16dip">
+
+    <!-- The main area showing the list of downloads -->
+    <FrameLayout android:layout_width="match_parent"
+                 android:layout_height="0dip"
+                 android:layout_weight="1">
 
         <ExpandableListView android:id="@+id/date_ordered_list"
+                            android:paddingLeft="16dip"
+                            android:paddingRight="16dip"
+                            android:paddingBottom="16dip"
+                            android:clipToPadding="false"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"/>
         <ListView android:id="@+id/size_ordered_list"
+                  android:paddingLeft="16dip"
+                  android:paddingRight="16dip"
+                  android:paddingBottom="16dip"
+                  android:clipToPadding="false"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"/>
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,4 +50,20 @@
                   android:text="@string/no_downloads"
                   android:gravity="center"
                   android:textStyle="bold"/>
+    </FrameLayout>
+
+    <!-- The selection menu that pops up from the bottom of the screen -->
+    <LinearLayout android:id="@+id/sort_menu"
+                  android:orientation="horizontal"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center"
+                  style="?android:attr/buttonBarStyle">
+
+          <Button android:id="@+id/sort_button"
+                  style="?android:attr/buttonBarButtonStyle"
+                  android:layout_width="0dip"
+                  android:layout_weight="1"
+                  android:layout_height="match_parent"/>
+     </LinearLayout>
 </LinearLayout>

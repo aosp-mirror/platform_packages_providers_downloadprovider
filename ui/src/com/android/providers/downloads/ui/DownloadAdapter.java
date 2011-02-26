@@ -30,7 +30,6 @@ import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,14 +50,15 @@ public class DownloadAdapter extends CursorAdapter {
     private DateFormat mDateFormat;
     private DateFormat mTimeFormat;
 
-    private int mTitleColumnId;
-    private int mDescriptionColumnId;
-    private int mStatusColumnId;
-    private int mReasonColumnId;
-    private int mTotalBytesColumnId;
-    private int mMediaTypeColumnId;
-    private int mDateColumnId;
-    private int mIdColumnId;
+    private final int mTitleColumnId;
+    private final int mDescriptionColumnId;
+    private final int mStatusColumnId;
+    private final int mReasonColumnId;
+    private final int mTotalBytesColumnId;
+    private final int mMediaTypeColumnId;
+    private final int mDateColumnId;
+    private final int mIdColumnId;
+    private final int mFileNameColumnId;
 
     public DownloadAdapter(DownloadList downloadList, Cursor cursor) {
         super(downloadList, cursor);
@@ -77,10 +77,12 @@ public class DownloadAdapter extends CursorAdapter {
         mMediaTypeColumnId = cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIA_TYPE);
         mDateColumnId =
                 cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP);
+        mFileNameColumnId =
+                cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_FILENAME);
     }
 
     public View newView() {
-        DownloadItem view = (DownloadItem) LayoutInflater.from(mDownloadList)
+        final DownloadItem view = (DownloadItem) LayoutInflater.from(mDownloadList)
                 .inflate(R.layout.download_list_item, null);
         view.setDownloadListObj(mDownloadList);
         return view;
@@ -92,8 +94,9 @@ public class DownloadAdapter extends CursorAdapter {
         }
 
         long downloadId = mCursor.getLong(mIdColumnId);
-        ((DownloadItem) convertView).setData(downloadId, position);
-        
+        ((DownloadItem) convertView).setData(downloadId, position,
+                mCursor.getString(mFileNameColumnId),
+                mCursor.getString(mMediaTypeColumnId));
 
         // Retrieve the icon for this download
         retrieveAndSetIcon(convertView);
@@ -108,8 +111,8 @@ public class DownloadAdapter extends CursorAdapter {
         setTextForView(convertView, R.id.status_text, mResources.getString(getStatusStringId()));
         setTextForView(convertView, R.id.last_modified_date, getDateString());
 
-        CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.download_checkbox);
-        checkBox.setChecked(mDownloadList.isDownloadSelected(downloadId));
+        ((DownloadItem) convertView).getCheckBox()
+                .setChecked(mDownloadList.isDownloadSelected(downloadId));
     }
 
     private String getDateString() {

@@ -35,6 +35,8 @@ public class DownloadItem extends RelativeLayout implements Checkable {
     private boolean mIsInDownEvent = false;
     private CheckBox mCheckBox;
     private long mDownloadId;
+    private String mFileName;
+    private String mMimeType;
     private DownloadList mDownloadList;
     private int mPosition;
 
@@ -65,9 +67,11 @@ public class DownloadItem extends RelativeLayout implements Checkable {
         mCheckBox = (CheckBox) findViewById(R.id.download_checkbox);
     }
 
-    public void setData(long downloadId, int position) {
+    public void setData(long downloadId, int position, String fileName, String mimeType) {
         mDownloadId = downloadId;
         mPosition = position;
+        mFileName = fileName;
+        mMimeType = mimeType;
     }
 
     public void setDownloadListObj(DownloadList downloadList) {
@@ -115,12 +119,25 @@ public class DownloadItem extends RelativeLayout implements Checkable {
     @Override
     public void setChecked(boolean checked) {
         mCheckBox.setChecked(checked);
-        mDownloadList.onDownloadSelectionChanged(mDownloadId, mCheckBox.isChecked());
+        mDownloadList.onDownloadSelectionChanged(mDownloadId, mCheckBox.isChecked(),
+                mFileName, mMimeType);
         mDownloadList.getCurrentView().setItemChecked(mPosition, mCheckBox.isChecked());
     }
 
     @Override
     public void toggle() {
         setChecked(!isChecked());
+    }
+
+    public CheckBox getCheckBox() {
+        return this.mCheckBox;
+    }
+
+    public String getFileName() {
+        return mFileName;
+    }
+
+    public String getMimeType() {
+        return mMimeType;
     }
 }

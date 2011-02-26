@@ -29,14 +29,10 @@
          [CHAR LIMIT=20] -->
     <string name="missing_title">&lt;Unknown&gt;</string>
 
-    <!-- Menu items -->
-
-    <!-- Menu option to sort the list of downloads by the size of the downloaded file
-         [CHAR LIMIT=25] -->
-    <string name="download_menu_sort_by_size">Sort by size</string>
-    <!-- Menu option to sort the list of downloads by the date/time of the last activity related to
-         the download [CHAR LIMIT=25] -->
-    <string name="download_menu_sort_by_date">Sort by date</string>
+    <!-- Button to display sort-by-size option [CHAR LIMIT=25] -->
+    <string name="button_sort_by_size">Sort by size</string>
+    <!-- Button to display sort-by-date option [CHAR LIMIT=25] -->
+    <string name="button_sort_by_date">Sort by date</string>
 
     <!-- Status messages -->
 
@@ -117,5 +113,8 @@
     <string name="select_all">Select All</string>
     <!-- number of downloads selected [CHAR LIMIT=50] -->
     <string name="selected_count">Selected %1$d out of %2$d</string>
+    <!-- title shown when displaying list of apps to choose from when share is clicked on
+        [CHAR LIMIT = 20] -->
+    <string name="download_share_dialog">Share via</string>
 
 </resources>

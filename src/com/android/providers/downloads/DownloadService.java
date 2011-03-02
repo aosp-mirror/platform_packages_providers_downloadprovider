@@ -443,8 +443,10 @@ public class DownloadService extends Service {
         int oldStatus = info.mStatus;
 
         reader.updateFromDatabase(info);
-        Log.v(Constants.TAG, "processing updated download " + info.mId +
-                ", status: " + info.mStatus);
+        if (Constants.LOGVV) {
+            Log.v(Constants.TAG, "processing updated download " + info.mId +
+                    ", status: " + info.mStatus);
+        }
 
         boolean lostVisibility =
                 oldVisibility == Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED

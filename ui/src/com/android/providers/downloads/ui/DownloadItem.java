@@ -72,6 +72,9 @@ public class DownloadItem extends RelativeLayout implements Checkable {
         mPosition = position;
         mFileName = fileName;
         mMimeType = mimeType;
+        if (mDownloadList.isDownloadSelected(downloadId)) {
+            setChecked(true);
+        }
     }
 
     public void setDownloadListObj(DownloadList downloadList) {

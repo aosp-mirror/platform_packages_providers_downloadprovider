@@ -190,6 +190,8 @@ public class DownloadList extends Activity {
             public void onClick(View v) {
                 // flip the view
                 mIsSortedBySize = !mIsSortedBySize;
+                // clear all selections
+                mSelectedIds.clear();
                 chooseListToShow();
             }
         });
@@ -312,14 +314,17 @@ public class DownloadList extends Activity {
         @Override
         public void onItemCheckedStateChanged(ActionMode mode, int position, long id,
                 boolean checked) {
-            ListView lv = mDownloadList.getCurrentView();
-            int numChecked = lv.getCheckedItemCount();
-            if (numChecked > 0) {
-                mode.setTitle(String.format(mDownloadList.mSelectedCountFormat, numChecked,
-                        mDownloadList.mCurrentCursor.getCount()));
-            } else {
-                mode.setTitle("");
-            }
+            mDownloadList.setActionModeTitle(mode);
+        }
+    }
+
+    void setActionModeTitle(ActionMode mode) {
+        int numSelected = mSelectedIds.size();
+        if (numSelected > 0) {
+            mode.setTitle(String.format(mSelectedCountFormat, numSelected,
+                    mCurrentCursor.getCount()));
+        } else {
+            mode.setTitle("");
         }
     }
 
@@ -366,6 +371,7 @@ public class DownloadList extends Activity {
             SelectionObjAttrs obj = mSelectedIds.get(id);
             fileNames[i] = obj.getFileName();
             mimeTypes[i] = obj.getMimeType();
+            i++;
         }
         outState.putLongArray(BUNDLE_SAVED_DOWNLOAD_IDS, selectedIds);
         outState.putStringArray(BUNDLE_SAVED_FILENAMES, fileNames);
@@ -403,7 +409,10 @@ public class DownloadList extends Activity {
             lv.setVisibility(View.VISIBLE);
             lv.invalidateViews(); // ensure checkboxes get updated
         }
-        mSelectedIds.clear();
+        // restore the ActionMode title if there are selections
+        if (mActionMode != null) {
+            setActionModeTitle(mActionMode);
+        }
     }
 
     ListView getCurrentView() {

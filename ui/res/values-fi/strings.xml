@@ -23,8 +23,10 @@
     <skip />
     <string name="no_downloads" msgid="1029667411186146836">"Ei latauksia."</string>
     <string name="missing_title" msgid="830115697868833773">"&lt;Tuntematon&gt;"</string>
-    <string name="download_menu_sort_by_size" msgid="2276438658769422878">"Lajittele koon mukaan"</string>
-    <!-- outdated translation 877141203942168929 -->     <string name="download_menu_sort_by_date" msgid="6041010724270213846">"Lajittele ajan mukaan"</string>
+    <!-- no translation found for button_sort_by_size (7331549713691146251) -->
+    <skip />
+    <!-- no translation found for button_sort_by_date (8800842892684101528) -->
+    <skip />
     <string name="download_queued" msgid="104973307780629904">"Jonossa"</string>
     <string name="download_running" msgid="4656462962155580641">"Kesken"</string>
     <string name="download_success" msgid="7006048006543495236">"Valmis"</string>
@@ -49,5 +51,7 @@
     <!-- no translation found for select_all (5854385570247421586) -->
     <skip />
     <!-- no translation found for selected_count (223679545214294432) -->
+    <skip />
+    <!-- no translation found for download_share_dialog (3355867339806448955) -->
     <skip />
 </resources>

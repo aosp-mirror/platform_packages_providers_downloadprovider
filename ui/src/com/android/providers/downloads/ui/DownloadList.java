@@ -259,6 +259,7 @@ public class DownloadList extends Activity {
         }
 
         @Override public void onDestroyActionMode(ActionMode mode) {
+            mDownloadList.mSelectedIds.clear();
             mDownloadList.mActionMode = null;
         }
 

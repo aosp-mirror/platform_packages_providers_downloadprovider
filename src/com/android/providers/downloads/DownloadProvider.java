@@ -543,8 +543,8 @@ public final class DownloadProvider extends ContentProvider {
 
         /*
          * requests coming from
-         * DownloadManager.completedDownload(String, String, String, boolean, String,
-         * String, long) need special treatment
+         * DownloadManager.addCompletedDownload(String, String, String,
+         * boolean, String, String, long) need special treatment
          */
         if (values.getAsInteger(Downloads.Impl.COLUMN_DESTINATION) ==
                 Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD) {
@@ -635,8 +635,8 @@ public final class DownloadProvider extends ContentProvider {
         insertRequestHeaders(db, rowID, values);
         /*
          * requests coming from
-         * DownloadManager.completedDownload(String, String, String, boolean, String,
-         * String, long) need special treatment
+         * DownloadManager.addCompletedDownload(String, String, String,
+         * boolean, String, String, long) need special treatment
          */
         Context context = getContext();
         if (values.getAsInteger(Downloads.Impl.COLUMN_DESTINATION) ==
@@ -710,8 +710,8 @@ public final class DownloadProvider extends ContentProvider {
         if (values.getAsInteger(Downloads.Impl.COLUMN_DESTINATION) ==
                 Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD) {
             /* this row is inserted by
-             * DownloadManager.completedDownload(String, String, String, boolean, String,
-             * String, long)
+             * DownloadManager.addCompletedDownload(String, String, String,
+             * boolean, String, String, long)
              */
             values.remove(Downloads.Impl.COLUMN_TOTAL_BYTES);
             values.remove(Downloads.Impl._DATA);

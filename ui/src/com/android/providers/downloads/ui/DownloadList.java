@@ -103,8 +103,9 @@ public class DownloadList extends Activity {
             return mMimeType;
         }
     }
-    ListView mCurrentView;
-    Cursor mCurrentCursor;
+    private ListView mCurrentView;
+    private Cursor mCurrentCursor;
+    private boolean mCurrentViewIsExpandableListView = false;
     private boolean mIsSortedBySize = false;
 
     /**
@@ -315,6 +316,17 @@ public class DownloadList extends Activity {
         @Override
         public void onItemCheckedStateChanged(ActionMode mode, int position, long id,
                 boolean checked) {
+            // ignore long clicks on groups
+            if (mDownloadList.isCurrentViewExpandableListView()) {
+                ExpandableListView ev = mDownloadList.getExpandableListView();
+                long pos = ev.getExpandableListPosition(position);
+                if (checked && (ExpandableListView.getPackedPositionType(pos) ==
+                        ExpandableListView.PACKED_POSITION_TYPE_GROUP)) {
+                    // ignore this click
+                    ev.setItemChecked(position, false);
+                    return;
+                }
+            }
             mDownloadList.setActionModeTitle(mode);
         }
     }
@@ -420,17 +432,27 @@ public class DownloadList extends Activity {
         return mCurrentView;
     }
 
+    ExpandableListView getExpandableListView() {
+        return mDateOrderedListView;
+    }
+
+    boolean isCurrentViewExpandableListView() {
+        return mCurrentViewIsExpandableListView;
+    }
+
     private ListView activeListView() {
         if (mIsSortedBySize) {
             mCurrentCursor = mSizeSortedCursor;
             mCurrentView = mSizeOrderedListView;
             setTitle(R.string.download_title_sorted_by_size);
             mSortOption.setText(R.string.button_sort_by_date);
+            mCurrentViewIsExpandableListView = false;
         } else {
             mCurrentCursor = mDateSortedCursor;
             mCurrentView = mDateOrderedListView;
             setTitle(R.string.download_title_sorted_by_date);
             mSortOption.setText(R.string.button_sort_by_size);
+            mCurrentViewIsExpandableListView = true;
         }
         if (mActionMode != null) {
             mActionMode.finish();

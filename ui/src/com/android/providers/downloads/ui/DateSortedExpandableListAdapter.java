@@ -226,19 +226,6 @@ public class DateSortedExpandableListAdapter implements ExpandableListAdapter {
         return arrayPosition;
     }
 
-    int getAbsolutePositionForGroupAndChildPositions(int groupPosition,
-            int childPosition) {
-        int bin = groupPositionToBin(groupPosition);
-        int absolutePosition = 0;
-        for (int j = 0; j < bin; j++) {
-            if (mItemMap[j] > 0) {
-                absolutePosition += mItemMap[j] + 1;
-            }
-        }
-        absolutePosition += childPosition + 1;
-        return absolutePosition;
-    }
-
     /**
      * Move the cursor to the position indicated.
      * @param packedPosition Position in packed position representation.

@@ -21,6 +21,7 @@ import android.app.DownloadManager;
 import android.database.Cursor;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
 
 /**
@@ -28,12 +29,14 @@ import android.widget.RelativeLayout;
  * {@link DownloadAdapter}.
  */
 public class DateSortedDownloadAdapter extends DateSortedExpandableListAdapter {
-    private DownloadAdapter mDelegate;
+    private final DownloadAdapter mDelegate;
+    private final DownloadList mDownloadList;
 
     public DateSortedDownloadAdapter(DownloadList downloadList, Cursor cursor) {
         super(downloadList, cursor,
                 cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP));
         mDelegate = new DownloadAdapter(downloadList, cursor);
+        mDownloadList = downloadList;
     }
 
     @Override
@@ -49,7 +52,8 @@ public class DateSortedDownloadAdapter extends DateSortedExpandableListAdapter {
             return convertView;
         }
 
-        int pos = getAbsolutePositionForGroupAndChildPositions(groupPosition, childPosition);
+        int pos = mDownloadList.getExpandableListView().getFlatListPosition(
+                ExpandableListView.getPackedPositionForChild(groupPosition, childPosition));
         mDelegate.bindView(convertView, pos);
         return convertView;
     }

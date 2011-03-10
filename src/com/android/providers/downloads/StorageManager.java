@@ -369,8 +369,14 @@ class StorageManager {
         }
         // get a list of all files in system cache dir and downloads data dir
         List<File> files = new ArrayList<File>();
-        files.addAll(Arrays.asList(mSystemCacheDir.listFiles()));
-        files.addAll(Arrays.asList(mDownloadDataDir.listFiles()));
+        File[] listOfFiles = mSystemCacheDir.listFiles();
+        if (listOfFiles != null) {
+            files.addAll(Arrays.asList(listOfFiles));
+        }
+        listOfFiles = mDownloadDataDir.listFiles();
+        if (listOfFiles != null) {
+            files.addAll(Arrays.asList(listOfFiles));
+        }
         if (files.size() == 0) {
             return;
         }

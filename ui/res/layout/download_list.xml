@@ -55,7 +55,7 @@
     <!-- The selection menu that pops up from the bottom of the screen -->
     <LinearLayout android:id="@+id/sort_menu"
                   android:orientation="horizontal"
-                  android:layout_width="wrap_content"
+                  android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:layout_gravity="center"
                   style="?android:attr/buttonBarStyle">

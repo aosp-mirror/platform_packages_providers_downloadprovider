@@ -155,13 +155,12 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
         Context realContext = getContext();
         mTestContext = new TestContext(realContext);
         setupProviderAndResolver();
-        assert isDatabaseEmpty(); // ensure we're not messing with real data
 
         mTestContext.setResolver(mResolver);
         setContext(mTestContext);
         setupService();
         getService().mSystemFacade = mSystemFacade;
-
+        assertTrue(isDatabaseEmpty()); // ensure we're not messing with real data
         mServer = new MockWebServer();
         mServer.play();
     }

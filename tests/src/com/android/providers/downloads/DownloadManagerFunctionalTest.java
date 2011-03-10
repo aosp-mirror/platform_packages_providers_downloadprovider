@@ -23,6 +23,8 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.Downloads;
 import android.test.suitebuilder.annotation.LargeTest;
+import android.util.Log;
+
 import tests.http.MockWebServer;
 import tests.http.RecordedRequest;
 
@@ -37,6 +39,8 @@ import java.net.MalformedURLException;
  */
 @LargeTest
 public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFunctionalTest {
+    private static final String TAG = "DownloadManagerFunctionalTest";
+
     public DownloadManagerFunctionalTest() {
         super(new FakeSystemFacade());
     }
@@ -104,6 +108,17 @@ public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFuncti
 
     private void runUntilStatus(Uri downloadUri, int status) throws Exception {
         runService();
+        boolean done = false;
+        while (!done) {
+            int rslt = getDownloadStatus(downloadUri);
+            if (rslt == Downloads.Impl.STATUS_RUNNING || rslt == Downloads.Impl.STATUS_PENDING) {
+                Log.i(TAG, "status is: " + rslt + ", for: " + downloadUri);
+                DownloadHandler.getInstance().WaitUntilDownloadsTerminate();
+                Thread.sleep(100);
+            } else {
+                done = true;
+            }
+        }
         assertEquals(status, getDownloadStatus(downloadUri));
     }
 

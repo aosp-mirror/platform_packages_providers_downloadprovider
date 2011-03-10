@@ -171,16 +171,18 @@ public class DownloadThread extends Thread {
             finalStatus = Downloads.Impl.STATUS_SUCCESS;
         } catch (StopRequestException error) {
             // remove the cause before printing, in case it contains PII
-            errorMsg = "Aborting request for download " + mInfo.mId + ": " + error.getMessage();
-            Log.w(Constants.TAG, errorMsg);
+            errorMsg = error.getMessage();
+            String msg = "Aborting request for download " + mInfo.mId + ": " + errorMsg;
+            Log.w(Constants.TAG, msg);
             if (Constants.LOGV) {
-                Log.w(Constants.TAG, errorMsg, error);
+                Log.w(Constants.TAG, msg, error);
             }
             finalStatus = error.mFinalStatus;
             // fall through to finally block
         } catch (Throwable ex) { //sometimes the socket code throws unchecked exceptions
-            errorMsg = "Exception for id " + mInfo.mId + ": " + ex.getMessage();
-            Log.w(Constants.TAG, errorMsg, ex);
+            errorMsg = ex.getMessage();
+            String msg = "Exception for id " + mInfo.mId + ": " + errorMsg;
+            Log.w(Constants.TAG, msg, ex);
             finalStatus = Downloads.Impl.STATUS_UNKNOWN_ERROR;
             // falls through to the code that reports an error
         } finally {
@@ -196,7 +198,7 @@ public class DownloadThread extends Thread {
             notifyDownloadCompleted(finalStatus, state.mCountRetry, state.mRetryAfter,
                                     state.mGotData, state.mFilename,
                                     state.mNewUri, state.mMimeType, errorMsg);
-            mInfo.mHasActiveThread = false;
+            DownloadHandler.getInstance().dequeueDownload(mInfo.mId);
         }
         mStorageManager.incrementNumDownloadsSoFar();
     }

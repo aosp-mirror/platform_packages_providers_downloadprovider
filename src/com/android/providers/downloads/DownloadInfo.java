@@ -216,8 +216,6 @@ public class DownloadInfo {
 
     public int mFuzz;
 
-    public volatile boolean mHasActiveThread;
-
     private List<Pair<String, String>> mRequestHeaders = new ArrayList<Pair<String, String>>();
     private SystemFacade mSystemFacade;
     private Context mContext;
@@ -279,7 +277,7 @@ public class DownloadInfo {
      * should be started.
      */
     private boolean isReadyToStart(long now) {
-        if (mHasActiveThread) {
+        if (DownloadHandler.getInstance().hasDownloadInQueue(mId)) {
             // already running
             return false;
         }
@@ -442,19 +440,13 @@ public class DownloadInfo {
         if (Constants.LOGV) {
             Log.v(Constants.TAG, "Service spawning thread to handle download " + mId);
         }
-        if (mHasActiveThread) {
-            throw new IllegalStateException("Multiple threads on same download");
-        }
         if (mStatus != Impl.STATUS_RUNNING) {
             mStatus = Impl.STATUS_RUNNING;
             ContentValues values = new ContentValues();
             values.put(Impl.COLUMN_STATUS, mStatus);
             mContext.getContentResolver().update(getAllDownloadsUri(), values, null, null);
         }
-        DownloadThread downloader = new DownloadThread(mContext, mSystemFacade, this,
-                storageManager);
-        mHasActiveThread = true;
-        mSystemFacade.startThread(downloader);
+        DownloadHandler.getInstance().enqueueDownload(this);
     }
 
     public boolean isOnCache() {
@@ -542,5 +534,11 @@ public class DownloadInfo {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(EXTRA_IS_WIFI_REQUIRED, isWifiRequired);
         mContext.startActivity(intent);
+    }
+
+    void startDownloadThread() {
+        DownloadThread downloader = new DownloadThread(mContext, mSystemFacade, this,
+                StorageManager.getInstance(mContext));
+        mSystemFacade.startThread(downloader);
     }
 }

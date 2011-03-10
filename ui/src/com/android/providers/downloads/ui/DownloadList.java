@@ -233,8 +233,16 @@ public class DownloadList extends Activity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                     int groupPosition, int childPosition, long id) {
-                mDateSortedAdapter.moveCursorToChildPosition(groupPosition, childPosition);
-                handleItemClick(mDateSortedCursor);
+                if (!(v instanceof DownloadItem)) {
+                    // can this even happen?
+                    return false;
+                }
+                if (mSelectedIds.size() > 0) {
+                    ((DownloadItem)v).setChecked(true);
+                } else {
+                    mDateSortedAdapter.moveCursorToChildPosition(groupPosition, childPosition);
+                    handleItemClick(mDateSortedCursor);
+                }
                 return true;
             }
         });

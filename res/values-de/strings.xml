@@ -25,11 +25,11 @@
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Ermöglicht es der Anwendung, Benachrichtigungen zu abgeschlossenen Ladevorgängen zu senden. Diese Funktion kann von bösartigen Anwendungen dazu verwendet werden, den Ladevorgang anderer Anwendungen zu stören."</string>
     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Alle USB-Speicher-Downloads anz."</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Alle Downloads an SD-Karte anzeigen"</string>
-    <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Ermöglicht der Anwendung, alle Downloads an die SD-Karte anzuzeigen, unabhängig davon, von welcher Anwendung sie heruntergeladen wurden."</string>
+    <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Ermöglicht der Anwendung, alle Downloads an die SD-Karte anzuzeigen, unabhängig davon, von welcher Anwendung sie heruntergeladen wurden"</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Speicherplatz im Download-Cache reservieren"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Ermöglicht das Herunterladen von Dateien in den Download-Cache, die nicht automatisch gelöscht werden können, wenn der Download-Manager mehr Speicher benötigt."</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Ermöglicht das Herunterladen von Dateien in den Download-Cache, die nicht automatisch gelöscht werden können, wenn der Download-Manager mehr Speicher benötigt"</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"Dateien ohne Benachrichtigung herunterladen"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Ermöglicht der Anwendung, Dateien über den Download-Manager herunterzuladen, ohne dass dem Nutzer Benachrichtigungen angezeigt werden."</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Ermöglicht der Anwendung, Dateien über den Download-Manager herunterzuladen, ohne dass dem Nutzer Benachrichtigungen angezeigt werden"</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Zugriff auf alle System-Downloads"</string>
     <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Die Anwendung darf alle Downloads anzeigen und ändern, die von Systemanwendungen veranlasst wurden."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Unbenannt&gt;"</string>

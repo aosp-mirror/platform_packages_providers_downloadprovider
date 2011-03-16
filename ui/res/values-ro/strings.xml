@@ -17,16 +17,12 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3070921713463294774">"Descărcări"</string>
-    <!-- no translation found for download_title_sorted_by_date (5898014492155434221) -->
-    <skip />
-    <!-- no translation found for download_title_sorted_by_size (1417193166677094813) -->
-    <skip />
+    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Descărcări – sortate după dată"</string>
+    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Descărcări – sortate după dimensiune"</string>
     <string name="no_downloads" msgid="1029667411186146836">"Nu există descărcări."</string>
     <string name="missing_title" msgid="830115697868833773">"&lt;Necunoscut&gt;"</string>
-    <!-- no translation found for button_sort_by_size (7331549713691146251) -->
-    <skip />
-    <!-- no translation found for button_sort_by_date (8800842892684101528) -->
-    <skip />
+    <string name="button_sort_by_size" msgid="7331549713691146251">"Sortaţi după dimensiune"</string>
+    <string name="button_sort_by_date" msgid="8800842892684101528">"Sortaţi după dată"</string>
     <string name="download_queued" msgid="104973307780629904">"În aştept."</string>
     <string name="download_running" msgid="4656462962155580641">"În curs"</string>
     <string name="download_success" msgid="7006048006543495236">"Finalizat"</string>
@@ -47,11 +43,8 @@
     <string name="keep_queued_download" msgid="5144882786014818569">"Păstraţi"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Anulaţi"</string>
     <string name="retry_download" msgid="7617100787922717912">"Reîncercaţi"</string>
-    <!-- outdated translation 1809608640021589431 -->     <string name="deselect_all" msgid="7986832738563338661">"Ştergeţi selectarea"</string>
-    <!-- no translation found for select_all (5854385570247421586) -->
-    <skip />
-    <!-- no translation found for selected_count (2101564570019753277) -->
-    <skip />
-    <!-- no translation found for download_share_dialog (3355867339806448955) -->
-    <skip />
+    <string name="deselect_all" msgid="7986832738563338661">"Deselectaţi-le pe toate"</string>
+    <string name="select_all" msgid="5854385570247421586">"Selectaţi-le pe toate"</string>
+    <string name="selected_count" msgid="2101564570019753277">"Au fost selectate <xliff:g id="NUMBER">%1$d</xliff:g> din <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
+    <string name="download_share_dialog" msgid="3355867339806448955">"Distribuiţi prin"</string>
 </resources>

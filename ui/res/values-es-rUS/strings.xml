@@ -21,8 +21,8 @@
     <string name="no_downloads" msgid="1029667411186146836">"No hay descargas."</string>
     <string name="missing_title" msgid="830115697868833773">"&lt;Desconocido&gt;"</string>
     <string name="download_menu_sort_by_size" msgid="2276438658769422878">"Ordenar por tamaño"</string>
-    <string name="download_menu_sort_by_date" msgid="4300882048968609945">"Ordenar por horario"</string>
-    <string name="download_queued" msgid="104973307780629904">"Citado"</string>
+    <string name="download_menu_sort_by_date" msgid="4300882048968609945">"Ordenar por hora"</string>
+    <string name="download_queued" msgid="104973307780629904">"En cola"</string>
     <string name="download_running" msgid="4656462962155580641">"En progreso"</string>
     <string name="download_success" msgid="7006048006543495236">"Completa"</string>
     <string name="download_error" msgid="3107369653921738690">"Error"</string>
@@ -30,7 +30,7 @@
     <string name="dialog_failed_body" msgid="587545111677064427">"¿Deseas intentar descargar el archivo más tarde o eliminarlo de la cola?"</string>
     <string name="dialog_title_queued_body" msgid="3062862079904954824">"Archivo no disponible aún"</string>
     <string name="dialog_queued_body" msgid="2506935748423351902">"Este archivo está en cola para descargas futuras."</string>
-    <string name="dialog_file_missing_body" msgid="2783781332668129395">"No podemos encontrar el archivo que se descargó."</string>
+    <string name="dialog_file_missing_body" msgid="2783781332668129395">"No se puede encontrar el archivo descargado."</string>
     <string name="dialog_insufficient_space_on_external" msgid="7534108515812329821">"No se puede finalizar la descarga. No hay suficiente espacio de almacenamiento externo."</string>
     <string name="dialog_insufficient_space_on_cache" msgid="8387210487235302129">"No se puede finalizar la descarga. No hay suficiente espacio de almacenamiento interno."</string>
     <string name="dialog_cannot_resume" msgid="7704082031608361756">"Descarga interrumpida. No se puede retomar."</string>

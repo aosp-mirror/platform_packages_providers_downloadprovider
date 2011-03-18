@@ -23,13 +23,13 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Permet à l\'application d\'accéder aux fonctions avancées du gestionnaire de téléchargements. Des applications malveillantes peuvent utiliser cette option pour perturber les téléchargements et accéder à des informations personnelles."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Envoyer des notifications de téléchargement."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Permet à l\'application d\'envoyer des notifications concernant les téléchargements effectués. Les applications malveillantes peuvent s\'en servir pour tromper les autres applications de téléchargement de fichiers."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Voir téléchargements sur stockage USB"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Voir tous les téléchargements effectués sur la carte SD"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Voir téléchargements sur mémoire USB"</string>
+    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Voir téléchargements sur la carte SD"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Permet à l\'application d\'afficher tous les téléchargements effectués sur la carte SD, quelle que soit l\'application de téléchargement utilisée."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Réserver un espace dans le cache de téléchargement"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Autorise l\'application à télécharger des fichiers dans le cache de téléchargement et empêche leur effacement automatique par le gestionnaire de téléchargement."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"télécharger les fichiers sans m\'avertir"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Autorise l\'application à télécharger des fichiers via le gestionnaire de téléchargement sans afficher de notification à l\'utilisateur."</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Autorise l\'application à télécharger des fichiers via le gestionnaire de téléchargement sans afficher de notification à l\'attention de l\'utilisateur."</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Accéder à tous les téléchargements système"</string>
     <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Permet à l\'application de connaître et de modifier tous les téléchargements initiés par les programmes du système."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Sans_titre&gt;"</string>
@@ -41,7 +41,7 @@
     <string name="wifi_required_title" msgid="1995971416871498179">"Téléchargement trop volumineux pour l\'opérateur"</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"Une connexion Wi-Fi est requise pour télécharger <xliff:g id="SIZE">%s </xliff:g>. "\n\n"Cliquez sur <xliff:g id="QUEUE_TEXT">%s </xliff:g> pour lancer le téléchargement la prochaine fois que vous vous connectez à un réseau Wi-Fi."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Ajouter à la file d\'attente des téléchargements ?"</string>
-    <string name="wifi_recommended_body" msgid="7574517147645381271">"Ce téléchargement (<xliff:g id="SIZE">%s </xliff:g>) risque de décharger votre batterie, de trop solliciter votre connexion Internet et de vous être facturé par votre opérateur, en fonction de votre forfait."\n\n" Cliquez sur <xliff:g id="QUEUE_TEXT">%s</xliff:g> pour lancer le téléchargement lors de votre prochaine connexion à un réseau Wi-Fi."</string>
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"Ce téléchargement (<xliff:g id="SIZE">%s </xliff:g>) risque de décharger votre batterie et/ou de solliciter de manière excessive votre connexion de données. Selon votre forfait, votre opérateur pourra facturer cette opération."\n\n" Cliquez sur <xliff:g id="QUEUE_TEXT">%s</xliff:g> pour lancer le téléchargement lors de votre prochaine connexion à un réseau Wi-Fi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"File d\'attente"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Annuler"</string>
     <string name="button_start_now" msgid="792123674007840864">"Commencer"</string>

@@ -30,7 +30,7 @@
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Permite que la aplicación descargue archivos al caché de descarga que no puede borrarse automáticamente cuando el administrador de descarga necesita más espacio."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"descargar archivos sin notificación"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Permite que la aplicación descargue archivos a través del administrador de descarga sin que se muestre una notificación al usuario."</string>
-    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Acceder a todos los sistemas de descarga"</string>
+    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Acceder a todas las descargas del sistema"</string>
     <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Permite que la aplicación acceda y modifique todo lo iniciado por cualquier aplicación del sistema."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Sin título&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
@@ -38,7 +38,7 @@
     <string name="notification_download_complete" msgid="840713937779273632">"Descarga completa"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"La descarga no se ha realizado correctamente"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"El tamaño de la descarga requiere Wi-Fi."</string>
-    <string name="wifi_required_title" msgid="1995971416871498179">"Descarga demasiado grande para una red móvil"</string>
+    <string name="wifi_required_title" msgid="1995971416871498179">"La descarga es demasiado grande la red del operador"</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"Debes usar WiFi para completar esta <xliff:g id="SIZE">%s </xliff:g>descarga. "\n\n"Haz clic en <xliff:g id="QUEUE_TEXT">%s </xliff:g> para iniciar esta descarga la próxima vez que te conectes a una red de WiFi."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"¿Agregar a la lista para descargar más tarde?"</string>
     <string name="wifi_recommended_body" msgid="7574517147645381271">"Iniciar esta <xliff:g id="SIZE">%s </xliff:g> descarga ahora puede acortar la vida útil de la batería u ocasionar un uso excesivo de la conexión de datos móviles. Esto, a su vez, puede producir cargos de tu operador móvil dependiendo de tu plan de datos."\n\n" Haz clic <xliff:g id="QUEUE_TEXT">%s</xliff:g> a continuación para comenzar esta descarga la próxima vez que te conectes a una red de WiFi."</string>

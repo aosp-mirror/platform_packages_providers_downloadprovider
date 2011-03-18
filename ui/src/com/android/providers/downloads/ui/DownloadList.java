@@ -132,6 +132,10 @@ public class DownloadList extends Activity {
     private class MyDataSetObserver extends DataSetObserver {
         @Override
         public void onChanged() {
+            // ignore change notification if there are selections
+            if (mSelectedIds.size() > 0) {
+                return;
+            }
             // may need to switch to or from the empty view
             chooseListToShow();
             ensureSomeGroupIsExpanded();

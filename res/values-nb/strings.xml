@@ -20,7 +20,7 @@
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Få tilgang til nedlasteren."</string>
     <string name="permdesc_downloadManager" msgid="4240298564918160337">"Gir applikasjonen tilgang til nedlasteren, og å bruke den til å laste ned filer. Ondsinnede applikasjoner kan bruke dette til å forstyrre nedlastinger og få tilgang til privat informasjon."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Avansert nedlastingsfunksjonalitet."</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Gir programmet tilgang til avanserte funksjoner i nedlastingsprogrammene. Skadelige programmer kan bruke dette til å forstyrre nedlastninger og gi tilgang til privat informasjon."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Gir applikasjonen tilgang til avanserte funksjoner i nedlastingsoversikten. Skadelige applikasjoner kan bruke dette til å forstyrre nedlastinger og gi tilgang til privat informasjon."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Sende nedlastingsvarslinger"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Lar applikasjonen sende varslinger om ferdige nedlastinger. Ondsinnede applikasjoner kan bruke dette for å forvirre andre applikasjoner som laster ned filer."</string>
     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Vis nedl. til USB-lagring"</string>
@@ -31,7 +31,7 @@
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"last ned filer uten varsling"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Gjør at programmet kan laste ned filer via nedlastingsbehandlingen, uten at brukeren varsles."</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Tilgang til alle systemnedlastinger"</string>
-    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Tillater programmet å vise og endre prosesser igangsatt av andre programmer i systemet."</string>
+    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Tillater applikasjonen å vise og endre alle igangsatt av andre applikasjoner i systemet."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Uten navn&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" og <xliff:g id="NUMBER">%d</xliff:g> til"</string>

@@ -45,6 +45,6 @@
     <string name="retry_download" msgid="7617100787922717912">"再試行"</string>
     <string name="deselect_all" msgid="7986832738563338661">"選択をすべて解除"</string>
     <string name="select_all" msgid="5854385570247421586">"すべて選択"</string>
-    <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="NUMBER">%1$d</xliff:g>件選択（<xliff:g id="TOTAL">%2$d</xliff:g>件中）"</string>
+    <string name="selected_count" msgid="2101564570019753277">"選択済み: <xliff:g id="NUMBER">%1$d</xliff:g>/<xliff:g id="TOTAL">%2$d</xliff:g>件"</string>
     <string name="download_share_dialog" msgid="3355867339806448955">"共有ツール"</string>
 </resources>

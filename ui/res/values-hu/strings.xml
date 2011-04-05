@@ -45,6 +45,6 @@
     <string name="retry_download" msgid="7617100787922717912">"Újra"</string>
     <string name="deselect_all" msgid="7986832738563338661">"Összes kijelölés törlése"</string>
     <string name="select_all" msgid="5854385570247421586">"Összes kijelölése"</string>
-    <string name="selected_count" msgid="2101564570019753277">"Kiválasztva: <xliff:g id="NUMBER">%1$d</xliff:g>, összesen: <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
+    <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="TOTAL">%2$d</xliff:g>/<xliff:g id="NUMBER">%1$d</xliff:g> kiválasztva"</string>
     <string name="download_share_dialog" msgid="3355867339806448955">"Megosztás:"</string>
 </resources>

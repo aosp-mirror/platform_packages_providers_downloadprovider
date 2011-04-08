@@ -25,7 +25,6 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.provider.Downloads;
-import android.util.Config;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
@@ -384,7 +383,7 @@ public class Helpers {
         } catch (RuntimeException ex) {
             if (Constants.LOGV) {
                 Log.d(Constants.TAG, "invalid selection [" + selection + "] triggered " + ex);
-            } else if (Config.LOGD) {
+            } else if (false) {
                 Log.d(Constants.TAG, "invalid selection triggered " + ex);
             }
             throw ex;

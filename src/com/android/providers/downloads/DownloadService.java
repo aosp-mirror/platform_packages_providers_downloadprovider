@@ -41,6 +41,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -553,6 +555,13 @@ public class DownloadService extends Service {
             }
         } catch (Exception e) {
             Log.w(Constants.TAG, "file: '" + path + "' couldn't be deleted", e);
+        }
+    }
+
+    @Override
+    protected void dump(FileDescriptor fd, PrintWriter writer, String[] args) {
+        for (DownloadInfo info : mDownloads.values()) {
+            info.dump(writer);
         }
     }
 }

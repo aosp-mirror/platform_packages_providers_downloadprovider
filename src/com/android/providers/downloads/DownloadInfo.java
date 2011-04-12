@@ -33,6 +33,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -81,6 +82,7 @@ public class DownloadInfo {
             info.mTotalBytes = getLong(Downloads.Impl.COLUMN_TOTAL_BYTES);
             info.mCurrentBytes = getLong(Downloads.Impl.COLUMN_CURRENT_BYTES);
             info.mETag = getString(Constants.ETAG);
+            info.mUid = getInt(Constants.UID);
             info.mMediaScanned = getInt(Constants.MEDIA_SCANNED);
             info.mDeleted = getInt(Downloads.Impl.COLUMN_DELETED) == 1;
             info.mMediaProviderUri = getString(Downloads.Impl.COLUMN_MEDIAPROVIDER_URI);
@@ -204,6 +206,7 @@ public class DownloadInfo {
     public long mTotalBytes;
     public long mCurrentBytes;
     public String mETag;
+    public int mUid;
     public int mMediaScanned;
     public boolean mDeleted;
     public String mMediaProviderUri;
@@ -464,33 +467,29 @@ public class DownloadInfo {
         return ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, mId);
     }
 
+    public void dump(PrintWriter writer) {
+        writer.println("DownloadInfo:");
 
-    public void logVerboseInfo() {
-        Log.v(Constants.TAG, "Service adding new entry");
-        Log.v(Constants.TAG, "ID      : " + mId);
-        Log.v(Constants.TAG, "URI     : " + ((mUri != null) ? "yes" : "no"));
-        Log.v(Constants.TAG, "NO_INTEG: " + mNoIntegrity);
-        Log.v(Constants.TAG, "HINT    : " + mHint);
-        Log.v(Constants.TAG, "FILENAME: " + mFileName);
-        Log.v(Constants.TAG, "MIMETYPE: " + mMimeType);
-        Log.v(Constants.TAG, "DESTINAT: " + mDestination);
-        Log.v(Constants.TAG, "VISIBILI: " + mVisibility);
-        Log.v(Constants.TAG, "CONTROL : " + mControl);
-        Log.v(Constants.TAG, "STATUS  : " + mStatus);
-        Log.v(Constants.TAG, "FAILED_C: " + mNumFailed);
-        Log.v(Constants.TAG, "RETRY_AF: " + mRetryAfter);
-        Log.v(Constants.TAG, "LAST_MOD: " + mLastMod);
-        Log.v(Constants.TAG, "PACKAGE : " + mPackage);
-        Log.v(Constants.TAG, "CLASS   : " + mClass);
-        Log.v(Constants.TAG, "COOKIES : " + ((mCookies != null) ? "yes" : "no"));
-        Log.v(Constants.TAG, "AGENT   : " + mUserAgent);
-        Log.v(Constants.TAG, "REFERER : " + ((mReferer != null) ? "yes" : "no"));
-        Log.v(Constants.TAG, "TOTAL   : " + mTotalBytes);
-        Log.v(Constants.TAG, "CURRENT : " + mCurrentBytes);
-        Log.v(Constants.TAG, "ETAG    : " + mETag);
-        Log.v(Constants.TAG, "SCANNED : " + mMediaScanned);
-        Log.v(Constants.TAG, "DELETED : " + mDeleted);
-        Log.v(Constants.TAG, "MEDIAPROVIDER_URI : " + mMediaProviderUri);
+        writer.print("  mId="); writer.print(mId);
+        writer.print(" mLastMod="); writer.print(mLastMod);
+        writer.print(" mPackage="); writer.print(mPackage);
+        writer.print(" mUid="); writer.println(mUid);
+
+        writer.print("  mUri="); writer.print(mUri);
+        writer.print(" mMimeType="); writer.print(mMimeType);
+        writer.print(" mCookies="); writer.print((mCookies != null) ? "yes" : "no");
+        writer.print(" mReferer="); writer.println((mReferer != null) ? "yes" : "no");
+
+        writer.print("  mUserAgent="); writer.println(mUserAgent);
+
+        writer.print("  mFileName="); writer.println(mFileName);
+
+        writer.print("  mStatus="); writer.print(mStatus);
+        writer.print(" mCurrentBytes="); writer.print(mCurrentBytes);
+        writer.print(" mTotalBytes="); writer.println(mTotalBytes);
+
+        writer.print("  mNumFailed="); writer.print(mNumFailed);
+        writer.print(" mRetryAfter="); writer.println(mRetryAfter);
     }
 
     /**

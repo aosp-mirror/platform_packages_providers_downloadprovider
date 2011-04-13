@@ -17,6 +17,7 @@
 package com.android.providers.downloads;
 
 import android.app.DownloadManager;
+import android.app.DownloadManager.Request;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -725,12 +726,15 @@ public final class DownloadProvider extends ContentProvider {
         if (getContext().checkCallingOrSelfPermission(Downloads.Impl.PERMISSION_NO_NOTIFICATION)
                 == PackageManager.PERMISSION_GRANTED) {
             enforceAllowedValues(values, Downloads.Impl.COLUMN_VISIBILITY,
-                    Downloads.Impl.VISIBILITY_HIDDEN, Downloads.Impl.VISIBILITY_VISIBLE,
-                    DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION);
+                    Request.VISIBILITY_HIDDEN,
+                    Request.VISIBILITY_VISIBLE,
+                    Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED,
+                    Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION);
         } else {
             enforceAllowedValues(values, Downloads.Impl.COLUMN_VISIBILITY,
-                    Downloads.Impl.VISIBILITY_VISIBLE,
-                    DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION);
+                    Request.VISIBILITY_VISIBLE,
+                    Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED,
+                    Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION);
         }
 
         // remove the rest of the columns that are allowed (with any value)

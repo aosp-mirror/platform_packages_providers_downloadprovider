@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.drm.mobile1.DrmRawContent;
 import android.net.http.AndroidHttpClient;
 import android.net.Proxy;
+import android.net.TrafficStats;
 import android.os.FileUtils;
 import android.os.PowerManager;
 import android.os.Process;
@@ -138,12 +139,16 @@ public class DownloadThread extends Thread {
             wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.TAG);
             wakeLock.acquire();
 
-
             if (Constants.LOGV) {
                 Log.v(Constants.TAG, "initiating download for " + mInfo.mUri);
             }
 
             client = AndroidHttpClient.newInstance(userAgent(), mContext);
+
+            // network traffic on this thread should be counted against the
+            // requesting uid, and is tagged with well-known value.
+            TrafficStats.setThreadStatsTag("android:DownloadManager");
+            TrafficStats.setThreadStatsUid(mInfo.mUid);
 
             boolean finished = false;
             while(!finished) {
@@ -186,10 +191,9 @@ public class DownloadThread extends Thread {
             finalStatus = Downloads.Impl.STATUS_UNKNOWN_ERROR;
             // falls through to the code that reports an error
         } finally {
-            if (wakeLock != null) {
-                wakeLock.release();
-                wakeLock = null;
-            }
+            TrafficStats.clearThreadStatsTag();
+            TrafficStats.clearThreadStatsUid();
+
             if (client != null) {
                 client.close();
                 client = null;
@@ -199,6 +203,11 @@ public class DownloadThread extends Thread {
                                     state.mGotData, state.mFilename,
                                     state.mNewUri, state.mMimeType, errorMsg);
             DownloadHandler.getInstance().dequeueDownload(mInfo.mId);
+
+            if (wakeLock != null) {
+                wakeLock.release();
+                wakeLock = null;
+            }
         }
         mStorageManager.incrementNumDownloadsSoFar();
     }

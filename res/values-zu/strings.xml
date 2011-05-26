@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Copyright (C) 2007 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label" msgid="3658948994665187911">"Umphathi wokulayisha"</string>
+    <!-- no translation found for permlab_downloadManager (7779544811202855500) -->
+    <skip />
+    <string name="permdesc_downloadManager" msgid="4240298564918160337">"Ivumela uhlelo lokusebenza ukulayisha umphathi nokumsebenzisela ukulayisha amafayela. Izinhlelo zokusebenza ezinonya zingase zisebenzise lokhu ukuphazamisa ukulayisha kanye nokufinyelele ukwaziswa okuyimfihlo."</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Izici zomphathi wokulayisha othuthukisiwe."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Ivumela uhlelo lokusebenza ukufinyelela izici ezithuthukisiwe zomphathi wokulayisha. Izinhlelo zokusebenza ezinonya zingase zisebenzise lokhu ukuphazamisa ukulayisha kanye nokufinyelele ukwaziswa okuyimfihlo."</string>
+    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Thumela izaziso zokulayisha"</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Ivumela izinhlelo ukuthumela izaziso mayelana nokulayisha okuqediwe. Izinhlelo zokusebenza ezininya zingase zisebenzise lokhu ukudida ezinye izinhlelo zokusebenza lezo ezilayisha amafayela."</string>
+    <!-- outdated translation 140058400609165726 -->     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Bona konke ukulanda ekhadini le-SD"</string>
+    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Bona konke ukulanda ekhadini le-SD"</string>
+    <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Ivumela uhlelo lokusebenza ukubona konke ukulanda ekhadini le-SD, ngaphandle kokuthi yiluphi uhlelo lokusebenza olulandile."</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Igcina isikhala ekulondolozeni kwesikhashana kokulanda"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Ivumela uhlelo lokusebenza ukulanda amafayela ekulondolozeni kwesikhashana kokulanda okungakwazi ukususwa ngokuzenzakalelayo lapho imeneja yokulanda idinga isikhala esanele."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"landa amafayela ngaphandle kwesaziso"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Ivumela uhlelo lokusebenza ukulanda amafayela ngomeneja wokulanda ngaphandle kokuba isaziso siboniswe umsebenzisi."</string>
+    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Finyelela konke ukulanda kwesistimu"</string>
+    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Ivumela uhlelo lokusebenza ukubuka nokulungisa konke okuqaliswe yinoma yiluphi uhlelo lokusebenza kwisistimu."</string>
+    <!-- no translation found for download_unknown_title (7015124071247271585) -->
+    <skip />
+    <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
+    <string name="notification_filename_extras" msgid="5549729917695688191">" nokungu-<xliff:g id="NUMBER">%d</xliff:g> okungaphezulu"</string>
+    <!-- no translation found for notification_download_complete (840713937779273632) -->
+    <skip />
+    <!-- no translation found for notification_download_failed (5343637375905111462) -->
+    <skip />
+    <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Usayizi wokulanda udinga i-Wi-Fi"</string>
+    <string name="wifi_required_title" msgid="1995971416871498179">"Ukulanda kukhulu kakhulu"</string>
+    <!-- no translation found for wifi_required_body (1675692697446715831) -->
+    <skip />
+    <string name="wifi_recommended_title" msgid="7441589306734687400">"Linda ukulanda emva kwesikhathi?"</string>
+    <!-- no translation found for wifi_recommended_body (7574517147645381271) -->
+    <skip />
+    <string name="button_queue_for_wifi" msgid="422576726189179221">"Umugqa"</string>
+    <string name="button_cancel_download" msgid="2430166148737975604">"Khansela"</string>
+    <string name="button_start_now" msgid="792123674007840864">"Qala manje"</string>
+</resources>

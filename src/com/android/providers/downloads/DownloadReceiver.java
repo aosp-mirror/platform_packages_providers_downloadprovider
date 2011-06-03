@@ -150,6 +150,7 @@ public class DownloadReceiver extends BroadcastReceiver {
         }
 
         Intent activityIntent = new Intent(Intent.ACTION_VIEW);
+        mimetype = DownloadDrmHelper.getOriginalMimeType(context, filename, mimetype);
         activityIntent.setDataAndType(path, mimetype);
         activityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {

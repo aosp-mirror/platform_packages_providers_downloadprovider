@@ -20,7 +20,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.drm.mobile1.DrmRawContent;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.SystemClock;
@@ -90,7 +89,11 @@ public class Helpers {
                                              destination);
         }
         storageManager.verifySpace(destination, path, contentLength);
-        return getFullPath(path, mimeType, destination, base);
+        path = getFullPath(path, mimeType, destination, base);
+        if (DownloadDrmHelper.isDrmConvertNeeded(mimeType)) {
+            path = DownloadDrmHelper.modifyDrmFwLockFileExtension(path);
+        }
+        return path;
     }
 
     static String getFullPath(String filename, String mimeType, int destination,
@@ -131,7 +134,7 @@ public class Helpers {
                 throw new StopRequestException(Downloads.Impl.STATUS_NOT_ACCEPTABLE,
                         "external download with no mime type not allowed");
             }
-            if (!DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING.equalsIgnoreCase(mimeType)) {
+            if (!DownloadDrmHelper.isDrmMimeType(context, mimeType)) {
                 // Check to see if we are allowed to download this file. Only files
                 // that can be handled by the platform can be downloaded.
                 // special case DRM files, which we should always allow downloading.

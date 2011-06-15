@@ -18,20 +18,20 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Downloadadministrator"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Få adgang til downloadadministrator."</string>
-    <string name="permdesc_downloadManager" msgid="4240298564918160337">"Tillader, at programmet får adgang til downloadadministratoren og bruger det til at få adgang til downloadede filer. Ondsindede programmer kan bruge det til at afbryde downloads og få adgang til personlige oplysninger."</string>
+    <string name="permdesc_downloadManager" msgid="4240298564918160337">"Tillader, at applikationen får adgang til downloadadministratoren og bruger det til at få adgang til downloadede filer. Ondsindede applikationer kan bruge det til at afbryde downloads og få adgang til personlige oplysninger."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Avancerede funktioner for downloadadministrator."</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Tillader, at programmet får adgang til de avancerede funktioner i downloadadministratoren. Ondsindede programmer kan bruge dette til at afbryde downloads og få adgang til personlige oplysninger."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Tillader, at applikationen får adgang til de avancerede funktioner i downloadadministratoren. Ondsindede applikationer kan bruge dette til at afbryde downloads og få adgang til personlige oplysninger."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Send downloadmeddelelser."</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Tillader, at programmet sender meddelelser om afsluttede downloads. Ondsindede programmer kan bruge dette til at forvirre andre programmer, der downloader filer."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Tillader, at applikationen sender meddelelser om afsluttede downloads. Ondsindede applikationer kan bruge dette til at forvirre andre applikationer, der downloader filer."</string>
     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Se alle downloads til USB-lagr."</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Se alle downloads til SD-kort"</string>
-    <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Gør det muligt for programmet at se alle downloads til SD-kortet, uanset hvilket program, der downloadede dem."</string>
+    <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Gør det muligt for applikationen at se alle downloads til SD-kortet, uanset hvilken applikation, der downloadede dem."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Reserver plads i downloadcache"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Programmet kan downloade filer til downloadcachen, som ikke automatisk kan slettes, når downloadmanageren har brug for mere plads."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"download filer uden meddelelse"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Tillader, at programmet kan downloade filer via downloadmanageren, uden at brugeren underrettes."</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Tillader, at applikationen kan downloade filer via downloadmanageren, uden at brugeren underrettes."</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Adgang til alle systemdownloads"</string>
-    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Giver programmet tilladelse til at få vist og ændre alt, der igangsættes af et andet program i systemet."</string>
+    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Giver applikationen tilladelse til at få vist og ændre alt, der igangsættes af en anden applikation i systemet."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Uden titel&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" og <xliff:g id="NUMBER">%d</xliff:g> mere"</string>

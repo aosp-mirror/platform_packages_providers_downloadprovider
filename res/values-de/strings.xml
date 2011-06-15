@@ -36,7 +36,7 @@
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" und <xliff:g id="NUMBER">%d</xliff:g> weitere"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"Ladevorgang abgeschlossen"</string>
-    <string name="notification_download_failed" msgid="5343637375905111462">"Fehler beim Ladevorgang"</string>
+    <string name="notification_download_failed" msgid="5343637375905111462">"Download fehlgeschlagen"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Downloadgröße erfordert WLAN"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Download zu groß für Netzwerk dieses Betreibers."</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"Dieser Download (<xliff:g id="SIZE">%s </xliff:g>) ist nur über WLAN möglich. "\n\n"Klicken Sie auf <xliff:g id="QUEUE_TEXT">%s </xliff:g> und der Download wird bei Ihrer nächsten WLAN-Einwahl durchgeführt."</string>

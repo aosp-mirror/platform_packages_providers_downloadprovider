@@ -156,6 +156,10 @@
         [CHAR LIMIT=24] -->
     <string name="notification_need_wifi_for_size">Download size requires Wi-Fi</string>
 
+    <!-- Notification shown when a download has been paused because a user policy
+        has blocked network access to applications running in background. [CHAR LIMIT=24] -->
+    <string name="notification_paused_in_background">Paused in background</string>
+
     <!-- Title for dialog when a download exceeds the carrier-specified maximum size of downloads
         over the mobile network and Wi-Fi is required.  The user has the choice to either queue the
         download to start next time Wi-Fi is available or cancel the download altogether. [CHAR

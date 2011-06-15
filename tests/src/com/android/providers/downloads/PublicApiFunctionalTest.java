@@ -441,11 +441,12 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
     }
 
     public void testBasicConnectivityChanges() throws Exception {
+        // without connectivity, download immediately pauses
+        mSystemFacade.mActiveNetworkType = null;
+
         enqueueResponse(HTTP_OK, FILE_CONTENT);
         Download download = enqueueRequest(getRequest());
 
-        // without connectivity, download immediately pauses
-        mSystemFacade.mActiveNetworkType = null;
         download.runUntilStatus(DownloadManager.STATUS_PAUSED);
 
         // connecting should start the download

@@ -53,6 +53,8 @@
     <uses-permission android:name="android.permission.INSTALL_DRM" />
     <uses-permission android:name="android.permission.ACCESS_ALL_DOWNLOADS" />
     <uses-permission android:name="android.permission.UPDATE_DEVICE_STATS" />
+    <!-- TODO: replace with READ_NETWORK_POLICY permission when it exists -->
+    <uses-permission android:name="android.permission.CONNECTIVITY_INTERNAL" />
 
     <application android:process="android.process.media"
                  android:label="@string/app_label">

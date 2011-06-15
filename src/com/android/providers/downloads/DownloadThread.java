@@ -16,14 +16,15 @@
 
 package com.android.providers.downloads;
 
-import org.apache.http.conn.params.ConnRouteParams;
+import static android.Manifest.permission.MANAGE_NETWORK_POLICY;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
-import android.net.http.AndroidHttpClient;
+import android.net.INetworkPolicyListener;
+import android.net.NetworkPolicyManager;
 import android.net.Proxy;
 import android.net.TrafficStats;
+import android.net.http.AndroidHttpClient;
 import android.os.FileUtils;
 import android.os.PowerManager;
 import android.os.Process;
@@ -35,6 +36,7 @@ import android.util.Pair;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.params.ConnRouteParams;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -56,6 +58,8 @@ public class DownloadThread extends Thread {
     private final SystemFacade mSystemFacade;
     private final StorageManager mStorageManager;
     private DrmConvertSession mDrmConvertSession;
+
+    private volatile boolean mPolicyDirty;
 
     public DownloadThread(Context context, SystemFacade systemFacade, DownloadInfo info,
             StorageManager storageManager) {
@@ -133,10 +137,15 @@ public class DownloadThread extends Thread {
         int finalStatus = Downloads.Impl.STATUS_UNKNOWN_ERROR;
         String errorMsg = null;
 
+        final NetworkPolicyManager netPolicy = NetworkPolicyManager.getSystemService(mContext);
+        final PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
+
         try {
-            PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
             wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.TAG);
             wakeLock.acquire();
+
+            // while performing download, register for rules updates
+            netPolicy.registerListener(mPolicyListener);
 
             if (Constants.LOGV) {
                 Log.v(Constants.TAG, "initiating download for " + mInfo.mUri);
@@ -203,6 +212,8 @@ public class DownloadThread extends Thread {
                                     state.mNewUri, state.mMimeType, errorMsg);
             DownloadHandler.getInstance().dequeueDownload(mInfo.mId);
 
+            netPolicy.unregisterListener(mPolicyListener);
+
             if (wakeLock != null) {
                 wakeLock.release();
                 wakeLock = null;
@@ -242,6 +253,9 @@ public class DownloadThread extends Thread {
      * Check if current connectivity is valid for this request.
      */
     private void checkConnectivity() throws StopRequestException {
+        // checking connectivity will apply current policy
+        mPolicyDirty = false;
+
         int networkUsable = mInfo.checkCanUseNetwork();
         if (networkUsable != DownloadInfo.NETWORK_OK) {
             int status = Downloads.Impl.STATUS_WAITING_FOR_NETWORK;
@@ -251,6 +265,8 @@ public class DownloadThread extends Thread {
             } else if (networkUsable == DownloadInfo.NETWORK_RECOMMENDED_UNUSABLE_DUE_TO_SIZE) {
                 status = Downloads.Impl.STATUS_QUEUED_FOR_WIFI;
                 mInfo.notifyPauseDueToSize(false);
+            } else if (networkUsable == DownloadInfo.NETWORK_BLOCKED) {
+                status = Downloads.Impl.STATUS_BLOCKED;
             }
             throw new StopRequestException(status,
                     mInfo.getLogMessageForNetworkError(networkUsable));
@@ -262,8 +278,9 @@ public class DownloadThread extends Thread {
      * @param data buffer to use to read data
      * @param entityStream stream for reading the HTTP response entity
      */
-    private void transferData(State state, InnerState innerState, byte[] data,
-                                 InputStream entityStream) throws StopRequestException {
+    private void transferData(
+            State state, InnerState innerState, byte[] data, InputStream entityStream)
+            throws StopRequestException {
         for (;;) {
             int bytesRead = readFromResponse(state, innerState, data, entityStream);
             if (bytesRead == -1) { // success, end of stream already reached
@@ -364,12 +381,17 @@ public class DownloadThread extends Thread {
     private void checkPausedOrCanceled(State state) throws StopRequestException {
         synchronized (mInfo) {
             if (mInfo.mControl == Downloads.Impl.CONTROL_PAUSED) {
-                throw new StopRequestException(Downloads.Impl.STATUS_PAUSED_BY_APP,
-                        "download paused by owner");
+                throw new StopRequestException(
+                        Downloads.Impl.STATUS_PAUSED_BY_APP, "download paused by owner");
+            }
+            if (mInfo.mStatus == Downloads.Impl.STATUS_CANCELED) {
+                throw new StopRequestException(Downloads.Impl.STATUS_CANCELED, "download canceled");
             }
         }
-        if (mInfo.mStatus == Downloads.Impl.STATUS_CANCELED) {
-            throw new StopRequestException(Downloads.Impl.STATUS_CANCELED, "download canceled");
+
+        // if policy has been changed, trigger connectivity check
+        if (mPolicyDirty) {
+            checkConnectivity();
         }
     }
 
@@ -471,7 +493,7 @@ public class DownloadThread extends Thread {
         try {
             return entityStream.read(data);
         } catch (IOException ex) {
-            logNetworkState();
+            logNetworkState(mInfo.mUid);
             ContentValues values = new ContentValues();
             values.put(Downloads.Impl.COLUMN_CURRENT_BYTES, innerState.mBytesSoFar);
             mContext.getContentResolver().update(mInfo.getAllDownloadsUri(), values, null, null);
@@ -496,16 +518,16 @@ public class DownloadThread extends Thread {
         try {
             return response.getEntity().getContent();
         } catch (IOException ex) {
-            logNetworkState();
+            logNetworkState(mInfo.mUid);
             throw new StopRequestException(getFinalStatusForHttpError(state),
                     "while getting entity: " + ex.toString(), ex);
         }
     }
 
-    private void logNetworkState() {
+    private void logNetworkState(int uid) {
         if (Constants.LOGX) {
             Log.i(Constants.TAG,
-                    "Net " + (Helpers.isNetworkAvailable(mSystemFacade) ? "Up" : "Down"));
+                    "Net " + (Helpers.isNetworkAvailable(mSystemFacade, uid) ? "Up" : "Down"));
         }
     }
 
@@ -766,7 +788,7 @@ public class DownloadThread extends Thread {
             throw new StopRequestException(Downloads.Impl.STATUS_HTTP_DATA_ERROR,
                     "while trying to execute request: " + ex.toString(), ex);
         } catch (IOException ex) {
-            logNetworkState();
+            logNetworkState(mInfo.mUid);
             throw new StopRequestException(getFinalStatusForHttpError(state),
                     "while trying to execute request: " + ex.toString(), ex);
         }
@@ -775,10 +797,15 @@ public class DownloadThread extends Thread {
     private int getFinalStatusForHttpError(State state) {
         int networkUsable = mInfo.checkCanUseNetwork();
         if (networkUsable != DownloadInfo.NETWORK_OK) {
-            return (networkUsable == DownloadInfo.NETWORK_UNUSABLE_DUE_TO_SIZE ||
-                    networkUsable == DownloadInfo.NETWORK_RECOMMENDED_UNUSABLE_DUE_TO_SIZE)
-                    ? Downloads.Impl.STATUS_QUEUED_FOR_WIFI
-                    : Downloads.Impl.STATUS_WAITING_FOR_NETWORK;
+            switch (networkUsable) {
+                case DownloadInfo.NETWORK_UNUSABLE_DUE_TO_SIZE:
+                case DownloadInfo.NETWORK_RECOMMENDED_UNUSABLE_DUE_TO_SIZE:
+                    return Downloads.Impl.STATUS_QUEUED_FOR_WIFI;
+                case DownloadInfo.NETWORK_BLOCKED:
+                    return Downloads.Impl.STATUS_BLOCKED;
+                default:
+                    return Downloads.Impl.STATUS_WAITING_FOR_NETWORK;
+            }
         } else if (mInfo.mNumFailed < Constants.MAX_RETRIES) {
             state.mCountRetry = true;
             return Downloads.Impl.STATUS_WAITING_TO_RETRY;
@@ -938,4 +965,25 @@ public class DownloadThread extends Thread {
             return null;
         }
     }
+
+    private INetworkPolicyListener mPolicyListener = new INetworkPolicyListener.Stub() {
+        @Override
+        public void onUidRulesChanged(int uid, int uidRules) {
+            // only someone like NPMS should only be calling us
+            mContext.enforceCallingOrSelfPermission(MANAGE_NETWORK_POLICY, Constants.TAG);
+
+            if (uid == mInfo.mUid) {
+                mPolicyDirty = true;
+            }
+        }
+
+        @Override
+        public void onMeteredIfacesChanged(String[] meteredIfaces) {
+            // only someone like NPMS should only be calling us
+            mContext.enforceCallingOrSelfPermission(MANAGE_NETWORK_POLICY, Constants.TAG);
+
+            mPolicyDirty = true;
+        }
+    };
+
 }

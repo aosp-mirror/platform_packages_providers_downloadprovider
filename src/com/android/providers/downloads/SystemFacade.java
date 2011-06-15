@@ -4,6 +4,7 @@ package com.android.providers.downloads;
 import android.app.Notification;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.NetworkInfo;
 
 
 interface SystemFacade {
@@ -13,10 +14,10 @@ interface SystemFacade {
     public long currentTimeMillis();
 
     /**
-     * @return Network type (as in ConnectivityManager.TYPE_*) of currently active network, or null
-     * if there's no active connection.
+     * @return Currently active network, or null if there's no active
+     *         connection.
      */
-    public Integer getActiveNetworkType();
+    public NetworkInfo getActiveNetworkInfo(int uid);
 
     /**
      * @see android.telephony.TelephonyManager#isNetworkRoaming

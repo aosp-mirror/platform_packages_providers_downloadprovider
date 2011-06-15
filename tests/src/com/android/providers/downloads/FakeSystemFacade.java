@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.test.AssertionFailedError;
 
 import java.util.ArrayList;
@@ -36,8 +37,12 @@ public class FakeSystemFacade implements SystemFacade {
         return mTimeMillis;
     }
 
-    public Integer getActiveNetworkType() {
-        return mActiveNetworkType;
+    public NetworkInfo getActiveNetworkInfo(int uid) {
+        if (mActiveNetworkType == null) {
+            return null;
+        } else {
+            return new NetworkInfo(mActiveNetworkType, 0, null, null);
+        }
     }
 
     public boolean isNetworkRoaming() {

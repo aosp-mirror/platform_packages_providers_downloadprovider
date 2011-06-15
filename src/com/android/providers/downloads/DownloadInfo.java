@@ -24,6 +24,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.NetworkInfo.DetailedState;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.Downloads;
@@ -175,6 +177,11 @@ public class DownloadInfo {
      * The app requesting the download specific that it can't use the current network connection.
      */
     public static final int NETWORK_TYPE_DISALLOWED_BY_REQUESTOR = 6;
+
+    /**
+     * Current network is blocked for requesting application.
+     */
+    public static final int NETWORK_BLOCKED = 7;
 
     /**
      * For intents used to notify the user that a download exceeds a size threshold, if this extra
@@ -333,14 +340,17 @@ public class DownloadInfo {
      * @return one of the NETWORK_* constants
      */
     public int checkCanUseNetwork() {
-        Integer networkType = mSystemFacade.getActiveNetworkType();
-        if (networkType == null) {
+        final NetworkInfo info = mSystemFacade.getActiveNetworkInfo(mUid);
+        if (info == null) {
             return NETWORK_NO_CONNECTION;
+        }
+        if (DetailedState.BLOCKED.equals(info.getDetailedState())) {
+            return NETWORK_BLOCKED;
         }
         if (!isRoamingAllowed() && mSystemFacade.isNetworkRoaming()) {
             return NETWORK_CANNOT_USE_ROAMING;
         }
-        return checkIsNetworkTypeAllowed(networkType);
+        return checkIsNetworkTypeAllowed(info.getType());
     }
 
     private boolean isRoamingAllowed() {
@@ -371,6 +381,9 @@ public class DownloadInfo {
 
             case NETWORK_TYPE_DISALLOWED_BY_REQUESTOR:
                 return "download was requested to not use the current network type";
+
+            case NETWORK_BLOCKED:
+                return "network is blocked for requesting application";
 
             default:
                 return "unknown error with network connectivity";

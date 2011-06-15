@@ -27,7 +27,7 @@ class RealSystemFacade implements SystemFacade {
         return System.currentTimeMillis();
     }
 
-    public Integer getActiveNetworkType() {
+    public NetworkInfo getActiveNetworkInfo(int uid) {
         ConnectivityManager connectivity =
                 (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivity == null) {
@@ -35,14 +35,11 @@ class RealSystemFacade implements SystemFacade {
             return null;
         }
 
-        NetworkInfo activeInfo = connectivity.getActiveNetworkInfo();
-        if (activeInfo == null) {
-            if (Constants.LOGVV) {
-                Log.v(Constants.TAG, "network is not available");
-            }
-            return null;
+        final NetworkInfo activeInfo = connectivity.getActiveNetworkInfoForUid(uid);
+        if (activeInfo == null && Constants.LOGVV) {
+            Log.v(Constants.TAG, "network is not available");
         }
-        return activeInfo.getType();
+        return activeInfo;
     }
 
     public boolean isNetworkRoaming() {

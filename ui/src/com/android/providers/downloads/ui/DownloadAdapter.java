@@ -155,10 +155,12 @@ public class DownloadAdapter extends CursorAdapter {
                 return R.string.download_running;
 
             case DownloadManager.STATUS_PAUSED:
-                if (mCursor.getInt(mReasonColumnId) == DownloadManager.PAUSED_QUEUED_FOR_WIFI) {
-                    return R.string.download_queued;
-                } else {
-                    return R.string.download_running;
+                final int reason = mCursor.getInt(mReasonColumnId);
+                switch (reason) {
+                    case DownloadManager.PAUSED_QUEUED_FOR_WIFI:
+                        return R.string.download_queued;
+                    default:
+                        return R.string.download_running;
                 }
         }
         throw new IllegalStateException("Unknown status: " + mCursor.getInt(mStatusColumnId));

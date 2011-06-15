@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.SystemClock;
@@ -356,8 +357,9 @@ public class Helpers {
     /**
      * Returns whether the network is available
      */
-    public static boolean isNetworkAvailable(SystemFacade system) {
-        return system.getActiveNetworkType() != null;
+    public static boolean isNetworkAvailable(SystemFacade system, int uid) {
+        final NetworkInfo info = system.getActiveNetworkInfo(uid);
+        return info != null && info.isConnected();
     }
 
     /**

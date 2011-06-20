@@ -38,6 +38,8 @@
     <string name="notification_download_complete" msgid="840713937779273632">"Tải xuống hoàn tất"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Tải xuống không thành công"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"K.thước t.xuống cần Wi-Fi"</string>
+    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
+    <skip />
     <string name="wifi_required_title" msgid="1995971416871498179">"Bản tải xuống quá lớn so với mạng của nhà cung cấp"</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"Bạn phải sử dụng WiFi để hoàn tất bản tải xuống <xliff:g id="SIZE">%s </xliff:g> này. "\n\n"Nhấp <xliff:g id="QUEUE_TEXT">%s </xliff:g> để bắt đầu bản tải xuống này khi bạn kết nối với mạng WiFi lần sau."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Xếp hàng đợi để tải xuống sau?"</string>

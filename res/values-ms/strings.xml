@@ -20,48 +20,31 @@
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Akses pengurus muat turun."</string>
     <string name="permdesc_downloadManager" msgid="4240298564918160337">"Membolehkan aplikasi mengakses pengurus muat turun dan menggunakannya untuk memuat turun fail. Aplikasi berniat jahat boleh menggunakannya untuk mengganggu muat turun dan mengakses maklumat peribadi."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Fungsi pengurus muat turun lanjutan."</string>
-    <!-- no translation found for permdesc_downloadManagerAdvanced (6985743912436565114) -->
-    <skip />
+    <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Membenarkan aplikasi mengakses fungsi lanjutan pengurus muat turun. Aplikasi berniat jahat boleh menggunakannya untuk mengganggu muat turun dan mengakses maklumat peribadi."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Hantar pemberitahuan muat turun."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Membenarkan aplikasi menghantar pemberitahuan mengenai muat turun yang selesai. Aplikasi berniat jahat boleh menggunakannya untuk mengelirukan aplikasi lain yang memuat turun fail."</string>
-    <!-- no translation found for permlab_seeAllExternal (4084575448409212628) -->
-    <skip />
-    <!-- no translation found for permlab_seeAllExternal (140058400609165726) -->
-    <skip />
-    <!-- no translation found for permdesc_seeAllExternal (3298948060016417104) -->
-    <skip />
-    <!-- no translation found for permlab_downloadCacheNonPurgeable (3069534308882047412) -->
-    <skip />
-    <!-- no translation found for permdesc_downloadCacheNonPurgeable (1089583021652571424) -->
-    <skip />
-    <!-- no translation found for permlab_downloadWithoutNotification (8837971946078327262) -->
-    <skip />
-    <!-- no translation found for permdesc_downloadWithoutNotification (5174806530123417020) -->
-    <skip />
-    <!-- no translation found for permlab_accessAllDownloads (2436240495424393717) -->
-    <skip />
-    <!-- no translation found for permdesc_accessAllDownloads (4575801130424505112) -->
-    <skip />
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Lihat m.turun ke strn USB"</string>
+    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Lihat semua muat turun ke kad SD"</string>
+    <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Membenarkan aplikasi melihat semua muat turun ke kad SD, tanpa mengira aplikasi mana yang memuat turunnya."</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Menempah ruang dalam cache muat turun"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Membenarkan aplikasi memuat turun fail ke cache muat turun yg tidak boleh dipadamkan secara automatik apabila pengurus muat turun memerlukan lebih banyak ruang."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"memuat turun fail tanpa pemberitahuan"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Membenarkan aplikasi memuat turun fail melalui pengurus muat turun tanpa menunjukkan sebarang pemberitahuan kepada pengguna."</string>
+    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Mengakses semua muat turun sistem"</string>
+    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Membenarkan aplikasi melihat dan mengubah suai semua yang dimulakan oleh sebarang aplikasi pada sistem."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Tidak bertajuk&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
-    <!-- no translation found for notification_filename_extras (5549729917695688191) -->
-    <skip />
+    <string name="notification_filename_extras" msgid="5549729917695688191">" dan <xliff:g id="NUMBER">%d</xliff:g> lagi"</string>
     <string name="notification_download_complete" msgid="840713937779273632">"Muat turun selesai"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Muat turun tidak berjaya"</string>
-    <!-- no translation found for notification_need_wifi_for_size (5973127997598540499) -->
+    <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Saiz m.trn perlukn Wi-Fi"</string>
+    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
     <skip />
-    <!-- no translation found for wifi_required_title (1995971416871498179) -->
-    <skip />
-    <!-- no translation found for wifi_required_body (1675692697446715831) -->
-    <skip />
-    <!-- no translation found for wifi_recommended_title (7441589306734687400) -->
-    <skip />
-    <!-- no translation found for wifi_recommended_body (7574517147645381271) -->
-    <skip />
-    <!-- no translation found for button_queue_for_wifi (422576726189179221) -->
-    <skip />
-    <!-- no translation found for button_cancel_download (2430166148737975604) -->
-    <skip />
-    <!-- no translation found for button_start_now (792123674007840864) -->
-    <skip />
+    <string name="wifi_required_title" msgid="1995971416871498179">"Muat turun terlalu besar untuk operator rangkaian"</string>
+    <string name="wifi_required_body" msgid="1675692697446715831">"Anda harus menggunakan WiFi untuk menyelesaikan muat turun <xliff:g id="SIZE">%s </xliff:g> ini. "\n\n"Klik <xliff:g id="QUEUE_TEXT">%s </xliff:g> untuk memulakan muat turun kali berikut apabila anda bersambung kepada rangkaian WiFi."</string>
+    <string name="wifi_recommended_title" msgid="7441589306734687400">"Baris gilir untuk dimuat turun kemudian?"</string>
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"Memulakan m.turun <xliff:g id="SIZE">%s </xliff:g> ini skrg boleh pendekkan hayat bateri anda dan/atau menyebabkan penggunaan smbgn data mudah alih anda secara berlebihan, yg boleh menyebabkan anda dicaj oleh pengendali mudah alih bergantung pd pelan data anda."\n\n" Klik <xliff:g id="QUEUE_TEXT">%s</xliff:g> untuk memulakan m.turun kali berikut anda bersambung kpd rangkaian WiFi."</string>
+    <string name="button_queue_for_wifi" msgid="422576726189179221">"Baris gilir"</string>
+    <string name="button_cancel_download" msgid="2430166148737975604">"Batal"</string>
+    <string name="button_start_now" msgid="792123674007840864">"Mulakan sekarang"</string>
 </resources>

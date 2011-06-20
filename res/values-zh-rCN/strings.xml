@@ -38,6 +38,8 @@
     <string name="notification_download_complete" msgid="840713937779273632">"下载完成"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"下载失败"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"此大小的文件需要通过 Wi-Fi 下载"</string>
+    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
+    <skip />
     <string name="wifi_required_title" msgid="1995971416871498179">"文件太大，不适于通过运营商网络下载"</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"您必须使用 Wi-Fi 才能完成此 <xliff:g id="SIZE">%s </xliff:g> 文件的下载。"\n\n"点击<xliff:g id="QUEUE_TEXT">%s </xliff:g>可在下次连接到 Wi-Fi 网络时开始此下载。"</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"稍后再加入下载队列吗？"</string>

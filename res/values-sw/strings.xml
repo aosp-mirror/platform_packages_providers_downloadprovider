@@ -24,7 +24,7 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Huruhusu programu kufikia vitendaji mahiri vya kisimamizi vipakuzi. Programu mbaya za kompyuta zinaweza kutumia hii ili kutatiza vipakuzi na kufikia maelezo ya kibinafsi."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Tuma arifa za vipakuzi."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Huruhusu programu kutuma arifa kuhusu vipakuzi vilivyokamilika. Programu hasidi zinaweza kutumia ili kuchanganya programu zingine za kupakua faili."</string>
-    <!-- outdated translation 140058400609165726 -->     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Tazama vipakuzi vyote kwa kadi ya SD"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Angalia vipakuzi vyote kwa hifadhi ya USB"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Tazama vipakuzi vyote kwa kadi ya SD"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Huruhusu programu kuona vipakuzi vyote kwa kadi ya SD, bila ya kuzingatia programu iliyovipakua."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Geuza nafasi katika kache ya kupakua"</string>
@@ -42,12 +42,12 @@
     <!-- no translation found for notification_download_failed (5343637375905111462) -->
     <skip />
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Ukubwa wa kipakuzi unahitaji Wi-Fi"</string>
+    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
+    <skip />
     <string name="wifi_required_title" msgid="1995971416871498179">"Kipakuzi ni kikubwa zaidi kwa mtandao wa mtoa huduma"</string>
-    <!-- no translation found for wifi_required_body (1675692697446715831) -->
-    <skip />
+    <string name="wifi_required_body" msgid="1675692697446715831">"Lazima utumie WiFi ili kukamilisha upakuaji wa <xliff:g id="SIZE">%s </xliff:g>. "\n\n"Bofya <xliff:g id="QUEUE_TEXT">%s </xliff:g> ili kuanzisha upakuaji huu wakati mwingine utakapokuwa umeunganishwa kwa mtandao wa WiFi."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Weka katika foleni ya kupakulia baadaye?"</string>
-    <!-- no translation found for wifi_recommended_body (7574517147645381271) -->
-    <skip />
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"Kuanzisha upakuaji huu wa <xliff:g id="SIZE">%s </xliff:g> huenda kukafupisha maisha ya betri yako na/au kusababisha matumizi zaidi ya muunganisho wako wa data ya simu ya mkononi, ambayo yanaweza kusababisha gharama kutoka kwa mtoa huduma wako wa simu kulingana na mpango wa data uliomo."\n\n" Bofya <xliff:g id="QUEUE_TEXT">%s</xliff:g> hapo chini ili kuanzisha upakuaji huu wakati mwingine utakapokuwa umeunganishwa kwa mtandao-hewa."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Foleni"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Ghairi"</string>
     <string name="button_start_now" msgid="792123674007840864">"Anza sasa"</string>

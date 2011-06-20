@@ -24,7 +24,7 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"የአውርዱንአዸራጅየላቁ ተግባሮችለመድረስመተግበሪያው ይፈቅዳል።ተንኮል አዘል ትግበራዎች አውርድን  እና የግል መረጃ መድረስለማስተጓጎል ይህን ይጠቀማሉ።"</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"አውርድ ማሳወቂያዎች ላክ።"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"ስለተጠናቀቁ አውርዶች ማሳወቂያለመላክ መተግበሪያው ይፈቅዳል። ተንኮል አዘል ትግበራዎች ሌሎች ፋይሎች የሚያወርዱ ትግበራዎችንግራ ለማጋበት ይህን ሊጠቀሙ ይችላሉ።"</string>
-    <!-- outdated translation 140058400609165726 -->     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"ሁሉንም አውርዶች ለSD ካርድ አሳይ"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"ሁሉንም አውርዶች ወደ USB ማከማቻእይ"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"ሁሉንም አውርዶች ለSD ካርድ አሳይ"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"ትግበራው የትኛው ትግበራ እንዳወረዳቸው ሳያውቅ ሁሉንም አውርዶች ወደ SD ካርድ ለማየት ይፈቅዳል።"</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"በአውርድ መሸጎጫ ባዶ ቦታ አስቀምጥ"</string>
@@ -42,12 +42,12 @@
     <!-- no translation found for notification_download_failed (5343637375905111462) -->
     <skip />
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"የአውርድ መጠን Wi-Fi ይጠይቃል"</string>
+    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
+    <skip />
     <string name="wifi_required_title" msgid="1995971416871498179">"ለትእምርተ ከዋኝ አውታረ መረብ በጣም ብዙ አውርድ"</string>
-    <!-- no translation found for wifi_required_body (1675692697446715831) -->
-    <skip />
+    <string name="wifi_required_body" msgid="1675692697446715831">"ይህን<xliff:g id="SIZE">%s </xliff:g> አውርድ ለማጠናቀቅ WiFi  መጠቀም አለብዎ።"\n\n"በሚቀጥለው ጊዜ ወደWiFi ሲያያዙይህን አውርድ ለማስጀመር<xliff:g id="QUEUE_TEXT">%s </xliff:g> ጠቅ ያድርጉ።"</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"ለኋላ አውርድ ወረፋ?"</string>
-    <!-- no translation found for wifi_recommended_body (7574517147645381271) -->
-    <skip />
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"ይህን<xliff:g id="SIZE">%s </xliff:g> አውርድ አሁን መጀመር የባትሪዎን ጊዜ ያሳጥረዋል እና/ወይም የተንቀሳቃሽዎ ውሂብ ተያያዥ አጠቃቀም ከመጠን ማለፍያስከትላል፣የተንሳቃሽዎ ከዋኝ እንደ ውሂብ እቅድዎ ወደ ክፍያሊያመራ ይችላል።በሚቀጥለው ጊዜ WiFi  አውታረ መረብ ሲያያዝ ይህን አውርድ ለመጀመርከታች "\n" ጠቅ ያድርጉ።"\n" <xliff:g id="QUEUE_TEXT">%s</xliff:g>"</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"ወረፋ"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"ይቅር"</string>
     <string name="button_start_now" msgid="792123674007840864">"አሁን ጀምር"</string>

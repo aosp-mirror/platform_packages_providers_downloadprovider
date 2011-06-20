@@ -41,7 +41,7 @@
     <string name="remove_download" msgid="6372920256257247857">"Κατάργηση"</string>
     <string name="delete_download" msgid="76629022653866471">"Διαγραφή"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"Διατήρηση"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"Άκυρο"</string>
+    <string name="cancel_running_download" msgid="5232704030969221112">"Ακύρωση"</string>
     <string name="retry_download" msgid="7617100787922717912">"Επανάληψη"</string>
     <string name="deselect_all" msgid="7986832738563338661">"Κατάργηση επιλογής όλων"</string>
     <string name="select_all" msgid="5854385570247421586">"Επιλογή όλων"</string>

@@ -24,7 +24,7 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Ivumela uhlelo lokusebenza ukufinyelela izici ezithuthukisiwe zomphathi wokulayisha. Izinhlelo zokusebenza ezinonya zingase zisebenzise lokhu ukuphazamisa ukulayisha kanye nokufinyelele ukwaziswa okuyimfihlo."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Thumela izaziso zokulayisha"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Ivumela izinhlelo ukuthumela izaziso mayelana nokulayisha okuqediwe. Izinhlelo zokusebenza ezininya zingase zisebenzise lokhu ukudida ezinye izinhlelo zokusebenza lezo ezilayisha amafayela."</string>
-    <!-- outdated translation 140058400609165726 -->     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Bona konke ukulanda ekhadini le-SD"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Bona konke ukulanda ekugcineni nge-USB"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Bona konke ukulanda ekhadini le-SD"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Ivumela uhlelo lokusebenza ukubona konke ukulanda ekhadini le-SD, ngaphandle kokuthi yiluphi uhlelo lokusebenza olulandile."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Igcina isikhala ekulondolozeni kwesikhashana kokulanda"</string>
@@ -42,12 +42,12 @@
     <!-- no translation found for notification_download_failed (5343637375905111462) -->
     <skip />
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Usayizi wokulanda udinga i-Wi-Fi"</string>
+    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
+    <skip />
     <string name="wifi_required_title" msgid="1995971416871498179">"Ukulanda kukhulu kakhulu"</string>
-    <!-- no translation found for wifi_required_body (1675692697446715831) -->
-    <skip />
+    <string name="wifi_required_body" msgid="1675692697446715831">"Kumele usebenzise i-WiFi ukuqedela lokhu <xliff:g id="SIZE">%s </xliff:g> kulanda. "\n\n"Qhafaza i-<xliff:g id="QUEUE_TEXT">%s </xliff:g> ukuqalisa lokhu kulanda esikhathini esizayo lapho uxhumeke kwinethiwekhi ye-WiFi."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Linda ukulanda emva kwesikhathi?"</string>
-    <!-- no translation found for wifi_recommended_body (7574517147645381271) -->
-    <skip />
+    <string name="wifi_recommended_body" msgid="7574517147645381271">"Ukuqalisa lokhu <xliff:g id="SIZE">%s </xliff:g> kulanda manje kungase kunciphise ukuphila kwebhetri yakho futhi/noma kuhilele ekusetshenzisweni okuphezulu kakhulu koxhumano lwakho lwefoni, okungase kuhilele kwizindleko eziphuma ku-opheretha wefoni yakho kuya ngelungiselelo ledatha yakho."\n\n" Qhafaza <xliff:g id="QUEUE_TEXT">%s</xliff:g> ngenzansi ukuqalisa lokhu kulanda esikhathini esizayo lapho uxhumeke kwinethiwekhi ye-WiFi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Umugqa"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Khansela"</string>
     <string name="button_start_now" msgid="792123674007840864">"Qala manje"</string>

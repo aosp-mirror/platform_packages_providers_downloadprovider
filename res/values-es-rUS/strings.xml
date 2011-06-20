@@ -38,6 +38,8 @@
     <string name="notification_download_complete" msgid="840713937779273632">"Descarga completa"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"La descarga no se ha realizado correctamente"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"El tamaño de la descarga requiere Wi-Fi."</string>
+    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
+    <skip />
     <string name="wifi_required_title" msgid="1995971416871498179">"La descarga es demasiado grande la red del operador"</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"Debes usar WiFi para completar esta <xliff:g id="SIZE">%s </xliff:g>descarga. "\n\n"Haz clic en <xliff:g id="QUEUE_TEXT">%s </xliff:g> para iniciar esta descarga la próxima vez que te conectes a una red de WiFi."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"¿Agregar a la lista para descargar más tarde?"</string>

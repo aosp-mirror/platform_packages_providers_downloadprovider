@@ -38,6 +38,8 @@
     <string name="notification_download_complete" msgid="840713937779273632">"Preuzimanje je dovršeno"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Preuzimanje nije uspjelo"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Vel. preuz. traži Wi-Fi"</string>
+    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
+    <skip />
     <string name="wifi_required_title" msgid="1995971416871498179">"Preuzimanje je preveliko za mrežu operatora"</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"Za dovršavanje ovog <xliff:g id="SIZE">%s </xliff:g> preuzimanja morate upotrijebiti WiFi. "\n\n"Kliknite <xliff:g id="QUEUE_TEXT">%s </xliff:g> da bi preuzimanje počelo sljedeći put kada se spojite na WiFi mrežu."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Staviti na čekanje za kasnije preuzimanje?"</string>

@@ -38,6 +38,8 @@
     <string name="notification_download_complete" msgid="840713937779273632">"Download complete"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Download unsuccessful"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Download size requires Wi-Fi"</string>
+    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
+    <skip />
     <string name="wifi_required_title" msgid="1995971416871498179">"Download too large for operator network"</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"You must use Wi-Fi to complete this <xliff:g id="SIZE">%s </xliff:g> download. "\n\n"Click <xliff:g id="QUEUE_TEXT">%s </xliff:g> to begin this download the next time that you are connected to a Wi-Fi network."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Queue for download later?"</string>

@@ -38,6 +38,8 @@
     <string name="notification_download_complete" msgid="840713937779273632">"ダウンロード完了"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"ダウンロードに失敗しました"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Wi-Fiが必要なサイズです"</string>
+    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
+    <skip />
     <string name="wifi_required_title" msgid="1995971416871498179">"ダウンロードするサイズが大きすぎます"</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"この<xliff:g id="SIZE">%s </xliff:g>のダウンロードを完了するにはWi-Fi接続が必要です。"\n\n"次にWi-Fiネットワークに接続したときに<xliff:g id="QUEUE_TEXT">%s </xliff:g>をタップしてこのダウンロードを開始してください。"</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"キューに登録して後でダウンロードしますか？"</string>

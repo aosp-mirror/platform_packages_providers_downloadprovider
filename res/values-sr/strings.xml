@@ -38,6 +38,8 @@
     <string name="notification_download_complete" msgid="840713937779273632">"Преузимање је довршено"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Преузимање није успело"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Величина за преузимање захтева Wi-Fi"</string>
+    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
+    <skip />
     <string name="wifi_required_title" msgid="1995971416871498179">"Преузимање је превелико за мрежу оператера"</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"Потребно је да користите WiFi да бисте довршили ово <xliff:g id="SIZE">%s </xliff:g> преузимање. "\n\n"Кликните на <xliff:g id="QUEUE_TEXT">%s </xliff:g> да бисте започели са преузимањем следећи пут када сте повезани са WiFi мрежом."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Желите ли да ставите у ред за будуће преузимање?"</string>

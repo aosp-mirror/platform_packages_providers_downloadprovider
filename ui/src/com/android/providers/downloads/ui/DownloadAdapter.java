@@ -23,7 +23,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.drm.mobile1.DrmRawContent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.format.Formatter;
@@ -173,21 +172,17 @@ public class DownloadAdapter extends CursorAdapter {
             return;
         }
 
-        if (DrmRawContent.DRM_MIMETYPE_MESSAGE_STRING.equalsIgnoreCase(mediaType)) {
-            iconView.setImageResource(R.drawable.ic_launcher_drm_file);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.fromParts("file", "", null), mediaType);
+        PackageManager pm = mContext.getPackageManager();
+        List<ResolveInfo> list = pm.queryIntentActivities(intent,
+                PackageManager.MATCH_DEFAULT_ONLY);
+        if (list.size() == 0) {
+            // no icon found for this mediatype. use "unknown" icon
+            iconView.setImageResource(R.drawable.ic_download_misc_file_type);
         } else {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(Uri.fromParts("file", "", null), mediaType);
-            PackageManager pm = mContext.getPackageManager();
-            List<ResolveInfo> list = pm.queryIntentActivities(intent,
-                    PackageManager.MATCH_DEFAULT_ONLY);
-            if (list.size() == 0) {
-                // no icon found for this mediatype. use "unknown" icon
-                iconView.setImageResource(R.drawable.ic_download_misc_file_type);
-            } else {
-                Drawable icon = list.get(0).activityInfo.loadIcon(pm);
-                iconView.setImageDrawable(icon);
-            }
+            Drawable icon = list.get(0).activityInfo.loadIcon(pm);
+            iconView.setImageDrawable(icon);
         }
         iconView.setVisibility(View.VISIBLE);
     }

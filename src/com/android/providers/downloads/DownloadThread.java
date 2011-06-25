@@ -155,7 +155,7 @@ public class DownloadThread extends Thread {
 
             // network traffic on this thread should be counted against the
             // requesting uid, and is tagged with well-known value.
-            TrafficStats.setThreadStatsTag("android:DownloadManager");
+            TrafficStats.setThreadStatsTag(TrafficStats.TAG_SYSTEM_DOWNLOAD);
             TrafficStats.setThreadStatsUid(mInfo.mUid);
 
             boolean finished = false;

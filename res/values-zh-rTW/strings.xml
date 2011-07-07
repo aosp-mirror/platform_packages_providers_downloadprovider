@@ -38,8 +38,7 @@
     <string name="notification_download_complete" msgid="840713937779273632">"完成下載"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"下載失敗"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"這個檔案較大，需要 Wi-Fi 才能下載"</string>
-    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
-    <skip />
+    <string name="notification_paused_in_background" msgid="3786873946716398470">"在背景中暫停"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"檔案過大，無法透過行動電話業者的網路下載"</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"您必須使用 WiFi 才能完整下載這個 <xliff:g id="SIZE">%s </xliff:g> 的檔案。"\n\n"請按一下 [<xliff:g id="QUEUE_TEXT">%s </xliff:g>]，在下次連上 WiFi 網路時再進行下載。"</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"排入佇列以供日後下載？"</string>

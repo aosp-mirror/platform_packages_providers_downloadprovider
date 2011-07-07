@@ -38,8 +38,7 @@
     <string name="notification_download_complete" msgid="840713937779273632">"İndirme işlemi tamamlandı"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"İndirme işlemi başarısız"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"İndr boyutu Kablsz bağ gerkt"</string>
-    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
-    <skip />
+    <string name="notification_paused_in_background" msgid="3786873946716398470">"Arka planda duraklatıldı"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"İndirme boyutu operatör ağı için çok büyük"</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"<xliff:g id="SIZE">%s </xliff:g> boyutundaki bu indirmeyi tamamlamak için Kablosuz bağlantı kullanmalısınız. "\n\n"Bu indirmeyi Kablosuz ağa bağlandığınızda başlatmak için <xliff:g id="QUEUE_TEXT">%s </xliff:g> düğmesini tıklayın."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Daha sonra indirmek için kuyruğa alınsın mı?"</string>

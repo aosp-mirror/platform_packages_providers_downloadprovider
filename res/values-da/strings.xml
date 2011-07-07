@@ -38,8 +38,7 @@
     <string name="notification_download_complete" msgid="840713937779273632">"Download afsluttet"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Download mislykkedes"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Download kræver Wi-Fi"</string>
-    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
-    <skip />
+    <string name="notification_paused_in_background" msgid="3786873946716398470">"Sat på pause i baggrunden"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Downloadfilen er for stor til mobilnetværk"</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"Du skal bruge Wi-Fi for at gennemføre denne download på <xliff:g id="SIZE">%s </xliff:g>. "\n\n"Klik på <xliff:g id="QUEUE_TEXT">%s </xliff:g> for at downloade, næste gang du har forbindelse til et Wi-Fi-netværk."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"I kø til senere download?"</string>

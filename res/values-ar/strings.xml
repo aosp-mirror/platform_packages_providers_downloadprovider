@@ -38,8 +38,7 @@
     <string name="notification_download_complete" msgid="840713937779273632">"اكتمل التنزيل"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"أخفق التنزيل"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"يتطلب حجم التنزيل شبكة Wi-Fi"</string>
-    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
-    <skip />
+    <string name="notification_paused_in_background" msgid="3786873946716398470">"متوقف مؤقتًا في الخلفية"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"حجم التنزيل كبير جدًا بالنسبة إلى مشغّل الشبكة"</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"يجب استخدام WiFi لإكمال هذا التنزيل البالغ حجمه <xliff:g id="SIZE">%s </xliff:g>. "\n\n"انقر على <xliff:g id="QUEUE_TEXT">%s </xliff:g> لبدء هذا التنزيل في المرة القادمة التي تتصل فيها بشبكة WiFi."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"هل تريد وضعه في قائمة الانتظار للتنزيل لاحقًا؟"</string>

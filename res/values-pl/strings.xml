@@ -38,8 +38,7 @@
     <string name="notification_download_complete" msgid="840713937779273632">"Pobieranie zakończone."</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Pobieranie nie powiodło się"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Rozmiar pobierania wymaga Wi-Fi"</string>
-    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
-    <skip />
+    <string name="notification_paused_in_background" msgid="3786873946716398470">"Wstrzymane w tle"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Zbyt duży plik do pobrania dla sieci operatora"</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"Do wykonania tego pobierania o rozmiarze <xliff:g id="SIZE">%s </xliff:g> należy użyć połączenia WiFi. "\n\n"Kliknij pozycję <xliff:g id="QUEUE_TEXT">%s </xliff:g>, aby rozpocząć to pobieranie przy najbliższym nawiązaniu połączenia z siecią WiFi."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Czy dodać do kolejki do późniejszego pobrania?"</string>

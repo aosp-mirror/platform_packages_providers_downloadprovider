@@ -38,8 +38,7 @@
     <string name="notification_download_complete" msgid="840713937779273632">"Hämtning slutförd"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Det gick inte att hämta"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Hämtningen kräver Wi-Fi"</string>
-    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
-    <skip />
+    <string name="notification_paused_in_background" msgid="3786873946716398470">"Pausad i bakgrunden"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Hämtningen är för stor för operatörsnätverket"</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"Telefonen måste vara ansluten till Wi-Fi för att hämtningen på <xliff:g id="SIZE">%s </xliff:g> ska kunna slutföras. "\n\n"Klicka på <xliff:g id="QUEUE_TEXT">%s </xliff:g> om du vill starta hämtningen nästa gång telefonen är ansluten till ett WiFi-nätverk."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Vill du ställa den i kö för hämtning senare?"</string>

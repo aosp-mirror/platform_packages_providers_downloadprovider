@@ -38,8 +38,7 @@
     <string name="notification_download_complete" msgid="840713937779273632">"Lejupielāde ir pabeigta"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Lejupielāde nebija veiksmīga."</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Lejupiel. nepiec. WiFi"</string>
-    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
-    <skip />
+    <string name="notification_paused_in_background" msgid="3786873946716398470">"Pārtraukta fonā"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Lejupielāde ir pārāk liela operatora tīklam."</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"Lai pabeigtu šo <xliff:g id="SIZE">%s </xliff:g>  lejupielādi, izmantojiet WiFi. "\n\n"Noklikšķiniet uz <xliff:g id="QUEUE_TEXT">%s </xliff:g>, lai sāktu lejupielādi, nākamreiz pieslēdzoties WiFi tīklam."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Vai ievietot rindā, lai lejupielādētu vēlāk?"</string>

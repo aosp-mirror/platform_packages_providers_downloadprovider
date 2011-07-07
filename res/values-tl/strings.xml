@@ -38,8 +38,7 @@
     <string name="notification_download_complete" msgid="840713937779273632">"Kumpleto na ang pag-download"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Hindi matagumpay ang pag-download"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Kailangan ng download ng Wi-Fi"</string>
-    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
-    <skip />
+    <string name="notification_paused_in_background" msgid="3786873946716398470">"Na-pause sa background"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Masyadong malaki ang download sa operator network"</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"Dapat kang gumamit ng WiFi upang makumpleto ang <xliff:g id="SIZE">%s </xliff:g> na pag-download. "\n\n"I-click ang <xliff:g id="QUEUE_TEXT">%s </xliff:g> upang simulan ang pag-download na ito sa susunod na pagkakataon na nakakonekta ka sa isang WiFi network."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"I-queue para sa pag-download sa ibang pagkakataon?"</string>

@@ -38,8 +38,7 @@
     <string name="notification_download_complete" msgid="840713937779273632">"Ολοκλήρωση λήψης"</string>
     <string name="notification_download_failed" msgid="5343637375905111462">"Ανεπιτυχής λήψη"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Μέγ. λήψης απαιτεί Wi-Fi"</string>
-    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
-    <skip />
+    <string name="notification_paused_in_background" msgid="3786873946716398470">"Παύθηκε στο παρασκήνιο"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Πολύ μεγάλο αρχείο λήψης για δίκτυο παρόχου."</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"Πρέπει να χρησιμοποιήσετε WiFi για να ολοκληρώσετε τη λήψη <xliff:g id="SIZE">%s </xliff:g>. "\n\n"Κάντε κλικ στο <xliff:g id="QUEUE_TEXT">%s </xliff:g> για να ξεκινήσετε τη λήψη την επόμενη φορά που θα συνδεθείτε σε δίκτυο WiFi."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Προσθήκη στην ουρά για να κάνετε λήψη αργότερα;"</string>

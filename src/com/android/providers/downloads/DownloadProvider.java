@@ -960,8 +960,7 @@ public final class DownloadProvider extends ContentProvider {
         int callingUid = Binder.getCallingUid();
         return Binder.getCallingPid() != Process.myPid() &&
                 callingUid != mSystemUid &&
-                callingUid != mDefContainerUid &&
-                Process.supportsProcesses();
+                callingUid != mDefContainerUid;
     }
 
     /**

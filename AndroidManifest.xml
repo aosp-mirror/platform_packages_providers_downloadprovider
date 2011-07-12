@@ -53,6 +53,7 @@
     <uses-permission android:name="android.permission.UPDATE_DEVICE_STATS" />
     <!-- TODO: replace with READ_NETWORK_POLICY permission when it exists -->
     <uses-permission android:name="android.permission.CONNECTIVITY_INTERNAL" />
+    <uses-permission android:name="android.permission.MODIFY_NETWORK_ACCOUNTING" />
 
     <application android:process="android.process.media"
                  android:label="@string/app_label">

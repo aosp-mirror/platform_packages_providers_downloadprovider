@@ -31,7 +31,7 @@
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Ivumela uhlelo lokusebenza ukulanda amafayela ekulondolozeni kwesikhashana kokulanda okungakwazi ukususwa ngokuzenzakalelayo lapho imeneja yokulanda idinga isikhala esanele."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"landa amafayela ngaphandle kwesaziso"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Ivumela uhlelo lokusebenza ukulanda amafayela ngomeneja wokulanda ngaphandle kokuba isaziso siboniswe umsebenzisi."</string>
-    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Finyelela konke ukulanda kwesistimu"</string>
+    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Finyelela kuko konke ukulanda kwesistimu"</string>
     <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Ivumela uhlelo lokusebenza ukubuka nokulungisa konke okuqaliswe yinoma yiluphi uhlelo lokusebenza kwisistimu."</string>
     <!-- no translation found for download_unknown_title (7015124071247271585) -->
     <skip />

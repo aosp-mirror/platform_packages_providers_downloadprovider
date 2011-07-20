@@ -222,16 +222,17 @@ class StorageManager {
         }
         if (root.equals(mDownloadDataDir)) {
             // this download is going into downloads data dir. check space in that specific dir.
-            bytesAvailable = getAvailableBytesInDownloadsDataDir(mSystemCacheDir);
+            bytesAvailable = getAvailableBytesInDownloadsDataDir(mDownloadDataDir);
             if (bytesAvailable < sDownloadDataDirLowSpaceThreshold) {
                 // print a warning
                 Log.w(Constants.TAG, "Downloads data dir: " + root +
-                        " is running low on space. space available (in b): " + bytesAvailable);
-            } else if (bytesAvailable < targetBytes) {
+                        " is running low on space. space available (in bytes): " + bytesAvailable);
+            }
+            if (bytesAvailable < targetBytes) {
                 // Insufficient space; make space.
                 discardPurgeableFiles(destination, sDownloadDataDirLowSpaceThreshold);
                 removeSpuriousFiles();
-                bytesAvailable = getAvailableBytesInDownloadsDataDir(mSystemCacheDir);
+                bytesAvailable = getAvailableBytesInDownloadsDataDir(mDownloadDataDir);
             }
         }
         if (bytesAvailable < targetBytes) {

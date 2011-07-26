@@ -24,7 +24,7 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Ivumela uhlelo lokusebenza ukufinyelela izici ezithuthukisiwe zomphathi wokulayisha. Izinhlelo zokusebenza ezinonya zingase zisebenzise lokhu ukuphazamisa ukulayisha kanye nokufinyelele ukwaziswa okuyimfihlo."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Thumela izaziso zokulayisha"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Ivumela izinhlelo ukuthumela izaziso mayelana nokulayisha okuqediwe. Izinhlelo zokusebenza ezininya zingase zisebenzise lokhu ukudida ezinye izinhlelo zokusebenza lezo ezilayisha amafayela."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Bona konke ukulanda ekugcineni nge-USB"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Bona konke ukulanda kwisitoreji se-USB"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Bona konke ukulanda ekhadini le-SD"</string>
     <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Ivumela uhlelo lokusebenza ukubona konke ukulanda ekhadini le-SD, ngaphandle kokuthi yiluphi uhlelo lokusebenza olulandile."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Igcina isikhala ekulondolozeni kwesikhashana kokulanda"</string>

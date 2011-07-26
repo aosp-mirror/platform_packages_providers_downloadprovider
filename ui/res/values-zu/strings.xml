@@ -36,8 +36,8 @@
     <string name="dialog_title_queued_body" msgid="3062862079904954824">"Ifayela ayithlakali okwamanje"</string>
     <string name="dialog_queued_body" msgid="2506935748423351902">"Ifayela ilinde ukulanda kwesikhathi esizayo"</string>
     <string name="dialog_file_missing_body" msgid="2783781332668129395">"Ifayela elandiwe ayitholakali"</string>
-    <string name="dialog_insufficient_space_on_external" msgid="7534108515812329821">"Ayikwazi ukuqeda ukulanda. Asikho isikhala esanele ekulondolozeni kwangaphandle."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="8387210487235302129">"Ayikwazi ukuqedela ukulanda. Asikho isikhala esanele ekulondolozeni ukulanda kwangaphakathi."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="7534108515812329821">"Ayikwazi ukuqeda ukulanda. Asikho isikhala esanele kwisitoreji sangaphandle."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="8387210487235302129">"Ayikwazi ukuqedela ukulanda. Asikho isikhala esanele kwisitoreji sokulanda sangaphakathi."</string>
     <string name="dialog_cannot_resume" msgid="7704082031608361756">"Ukulayisha kuphazanyisiwe. Ngeke kuqaliswe futhi."</string>
     <string name="dialog_file_already_exists" msgid="2663737850617642888">"Ayikwazi ukulanda. Ifayela yendawo ivele ikhona."</string>
     <string name="dialog_media_not_found" msgid="5308602145105720991">"Ayikwazi ukulanda. Imidiya yangaphakathi ayitholakali."</string>

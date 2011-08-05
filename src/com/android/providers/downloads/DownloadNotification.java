@@ -23,8 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Downloads;
-import android.view.View;
-import android.widget.RemoteViews;
+import android.text.TextUtils;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -148,50 +147,41 @@ class DownloadNotification {
         // Add the notifications
         for (NotificationItem item : mNotifications.values()) {
             // Build the notification object
-            Notification n = new Notification();
+            final Notification.Builder builder = new Notification.Builder(mContext);
 
             boolean hasPausedText = (item.mPausedText != null);
-            int iconResource = android.R.drawable.stat_sys_download;
+            int iconResource = android.R.drawable.stat_sys_download_done;
             if (hasPausedText) {
                 iconResource = android.R.drawable.stat_sys_warning;
             }
-            n.icon = iconResource;
+            builder.setSmallIcon(iconResource);
+            builder.setOngoing(true);
 
-            n.flags |= Notification.FLAG_ONGOING_EVENT;
-
-            // Build the RemoteView object
-            RemoteViews expandedView = new RemoteViews(
-                    "com.android.providers.downloads",
-                    R.layout.status_bar_ongoing_event_progress_bar);
+            boolean hasContentText = false;
             StringBuilder title = new StringBuilder(item.mTitles[0]);
             if (item.mTitleCount > 1) {
                 title.append(mContext.getString(R.string.notification_filename_separator));
                 title.append(item.mTitles[1]);
-                n.number = item.mTitleCount;
                 if (item.mTitleCount > 2) {
                     title.append(mContext.getString(R.string.notification_filename_extras,
                             new Object[] { Integer.valueOf(item.mTitleCount - 2) }));
                 }
-            } else {
-                expandedView.setTextViewText(R.id.description,
-                        item.mDescription);
+            } else if (!TextUtils.isEmpty(item.mDescription)) {
+                builder.setContentText(item.mDescription);
+                hasContentText = true;
             }
-            expandedView.setTextViewText(R.id.title, title);
+            builder.setContentTitle(title);
 
             if (hasPausedText) {
-                expandedView.setViewVisibility(R.id.progress_bar, View.GONE);
-                expandedView.setTextViewText(R.id.paused_text, item.mPausedText);
+                builder.setContentText(item.mPausedText);
             } else {
-                expandedView.setViewVisibility(R.id.paused_text, View.GONE);
-                expandedView.setProgressBar(R.id.progress_bar,
-                        (int) item.mTotalTotal,
-                        (int) item.mTotalCurrent,
-                        item.mTotalTotal == -1);
+                builder.setProgress(
+                        (int) item.mTotalTotal, (int) item.mTotalCurrent, item.mTotalTotal == -1);
+                if (hasContentText) {
+                    builder.setContentInfo(
+                            buildPercentageLabel(mContext, item.mTotalTotal, item.mTotalCurrent));
+                }
             }
-            expandedView.setTextViewText(R.id.progress_text,
-                    getDownloadingText(item.mTotalTotal, item.mTotalCurrent));
-            expandedView.setImageViewResource(R.id.appIcon, iconResource);
-            n.contentView = expandedView;
 
             Intent intent = new Intent(Constants.ACTION_LIST);
             intent.setClassName("com.android.providers.downloads",
@@ -200,9 +190,9 @@ class DownloadNotification {
                     ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, item.mId));
             intent.putExtra("multiple", item.mTitleCount > 1);
 
-            n.contentIntent = PendingIntent.getBroadcast(mContext, 0, intent, 0);
+            builder.setContentIntent(PendingIntent.getBroadcast(mContext, 0, intent, 0));
 
-            mSystemFacade.postNotification(item.mId, n);
+            mSystemFacade.postNotification(item.mId, builder.getNotification());
 
         }
     }
@@ -219,8 +209,8 @@ class DownloadNotification {
     void notificationForCompletedDownload(long id, String title, int status,
             int destination, long lastMod) {
         // Add the notifications
-        Notification n = new Notification();
-        n.icon = android.R.drawable.stat_sys_download_done;
+        Notification.Builder builder = new Notification.Builder(mContext);
+        builder.setSmallIcon(android.R.drawable.stat_sys_download_done);
         if (title == null || title.length() == 0) {
             title = mContext.getResources().getString(
                     R.string.download_unknown_title);
@@ -246,17 +236,18 @@ class DownloadNotification {
                 DownloadReceiver.class.getName());
         intent.setData(contentUri);
 
-        n.when = lastMod;
-        n.setLatestEventInfo(mContext, title, caption,
-                PendingIntent.getBroadcast(mContext, 0, intent, 0));
+        builder.setWhen(lastMod);
+        builder.setContentTitle(title);
+        builder.setContentText(caption);
+        builder.setContentIntent(PendingIntent.getBroadcast(mContext, 0, intent, 0));
 
         intent = new Intent(Constants.ACTION_HIDE);
         intent.setClassName("com.android.providers.downloads",
                 DownloadReceiver.class.getName());
         intent.setData(contentUri);
-        n.deleteIntent = PendingIntent.getBroadcast(mContext, 0, intent, 0);
+        builder.setDeleteIntent(PendingIntent.getBroadcast(mContext, 0, intent, 0));
 
-        mSystemFacade.postNotification(id, n);
+        mSystemFacade.postNotification(id, builder.getNotification());
     }
 
     private boolean isActiveAndVisible(DownloadInfo download) {
@@ -269,18 +260,13 @@ class DownloadNotification {
                 && download.mVisibility == Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
     }
 
-    /*
-     * Helper function to build the downloading text.
-     */
-    private String getDownloadingText(long totalBytes, long currentBytes) {
+    private static String buildPercentageLabel(
+            Context context, long totalBytes, long currentBytes) {
         if (totalBytes <= 0) {
-            return "";
+            return null;
+        } else {
+            final int percent = (int) (100 * currentBytes / totalBytes);
+            return context.getString(R.string.download_percent, percent);
         }
-        long progress = currentBytes * 100 / totalBytes;
-        StringBuilder sb = new StringBuilder();
-        sb.append(progress);
-        sb.append('%');
-        return sb.toString();
     }
-
 }

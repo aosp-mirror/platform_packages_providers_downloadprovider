@@ -207,5 +207,7 @@
          [CHAR LIMIT=25] -->
     <string name="button_start_now">Start now</string>
 
+    <!-- Short representation of download progress percentage. [CHAR LIMIT=8] -->
+    <string name="download_percent"><xliff:g id="number">%d</xliff:g><xliff:g id="percent">%%</xliff:g></string>
 
 </resources>

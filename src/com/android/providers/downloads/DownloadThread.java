@@ -95,11 +95,19 @@ public class DownloadThread extends Thread {
         public String mNewUri;
         public boolean mGotData = false;
         public String mRequestUri;
+        public long mTotalBytes = -1;
+        public long mCurrentBytes = 0;
+        public String mHeaderETag;
+        public boolean mContinuingDownload = false;
+        public long mBytesNotified = 0;
+        public long mTimeLastNotification = 0;
 
         public State(DownloadInfo info) {
             mMimeType = sanitizeMimeType(info.mMimeType);
             mRequestUri = info.mUri;
             mFilename = info.mFileName;
+            mTotalBytes = info.mTotalBytes;
+            mCurrentBytes = info.mCurrentBytes;
         }
     }
 
@@ -107,15 +115,9 @@ public class DownloadThread extends Thread {
      * State within executeDownload()
      */
     private static class InnerState {
-        public int mBytesSoFar = 0;
-        public String mHeaderETag;
-        public boolean mContinuingDownload = false;
         public String mHeaderContentLength;
         public String mHeaderContentDisposition;
         public String mHeaderContentLocation;
-        public int mBytesNotified = 0;
-        public long mTimeLastNotification = 0;
-        public long mTotalBytes = -1;
     }
 
     /**
@@ -160,6 +162,13 @@ public class DownloadThread extends Thread {
 
             boolean finished = false;
             while(!finished) {
+                if (state.mCurrentBytes == state.mTotalBytes) {
+                    Log.i(Constants.TAG, "Skipping initiating request for download " +
+                          mInfo.mId + "; already completed");
+                    finished = true;
+                    break;
+                }
+
                 Log.i(Constants.TAG, "Initiating request for download " + mInfo.mId);
                 // Set or unset proxy, which may have changed since last GET request.
                 // setDefaultProxy() supports null as proxy parameter.
@@ -232,7 +241,7 @@ public class DownloadThread extends Thread {
         byte data[] = new byte[Constants.BUFFER_SIZE];
 
         setupDestinationFile(state, innerState);
-        addRequestHeaders(innerState, request);
+        addRequestHeaders(state, request);
 
         // check just before sending the request to avoid using an invalid connection at all
         checkConnectivity();
@@ -290,11 +299,11 @@ public class DownloadThread extends Thread {
 
             state.mGotData = true;
             writeDataToDestination(state, data, bytesRead);
-            innerState.mBytesSoFar += bytesRead;
+            state.mCurrentBytes += bytesRead;
             reportProgress(state, innerState);
 
             if (Constants.LOGVV) {
-                Log.v(Constants.TAG, "downloaded " + innerState.mBytesSoFar + " for "
+                Log.v(Constants.TAG, "downloaded " + state.mCurrentBytes + " for "
                       + mInfo.mUri);
             }
 
@@ -400,15 +409,13 @@ public class DownloadThread extends Thread {
      */
     private void reportProgress(State state, InnerState innerState) {
         long now = mSystemFacade.currentTimeMillis();
-        if (innerState.mBytesSoFar - innerState.mBytesNotified
-                        > Constants.MIN_PROGRESS_STEP
-                && now - innerState.mTimeLastNotification
-                        > Constants.MIN_PROGRESS_TIME) {
+        if (state.mCurrentBytes - state.mBytesNotified > Constants.MIN_PROGRESS_STEP &&
+            now - state.mTimeLastNotification > Constants.MIN_PROGRESS_TIME) {
             ContentValues values = new ContentValues();
-            values.put(Downloads.Impl.COLUMN_CURRENT_BYTES, innerState.mBytesSoFar);
+            values.put(Downloads.Impl.COLUMN_CURRENT_BYTES, state.mCurrentBytes);
             mContext.getContentResolver().update(mInfo.getAllDownloadsUri(), values, null, null);
-            innerState.mBytesNotified = innerState.mBytesSoFar;
-            innerState.mTimeLastNotification = now;
+            state.mBytesNotified = state.mCurrentBytes;
+            state.mTimeLastNotification = now;
         }
     }
 
@@ -440,7 +447,7 @@ public class DownloadThread extends Thread {
                 return;
             } catch (IOException ex) {
                 // couldn't write to file. are we out of space? check.
-                // TODO this check should only be done once. why is this being done 
+                // TODO this check should only be done once. why is this being done
                 // in a while(true) loop (see the enclosing statement: for(;;)
                 if (state.mStream != null) {
                     mStorageManager.verifySpace(mInfo.mDestination, state.mFilename, bytesRead);
@@ -459,16 +466,16 @@ public class DownloadThread extends Thread {
      */
     private void handleEndOfStream(State state, InnerState innerState) throws StopRequestException {
         ContentValues values = new ContentValues();
-        values.put(Downloads.Impl.COLUMN_CURRENT_BYTES, innerState.mBytesSoFar);
+        values.put(Downloads.Impl.COLUMN_CURRENT_BYTES, state.mCurrentBytes);
         if (innerState.mHeaderContentLength == null) {
-            values.put(Downloads.Impl.COLUMN_TOTAL_BYTES, innerState.mBytesSoFar);
+            values.put(Downloads.Impl.COLUMN_TOTAL_BYTES, state.mCurrentBytes);
         }
         mContext.getContentResolver().update(mInfo.getAllDownloadsUri(), values, null, null);
 
         boolean lengthMismatched = (innerState.mHeaderContentLength != null)
-                && (innerState.mBytesSoFar != Integer.parseInt(innerState.mHeaderContentLength));
+                && (state.mCurrentBytes != Integer.parseInt(innerState.mHeaderContentLength));
         if (lengthMismatched) {
-            if (cannotResume(innerState)) {
+            if (cannotResume(state)) {
                 throw new StopRequestException(Downloads.Impl.STATUS_CANNOT_RESUME,
                         "mismatched content length");
             } else {
@@ -478,8 +485,8 @@ public class DownloadThread extends Thread {
         }
     }
 
-    private boolean cannotResume(InnerState innerState) {
-        return innerState.mBytesSoFar > 0 && !mInfo.mNoIntegrity && innerState.mHeaderETag == null;
+    private boolean cannotResume(State state) {
+        return state.mCurrentBytes > 0 && !mInfo.mNoIntegrity && state.mHeaderETag == null;
     }
 
     /**
@@ -495,9 +502,9 @@ public class DownloadThread extends Thread {
         } catch (IOException ex) {
             logNetworkState(mInfo.mUid);
             ContentValues values = new ContentValues();
-            values.put(Downloads.Impl.COLUMN_CURRENT_BYTES, innerState.mBytesSoFar);
+            values.put(Downloads.Impl.COLUMN_CURRENT_BYTES, state.mCurrentBytes);
             mContext.getContentResolver().update(mInfo.getAllDownloadsUri(), values, null, null);
-            if (cannotResume(innerState)) {
+            if (cannotResume(state)) {
                 String message = "while reading response: " + ex.toString()
                 + ", can't resume interrupted download with no ETag";
                 throw new StopRequestException(Downloads.Impl.STATUS_CANNOT_RESUME,
@@ -537,7 +544,7 @@ public class DownloadThread extends Thread {
      */
     private void processResponseHeaders(State state, InnerState innerState, HttpResponse response)
             throws StopRequestException {
-        if (innerState.mContinuingDownload) {
+        if (state.mContinuingDownload) {
             // ignore response headers on resume requests
             return;
         }
@@ -584,8 +591,8 @@ public class DownloadThread extends Thread {
     private void updateDatabaseFromHeaders(State state, InnerState innerState) {
         ContentValues values = new ContentValues();
         values.put(Downloads.Impl._DATA, state.mFilename);
-        if (innerState.mHeaderETag != null) {
-            values.put(Constants.ETAG, innerState.mHeaderETag);
+        if (state.mHeaderETag != null) {
+            values.put(Constants.ETAG, state.mHeaderETag);
         }
         if (state.mMimeType != null) {
             values.put(Downloads.Impl.COLUMN_MIME_TYPE, state.mMimeType);
@@ -615,7 +622,7 @@ public class DownloadThread extends Thread {
         }
         header = response.getFirstHeader("ETag");
         if (header != null) {
-            innerState.mHeaderETag = header.getValue();
+            state.mHeaderETag = header.getValue();
         }
         String headerTransferEncoding = null;
         header = response.getFirstHeader("Transfer-Encoding");
@@ -626,7 +633,7 @@ public class DownloadThread extends Thread {
             header = response.getFirstHeader("Content-Length");
             if (header != null) {
                 innerState.mHeaderContentLength = header.getValue();
-                innerState.mTotalBytes = mInfo.mTotalBytes =
+                state.mTotalBytes = mInfo.mTotalBytes =
                         Long.parseLong(innerState.mHeaderContentLength);
             }
         } else {
@@ -642,7 +649,7 @@ public class DownloadThread extends Thread {
             Log.v(Constants.TAG, "Content-Length: " + innerState.mHeaderContentLength);
             Log.v(Constants.TAG, "Content-Location: " + innerState.mHeaderContentLocation);
             Log.v(Constants.TAG, "Content-Type: " + state.mMimeType);
-            Log.v(Constants.TAG, "ETag: " + innerState.mHeaderETag);
+            Log.v(Constants.TAG, "ETag: " + state.mHeaderETag);
             Log.v(Constants.TAG, "Transfer-Encoding: " + headerTransferEncoding);
         }
 
@@ -670,9 +677,9 @@ public class DownloadThread extends Thread {
 
         if (Constants.LOGV) {
             Log.i(Constants.TAG, "recevd_status = " + statusCode +
-                    ", mContinuingDownload = " + innerState.mContinuingDownload);
+                    ", mContinuingDownload = " + state.mContinuingDownload);
         }
-        int expectedStatus = innerState.mContinuingDownload ? 206 : Downloads.Impl.STATUS_SUCCESS;
+        int expectedStatus = state.mContinuingDownload ? 206 : Downloads.Impl.STATUS_SUCCESS;
         if (statusCode != expectedStatus) {
             handleOtherStatus(state, innerState, statusCode);
         }
@@ -686,20 +693,20 @@ public class DownloadThread extends Thread {
         if (statusCode == 416) {
             // range request failed. it should never fail.
             throw new IllegalStateException("Http Range request failure: totalBytes = " +
-                    innerState.mTotalBytes + ", bytes recvd so far: " + innerState.mBytesSoFar);
+                    state.mTotalBytes + ", bytes recvd so far: " + state.mCurrentBytes);
         }
         int finalStatus;
         if (Downloads.Impl.isStatusError(statusCode)) {
             finalStatus = statusCode;
         } else if (statusCode >= 300 && statusCode < 400) {
             finalStatus = Downloads.Impl.STATUS_UNHANDLED_REDIRECT;
-        } else if (innerState.mContinuingDownload && statusCode == Downloads.Impl.STATUS_SUCCESS) {
+        } else if (state.mContinuingDownload && statusCode == Downloads.Impl.STATUS_SUCCESS) {
             finalStatus = Downloads.Impl.STATUS_CANNOT_RESUME;
         } else {
             finalStatus = Downloads.Impl.STATUS_UNHANDLED_HTTP_CODE;
         }
         throw new StopRequestException(finalStatus, "http error " +
-                statusCode + ", mContinuingDownload: " + innerState.mContinuingDownload);
+                statusCode + ", mContinuingDownload: " + state.mContinuingDownload);
     }
 
     /**
@@ -865,15 +872,15 @@ public class DownloadThread extends Thread {
                         throw new StopRequestException(Downloads.Impl.STATUS_FILE_ERROR,
                                 "while opening destination for resuming: " + exc.toString(), exc);
                     }
-                    innerState.mBytesSoFar = (int) fileLength;
+                    state.mCurrentBytes = (int) fileLength;
                     if (mInfo.mTotalBytes != -1) {
                         innerState.mHeaderContentLength = Long.toString(mInfo.mTotalBytes);
                     }
-                    innerState.mHeaderETag = mInfo.mETag;
-                    innerState.mContinuingDownload = true;
+                    state.mHeaderETag = mInfo.mETag;
+                    state.mContinuingDownload = true;
                     if (Constants.LOGV) {
                         Log.i(Constants.TAG, "resuming download for id: " + mInfo.mId +
-                                ", innerState.mBytesSoFar: " + innerState.mBytesSoFar +
+                                ", state.mCurrentBytes: " + state.mCurrentBytes +
                                 ", and setting mContinuingDownload to true: ");
                     }
                 }
@@ -888,19 +895,20 @@ public class DownloadThread extends Thread {
     /**
      * Add custom headers for this download to the HTTP request.
      */
-    private void addRequestHeaders(InnerState innerState, HttpGet request) {
+    private void addRequestHeaders(State state, HttpGet request) {
         for (Pair<String, String> header : mInfo.getHeaders()) {
             request.addHeader(header.first, header.second);
         }
 
-        if (innerState.mContinuingDownload) {
-            if (innerState.mHeaderETag != null) {
-                request.addHeader("If-Match", innerState.mHeaderETag);
+        if (state.mContinuingDownload) {
+            if (state.mHeaderETag != null) {
+                request.addHeader("If-Match", state.mHeaderETag);
             }
-            request.addHeader("Range", "bytes=" + innerState.mBytesSoFar + "-");
+            request.addHeader("Range", "bytes=" + state.mCurrentBytes + "-");
             if (Constants.LOGV) {
                 Log.i(Constants.TAG, "Adding Range header: " +
-                        "bytes=" + innerState.mBytesSoFar + "-");
+                        "bytes=" + state.mCurrentBytes + "-");
+                Log.i(Constants.TAG, "  totalBytes = " + state.mTotalBytes);
             }
         }
     }

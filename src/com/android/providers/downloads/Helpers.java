@@ -97,18 +97,28 @@ public class Helpers {
         return path;
     }
 
-    static String getFullPath(String filename, String mimeType, int destination,
-        File base) throws StopRequestException {
-        // Split filename between base and extension
-        // Add an extension if filename does not have one
+    static String getFullPath(String filename, String mimeType, int destination, File base)
+            throws StopRequestException {
         String extension = null;
         int dotIndex = filename.lastIndexOf('.');
         boolean missingExtension = dotIndex < 0 || dotIndex < filename.lastIndexOf('/');
-        if (missingExtension) {
-            extension = chooseExtensionFromMimeType(mimeType, true);
+        if (destination == Downloads.Impl.DESTINATION_FILE_URI) {
+            // Destination is explicitly set - do not change the extension
+            if (missingExtension) {
+                extension = "";
+            } else {
+                extension = filename.substring(dotIndex);
+                filename = filename.substring(0, dotIndex);
+            }
         } else {
-            extension = chooseExtensionFromFilename(mimeType, destination, filename, dotIndex);
-            filename = filename.substring(0, dotIndex);
+            // Split filename between base and extension
+            // Add an extension if filename does not have one
+            if (missingExtension) {
+                extension = chooseExtensionFromMimeType(mimeType, true);
+            } else {
+                extension = chooseExtensionFromFilename(mimeType, destination, filename, dotIndex);
+                filename = filename.substring(0, dotIndex);
+            }
         }
 
         boolean recoveryDir = Constants.RECOVERY_DIRECTORY.equalsIgnoreCase(filename + extension);

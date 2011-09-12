@@ -25,7 +25,7 @@
     <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Lar applikasjonen sende varslinger om ferdige nedlastinger. Ondsinnede applikasjoner kan bruke dette for å forvirre andre applikasjoner som laster ned filer."</string>
     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Vis nedl. til USB-lagring"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Vis alle nedlastinger til minnekort"</string>
-    <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Programmet viser alle nedlastinger til minnekort, uavhengig av hvilket program  som lastet dem ned."</string>
+    <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Applikasjonen viser alle nedlastinger til minnekort, uavhengig av hvilken applikasjon som lastet dem ned."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Reserver lagringsplass i nedlastingsbufferen"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Gir programmet mulighet til å laste ned filer til nedlastingsbufferen, slik at de ikke slettes automatisk når nedlastingsbehandlingen trenger mer lagringsplass."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"last ned filer uten varsling"</string>

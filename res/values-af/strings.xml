@@ -17,8 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Aflaaibestuurder"</string>
-    <!-- no translation found for permlab_downloadManager (7779544811202855500) -->
-    <skip />
+    <string name="permlab_downloadManager" msgid="7779544811202855500">"Kry toegang tot aflaaibestuurder."</string>
     <string name="permdesc_downloadManager" msgid="4240298564918160337">"Stel die program in staat om die aflaaibestuurder oop te maak en lêers daarmee af te laai. Kwaadwillige programme kan dit gebruik om aflaaisels te ontwrig en private inligting te verkry."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Gevorderde aflaaibestuurder-funksies"</string>
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Stel die program in staat om die aflaaibestuurder se gevorderde funksies te gebruik. Kwaadwillige programme kan dit gebruik om aflaaisels te ontwrig en private inligting te verkry."</string>
@@ -33,17 +32,13 @@
     <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Laat die program toe om lêers deur die aflaaibestuurder af te laai sonder om enige kennisgewing aan die gebruiker te wys."</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Kry toegang tot alle stelselaflaaisels"</string>
     <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Laat die program toe om alles wat deur enige program op die stelsel begin is, te sien en te wysig."</string>
-    <!-- no translation found for download_unknown_title (7015124071247271585) -->
-    <skip />
+    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Ongetiteld&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" en <xliff:g id="NUMBER">%d</xliff:g> meer"</string>
-    <!-- no translation found for notification_download_complete (840713937779273632) -->
-    <skip />
-    <!-- no translation found for notification_download_failed (5343637375905111462) -->
-    <skip />
+    <string name="notification_download_complete" msgid="840713937779273632">"Aflaai voltooi"</string>
+    <string name="notification_download_failed" msgid="5343637375905111462">"Aflaai onsuksesvol"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Aflaaiselgrootte vereis Wi-Fi"</string>
-    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
-    <skip />
+    <string name="notification_paused_in_background" msgid="3786873946716398470">"Laat wag in agtergrond"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Aflaaisel te groot vir bedryfsnetwerk"</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"Jy moet Wi-Fi gebruik om hierdie <xliff:g id="SIZE">%s </xliff:g> aflaai te voltooi. "\n\n"Klik <xliff:g id="QUEUE_TEXT">%s </xliff:g> om hierdie aflaai te begin wanneer jy die volgende keer aan \'n Wi-Fi-netwerk koppel."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Plaas in waglys om later af te laai?"</string>

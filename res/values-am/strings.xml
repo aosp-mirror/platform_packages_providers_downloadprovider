@@ -17,8 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"አውርድ አዸራጅ"</string>
-    <!-- no translation found for permlab_downloadManager (7779544811202855500) -->
-    <skip />
+    <string name="permlab_downloadManager" msgid="7779544811202855500">"የአውርድ አደራጅ ድረስ።"</string>
     <string name="permdesc_downloadManager" msgid="4240298564918160337">"የአውርድ ፋይሎችንለመጠቀም እናየአውርዱንአዸራጅለመድረስመተግበሪያው ይፈቅዳል።ተንኮል አዘል ትግበራዎች አውርድን  እና የግል መረጃ መድረስለማስተጓጎል ይህን ይጠቀማሉ።"</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"የላቀ አውረድ አዸራጅ ተግባሮች።"</string>
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"የአውርዱንአዸራጅየላቁ ተግባሮችለመድረስመተግበሪያው ይፈቅዳል።ተንኮል አዘል ትግበራዎች አውርድን  እና የግል መረጃ መድረስለማስተጓጎል ይህን ይጠቀማሉ።"</string>
@@ -33,17 +32,13 @@
     <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"ትግበራው ለተጠቃሚው ምንም ማሳወቂያ ሳያሳይ ፋይሎችን በአውርድ አደራጅ በኩል ለማውረድ ይፈቅዳል።"</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"ሁሉንም የስርዓት ውርዶች ድረስ"</string>
     <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"ትግበራው በማንኛውም ትግበራ የተነሳውን ስርዓት ለማየት እና ለመቀየር ይፈቅዳል።"</string>
-    <!-- no translation found for download_unknown_title (7015124071247271585) -->
-    <skip />
+    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;ርዕስ አልባ&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" እና <xliff:g id="NUMBER">%d</xliff:g> ተጨማሪ...."</string>
-    <!-- no translation found for notification_download_complete (840713937779273632) -->
-    <skip />
-    <!-- no translation found for notification_download_failed (5343637375905111462) -->
-    <skip />
+    <string name="notification_download_complete" msgid="840713937779273632">"አውርድ ተጠናቋል"</string>
+    <string name="notification_download_failed" msgid="5343637375905111462">"አውርድ አልተሳካም"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"የአውርድ መጠን Wi-Fi ይጠይቃል"</string>
-    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
-    <skip />
+    <string name="notification_paused_in_background" msgid="3786873946716398470">"በዳራ ውስጥ ለአፍታ ቆሟል"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"ለትእምርተ ከዋኝ አውታረ መረብ በጣም ብዙ አውርድ"</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"ይህን<xliff:g id="SIZE">%s </xliff:g> አውርድ ለማጠናቀቅ WiFi  መጠቀም አለብዎ።"\n\n"በሚቀጥለው ጊዜ ወደWiFi ሲያያዙይህን አውርድ ለማስጀመር<xliff:g id="QUEUE_TEXT">%s </xliff:g> ጠቅ ያድርጉ።"</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"ለኋላ አውርድ ወረፋ?"</string>

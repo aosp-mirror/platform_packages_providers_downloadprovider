@@ -17,8 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Kidhibiti Vipakuzi"</string>
-    <!-- no translation found for permlab_downloadManager (7779544811202855500) -->
-    <skip />
+    <string name="permlab_downloadManager" msgid="7779544811202855500">"Fikia kidhibiti cha vipakuzi"</string>
     <string name="permdesc_downloadManager" msgid="4240298564918160337">"Huruhusu programu kufikia kisimamizi vipakuzi na kukitumia ili kupakua faili. Programu mbaya za kompyuta zinaweza kutumia hii ili kutatiza vipakuzi na kufikia maelezo ya kibinafsi."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Vitendaji mahiri vya kisimamizi vipakuzi."</string>
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Huruhusu programu kufikia vitendaji mahiri vya kisimamizi vipakuzi. Programu mbaya za kompyuta zinaweza kutumia hii ili kutatiza vipakuzi na kufikia maelezo ya kibinafsi."</string>
@@ -33,17 +32,13 @@
     <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Huruhusu programu kupakua faili kupitia kwa kidhibiti cha vipakuzi bila arifa yoyote kuonyeshwa kwa mtumiaji."</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Fikia vipakuzi vyote vya mfumo"</string>
     <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"inaruhusu programu kuonyesha na kurekebisha uzinduzi wote kwa programu yoyote kwenye mfumo."</string>
-    <!-- no translation found for download_unknown_title (7015124071247271585) -->
-    <skip />
+    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Untitled&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" na <xliff:g id="NUMBER">%d</xliff:g> zaidi"</string>
-    <!-- no translation found for notification_download_complete (840713937779273632) -->
-    <skip />
-    <!-- no translation found for notification_download_failed (5343637375905111462) -->
-    <skip />
+    <string name="notification_download_complete" msgid="840713937779273632">"Kupakua kumekamilika"</string>
+    <string name="notification_download_failed" msgid="5343637375905111462">"Kupakua hakujafanikiwa"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Ukubwa wa kipakuzi unahitaji Wi-Fi"</string>
-    <!-- no translation found for notification_paused_in_background (3786873946716398470) -->
-    <skip />
+    <string name="notification_paused_in_background" msgid="3786873946716398470">"Imepumzishwa kwenye usuli"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Kipakuzi ni kikubwa zaidi kwa mtandao wa mtoa huduma"</string>
     <string name="wifi_required_body" msgid="1675692697446715831">"Lazima utumie WiFi ili kukamilisha upakuaji wa <xliff:g id="SIZE">%s </xliff:g>. "\n\n"Bofya <xliff:g id="QUEUE_TEXT">%s </xliff:g> ili kuanzisha upakuaji huu wakati mwingine utakapokuwa umeunganishwa kwa mtandao wa WiFi."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Weka katika foleni ya kupakulia baadaye?"</string>

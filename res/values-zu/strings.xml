@@ -17,7 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Umphathi wokulayisha"</string>
-    <string name="permlab_downloadManager" msgid="7779544811202855500">"Finyelela umphathi wokulayisha"</string>
+    <string name="permlab_downloadManager" msgid="7779544811202855500">"Finyelela kumphathi wokulayisha"</string>
     <string name="permdesc_downloadManager" msgid="4240298564918160337">"Ivumela uhlelo lokusebenza ukulayisha umphathi nokumsebenzisela ukulayisha amafayela. Izinhlelo zokusebenza ezinonya zingase zisebenzise lokhu ukuphazamisa ukulayisha kanye nokufinyelele ukwaziswa okuyimfihlo."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Izici zomphathi wokulayisha othuthukisiwe."</string>
     <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Ivumela uhlelo lokusebenza ukufinyelela izici ezithuthukisiwe zomphathi wokulayisha. Izinhlelo zokusebenza ezinonya zingase zisebenzise lokhu ukuphazamisa ukulayisha kanye nokufinyelele ukwaziswa okuyimfihlo."</string>

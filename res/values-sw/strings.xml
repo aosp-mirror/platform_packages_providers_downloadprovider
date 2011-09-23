@@ -32,11 +32,11 @@
     <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Huruhusu programu kupakua faili kupitia kwa kidhibiti cha vipakuzi bila arifa yoyote kuonyeshwa kwa mtumiaji."</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Fikia vipakuzi vyote vya mfumo"</string>
     <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"inaruhusu programu kuonyesha na kurekebisha uzinduzi wote kwa programu yoyote kwenye mfumo."</string>
-    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Untitled&gt;"</string>
+    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Haina Kichwa&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" na <xliff:g id="NUMBER">%d</xliff:g> zaidi"</string>
-    <string name="notification_download_complete" msgid="840713937779273632">"Kupakua kumekamilika"</string>
-    <string name="notification_download_failed" msgid="5343637375905111462">"Kupakua hakujafanikiwa"</string>
+    <string name="notification_download_complete" msgid="840713937779273632">"Upakuaji umekamilika"</string>
+    <string name="notification_download_failed" msgid="5343637375905111462">"Upakuaji hakujafanikiwa"</string>
     <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Ukubwa wa kipakuzi unahitaji Wi-Fi"</string>
     <string name="notification_paused_in_background" msgid="3786873946716398470">"Imepumzishwa kwenye usuli"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Kipakuzi ni kikubwa zaidi kwa mtandao wa mtoa huduma"</string>

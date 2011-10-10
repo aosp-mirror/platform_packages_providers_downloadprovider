@@ -46,5 +46,5 @@
     <string name="deselect_all" msgid="7986832738563338661">"ሁሉንም አትምረጥ"</string>
     <string name="select_all" msgid="5854385570247421586">"ሁሉንም ምረጥ"</string>
     <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="NUMBER">%1$d</xliff:g>ከ<xliff:g id="TOTAL">%2$d</xliff:g> ተመርጧል"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"በ በኩል አጋራ"</string>
+    <string name="download_share_dialog" msgid="3355867339806448955">"በኩል አጋራ"</string>
 </resources>

@@ -18,7 +18,7 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3070921713463294774">"Okulayishiwe"</string>
     <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Okulayishiwe - Kuhlungwe ngedethi"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Okuldayishiwe - Kuhlungwe ngosayizi"</string>
+    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Okulayishiwe - Kuhlungwe ngosayizi"</string>
     <string name="no_downloads" msgid="1029667411186146836">"Akukho okulandiwe."</string>
     <string name="missing_title" msgid="830115697868833773">"&lt;Akwaziwa&gt;"</string>
     <string name="button_sort_by_size" msgid="7331549713691146251">"Hlunga ngosayizi"</string>
@@ -44,7 +44,7 @@
     <string name="cancel_running_download" msgid="5232704030969221112">"Khansela"</string>
     <string name="retry_download" msgid="7617100787922717912">"Zama futhi"</string>
     <string name="deselect_all" msgid="7986832738563338661">"Ungakhethi konke"</string>
-    <string name="select_all" msgid="5854385570247421586">"Khetha konk"</string>
+    <string name="select_all" msgid="5854385570247421586">"Khetha konke"</string>
     <string name="selected_count" msgid="2101564570019753277">"Khethiwe <xliff:g id="NUMBER">%1$d</xliff:g> kulezi <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
     <string name="download_share_dialog" msgid="3355867339806448955">"Abelana nge-"</string>
 </resources>

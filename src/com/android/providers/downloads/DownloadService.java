@@ -550,6 +550,7 @@ public class DownloadService extends Service {
     private void deleteFileIfExists(String path) {
         try {
             if (!TextUtils.isEmpty(path)) {
+                Log.i(Constants.TAG, "deleting " + path);
                 File file = new File(path);
                 file.delete();
             }

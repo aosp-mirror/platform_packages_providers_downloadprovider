@@ -44,6 +44,7 @@ import com.google.common.annotations.VisibleForTesting;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -673,13 +674,18 @@ public final class DownloadProvider extends ContentProvider {
         if (scheme == null || !scheme.equals("file")) {
             throw new IllegalArgumentException("Not a file URI: " + uri);
         }
-        String path = uri.getPath();
+        final String path = uri.getPath();
         if (path == null) {
             throw new IllegalArgumentException("Invalid file URI: " + uri);
         }
-        String externalPath = Environment.getExternalStorageDirectory().getAbsolutePath();
-        if (!path.startsWith(externalPath)) {
-            throw new SecurityException("Destination must be on external storage: " + uri);
+        try {
+            final String canonicalPath = new File(path).getCanonicalPath();
+            final String externalPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+            if (!canonicalPath.startsWith(externalPath)) {
+                throw new SecurityException("Destination must be on external storage: " + uri);
+            }
+        } catch (IOException e) {
+            throw new SecurityException("Problem resolving path: " + uri);
         }
     }
 

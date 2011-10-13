@@ -32,22 +32,13 @@ public class HelpersTest extends AndroidTestCase {
     public void testGetFullPath() throws Exception {
       String hint = "file:///com.android.providers.downloads/test";
 
-      // Test that an extension derived from the specified mime type is appended to a filename that
-      // does not itself have an extension.
+      // Test that we never change requested filename.
       String fileName = Helpers.getFullPath(
           hint,
           "video/mp4", // MIME type corresponding to file extension .mp4
           Downloads.Impl.DESTINATION_FILE_URI,
           null);
-      assertEquals(hint + ".mp4", fileName);
-
-      // Test that the filename extension is replaced by one derived from the specified mime type.
-      fileName = Helpers.getFullPath(
-          hint + ".shouldbereplaced",
-          "video/mp4", // MIME type corresponding to file extension .mp4
-          Downloads.Impl.DESTINATION_FILE_URI,
-          null);
-      assertEquals(hint + ".mp4", fileName);
+      assertEquals(hint, fileName);
     }
 
 }

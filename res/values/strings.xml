@@ -29,9 +29,9 @@
         of any application that was granted that permission.
         This specific permission controls access to the Download Manager by
         applications that initiate downloads. -->
-    <string name="permdesc_downloadManager">Allows the application to
+    <string name="permdesc_downloadManager">Allows the app to
         access the download manager and to use it to download files.
-        Malicious applications can use this to disrupt downloads and access
+        Malicious apps can use this to disrupt downloads and access
         private information.</string>
 
     <!-- This is the short description of a permission associated with the
@@ -50,9 +50,9 @@
         dangerous) features from the Download Manager that are needed by
         system applications but aren't necessary for regular applications
         that just initiate plain downloads. -->
-    <string name="permdesc_downloadManagerAdvanced">Allows the application to
+    <string name="permdesc_downloadManagerAdvanced">Allows the app to
         access the download manager\'s advanced functions.
-        Malicious applications can use this to disrupt downloads and access
+        Malicious apps can use this to disrupt downloads and access
         private information.</string>
 
     <string name="permlab_downloadCompletedIntent">Send download
@@ -62,9 +62,9 @@
         of any application that was granted that permission.
         This specific permission allows an application to tell other
         applications that their downloads have completed. -->
-    <string name="permdesc_downloadCompletedIntent">Allows the application
-        to send notifications about completed downloads. Malicious applications
-        can use this to confuse other applications that download
+    <string name="permdesc_downloadCompletedIntent">Allows the app
+        to send notifications about completed downloads. Malicious apps
+        can use this to confuse other apps that download
         files.</string>
 
     <!-- Title for permission to see all downloads to EXTERNAL [CHAR LIMIT=25] -->
@@ -72,8 +72,8 @@
     <!-- Title for permission to see all downloads to EXTERNAL -->
     <string name="permlab_seeAllExternal" product="default">See all downloads to SD card</string>
     <!-- Description for the permission to see all downloads to EXTERNAL -->
-    <string name="permdesc_seeAllExternal">Allows the application to see all
-        downloads to the SD card, regardless of which application downloaded
+    <string name="permdesc_seeAllExternal">Allows the app to see all
+        downloads to the SD card, regardless of which app downloaded
         them.</string>
 
     <!-- The label for the permission to download files to the download cache
@@ -84,8 +84,8 @@
     <!-- The full sentence description for the permission to download files to
     the download cache that can't be automatically deleted by the download
     manager to free up space [CHAR LIMIT=160] -->
-    <string name="permdesc_downloadCacheNonPurgeable">Allows the application to
-    download files to the download cache which cannot be automatically deleted
+    <string name="permdesc_downloadCacheNonPurgeable">Allows the app to
+    download files to the download cache, which can\'t be automatically deleted
     when the download manager needs more space.</string>
 
     <!-- The label for the permission to download files through the download
@@ -96,7 +96,7 @@
     <!-- The full sentence description for the permission to download files
     through the download manager without any notification being shown to the
     user [CHAR LIMIT=160] -->
-    <string name="permdesc_downloadWithoutNotification">Allows the application
+    <string name="permdesc_downloadWithoutNotification">Allows the app
     to download files through the download manager without any notification
     being shown to the user.</string>
 
@@ -108,8 +108,8 @@
     <!-- The full sentence description for the permission to access all
     downloads in the download manager, not just those owned by the calling user
     [CHAR LIMIT=160] -->
-    <string name="permdesc_accessAllDownloads">Allows the application to view
-    and modify all initiated by any application on the system.</string>
+    <string name="permdesc_accessAllDownloads">Allows the app to view
+    and modify all downloads initiated by any app on the system.</string>
 
 
     <!-- This is the title that is used when displaying the notification
@@ -138,14 +138,14 @@
         Note that such a download could have been initiated by a variety of
         applications, including (but not limited to) the browser, an email
         application, a content marketplace. -->
-    <string name="notification_download_complete">Download complete</string>
+    <string name="notification_download_complete">Download complete.</string>
 
     <!-- When a download completes, a notification is displayed, and this
         string is used to indicate that the download failed.
         Note that such a download could have been initiated by a variety of
         applications, including (but not limited to) the browser, an email
         application, a content marketplace. -->
-    <string name="notification_download_failed">Download unsuccessful</string>
+    <string name="notification_download_failed">Download unsuccessful.</string>
 
     <!-- When a download is paused because it's too large to download over a
         mobile connection, and Wi-Fi is unavailable, this string is displayed in
@@ -154,11 +154,11 @@
         initiated by a variety of applications, including (but not limited to)
         the browser, an email application, a content marketplace.
         [CHAR LIMIT=24] -->
-    <string name="notification_need_wifi_for_size">Download size requires Wi-Fi</string>
+    <string name="notification_need_wifi_for_size">Download size requires Wi-Fi.</string>
 
     <!-- Notification shown when a download has been paused because a user policy
         has blocked network access to applications running in background. [CHAR LIMIT=24] -->
-    <string name="notification_paused_in_background">Paused in background</string>
+    <string name="notification_paused_in_background">Paused in background.</string>
 
     <!-- Title for dialog when a download exceeds the carrier-specified maximum size of downloads
         over the mobile network and Wi-Fi is required.  The user has the choice to either queue the
@@ -170,10 +170,10 @@
         over the mobile network and Wi-Fi is required.  The user has the choice to either queue the
         download to start next time Wi-Fi is available or cancel the download altogether. [CHAR
         LIMIT=200] -->
-    <string name="wifi_required_body">You must use WiFi to complete this
+    <string name="wifi_required_body">You must use Wi-Fi to complete this
         <xliff:g id="size" example="12.3KB">%s
-        </xliff:g> download. \n\nClick <xliff:g id="queue_text" example="Queue">%s
-        </xliff:g> to begin this download the next time you are connected to a WiFi
+        </xliff:g> download. \n\nTouch <xliff:g id="queue_text" example="Queue">%s
+        </xliff:g> to start this download the next time you\'re connected to a Wi-Fi
         network.</string>
 
     <!-- Title for dialog when a download exceeds the carrier-specified recommended maximum size of
@@ -190,8 +190,8 @@
         </xliff:g> download now may shorten your battery life and/or result in
         excessive usage of your mobile data connection, which can lead to charges by
         your mobile operator depending on your data plan.\n\n
-        Click <xliff:g id="queue_text" example="Queue">%s</xliff:g> below to begin this download
-        the next time you are connected to a WiFi network.</string>
+        Touch <xliff:g id="queue_text" example="Queue">%s</xliff:g> to start this download
+        the next time you're connected to a Wi-Fi network.</string>
 
 
     <!-- Text for button to queue a download to start next time Wi-Fi is available [CHAR LIMIT=25]

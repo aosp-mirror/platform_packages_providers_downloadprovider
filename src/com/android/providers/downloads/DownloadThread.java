@@ -315,9 +315,11 @@ public class DownloadThread extends Thread {
      * Called after a successful completion to take any necessary action on the downloaded file.
      */
     private void finalizeDestinationFile(State state) throws StopRequestException {
-        // make sure the file is readable
-        FileUtils.setPermissions(state.mFilename, 0644, -1, -1);
-        syncDestination(state);
+        if (state.mFilename != null) {
+            // make sure the file is readable
+            FileUtils.setPermissions(state.mFilename, 0644, -1, -1);
+            syncDestination(state);
+        }
     }
 
     /**

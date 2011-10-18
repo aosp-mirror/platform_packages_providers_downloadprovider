@@ -307,7 +307,7 @@ class StorageManager {
      * the total byte size is greater than targetBytes
      */
     private long discardPurgeableFiles(int destination, long targetBytes) {
-        if (Constants.LOGV) {
+        if (true || Constants.LOGV) {
             Log.i(Constants.TAG, "discardPurgeableFiles: destination = " + destination +
                     ", targetBytes = " + targetBytes);
         }
@@ -330,7 +330,7 @@ class StorageManager {
         try {
             while (cursor.moveToNext() && totalFreed < targetBytes) {
                 File file = new File(cursor.getString(cursor.getColumnIndex(Downloads.Impl._DATA)));
-                if (Constants.LOGV) {
+                if (true || Constants.LOGV) {
                     Log.i(Constants.TAG, "purging " + file.getAbsolutePath() + " for " +
                             file.length() + " bytes");
                 }
@@ -344,7 +344,7 @@ class StorageManager {
         } finally {
             cursor.close();
         }
-        if (Constants.LOGV) {
+        if (true || Constants.LOGV) {
             Log.i(Constants.TAG, "Purged files, freed " + totalFreed + " for " +
                     targetBytes + " requested");
         }
@@ -359,7 +359,7 @@ class StorageManager {
      * This is not a very common occurrence. So, do this only once in a while.
      */
     private void removeSpuriousFiles() {
-        if (Constants.LOGV) {
+        if (true || Constants.LOGV) {
             Log.i(Constants.TAG, "in removeSpuriousFiles");
         }
         // get a list of all files in system cache dir and downloads data dir
@@ -383,7 +383,7 @@ class StorageManager {
                 while (cursor.moveToNext()) {
                     String filename = cursor.getString(0);
                     if (!TextUtils.isEmpty(filename)) {
-                        if (Constants.LOGV) {
+                        if (true || Constants.LOGV) {
                             Log.i(Constants.TAG, "in removeSpuriousFiles, preserving file " +
                                     filename);
                         }
@@ -402,7 +402,7 @@ class StorageManager {
                     file.getName().equalsIgnoreCase(Constants.RECOVERY_DIRECTORY)) {
                 continue;
             }
-            if (Constants.LOGV) {
+            if (true || Constants.LOGV) {
                 Log.i(Constants.TAG, "deleting spurious file " + file.getAbsolutePath());
             }
             file.delete();

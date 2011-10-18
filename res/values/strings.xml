@@ -191,7 +191,7 @@
         excessive usage of your mobile data connection, which can lead to charges by
         your mobile operator depending on your data plan.\n\n
         Touch <xliff:g id="queue_text" example="Queue">%s</xliff:g> to start this download
-        the next time you're connected to a Wi-Fi network.</string>
+        the next time you\'re connected to a Wi-Fi network.</string>
 
 
     <!-- Text for button to queue a download to start next time Wi-Fi is available [CHAR LIMIT=25]

@@ -162,13 +162,6 @@ public class DownloadThread extends Thread {
 
             boolean finished = false;
             while(!finished) {
-                if (state.mCurrentBytes == state.mTotalBytes) {
-                    Log.i(Constants.TAG, "Skipping initiating request for download " +
-                          mInfo.mId + "; already completed");
-                    finished = true;
-                    break;
-                }
-
                 Log.i(Constants.TAG, "Initiating request for download " + mInfo.mId);
                 // Set or unset proxy, which may have changed since last GET request.
                 // setDefaultProxy() supports null as proxy parameter.
@@ -242,6 +235,13 @@ public class DownloadThread extends Thread {
 
         setupDestinationFile(state, innerState);
         addRequestHeaders(state, request);
+
+        // skip when already finished; remove after fixing race in 5217390
+        if (state.mCurrentBytes == state.mTotalBytes) {
+            Log.i(Constants.TAG, "Skipping initiating request for download " +
+                  mInfo.mId + "; already completed");
+            return;
+        }
 
         // check just before sending the request to avoid using an invalid connection at all
         checkConnectivity();

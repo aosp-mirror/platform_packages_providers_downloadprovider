@@ -18,31 +18,31 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Kidhibiti Vipakuzi"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Fikia kidhibiti cha vipakuzi"</string>
-    <string name="permdesc_downloadManager" msgid="4240298564918160337">"Huruhusu programu kufikia kisimamizi vipakuzi na kukitumia ili kupakua faili. Programu mbaya za kompyuta zinaweza kutumia hii ili kutatiza vipakuzi na kufikia maelezo ya kibinafsi."</string>
+    <string name="permdesc_downloadManager" msgid="4237406545998908947">"Huruhusu programu kufikia kisimamia vipakuzi na kukitumia ili kupakua faili. Programu mbaya zinaweza kutumia hii ili kutatiza vipakuzi na kufikia maelezo ya kibinafsi."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Vitendaji mahiri vya kisimamizi vipakuzi."</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Huruhusu programu kufikia vitendaji mahiri vya kisimamizi vipakuzi. Programu mbaya za kompyuta zinaweza kutumia hii ili kutatiza vipakuzi na kufikia maelezo ya kibinafsi."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Huruhusu programu kufikia vitendaji mahiri vya kisimamia vipakuzi. Programu mbaya zinaweza kutumia hii ili kutatiza vipakuzi na kufikia maelezo ya kibinafsi."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Tuma arifa za vipakuzi."</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Huruhusu programu kutuma arifa kuhusu vipakuzi vilivyokamilika. Programu hasidi zinaweza kutumia ili kuchanganya programu zingine za kupakua faili."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Inaruhusu programu kutuma notisi kuhusu vipakuzi vilivyokamilika. Programu mbaya zinaweza kutumia haya kuchanganya programu zingine ambazo hupakua faili."</string>
     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Angalia vipakuzi vyote kwa hifadhi ya USB"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Tazama vipakuzi vyote kwa kadi ya SD"</string>
-    <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Huruhusu programu kuona vipakuzi vyote kwa kadi ya SD, bila ya kuzingatia programu iliyovipakua."</string>
+    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Inaruhusu programu kuona vipakuzi vyote kwenye kadi ya SD, haijalishi ni programu gani iliyozipakuwa."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Geuza nafasi katika kache ya kupakua"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Huruhusu programu kupakua faili kwa kache ya kupakua ambayo haiwezi kufutwa kiotomatiki wakati kidhibiti cha vipakuzi kinahitaji nafasi zaidi."</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Inaruhusu programu kupakua faili kwa kache ambayo haiwezi kufutwa kiotomatiki wakati kidhibiti cha upakuzi kinahitaji nafasi zaidi."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"Pakua faili bila kutoa arifa"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Huruhusu programu kupakua faili kupitia kwa kidhibiti cha vipakuzi bila arifa yoyote kuonyeshwa kwa mtumiaji."</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"Inaruhusu programu kupakua faili kupitia kidhibiti cha vipakuzi bila notisi yoyote kuonyeshwa kwa mtumiaji."</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Fikia vipakuzi vyote vya mfumo"</string>
-    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"inaruhusu programu kuonyesha na kurekebisha uzinduzi wote kwa programu yoyote kwenye mfumo."</string>
+    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"Inaruhusu programu kuona na kurekebisha vipakuzi vyote vilivyoanzishwa na programu yoyote kwenye mfumo."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Haina Kichwa&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" na <xliff:g id="NUMBER">%d</xliff:g> zaidi"</string>
-    <string name="notification_download_complete" msgid="840713937779273632">"Upakuaji umekamilika"</string>
-    <string name="notification_download_failed" msgid="5343637375905111462">"Upakuaji hakujafanikiwa"</string>
-    <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Ukubwa wa kipakuzi unahitaji Wi-Fi"</string>
-    <string name="notification_paused_in_background" msgid="3786873946716398470">"Imepumzishwa kwenye usuli"</string>
+    <string name="notification_download_complete" msgid="5443563299253103667">"Upakuaji umekamilika"</string>
+    <string name="notification_download_failed" msgid="8612136111952014978">"Kupakua hakujafaulu."</string>
+    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Ukubwa wa kipakuzi uhitaji Wi-Fi"</string>
+    <string name="notification_paused_in_background" msgid="4328508073283591772">"Imesitishwa katika usuli."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Kipakuzi ni kikubwa zaidi kwa mtandao wa mtoa huduma"</string>
-    <string name="wifi_required_body" msgid="1675692697446715831">"Lazima utumie WiFi ili kukamilisha upakuaji wa <xliff:g id="SIZE">%s </xliff:g>. "\n\n"Bofya <xliff:g id="QUEUE_TEXT">%s </xliff:g> ili kuanzisha upakuaji huu wakati mwingine utakapokuwa umeunganishwa kwa mtandao wa WiFi."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Lazima utumia Wi-Fi ili ukamilishe kipakuzi cha <xliff:g id="SIZE">%s </xliff:g>huu. "\n\n"Gusa <xliff:g id="QUEUE_TEXT">%s </xliff:g> ili kuanzisha kipakuzi hiki wakati mwingine unapounganishwa kwenye mtandao wa Wi-Fi."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Weka katika foleni ya kupakulia baadaye?"</string>
-    <string name="wifi_recommended_body" msgid="7574517147645381271">"Kuanzisha upakuaji huu wa <xliff:g id="SIZE">%s </xliff:g> huenda kukafupisha maisha ya betri yako na/au kusababisha matumizi zaidi ya muunganisho wako wa data ya simu ya mkononi, ambayo yanaweza kusababisha gharama kutoka kwa mtoa huduma wako wa simu kulingana na mpango wa data uliomo."\n\n" Bofya <xliff:g id="QUEUE_TEXT">%s</xliff:g> hapo chini ili kuanzisha upakuaji huu wakati mwingine utakapokuwa umeunganishwa kwa mtandao-hewa."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"Kuanza kupakua <xliff:g id="SIZE">%s </xliff:g> kunaweza kufupisha maisha ya betri na / au kusababisha matumizi makubwa ya muunganisho wa data kwa simu za mkononi, ambayo inaweza kusababisha madai kutoka kwa mtoa huduma wako kulingana na mpango wako wa data. "\n" "\n" Guza <xliff:g id="QUEUE_TEXT">%s</xliff:g> kuanza kupakua wakati mwingine ukiuuganishwa na mtandao wa Wi-Fi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Foleni"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Ghairi"</string>
     <string name="button_start_now" msgid="792123674007840864">"Anza sasa"</string>

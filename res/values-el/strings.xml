@@ -18,31 +18,31 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Πρόγραμμα διαχείρισης λήψεων"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Πρόσβαση στο πρόγραμμα διαχείρισης λήψεων."</string>
-    <string name="permdesc_downloadManager" msgid="4240298564918160337">"Επιτρέπει στην εφαρμογή την πρόσβαση στο πρόγραμμα διαχείρισης λήψεων και τη χρήση του για τη λήψη αρχείων. Κακόβουλες εφαρμογές μπορούν να το χρησιμοποιήσουν για να διακόψουν λήψεις και για να αποκτήσουν πρόσβαση σε προσωπικές πληροφορίες."</string>
+    <string name="permdesc_downloadManager" msgid="4237406545998908947">"Επιτρέπει στην εφαρμογή την πρόσβαση στο πρόγραμμα διαχείρισης λήψεων και τη χρήση του για τη λήψη αρχείων. Οι κακόβουλες εφαρμογές μπορούν να χρησιμοποιήσουν αυτήν τη δυνατότητα για να διακόψουν λήψεις και να αποκτήσουν πρόσβαση σε απόρρητες πληροφορίες."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Σύνθετες λειτουργίες προγράμματος διαχείρισης λήψεων."</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Επιτρέπει στην εφαρμογή την πρόσβαση στις σύνθετες λειτουργίες των προγραμμάτων διαχείρισης λήψεων. Κακόβουλες εφαρμογές μπορούν να το χρησιμοποιήσουν για να διακόψουν λήψεις και για να αποκτήσουν πρόσβαση σε προσωπικές πληροφορίες."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Επιτρέπει στην εφαρμογή την πρόσβαση στις σύνθετες λειτουργίες του προγράμματος διαχείρισης λήψεων. Οι κακόβουλες εφαρμογές μπορούν να χρησιμοποιήσουν αυτήν τη δυνατότητα για να διακόψουν λήψεις και να αποκτήσουν πρόσβαση σε απόρρητες πληροφορίες."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Αποστολή ειδοποιήσεων λήψης."</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Επιτρέπει στην εφαρμογή να στέλνει ειδοποιήσεις σχετικά με τις ολοκληρωμένες λήψεις. Κακόβουλες εφαρμογές μπορούν να το χρησιμοποιήσουν για να μπερδέψουν άλλες εφαρμογές που πραγματοποιούν λήψεις αρχείων."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Επιτρέπει στην εφαρμογή την αποστολή ειδοποιήσεων σχετικά με τις λήψεις που έχουν ολοκληρωθεί. Οι κακόβουλες εφαρμογές μπορούν να χρησιμοποιήσουν αυτή τη λειτουργία για να μπερδέψουν άλλες εφαρμογές που πραγματοποιούν λήψη αρχείων."</string>
     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Δείτε τις λήψεις στο USB"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Εμφάνιση όλων των λήψεων στην κάρτα SD"</string>
-    <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Επιτρέπει στην εφαρμογή την εμφάνιση όλων των λήψεων στην κάρτα SD, ανεξάρτητα από την εφαρμογή που πραγματοποίησε τις λήψεις τους."</string>
+    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Επιτρέπει στην εφαρμογή να βλέπει όλες τις λήψεις στην κάρτα SD, ανεξάρτητα από την εφαρμογή που πραγματοποίησε τη λήψη."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Διατηρήστε χώρο στην προσωρινή μνήμη λήψης"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Επιτρέπει στην εφαρμογή τη λήψη αρχείων στην προσωρινή μνήμη λήψης, η οποία δεν είναι δυνατό να διαγραφεί αυτόματα όταν παρουσιαστεί έλλειψη χώρου στον διαχειριστή λήψης."</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Επιτρέπει στην εφαρμογή τη λήψη αρχείων στην προσωρινή μνήμη λήψης, η οποία δεν είναι δυνατό να διαγραφεί αυτόματα όταν παρουσιαστεί έλλειψη χώρου στο πρόγραμμα διαχείρισης λήψεων."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"λήψη αρχείων χωρίς ειδοποίηση"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Επιτρέπει στην εφαρμογή τη λήψη αρχείων μέσω του διαχειριστή λήψης χωρίς την εμφάνιση καμίας ειδοποίησης στο χρήστη."</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"Επιτρέπει στην εφαρμογή τη λήψη αρχείων μέσω του προγράμματος διαχείρισης λήψεων χωρίς την εμφάνιση κάποιας ειδοποίησης στο χρήστη."</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Πρόσβαση σε όλα τα στοιχεία λήψης"</string>
-    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Επιτρέπει στην εφαρμογή την παρακολούθηση και την τροποποίηση όλων όσων εκκινούνται από οποιαδήποτε εφαρμογή στο σύστημα."</string>
+    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"Επιτρέπει στην εφαρμογή την προβολή και τροποποίηση όλων των λήψεων που ξεκίνησαν από οποιαδήποτε εφαρμογή του συστήματος."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Χωρίς τίτλο&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" και <xliff:g id="NUMBER">%d</xliff:g> ακόμα"</string>
-    <string name="notification_download_complete" msgid="840713937779273632">"Ολοκλήρωση λήψης"</string>
-    <string name="notification_download_failed" msgid="5343637375905111462">"Ανεπιτυχής λήψη"</string>
-    <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Μέγ. λήψης απαιτεί Wi-Fi"</string>
-    <string name="notification_paused_in_background" msgid="3786873946716398470">"Παύθηκε στο παρασκήνιο"</string>
+    <string name="notification_download_complete" msgid="5443563299253103667">"Η λήψη ολοκληρώθηκε."</string>
+    <string name="notification_download_failed" msgid="8612136111952014978">"Ανεπιτυχής λήψη."</string>
+    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Η λήψη απαιτεί Wi-Fi"</string>
+    <string name="notification_paused_in_background" msgid="4328508073283591772">"Σε παύση στο παρασκήνιο"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Πολύ μεγάλο αρχείο λήψης για δίκτυο παρόχου."</string>
-    <string name="wifi_required_body" msgid="1675692697446715831">"Πρέπει να χρησιμοποιήσετε WiFi για να ολοκληρώσετε τη λήψη <xliff:g id="SIZE">%s </xliff:g>. "\n\n"Κάντε κλικ στο <xliff:g id="QUEUE_TEXT">%s </xliff:g> για να ξεκινήσετε τη λήψη την επόμενη φορά που θα συνδεθείτε σε δίκτυο WiFi."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Θα πρέπει να χρησιμοποιήσετε Wi-Fi για την ολοκλήρωση αυτής της λήψης μεγέθους <xliff:g id="SIZE">%s </xliff:g>. "\n\n"Αγγίξτε το στοιχείο <xliff:g id="QUEUE_TEXT">%s </xliff:g> για να ξεκινήσετε αυτήν τη λήψη την επόμενη φορά που θα συνδεθείτε σε δίκτυο Wi-Fi."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Προσθήκη στην ουρά για να κάνετε λήψη αργότερα;"</string>
-    <string name="wifi_recommended_body" msgid="7574517147645381271">"Η έναρξη της λήψης <xliff:g id="SIZE">%s </xliff:g> τώρα, ίσως μειώσει τη διάρκεια ζωής της μπαταρίας ή/και να καταλήξει σε μεγάλη χρήση της σύνδ. δεδομ. κιν. τηλεφ. και να επιφέρει χρεώσεις, ανάλογα με το πρόγρ. δεδομ."\n\n" Κάντε κλικ στο στοιχείο <xliff:g id="QUEUE_TEXT">%s</xliff:g> παρακάτω, για να ξεκινήσετε τη λήψη όταν θα συνδεθείτε σε δίκτυο WiFi."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"Αυτή η λήψη μεγ. <xliff:g id="SIZE">%s </xliff:g> ίσως μειώσει τη διάρκ.ζωής της μπατ. ή/και να κάνει υπερβ.χρήση της σύνδ. δεδ. κιν. Ίσως υπάρξουν χρεώσ.από την εταιρ. βάσει του προγρ.δεδομ."\n\n" Αγγίξτε <xliff:g id="QUEUE_TEXT">%s</xliff:g> για λήψη όταν συνδ. μέσω Wi-Fi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Ουρά"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Ακύρωση"</string>
     <string name="button_start_now" msgid="792123674007840864">"Έναρξη τώρα"</string>

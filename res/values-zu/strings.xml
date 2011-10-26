@@ -18,31 +18,31 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Umphathi wokulayisha"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Finyelela kumphathi wokulayisha"</string>
-    <string name="permdesc_downloadManager" msgid="4240298564918160337">"Ivumela uhlelo lokusebenza ukulayisha umphathi nokumsebenzisela ukulayisha amafayela. Izinhlelo zokusebenza ezinonya zingase zisebenzise lokhu ukuphazamisa ukulayisha kanye nokufinyelele ukwaziswa okuyimfihlo."</string>
+    <string name="permdesc_downloadManager" msgid="4237406545998908947">"Ivuela insiza ukuthi ifinyelele izintweni ezijulile zomphathi wokulayisha. Izinsiza ezinobungozi zingakusebenzisa lokhu ukuphazamisa ukulayisha ziphinde zifinyelele emininingwaneni eyimfihlo."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Izici zomphathi wokulayisha othuthukisiwe."</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="6985743912436565114">"Ivumela uhlelo lokusebenza ukufinyelela izici ezithuthukisiwe zomphathi wokulayisha. Izinhlelo zokusebenza ezinonya zingase zisebenzise lokhu ukuphazamisa ukulayisha kanye nokufinyelele ukwaziswa okuyimfihlo."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Ivuela insiz ukuthi ifinyelele izinto ezijulile zomphathi wokulayisha. Izinsiza ezinobungozi zingakusebenzisa lokhu ukuphazamisa ukulayisha ziphinde zifinyelele emininingwaneni eyimfihlo."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Thumela izaziso zokulayisha"</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="8672701687104399228">"Ivumela izinhlelo ukuthumela izaziso mayelana nokulayisha okuqediwe. Izinhlelo zokusebenza ezininya zingase zisebenzise lokhu ukudida ezinye izinhlelo zokusebenza lezo ezilayisha amafayela."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Ivumela insiza ukuthi ithumele izaziso yelana nokulayishwa okuqediwe. Izinsiza ezinobungozi zingakusebenzisa lokhu ukudida ezinye izinsiz ezilayisha amafayel."</string>
     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Bona konke ukulanda kwisitoreji se-USB"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Bona konke ukulanda ekhadini le-SD"</string>
-    <string name="permdesc_seeAllExternal" msgid="3298948060016417104">"Ivumela uhlelo lokusebenza ukubona konke ukulanda ekhadini le-SD, ngaphandle kokuthi yiluphi uhlelo lokusebenza olulandile."</string>
+    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Ivumela insiza ukuthi ibone konke okulayishiwe ekhadini le-SD ngale kokubona ukuthi iyiphi insiza ekulayishile."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Igcina isikhala ekulondolozeni kwesikhashana kokulanda"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="1089583021652571424">"Ivumela uhlelo lokusebenza ukulanda amafayela ekulondolozeni kwesikhashana kokulanda okungakwazi ukususwa ngokuzenzakalelayo lapho imeneja yokulanda idinga isikhala esanele."</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Ivumela uhlelo lokusebenza ukulanda amafayela okulondoloza kwesikhashana angakwazi ukususwa ngokuzenzakalelayo lapho imeneja yokulanda idinga esikhala esengeziwe."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"landa amafayela ngaphandle kwesaziso"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="5174806530123417020">"Ivumela uhlelo lokusebenza ukulanda amafayela ngomeneja wokulanda ngaphandle kokuba isaziso siboniswe umsebenzisi."</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"Ivumela uhlelo lokusebenza ukulanda amafayela ngomeneja wokulanda ngaphandle kokuba isaziso siboniswe umsebenzisi."</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Finyelela kuko konke ukulanda kwesistimu"</string>
-    <string name="permdesc_accessAllDownloads" msgid="4575801130424505112">"Ivumela uhlelo lokusebenza ukubuka nokulungisa konke okuqaliswe yinoma yiluphi uhlelo lokusebenza kwisistimu."</string>
+    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"vumela insiza ukuthi ibone iphinde iguqule konke okulayishiwe okuqalwe insiza ekwisistimu."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Akunasihloko&gt;"</string>
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" nokungu-<xliff:g id="NUMBER">%d</xliff:g> okungaphezulu"</string>
-    <string name="notification_download_complete" msgid="840713937779273632">"Ukulayisha ungenisa kuqedile"</string>
-    <string name="notification_download_failed" msgid="5343637375905111462">"Ukulayisha ungenisa akuphumelelanga"</string>
-    <string name="notification_need_wifi_for_size" msgid="5973127997598540499">"Usayizi wokulanda udinga i-Wi-Fi"</string>
-    <string name="notification_paused_in_background" msgid="3786873946716398470">"Kumisiwe okwesikhashana esizindeni"</string>
+    <string name="notification_download_complete" msgid="5443563299253103667">"Ukulayisha ungenisa kuqedile"</string>
+    <string name="notification_download_failed" msgid="8612136111952014978">"Ukulayisha akuphumelelanga"</string>
+    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Usayizi wokulanda udinga i-Wi-Fi"</string>
+    <string name="notification_paused_in_background" msgid="4328508073283591772">"Kumisiwe okwesikhashana esizindeni"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Ukulanda kukhulu kakhulu"</string>
-    <string name="wifi_required_body" msgid="1675692697446715831">"Kumele usebenzise i-WiFi ukuqedela lokhu <xliff:g id="SIZE">%s </xliff:g> kulanda. "\n\n"Qhafaza i-<xliff:g id="QUEUE_TEXT">%s </xliff:g> ukuqalisa lokhu kulanda esikhathini esizayo lapho uxhumeke kwinethiwekhi ye-WiFi."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Kufanele usebenzise i-Wi-Fi ukuqedela lokhu <xliff:g id="SIZE">%s </xliff:g> kulayisha. "\n\n"Thinta Touch <xliff:g id="QUEUE_TEXT">%s </xliff:g> ukuqlisa lokhu  kulayisha esikhathini esizayo uxhuaniseke enethiwekhini ye-Wi-Fi."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Linda ukulanda emva kwesikhathi?"</string>
-    <string name="wifi_recommended_body" msgid="7574517147645381271">"Ukuqalisa lokhu <xliff:g id="SIZE">%s </xliff:g> kulanda manje kungase kunciphise ukuphila kwebhetri yakho futhi/noma kuhilele ekusetshenzisweni okuphezulu kakhulu koxhumano lwakho lwefoni, okungase kuhilele kwizindleko eziphuma ku-opheretha wefoni yakho kuya ngelungiselelo ledatha yakho."\n\n" Qhafaza <xliff:g id="QUEUE_TEXT">%s</xliff:g> ngenzansi ukuqalisa lokhu kulanda esikhathini esizayo lapho uxhumeke kwinethiwekhi ye-WiFi."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"Iqla lokhu <xliff:g id="SIZE">%s </xliff:g> kudawuniloda manje kungenz impilo yebhethri yakho ibe mfishane noma kungadla ukusetshenziswa okwqile kwe-data yakho yokuxhumana okuholela ekukhokhisweni umhlinzeki wakho kuncike esivumelwaneni senu se-daata. "\n\n" Thinta <xliff:g id="QUEUE_TEXT">%s</xliff:g> ukuqala lokhu kulayisha esikhathini esizayo uxhumaniseke enethiwekhini ye-Wi-Fi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Umugqa"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Khansela"</string>
     <string name="button_start_now" msgid="792123674007840864">"Qala manje"</string>

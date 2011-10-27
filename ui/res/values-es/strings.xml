@@ -28,7 +28,7 @@
     <string name="download_success" msgid="7006048006543495236">"Completada"</string>
     <string name="download_error" msgid="3107369653921738690">"Con error"</string>
     <string name="dialog_title_not_available" msgid="4479021195995400471">"Error en la descarga"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"¿Deseas volver a intentar descargar el archivo más tarde o prefieres eliminarlo de la cola?"</string>
+    <string name="dialog_failed_body" msgid="587545111677064427">"¿Quieres volver a intentar descargar el archivo más tarde o prefieres eliminarlo de la cola?"</string>
     <string name="dialog_title_queued_body" msgid="3062862079904954824">"Archivo no disponible"</string>
     <string name="dialog_queued_body" msgid="2506935748423351902">"Este archivo está en cola para descargarlo más tarde."</string>
     <string name="dialog_file_missing_body" msgid="2783781332668129395">"No se puede encontrar el archivo descargado."</string>

@@ -37,7 +37,7 @@
     <string name="notification_filename_extras" msgid="5549729917695688191">" en nog <xliff:g id="NUMBER">%d</xliff:g> meer"</string>
     <string name="notification_download_complete" msgid="5443563299253103667">"Downloaden is voltooid."</string>
     <string name="notification_download_failed" msgid="8612136111952014978">"Downloaden is mislukt."</string>
-    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Wifi nodig wegens grootte van download."</string>
+    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Wifi nodig voor download"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Onderbr. op achtergrond."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Download te groot voor providernetwerk"</string>
     <string name="wifi_required_body" msgid="3067694630143784449">"U moet wifi gebruiken om deze download van <xliff:g id="SIZE">%s </xliff:g> te voltooien. "\n\n"Raak <xliff:g id="QUEUE_TEXT">%s </xliff:g> aan om deze download te starten wanneer u verbinding heeft met een wifi-netwerk."</string>

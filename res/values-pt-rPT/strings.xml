@@ -37,7 +37,7 @@
     <string name="notification_filename_extras" msgid="5549729917695688191">" e mais <xliff:g id="NUMBER">%d</xliff:g>"</string>
     <string name="notification_download_complete" msgid="5443563299253103667">"Transferência concluída."</string>
     <string name="notification_download_failed" msgid="8612136111952014978">"Falha na transferência."</string>
-    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Tamanho transf. requer Wi-Fi"</string>
+    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Tam. transf. exige wifi"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Interrompida em 2º plano"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Transf. demasiado grande para a rede do operador"</string>
     <string name="wifi_required_body" msgid="3067694630143784449">"Deve utilizar uma rede Wi-Fi para concluir esta transferência de <xliff:g id="SIZE">%s </xliff:g>. "\n\n"Toque em <xliff:g id="QUEUE_TEXT">%s </xliff:g> para iniciar a transferência da próxima vez que estiver ligado a uma rede Wi-Fi."</string>

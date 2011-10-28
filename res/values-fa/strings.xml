@@ -27,7 +27,7 @@
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"مشاهده همه دانلودها در کارت SD"</string>
     <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"به برنامه کاربردی اجازه میدهد بدون در نظر گرفتن اینکه کدام برنامه دانلود را انجام داده است، تمام دانلودهای موجود در کارت SD را مشاهده کند."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"رزرو فضا در حافظه موقت دانلود"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"به برنامه کاربردی اجازه می دهد فایل‌ها را در حافظه پنهان دانلود کند، تا هنگامی که Download Manager به فضای بیشتری احتیاج دارد، بطور خودکار حذف نشوند."</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"به برنامه کاربردی اجازه می‌دهد فایل‌ها را در حافظه پنهان دانلود کند، تا هنگامی که Download Manager به فضای بیشتری احتیاج دارد، بطور خودکار حذف نشوند.+"</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"دانلود فایلها بدون اطلاع"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"به برنامه کاربردی اجازه میدهد فایل‌ها را از طریق Download Manager، بدون نمایش اعلان به کاربر دانلود کند."</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"دسترسی به همه دانلودهای سیستم"</string>
@@ -40,7 +40,7 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"برای این حجم از دانلود به Wi-Fi نیاز است."</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"در پس‌زمینه موقتاً متوقف شد."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"دانلود برای شبکه اپراتور بسیار بزرگ است"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"برای تکمیل این دانلود <xliff:g id="SIZE">%s </xliff:g> باید از Wi-Fi استفاده کنید. "\n\n"<xliff:g id="QUEUE_TEXT">%s </xliff:g> را لمس کنید تا در اتصال بعدی به شبکه Wi-Fi، این دانلود شروع شود."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"برای تکمیل این دانلود <xliff:g id="SIZE">%s </xliff:g> باید از Wi-Fi استفاده کنید. در اتصال بعدی به شبکه Wi-Fi و برای شروع دانلود، "\n\n"لمس<xliff:g id="QUEUE_TEXT">%s </xliff:g> کنید."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"برای دانلود در فرصتی دیگر در صف گذاشته شود؟"</string>
     <string name="wifi_recommended_body" msgid="1314735166699936073">"شروع دانلود <xliff:g id="SIZE">%s </xliff:g> سبب کم شدن طول عمر باتری و/یا استفاده بیش از حد از اتصال داده تلفن همراه میشود که بسته به قرارداد ارائه داده شما ممکن است از طرف اپراتور تلفن هزینه‌هایی برای شما در نظر گرفته شود. "\n\n"<xliff:g id="QUEUE_TEXT">%s</xliff:g> را لمس کنید تا در اتصال بعدی به شبکه Wi-Fi، این دانلود شروع شود."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"صف"</string>

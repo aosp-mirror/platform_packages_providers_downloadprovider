@@ -17,8 +17,8 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3070921713463294774">"Nedlastinger"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Nedlastinger – sortert etter dato"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Nedlastinger – sortert etter størrelse"</string>
+    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Nedlastinger – etter dato"</string>
+    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Nedlastinger – etter størrelse"</string>
     <string name="no_downloads" msgid="1029667411186146836">"Ingen nedlastinger."</string>
     <string name="missing_title" msgid="830115697868833773">"&lt;Ukjent&gt;"</string>
     <string name="button_sort_by_size" msgid="7331549713691146251">"Sorter etter størrelse"</string>

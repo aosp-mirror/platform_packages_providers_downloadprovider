@@ -47,49 +47,49 @@
     <string name="download_success">Complete</string>
     <!-- Status indicating that the download has ended without completing successfully.  Appears for
          an individual item in the download list.  [CHAR LIMIT=11] -->
-    <string name="download_error">Failed</string>
+    <string name="download_error">Unsuccessful</string>
 
     <!-- Dialog/toast messages -->
 
     <!-- Title of dialog that is shown when the user clicks a download for which no file is
          available, either because the download hasn't started or because the download failed
          [CHAR LIMIT=25] -->
-    <string name="dialog_title_not_available">Download Failed</string>
+    <string name="dialog_title_not_available">Couldn\'t download</string>
     <!-- Text for dialog when user clicks on a download that failed [CHAR LIMIT=200] -->
     <string name="dialog_failed_body">Do you want to retry downloading the file later
           or delete it from the queue?</string>
     <!-- Title for dialog when user clicks on a download that has not yet begun, but will be started
          in the future. [CHAR LIMIT=25] -->
-    <string name="dialog_title_queued_body">File not yet available</string>
+    <string name="dialog_title_queued_body">File in queue</string>
     <!-- Text for dialog when user clicks on a download that has not yet begun, but will be started
          in the future. [CHAR LIMIT=200] -->
-    <string name="dialog_queued_body">This file is queued for future download.</string>
+    <string name="dialog_queued_body">This file is queued for future download so isn\'t available yet.</string>
     <!-- Text for dialog when user clicks on a completed download but the file is missing
          [CHAR LIMIT=200] -->
-    <string name="dialog_file_missing_body">The downloaded file cannot be found.</string>
+    <string name="dialog_file_missing_body">Can\'t find the downloaded file.</string>
     <!-- Text for dialog when user clicks on a download that failed due to insufficient space on
          external storage [CHAR LIMIT=200] -->
-    <string name="dialog_insufficient_space_on_external">Cannot finish download. There is not
+    <string name="dialog_insufficient_space_on_external">Can\'t finish download. There isn\'t
         enough space on external storage.</string>
     <!-- Text for dialog when user clicks on a download that failed due to insufficient space on
          the internal download cache [CHAR LIMIT=200] -->
-    <string name="dialog_insufficient_space_on_cache">Cannot finish download. There is not enough
+    <string name="dialog_insufficient_space_on_cache">Can\'t finish download. There isn\'t enough
         space on internal download storage.</string>
     <!-- Text for dialog when user clicks on a download that failed because it was interrupted and
          the server doesn't support resuming downloads [CHAR LIMIT=200] -->
-    <string name="dialog_cannot_resume">Download interrupted. It cannot be resumed.</string>
+    <string name="dialog_cannot_resume">Download was interrupted and can\'t be resumed.</string>
     <!-- Text for dialog when user clicks on a download that failed because the requested
          destination file already exists [CHAR LIMIT=200] -->
-    <string name="dialog_file_already_exists">Cannot download. The destination file already exists.
+    <string name="dialog_file_already_exists">Can\'t download. The destination file already exists.
     </string>
     <!-- Text for dialog when user clicks on a download that failed because it was requested to go
          on the external media, which is not mounted [CHAR LIMIT=200] -->
-    <string name="dialog_media_not_found">Cannot download. The external media is not available.
+    <string name="dialog_media_not_found">Can\'t download. The external media isn\'t available.
     </string>
     <!-- Text for a toast appearing when a user clicks on a completed download, informing the user
          that there is no application on the device that can open the file that was downloaded
          [CHAR LIMIT=200] -->
-    <string name="download_no_application_title">Cannot open file</string>
+    <string name="download_no_application_title">Can\'t open file</string>
 
     <!-- Buttons -->
 
@@ -108,9 +108,9 @@
     <string name="retry_download">Retry</string>
     <!-- Text for button appearing in the pop-up selection menu to deselect all currently selected
     downloads in the download list [CHAR LIMIT=25] -->
-    <string name="deselect_all">Deselect All</string>
+    <string name="deselect_all">Deselect all</string>
     <!-- Text for menu to select all downloads in the download list [CHAR LIMIT=25] -->
-    <string name="select_all">Select All</string>
+    <string name="select_all">Select all</string>
     <!-- number of downloads selected [CHAR LIMIT=50] -->
     <string name="selected_count">Selected <xliff:g id="number" example="3">%1$d</xliff:g> out of <xliff:g id="total" example="15">%2$d</xliff:g></string>
     <!-- title shown when displaying list of apps to choose from when share is clicked on

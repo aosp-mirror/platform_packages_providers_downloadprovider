@@ -415,6 +415,7 @@ public class DownloadInfo {
                 return DownloadManager.Request.NETWORK_MOBILE;
 
             case ConnectivityManager.TYPE_WIFI:
+            case ConnectivityManager.TYPE_ETHERNET:
                 return DownloadManager.Request.NETWORK_WIFI;
 
             default:

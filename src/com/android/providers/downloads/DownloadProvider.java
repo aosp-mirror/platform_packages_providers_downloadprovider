@@ -1086,7 +1086,7 @@ public final class DownloadProvider extends ContentProvider {
                 != PackageManager.PERMISSION_GRANTED) {
             selection.appendClause(
                     Constants.UID + "= ? OR " + Downloads.Impl.COLUMN_OTHER_UID + "= ?",
-                    Binder.getCallingUid(), Binder.getCallingPid());
+                    Binder.getCallingUid(), Binder.getCallingUid());
         }
         return selection;
     }

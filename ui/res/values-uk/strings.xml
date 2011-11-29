@@ -26,25 +26,25 @@
     <string name="download_queued" msgid="104973307780629904">"У черзі"</string>
     <string name="download_running" msgid="4656462962155580641">"Виконується"</string>
     <string name="download_success" msgid="7006048006543495236">"Завершено"</string>
-    <string name="download_error" msgid="3107369653921738690">"Не виконано"</string>
-    <string name="dialog_title_not_available" msgid="4479021195995400471">"Помилка завантаження"</string>
+    <string name="download_error" msgid="8081329546008568251">"Невдача"</string>
+    <string name="dialog_title_not_available" msgid="5746317632356158515">"Помилка завантаження"</string>
     <string name="dialog_failed_body" msgid="587545111677064427">"Спробувати повторно завантажити файл пізніше чи видалити його з черги?"</string>
-    <string name="dialog_title_queued_body" msgid="3062862079904954824">"Файл ще не доступний"</string>
-    <string name="dialog_queued_body" msgid="2506935748423351902">"Файл поставлено в чергу для подальшого завантаження."</string>
-    <string name="dialog_file_missing_body" msgid="2783781332668129395">"Не вдалося знайти завантажений файл."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="7534108515812329821">"Неможливо завершити завантаження. Недостатньо місця в зовнішній пам\'яті."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="8387210487235302129">"Неможливо завершити завантаження. Недостатньо місця у внутрішній пам\'яті для завантажень."</string>
-    <string name="dialog_cannot_resume" msgid="7704082031608361756">"Завантаження перервано. Його неможливо відновити."</string>
-    <string name="dialog_file_already_exists" msgid="2663737850617642888">"Неможливо завантажити. Файл призначення вже існує."</string>
-    <string name="dialog_media_not_found" msgid="5308602145105720991">"Неможливо завантажити. Зовнішній носій недоступний."</string>
-    <string name="download_no_application_title" msgid="3501359021635168387">"Файл не відкривається"</string>
+    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Файл у черзі"</string>
+    <string name="dialog_queued_body" msgid="708552801635572720">"Файл поставлено в чергу для подальшого завантаження. Він поки що не доступний."</string>
+    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Неможливо знайти завантажений файл."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Неможливо завершити завантаження. Недостатньо місця в зовнішній пам’яті."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Неможливо завершити завантаження. Недостатньо місця у внутрішній пам’яті для завантажень."</string>
+    <string name="dialog_cannot_resume" msgid="8664509751358983543">"Завантаження перервано. Його неможливо відновити."</string>
+    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Неможливо завантажити. Файл призначення вже існує."</string>
+    <string name="dialog_media_not_found" msgid="4468088418758018765">"Неможливо завантажити. Зовнішній носій не доступний."</string>
+    <string name="download_no_application_title" msgid="7024782176657362251">"Неможливо відкрити файл"</string>
     <string name="remove_download" msgid="6372920256257247857">"Видалити"</string>
     <string name="delete_download" msgid="76629022653866471">"Видалити"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"Залишити"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Скасувати"</string>
     <string name="retry_download" msgid="7617100787922717912">"Повторити"</string>
-    <string name="deselect_all" msgid="7986832738563338661">"Відмінити все"</string>
-    <string name="select_all" msgid="5854385570247421586">"Вибрати все"</string>
+    <string name="deselect_all" msgid="6348198946254776764">"Відмінити все"</string>
+    <string name="select_all" msgid="634074918366265804">"Вибрати все"</string>
     <string name="selected_count" msgid="2101564570019753277">"Вибрано <xliff:g id="NUMBER">%1$d</xliff:g> з <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
     <string name="download_share_dialog" msgid="3355867339806448955">"Надіслати через"</string>
 </resources>

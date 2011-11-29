@@ -26,25 +26,25 @@
     <string name="download_queued" msgid="104973307780629904">"Zilizowekwa kwenye foleni"</string>
     <string name="download_running" msgid="4656462962155580641">"Inaendelea"</string>
     <string name="download_success" msgid="7006048006543495236">"Imekamilika"</string>
-    <string name="download_error" msgid="3107369653921738690">"Imeshindwa"</string>
-    <string name="dialog_title_not_available" msgid="4479021195995400471">"Upakuaji Umeshindwa"</string>
+    <string name="download_error" msgid="8081329546008568251">"Haijafaulu"</string>
+    <string name="dialog_title_not_available" msgid="5746317632356158515">"Haikuweza kupakua"</string>
     <string name="dialog_failed_body" msgid="587545111677064427">"Unataka kujaribu tena kupakua faili baadaye au kuifuta kutoka kwa foleni?"</string>
-    <string name="dialog_title_queued_body" msgid="3062862079904954824">"Bado faili haipatikani"</string>
-    <string name="dialog_queued_body" msgid="2506935748423351902">"Faili hii imewekwa kwenye foleni ya kupakuliwa hapo baadaye."</string>
-    <string name="dialog_file_missing_body" msgid="2783781332668129395">"Faili iliyopakuliwa haipatikani."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="7534108515812329821">"Haiwezi kumaliza kupakua. Hakuna nafasi ya kutosha katika hifadhi ya nje."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="8387210487235302129">"Haiwezi kukamilisha kupakua. Hakuna nafasi ya kutosha kwenye hifadhi ya kupakua kwa ndani."</string>
-    <string name="dialog_cannot_resume" msgid="7704082031608361756">"Kupakua kumekatizwa. Hakuwezi kurudiwa."</string>
-    <string name="dialog_file_already_exists" msgid="2663737850617642888">"Haiwezi kupakua. Faili ya mwisho tayari ipo."</string>
-    <string name="dialog_media_not_found" msgid="5308602145105720991">"Haiwezi kupakua. Midia ya nje haipatikani."</string>
-    <string name="download_no_application_title" msgid="3501359021635168387">"Haiwezi kufungua faili"</string>
+    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Faili katika foleni"</string>
+    <string name="dialog_queued_body" msgid="708552801635572720">"Faili hii iko kwenye foleni ya upakuzi wa baadaye kwa hivyo bado haipatikani."</string>
+    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Haiwezi kupata faili iliyopakuliwa."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Haiwezi kumaliza kupakua. Hakuna nafasi ya kutosha katika hifadhi ya nje."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Haiwezi kukamilisha kupakua. Hakuna nafasi ya kutosha kwenye hifadhi ya kupakua ya ndani."</string>
+    <string name="dialog_cannot_resume" msgid="8664509751358983543">"Kupakua kulikatizwa na hakuwezi kuendelea."</string>
+    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Haiwezi kupakua. Faili fikio tayari ipo."</string>
+    <string name="dialog_media_not_found" msgid="4468088418758018765">"Haiwezi kupakua. Chombo cha habari cha nje hakipatikani."</string>
+    <string name="download_no_application_title" msgid="7024782176657362251">"Haiwezi kufungua faili"</string>
     <string name="remove_download" msgid="6372920256257247857">"Ondoa"</string>
     <string name="delete_download" msgid="76629022653866471">"Futa"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"Weka"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Ghairi"</string>
     <string name="retry_download" msgid="7617100787922717912">"Jaribu tena"</string>
-    <string name="deselect_all" msgid="7986832738563338661">"Ghairi Zote Zilizochaguliwa"</string>
-    <string name="select_all" msgid="5854385570247421586">"Chagua Zote"</string>
+    <string name="deselect_all" msgid="6348198946254776764">"Batilisha uteuzi kwa zote"</string>
+    <string name="select_all" msgid="634074918366265804">"Chagua zote"</string>
     <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="NUMBER">%1$d</xliff:g> zimechaguliwa kati ya <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
     <string name="download_share_dialog" msgid="3355867339806448955">"Shiriki kupitia"</string>
 </resources>

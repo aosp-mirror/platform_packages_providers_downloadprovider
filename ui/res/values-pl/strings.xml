@@ -26,25 +26,25 @@
     <string name="download_queued" msgid="104973307780629904">"W kolejce"</string>
     <string name="download_running" msgid="4656462962155580641">"W toku"</string>
     <string name="download_success" msgid="7006048006543495236">"Ukończono"</string>
-    <string name="download_error" msgid="3107369653921738690">"Błąd"</string>
-    <string name="dialog_title_not_available" msgid="4479021195995400471">"Niepowodzenie pobierania"</string>
+    <string name="download_error" msgid="8081329546008568251">"Niepowodzenie"</string>
+    <string name="dialog_title_not_available" msgid="5746317632356158515">"Nie można pobrać"</string>
     <string name="dialog_failed_body" msgid="587545111677064427">"Czy chcesz ponowić próbę pobrania tego pliku później czy też usunąć go z kolejki?"</string>
-    <string name="dialog_title_queued_body" msgid="3062862079904954824">"Plik jeszcze niedostępny"</string>
-    <string name="dialog_queued_body" msgid="2506935748423351902">"Ten plik jest w kolejce do pobrania w przyszłości."</string>
-    <string name="dialog_file_missing_body" msgid="2783781332668129395">"Nie można znaleźć pobranego pliku."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="7534108515812329821">"Nie można ukończyć pobierania. Brak wystarczającej ilości miejsca w pamięci zewnętrznej."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="8387210487235302129">"Nie można ukończyć pobierania. Brak wystarczającej ilości miejsca w wewnętrznej pamięci pobierania."</string>
-    <string name="dialog_cannot_resume" msgid="7704082031608361756">"Pobieranie przerwane. Nie może zostać wznowione."</string>
-    <string name="dialog_file_already_exists" msgid="2663737850617642888">"Nie można pobrać. Plik docelowy już istnieje."</string>
-    <string name="dialog_media_not_found" msgid="5308602145105720991">"Nie można pobrać. Zewnętrzny nośnik nie jest dostępny."</string>
-    <string name="download_no_application_title" msgid="3501359021635168387">"Nie można otworzyć pliku"</string>
+    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Plik w kolejce"</string>
+    <string name="dialog_queued_body" msgid="708552801635572720">"Plik jest w kolejce do pobrania w przyszłości, dlatego nie jest jeszcze dostępny."</string>
+    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Nie można znaleźć pobranego pliku."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Nie można ukończyć pobierania. Za mało miejsca w pamięci zewnętrznej."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Nie można ukończyć pobierania. Za mało miejsca w wewnętrznej pamięci pobierania."</string>
+    <string name="dialog_cannot_resume" msgid="8664509751358983543">"Pobieranie zostało przerwane i nie można go wznowić."</string>
+    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Nie można pobrać. Plik docelowy już istnieje."</string>
+    <string name="dialog_media_not_found" msgid="4468088418758018765">"Nie można pobrać. Nośnik zewnętrzny jest niedostępny."</string>
+    <string name="download_no_application_title" msgid="7024782176657362251">"Nie można otworzyć pliku."</string>
     <string name="remove_download" msgid="6372920256257247857">"Usuń"</string>
     <string name="delete_download" msgid="76629022653866471">"Usuń"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"Zachowaj"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Anuluj"</string>
     <string name="retry_download" msgid="7617100787922717912">"Ponów próbę"</string>
-    <string name="deselect_all" msgid="7986832738563338661">"Usuń zazn. wszystkich"</string>
-    <string name="select_all" msgid="5854385570247421586">"Zaznacz wszystkie"</string>
+    <string name="deselect_all" msgid="6348198946254776764">"Usuń zaznaczenie wszystkich"</string>
+    <string name="select_all" msgid="634074918366265804">"Zaznacz wszystkie"</string>
     <string name="selected_count" msgid="2101564570019753277">"Wybrano <xliff:g id="NUMBER">%1$d</xliff:g> z <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
     <string name="download_share_dialog" msgid="3355867339806448955">"Udostępnij przez"</string>
 </resources>

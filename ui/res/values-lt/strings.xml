@@ -26,25 +26,25 @@
     <string name="download_queued" msgid="104973307780629904">"Eilėje"</string>
     <string name="download_running" msgid="4656462962155580641">"Vykdoma"</string>
     <string name="download_success" msgid="7006048006543495236">"Užbaigta"</string>
-    <string name="download_error" msgid="3107369653921738690">"Nepavyko"</string>
-    <string name="dialog_title_not_available" msgid="4479021195995400471">"Atsisiuntimas nepavyko"</string>
+    <string name="download_error" msgid="8081329546008568251">"Nepavyko"</string>
+    <string name="dialog_title_not_available" msgid="5746317632356158515">"Nepavyko atsisiųsti"</string>
     <string name="dialog_failed_body" msgid="587545111677064427">"Ar norite vėliau pabandyti iš naujo atsisiųsti failą ar ištrinti jį iš eilės?"</string>
-    <string name="dialog_title_queued_body" msgid="3062862079904954824">"Failas dar nepasiekiamas"</string>
-    <string name="dialog_queued_body" msgid="2506935748423351902">"Šis failas laukia eilėje, kad būtų vėliau atsisiųstas."</string>
-    <string name="dialog_file_missing_body" msgid="2783781332668129395">"Nepavyksta rasti atsisiųsto failo."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="7534108515812329821">"Nepavyksta užbaigti atsisiuntimo. Išorinėje atmintinėje nepakanka vietos."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="8387210487235302129">"Nepavyksta užbaigti atsisiuntimo. Vidinėje atsisiuntimų atmintinėje nepakanka vietos."</string>
-    <string name="dialog_cannot_resume" msgid="7704082031608361756">"Atsisiuntimas pertrauktas. Jo atnaujinti negalima."</string>
-    <string name="dialog_file_already_exists" msgid="2663737850617642888">"Nepavyksta atsisiųsti. Paskirties failas jau yra."</string>
-    <string name="dialog_media_not_found" msgid="5308602145105720991">"Nepavyksta atsisiųsti. Išorinė medija nepasiekiama."</string>
-    <string name="download_no_application_title" msgid="3501359021635168387">"Nepavyksta atidaryti failo"</string>
+    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Failas eilėje"</string>
+    <string name="dialog_queued_body" msgid="708552801635572720">"Šis failas pateiktas eilėje, kad jį būtų galima vėliau atsisiųsti, todėl jis dar nepasiekiamas."</string>
+    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Nepavyksta rasti atsisiųsto failo."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Nepavyksta užbaigti atsisiuntimo. Išorinėje atmintinėje nepakanka vietos."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Nepavyksta užbaigti atsisiuntimo. Vidinėje atsisiuntimų atmintinėje nepakanka vietos."</string>
+    <string name="dialog_cannot_resume" msgid="8664509751358983543">"Atsisiuntimas pertrauktas ir jo atnaujinti negalima."</string>
+    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Nepavyksta atsisiųsti. Paskirties failas jau yra."</string>
+    <string name="dialog_media_not_found" msgid="4468088418758018765">"Nepavyksta atsisiųsti. Išorinė medija nepasiekiama."</string>
+    <string name="download_no_application_title" msgid="7024782176657362251">"Nepavyksta atidaryti failo"</string>
     <string name="remove_download" msgid="6372920256257247857">"Pašalinti"</string>
     <string name="delete_download" msgid="76629022653866471">"Ištrinti"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"Palikti"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Atšaukti"</string>
     <string name="retry_download" msgid="7617100787922717912">"Band. dar k."</string>
-    <string name="deselect_all" msgid="7986832738563338661">"Panaikinti visus žymėjim."</string>
-    <string name="select_all" msgid="5854385570247421586">"Pasirinkti viską"</string>
+    <string name="deselect_all" msgid="6348198946254776764">"Panaikinti visus žymėjim."</string>
+    <string name="select_all" msgid="634074918366265804">"Pasirinkti viską"</string>
     <string name="selected_count" msgid="2101564570019753277">"Pasirinkti (-a) <xliff:g id="NUMBER">%1$d</xliff:g> iš <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
     <string name="download_share_dialog" msgid="3355867339806448955">"Bendrinti naudojant"</string>
 </resources>

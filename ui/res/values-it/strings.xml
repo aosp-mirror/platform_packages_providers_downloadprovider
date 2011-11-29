@@ -26,25 +26,25 @@
     <string name="download_queued" msgid="104973307780629904">"In coda"</string>
     <string name="download_running" msgid="4656462962155580641">"In corso"</string>
     <string name="download_success" msgid="7006048006543495236">"Completato"</string>
-    <string name="download_error" msgid="3107369653921738690">"Non riuscito"</string>
-    <string name="dialog_title_not_available" msgid="4479021195995400471">"Download non riuscito"</string>
+    <string name="download_error" msgid="8081329546008568251">"Non riuscito"</string>
+    <string name="dialog_title_not_available" msgid="5746317632356158515">"Download non riuscito"</string>
     <string name="dialog_failed_body" msgid="587545111677064427">"Riprovare il download del file più tardi o eliminarlo dalla coda?"</string>
-    <string name="dialog_title_queued_body" msgid="3062862079904954824">"File non ancora disponib."</string>
-    <string name="dialog_queued_body" msgid="2506935748423351902">"Questo file è in coda per un futuro download."</string>
-    <string name="dialog_file_missing_body" msgid="2783781332668129395">"Impossibile trovare il file scaricato."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="7534108515812329821">"Impossibile terminare il download. Spazio insufficiente nella memoria esterna."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="8387210487235302129">"Impossibile terminare il download. Spazio insufficiente nella memoria interna per i download."</string>
-    <string name="dialog_cannot_resume" msgid="7704082031608361756">"Download interrotto. Impossibile ripristinarlo."</string>
-    <string name="dialog_file_already_exists" msgid="2663737850617642888">"Impossibile eseguire il download. File di destinazione già esistente."</string>
-    <string name="dialog_media_not_found" msgid="5308602145105720991">"Impossibile eseguire il download. Il supporto esterno non è disponibile."</string>
-    <string name="download_no_application_title" msgid="3501359021635168387">"Impossibile aprire il file"</string>
+    <string name="dialog_title_queued_body" msgid="6760681913815015219">"File in coda"</string>
+    <string name="dialog_queued_body" msgid="708552801635572720">"Questo file è in coda per un futuro download, quindi non è ancora disponibile."</string>
+    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Impossibile trovare il file scaricato."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Impossibile terminare il download. Spazio insufficiente nella memoria esterna."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Impossibile terminare il download. Spazio insufficiente nella memoria interna per i download."</string>
+    <string name="dialog_cannot_resume" msgid="8664509751358983543">"Il download è stato interrotto ed è impossibile ripristinarlo."</string>
+    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Impossibile eseguire il download. File di destinazione già esistente."</string>
+    <string name="dialog_media_not_found" msgid="4468088418758018765">"Impossibile eseguire il download. Il supporto esterno non è disponibile."</string>
+    <string name="download_no_application_title" msgid="7024782176657362251">"Impossibile aprire il file"</string>
     <string name="remove_download" msgid="6372920256257247857">"Rimuovi"</string>
     <string name="delete_download" msgid="76629022653866471">"Elimina"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"Conserva"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Annulla"</string>
     <string name="retry_download" msgid="7617100787922717912">"Riprova"</string>
-    <string name="deselect_all" msgid="7986832738563338661">"Deseleziona tutto"</string>
-    <string name="select_all" msgid="5854385570247421586">"Seleziona tutto"</string>
+    <string name="deselect_all" msgid="6348198946254776764">"Deseleziona tutto"</string>
+    <string name="select_all" msgid="634074918366265804">"Seleziona tutto"</string>
     <string name="selected_count" msgid="2101564570019753277">"Selezionati <xliff:g id="NUMBER">%1$d</xliff:g> di <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
     <string name="download_share_dialog" msgid="3355867339806448955">"Condividi tramite"</string>
 </resources>

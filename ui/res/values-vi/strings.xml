@@ -26,25 +26,25 @@
     <string name="download_queued" msgid="104973307780629904">"Đã xếp hàng"</string>
     <string name="download_running" msgid="4656462962155580641">"Đang tải lên"</string>
     <string name="download_success" msgid="7006048006543495236">"Hoàn tất"</string>
-    <string name="download_error" msgid="3107369653921738690">"Không thành công"</string>
-    <string name="dialog_title_not_available" msgid="4479021195995400471">"Tải xuống không thành công"</string>
+    <string name="download_error" msgid="8081329546008568251">"Không thành công"</string>
+    <string name="dialog_title_not_available" msgid="5746317632356158515">"Không thể tải xuống"</string>
     <string name="dialog_failed_body" msgid="587545111677064427">"Bạn muốn thử lại tải xuống tệp sau hay xóa tệp khỏi hàng đợi?"</string>
-    <string name="dialog_title_queued_body" msgid="3062862079904954824">"Tệp chưa sẵn có"</string>
-    <string name="dialog_queued_body" msgid="2506935748423351902">"Tệp này được xếp hàng đợi để tải xuống sau."</string>
-    <string name="dialog_file_missing_body" msgid="2783781332668129395">"Không thể tìm thấy tệp tải xuống."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="7534108515812329821">"Không thể hoàn tất tải xuống. Không đủ dung lượng trong bộ nhớ ngoài."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="8387210487235302129">"Không thể hoàn tất tải xuống. Không đủ dung lượng trong bộ nhớ tải xuống trong."</string>
-    <string name="dialog_cannot_resume" msgid="7704082031608361756">"Tải xuống bị gián đoạn. Không thể tiếp tục tải xuống."</string>
-    <string name="dialog_file_already_exists" msgid="2663737850617642888">"Không thể tải xuống. Đã tồn tại tệp đích."</string>
-    <string name="dialog_media_not_found" msgid="5308602145105720991">"Không thể tải xuống. Không có thiết bị ngoài."</string>
-    <string name="download_no_application_title" msgid="3501359021635168387">"Không thể mở tệp"</string>
+    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Tệp trong hàng đợi"</string>
+    <string name="dialog_queued_body" msgid="708552801635572720">"Tệp này được xếp hàng đợi để tải xuống sau do đó chưa sẵn có."</string>
+    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Không thể tìm thấy tệp đã tải xuống."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Không thể hoàn tất tải xuống. Không đủ dung lượng trong bộ nhớ ngoài."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Không thể hoàn tất tải xuống. Không đủ dung lượng trong bộ nhớ tải xuống trong."</string>
+    <string name="dialog_cannot_resume" msgid="8664509751358983543">"Tải xuống bị gián đoạn và không thể tiếp tục."</string>
+    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Không thể tải xuống. Đã tồn tại tệp đích."</string>
+    <string name="dialog_media_not_found" msgid="4468088418758018765">"Không thể tải xuống. Không có thiết bị ngoài."</string>
+    <string name="download_no_application_title" msgid="7024782176657362251">"Không thể mở tệp"</string>
     <string name="remove_download" msgid="6372920256257247857">"Xóa"</string>
     <string name="delete_download" msgid="76629022653866471">"Xóa"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"Giữ"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Hủy"</string>
     <string name="retry_download" msgid="7617100787922717912">"Thử lại"</string>
-    <string name="deselect_all" msgid="7986832738563338661">"Bỏ chọn tất cả"</string>
-    <string name="select_all" msgid="5854385570247421586">"Chọn tất cả"</string>
+    <string name="deselect_all" msgid="6348198946254776764">"Bỏ chọn tất cả"</string>
+    <string name="select_all" msgid="634074918366265804">"Chọn tất cả"</string>
     <string name="selected_count" msgid="2101564570019753277">"Đã chọn <xliff:g id="NUMBER">%1$d</xliff:g> trong tổng số <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
     <string name="download_share_dialog" msgid="3355867339806448955">"Chia sẻ qua"</string>
 </resources>

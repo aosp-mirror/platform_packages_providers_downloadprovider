@@ -26,25 +26,25 @@
     <string name="download_queued" msgid="104973307780629904">"อยู่ในคิว"</string>
     <string name="download_running" msgid="4656462962155580641">"กำลังดำเนินการ"</string>
     <string name="download_success" msgid="7006048006543495236">"เสร็จสมบูรณ์"</string>
-    <string name="download_error" msgid="3107369653921738690">"ล้มเหลว"</string>
-    <string name="dialog_title_not_available" msgid="4479021195995400471">"การดาวน์โหลดล้มเหลว"</string>
+    <string name="download_error" msgid="8081329546008568251">"ไม่สำเร็จ"</string>
+    <string name="dialog_title_not_available" msgid="5746317632356158515">"ไม่สามารถดาวน์โหลดได้"</string>
     <string name="dialog_failed_body" msgid="587545111677064427">"คุณต้องการลองดาวน์โหลดไฟล์อีกครั้งในภายหลังหรือลบไฟล์ออกจากคิว"</string>
-    <string name="dialog_title_queued_body" msgid="3062862079904954824">"ไฟล์ยังใช้งานไม่ได้"</string>
-    <string name="dialog_queued_body" msgid="2506935748423351902">"ไฟล์นี้อยู่ในคิวสำหรับการดาวน์โหลดในอนาคต"</string>
-    <string name="dialog_file_missing_body" msgid="2783781332668129395">"ไม่พบไฟล์ที่ดาวน์โหลด"</string>
-    <string name="dialog_insufficient_space_on_external" msgid="7534108515812329821">"ไม่สามารถดาวน์โหลดให้เสร็จสิ้นได้ มีเนื้อที่ไม่เพียงพอบนที่เก็บข้อมูลภายนอก"</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="8387210487235302129">"ไม่สามารถดาวน์โหลดให้เสร็จสิ้นได้ มีเนื้อที่ไม่เพียงพอบนพื้นที่จัดเก็บดาวน์โหลดภายใน"</string>
-    <string name="dialog_cannot_resume" msgid="7704082031608361756">"การดาวน์โหลดขัดข้อง ไม่สามารถดำเนินการต่อได้"</string>
-    <string name="dialog_file_already_exists" msgid="2663737850617642888">"ไม่สามารถดาวน์โหลดได้ ไฟล์ปลายทางมีอยู่แล้ว"</string>
-    <string name="dialog_media_not_found" msgid="5308602145105720991">"ไม่สามารถดาวน์โหลดได้ สื่อภายนอกไม่สามารถใช้งานได้"</string>
-    <string name="download_no_application_title" msgid="3501359021635168387">"ไม่สามารถเปิดไฟล์ได้"</string>
+    <string name="dialog_title_queued_body" msgid="6760681913815015219">"ไฟล์ในคิว"</string>
+    <string name="dialog_queued_body" msgid="708552801635572720">"ไฟล์นี้ได้รับการจัดคิวให้ดาวน์โหลดในอนาคต ดังนั้นจึงยังไม่สามารถใช้ได้"</string>
+    <string name="dialog_file_missing_body" msgid="3223012612774276284">"ไม่พบไฟล์ที่ดาวน์โหลด"</string>
+    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"ไม่สามารถดาวน์โหลดให้เสร็จสิ้นได้ มีเนื้อที่ไม่เพียงพอบนที่จัดเก็บข้อมูลภายนอก"</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"ไม่สามารถดาวน์โหลดให้เสร็จสิ้นได้ มีเนื้อที่ไม่เพียงพอบนที่จัดเก็บข้อมูลดาวน์โหลดภายใน"</string>
+    <string name="dialog_cannot_resume" msgid="8664509751358983543">"การดาวน์โหลดขัดข้องและไม่สามารถดำเนินการต่อได้"</string>
+    <string name="dialog_file_already_exists" msgid="8308563940663449590">"ไม่สามารถดาวน์โหลดได้ ไฟล์ปลายทางมีอยู่แล้ว"</string>
+    <string name="dialog_media_not_found" msgid="4468088418758018765">"ไม่สามารถดาวน์โหลดได้ สื่อภายนอกไม่สามารถใช้งานได้"</string>
+    <string name="download_no_application_title" msgid="7024782176657362251">"ไม่สามารถเปิดไฟล์ได้"</string>
     <string name="remove_download" msgid="6372920256257247857">"นำออก"</string>
     <string name="delete_download" msgid="76629022653866471">"ลบ"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"เก็บไว้"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"ยกเลิก"</string>
     <string name="retry_download" msgid="7617100787922717912">"ลองอีกครั้ง"</string>
-    <string name="deselect_all" msgid="7986832738563338661">"ยกเลิกการเลือกทั้งหมด"</string>
-    <string name="select_all" msgid="5854385570247421586">"เลือกทั้งหมด"</string>
+    <string name="deselect_all" msgid="6348198946254776764">"ยกเลิกการเลือกทั้งหมด"</string>
+    <string name="select_all" msgid="634074918366265804">"เลือกทั้งหมด"</string>
     <string name="selected_count" msgid="2101564570019753277">"เลือก <xliff:g id="NUMBER">%1$d</xliff:g> จาก <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
     <string name="download_share_dialog" msgid="3355867339806448955">"แบ่งปันผ่าน"</string>
 </resources>

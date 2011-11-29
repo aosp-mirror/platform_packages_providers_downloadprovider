@@ -26,25 +26,25 @@
     <string name="download_queued" msgid="104973307780629904">"Ve frontě"</string>
     <string name="download_running" msgid="4656462962155580641">"Probíhá"</string>
     <string name="download_success" msgid="7006048006543495236">"Dokončeno"</string>
-    <string name="download_error" msgid="3107369653921738690">"Neúspěšné"</string>
-    <string name="dialog_title_not_available" msgid="4479021195995400471">"Stažení se nezdařilo"</string>
+    <string name="download_error" msgid="8081329546008568251">"Neúspěšné"</string>
+    <string name="dialog_title_not_available" msgid="5746317632356158515">"Stažení se nezdařilo."</string>
     <string name="dialog_failed_body" msgid="587545111677064427">"Chcete tento soubor zkusit stáhnout později, nebo jej chcete odstranit z fronty?"</string>
-    <string name="dialog_title_queued_body" msgid="3062862079904954824">"Soubor ještě není stažen"</string>
-    <string name="dialog_queued_body" msgid="2506935748423351902">"Tento soubor je ve frontě stahování."</string>
-    <string name="dialog_file_missing_body" msgid="2783781332668129395">"Stažený soubor nelze nalézt."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="7534108515812329821">"Stahování nelze dokončit. V externím úložišti není dostatek místa."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="8387210487235302129">"Stahování nelze dokončit. V interním úložišti pro stahování není dostatek místa."</string>
-    <string name="dialog_cannot_resume" msgid="7704082031608361756">"Stahování bylo přerušeno a nelze v něm pokračovat."</string>
-    <string name="dialog_file_already_exists" msgid="2663737850617642888">"Nelze stáhnout. Cílový soubor již existuje."</string>
-    <string name="dialog_media_not_found" msgid="5308602145105720991">"Nelze stáhnout. Externí médium není k dispozici."</string>
-    <string name="download_no_application_title" msgid="3501359021635168387">"Soubor nelze otevřít"</string>
+    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Soubor ve frontě"</string>
+    <string name="dialog_queued_body" msgid="708552801635572720">"Tento soubor je zařazen do fronty k budoucímu stažení, a není tedy zatím k dispozici."</string>
+    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Stažený soubor nelze nalézt."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Stahování nelze dokončit. V externím úložišti není dostatek místa."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Stahování nelze dokončit. V interním úložišti pro stahování není dostatek místa."</string>
+    <string name="dialog_cannot_resume" msgid="8664509751358983543">"Stahování bylo přerušeno a nelze v něm pokračovat."</string>
+    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Nelze stáhnout. Cílový soubor již existuje."</string>
+    <string name="dialog_media_not_found" msgid="4468088418758018765">"Nelze stáhnout. Externí médium není k dispozici."</string>
+    <string name="download_no_application_title" msgid="7024782176657362251">"Soubor nelze otevřít"</string>
     <string name="remove_download" msgid="6372920256257247857">"Odebrat"</string>
     <string name="delete_download" msgid="76629022653866471">"Smazat"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"Zachovat"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Zrušit"</string>
     <string name="retry_download" msgid="7617100787922717912">"Zkusit znovu"</string>
-    <string name="deselect_all" msgid="7986832738563338661">"Zrušit výběr všech"</string>
-    <string name="select_all" msgid="5854385570247421586">"Vybrat vše"</string>
+    <string name="deselect_all" msgid="6348198946254776764">"Zrušit celý výběr"</string>
+    <string name="select_all" msgid="634074918366265804">"Vybrat vše"</string>
     <string name="selected_count" msgid="2101564570019753277">"Vybráno: <xliff:g id="NUMBER">%1$d</xliff:g> z <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
     <string name="download_share_dialog" msgid="3355867339806448955">"Sdílet pomocí"</string>
 </resources>

@@ -397,8 +397,9 @@ public class DownloadInfo {
      */
     private int checkIsNetworkTypeAllowed(int networkType) {
         if (mIsPublicApi) {
-            int flag = translateNetworkTypeToApiFlag(networkType);
-            if ((flag & mAllowedNetworkTypes) == 0) {
+            final int flag = translateNetworkTypeToApiFlag(networkType);
+            final boolean allowAllNetworkTypes = mAllowedNetworkTypes == ~0;
+            if (!allowAllNetworkTypes && (flag & mAllowedNetworkTypes) == 0) {
                 return NETWORK_TYPE_DISALLOWED_BY_REQUESTOR;
             }
         }

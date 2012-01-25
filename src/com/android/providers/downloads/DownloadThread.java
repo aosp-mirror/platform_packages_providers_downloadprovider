@@ -20,6 +20,7 @@ import static android.Manifest.permission.MANAGE_NETWORK_POLICY;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.net.INetworkPolicyListener;
 import android.net.NetworkPolicyManager;
 import android.net.Proxy;
@@ -103,7 +104,7 @@ public class DownloadThread extends Thread {
         public long mTimeLastNotification = 0;
 
         public State(DownloadInfo info) {
-            mMimeType = sanitizeMimeType(info.mMimeType);
+            mMimeType = Intent.normalizeMimeType(info.mMimeType);
             mRequestUri = info.mUri;
             mFilename = info.mFileName;
             mTotalBytes = info.mTotalBytes;
@@ -619,7 +620,7 @@ public class DownloadThread extends Thread {
         if (state.mMimeType == null) {
             header = response.getFirstHeader("Content-Type");
             if (header != null) {
-                state.mMimeType = sanitizeMimeType(header.getValue());
+                state.mMimeType = Intent.normalizeMimeType(header.getValue());
             }
         }
         header = response.getFirstHeader("ETag");
@@ -953,27 +954,6 @@ public class DownloadThread extends Thread {
             values.put(Downloads.Impl.COLUMN_ERROR_MSG, errorMsg);
         }
         mContext.getContentResolver().update(mInfo.getAllDownloadsUri(), values, null, null);
-    }
-
-    /**
-     * Clean up a mimeType string so it can be used to dispatch an intent to
-     * view a downloaded asset.
-     * @param mimeType either null or one or more mime types (semi colon separated).
-     * @return null if mimeType was null. Otherwise a string which represents a
-     * single mimetype in lowercase and with surrounding whitespaces trimmed.
-     */
-    private static String sanitizeMimeType(String mimeType) {
-        try {
-            mimeType = mimeType.trim().toLowerCase(Locale.ENGLISH);
-
-            final int semicolonIndex = mimeType.indexOf(';');
-            if (semicolonIndex != -1) {
-                mimeType = mimeType.substring(0, semicolonIndex);
-            }
-            return mimeType;
-        } catch (NullPointerException npe) {
-            return null;
-        }
     }
 
     private INetworkPolicyListener mPolicyListener = new INetworkPolicyListener.Stub() {

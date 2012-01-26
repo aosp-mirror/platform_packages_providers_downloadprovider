@@ -26,25 +26,25 @@
     <string name="download_queued" msgid="104973307780629904">"Järjekorras"</string>
     <string name="download_running" msgid="4656462962155580641">"Edenemine"</string>
     <string name="download_success" msgid="7006048006543495236">"Lõpetatud"</string>
-    <string name="download_error" msgid="3107369653921738690">"Ebaõnnestus"</string>
-    <string name="dialog_title_not_available" msgid="4479021195995400471">"Allalaadimine ebaõnnestus"</string>
+    <string name="download_error" msgid="8081329546008568251">"Ebaõnnestus"</string>
+    <string name="dialog_title_not_available" msgid="5746317632356158515">"Ei saanud alla laadida."</string>
     <string name="dialog_failed_body" msgid="587545111677064427">"Kas soovite proovida faili hiljem uuesti alla laadida või kustutada selle järjekorrast?"</string>
-    <string name="dialog_title_queued_body" msgid="3062862079904954824">"Fail pole veel saadaval"</string>
-    <string name="dialog_queued_body" msgid="2506935748423351902">"See fail on tulevaste allalaadimiste järjekorras."</string>
-    <string name="dialog_file_missing_body" msgid="2783781332668129395">"Allalaaditud faili ei leitud."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="7534108515812329821">"Allalaadimist ei saa lõpetada. Välismälul ei ole piisavalt ruumi."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="8387210487235302129">"Allalaadimist ei saa lõpetada. Sisemises allalaadimismälus ei ole piisavalt ruumi."</string>
-    <string name="dialog_cannot_resume" msgid="7704082031608361756">"Allalaadimine on katkestatud. Seda ei saa jätkata."</string>
-    <string name="dialog_file_already_exists" msgid="2663737850617642888">"Ei saa alla laadida. Sihtfail on juba olemas."</string>
-    <string name="dialog_media_not_found" msgid="5308602145105720991">"Ei saa alla laadida. Väline meedium ei ole saadaval."</string>
-    <string name="download_no_application_title" msgid="3501359021635168387">"Ei saa faili avada"</string>
+    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Järjekorras olev fail"</string>
+    <string name="dialog_queued_body" msgid="708552801635572720">"Fail on allalaadimise järjekorras ega ole seetõttu veel saadaval."</string>
+    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Ei leia allalaaditud faili."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Allalaadimist ei saa lõpetada. Välismäluseadmes ei ole piisavalt ruumi."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Allalaadimist ei saa lõpule viia. Sisest allalaadimisruumi ei ole piisavalt."</string>
+    <string name="dialog_cannot_resume" msgid="8664509751358983543">"Allalaadimine katkes ja seda ei saa jätkata."</string>
+    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Ei saa alla laadida. Sihtfail on juba olemas."</string>
+    <string name="dialog_media_not_found" msgid="4468088418758018765">"Ei saa alla laadida. Väline andmekandja ei ole saadaval."</string>
+    <string name="download_no_application_title" msgid="7024782176657362251">"Faili ei saa avada"</string>
     <string name="remove_download" msgid="6372920256257247857">"Eemalda"</string>
     <string name="delete_download" msgid="76629022653866471">"Kustuta"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"Jäta alles"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Tühista"</string>
     <string name="retry_download" msgid="7617100787922717912">"Proovi uuesti"</string>
-    <string name="deselect_all" msgid="7986832738563338661">"Tühista kõik valikud"</string>
-    <string name="select_all" msgid="5854385570247421586">"Vali kõik"</string>
+    <string name="deselect_all" msgid="6348198946254776764">"Tühista kõik valikud"</string>
+    <string name="select_all" msgid="634074918366265804">"Vali kõik"</string>
     <string name="selected_count" msgid="2101564570019753277">"Valitud <xliff:g id="NUMBER">%1$d</xliff:g>/<xliff:g id="TOTAL">%2$d</xliff:g>"</string>
     <string name="download_share_dialog" msgid="3355867339806448955">"Jaga rakendusest"</string>
 </resources>

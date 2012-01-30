@@ -61,8 +61,9 @@ public class DownloadReceiver extends BroadcastReceiver {
             }
             startService(context);
         } else if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
-            NetworkInfo info = (NetworkInfo)
-                    intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
+            final ConnectivityManager connManager = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            final NetworkInfo info = connManager.getActiveNetworkInfo();
             if (info != null && info.isConnected()) {
                 startService(context);
             }

@@ -44,7 +44,7 @@
     <string name="cancel_running_download" msgid="5232704030969221112">"Annuller"</string>
     <string name="retry_download" msgid="7617100787922717912">"Prøv igen"</string>
     <string name="deselect_all" msgid="6348198946254776764">"Fjern markering af alle"</string>
-    <string name="select_all" msgid="634074918366265804">"Marker alle"</string>
+    <string name="select_all" msgid="634074918366265804">"Markér alle"</string>
     <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="NUMBER">%1$d</xliff:g> valgte ud af <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
     <string name="download_share_dialog" msgid="3355867339806448955">"Del via"</string>
 </resources>

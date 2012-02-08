@@ -16,8 +16,6 @@
 
 package com.android.providers.downloads;
 
-import static android.Manifest.permission.MANAGE_NETWORK_POLICY;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -47,7 +45,6 @@ import java.io.InputStream;
 import java.io.SyncFailedException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Locale;
 
 /**
  * Runs an actual download
@@ -959,9 +956,7 @@ public class DownloadThread extends Thread {
     private INetworkPolicyListener mPolicyListener = new INetworkPolicyListener.Stub() {
         @Override
         public void onUidRulesChanged(int uid, int uidRules) {
-            // only someone like NPMS should only be calling us
-            mContext.enforceCallingOrSelfPermission(MANAGE_NETWORK_POLICY, Constants.TAG);
-
+            // caller is NPMS, since we only register with them
             if (uid == mInfo.mUid) {
                 mPolicyDirty = true;
             }
@@ -969,9 +964,13 @@ public class DownloadThread extends Thread {
 
         @Override
         public void onMeteredIfacesChanged(String[] meteredIfaces) {
-            // only someone like NPMS should only be calling us
-            mContext.enforceCallingOrSelfPermission(MANAGE_NETWORK_POLICY, Constants.TAG);
+            // caller is NPMS, since we only register with them
+            mPolicyDirty = true;
+        }
 
+        @Override
+        public void onRestrictBackgroundChanged(boolean restrictBackground) {
+            // caller is NPMS, since we only register with them
             mPolicyDirty = true;
         }
     };

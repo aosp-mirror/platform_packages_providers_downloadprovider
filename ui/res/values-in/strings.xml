@@ -28,16 +28,16 @@
     <string name="download_success" msgid="7006048006543495236">"Selesai"</string>
     <string name="download_error" msgid="8081329546008568251">"Gagal"</string>
     <string name="dialog_title_not_available" msgid="5746317632356158515">"Tidak dapat mengunduh"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"Ingin mencoba mengunduh berkas nanti atau hapus dari antrean?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Berkas dalam antrean"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"Berkas ini diantrekan untuk unduhan di masa mendatang, jadi berkas belum tersedia."</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Tidak dapat menemukan berkas yang diunduh."</string>
+    <string name="dialog_failed_body" msgid="587545111677064427">"Ingin mencoba mengunduh file nanti atau hapus dari antrean?"</string>
+    <string name="dialog_title_queued_body" msgid="6760681913815015219">"File dalam antrean"</string>
+    <string name="dialog_queued_body" msgid="708552801635572720">"File ini diantrekan untuk unduhan di masa mendatang, jadi file belum tersedia."</string>
+    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Tidak dapat menemukan file yang diunduh."</string>
     <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Tidak dapat menyelesaikan unduhan. Ruang pada penyimpanan eksternal tidak cukup."</string>
     <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Tidak dapat menyelesaikan unduhan. Ruang pada penyimpanan unduhan internal tidak cukup."</string>
     <string name="dialog_cannot_resume" msgid="8664509751358983543">"Unduhan terhenti dan tidak dapat dilanjutkan."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Tidak dapat mengunduh. Berkas tujuan sudah ada."</string>
+    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Tidak dapat mengunduh. File tujuan sudah ada."</string>
     <string name="dialog_media_not_found" msgid="4468088418758018765">"Tidak dapat mengunduh. Media eksternal tidak tersedia."</string>
-    <string name="download_no_application_title" msgid="7024782176657362251">"Tidak dapat membuka berkas"</string>
+    <string name="download_no_application_title" msgid="7024782176657362251">"Tidak dapat membuka file"</string>
     <string name="remove_download" msgid="6372920256257247857">"Hapus"</string>
     <string name="delete_download" msgid="76629022653866471">"Hapus"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"Simpan"</string>

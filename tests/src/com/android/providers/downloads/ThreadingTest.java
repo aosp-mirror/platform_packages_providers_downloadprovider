@@ -46,7 +46,7 @@ public class ThreadingTest extends AbstractPublicApiTest {
      * a download.
      */
     public void testFloodServiceWithStarts() throws Exception {
-        enqueueResponse(HTTP_OK, FILE_CONTENT);
+        enqueueResponse(buildResponse(HTTP_OK, FILE_CONTENT));
         Download download = enqueueRequest(getRequest());
         while (download.getStatus() != DownloadManager.STATUS_SUCCESSFUL) {
             startService(null);

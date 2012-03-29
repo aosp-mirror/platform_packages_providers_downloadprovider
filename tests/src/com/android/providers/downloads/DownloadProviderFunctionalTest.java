@@ -25,11 +25,12 @@ import android.provider.Downloads;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.util.Log;
 
-import tests.http.MockWebServer;
-import tests.http.RecordedRequest;
+import com.google.mockwebserver.MockWebServer;
+import com.google.mockwebserver.RecordedRequest;
 
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 
 /**
  * This test exercises the entire download manager working together -- it requests downloads through
@@ -38,15 +39,15 @@ import java.net.MalformedURLException;
  * device to serve downloads.
  */
 @LargeTest
-public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFunctionalTest {
+public class DownloadProviderFunctionalTest extends AbstractDownloadProviderFunctionalTest {
     private static final String TAG = "DownloadManagerFunctionalTest";
 
-    public DownloadManagerFunctionalTest() {
+    public DownloadProviderFunctionalTest() {
         super(new FakeSystemFacade());
     }
 
     public void testDownloadTextFile() throws Exception {
-        enqueueResponse(HTTP_OK, FILE_CONTENT);
+        enqueueResponse(buildResponse(HTTP_OK, FILE_CONTENT));
 
         String path = "/download_manager_test_path";
         Uri downloadUri = requestDownload(path);
@@ -63,7 +64,8 @@ public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFuncti
     }
 
     public void testDownloadToCache() throws Exception {
-        enqueueResponse(HTTP_OK, FILE_CONTENT);
+        enqueueResponse(buildResponse(HTTP_OK, FILE_CONTENT));
+
         Uri downloadUri = requestDownload("/path");
         updateDownload(downloadUri, Downloads.Impl.COLUMN_DESTINATION,
                        Integer.toString(Downloads.Impl.DESTINATION_CACHE_PARTITION));
@@ -74,11 +76,13 @@ public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFuncti
     }
 
     public void testRoaming() throws Exception {
+        enqueueResponse(buildResponse(HTTP_OK, FILE_CONTENT));
+        enqueueResponse(buildResponse(HTTP_OK, FILE_CONTENT));
+
         mSystemFacade.mActiveNetworkType = ConnectivityManager.TYPE_MOBILE;
         mSystemFacade.mIsRoaming = true;
 
         // for a normal download, roaming is fine
-        enqueueResponse(HTTP_OK, FILE_CONTENT);
         Uri downloadUri = requestDownload("/path");
         runUntilStatus(downloadUri, Downloads.Impl.STATUS_SUCCESS);
 
@@ -89,7 +93,6 @@ public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFuncti
         runUntilStatus(downloadUri, Downloads.Impl.STATUS_WAITING_FOR_NETWORK);
 
         // ...and pick up when we're off roaming
-        enqueueResponse(HTTP_OK, FILE_CONTENT);
         mSystemFacade.mIsRoaming = false;
         runUntilStatus(downloadUri, Downloads.Impl.STATUS_SUCCESS);
     }
@@ -145,7 +148,7 @@ public class DownloadManagerFunctionalTest extends AbstractDownloadManagerFuncti
     /**
      * Request a download from the Download Manager.
      */
-    private Uri requestDownload(String path) throws MalformedURLException {
+    private Uri requestDownload(String path) throws MalformedURLException, UnknownHostException {
         ContentValues values = new ContentValues();
         values.put(Downloads.Impl.COLUMN_URI, getServerUri(path));
         values.put(Downloads.Impl.COLUMN_DESTINATION, Downloads.Impl.DESTINATION_EXTERNAL);

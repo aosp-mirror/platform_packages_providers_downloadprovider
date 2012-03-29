@@ -29,9 +29,11 @@ import android.test.RenamingDelegatingContext;
 import android.test.ServiceTestCase;
 import android.test.mock.MockContentResolver;
 import android.util.Log;
-import tests.http.MockResponse;
-import tests.http.MockWebServer;
-import tests.http.RecordedRequest;
+
+import com.google.mockwebserver.MockResponse;
+import com.google.mockwebserver.MockWebServer;
+import com.google.mockwebserver.RecordedRequest;
+import com.google.mockwebserver.SocketPolicy;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -39,14 +41,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class AbstractDownloadManagerFunctionalTest extends
+public abstract class AbstractDownloadProviderFunctionalTest extends
         ServiceTestCase<DownloadService> {
 
-    protected static final String LOG_TAG = "DownloadManagerFunctionalTest";
+    protected static final String LOG_TAG = "DownloadProviderFunctionalTest";
     private static final String PROVIDER_AUTHORITY = "downloads";
     protected static final long RETRY_DELAY_MILLIS = 61 * 1000;
     protected static final String FILE_CONTENT = "hello world hello world hello world hello world";
@@ -143,7 +146,7 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
         }
     }
 
-    public AbstractDownloadManagerFunctionalTest(FakeSystemFacade systemFacade) {
+    public AbstractDownloadProviderFunctionalTest(FakeSystemFacade systemFacade) {
         super(DownloadService.class);
         mSystemFacade = systemFacade;
     }
@@ -212,52 +215,42 @@ public abstract class AbstractDownloadManagerFunctionalTest extends
         mResolver.delete(Downloads.Impl.CONTENT_URI, null, null);
     }
 
-    /**
-     * Enqueue a String response from the MockWebServer.
-     */
-    MockResponse enqueueResponse(int status, String body) {
-        MockResponse response = new MockResponse()
-                                .setResponseCode(status)
-                                .setBody(body)
-                                .addHeader("Content-type", "text/plain")
-                                .setCloseConnectionAfter(true);
-        mServer.enqueue(response);
-        return response;
-    }
-    /**
-     * Enqueue a byte[] response from the MockWebServer.
-     */
-    MockResponse enqueueResponse(int status, byte[] body) {
-        MockResponse response = new MockResponse()
-                                .setResponseCode(status)
-                                .setBody(body)
-                                .addHeader("Content-type", "text/plain")
-                                .setCloseConnectionAfter(true);
-        mServer.enqueue(response);
-        return response;
+    void enqueueResponse(MockResponse resp) {
+        mServer.enqueue(resp);
     }
 
-    MockResponse enqueueEmptyResponse(int status) {
-        return enqueueResponse(status, "");
+    MockResponse buildResponse(int status, String body) {
+        return new MockResponse().setResponseCode(status).setBody(body)
+                .setHeader("Content-type", "text/plain")
+                .setSocketPolicy(SocketPolicy.DISCONNECT_AT_END);
+    }
+
+    MockResponse buildResponse(int status, byte[] body) {
+        return new MockResponse().setResponseCode(status).setBody(body)
+                .setHeader("Content-type", "text/plain")
+                .setSocketPolicy(SocketPolicy.DISCONNECT_AT_END);
+    }
+
+    MockResponse buildEmptyResponse(int status) {
+        return buildResponse(status, "");
     }
 
     /**
      * Fetch the last request received by the MockWebServer.
      */
     protected RecordedRequest takeRequest() throws InterruptedException {
-        RecordedRequest request = mServer.takeRequestWithTimeout(0);
+        RecordedRequest request = mServer.takeRequest();
         assertNotNull("Expected request was not made", request);
         return request;
     }
 
-    String getServerUri(String path) throws MalformedURLException {
+    String getServerUri(String path) throws MalformedURLException, UnknownHostException {
         return mServer.getUrl(path).toString();
     }
 
     public void runService() throws Exception {
         startService(null);
         mSystemFacade.runAllThreads();
-        mServer.checkForExceptions();
     }
 
     protected String readStream(InputStream inputStream) throws IOException {

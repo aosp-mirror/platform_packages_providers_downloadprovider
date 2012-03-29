@@ -26,11 +26,12 @@ import android.util.Log;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 
 /**
  * Code common to tests that use the download manager public API.
  */
-public abstract class AbstractPublicApiTest extends AbstractDownloadManagerFunctionalTest {
+public abstract class AbstractPublicApiTest extends AbstractDownloadProviderFunctionalTest {
 
     class Download {
         final long mId;
@@ -171,7 +172,8 @@ public abstract class AbstractPublicApiTest extends AbstractDownloadManagerFunct
         mManager = new DownloadManager(mResolver, PACKAGE_NAME);
     }
 
-    protected DownloadManager.Request getRequest() throws MalformedURLException {
+    protected DownloadManager.Request getRequest()
+            throws MalformedURLException, UnknownHostException {
         return getRequest(getServerUri(REQUEST_PATH));
     }
 

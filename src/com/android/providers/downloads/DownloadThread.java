@@ -974,5 +974,4 @@ public class DownloadThread extends Thread {
             mPolicyDirty = true;
         }
     };
-
 }

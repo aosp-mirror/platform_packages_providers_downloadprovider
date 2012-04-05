@@ -137,7 +137,7 @@ public class DownloadThread extends Thread {
         int finalStatus = Downloads.Impl.STATUS_UNKNOWN_ERROR;
         String errorMsg = null;
 
-        final NetworkPolicyManager netPolicy = NetworkPolicyManager.getSystemService(mContext);
+        final NetworkPolicyManager netPolicy = NetworkPolicyManager.from(mContext);
         final PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
 
         try {

@@ -16,7 +16,9 @@
 
 package com.android.providers.downloads;
 
+import android.os.Build;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
 
 /**
@@ -89,7 +91,37 @@ public class Constants {
     public static final String RECOVERY_DIRECTORY = "recovery";
 
     /** The default user agent used for downloads */
-    public static final String DEFAULT_USER_AGENT = "AndroidDownloadManager";
+    public static final String DEFAULT_USER_AGENT;
+
+    static {
+        final StringBuilder builder = new StringBuilder();
+
+        final boolean validRelease = !TextUtils.isEmpty(Build.VERSION.RELEASE);
+        final boolean validId = !TextUtils.isEmpty(Build.ID);
+        final boolean includeModel = "REL".equals(Build.VERSION.CODENAME)
+                && !TextUtils.isEmpty(Build.MODEL);
+
+        builder.append("AndroidDownloadManager");
+        if (validRelease) {
+            builder.append("/").append(Build.VERSION.RELEASE);
+        }
+        builder.append(" (Linux; U; Android");
+        if (validRelease) {
+            builder.append(" ").append(Build.VERSION.RELEASE);
+        }
+        if (includeModel || validId) {
+            builder.append(";");
+            if (includeModel) {
+                builder.append(" ").append(Build.MODEL);
+            }
+            if (validId) {
+                builder.append(" Build/").append(Build.ID);
+            }
+        }
+        builder.append(")");
+
+        DEFAULT_USER_AGENT = builder.toString();
+    }
 
     /** The MIME type of APKs */
     public static final String MIMETYPE_APK = "application/vnd.android.package";

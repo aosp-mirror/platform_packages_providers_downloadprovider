@@ -72,8 +72,6 @@ public class DownloadThread extends Thread {
      */
     private String userAgent() {
         String userAgent = mInfo.mUserAgent;
-        if (userAgent != null) {
-        }
         if (userAgent == null) {
             userAgent = Constants.DEFAULT_USER_AGENT;
         }

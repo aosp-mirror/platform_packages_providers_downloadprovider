@@ -16,9 +16,6 @@
 
 package com.android.providers.downloads;
 
-import com.google.android.collect.Maps;
-import com.google.common.annotations.VisibleForTesting;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -40,13 +37,19 @@ import android.provider.Downloads;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.internal.util.IndentingPrintWriter;
+import com.google.android.collect.Maps;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.Lists;
+
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 
 /**
  * Performs the background downloads requested by applications that use the Downloads provider.
@@ -287,102 +290,104 @@ public class DownloadService extends Service {
                     mPendingUpdate = false;
                 }
 
-                long now = mSystemFacade.currentTimeMillis();
-                boolean mustScan = false;
-                keepService = false;
-                wakeUp = Long.MAX_VALUE;
-                Set<Long> idsNoLongerInDatabase = new HashSet<Long>(mDownloads.keySet());
+                synchronized (mDownloads) {
+                    long now = mSystemFacade.currentTimeMillis();
+                    boolean mustScan = false;
+                    keepService = false;
+                    wakeUp = Long.MAX_VALUE;
+                    Set<Long> idsNoLongerInDatabase = new HashSet<Long>(mDownloads.keySet());
 
-                Cursor cursor = getContentResolver().query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
-                        null, null, null, null);
-                if (cursor == null) {
-                    continue;
-                }
-                try {
-                    DownloadInfo.Reader reader =
-                            new DownloadInfo.Reader(getContentResolver(), cursor);
-                    int idColumn = cursor.getColumnIndexOrThrow(Downloads.Impl._ID);
-                    if (Constants.LOGVV) {
-                        Log.i(Constants.TAG, "number of rows from downloads-db: " +
-                                cursor.getCount());
+                    Cursor cursor = getContentResolver().query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
+                            null, null, null, null);
+                    if (cursor == null) {
+                        continue;
                     }
-                    for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-                        long id = cursor.getLong(idColumn);
-                        idsNoLongerInDatabase.remove(id);
-                        DownloadInfo info = mDownloads.get(id);
-                        if (info != null) {
-                            updateDownload(reader, info, now);
-                        } else {
-                            info = insertDownload(reader, now);
+                    try {
+                        DownloadInfo.Reader reader =
+                                new DownloadInfo.Reader(getContentResolver(), cursor);
+                        int idColumn = cursor.getColumnIndexOrThrow(Downloads.Impl._ID);
+                        if (Constants.LOGVV) {
+                            Log.i(Constants.TAG, "number of rows from downloads-db: " +
+                                    cursor.getCount());
                         }
-
-                        if (info.shouldScanFile() && !scanFile(info, true, false)) {
-                            mustScan = true;
-                            keepService = true;
-                        }
-                        if (info.hasCompletionNotification()) {
-                            keepService = true;
-                        }
-                        long next = info.nextAction(now);
-                        if (next == 0) {
-                            keepService = true;
-                        } else if (next > 0 && next < wakeUp) {
-                            wakeUp = next;
-                        }
-                    }
-                } finally {
-                    cursor.close();
-                }
-
-                for (Long id : idsNoLongerInDatabase) {
-                    deleteDownload(id);
-                }
-
-                // is there a need to start the DownloadService? yes, if there are rows to be
-                // deleted.
-                if (!mustScan) {
-                    for (DownloadInfo info : mDownloads.values()) {
-                        if (info.mDeleted && TextUtils.isEmpty(info.mMediaProviderUri)) {
-                            mustScan = true;
-                            keepService = true;
-                            break;
-                        }
-                    }
-                }
-                mNotifier.updateNotification(mDownloads.values());
-                if (mustScan) {
-                    bindMediaScanner();
-                } else {
-                    mMediaScannerConnection.disconnectMediaScanner();
-                }
-
-                // look for all rows with deleted flag set and delete the rows from the database
-                // permanently
-                for (DownloadInfo info : mDownloads.values()) {
-                    if (info.mDeleted) {
-                        // this row is to be deleted from the database. but does it have
-                        // mediaProviderUri?
-                        if (TextUtils.isEmpty(info.mMediaProviderUri)) {
-                            if (info.shouldScanFile()) {
-                                // initiate rescan of the file to - which will populate
-                                // mediaProviderUri column in this row
-                                if (!scanFile(info, false, true)) {
-                                    throw new IllegalStateException("scanFile failed!");
-                                }
-                                continue;
+                        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                            long id = cursor.getLong(idColumn);
+                            idsNoLongerInDatabase.remove(id);
+                            DownloadInfo info = mDownloads.get(id);
+                            if (info != null) {
+                                updateDownload(reader, info, now);
+                            } else {
+                                info = insertDownloadLocked(reader, now);
                             }
-                        } else {
-                            // yes it has mediaProviderUri column already filled in.
-                            // delete it from MediaProvider database.
-                            getContentResolver().delete(Uri.parse(info.mMediaProviderUri), null,
-                                    null);
+
+                            if (info.shouldScanFile() && !scanFile(info, true, false)) {
+                                mustScan = true;
+                                keepService = true;
+                            }
+                            if (info.hasCompletionNotification()) {
+                                keepService = true;
+                            }
+                            long next = info.nextAction(now);
+                            if (next == 0) {
+                                keepService = true;
+                            } else if (next > 0 && next < wakeUp) {
+                                wakeUp = next;
+                            }
                         }
-                        // delete the file
-                        deleteFileIfExists(info.mFileName);
-                        // delete from the downloads db
-                        getContentResolver().delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
-                                Downloads.Impl._ID + " = ? ",
-                                new String[]{String.valueOf(info.mId)});
+                    } finally {
+                        cursor.close();
+                    }
+
+                    for (Long id : idsNoLongerInDatabase) {
+                        deleteDownloadLocked(id);
+                    }
+
+                    // is there a need to start the DownloadService? yes, if there are rows to be
+                    // deleted.
+                    if (!mustScan) {
+                        for (DownloadInfo info : mDownloads.values()) {
+                            if (info.mDeleted && TextUtils.isEmpty(info.mMediaProviderUri)) {
+                                mustScan = true;
+                                keepService = true;
+                                break;
+                            }
+                        }
+                    }
+                    mNotifier.updateNotification(mDownloads.values());
+                    if (mustScan) {
+                        bindMediaScanner();
+                    } else {
+                        mMediaScannerConnection.disconnectMediaScanner();
+                    }
+
+                    // look for all rows with deleted flag set and delete the rows from the database
+                    // permanently
+                    for (DownloadInfo info : mDownloads.values()) {
+                        if (info.mDeleted) {
+                            // this row is to be deleted from the database. but does it have
+                            // mediaProviderUri?
+                            if (TextUtils.isEmpty(info.mMediaProviderUri)) {
+                                if (info.shouldScanFile()) {
+                                    // initiate rescan of the file to - which will populate
+                                    // mediaProviderUri column in this row
+                                    if (!scanFile(info, false, true)) {
+                                        throw new IllegalStateException("scanFile failed!");
+                                    }
+                                    continue;
+                                }
+                            } else {
+                                // yes it has mediaProviderUri column already filled in.
+                                // delete it from MediaProvider database.
+                                getContentResolver().delete(Uri.parse(info.mMediaProviderUri), null,
+                                        null);
+                            }
+                            // delete the file
+                            deleteFileIfExists(info.mFileName);
+                            // delete from the downloads db
+                            getContentResolver().delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
+                                    Downloads.Impl._ID + " = ? ",
+                                    new String[]{String.valueOf(info.mId)});
+                        }
                     }
                 }
             }
@@ -424,7 +429,7 @@ public class DownloadService extends Service {
      * Keeps a local copy of the info about a download, and initiates the
      * download if appropriate.
      */
-    private DownloadInfo insertDownload(DownloadInfo.Reader reader, long now) {
+    private DownloadInfo insertDownloadLocked(DownloadInfo.Reader reader, long now) {
         DownloadInfo info = reader.newDownloadInfo(this, mSystemFacade);
         mDownloads.put(info.mId, info);
 
@@ -466,7 +471,7 @@ public class DownloadService extends Service {
     /**
      * Removes the local copy of the info about a download.
      */
-    private void deleteDownload(long id) {
+    private void deleteDownloadLocked(long id) {
         DownloadInfo info = mDownloads.get(id);
         if (info.shouldScanFile()) {
             scanFile(info, false, false);
@@ -561,8 +566,14 @@ public class DownloadService extends Service {
 
     @Override
     protected void dump(FileDescriptor fd, PrintWriter writer, String[] args) {
-        for (DownloadInfo info : mDownloads.values()) {
-            info.dump(writer);
+        final IndentingPrintWriter pw = new IndentingPrintWriter(writer, "  ");
+        synchronized (mDownloads) {
+            final List<Long> ids = Lists.newArrayList(mDownloads.keySet());
+            Collections.sort(ids);
+            for (Long id : ids) {
+                final DownloadInfo info = mDownloads.get(id);
+                info.dump(pw);
+            }
         }
     }
 }

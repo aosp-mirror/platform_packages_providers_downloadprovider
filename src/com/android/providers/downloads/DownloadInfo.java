@@ -34,6 +34,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 
+import com.android.internal.util.IndentingPrintWriter;
+
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -480,29 +482,45 @@ public class DownloadInfo {
         return ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, mId);
     }
 
-    public void dump(PrintWriter writer) {
-        writer.println("DownloadInfo:");
+    public void dump(IndentingPrintWriter pw) {
+        pw.println("DownloadInfo:");
+        pw.increaseIndent();
 
-        writer.print("  mId="); writer.print(mId);
-        writer.print(" mLastMod="); writer.print(mLastMod);
-        writer.print(" mPackage="); writer.print(mPackage);
-        writer.print(" mUid="); writer.println(mUid);
+        pw.printPair("mId", mId);
+        pw.printPair("mLastMod", mLastMod);
+        pw.printPair("mPackage", mPackage);
+        pw.printPair("mUid", mUid);
+        pw.println();
 
-        writer.print("  mUri="); writer.print(mUri);
-        writer.print(" mMimeType="); writer.print(mMimeType);
-        writer.print(" mCookies="); writer.print((mCookies != null) ? "yes" : "no");
-        writer.print(" mReferer="); writer.println((mReferer != null) ? "yes" : "no");
+        pw.printPair("mUri", mUri);
+        pw.println();
 
-        writer.print("  mUserAgent="); writer.println(mUserAgent);
+        pw.printPair("mMimeType", mMimeType);
+        pw.printPair("mCookies", (mCookies != null) ? "yes" : "no");
+        pw.printPair("mReferer", (mReferer != null) ? "yes" : "no");
+        pw.printPair("mUserAgent", mUserAgent);
+        pw.println();
 
-        writer.print("  mFileName="); writer.println(mFileName);
+        pw.printPair("mFileName", mFileName);
+        pw.printPair("mDestination", mDestination);
+        pw.println();
 
-        writer.print("  mStatus="); writer.print(mStatus);
-        writer.print(" mCurrentBytes="); writer.print(mCurrentBytes);
-        writer.print(" mTotalBytes="); writer.println(mTotalBytes);
+        pw.printPair("mStatus", Downloads.Impl.statusToString(mStatus));
+        pw.printPair("mCurrentBytes", mCurrentBytes);
+        pw.printPair("mTotalBytes", mTotalBytes);
+        pw.println();
 
-        writer.print("  mNumFailed="); writer.print(mNumFailed);
-        writer.print(" mRetryAfter="); writer.println(mRetryAfter);
+        pw.printPair("mNumFailed", mNumFailed);
+        pw.printPair("mRetryAfter", mRetryAfter);
+        pw.printPair("mETag", mETag);
+        pw.printPair("mIsPublicApi", mIsPublicApi);
+        pw.println();
+
+        pw.printPair("mAllowedNetworkTypes", mAllowedNetworkTypes);
+        pw.printPair("mAllowRoaming", mAllowRoaming);
+        pw.println();
+
+        pw.decreaseIndent();
     }
 
     /**

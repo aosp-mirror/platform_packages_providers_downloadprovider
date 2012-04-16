@@ -50,7 +50,6 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -500,7 +499,8 @@ public class DownloadList extends Activity {
      * Send an Intent to open the download currently pointed to by the given cursor.
      */
     private void openCurrentDownload(Cursor cursor) {
-        Uri localUri = Uri.parse(cursor.getString(mLocalUriColumnId));
+        final long id = cursor.getInt(mIdColumnId);
+        final Uri localUri = Uri.parse(cursor.getString(mLocalUriColumnId));
         try {
             getContentResolver().openFileDescriptor(localUri, "r").close();
         } catch (FileNotFoundException exc) {
@@ -512,8 +512,19 @@ public class DownloadList extends Activity {
             // close() failed, not a problem
         }
 
+        final Uri viewUri;
+        final String mimeType = cursor.getString(mMediaTypeColumnId);
+        if ("application/vnd.android.package-archive".equals(mimeType)) {
+            // PackageInstaller doesn't like content URIs, so open file
+            viewUri = localUri;
+        } else if ("file".equals(localUri.getScheme())) {
+            viewUri = ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id);
+        } else {
+            viewUri = localUri;
+        }
+
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(localUri, cursor.getString(mMediaTypeColumnId));
+        intent.setDataAndType(viewUri, mimeType);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
         try {
             startActivity(intent);
@@ -729,10 +740,11 @@ public class DownloadList extends Activity {
             intent.setAction(Intent.ACTION_SEND_MULTIPLE);
             ArrayList<Parcelable> attachments = new ArrayList<Parcelable>();
             ArrayList<String> mimeTypes = new ArrayList<String>();
-            for (SelectionObjAttrs item : mSelectedIds.values()) {
-                String fileName = item.getFileName();
-                String mimeType = item.getMimeType();
-                attachments.add(Uri.fromFile(new File(fileName)));
+            for (Map.Entry<Long, SelectionObjAttrs> item : mSelectedIds.entrySet()) {
+                final Uri uri = ContentUris.withAppendedId(
+                        Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, item.getKey());
+                final String mimeType = item.getValue().getMimeType();
+                attachments.add(uri);
                 mimeTypes.add(mimeType);
             }
             intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, attachments);
@@ -740,16 +752,20 @@ public class DownloadList extends Activity {
         } else {
             // get the entry
             // since there is ONLY one entry in this, we can do the following
-            for (SelectionObjAttrs item : mSelectedIds.values()) {
+            for (Map.Entry<Long, SelectionObjAttrs> item : mSelectedIds.entrySet()) {
+                final Uri uri = ContentUris.withAppendedId(
+                        Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, item.getKey());
+                final String mimeType = item.getValue().getMimeType();
                 intent.setAction(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(item.getFileName())));
-                intent.setType(item.getMimeType());
+                intent.putExtra(Intent.EXTRA_STREAM, uri);
+                intent.setType(mimeType);
             }
         }
         Intent intentNew = Intent.createChooser(intent, getText(R.string.download_share_dialog));
         startActivity(intent);
         return true;
     }
+
     private String findCommonMimeType(ArrayList<String> mimeTypes) {
         // are all mimeypes the same?
         String str = findCommonString(mimeTypes);

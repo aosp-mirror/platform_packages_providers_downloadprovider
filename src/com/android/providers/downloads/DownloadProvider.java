@@ -38,8 +38,10 @@ import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.os.Process;
 import android.provider.Downloads;
+import android.provider.OpenableColumns;
 import android.util.Log;
 
+import com.google.android.collect.Maps;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.File;
@@ -47,6 +49,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -135,14 +138,24 @@ public final class DownloadProvider extends ContentProvider {
         Downloads.Impl.COLUMN_FILE_NAME_HINT,
         Downloads.Impl.COLUMN_MEDIAPROVIDER_URI,
         Downloads.Impl.COLUMN_DELETED,
+        OpenableColumns.DISPLAY_NAME,
+        OpenableColumns.SIZE,
     };
 
-    private static HashSet<String> sAppReadableColumnsSet;
+    private static final HashSet<String> sAppReadableColumnsSet;
+    private static final HashMap<String, String> sColumnsMap;
+
     static {
         sAppReadableColumnsSet = new HashSet<String>();
         for (int i = 0; i < sAppReadableColumnsArray.length; ++i) {
             sAppReadableColumnsSet.add(sAppReadableColumnsArray[i]);
         }
+
+        sColumnsMap = Maps.newHashMap();
+        sColumnsMap.put(OpenableColumns.DISPLAY_NAME,
+                Downloads.Impl.COLUMN_TITLE + " AS " + OpenableColumns.DISPLAY_NAME);
+        sColumnsMap.put(OpenableColumns.SIZE,
+                Downloads.Impl.COLUMN_TOTAL_BYTES + " AS " + OpenableColumns.SIZE);
     }
     private static final List<String> downloadManagerColumnsList =
             Arrays.asList(DownloadManager.UNDERLYING_COLUMNS);
@@ -440,10 +453,12 @@ public final class DownloadProvider extends ContentProvider {
     public String getType(final Uri uri) {
         int match = sURIMatcher.match(uri);
         switch (match) {
-            case MY_DOWNLOADS: {
+            case MY_DOWNLOADS:
+            case ALL_DOWNLOADS: {
                 return DOWNLOAD_LIST_TYPE;
             }
-            case MY_DOWNLOADS_ID: {
+            case MY_DOWNLOADS_ID:
+            case ALL_DOWNLOADS_ID: {
                 return DOWNLOAD_TYPE;
             }
             case PUBLIC_DOWNLOAD_ID: {
@@ -827,7 +842,7 @@ public final class DownloadProvider extends ContentProvider {
 
         if (shouldRestrictVisibility()) {
             if (projection == null) {
-                projection = sAppReadableColumnsArray;
+                projection = sAppReadableColumnsArray.clone();
             } else {
                 // check the validity of the columns in projection 
                 for (int i = 0; i < projection.length; ++i) {
@@ -836,6 +851,13 @@ public final class DownloadProvider extends ContentProvider {
                         throw new IllegalArgumentException(
                                 "column " + projection[i] + " is not allowed in queries");
                     }
+                }
+            }
+
+            for (int i = 0; i < projection.length; i++) {
+                final String newColumn = sColumnsMap.get(projection[i]);
+                if (newColumn != null) {
+                    projection[i] = newColumn;
                 }
             }
         }

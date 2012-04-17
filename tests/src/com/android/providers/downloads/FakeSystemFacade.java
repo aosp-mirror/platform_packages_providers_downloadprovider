@@ -18,6 +18,7 @@ public class FakeSystemFacade implements SystemFacade {
     long mTimeMillis = 0;
     Integer mActiveNetworkType = ConnectivityManager.TYPE_WIFI;
     boolean mIsRoaming = false;
+    boolean mIsMetered = false;
     Long mMaxBytesOverMobile = null;
     Long mRecommendedMaxBytesOverMobile = null;
     List<Intent> mBroadcastsSent = new ArrayList<Intent>();
@@ -43,6 +44,11 @@ public class FakeSystemFacade implements SystemFacade {
         } else {
             return new NetworkInfo(mActiveNetworkType, 0, null, null);
         }
+    }
+
+    @Override
+    public boolean isActiveNetworkMetered() {
+        return mIsMetered;
     }
 
     public boolean isNetworkRoaming() {

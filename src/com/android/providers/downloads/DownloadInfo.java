@@ -92,6 +92,7 @@ public class DownloadInfo {
             info.mIsPublicApi = getInt(Downloads.Impl.COLUMN_IS_PUBLIC_API) != 0;
             info.mAllowedNetworkTypes = getInt(Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES);
             info.mAllowRoaming = getInt(Downloads.Impl.COLUMN_ALLOW_ROAMING) != 0;
+            info.mAllowMetered = getInt(Downloads.Impl.COLUMN_ALLOW_METERED) != 0;
             info.mTitle = getString(Downloads.Impl.COLUMN_TITLE);
             info.mDescription = getString(Downloads.Impl.COLUMN_DESCRIPTION);
             info.mBypassRecommendedSizeLimit =
@@ -221,6 +222,7 @@ public class DownloadInfo {
     public boolean mIsPublicApi;
     public int mAllowedNetworkTypes;
     public boolean mAllowRoaming;
+    public boolean mAllowMetered;
     public String mTitle;
     public String mDescription;
     public int mBypassRecommendedSizeLimit;
@@ -351,6 +353,9 @@ public class DownloadInfo {
         }
         if (!isRoamingAllowed() && mSystemFacade.isNetworkRoaming()) {
             return NETWORK_CANNOT_USE_ROAMING;
+        }
+        if (!mAllowMetered && mSystemFacade.isActiveNetworkMetered()) {
+            return NETWORK_TYPE_DISALLOWED_BY_REQUESTOR;
         }
         return checkIsNetworkTypeAllowed(info.getType());
     }
@@ -518,6 +523,7 @@ public class DownloadInfo {
 
         pw.printPair("mAllowedNetworkTypes", mAllowedNetworkTypes);
         pw.printPair("mAllowRoaming", mAllowRoaming);
+        pw.printPair("mAllowMetered", mAllowMetered);
         pw.println();
 
         pw.decreaseIndent();

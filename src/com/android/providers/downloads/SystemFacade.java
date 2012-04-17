@@ -19,6 +19,8 @@ interface SystemFacade {
      */
     public NetworkInfo getActiveNetworkInfo(int uid);
 
+    public boolean isActiveNetworkMetered();
+
     /**
      * @see android.telephony.TelephonyManager#isNetworkRoaming
      */

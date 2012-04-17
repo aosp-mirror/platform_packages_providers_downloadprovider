@@ -42,6 +42,12 @@ class RealSystemFacade implements SystemFacade {
         return activeInfo;
     }
 
+    @Override
+    public boolean isActiveNetworkMetered() {
+        final ConnectivityManager conn = ConnectivityManager.from(mContext);
+        return conn.isActiveNetworkMetered();
+    }
+
     public boolean isNetworkRoaming() {
         ConnectivityManager connectivity =
             (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);

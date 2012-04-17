@@ -270,8 +270,6 @@ public class DownloadThread extends Thread {
             } else if (networkUsable == DownloadInfo.NETWORK_RECOMMENDED_UNUSABLE_DUE_TO_SIZE) {
                 status = Downloads.Impl.STATUS_QUEUED_FOR_WIFI;
                 mInfo.notifyPauseDueToSize(false);
-            } else if (networkUsable == DownloadInfo.NETWORK_BLOCKED) {
-                status = Downloads.Impl.STATUS_BLOCKED;
             }
             throw new StopRequestException(status,
                     mInfo.getLogMessageForNetworkError(networkUsable));
@@ -806,8 +804,6 @@ public class DownloadThread extends Thread {
                 case DownloadInfo.NETWORK_UNUSABLE_DUE_TO_SIZE:
                 case DownloadInfo.NETWORK_RECOMMENDED_UNUSABLE_DUE_TO_SIZE:
                     return Downloads.Impl.STATUS_QUEUED_FOR_WIFI;
-                case DownloadInfo.NETWORK_BLOCKED:
-                    return Downloads.Impl.STATUS_BLOCKED;
                 default:
                     return Downloads.Impl.STATUS_WAITING_FOR_NETWORK;
             }

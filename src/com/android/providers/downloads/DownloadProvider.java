@@ -63,7 +63,7 @@ public final class DownloadProvider extends ContentProvider {
     /** Database filename */
     private static final String DB_NAME = "downloads.db";
     /** Current database version */
-    private static final int DB_VERSION = 107;
+    private static final int DB_VERSION = 108;
     /** Name of table in the database */
     private static final String DB_TABLE = "downloads";
 
@@ -306,6 +306,11 @@ public final class DownloadProvider extends ContentProvider {
 
                 case 107:
                     addColumn(db, DB_TABLE, Downloads.Impl.COLUMN_ERROR_MSG, "TEXT");
+                    break;
+
+                case 108:
+                    addColumn(db, DB_TABLE, Downloads.Impl.COLUMN_ALLOW_METERED,
+                            "INTEGER NOT NULL DEFAULT 1");
                     break;
 
                 default:
@@ -632,6 +637,7 @@ public final class DownloadProvider extends ContentProvider {
         if (isPublicApi) {
             copyInteger(Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES, values, filteredValues);
             copyBoolean(Downloads.Impl.COLUMN_ALLOW_ROAMING, values, filteredValues);
+            copyBoolean(Downloads.Impl.COLUMN_ALLOW_METERED, values, filteredValues);
         }
 
         if (Constants.LOGVV) {
@@ -767,6 +773,7 @@ public final class DownloadProvider extends ContentProvider {
         values.remove(Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE); // checked later in insert()
         values.remove(Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES);
         values.remove(Downloads.Impl.COLUMN_ALLOW_ROAMING);
+        values.remove(Downloads.Impl.COLUMN_ALLOW_METERED);
         values.remove(Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI);
         values.remove(Downloads.Impl.COLUMN_MEDIA_SCANNED);
         Iterator<Map.Entry<String, Object>> iterator = values.valueSet().iterator();

@@ -39,6 +39,7 @@ import android.os.ParcelFileDescriptor;
 import android.os.Process;
 import android.provider.Downloads;
 import android.provider.OpenableColumns;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.collect.Maps;
@@ -54,7 +55,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 
 /**
  * Allows application to interact with the download manager.
@@ -463,17 +463,20 @@ public final class DownloadProvider extends ContentProvider {
                 return DOWNLOAD_LIST_TYPE;
             }
             case MY_DOWNLOADS_ID:
-            case ALL_DOWNLOADS_ID: {
-                return DOWNLOAD_TYPE;
-            }
+            case ALL_DOWNLOADS_ID:
             case PUBLIC_DOWNLOAD_ID: {
                 // return the mimetype of this id from the database
                 final String id = getDownloadIdFromUri(uri);
                 final SQLiteDatabase db = mOpenHelper.getReadableDatabase();
-                return DatabaseUtils.stringForQuery(db,
+                final String mimeType = DatabaseUtils.stringForQuery(db,
                         "SELECT " + Downloads.Impl.COLUMN_MIME_TYPE + " FROM " + DB_TABLE +
                         " WHERE " + Downloads.Impl._ID + " = ?",
                         new String[]{id});
+                if (TextUtils.isEmpty(mimeType)) {
+                    return DOWNLOAD_TYPE;
+                } else {
+                    return mimeType;
+                }
             }
             default: {
                 if (Constants.LOGV) {

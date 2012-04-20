@@ -16,6 +16,8 @@
 
 package com.android.providers.downloads;
 
+import static com.android.providers.downloads.Constants.TAG;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -31,6 +33,7 @@ import android.provider.Downloads;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
+import android.util.Slog;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -327,6 +330,7 @@ public class DownloadThread extends Thread {
 
         closeDestination(state);
         if (state.mFilename != null && Downloads.Impl.isStatusError(finalStatus)) {
+            Slog.d(TAG, "cleanupDestination() deleting " + state.mFilename);
             new File(state.mFilename).delete();
             state.mFilename = null;
         }
@@ -843,6 +847,8 @@ public class DownloadThread extends Thread {
                 long fileLength = f.length();
                 if (fileLength == 0) {
                     // The download hadn't actually started, we can restart from scratch
+                    Slog.d(TAG, "setupDestinationFile() found fileLength=0, deleting "
+                            + state.mFilename);
                     f.delete();
                     state.mFilename = null;
                     if (Constants.LOGV) {
@@ -851,6 +857,8 @@ public class DownloadThread extends Thread {
                     }
                 } else if (mInfo.mETag == null && !mInfo.mNoIntegrity) {
                     // This should've been caught upon failure
+                    Slog.d(TAG, "setupDestinationFile() unable to resume download, deleting "
+                            + state.mFilename);
                     f.delete();
                     throw new StopRequestException(Downloads.Impl.STATUS_CANNOT_RESUME,
                             "Trying to resume a download that can't be resumed");

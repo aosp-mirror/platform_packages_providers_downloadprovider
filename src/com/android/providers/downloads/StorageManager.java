@@ -27,6 +27,7 @@ import android.os.StatFs;
 import android.provider.Downloads;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Slog;
 
 import com.android.internal.R;
 
@@ -331,7 +332,7 @@ class StorageManager {
             while (cursor.moveToNext() && totalFreed < targetBytes) {
                 File file = new File(cursor.getString(cursor.getColumnIndex(Downloads.Impl._DATA)));
                 if (true || Constants.LOGV) {
-                    Log.i(Constants.TAG, "purging " + file.getAbsolutePath() + " for " +
+                    Slog.d(Constants.TAG, "purging " + file.getAbsolutePath() + " for " +
                             file.length() + " bytes");
                 }
                 totalFreed += file.length();
@@ -403,7 +404,7 @@ class StorageManager {
                 continue;
             }
             if (true || Constants.LOGV) {
-                Log.i(Constants.TAG, "deleting spurious file " + file.getAbsolutePath());
+                Slog.d(Constants.TAG, "deleting spurious file " + file.getAbsolutePath());
             }
             file.delete();
         }

@@ -16,6 +16,8 @@
 
 package com.android.providers.downloads;
 
+import static com.android.providers.downloads.Constants.TAG;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -36,6 +38,7 @@ import android.os.RemoteException;
 import android.provider.Downloads;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Slog;
 
 import com.android.internal.util.IndentingPrintWriter;
 import com.google.android.collect.Maps;
@@ -480,6 +483,7 @@ public class DownloadService extends Service {
             info.mStatus = Downloads.Impl.STATUS_CANCELED;
         }
         if (info.mDestination != Downloads.Impl.DESTINATION_EXTERNAL && info.mFileName != null) {
+            Slog.d(TAG, "deleteDownloadLocked() deleting " + info.mFileName);
             new File(info.mFileName).delete();
         }
         mSystemFacade.cancelNotification(info.mId);
@@ -555,7 +559,7 @@ public class DownloadService extends Service {
     private void deleteFileIfExists(String path) {
         try {
             if (!TextUtils.isEmpty(path)) {
-                Log.i(Constants.TAG, "deleting " + path);
+                Slog.d(TAG, "deleteFileIfExists() deleting " + path);
                 File file = new File(path);
                 file.delete();
             }

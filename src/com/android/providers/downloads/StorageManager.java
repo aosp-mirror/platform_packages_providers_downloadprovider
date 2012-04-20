@@ -329,8 +329,12 @@ class StorageManager {
         }
         long totalFreed = 0;
         try {
+            final int dataIndex = cursor.getColumnIndex(Downloads.Impl._DATA);
             while (cursor.moveToNext() && totalFreed < targetBytes) {
-                File file = new File(cursor.getString(cursor.getColumnIndex(Downloads.Impl._DATA)));
+                final String data = cursor.getString(dataIndex);
+                if (TextUtils.isEmpty(data)) continue;
+
+                File file = new File(data);
                 if (true || Constants.LOGV) {
                     Slog.d(Constants.TAG, "purging " + file.getAbsolutePath() + " for " +
                             file.length() + " bytes");

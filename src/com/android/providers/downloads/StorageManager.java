@@ -16,6 +16,9 @@
 
 package com.android.providers.downloads;
 
+import static com.android.providers.downloads.Constants.LOGV;
+import static com.android.providers.downloads.Constants.TAG;
+
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.res.Resources;
@@ -35,6 +38,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import libcore.io.ErrnoException;
+import libcore.io.Libcore;
+import libcore.io.StructStat;
 
 /**
  * Manages the storage space consumed by Downloads Data dir. When space falls below
@@ -388,7 +395,7 @@ class StorageManager {
                 while (cursor.moveToNext()) {
                     String filename = cursor.getString(0);
                     if (!TextUtils.isEmpty(filename)) {
-                        if (true || Constants.LOGV) {
+                        if (LOGV) {
                             Log.i(Constants.TAG, "in removeSpuriousFiles, preserving file " +
                                     filename);
                         }
@@ -401,16 +408,20 @@ class StorageManager {
                 cursor.close();
             }
         }
-        // delete the files not found in the database
+
+        // delete files owned by us, but that don't appear in our database
+        final int myUid = android.os.Process.myUid();
         for (File file : files) {
-            if (file.getName().equals(Constants.KNOWN_SPURIOUS_FILENAME) ||
-                    file.getName().equalsIgnoreCase(Constants.RECOVERY_DIRECTORY)) {
-                continue;
+            final String path = file.getAbsolutePath();
+            try {
+                final StructStat stat = Libcore.os.stat(path);
+                if (stat.st_uid == myUid) {
+                    Slog.d(TAG, "deleting spurious file " + path);
+                    file.delete();
+                }
+            } catch (ErrnoException e) {
+                Log.w(TAG, "stat(" + path + ") result: " + e);
             }
-            if (true || Constants.LOGV) {
-                Slog.d(Constants.TAG, "deleting spurious file " + file.getAbsolutePath());
-            }
-            file.delete();
         }
     }
 

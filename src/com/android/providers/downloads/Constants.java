@@ -85,9 +85,6 @@ public class Constants {
     public static final String DEFAULT_DL_SUBDIR = "/" + Environment.DIRECTORY_DOWNLOADS;
 
     /** A magic filename that is allowed to exist within the system cache */
-    public static final String KNOWN_SPURIOUS_FILENAME = "lost+found";
-
-    /** A magic filename that is allowed to exist within the system cache */
     public static final String RECOVERY_DIRECTORY = "recovery";
 
     /** The default user agent used for downloads */

@@ -107,8 +107,15 @@ public class DownloadAdapter extends CursorAdapter {
         setTextForView(convertView, R.id.download_title, title);
         setTextForView(convertView, R.id.domain, mCursor.getString(mDescriptionColumnId));
         setTextForView(convertView, R.id.size_text, getSizeText());
-        setTextForView(convertView, R.id.status_text, mResources.getString(getStatusStringId()));
-        setTextForView(convertView, R.id.last_modified_date, getDateString());
+
+        final int status = mCursor.getInt(mStatusColumnId);
+        final CharSequence statusText;
+        if (status == DownloadManager.STATUS_SUCCESSFUL) {
+            statusText = getDateString();
+        } else {
+            statusText = mResources.getString(getStatusStringId(status));
+        }
+        setTextForView(convertView, R.id.status_text, statusText);
 
         ((DownloadItem) convertView).getCheckBox()
                 .setChecked(mDownloadList.isDownloadSelected(downloadId));
@@ -141,8 +148,8 @@ public class DownloadAdapter extends CursorAdapter {
         return sizeText;
     }
 
-    private int getStatusStringId() {
-        switch (mCursor.getInt(mStatusColumnId)) {
+    private int getStatusStringId(int status) {
+        switch (status) {
             case DownloadManager.STATUS_FAILED:
                 return R.string.download_error;
 
@@ -189,7 +196,7 @@ public class DownloadAdapter extends CursorAdapter {
         iconView.setVisibility(View.VISIBLE);
     }
 
-    private void setTextForView(View parent, int textViewId, String text) {
+    private void setTextForView(View parent, int textViewId, CharSequence text) {
         TextView view = (TextView) parent.findViewById(textViewId);
         view.setText(text);
     }

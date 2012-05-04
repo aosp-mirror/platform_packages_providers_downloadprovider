@@ -21,6 +21,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.CheckBox;
 import android.widget.Checkable;
+import android.widget.GridLayout;
 import android.widget.RelativeLayout;
 
 /**
@@ -29,7 +30,7 @@ import android.widget.RelativeLayout;
  * also keeps an ID associated with the currently displayed download and notifies a listener upon
  * selection changes with that ID.
  */
-public class DownloadItem extends RelativeLayout implements Checkable {
+public class DownloadItem extends GridLayout implements Checkable {
     private static float CHECKMARK_AREA = -1;
 
     private boolean mIsInDownEvent = false;

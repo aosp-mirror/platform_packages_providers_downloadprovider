@@ -761,7 +761,7 @@ public class DownloadList extends Activity {
                 intent.setType(mimeType);
             }
         }
-        Intent intentNew = Intent.createChooser(intent, getText(R.string.download_share_dialog));
+        intent = Intent.createChooser(intent, getText(R.string.download_share_dialog));
         startActivity(intent);
         return true;
     }

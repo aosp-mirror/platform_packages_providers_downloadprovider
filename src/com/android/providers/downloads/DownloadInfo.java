@@ -316,11 +316,8 @@ public class DownloadInfo {
                 // is the media mounted?
                 return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
             case Downloads.Impl.STATUS_INSUFFICIENT_SPACE_ERROR:
-                // should check space to make sure it is worth retrying the download.
-                // but thats the first thing done by the thread when it retries to download
-                // it will fail pretty quickly if there is no space.
-                // so, it is not that bad to skip checking space availability here.
-                return true;
+                // avoids repetition of retrying download
+                return false;
         }
         return false;
     }

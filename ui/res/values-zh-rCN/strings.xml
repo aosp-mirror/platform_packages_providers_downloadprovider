@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"下载内容"</string>
+    <string name="app_label" msgid="3070921713463294774">"下载"</string>
     <string name="download_title_sorted_by_date" msgid="5898014492155434221">"下载内容 - 按日期排序"</string>
     <string name="download_title_sorted_by_size" msgid="1417193166677094813">"下载内容 - 按大小排序"</string>
     <string name="no_downloads" msgid="1029667411186146836">"无下载内容。"</string>

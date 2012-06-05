@@ -46,6 +46,7 @@
 
     <TextView
         android:id="@+id/download_title"
+        android:layout_width="0dip"
         android:layout_columnSpan="2"
         android:layout_gravity="fill_horizontal"
         android:singleLine="true"
@@ -55,6 +56,7 @@
 
     <TextView
         android:id="@+id/domain"
+        android:layout_width="0dip"
         android:layout_columnSpan="2"
         android:layout_gravity="fill_horizontal"
         android:singleLine="true"

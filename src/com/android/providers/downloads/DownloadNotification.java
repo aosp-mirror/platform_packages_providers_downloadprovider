@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.Downloads;
 import android.text.TextUtils;
+import android.util.SparseLongArray;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -40,6 +41,9 @@ class DownloadNotification {
     Context mContext;
     HashMap <String, NotificationItem> mNotifications;
     private SystemFacade mSystemFacade;
+
+    /** Time when each {@link DownloadInfo#mId} was first shown. */
+    private SparseLongArray mFirstShown = new SparseLongArray();
 
     static final String LOGTAG = "DownloadNotification";
     static final String WHERE_RUNNING =
@@ -62,6 +66,8 @@ class DownloadNotification {
      *
      */
     static class NotificationItem {
+        // TODO: refactor to mNotifId and avoid building Uris based on it, since
+        // they can overflow
         int mId;  // This first db _id for the download for the app
         long mTotalCurrent = 0;
         long mTotalTotal = 0;
@@ -150,12 +156,21 @@ class DownloadNotification {
             final Notification.Builder builder = new Notification.Builder(mContext);
 
             boolean hasPausedText = (item.mPausedText != null);
-            int iconResource = android.R.drawable.stat_sys_download_done;
+            int iconResource = android.R.drawable.stat_sys_download;
             if (hasPausedText) {
                 iconResource = android.R.drawable.stat_sys_warning;
             }
             builder.setSmallIcon(iconResource);
             builder.setOngoing(true);
+
+            // set notification "when" to be first time this DownloadInfo.mId
+            // was encountered, which avoids fighting with other notifs.
+            long firstShown = mFirstShown.get(item.mId, -1);
+            if (firstShown == -1) {
+                firstShown = System.currentTimeMillis();
+                mFirstShown.put(item.mId, firstShown);
+            }
+            builder.setWhen(firstShown);
 
             boolean hasContentText = false;
             StringBuilder title = new StringBuilder(item.mTitles[0]);

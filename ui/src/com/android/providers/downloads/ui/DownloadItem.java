@@ -130,7 +130,7 @@ public class DownloadItem extends GridLayout implements Checkable {
 
     @Override
     public void toggle() {
-        setChecked(!isChecked());
+        mCheckBox.performClick();
     }
 
     public CheckBox getCheckBox() {

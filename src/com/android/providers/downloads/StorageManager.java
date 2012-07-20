@@ -30,7 +30,6 @@ import android.os.StatFs;
 import android.provider.Downloads;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Slog;
 
 import com.android.internal.R;
 
@@ -342,9 +341,9 @@ class StorageManager {
                 if (TextUtils.isEmpty(data)) continue;
 
                 File file = new File(data);
-                if (true || Constants.LOGV) {
-                    Slog.d(Constants.TAG, "purging " + file.getAbsolutePath() + " for " +
-                            file.length() + " bytes");
+                if (Constants.LOGV) {
+                    Log.d(Constants.TAG, "purging " + file.getAbsolutePath() + " for "
+                            + file.length() + " bytes");
                 }
                 totalFreed += file.length();
                 file.delete();
@@ -416,7 +415,9 @@ class StorageManager {
             try {
                 final StructStat stat = Libcore.os.stat(path);
                 if (stat.st_uid == myUid) {
-                    Slog.d(TAG, "deleting spurious file " + path);
+                    if (Constants.LOGVV) {
+                        Log.d(TAG, "deleting spurious file " + path);
+                    }
                     file.delete();
                 }
             } catch (ErrnoException e) {

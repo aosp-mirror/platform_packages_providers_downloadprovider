@@ -17,6 +17,7 @@
 package com.android.providers.downloads;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentUris;
 import android.content.Context;
@@ -38,9 +39,9 @@ import java.util.HashMap;
  */
 class DownloadNotification {
 
-    Context mContext;
-    HashMap <String, NotificationItem> mNotifications;
-    private SystemFacade mSystemFacade;
+    private Context mContext;
+    private NotificationManager mNotifManager;
+    private HashMap<String, NotificationItem> mNotifications;
 
     /** Time when each {@link DownloadInfo#mId} was first shown. */
     private SparseLongArray mFirstShown = new SparseLongArray();
@@ -102,7 +103,8 @@ class DownloadNotification {
      */
     DownloadNotification(Context ctx, SystemFacade systemFacade) {
         mContext = ctx;
-        mSystemFacade = systemFacade;
+        mNotifManager = (NotificationManager) mContext.getSystemService(
+                Context.NOTIFICATION_SERVICE);
         mNotifications = new HashMap<String, NotificationItem>();
     }
 
@@ -207,8 +209,7 @@ class DownloadNotification {
 
             builder.setContentIntent(PendingIntent.getBroadcast(mContext, 0, intent, 0));
 
-            mSystemFacade.postNotification(item.mId, builder.getNotification());
-
+            mNotifManager.notify(item.mId, builder.build());
         }
     }
 
@@ -262,7 +263,7 @@ class DownloadNotification {
         intent.setData(contentUri);
         builder.setDeleteIntent(PendingIntent.getBroadcast(mContext, 0, intent, 0));
 
-        mSystemFacade.postNotification(id, builder.getNotification());
+        mNotifManager.notify((int) id, builder.build());
     }
 
     private boolean isActiveAndVisible(DownloadInfo download) {

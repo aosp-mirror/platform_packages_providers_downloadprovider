@@ -19,6 +19,7 @@ package com.android.providers.downloads;
 import static com.android.providers.downloads.Constants.TAG;
 
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ComponentName;
@@ -65,6 +66,7 @@ public class DownloadService extends Service {
 
     /** Class to handle Notification Manager updates */
     private DownloadNotification mNotifier;
+    private NotificationManager mNotifManager;
 
     /**
      * The Service's view of the list of downloads, mapping download IDs to the corresponding info
@@ -221,7 +223,9 @@ public class DownloadService extends Service {
         mMediaScannerConnection = new MediaScannerConnection();
 
         mNotifier = new DownloadNotification(this, mSystemFacade);
-        mSystemFacade.cancelAllNotifications();
+        mNotifManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotifManager.cancelAll();
+
         mStorageManager = StorageManager.getInstance(getApplicationContext());
         updateFromProvider();
     }
@@ -464,7 +468,7 @@ public class DownloadService extends Service {
                 !Downloads.Impl.isStatusCompleted(oldStatus)
                 && Downloads.Impl.isStatusCompleted(info.mStatus);
         if (lostVisibility || justCompleted) {
-            mSystemFacade.cancelNotification(info.mId);
+            mNotifManager.cancel((int) info.mId);
         }
 
         info.startIfReady(now, mStorageManager);
@@ -487,7 +491,7 @@ public class DownloadService extends Service {
             }
             new File(info.mFileName).delete();
         }
-        mSystemFacade.cancelNotification(info.mId);
+        mNotifManager.cancel((int) info.mId);
         mDownloads.remove(info.mId);
     }
 

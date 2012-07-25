@@ -1,26 +1,35 @@
+/*
+ * Copyright (C) 2008 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.android.providers.downloads;
 
 import android.app.DownloadManager;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.provider.Settings;
-import android.provider.Settings.SettingNotFoundException;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
 class RealSystemFacade implements SystemFacade {
     private Context mContext;
-    private NotificationManager mNotificationManager;
 
     public RealSystemFacade(Context context) {
         mContext = context;
-        mNotificationManager = (NotificationManager)
-                mContext.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     public long currentTimeMillis() {
@@ -82,26 +91,6 @@ class RealSystemFacade implements SystemFacade {
     @Override
     public boolean userOwnsPackage(int uid, String packageName) throws NameNotFoundException {
         return mContext.getPackageManager().getApplicationInfo(packageName, 0).uid == uid;
-    }
-
-    @Override
-    public void postNotification(long id, Notification notification) {
-        /**
-         * TODO: The system notification manager takes ints, not longs, as IDs, but the download
-         * manager uses IDs take straight from the database, which are longs.  This will have to be
-         * dealt with at some point.
-         */
-        mNotificationManager.notify((int) id, notification);
-    }
-
-    @Override
-    public void cancelNotification(long id) {
-        mNotificationManager.cancel((int) id);
-    }
-
-    @Override
-    public void cancelAllNotifications() {
-        mNotificationManager.cancelAll();
     }
 
     @Override

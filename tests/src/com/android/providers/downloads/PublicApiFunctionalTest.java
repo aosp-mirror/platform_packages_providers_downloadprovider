@@ -16,7 +16,17 @@
 
 package com.android.providers.downloads;
 
+import static com.google.testing.littlemock.LittleMock.anyInt;
+import static com.google.testing.littlemock.LittleMock.atLeastOnce;
+import static com.google.testing.littlemock.LittleMock.isA;
+import static com.google.testing.littlemock.LittleMock.never;
+import static com.google.testing.littlemock.LittleMock.times;
+import static com.google.testing.littlemock.LittleMock.verify;
+
 import android.app.DownloadManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
@@ -24,7 +34,6 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.Downloads;
 import android.test.suitebuilder.annotation.LargeTest;
-import android.util.Log;
 
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.RecordedRequest;
@@ -37,12 +46,14 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.util.List;
 
+
 @LargeTest
 public class PublicApiFunctionalTest extends AbstractPublicApiTest {
     private static final String REDIRECTED_PATH = "/other_path";
     private static final String ETAG = "my_etag";
 
     protected File mTestDirectory;
+    private NotificationManager mNotifManager;
 
     public PublicApiFunctionalTest() {
         super(new FakeSystemFacade());
@@ -51,6 +62,9 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+
+        mNotifManager = (NotificationManager) getContext()
+                .getSystemService(Context.NOTIFICATION_SERVICE);
 
         mTestDirectory = new File(Environment.getExternalStorageDirectory() + File.separator
                                   + "download_manager_functional_test");
@@ -501,24 +515,42 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         assertTrue(mResolver.mNotifyWasCalled);
     }
 
-    public void testNotifications() throws Exception {
+    public void testNotificationNever() throws Exception {
         enqueueResponse(buildEmptyResponse(HTTP_OK));
-        enqueueResponse(buildEmptyResponse(HTTP_OK));
 
-        Download download = enqueueRequest(getRequest().setShowRunningNotification(false));
+        final Download download = enqueueRequest(
+                getRequest().setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN));
         download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
-        assertEquals(0, mSystemFacade.mActiveNotifications.size());
-        assertEquals(0, mSystemFacade.mCanceledNotifications.size());
-
-        download = enqueueRequest(getRequest()); // notifications by default
-        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
-        assertEquals(1, mSystemFacade.mActiveNotifications.size());
-
-        // The notification doesn't actually get canceled until the UpdateThread runs again, which
-        // gets triggered by the DownloadThread updating the status in the provider.
         runService();
-        assertEquals(0, mSystemFacade.mActiveNotifications.size());
-        assertEquals(1, mSystemFacade.mCanceledNotifications.size());
+
+        verify(mNotifManager, never()).notify(anyInt(), isA(Notification.class));
+        // TODO: verify that it never cancels
+    }
+
+    public void testNotificationVisible() throws Exception {
+        enqueueResponse(buildEmptyResponse(HTTP_OK));
+
+        // only shows in-progress notifications
+        final Download download = enqueueRequest(getRequest());
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+        runService();
+
+        // TODO: verify different notif types with tags
+        verify(mNotifManager, atLeastOnce()).notify(anyInt(), isA(Notification.class));
+        verify(mNotifManager, times(1)).cancel(anyInt());
+    }
+
+    public void testNotificationVisibleComplete() throws Exception {
+        enqueueResponse(buildEmptyResponse(HTTP_OK));
+
+        final Download download = enqueueRequest(getRequest().setNotificationVisibility(
+                DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED));
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+        runService();
+
+        // TODO: verify different notif types with tags
+        verify(mNotifManager, atLeastOnce()).notify(anyInt(), isA(Notification.class));
+        verify(mNotifManager, times(1)).cancel(anyInt());
     }
 
     public void testRetryAfter() throws Exception {

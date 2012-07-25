@@ -16,6 +16,9 @@
 
 package com.android.providers.downloads;
 
+import static com.google.testing.littlemock.LittleMock.mock;
+
+import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -42,9 +45,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 public abstract class AbstractDownloadProviderFunctionalTest extends
         ServiceTestCase<DownloadService> {
@@ -94,19 +94,14 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
     static class TestContext extends RenamingDelegatingContext {
         private static final String FILENAME_PREFIX = "test.";
 
-        private Context mRealContext;
-        private Set<String> mAllowedSystemServices;
         private ContentResolver mResolver;
+        private final NotificationManager mNotifManager;
 
         boolean mHasServiceBeenStarted = false;
 
         public TestContext(Context realContext) {
             super(realContext, FILENAME_PREFIX);
-            mRealContext = realContext;
-            mAllowedSystemServices = new HashSet<String>(Arrays.asList(new String[] {
-                    Context.NOTIFICATION_SERVICE,
-                    Context.POWER_SERVICE,
-            }));
+            mNotifManager = mock(NotificationManager.class);
         }
 
         public void setResolver(ContentResolver resolver) {
@@ -118,7 +113,6 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
          */
         @Override
         public ContentResolver getContentResolver() {
-            assert mResolver != null;
             return mResolver;
         }
 
@@ -127,9 +121,10 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
          */
         @Override
         public Object getSystemService(String name) {
-            if (mAllowedSystemServices.contains(name)) {
-                return mRealContext.getSystemService(name);
+            if (Context.NOTIFICATION_SERVICE.equals(name)) {
+                return mNotifManager;
             }
+
             return super.getSystemService(name);
         }
 
@@ -155,10 +150,13 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
     protected void setUp() throws Exception {
         super.setUp();
 
-        Context realContext = getContext();
+        // Since we're testing a system app, AppDataDirGuesser doesn't find our
+        // cache dir, so set it explicitly.
+        System.setProperty("dexmaker.dexcache", getContext().getCacheDir().toString());
+
+        final Context realContext = getContext();
         mTestContext = new TestContext(realContext);
         setupProviderAndResolver();
-
         mTestContext.setResolver(mResolver);
         setContext(mTestContext);
         setupService();

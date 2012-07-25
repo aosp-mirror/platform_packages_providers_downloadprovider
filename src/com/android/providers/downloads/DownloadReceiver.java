@@ -17,6 +17,7 @@
 package com.android.providers.downloads;
 
 import android.app.DownloadManager;
+import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ContentUris;
@@ -120,7 +121,9 @@ public class DownloadReceiver extends BroadcastReceiver {
      * @param cursor Cursor for reading the download's fields
      */
     private void hideNotification(Context context, Uri uri, Cursor cursor) {
-        mSystemFacade.cancelNotification(ContentUris.parseId(uri));
+        final NotificationManager notifManager = (NotificationManager) context.getSystemService(
+                Context.NOTIFICATION_SERVICE);
+        notifManager.cancel((int) ContentUris.parseId(uri));
 
         int statusColumn = cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_STATUS);
         int status = cursor.getInt(statusColumn);

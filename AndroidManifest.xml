@@ -58,7 +58,7 @@
     <application android:process="android.process.media"
                  android:label="@string/app_label">
         <provider android:name=".DownloadProvider"
-                  android:authorities="downloads">
+                  android:authorities="downloads" android:exported="true">
           <!-- Anyone can access /my_downloads, the provider internally restricts access by UID for
                these URIs -->
           <path-permission android:pathPrefix="/my_downloads"

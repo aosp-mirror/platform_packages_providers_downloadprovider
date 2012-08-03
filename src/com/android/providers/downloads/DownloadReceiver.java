@@ -16,8 +16,10 @@
 
 package com.android.providers.downloads;
 
+import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
+import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION;
+
 import android.app.DownloadManager;
-import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ContentUris;
@@ -28,9 +30,12 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.provider.BaseColumns;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.provider.Downloads;
+import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.common.annotations.VisibleForTesting;
 
@@ -38,11 +43,21 @@ import com.google.common.annotations.VisibleForTesting;
  * Receives system broadcasts (boot, network connectivity)
  */
 public class DownloadReceiver extends BroadcastReceiver {
+    private static final String TAG = "DownloadReceiver";
+
+    private static Handler sAsyncHandler;
+
+    static {
+        final HandlerThread thread = new HandlerThread(TAG);
+        thread.start();
+        sAsyncHandler = new Handler(thread.getLooper());
+    }
+
     @VisibleForTesting
     SystemFacade mSystemFacade = null;
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(final Context context, final Intent intent) {
         if (mSystemFacade == null) {
             mSystemFacade = new RealSystemFacade(context);
         }
@@ -72,7 +87,20 @@ public class DownloadReceiver extends BroadcastReceiver {
         } else if (action.equals(Constants.ACTION_OPEN)
                 || action.equals(Constants.ACTION_LIST)
                 || action.equals(Constants.ACTION_HIDE)) {
-            handleNotificationBroadcast(context, intent);
+
+            final PendingResult result = goAsync();
+            if (result == null) {
+                // TODO: remove this once test is refactored
+                handleNotificationBroadcast(context, intent);
+            } else {
+                sAsyncHandler.post(new Runnable() {
+                        @Override
+                    public void run() {
+                        handleNotificationBroadcast(context, intent);
+                        result.finish();
+                    }
+                });
+            }
         }
     }
 
@@ -80,58 +108,49 @@ public class DownloadReceiver extends BroadcastReceiver {
      * Handle any broadcast related to a system notification.
      */
     private void handleNotificationBroadcast(Context context, Intent intent) {
-        Uri uri = intent.getData();
-        String action = intent.getAction();
-        if (Constants.LOGVV) {
-            if (action.equals(Constants.ACTION_OPEN)) {
-                Log.v(Constants.TAG, "Receiver open for " + uri);
-            } else if (action.equals(Constants.ACTION_LIST)) {
-                Log.v(Constants.TAG, "Receiver list for " + uri);
-            } else { // ACTION_HIDE
-                Log.v(Constants.TAG, "Receiver hide for " + uri);
-            }
-        }
+        final String action = intent.getAction();
+        if (Constants.ACTION_LIST.equals(action)) {
+            final long[] ids = intent.getLongArrayExtra(
+                    DownloadManager.EXTRA_NOTIFICATION_CLICK_DOWNLOAD_IDS);
+            sendNotificationClickedIntent(context, ids);
 
-        Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
-        if (cursor == null) {
-            return;
-        }
-        try {
-            if (!cursor.moveToFirst()) {
-                return;
-            }
+        } else if (Constants.ACTION_OPEN.equals(action)) {
+            final long id = ContentUris.parseId(intent.getData());
+            openDownload(context, id);
+            hideNotification(context, id);
 
-            if (action.equals(Constants.ACTION_OPEN)) {
-                openDownload(context, cursor);
-                hideNotification(context, uri, cursor);
-            } else if (action.equals(Constants.ACTION_LIST)) {
-                sendNotificationClickedIntent(intent, cursor);
-            } else { // ACTION_HIDE
-                hideNotification(context, uri, cursor);
-            }
-        } finally {
-            cursor.close();
+        } else if (Constants.ACTION_HIDE.equals(action)) {
+            final long id = ContentUris.parseId(intent.getData());
+            hideNotification(context, id);
         }
     }
 
     /**
-     * Hide a system notification for a download.
-     * @param uri URI to update the download
-     * @param cursor Cursor for reading the download's fields
+     * Mark the given {@link DownloadManager#COLUMN_ID} as being acknowledged by
+     * user so it's not renewed later.
      */
-    private void hideNotification(Context context, Uri uri, Cursor cursor) {
-        final NotificationManager notifManager = (NotificationManager) context.getSystemService(
-                Context.NOTIFICATION_SERVICE);
-        notifManager.cancel((int) ContentUris.parseId(uri));
+    private void hideNotification(Context context, long id) {
+        final int status;
+        final int visibility;
 
-        int statusColumn = cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_STATUS);
-        int status = cursor.getInt(statusColumn);
-        int visibilityColumn =
-                cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_VISIBILITY);
-        int visibility = cursor.getInt(visibilityColumn);
-        if (Downloads.Impl.isStatusCompleted(status)
-                && visibility == Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED) {
-            ContentValues values = new ContentValues();
+        final Uri uri = ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id);
+        final Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+        try {
+            if (cursor.moveToFirst()) {
+                status = getInt(cursor, Downloads.Impl.COLUMN_STATUS);
+                visibility = getInt(cursor, Downloads.Impl.COLUMN_VISIBILITY);
+            } else {
+                Log.w(TAG, "Missing details for download " + id);
+                return;
+            }
+        } finally {
+            cursor.close();
+        }
+
+        if (Downloads.Impl.isStatusCompleted(status) &&
+                (visibility == VISIBILITY_VISIBLE_NOTIFY_COMPLETED
+                || visibility == VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION)) {
+            final ContentValues values = new ContentValues();
             values.put(Downloads.Impl.COLUMN_VISIBILITY,
                     Downloads.Impl.VISIBILITY_VISIBLE);
             context.getContentResolver().update(uri, values, null, null);
@@ -139,67 +158,82 @@ public class DownloadReceiver extends BroadcastReceiver {
     }
 
     /**
-     * Open the download that cursor is currently pointing to, since it's completed notification
-     * has been clicked.
+     * Start activity to display the file represented by the given
+     * {@link DownloadManager#COLUMN_ID}.
      */
-    private void openDownload(Context context, Cursor cursor) {
-        final long id = cursor.getLong(cursor.getColumnIndexOrThrow(BaseColumns._ID));
+    private void openDownload(Context context, long id) {
         final Intent intent = OpenHelper.buildViewIntent(context, id);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException ex) {
             Log.d(Constants.TAG, "no activity for " + intent, ex);
+            Toast.makeText(context, R.string.download_no_application_title, Toast.LENGTH_LONG)
+                    .show();
         }
     }
 
     /**
      * Notify the owner of a running download that its notification was clicked.
-     * @param intent the broadcast intent sent by the notification manager
-     * @param cursor Cursor for reading the download's fields
      */
-    private void sendNotificationClickedIntent(Intent intent, Cursor cursor) {
-        String pckg = cursor.getString(
-                cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE));
-        if (pckg == null) {
-            return;
+    private void sendNotificationClickedIntent(Context context, long[] ids) {
+        final String packageName;
+        final String clazz;
+        final boolean isPublicApi;
+
+        final Uri uri = ContentUris.withAppendedId(
+                Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, ids[0]);
+        final Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+        try {
+            if (cursor.moveToFirst()) {
+                packageName = getString(cursor, Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE);
+                clazz = getString(cursor, Downloads.Impl.COLUMN_NOTIFICATION_CLASS);
+                isPublicApi = getInt(cursor, Downloads.Impl.COLUMN_IS_PUBLIC_API) != 0;
+            } else {
+                Log.w(TAG, "Missing details for download " + ids[0]);
+                return;
+            }
+        } finally {
+            cursor.close();
         }
 
-        String clazz = cursor.getString(
-                cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_NOTIFICATION_CLASS));
-        boolean isPublicApi =
-                cursor.getInt(cursor.getColumnIndex(Downloads.Impl.COLUMN_IS_PUBLIC_API)) != 0;
+        if (TextUtils.isEmpty(packageName)) {
+            Log.w(TAG, "Missing package; skipping broadcast");
+            return;
+        }
 
         Intent appIntent = null;
         if (isPublicApi) {
             appIntent = new Intent(DownloadManager.ACTION_NOTIFICATION_CLICKED);
-            appIntent.setPackage(pckg);
-            // send id of the items clicked on.
-            if (intent.getBooleanExtra("multiple", false)) {
-                // broadcast received saying click occurred on a notification with multiple titles.
-                // don't include any ids at all - let the caller query all downloads belonging to it
-                // TODO modify the broadcast to include ids of those multiple notifications.
-            } else {
-                appIntent.putExtra(DownloadManager.EXTRA_NOTIFICATION_CLICK_DOWNLOAD_IDS,
-                        new long[] {
-                                cursor.getLong(cursor.getColumnIndexOrThrow(Downloads.Impl._ID))});
-            }
+            appIntent.setPackage(packageName);
+            appIntent.putExtra(DownloadManager.EXTRA_NOTIFICATION_CLICK_DOWNLOAD_IDS, ids);
+
         } else { // legacy behavior
-            if (clazz == null) {
+            if (TextUtils.isEmpty(clazz)) {
+                Log.w(TAG, "Missing class; skipping broadcast");
                 return;
             }
+
             appIntent = new Intent(DownloadManager.ACTION_NOTIFICATION_CLICKED);
-            appIntent.setClassName(pckg, clazz);
-            if (intent.getBooleanExtra("multiple", true)) {
-                appIntent.setData(Downloads.Impl.CONTENT_URI);
+            appIntent.setClassName(packageName, clazz);
+            appIntent.putExtra(DownloadManager.EXTRA_NOTIFICATION_CLICK_DOWNLOAD_IDS, ids);
+
+            if (ids.length == 1) {
+                appIntent.setData(uri);
             } else {
-                long downloadId = cursor.getLong(cursor.getColumnIndexOrThrow(Downloads.Impl._ID));
-                appIntent.setData(
-                        ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, downloadId));
+                appIntent.setData(Downloads.Impl.CONTENT_URI);
             }
         }
 
         mSystemFacade.sendBroadcast(appIntent);
+    }
+
+    private static String getString(Cursor cursor, String col) {
+        return cursor.getString(cursor.getColumnIndexOrThrow(col));
+    }
+
+    private static int getInt(Cursor cursor, String col) {
+        return cursor.getInt(cursor.getColumnIndexOrThrow(col));
     }
 
     private void startService(Context context) {

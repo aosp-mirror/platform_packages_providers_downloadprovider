@@ -17,6 +17,7 @@
 package com.android.providers.downloads;
 
 import static com.google.testing.littlemock.LittleMock.anyInt;
+import static com.google.testing.littlemock.LittleMock.anyString;
 import static com.google.testing.littlemock.LittleMock.atLeastOnce;
 import static com.google.testing.littlemock.LittleMock.isA;
 import static com.google.testing.littlemock.LittleMock.never;
@@ -449,6 +450,8 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         receiver.mSystemFacade = mSystemFacade;
         Intent intent = new Intent(Constants.ACTION_LIST);
         intent.setData(Uri.parse(Downloads.Impl.CONTENT_URI + "/" + download.mId));
+        intent.putExtra(DownloadManager.EXTRA_NOTIFICATION_CLICK_DOWNLOAD_IDS,
+                new long[] { download.mId });
         receiver.onReceive(mContext, intent);
 
         assertEquals(1, mSystemFacade.mBroadcastsSent.size());
@@ -523,7 +526,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
         runService();
 
-        verify(mNotifManager, never()).notify(anyInt(), isA(Notification.class));
+        verify(mNotifManager, never()).notify(anyString(), anyInt(), isA(Notification.class));
         // TODO: verify that it never cancels
     }
 
@@ -536,8 +539,8 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         runService();
 
         // TODO: verify different notif types with tags
-        verify(mNotifManager, atLeastOnce()).notify(anyInt(), isA(Notification.class));
-        verify(mNotifManager, times(1)).cancel(anyInt());
+        verify(mNotifManager, atLeastOnce()).notify(anyString(), anyInt(), isA(Notification.class));
+        verify(mNotifManager, times(1)).cancel(anyString(), anyInt());
     }
 
     public void testNotificationVisibleComplete() throws Exception {
@@ -549,8 +552,8 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         runService();
 
         // TODO: verify different notif types with tags
-        verify(mNotifManager, atLeastOnce()).notify(anyInt(), isA(Notification.class));
-        verify(mNotifManager, times(1)).cancel(anyInt());
+        verify(mNotifManager, atLeastOnce()).notify(anyString(), anyInt(), isA(Notification.class));
+        verify(mNotifManager, times(1)).cancel(anyString(), anyInt());
     }
 
     public void testRetryAfter() throws Exception {

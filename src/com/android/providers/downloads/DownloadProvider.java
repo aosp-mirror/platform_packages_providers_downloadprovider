@@ -667,15 +667,10 @@ public final class DownloadProvider extends ContentProvider {
         Context context = getContext();
         if (values.getAsInteger(Downloads.Impl.COLUMN_DESTINATION) ==
                 Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD) {
-            // don't start downloadservice because it has nothing to do in this case.
-            // but does a completion notification need to be sent?
+            // When notification is requested, kick off service to process all
+            // relevant downloads.
             if (Downloads.Impl.isNotificationToBeDisplayed(vis)) {
-                DownloadNotification notifier = new DownloadNotification(context, mSystemFacade);
-                notifier.notificationForCompletedDownload(rowID,
-                        values.getAsString(Downloads.Impl.COLUMN_TITLE),
-                        Downloads.Impl.STATUS_SUCCESS,
-                        Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD,
-                        lastMod);
+                context.startService(new Intent(context, DownloadService.class));
             }
         } else {
             context.startService(new Intent(context, DownloadService.class));

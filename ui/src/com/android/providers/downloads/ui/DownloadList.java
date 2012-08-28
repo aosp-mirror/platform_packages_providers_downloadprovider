@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.provider.BaseColumns;
 import android.provider.Downloads;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -49,6 +50,8 @@ import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.android.providers.downloads.OpenHelper;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -499,7 +502,6 @@ public class DownloadList extends Activity {
      * Send an Intent to open the download currently pointed to by the given cursor.
      */
     private void openCurrentDownload(Cursor cursor) {
-        final long id = cursor.getInt(mIdColumnId);
         final Uri localUri = Uri.parse(cursor.getString(mLocalUriColumnId));
         try {
             getContentResolver().openFileDescriptor(localUri, "r").close();
@@ -512,20 +514,8 @@ public class DownloadList extends Activity {
             // close() failed, not a problem
         }
 
-        final Uri viewUri;
-        final String mimeType = cursor.getString(mMediaTypeColumnId);
-        if ("application/vnd.android.package-archive".equals(mimeType)) {
-            // PackageInstaller doesn't like content URIs, so open file
-            viewUri = localUri;
-        } else if ("file".equals(localUri.getScheme())) {
-            viewUri = ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id);
-        } else {
-            viewUri = localUri;
-        }
-
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(viewUri, mimeType);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        final long id = cursor.getLong(cursor.getColumnIndexOrThrow(BaseColumns._ID));
+        final Intent intent = OpenHelper.buildViewIntent(this, id);
         try {
             startActivity(intent);
         } catch (ActivityNotFoundException ex) {

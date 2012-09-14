@@ -18,6 +18,7 @@ package com.android.providers.downloads.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.accessibility.AccessibilityEvent;
 import android.view.MotionEvent;
 import android.widget.CheckBox;
 import android.widget.Checkable;
@@ -100,6 +101,7 @@ public class DownloadItem extends GridLayout implements Checkable {
             case MotionEvent.ACTION_UP:
                 if (mIsInDownEvent && event.getX() < CHECKMARK_AREA) {
                     toggle();
+                    sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);
                     handled = true;
                 }
                 mIsInDownEvent = false;
@@ -130,7 +132,7 @@ public class DownloadItem extends GridLayout implements Checkable {
 
     @Override
     public void toggle() {
-        mCheckBox.performClick();
+        setChecked(!isChecked());
     }
 
     public CheckBox getCheckBox() {

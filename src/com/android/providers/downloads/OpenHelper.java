@@ -49,7 +49,7 @@ public class OpenHelper {
             final String mimeType = getCursorString(cursor, COLUMN_MEDIA_TYPE);
 
             final Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
             if ("application/vnd.android.package-archive".equals(mimeType)) {
                 // PackageInstaller doesn't like content URIs, so open file

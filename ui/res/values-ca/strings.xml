@@ -31,7 +31,7 @@
     <string name="dialog_failed_body" msgid="587545111677064427">"Vols tornar a intentar baixar el fitxer més tard o vols suprimir-lo de la cua?"</string>
     <string name="dialog_title_queued_body" msgid="6760681913815015219">"Fitxer en cua"</string>
     <string name="dialog_queued_body" msgid="708552801635572720">"Aquest fitxer està en cua per baixar més endavant, per tant, encara no està disponible."</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"No es troba el fitxer que s\'ha baixat."</string>
+    <string name="dialog_file_missing_body" msgid="3223012612774276284">"No es pot trobar el fitxer baixat."</string>
     <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"No es pot finalitzar la baixada. No hi ha prou espai a l\'emmagatzematge extern."</string>
     <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"No es pot finalitzar la baixada. No hi ha prou espai a l\'emmagatzematge intern."</string>
     <string name="dialog_cannot_resume" msgid="8664509751358983543">"S\'ha interromput la baixada i no es pot reprendre."</string>

@@ -45,6 +45,6 @@
     <string name="retry_download" msgid="7617100787922717912">"Reintentar"</string>
     <string name="deselect_all" msgid="6348198946254776764">"Desmarcar todo"</string>
     <string name="select_all" msgid="634074918366265804">"Seleccionar todo"</string>
-    <string name="selected_count" msgid="2101564570019753277">"Has seleccionado <xliff:g id="NUMBER">%1$d</xliff:g> de <xliff:g id="TOTAL">%2$d</xliff:g>."</string>
+    <string name="selected_count" msgid="2101564570019753277">"Elegido: <xliff:g id="NUMBER">%1$d</xliff:g> de <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
     <string name="download_share_dialog" msgid="3355867339806448955">"Compartir a través de"</string>
 </resources>

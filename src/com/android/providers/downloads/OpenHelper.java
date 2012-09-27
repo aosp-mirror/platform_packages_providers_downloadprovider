@@ -59,6 +59,7 @@ public class OpenHelper {
                 final Uri remoteUri = getCursorUri(cursor, COLUMN_URI);
                 intent.putExtra(Intent.EXTRA_ORIGINATING_URI, remoteUri);
                 intent.putExtra(Intent.EXTRA_REFERRER, getRefererUri(context, id));
+                intent.putExtra(Intent.EXTRA_ORIGINATING_UID, getOriginatingUid(context, id));
             } else if ("file".equals(localUri.getScheme())) {
                 intent.setDataAndType(
                         ContentUris.withAppendedId(ALL_DOWNLOADS_CONTENT_URI, id), mimeType);
@@ -89,6 +90,22 @@ public class OpenHelper {
             headers.close();
         }
         return null;
+    }
+
+    private static int getOriginatingUid(Context context, long id) {
+        final Uri uri = ContentUris.withAppendedId(ALL_DOWNLOADS_CONTENT_URI, id);
+        final Cursor cursor = context.getContentResolver().query(uri, new String[]{Constants.UID},
+                null, null, null);
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    return cursor.getInt(cursor.getColumnIndexOrThrow(Constants.UID));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        return -1;
     }
 
     private static String getCursorString(Cursor cursor, String column) {

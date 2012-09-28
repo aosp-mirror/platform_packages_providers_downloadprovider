@@ -145,6 +145,7 @@ public class DownloadReceiver extends BroadcastReceiver {
     private void openDownload(Context context, Cursor cursor) {
         final long id = cursor.getLong(cursor.getColumnIndexOrThrow(BaseColumns._ID));
         final Intent intent = OpenHelper.buildViewIntent(context, id);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException ex) {

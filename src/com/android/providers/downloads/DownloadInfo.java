@@ -342,7 +342,7 @@ public class DownloadInfo {
      */
     public int checkCanUseNetwork() {
         final NetworkInfo info = mSystemFacade.getActiveNetworkInfo(mUid);
-        if (info == null) {
+        if (info == null || !info.isConnected()) {
             return NETWORK_NO_CONNECTION;
         }
         if (DetailedState.BLOCKED.equals(info.getDetailedState())) {

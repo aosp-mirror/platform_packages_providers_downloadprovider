@@ -479,9 +479,6 @@ public class DownloadService extends Service {
      */
     private void deleteDownloadLocked(long id) {
         DownloadInfo info = mDownloads.get(id);
-        if (info.shouldScanFile()) {
-            scanFile(info, false, false);
-        }
         if (info.mStatus == Downloads.Impl.STATUS_RUNNING) {
             info.mStatus = Downloads.Impl.STATUS_CANCELED;
         }

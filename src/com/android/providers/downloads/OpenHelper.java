@@ -16,6 +16,7 @@
 
 package com.android.providers.downloads;
 
+import static android.app.DownloadManager.COLUMN_LOCAL_FILENAME;
 import static android.app.DownloadManager.COLUMN_LOCAL_URI;
 import static android.app.DownloadManager.COLUMN_MEDIA_TYPE;
 import static android.app.DownloadManager.COLUMN_URI;
@@ -46,7 +47,9 @@ public class OpenHelper {
             }
 
             final Uri localUri = getCursorUri(cursor, COLUMN_LOCAL_URI);
-            final String mimeType = getCursorString(cursor, COLUMN_MEDIA_TYPE);
+            final String filename = getCursorString(cursor, COLUMN_LOCAL_FILENAME);
+            String mimeType = getCursorString(cursor, COLUMN_MEDIA_TYPE);
+            mimeType = DownloadDrmHelper.getOriginalMimeType(context, filename, mimeType);
 
             final Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);

@@ -36,7 +36,6 @@ import android.util.Pair;
 
 import com.android.internal.util.IndentingPrintWriter;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -575,5 +574,25 @@ public class DownloadInfo {
         DownloadThread downloader = new DownloadThread(mContext, mSystemFacade, this,
                 StorageManager.getInstance(mContext));
         mSystemFacade.startThread(downloader);
+    }
+
+    /**
+     * Query and return status of requested download.
+     */
+    public static int queryDownloadStatus(ContentResolver resolver, long id) {
+        final Cursor cursor = resolver.query(
+                ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id),
+                new String[] { Downloads.Impl.COLUMN_STATUS }, null, null, null);
+        try {
+            if (cursor.moveToFirst()) {
+                return cursor.getInt(0);
+            } else {
+                // TODO: increase strictness of value returned for unknown
+                // downloads; this is safe default for now.
+                return Downloads.Impl.STATUS_PENDING;
+            }
+        } finally {
+            cursor.close();
+        }
     }
 }

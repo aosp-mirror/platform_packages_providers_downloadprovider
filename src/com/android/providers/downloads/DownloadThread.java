@@ -130,6 +130,21 @@ public class DownloadThread extends Thread {
     @Override
     public void run() {
         Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+        try {
+            runInternal();
+        } finally {
+            DownloadHandler.getInstance().dequeueDownload(mInfo.mId);
+        }
+    }
+
+    private void runInternal() {
+        // Skip when download already marked as finished; this download was
+        // probably started again while racing with UpdateThread.
+        if (DownloadInfo.queryDownloadStatus(mContext.getContentResolver(), mInfo.mId)
+                == Downloads.Impl.STATUS_SUCCESS) {
+            Log.d(TAG, "Download " + mInfo.mId + " already finished; skipping");
+            return;
+        }
 
         State state = new State(mInfo);
         AndroidHttpClient client = null;
@@ -210,7 +225,6 @@ public class DownloadThread extends Thread {
             notifyDownloadCompleted(finalStatus, state.mCountRetry, state.mRetryAfter,
                                     state.mGotData, state.mFilename,
                                     state.mNewUri, state.mMimeType, errorMsg);
-            DownloadHandler.getInstance().dequeueDownload(mInfo.mId);
 
             netPolicy.unregisterListener(mPolicyListener);
 

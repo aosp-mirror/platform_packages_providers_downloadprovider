@@ -23,7 +23,7 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Ermöglicht der App, auf die erweiterten Funktionen des Download-Managers zuzugreifen. Schadprogramme könnten damit Downloads unterbrechen und auf persönliche Informationen zugreifen."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Benachrichtigungen zu Ladevorgängen senden"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Ermöglicht der App, Benachrichtigungen über abgeschlossene Downloads zu senden. Schadprogramme können dadurch andere Apps, die Dateien herunterladen, beeinträchtigen."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Alle USB-Speicher-Downloads anz."</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Alle USB-Speicher-Downloads"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Alle Downloads an SD-Karte anzeigen"</string>
     <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Ermöglicht der App, alle Downloads auf die SD-Karte anzuzeigen, unabhängig davon, von welcher App diese heruntergeladen wurden"</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Speicherplatz im Download-Cache reservieren"</string>
@@ -36,7 +36,7 @@
     <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
     <string name="notification_filename_extras" msgid="5549729917695688191">" und <xliff:g id="NUMBER">%d</xliff:g> weitere"</string>
     <string name="notification_download_complete" msgid="5443563299253103667">"Download abgeschlossen"</string>
-    <string name="notification_download_failed" msgid="8612136111952014978">"Download fehlgeschlagen"</string>
+    <string name="notification_download_failed" msgid="8612136111952014978">"Fehler bei Download"</string>
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Downloadgröße erfordert WLAN"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Im Hintergrund pausiert"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Download zu groß für Netzwerk dieses Betreibers."</string>

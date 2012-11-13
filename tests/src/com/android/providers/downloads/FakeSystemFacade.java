@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.NetworkInfo.DetailedState;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -36,7 +37,9 @@ public class FakeSystemFacade implements SystemFacade {
         if (mActiveNetworkType == null) {
             return null;
         } else {
-            return new NetworkInfo(mActiveNetworkType, 0, null, null);
+            final NetworkInfo info = new NetworkInfo(mActiveNetworkType, 0, null, null);
+            info.setDetailedState(DetailedState.CONNECTED, null, null);
+            return info;
         }
     }
 

@@ -19,7 +19,6 @@ package com.android.providers.downloads;
 import static com.android.providers.downloads.Constants.TAG;
 
 import android.app.AlarmManager;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ComponentName;
@@ -65,8 +64,7 @@ public class DownloadService extends Service {
     private DownloadManagerContentObserver mObserver;
 
     /** Class to handle Notification Manager updates */
-    private DownloadNotification mNotifier;
-    private NotificationManager mNotifManager;
+    private DownloadNotifier mNotifier;
 
     /**
      * The Service's view of the list of downloads, mapping download IDs to the corresponding info
@@ -222,9 +220,7 @@ public class DownloadService extends Service {
         mMediaScannerConnecting = false;
         mMediaScannerConnection = new MediaScannerConnection();
 
-        mNotifier = new DownloadNotification(this, mSystemFacade);
-        mNotifManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotifManager.cancelAll();
+        mNotifier = new DownloadNotifier(this);
 
         mStorageManager = StorageManager.getInstance(getApplicationContext());
         updateFromProvider();
@@ -359,7 +355,7 @@ public class DownloadService extends Service {
                             }
                         }
                     }
-                    mNotifier.updateNotification(mDownloads.values());
+                    mNotifier.updateWith(mDownloads.values());
                     if (mustScan) {
                         bindMediaScanner();
                     } else {
@@ -459,18 +455,6 @@ public class DownloadService extends Service {
             Log.v(Constants.TAG, "processing updated download " + info.mId +
                     ", status: " + info.mStatus);
         }
-
-        boolean lostVisibility =
-                oldVisibility == Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
-                && info.mVisibility != Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
-                && Downloads.Impl.isStatusCompleted(info.mStatus);
-        boolean justCompleted =
-                !Downloads.Impl.isStatusCompleted(oldStatus)
-                && Downloads.Impl.isStatusCompleted(info.mStatus);
-        if (lostVisibility || justCompleted) {
-            mNotifManager.cancel((int) info.mId);
-        }
-
         info.startIfReady(now, mStorageManager);
     }
 
@@ -488,7 +472,6 @@ public class DownloadService extends Service {
             }
             new File(info.mFileName).delete();
         }
-        mNotifManager.cancel((int) info.mId);
         mDownloads.remove(info.mId);
     }
 

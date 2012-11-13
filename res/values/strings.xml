@@ -116,23 +116,6 @@
     for a download that doesn't have a title associated with it. -->
     <string name="download_unknown_title">&lt;Untitled&gt;</string>
 
-    <!-- When there are multiple simultaneous outstanding downloads from a
-        single application, they are displayed as a single notification,
-        and the expanded notification view displays the first two download
-        names separated with this string, i.e. "[title], [title]"
-        or "[title], [title] and [n] more". This is the comma + space
-        that separates the first two titles, and it's used both when there
-        are exactly two and more than two titles. -->
-    <string name="notification_filename_separator">", "</string>
-
-    <!-- When there are three or more simultaneous outstanding downloads from a
-        single application, they are displayed as a single notification,
-        and the expanded notification view uses this string to indicate
-        downloads beyond the first two, i.e. "[title], [title] and [n] more".
-        This is the " and [n] more" part, including the leading space, and it's
-        used regardless of the number of additional downloads. -->
-    <string name="notification_filename_extras">" and <xliff:g id="number" example="27">%d</xliff:g> more"</string>
-
     <!-- When a download completes, a notification is displayed, and this
         string is used to indicate that the download successfully completed.
         Note that such a download could have been initiated by a variety of
@@ -209,5 +192,22 @@
 
     <!-- Short representation of download progress percentage. [CHAR LIMIT=8] -->
     <string name="download_percent"><xliff:g id="number">%d</xliff:g><xliff:g id="percent">%%</xliff:g></string>
+
+    <!-- Title summarizing active downloads. [CHAR LIMIT=32] -->
+    <plurals name="notif_summary_active">
+        <item quantity="one">1 file downloading</item>
+        <item quantity="other"><xliff:g id="number">%d</xliff:g> files downloading</item>
+    </plurals>
+
+    <!-- Title summarizing waiting downloads. [CHAR LIMIT=32] -->
+    <plurals name="notif_summary_waiting">
+        <item quantity="one">1 file waiting</item>
+        <item quantity="other"><xliff:g id="number">%d</xliff:g> files waiting</item>
+    </plurals>
+
+    <!-- Text for a toast appearing when a user clicks on a completed download, informing the user
+         that there is no application on the device that can open the file that was downloaded
+         [CHAR LIMIT=200] -->
+    <string name="download_no_application_title">Can\'t open file</string>
 
 </resources>

@@ -23,7 +23,7 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Ermöglicht der App, auf die erweiterten Funktionen des Download-Managers zuzugreifen. Schadprogramme könnten damit Downloads unterbrechen und auf persönliche Informationen zugreifen."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Benachrichtigungen zu Ladevorgängen senden"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Ermöglicht der App, Benachrichtigungen über abgeschlossene Downloads zu senden. Schadprogramme können dadurch andere Apps, die Dateien herunterladen, beeinträchtigen."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Alle USB-Speicher-Downloads anz."</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Alle USB-Speicher-Downloads"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Alle Downloads an SD-Karte anzeigen"</string>
     <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Ermöglicht der App, alle Downloads auf die SD-Karte anzuzeigen, unabhängig davon, von welcher App diese heruntergeladen wurden"</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Speicherplatz im Download-Cache reservieren"</string>
@@ -33,10 +33,8 @@
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Zugriff auf alle System-Downloads"</string>
     <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"Ermöglicht der App, alle Downloads anzuzeigen und zu ändern, die von Apps auf dem System gestartet wurden"</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Unbenannt&gt;"</string>
-    <string name="notification_filename_separator" msgid="7147189522857807618">", "</string>
-    <string name="notification_filename_extras" msgid="5549729917695688191">" und <xliff:g id="NUMBER">%d</xliff:g> weitere"</string>
     <string name="notification_download_complete" msgid="5443563299253103667">"Download abgeschlossen"</string>
-    <string name="notification_download_failed" msgid="8612136111952014978">"Download fehlgeschlagen"</string>
+    <string name="notification_download_failed" msgid="8612136111952014978">"Fehler bei Download"</string>
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Downloadgröße erfordert WLAN"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Im Hintergrund pausiert"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Download zu groß für Netzwerk dieses Betreibers."</string>
@@ -47,4 +45,10 @@
     <string name="button_cancel_download" msgid="2430166148737975604">"Abbrechen"</string>
     <string name="button_start_now" msgid="792123674007840864">"Jetzt starten"</string>
     <string name="download_percent" msgid="6889426633242976698">"<xliff:g id="NUMBER">%d</xliff:g> <xliff:g id="PERCENT">%%</xliff:g>"</string>
+    <!-- no translation found for notif_summary_active:one (8475775855911967027) -->
+    <!-- no translation found for notif_summary_active:other (9087228371320573153) -->
+    <!-- no translation found for notif_summary_waiting:one (5537481763963544278) -->
+    <!-- no translation found for notif_summary_waiting:other (549229034166062887) -->
+    <!-- no translation found for download_no_application_title (7935659741162801699) -->
+    <skip />
 </resources>

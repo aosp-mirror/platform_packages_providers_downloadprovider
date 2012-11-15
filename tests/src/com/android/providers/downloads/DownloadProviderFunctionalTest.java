@@ -116,7 +116,7 @@ public class DownloadProviderFunctionalTest extends AbstractDownloadProviderFunc
             int rslt = getDownloadStatus(downloadUri);
             if (rslt == Downloads.Impl.STATUS_RUNNING || rslt == Downloads.Impl.STATUS_PENDING) {
                 Log.i(TAG, "status is: " + rslt + ", for: " + downloadUri);
-                DownloadHandler.getInstance().WaitUntilDownloadsTerminate();
+                DownloadHandler.getInstance().waitUntilDownloadsTerminate();
                 Thread.sleep(100);
             } else {
                 done = true;

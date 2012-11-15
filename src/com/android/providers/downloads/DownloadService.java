@@ -39,6 +39,7 @@ import android.provider.Downloads;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.internal.annotations.GuardedBy;
 import com.android.internal.util.IndentingPrintWriter;
 import com.google.android.collect.Maps;
 import com.google.common.annotations.VisibleForTesting;
@@ -72,6 +73,7 @@ public class DownloadService extends Service {
      * downloads based on this data, so that it can deal with situation where the data in the
      * content provider changes or disappears.
      */
+    @GuardedBy("mDownloads")
     private Map<Long, DownloadInfo> mDownloads = Maps.newHashMap();
 
     /**

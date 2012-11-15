@@ -205,6 +205,9 @@
         <item quantity="other"><xliff:g id="number">%d</xliff:g> files waiting</item>
     </plurals>
 
+    <!-- Time remaining until download is complete. [CHAR LIMIT=32] -->
+    <string name="download_remaining"><xliff:g id="duration" example="3 minutes">%s</xliff:g> left</string>
+
     <!-- Text for a toast appearing when a user clicks on a completed download, informing the user
          that there is no application on the device that can open the file that was downloaded
          [CHAR LIMIT=200] -->

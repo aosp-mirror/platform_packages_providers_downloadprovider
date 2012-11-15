@@ -29,6 +29,7 @@ import android.net.http.AndroidHttpClient;
 import android.os.FileUtils;
 import android.os.PowerManager;
 import android.os.Process;
+import android.os.SystemClock;
 import android.provider.Downloads;
 import android.text.TextUtils;
 import android.util.Log;
@@ -99,6 +100,15 @@ public class DownloadThread extends Thread {
         public boolean mContinuingDownload = false;
         public long mBytesNotified = 0;
         public long mTimeLastNotification = 0;
+
+        /** Historical bytes/second speed of this download. */
+        public long mSpeed;
+        /** Time when current sample started. */
+        public long mSpeedSampleStart;
+        /** Bytes transferred since current sample started. */
+        public long mSpeedSampleBytes;
+        /** Estimated time until finished. */
+        public long mRemainingMillis;
 
         public State(DownloadInfo info) {
             mMimeType = Intent.normalizeMimeType(info.mMimeType);
@@ -423,7 +433,32 @@ public class DownloadThread extends Thread {
      * Report download progress through the database if necessary.
      */
     private void reportProgress(State state, InnerState innerState) {
-        long now = mSystemFacade.currentTimeMillis();
+        final long now = SystemClock.elapsedRealtime();
+
+        final long sampleDelta = now - state.mSpeedSampleStart;
+        if (sampleDelta > 500) {
+            final long sampleSpeed = ((state.mCurrentBytes - state.mSpeedSampleBytes) * 1000)
+                    / sampleDelta;
+
+            if (state.mSpeed == 0) {
+                state.mSpeed = sampleSpeed;
+            } else {
+                state.mSpeed = (state.mSpeed + sampleSpeed) / 2;
+            }
+
+            state.mSpeedSampleStart = now;
+            state.mSpeedSampleBytes = state.mCurrentBytes;
+
+            if (state.mSpeed != 0) {
+                state.mRemainingMillis = ((state.mTotalBytes - state.mCurrentBytes) * 1000)
+                        / state.mSpeed;
+            } else {
+                state.mRemainingMillis = -1;
+            }
+
+            DownloadHandler.getInstance().setRemainingMillis(mInfo.mId, state.mRemainingMillis);
+        }
+
         if (state.mCurrentBytes - state.mBytesNotified > Constants.MIN_PROGRESS_STEP &&
             now - state.mTimeLastNotification > Constants.MIN_PROGRESS_TIME) {
             ContentValues values = new ContentValues();

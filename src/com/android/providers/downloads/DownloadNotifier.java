@@ -31,16 +31,15 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.provider.Downloads;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Sets;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Set;
 
 import javax.annotation.concurrent.GuardedBy;
 
@@ -160,18 +159,26 @@ public class DownloadNotifier {
             String remainingText = null;
             String percentText = null;
             if (type == TYPE_ACTIVE) {
+                final DownloadHandler handler = DownloadHandler.getInstance();
+
                 long current = 0;
                 long total = 0;
+                long remainingMillis = -1;
                 for (DownloadInfo info : cluster) {
                     if (info.mTotalBytes != -1) {
                         current += info.mCurrentBytes;
                         total += info.mTotalBytes;
+                        remainingMillis = Math.max(
+                                handler.getRemainingMillis(info.mId), remainingMillis);
                     }
                 }
 
                 if (total > 0) {
                     final int percent = (int) ((current * 100) / total);
-                    // TODO: calculate remaining time based on recent bandwidth
+                    if (remainingMillis != -1) {
+                        remainingText = res.getString(R.string.download_remaining,
+                                DateUtils.formatDuration(remainingMillis));
+                    }
                     percentText = res.getString(R.string.download_percent, percent);
 
                     builder.setProgress(100, percent, false);

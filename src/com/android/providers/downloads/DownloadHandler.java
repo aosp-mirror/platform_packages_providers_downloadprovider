@@ -18,6 +18,9 @@ package com.android.providers.downloads;
 
 import android.content.res.Resources;
 import android.util.Log;
+import android.util.LongSparseArray;
+
+import com.android.internal.annotations.GuardedBy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,31 +28,37 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 public class DownloadHandler {
-
     private static final String TAG = "DownloadHandler";
+
+    @GuardedBy("this")
     private final LinkedHashMap<Long, DownloadInfo> mDownloadsQueue =
             new LinkedHashMap<Long, DownloadInfo>();
+    @GuardedBy("this")
     private final HashMap<Long, DownloadInfo> mDownloadsInProgress =
             new HashMap<Long, DownloadInfo>();
-    private static final DownloadHandler mDownloadHandler = new DownloadHandler();
+    @GuardedBy("this")
+    private final LongSparseArray<Long> mRemainingMillis = new LongSparseArray<Long>();
+
     private final int mMaxConcurrentDownloadsAllowed = Resources.getSystem().getInteger(
             com.android.internal.R.integer.config_MaxConcurrentDownloadsAllowed);
 
-    static DownloadHandler getInstance() {
-        return mDownloadHandler;
+    private static final DownloadHandler sDownloadHandler = new DownloadHandler();
+
+    public static DownloadHandler getInstance() {
+        return sDownloadHandler;
     }
 
-    synchronized void enqueueDownload(DownloadInfo info) {
+    public synchronized void enqueueDownload(DownloadInfo info) {
         if (!mDownloadsQueue.containsKey(info.mId)) {
             if (Constants.LOGV) {
                 Log.i(TAG, "enqueued download. id: " + info.mId + ", uri: " + info.mUri);
             }
             mDownloadsQueue.put(info.mId, info);
-            startDownloadThread();
+            startDownloadThreadLocked();
         }
     }
 
-    private synchronized void startDownloadThread() {
+    private void startDownloadThreadLocked() {
         Iterator<Long> keys = mDownloadsQueue.keySet().iterator();
         ArrayList<Long> ids = new ArrayList<Long>();
         while (mDownloadsInProgress.size() < mMaxConcurrentDownloadsAllowed && keys.hasNext()) {
@@ -67,21 +76,34 @@ public class DownloadHandler {
         }
     }
 
-    synchronized boolean hasDownloadInQueue(long id) {
+    public synchronized boolean hasDownloadInQueue(long id) {
         return mDownloadsQueue.containsKey(id) || mDownloadsInProgress.containsKey(id);
     }
 
-    synchronized void dequeueDownload(long mId) {
-        mDownloadsInProgress.remove(mId);
-        startDownloadThread();
+    public synchronized void dequeueDownload(long id) {
+        mDownloadsInProgress.remove(id);
+        mRemainingMillis.remove(id);
+        startDownloadThreadLocked();
         if (mDownloadsInProgress.size() == 0 && mDownloadsQueue.size() == 0) {
             notifyAll();
         }
     }
 
+    public synchronized void setRemainingMillis(long id, long millis) {
+        mRemainingMillis.put(id, millis);
+    }
+
+    /**
+     * Return remaining time until given {@link DownloadInfo} finishes, in
+     * milliseconds, or -1 if unknown.
+     */
+    public synchronized long getRemainingMillis(long id) {
+        return mRemainingMillis.get(id, -1L);
+    }
+
     // right now this is only used by tests. but there is no reason why it can't be used
     // by any module using DownloadManager (TODO add API to DownloadManager.java)
-    public synchronized void WaitUntilDownloadsTerminate() throws InterruptedException {
+    public synchronized void waitUntilDownloadsTerminate() throws InterruptedException {
         if (mDownloadsInProgress.size() == 0 && mDownloadsQueue.size() == 0) {
             if (Constants.LOGVV) {
                 Log.i(TAG, "nothing to wait on");

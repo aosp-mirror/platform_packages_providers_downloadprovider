@@ -49,6 +49,8 @@
     <!-- no translation found for notif_summary_active:other (9087228371320573153) -->
     <!-- no translation found for notif_summary_waiting:one (5537481763963544278) -->
     <!-- no translation found for notif_summary_waiting:other (549229034166062887) -->
+    <!-- no translation found for download_remaining (3139295890887972718) -->
+    <skip />
     <!-- no translation found for download_no_application_title (7935659741162801699) -->
     <skip />
 </resources>

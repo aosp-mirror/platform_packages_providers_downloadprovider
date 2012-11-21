@@ -53,7 +53,6 @@
     <item quantity="one" msgid="5537481763963544278">"1 fil väntar"</item>
     <item quantity="other" msgid="549229034166062887">"<xliff:g id="NUMBER">%d</xliff:g> filer väntar"</item>
   </plurals>
-    <!-- no translation found for download_remaining (3139295890887972718) -->
-    <skip />
+    <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> återstår"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"Det går inte att öppna filen"</string>
 </resources>

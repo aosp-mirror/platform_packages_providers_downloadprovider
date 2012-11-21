@@ -53,7 +53,6 @@
     <item quantity="one" msgid="5537481763963544278">"هناك ملف واحد في وضع الانتظار"</item>
     <item quantity="other" msgid="549229034166062887">"هناك <xliff:g id="NUMBER">%d</xliff:g> من الملفات في وضع الانتظار"</item>
   </plurals>
-    <!-- no translation found for download_remaining (3139295890887972718) -->
-    <skip />
+    <string name="download_remaining" msgid="3139295890887972718">"المدة المتبقية: <xliff:g id="DURATION">%s</xliff:g>"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"لا يمكن فتح الملف"</string>
 </resources>

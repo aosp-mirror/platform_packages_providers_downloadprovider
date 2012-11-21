@@ -46,14 +46,13 @@
     <string name="button_start_now" msgid="792123674007840864">"Nu starten"</string>
     <string name="download_percent" msgid="6889426633242976698">"<xliff:g id="NUMBER">%d</xliff:g><xliff:g id="PERCENT">%%</xliff:g>"</string>
   <plurals name="notif_summary_active">
-    <item quantity="one" msgid="8475775855911967027">"er wordt 1 bestand gedownload"</item>
-    <item quantity="other" msgid="9087228371320573153">"er worden <xliff:g id="NUMBER">%d</xliff:g> bestanden gedownload"</item>
+    <item quantity="one" msgid="8475775855911967027">"Er wordt 1 bestand gedownload"</item>
+    <item quantity="other" msgid="9087228371320573153">"Er worden <xliff:g id="NUMBER">%d</xliff:g> bestanden gedownload"</item>
   </plurals>
   <plurals name="notif_summary_waiting">
     <item quantity="one" msgid="5537481763963544278">"1 bestand in de wachtrij"</item>
     <item quantity="other" msgid="549229034166062887">"<xliff:g id="NUMBER">%d</xliff:g> bestanden in de wachtrij"</item>
   </plurals>
-    <!-- no translation found for download_remaining (3139295890887972718) -->
-    <skip />
+    <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> resterend"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"Kan bestand niet openen"</string>
 </resources>

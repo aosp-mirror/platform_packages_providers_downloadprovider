@@ -46,14 +46,13 @@
     <string name="button_start_now" msgid="792123674007840864">"Comenzar ahora"</string>
     <string name="download_percent" msgid="6889426633242976698">"<xliff:g id="NUMBER">%d</xliff:g><xliff:g id="PERCENT">%%</xliff:g>"</string>
   <plurals name="notif_summary_active">
-    <item quantity="one" msgid="8475775855911967027">"Descargando 1 archivo..."</item>
-    <item quantity="other" msgid="9087228371320573153">"Descargando <xliff:g id="NUMBER">%d</xliff:g> archivos..."</item>
+    <item quantity="one" msgid="8475775855911967027">"Descargando 1 archivo"</item>
+    <item quantity="other" msgid="9087228371320573153">"Descargando <xliff:g id="NUMBER">%d</xliff:g> archivos"</item>
   </plurals>
   <plurals name="notif_summary_waiting">
     <item quantity="one" msgid="5537481763963544278">"1 archivo en espera"</item>
     <item quantity="other" msgid="549229034166062887">"<xliff:g id="NUMBER">%d</xliff:g> archivos en espera"</item>
   </plurals>
-    <!-- no translation found for download_remaining (3139295890887972718) -->
-    <skip />
+    <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> restantes"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"No se puede abrir el archivo."</string>
 </resources>

@@ -53,7 +53,6 @@
     <item quantity="one" msgid="5537481763963544278">"正在等待下载 1 个文件"</item>
     <item quantity="other" msgid="549229034166062887">"正在等待下载 <xliff:g id="NUMBER">%d</xliff:g> 个文件"</item>
   </plurals>
-    <!-- no translation found for download_remaining (3139295890887972718) -->
-    <skip />
+    <string name="download_remaining" msgid="3139295890887972718">"剩余时间：<xliff:g id="DURATION">%s</xliff:g>"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"无法打开文件"</string>
 </resources>

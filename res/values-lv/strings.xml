@@ -53,7 +53,6 @@
     <item quantity="one" msgid="5537481763963544278">"Rindā: 1 fails"</item>
     <item quantity="other" msgid="549229034166062887">"Rindā: <xliff:g id="NUMBER">%d</xliff:g> faili"</item>
   </plurals>
-    <!-- no translation found for download_remaining (3139295890887972718) -->
-    <skip />
+    <string name="download_remaining" msgid="3139295890887972718">"Atlikušais laiks: <xliff:g id="DURATION">%s</xliff:g>"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"Nevar atvērt failu"</string>
 </resources>

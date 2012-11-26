@@ -53,7 +53,6 @@
     <item quantity="one" msgid="5537481763963544278">"1 Datei steht aus."</item>
     <item quantity="other" msgid="549229034166062887">"<xliff:g id="NUMBER">%d</xliff:g> Dateien stehen aus."</item>
   </plurals>
-    <!-- no translation found for download_remaining (3139295890887972718) -->
-    <skip />
+    <string name="download_remaining" msgid="3139295890887972718">"Noch <xliff:g id="DURATION">%s</xliff:g>"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"Datei kann nicht geöffnet werden."</string>
 </resources>

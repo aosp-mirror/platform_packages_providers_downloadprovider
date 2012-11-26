@@ -53,7 +53,6 @@
     <item quantity="one" msgid="5537481763963544278">"1 फ़ाइल प्रतीक्षा में है"</item>
     <item quantity="other" msgid="549229034166062887">"<xliff:g id="NUMBER">%d</xliff:g> फ़ाइलें प्रतीक्षा में हैं"</item>
   </plurals>
-    <!-- no translation found for download_remaining (3139295890887972718) -->
-    <skip />
+    <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> शेष"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"फ़ाइल नहीं खोली जा सकती"</string>
 </resources>

@@ -51,6 +51,7 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.providers.downloads.Constants;
 import com.android.providers.downloads.OpenHelper;
 
 import java.io.FileNotFoundException;
@@ -624,15 +625,11 @@ public class DownloadList extends Activity {
                 .show();
     }
 
-    /**
-     * TODO use constants/shared code?
-     */
     private void sendRunningDownloadClickedBroadcast(long id) {
-        Intent intent = new Intent("android.intent.action.DOWNLOAD_LIST");
-        intent.setClassName("com.android.providers.downloads",
-                "com.android.providers.downloads.DownloadReceiver");
-        intent.setData(ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id));
-        intent.putExtra("multiple", false);
+        final Intent intent = new Intent(Constants.ACTION_LIST);
+        intent.setPackage(Constants.PROVIDER_PACKAGE_NAME);
+        intent.putExtra(DownloadManager.EXTRA_NOTIFICATION_CLICK_DOWNLOAD_IDS,
+                new long[] { id });
         sendBroadcast(intent);
     }
 

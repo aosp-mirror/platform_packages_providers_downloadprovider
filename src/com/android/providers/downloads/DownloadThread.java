@@ -107,8 +107,6 @@ public class DownloadThread extends Thread {
         public long mSpeedSampleStart;
         /** Bytes transferred since current sample started. */
         public long mSpeedSampleBytes;
-        /** Estimated time until finished. */
-        public long mRemainingMillis;
 
         public State(DownloadInfo info) {
             mMimeType = Intent.normalizeMimeType(info.mMimeType);
@@ -443,20 +441,13 @@ public class DownloadThread extends Thread {
             if (state.mSpeed == 0) {
                 state.mSpeed = sampleSpeed;
             } else {
-                state.mSpeed = (state.mSpeed + sampleSpeed) / 2;
+                state.mSpeed = ((state.mSpeed * 3) + sampleSpeed) / 4;
             }
 
             state.mSpeedSampleStart = now;
             state.mSpeedSampleBytes = state.mCurrentBytes;
 
-            if (state.mSpeed != 0) {
-                state.mRemainingMillis = ((state.mTotalBytes - state.mCurrentBytes) * 1000)
-                        / state.mSpeed;
-            } else {
-                state.mRemainingMillis = -1;
-            }
-
-            DownloadHandler.getInstance().setRemainingMillis(mInfo.mId, state.mRemainingMillis);
+            DownloadHandler.getInstance().setCurrentSpeed(mInfo.mId, state.mSpeed);
         }
 
         if (state.mCurrentBytes - state.mBytesNotified > Constants.MIN_PROGRESS_STEP &&

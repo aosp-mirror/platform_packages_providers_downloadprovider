@@ -94,7 +94,7 @@ public class DownloadReceiver extends BroadcastReceiver {
                 handleNotificationBroadcast(context, intent);
             } else {
                 sAsyncHandler.post(new Runnable() {
-                        @Override
+                    @Override
                     public void run() {
                         handleNotificationBroadcast(context, intent);
                         result.finish();

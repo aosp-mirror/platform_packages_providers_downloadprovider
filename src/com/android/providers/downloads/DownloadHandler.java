@@ -37,7 +37,7 @@ public class DownloadHandler {
     private final HashMap<Long, DownloadInfo> mDownloadsInProgress =
             new HashMap<Long, DownloadInfo>();
     @GuardedBy("this")
-    private final LongSparseArray<Long> mRemainingMillis = new LongSparseArray<Long>();
+    private final LongSparseArray<Long> mCurrentSpeed = new LongSparseArray<Long>();
 
     private final int mMaxConcurrentDownloadsAllowed = Resources.getSystem().getInteger(
             com.android.internal.R.integer.config_MaxConcurrentDownloadsAllowed);
@@ -82,23 +82,19 @@ public class DownloadHandler {
 
     public synchronized void dequeueDownload(long id) {
         mDownloadsInProgress.remove(id);
-        mRemainingMillis.remove(id);
+        mCurrentSpeed.remove(id);
         startDownloadThreadLocked();
         if (mDownloadsInProgress.size() == 0 && mDownloadsQueue.size() == 0) {
             notifyAll();
         }
     }
 
-    public synchronized void setRemainingMillis(long id, long millis) {
-        mRemainingMillis.put(id, millis);
+    public synchronized void setCurrentSpeed(long id, long speed) {
+        mCurrentSpeed.put(id, speed);
     }
 
-    /**
-     * Return remaining time until given {@link DownloadInfo} finishes, in
-     * milliseconds, or -1 if unknown.
-     */
-    public synchronized long getRemainingMillis(long id) {
-        return mRemainingMillis.get(id, -1L);
+    public synchronized long getCurrentSpeed(long id) {
+        return mCurrentSpeed.get(id, -1L);
     }
 
     // right now this is only used by tests. but there is no reason why it can't be used

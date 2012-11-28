@@ -163,23 +163,24 @@ public class DownloadNotifier {
 
                 long current = 0;
                 long total = 0;
-                long remainingMillis = -1;
+                long speed = 0;
                 for (DownloadInfo info : cluster) {
                     if (info.mTotalBytes != -1) {
                         current += info.mCurrentBytes;
                         total += info.mTotalBytes;
-                        remainingMillis = Math.max(
-                                handler.getRemainingMillis(info.mId), remainingMillis);
+                        speed += handler.getCurrentSpeed(info.mId);
                     }
                 }
 
                 if (total > 0) {
                     final int percent = (int) ((current * 100) / total);
-                    if (remainingMillis != -1) {
+                    percentText = res.getString(R.string.download_percent, percent);
+
+                    if (speed > 0) {
+                        final long remainingMillis = ((total - current) * 1000) / speed;
                         remainingText = res.getString(R.string.download_remaining,
                                 DateUtils.formatDuration(remainingMillis));
                     }
-                    percentText = res.getString(R.string.download_percent, percent);
 
                     builder.setProgress(100, percent, false);
                 } else {

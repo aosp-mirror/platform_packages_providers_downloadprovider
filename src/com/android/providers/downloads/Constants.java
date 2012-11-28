@@ -75,6 +75,8 @@ public class Constants {
     /** The default extension for binary files if we can't get one at the HTTP level */
     public static final String DEFAULT_DL_BINARY_EXTENSION = ".bin";
 
+    public static final String PROVIDER_PACKAGE_NAME = "com.android.providers.downloads";
+
     /**
      * When a number has to be appended to the filename, this string is used to separate the
      * base filename from the sequence number

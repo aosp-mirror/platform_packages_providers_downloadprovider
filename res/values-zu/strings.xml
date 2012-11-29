@@ -53,6 +53,6 @@
     <item quantity="one" msgid="5537481763963544278">"1 ifayela elilindiwe"</item>
     <item quantity="other" msgid="549229034166062887">"<xliff:g id="NUMBER">%d</xliff:g> amafayela alindile"</item>
   </plurals>
-    <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> kwesobunxele"</string>
+    <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> esisele"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"Ayikwazi ukuvula ifayela"</string>
 </resources>

@@ -53,7 +53,6 @@
     <item quantity="one" msgid="5537481763963544278">"Un fişier în aşteptare"</item>
     <item quantity="other" msgid="549229034166062887">"<xliff:g id="NUMBER">%d</xliff:g> (de) fişiere în aşteptare"</item>
   </plurals>
-    <!-- no translation found for download_remaining (3139295890887972718) -->
-    <skip />
+    <string name="download_remaining" msgid="3139295890887972718">"Timp rămas: <xliff:g id="DURATION">%s</xliff:g>"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"Fişierul nu poate fi deschis"</string>
 </resources>

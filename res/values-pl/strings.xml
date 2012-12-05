@@ -53,6 +53,6 @@
     <item quantity="one" msgid="5537481763963544278">"Czeka 1 plik"</item>
     <item quantity="other" msgid="549229034166062887">"Oczekujące pliki: <xliff:g id="NUMBER">%d</xliff:g>"</item>
   </plurals>
-    <string name="download_remaining" msgid="3139295890887972718">"Pozostało <xliff:g id="DURATION">%s</xliff:g>"</string>
+    <string name="download_remaining" msgid="3139295890887972718">"Pozostało: <xliff:g id="DURATION">%s</xliff:g>"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"Nie można otworzyć pliku"</string>
 </resources>

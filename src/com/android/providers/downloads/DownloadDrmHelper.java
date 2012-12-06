@@ -19,7 +19,8 @@ package com.android.providers.downloads;
 
 import android.content.Context;
 import android.drm.DrmManagerClient;
-import android.util.Log;
+
+import java.io.File;
 
 public class DownloadDrmHelper {
 
@@ -30,31 +31,6 @@ public class DownloadDrmHelper {
     public static final String EXTENSION_DRM_MESSAGE = ".dm";
 
     public static final String EXTENSION_INTERNAL_FWDL = ".fl";
-
-    /**
-     * Checks if the Media Type is a DRM Media Type
-     *
-     * @param drmManagerClient A DrmManagerClient
-     * @param mimetype Media Type to check
-     * @return True if the Media Type is DRM else false
-     */
-    public static boolean isDrmMimeType(Context context, String mimetype) {
-        boolean result = false;
-        if (context != null) {
-            try {
-                DrmManagerClient drmClient = new DrmManagerClient(context);
-                if (drmClient != null && mimetype != null && mimetype.length() > 0) {
-                    result = drmClient.canHandle("", mimetype);
-                }
-            } catch (IllegalArgumentException e) {
-                Log.w(Constants.TAG,
-                        "DrmManagerClient instance could not be created, context is Illegal.");
-            } catch (IllegalStateException e) {
-                Log.w(Constants.TAG, "DrmManagerClient didn't initialize properly.");
-            }
-        }
-        return result;
-    }
 
     /**
      * Checks if the Media Type needs to be DRM converted
@@ -83,28 +59,20 @@ public class DownloadDrmHelper {
     }
 
     /**
-     * Gets the original mime type of DRM protected content.
-     *
-     * @param context The context
-     * @param path Path to the file
-     * @param containingMime The current mime type of of the file i.e. the
-     *            containing mime type
-     * @return The original mime type of the file if DRM protected else the
-     *         currentMime
+     * Return the original MIME type of the given file, using the DRM framework
+     * if the file is protected content.
      */
-    public static String getOriginalMimeType(Context context, String path, String containingMime) {
-        String result = containingMime;
-        DrmManagerClient drmClient = new DrmManagerClient(context);
+    public static String getOriginalMimeType(Context context, File file, String currentMime) {
+        final DrmManagerClient client = new DrmManagerClient(context);
         try {
-            if (drmClient.canHandle(path, null)) {
-                result = drmClient.getOriginalMimeType(path);
+            final String rawFile = file.toString();
+            if (client.canHandle(rawFile, null)) {
+                return client.getOriginalMimeType(rawFile);
+            } else {
+                return currentMime;
             }
-        } catch (IllegalArgumentException ex) {
-            Log.w(Constants.TAG,
-                    "Can't get original mime type since path is null or empty string.");
-        } catch (IllegalStateException ex) {
-            Log.w(Constants.TAG, "DrmManagerClient didn't initialize properly.");
+        } finally {
+            client.release();
         }
-        return result;
     }
 }

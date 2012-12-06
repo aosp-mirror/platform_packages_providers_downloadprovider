@@ -30,6 +30,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.Downloads.Impl.RequestHeaders;
 
+import java.io.File;
+
 public class OpenHelper {
     /**
      * Build an {@link Intent} to view the download at current {@link Cursor}
@@ -47,9 +49,9 @@ public class OpenHelper {
             }
 
             final Uri localUri = getCursorUri(cursor, COLUMN_LOCAL_URI);
-            final String filename = getCursorString(cursor, COLUMN_LOCAL_FILENAME);
+            final File file = getCursorFile(cursor, COLUMN_LOCAL_FILENAME);
             String mimeType = getCursorString(cursor, COLUMN_MEDIA_TYPE);
-            mimeType = DownloadDrmHelper.getOriginalMimeType(context, filename, mimeType);
+            mimeType = DownloadDrmHelper.getOriginalMimeType(context, file, mimeType);
 
             final Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -121,5 +123,9 @@ public class OpenHelper {
 
     private static long getCursorLong(Cursor cursor, String column) {
         return cursor.getLong(cursor.getColumnIndexOrThrow(column));
+    }
+
+    private static File getCursorFile(Cursor cursor, String column) {
+        return new File(cursor.getString(cursor.getColumnIndexOrThrow(column)));
     }
 }

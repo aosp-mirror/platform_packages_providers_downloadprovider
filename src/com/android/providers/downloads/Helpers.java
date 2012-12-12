@@ -78,6 +78,9 @@ public class Helpers {
             int destination,
             long contentLength,
             boolean isPublicApi, StorageManager storageManager) throws StopRequestException {
+        if (contentLength < 0) {
+            contentLength = 0;
+        }
         checkCanHandleDownload(context, mimeType, destination, isPublicApi);
         String path;
         File base = null;

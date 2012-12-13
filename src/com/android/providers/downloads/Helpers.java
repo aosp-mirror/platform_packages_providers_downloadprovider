@@ -81,7 +81,6 @@ public class Helpers {
         if (contentLength < 0) {
             contentLength = 0;
         }
-        checkCanHandleDownload(context, mimeType, destination, isPublicApi);
         String path;
         File base = null;
         if (destination == Downloads.Impl.DESTINATION_FILE_URI) {
@@ -134,47 +133,6 @@ public class Helpers {
             Log.v(Constants.TAG, "target file: " + filename + extension);
         }
         return chooseUniqueFilename(destination, filename, extension, recoveryDir);
-    }
-
-    private static void checkCanHandleDownload(Context context, String mimeType, int destination,
-            boolean isPublicApi) throws StopRequestException {
-        if (isPublicApi) {
-            return;
-        }
-
-        if (destination == Downloads.Impl.DESTINATION_EXTERNAL
-                || destination == Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE) {
-            if (mimeType == null) {
-                throw new StopRequestException(Downloads.Impl.STATUS_NOT_ACCEPTABLE,
-                        "external download with no mime type not allowed");
-            }
-            if (!DownloadDrmHelper.isDrmMimeType(context, mimeType)) {
-                // Check to see if we are allowed to download this file. Only files
-                // that can be handled by the platform can be downloaded.
-                // special case DRM files, which we should always allow downloading.
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-
-                // We can provide data as either content: or file: URIs,
-                // so allow both.  (I think it would be nice if we just did
-                // everything as content: URIs)
-                // Actually, right now the download manager's UId restrictions
-                // prevent use from using content: so it's got to be file: or
-                // nothing
-
-                PackageManager pm = context.getPackageManager();
-                intent.setDataAndType(Uri.fromParts("file", "", null), mimeType);
-                ResolveInfo ri = pm.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
-                //Log.i(Constants.TAG, "*** FILENAME QUERY " + intent + ": " + list);
-
-                if (ri == null) {
-                    if (Constants.LOGV) {
-                        Log.v(Constants.TAG, "no handler found for type " + mimeType);
-                    }
-                    throw new StopRequestException(Downloads.Impl.STATUS_NOT_ACCEPTABLE,
-                            "no handler found for this download type");
-                }
-            }
-        }
     }
 
     private static String chooseFilename(String url, String hint, String contentDisposition,

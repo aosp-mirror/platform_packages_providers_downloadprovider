@@ -25,6 +25,8 @@ import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.drm.DrmManagerClient;
+import android.drm.DrmOutputStream;
 import android.net.INetworkPolicyListener;
 import android.net.NetworkPolicyManager;
 import android.net.TrafficStats;
@@ -42,9 +44,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.SyncFailedException;
-import java.net.CookieHandler;
-import java.net.CookieManager;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -65,7 +66,6 @@ public class DownloadThread extends Thread {
     private final DownloadInfo mInfo;
     private final SystemFacade mSystemFacade;
     private final StorageManager mStorageManager;
-    private DrmConvertSession mDrmConvertSession;
 
     private volatile boolean mPolicyDirty;
 
@@ -93,7 +93,6 @@ public class DownloadThread extends Thread {
      */
     static class State {
         public String mFilename;
-        public FileOutputStream mStream;
         public String mMimeType;
         public boolean mCountRetry = false;
         public int mRetryAfter = 0;
@@ -236,10 +235,8 @@ public class DownloadThread extends Thread {
      * Fully execute a single download request - setup and send the request, handle the response,
      * and transfer the data to the destination file.
      */
-    private void executeDownload(State state, HttpURLConnection conn)
-            throws IOException, StopRequestException {
+    private void executeDownload(State state, HttpURLConnection conn) throws StopRequestException {
         final InnerState innerState = new InnerState();
-        final byte data[] = new byte[Constants.BUFFER_SIZE];
 
         setupDestinationFile(state, innerState);
         addRequestHeaders(state, conn);
@@ -254,14 +251,44 @@ public class DownloadThread extends Thread {
         // check just before sending the request to avoid using an invalid connection at all
         checkConnectivity();
 
-        // Asking for response code will execute the request
-        final int statusCode = conn.getResponseCode();
+        InputStream in = null;
+        OutputStream out = null;
+        DrmManagerClient drmClient = null;
+        try {
+            try {
+                // Asking for response code will execute the request
+                final int statusCode = conn.getResponseCode();
+                in = conn.getInputStream();
 
-        handleExceptionalStatus(state, innerState, conn, statusCode);
-        processResponseHeaders(state, innerState, conn);
+                handleExceptionalStatus(state, innerState, conn, statusCode);
+                processResponseHeaders(state, innerState, conn);
+            } catch (IOException e) {
+                throw new StopRequestException(
+                        Downloads.Impl.STATUS_HTTP_DATA_ERROR, "Request failed: " + e, e);
+            }
 
-        final InputStream in = conn.getInputStream();
-        transferData(state, innerState, data, in);
+            try {
+                if (DownloadDrmHelper.isDrmConvertNeeded(state.mMimeType)) {
+                    drmClient = new DrmManagerClient(mContext);
+                    out = new DrmOutputStream(
+                            drmClient, new File(state.mFilename), state.mMimeType);
+                } else {
+                    out = new FileOutputStream(state.mFilename);
+                }
+            } catch (IOException e) {
+                throw new StopRequestException(
+                        Downloads.Impl.STATUS_FILE_ERROR, "Failed to open destination: " + e, e);
+            }
+
+            transferData(state, innerState, in, out);
+
+        } finally {
+            if (drmClient != null) {
+                drmClient.release();
+            }
+            IoUtils.closeQuietly(in);
+            IoUtils.closeQuietly(out);
+        }
     }
 
     /**
@@ -287,22 +314,21 @@ public class DownloadThread extends Thread {
     }
 
     /**
-     * Transfer as much data as possible from the HTTP response to the destination file.
-     * @param data buffer to use to read data
-     * @param entityStream stream for reading the HTTP response entity
+     * Transfer as much data as possible from the HTTP response to the
+     * destination file.
      */
-    private void transferData(
-            State state, InnerState innerState, byte[] data, InputStream entityStream)
+    private void transferData(State state, InnerState innerState, InputStream in, OutputStream out)
             throws StopRequestException {
+        final byte data[] = new byte[Constants.BUFFER_SIZE];
         for (;;) {
-            int bytesRead = readFromResponse(state, innerState, data, entityStream);
+            int bytesRead = readFromResponse(state, innerState, data, in);
             if (bytesRead == -1) { // success, end of stream already reached
                 handleEndOfStream(state, innerState);
                 return;
             }
 
             state.mGotData = true;
-            writeDataToDestination(state, data, bytesRead);
+            writeDataToDestination(state, data, bytesRead, out);
             state.mCurrentBytes += bytesRead;
             reportProgress(state, innerState);
 
@@ -331,11 +357,6 @@ public class DownloadThread extends Thread {
      * the downloaded file.
      */
     private void cleanupDestination(State state, int finalStatus) {
-        if (mDrmConvertSession != null) {
-            finalStatus = mDrmConvertSession.close(state.mFilename);
-        }
-
-        closeDestination(state);
         if (state.mFilename != null && Downloads.Impl.isStatusError(finalStatus)) {
             if (Constants.LOGVV) {
                 Log.d(TAG, "cleanupDestination() deleting " + state.mFilename);
@@ -364,14 +385,6 @@ public class DownloadThread extends Thread {
         } finally {
             IoUtils.closeQuietly(downloadedFileStream);
         }
-    }
-
-    /**
-     * Close the destination output stream.
-     */
-    private void closeDestination(State state) {
-        IoUtils.closeQuietly(state.mStream);
-        state.mStream = null;
     }
 
     /**
@@ -433,37 +446,25 @@ public class DownloadThread extends Thread {
      * @param data buffer containing the data to write
      * @param bytesRead how many bytes to write from the buffer
      */
-    private void writeDataToDestination(State state, byte[] data, int bytesRead)
+    private void writeDataToDestination(State state, byte[] data, int bytesRead, OutputStream out)
             throws StopRequestException {
-        for (;;) {
+        mStorageManager.verifySpaceBeforeWritingToFile(
+                mInfo.mDestination, state.mFilename, bytesRead);
+
+        boolean forceVerified = false;
+        while (true) {
             try {
-                if (state.mStream == null) {
-                    state.mStream = new FileOutputStream(state.mFilename, true);
-                }
-                mStorageManager.verifySpaceBeforeWritingToFile(mInfo.mDestination, state.mFilename,
-                        bytesRead);
-                if (!DownloadDrmHelper.isDrmConvertNeeded(mInfo.mMimeType)) {
-                    state.mStream.write(data, 0, bytesRead);
-                } else {
-                    byte[] convertedData = mDrmConvertSession.convert(data, bytesRead);
-                    if (convertedData != null) {
-                        state.mStream.write(convertedData, 0, convertedData.length);
-                    } else {
-                        throw new StopRequestException(Downloads.Impl.STATUS_FILE_ERROR,
-                                "Error converting drm data.");
-                    }
-                }
+                out.write(data, 0, bytesRead);
                 return;
             } catch (IOException ex) {
-                // couldn't write to file. are we out of space? check.
-                // TODO this check should only be done once. why is this being done
-                // in a while(true) loop (see the enclosing statement: for(;;)
-                if (state.mStream != null) {
+                // TODO: better differentiate between DRM and disk failures
+                if (!forceVerified) {
+                    // couldn't write to file. are we out of space? check.
                     mStorageManager.verifySpace(mInfo.mDestination, state.mFilename, bytesRead);
-                }
-            } finally {
-                if (mInfo.mDestination == Downloads.Impl.DESTINATION_EXTERNAL) {
-                    closeDestination(state);
+                    forceVerified = true;
+                } else {
+                    throw new StopRequestException(Downloads.Impl.STATUS_FILE_ERROR,
+                            "Failed to write data: " + ex);
                 }
             }
         }
@@ -486,7 +487,7 @@ public class DownloadThread extends Thread {
         if (lengthMismatched) {
             if (cannotResume(state)) {
                 throw new StopRequestException(Downloads.Impl.STATUS_CANNOT_RESUME,
-                        "mismatched content length");
+                        "mismatched content length; unable to resume");
             } else {
                 throw new StopRequestException(getFinalStatusForHttpError(state),
                         "closed socket before end of file");
@@ -495,7 +496,8 @@ public class DownloadThread extends Thread {
     }
 
     private boolean cannotResume(State state) {
-        return state.mCurrentBytes > 0 && !mInfo.mNoIntegrity && state.mHeaderETag == null;
+        return (state.mCurrentBytes > 0 && !mInfo.mNoIntegrity && state.mHeaderETag == null)
+                || DownloadDrmHelper.isDrmConvertNeeded(state.mMimeType);
     }
 
     /**
@@ -513,13 +515,11 @@ public class DownloadThread extends Thread {
             values.put(Downloads.Impl.COLUMN_CURRENT_BYTES, state.mCurrentBytes);
             mContext.getContentResolver().update(mInfo.getAllDownloadsUri(), values, null, null);
             if (cannotResume(state)) {
-                String message = "while reading response: " + ex.toString()
-                + ", can't resume interrupted download with no ETag";
                 throw new StopRequestException(Downloads.Impl.STATUS_CANNOT_RESUME,
-                        message, ex);
+                        "Failed reading response: " + ex + "; unable to resume", ex);
             } else {
                 throw new StopRequestException(getFinalStatusForHttpError(state),
-                        "while reading response: " + ex.toString(), ex);
+                        "Failed reading response: " + ex, ex);
             }
         }
     }
@@ -536,13 +536,6 @@ public class DownloadThread extends Thread {
         }
 
         readResponseHeaders(state, innerState, conn);
-        if (DownloadDrmHelper.isDrmConvertNeeded(state.mMimeType)) {
-            mDrmConvertSession = DrmConvertSession.open(mContext, state.mMimeType);
-            if (mDrmConvertSession == null) {
-                throw new StopRequestException(Downloads.Impl.STATUS_NOT_ACCEPTABLE, "Mimetype "
-                        + state.mMimeType + " can not be converted.");
-            }
-        }
 
         state.mFilename = Helpers.generateSaveFile(
                 mContext,
@@ -554,15 +547,6 @@ public class DownloadThread extends Thread {
                 mInfo.mDestination,
                 innerState.mContentLength,
                 mInfo.mIsPublicApi, mStorageManager);
-        try {
-            state.mStream = new FileOutputStream(state.mFilename);
-        } catch (FileNotFoundException exc) {
-            throw new StopRequestException(Downloads.Impl.STATUS_FILE_ERROR,
-                    "while opening destination file: " + exc.toString(), exc);
-        }
-        if (Constants.LOGV) {
-            Log.v(Constants.TAG, "writing " + mInfo.mUri + " to " + state.mFilename);
-        }
 
         updateDatabaseFromHeaders(state, innerState);
         // check connectivity again now that we know the total size
@@ -757,12 +741,6 @@ public class DownloadThread extends Thread {
                         Log.i(Constants.TAG, "resuming download for id: " + mInfo.mId +
                                 ", and starting with file of length: " + fileLength);
                     }
-                    try {
-                        state.mStream = new FileOutputStream(state.mFilename, true);
-                    } catch (FileNotFoundException exc) {
-                        throw new StopRequestException(Downloads.Impl.STATUS_FILE_ERROR,
-                                "while opening destination for resuming: " + exc.toString(), exc);
-                    }
                     state.mCurrentBytes = (int) fileLength;
                     if (mInfo.mTotalBytes != -1) {
                         innerState.mContentLength = mInfo.mTotalBytes;
@@ -776,10 +754,6 @@ public class DownloadThread extends Thread {
                     }
                 }
             }
-        }
-
-        if (state.mStream != null && mInfo.mDestination == Downloads.Impl.DESTINATION_EXTERNAL) {
-            closeDestination(state);
         }
     }
 

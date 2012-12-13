@@ -72,6 +72,10 @@ public class DownloadNotifier {
                 Context.NOTIFICATION_SERVICE);
     }
 
+    public void cancelAll() {
+        mNotifManager.cancelAll();
+    }
+
     /**
      * Update {@link NotificationManager} to reflect the given set of
      * {@link DownloadInfo}, adding, collapsing, and removing as needed.

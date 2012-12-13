@@ -223,6 +223,7 @@ public class DownloadService extends Service {
         mMediaScannerConnection = new MediaScannerConnection();
 
         mNotifier = new DownloadNotifier(this);
+        mNotifier.cancelAll();
 
         mStorageManager = StorageManager.getInstance(getApplicationContext());
         updateFromProvider();

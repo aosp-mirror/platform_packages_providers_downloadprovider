@@ -649,13 +649,14 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
                 .setHeader("Location", mServer.getUrl(REDIRECTED_PATH).toString()));
         enqueueInterruptedDownloadResponses(5);
 
-        Download download = enqueueRequest(getRequest());
-        runService();
+        final Download download = enqueueRequest(getRequest());
+        download.runUntilStatus(DownloadManager.STATUS_PAUSED);
+        mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
+
         assertEquals(REQUEST_PATH, takeRequest().getPath());
         assertEquals(REDIRECTED_PATH, takeRequest().getPath());
 
-        mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);
-        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
         return takeRequest();
     }
 }

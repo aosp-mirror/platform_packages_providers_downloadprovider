@@ -40,12 +40,12 @@ import android.util.Log;
 import android.util.Pair;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.SyncFailedException;
+import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -251,9 +251,10 @@ public class DownloadThread extends Thread {
         // check just before sending the request to avoid using an invalid connection at all
         checkConnectivity();
 
+        DrmManagerClient drmClient = null;
         InputStream in = null;
         OutputStream out = null;
-        DrmManagerClient drmClient = null;
+        FileDescriptor outFd = null;
         try {
             try {
                 // Asking for response code will execute the request
@@ -264,16 +265,19 @@ public class DownloadThread extends Thread {
                 processResponseHeaders(state, innerState, conn);
             } catch (IOException e) {
                 throw new StopRequestException(
-                        Downloads.Impl.STATUS_HTTP_DATA_ERROR, "Request failed: " + e, e);
+                        getFinalStatusForHttpError(state), "Request failed: " + e, e);
             }
 
             try {
                 if (DownloadDrmHelper.isDrmConvertNeeded(state.mMimeType)) {
                     drmClient = new DrmManagerClient(mContext);
-                    out = new DrmOutputStream(
-                            drmClient, new File(state.mFilename), state.mMimeType);
+                    final RandomAccessFile file = new RandomAccessFile(
+                            new File(state.mFilename), "rw");
+                    out = new DrmOutputStream(drmClient, file, state.mMimeType);
+                    outFd = file.getFD();
                 } else {
-                    out = new FileOutputStream(state.mFilename);
+                    out = new FileOutputStream(state.mFilename, true);
+                    outFd = ((FileOutputStream) out).getFD();
                 }
             } catch (IOException e) {
                 throw new StopRequestException(
@@ -282,12 +286,29 @@ public class DownloadThread extends Thread {
 
             transferData(state, innerState, in, out);
 
+            try {
+                if (out instanceof DrmOutputStream) {
+                    ((DrmOutputStream) out).finish();
+                }
+            } catch (IOException e) {
+                throw new StopRequestException(
+                        Downloads.Impl.STATUS_FILE_ERROR, "Failed to finish: " + e, e);
+            }
+
         } finally {
             if (drmClient != null) {
                 drmClient.release();
             }
+
             IoUtils.closeQuietly(in);
-            IoUtils.closeQuietly(out);
+
+            try {
+                if (out != null) out.flush();
+                if (outFd != null) outFd.sync();
+            } catch (IOException e) {
+            } finally {
+                IoUtils.closeQuietly(out);
+            }
         }
     }
 
@@ -348,7 +369,6 @@ public class DownloadThread extends Thread {
         if (state.mFilename != null) {
             // make sure the file is readable
             FileUtils.setPermissions(state.mFilename, 0644, -1, -1);
-            syncDestination(state);
         }
     }
 
@@ -363,27 +383,6 @@ public class DownloadThread extends Thread {
             }
             new File(state.mFilename).delete();
             state.mFilename = null;
-        }
-    }
-
-    /**
-     * Sync the destination file to storage.
-     */
-    private void syncDestination(State state) {
-        FileOutputStream downloadedFileStream = null;
-        try {
-            downloadedFileStream = new FileOutputStream(state.mFilename, true);
-            downloadedFileStream.getFD().sync();
-        } catch (FileNotFoundException ex) {
-            Log.w(Constants.TAG, "file " + state.mFilename + " not found: " + ex);
-        } catch (SyncFailedException ex) {
-            Log.w(Constants.TAG, "file " + state.mFilename + " sync failed: " + ex);
-        } catch (IOException ex) {
-            Log.w(Constants.TAG, "IOException trying to sync " + state.mFilename + ": " + ex);
-        } catch (RuntimeException ex) {
-            Log.w(Constants.TAG, "exception while syncing file: ", ex);
-        } finally {
-            IoUtils.closeQuietly(downloadedFileStream);
         }
     }
 
@@ -511,6 +510,11 @@ public class DownloadThread extends Thread {
         try {
             return entityStream.read(data);
         } catch (IOException ex) {
+            // TODO: handle stream errors the same as other retries
+            if ("unexpected end of stream".equals(ex.getMessage())) {
+                return -1;
+            }
+
             ContentValues values = new ContentValues();
             values.put(Downloads.Impl.COLUMN_CURRENT_BYTES, state.mCurrentBytes);
             mContext.getContentResolver().update(mInfo.getAllDownloadsUri(), values, null, null);

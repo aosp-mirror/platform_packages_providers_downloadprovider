@@ -45,6 +45,9 @@ import java.util.List;
  * Stores information about an individual download.
  */
 public class DownloadInfo {
+    // TODO: move towards these in-memory objects being sources of truth, and
+    // periodically pushing to provider.
+
     public static class Reader {
         private ContentResolver mResolver;
         private Cursor mCursor;

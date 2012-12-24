@@ -284,6 +284,9 @@ public class Helpers {
 
     private static String chooseUniqueFilename(int destination, String filename,
             String extension, boolean recoveryDir) throws StopRequestException {
+        // TODO: switch to actually creating the file here, otherwise we expose
+        // ourselves to race conditions.
+
         String fullFilename = filename + extension;
         if (!new File(fullFilename).exists()
                 && (!recoveryDir ||

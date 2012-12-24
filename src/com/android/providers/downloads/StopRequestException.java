@@ -15,6 +15,9 @@
  */
 package com.android.providers.downloads;
 
+import static android.provider.Downloads.Impl.STATUS_UNHANDLED_HTTP_CODE;
+import static android.provider.Downloads.Impl.STATUS_UNHANDLED_REDIRECT;
+
 /**
  * Raised to indicate that the current request should be stopped immediately.
  *
@@ -23,15 +26,35 @@ package com.android.providers.downloads;
  * URI, headers, or destination filename.
  */
 class StopRequestException extends Exception {
-    public int mFinalStatus;
+    private final int mFinalStatus;
 
     public StopRequestException(int finalStatus, String message) {
         super(message);
         mFinalStatus = finalStatus;
     }
 
-    public StopRequestException(int finalStatus, String message, Throwable throwable) {
-        super(message, throwable);
+    public StopRequestException(int finalStatus, Throwable t) {
+        super(t);
         mFinalStatus = finalStatus;
+    }
+
+    public StopRequestException(int finalStatus, String message, Throwable t) {
+        super(message, t);
+        mFinalStatus = finalStatus;
+    }
+
+    public int getFinalStatus() {
+        return mFinalStatus;
+    }
+
+    public static StopRequestException throwUnhandledHttpError(int responseCode)
+            throws StopRequestException {
+        if (responseCode >= 400 && responseCode < 600) {
+            throw new StopRequestException(responseCode, "Unhandled HTTP response");
+        } else if (responseCode >= 300 && responseCode < 400) {
+            throw new StopRequestException(STATUS_UNHANDLED_REDIRECT, "Unhandled HTTP response");
+        } else {
+            throw new StopRequestException(STATUS_UNHANDLED_HTTP_CODE, "Unhandled HTTP response");
+        }
     }
 }

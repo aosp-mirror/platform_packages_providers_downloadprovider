@@ -421,7 +421,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         mManager.remove(download.mId);
 
         // make sure the row is gone from the database
-        download.waitForStatus(-1);
+        download.waitForStatus(-1, -1);
     }
 
     public void testDownloadCompleteBroadcast() throws Exception {

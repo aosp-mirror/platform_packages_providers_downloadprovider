@@ -100,21 +100,24 @@ public abstract class AbstractPublicApiTest extends AbstractDownloadProviderFunc
         }
 
         void runUntilStatus(int status) throws TimeoutException {
+            final long startMillis = mSystemFacade.currentTimeMillis();
             startService(null);
-            waitForStatus(status);
+            waitForStatus(status, startMillis);
         }
 
-        void waitForStatus(int expected) throws TimeoutException {
+        void waitForStatus(int expected, long afterMillis) throws TimeoutException {
             int actual = -1;
 
             final long timeout = SystemClock.elapsedRealtime() + (15 * SECOND_IN_MILLIS);
             while (SystemClock.elapsedRealtime() < timeout) {
-                actual = getStatus();
-                if (actual == STATUS_SUCCESSFUL || actual == STATUS_FAILED) {
-                    assertEquals(expected, actual);
-                    return;
-                } else if (actual == expected) {
-                    return;
+                if (getLongField(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP) >= afterMillis) {
+                    actual = getStatus();
+                    if (actual == STATUS_SUCCESSFUL || actual == STATUS_FAILED) {
+                        assertEquals(expected, actual);
+                        return;
+                    } else if (actual == expected) {
+                        return;
+                    }
                 }
 
                 SystemClock.sleep(100);

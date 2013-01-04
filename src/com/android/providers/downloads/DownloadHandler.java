@@ -96,28 +96,4 @@ public class DownloadHandler {
     public synchronized long getCurrentSpeed(long id) {
         return mCurrentSpeed.get(id, -1L);
     }
-
-    // right now this is only used by tests. but there is no reason why it can't be used
-    // by any module using DownloadManager (TODO add API to DownloadManager.java)
-    public synchronized void waitUntilDownloadsTerminate() throws InterruptedException {
-        if (mDownloadsInProgress.size() == 0 && mDownloadsQueue.size() == 0) {
-            if (Constants.LOGVV) {
-                Log.i(TAG, "nothing to wait on");
-            }
-            return;
-        }
-        if (Constants.LOGVV) {
-            for (DownloadInfo info : mDownloadsInProgress.values()) {
-                Log.i(TAG, "** progress: " + info.mId + ", " + info.mUri);
-            }
-            for (DownloadInfo info : mDownloadsQueue.values()) {
-                Log.i(TAG, "** in Q: " + info.mId + ", " + info.mUri);
-            }
-        }
-        if (Constants.LOGVV) {
-            Log.i(TAG, "waiting for 5 sec");
-        }
-        // wait upto 5 sec
-        wait(5 * 1000);
-    }
 }

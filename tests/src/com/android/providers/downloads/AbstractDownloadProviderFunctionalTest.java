@@ -161,6 +161,7 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
         setContext(mTestContext);
         setupService();
         getService().mSystemFacade = mSystemFacade;
+        mSystemFacade.setUp();
         assertTrue(isDatabaseEmpty()); // ensure we're not messing with real data
         mServer = new MockWebServer();
         mServer.play();
@@ -244,11 +245,6 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
 
     String getServerUri(String path) throws MalformedURLException, UnknownHostException {
         return mServer.getUrl(path).toString();
-    }
-
-    public void runService() throws Exception {
-        startService(null);
-        mSystemFacade.runAllThreads();
     }
 
     protected String readStream(InputStream inputStream) throws IOException {

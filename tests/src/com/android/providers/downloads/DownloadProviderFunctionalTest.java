@@ -16,14 +16,16 @@
 
 package com.android.providers.downloads;
 
+import static android.text.format.DateUtils.SECOND_IN_MILLIS;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.provider.Downloads;
 import android.test.suitebuilder.annotation.LargeTest;
-import android.util.Log;
 
 import com.google.mockwebserver.MockWebServer;
 import com.google.mockwebserver.RecordedRequest;
@@ -31,6 +33,7 @@ import com.google.mockwebserver.RecordedRequest;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
+import java.util.concurrent.TimeoutException;
 
 /**
  * This test exercises the entire download manager working together -- it requests downloads through
@@ -109,20 +112,22 @@ public class DownloadProviderFunctionalTest extends AbstractDownloadProviderFunc
         }
     }
 
-    private void runUntilStatus(Uri downloadUri, int status) throws Exception {
-        runService();
-        boolean done = false;
-        while (!done) {
-            int rslt = getDownloadStatus(downloadUri);
-            if (rslt == Downloads.Impl.STATUS_RUNNING || rslt == Downloads.Impl.STATUS_PENDING) {
-                Log.i(TAG, "status is: " + rslt + ", for: " + downloadUri);
-                DownloadHandler.getInstance().waitUntilDownloadsTerminate();
-                Thread.sleep(100);
-            } else {
-                done = true;
+    private void runUntilStatus(Uri downloadUri, int expected) throws Exception {
+        startService(null);
+        
+        int actual = -1;
+
+        final long timeout = SystemClock.elapsedRealtime() + (15 * SECOND_IN_MILLIS);
+        while (SystemClock.elapsedRealtime() < timeout) {
+            actual = getDownloadStatus(downloadUri);
+            if (expected == actual) {
+                return;
             }
+
+            SystemClock.sleep(100);
         }
-        assertEquals(status, getDownloadStatus(downloadUri));
+
+        throw new TimeoutException("Expected status " + expected + "; only reached " + actual);
     }
 
     protected int getDownloadStatus(Uri downloadUri) {

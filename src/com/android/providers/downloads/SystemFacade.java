@@ -61,9 +61,4 @@ interface SystemFacade {
      * Returns true if the specified UID owns the specified package name.
      */
     public boolean userOwnsPackage(int uid, String pckg) throws NameNotFoundException;
-
-    /**
-     * Start a thread.
-     */
-    public void startThread(Thread thread);
 }

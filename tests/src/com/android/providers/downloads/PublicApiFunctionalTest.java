@@ -47,7 +47,6 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.util.List;
 
-
 @LargeTest
 public class PublicApiFunctionalTest extends AbstractPublicApiTest {
     private static final String REDIRECTED_PATH = "/other_path";
@@ -76,7 +75,6 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         } else {
             mTestDirectory.mkdir();
         }
-        mSystemFacade.setStartThreadsWithoutWaiting(false);
     }
 
     @Override
@@ -412,22 +410,18 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
     }
 
     public void testCancel() throws Exception {
-        mSystemFacade.setStartThreadsWithoutWaiting(true);
         // return 'real time' from FakeSystemFacade so that DownloadThread will report progress
         mSystemFacade.setReturnActualTime(true);
         enqueueResponse(buildContinuingResponse());
         Download download = enqueueRequest(getRequest());
-        startService(null);
         // give the download time to get started and progress to 1% completion
         // before cancelling it.
         boolean rslt = download.runUntilProgress(1);
         assertTrue(rslt);
         mManager.remove(download.mId);
-        startService(null);
-        int status = download.runUntilDone();
+
         // make sure the row is gone from the database
-        assertEquals(-1, status);
-        mSystemFacade.setReturnActualTime(false);
+        download.waitForStatus(-1);
     }
 
     public void testDownloadCompleteBroadcast() throws Exception {
@@ -512,9 +506,9 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
 
     public void testContentObserver() throws Exception {
         enqueueResponse(buildEmptyResponse(HTTP_OK));
-        enqueueRequest(getRequest());
         mResolver.resetNotified();
-        runService();
+        final Download download = enqueueRequest(getRequest());
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
         assertTrue(mResolver.mNotifyWasCalled);
     }
 
@@ -524,10 +518,9 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         final Download download = enqueueRequest(
                 getRequest().setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN));
         download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
-        runService();
 
+        verify(mNotifManager, times(1)).cancelAll();
         verify(mNotifManager, never()).notify(anyString(), anyInt(), isA(Notification.class));
-        // TODO: verify that it never cancels
     }
 
     public void testNotificationVisible() throws Exception {
@@ -536,11 +529,10 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         // only shows in-progress notifications
         final Download download = enqueueRequest(getRequest());
         download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
-        runService();
 
         // TODO: verify different notif types with tags
+        verify(mNotifManager, times(1)).cancelAll();
         verify(mNotifManager, atLeastOnce()).notify(anyString(), anyInt(), isA(Notification.class));
-        verify(mNotifManager, times(1)).cancel(anyString(), anyInt());
     }
 
     public void testNotificationVisibleComplete() throws Exception {
@@ -549,11 +541,10 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         final Download download = enqueueRequest(getRequest().setNotificationVisibility(
                 DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED));
         download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
-        runService();
 
         // TODO: verify different notif types with tags
+        verify(mNotifManager, times(1)).cancelAll();
         verify(mNotifManager, atLeastOnce()).notify(anyString(), anyInt(), isA(Notification.class));
-        verify(mNotifManager, times(1)).cancel(anyString(), anyInt());
     }
 
     public void testRetryAfter() throws Exception {

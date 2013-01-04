@@ -575,9 +575,8 @@ public class DownloadInfo {
     }
 
     void startDownloadThread() {
-        DownloadThread downloader = new DownloadThread(mContext, mSystemFacade, this,
-                mStorageManager);
-        mSystemFacade.startThread(downloader);
+        // TODO: keep this thread strongly referenced
+        new DownloadThread(mContext, mSystemFacade, this, mStorageManager).start();
     }
 
     /**

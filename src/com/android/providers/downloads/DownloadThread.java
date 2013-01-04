@@ -261,10 +261,9 @@ public class DownloadThread extends Thread {
             try {
                 // Asking for response code will execute the request
                 final int statusCode = conn.getResponseCode();
-                in = conn.getInputStream();
-
                 handleExceptionalStatus(state, conn, statusCode);
                 processResponseHeaders(state, conn);
+                in = conn.getInputStream();
             } catch (IOException e) {
                 throw new StopRequestException(
                         getFinalStatusForHttpError(state), "Request failed: " + e, e);

@@ -32,10 +32,12 @@ class RealSystemFacade implements SystemFacade {
         mContext = context;
     }
 
+    @Override
     public long currentTimeMillis() {
         return System.currentTimeMillis();
     }
 
+    @Override
     public NetworkInfo getActiveNetworkInfo(int uid) {
         ConnectivityManager connectivity =
                 (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -57,6 +59,7 @@ class RealSystemFacade implements SystemFacade {
         return conn.isActiveNetworkMetered();
     }
 
+    @Override
     public boolean isNetworkRoaming() {
         ConnectivityManager connectivity =
             (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -74,6 +77,7 @@ class RealSystemFacade implements SystemFacade {
         return isRoaming;
     }
 
+    @Override
     public Long getMaxBytesOverMobile() {
         return DownloadManager.getMaxBytesOverMobile(mContext);
     }
@@ -91,10 +95,5 @@ class RealSystemFacade implements SystemFacade {
     @Override
     public boolean userOwnsPackage(int uid, String packageName) throws NameNotFoundException {
         return mContext.getPackageManager().getApplicationInfo(packageName, 0).uid == uid;
-    }
-
-    @Override
-    public void startThread(Thread thread) {
-        thread.start();
     }
 }

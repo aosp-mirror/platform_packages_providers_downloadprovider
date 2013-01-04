@@ -24,15 +24,8 @@ import android.test.suitebuilder.annotation.LargeTest;
  */
 @LargeTest
 public class ThreadingTest extends AbstractPublicApiTest {
-    private static class FakeSystemFacadeWithThreading extends FakeSystemFacade {
-        @Override
-        public void startThread(Thread thread) {
-            thread.start();
-        }
-    }
-
     public ThreadingTest() {
-        super(new FakeSystemFacadeWithThreading());
+        super(new FakeSystemFacade());
     }
 
     @Override

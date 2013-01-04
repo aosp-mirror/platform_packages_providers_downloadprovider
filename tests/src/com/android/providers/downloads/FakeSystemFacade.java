@@ -7,10 +7,7 @@ import android.net.NetworkInfo;
 import android.net.NetworkInfo.DetailedState;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
-
 public class FakeSystemFacade implements SystemFacade {
     long mTimeMillis = 0;
     Integer mActiveNetworkType = ConnectivityManager.TYPE_WIFI;
@@ -19,20 +16,32 @@ public class FakeSystemFacade implements SystemFacade {
     Long mMaxBytesOverMobile = null;
     Long mRecommendedMaxBytesOverMobile = null;
     List<Intent> mBroadcastsSent = new ArrayList<Intent>();
-    Queue<Thread> mStartedThreads = new LinkedList<Thread>();
-    private boolean returnActualTime = false;
+    private boolean mReturnActualTime = false;
+
+    public void setUp() {
+        mTimeMillis = 0;
+        mActiveNetworkType = ConnectivityManager.TYPE_WIFI;
+        mIsRoaming = false;
+        mIsMetered = false;
+        mMaxBytesOverMobile = null;
+        mRecommendedMaxBytesOverMobile = null;
+        mBroadcastsSent.clear();
+        mReturnActualTime = false;
+    }
 
     void incrementTimeMillis(long delta) {
         mTimeMillis += delta;
     }
 
+    @Override
     public long currentTimeMillis() {
-        if (returnActualTime) {
+        if (mReturnActualTime) {
             return System.currentTimeMillis();
         }
         return mTimeMillis;
     }
 
+    @Override
     public NetworkInfo getActiveNetworkInfo(int uid) {
         if (mActiveNetworkType == null) {
             return null;
@@ -48,14 +57,17 @@ public class FakeSystemFacade implements SystemFacade {
         return mIsMetered;
     }
 
+    @Override
     public boolean isNetworkRoaming() {
         return mIsRoaming;
     }
 
+    @Override
     public Long getMaxBytesOverMobile() {
         return mMaxBytesOverMobile ;
     }
 
+    @Override
     public Long getRecommendedMaxBytesOverMobile() {
         return mRecommendedMaxBytesOverMobile ;
     }
@@ -70,27 +82,7 @@ public class FakeSystemFacade implements SystemFacade {
         return true;
     }
 
-    public boolean startThreadsWithoutWaiting = false;
-    public void setStartThreadsWithoutWaiting(boolean flag) {
-        this.startThreadsWithoutWaiting = flag;
-    }
-
-    @Override
-    public void startThread(Thread thread) {
-        if (startThreadsWithoutWaiting) {
-            thread.start();
-        } else {
-            mStartedThreads.add(thread);
-        }
-    }
-
-    public void runAllThreads() {
-        while (!mStartedThreads.isEmpty()) {
-            mStartedThreads.poll().run();
-        }
-    }
-
     public void setReturnActualTime(boolean flag) {
-        returnActualTime = flag;
+        mReturnActualTime = flag;
     }
 }

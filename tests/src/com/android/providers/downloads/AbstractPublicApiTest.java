@@ -16,17 +16,22 @@
 
 package com.android.providers.downloads;
 
+import static android.app.DownloadManager.STATUS_FAILED;
+import static android.app.DownloadManager.STATUS_SUCCESSFUL;
+import static android.text.format.DateUtils.SECOND_IN_MILLIS;
+
 import android.app.DownloadManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
-import android.provider.Downloads;
+import android.os.SystemClock;
 import android.util.Log;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Code common to tests that use the download manager public API.
@@ -94,9 +99,28 @@ public abstract class AbstractPublicApiTest extends AbstractDownloadProviderFunc
             }
         }
 
-        void runUntilStatus(int status) throws Exception {
-            runService();
-            assertEquals(status, getStatus());
+        void runUntilStatus(int status) throws TimeoutException {
+            startService(null);
+            waitForStatus(status);
+        }
+
+        void waitForStatus(int expected) throws TimeoutException {
+            int actual = -1;
+
+            final long timeout = SystemClock.elapsedRealtime() + (15 * SECOND_IN_MILLIS);
+            while (SystemClock.elapsedRealtime() < timeout) {
+                actual = getStatus();
+                if (actual == STATUS_SUCCESSFUL || actual == STATUS_FAILED) {
+                    assertEquals(expected, actual);
+                    return;
+                } else if (actual == expected) {
+                    return;
+                }
+
+                SystemClock.sleep(100);
+            }
+
+            throw new TimeoutException("Expected status " + expected + "; only reached " + actual);
         }
 
         // max time to wait before giving up on the current download operation.
@@ -105,22 +129,10 @@ public abstract class AbstractPublicApiTest extends AbstractDownloadProviderFunc
         // download thread
         private static final int TIME_TO_SLEEP = 1000;
 
-        int runUntilDone() throws InterruptedException {
-            int sleepCounter = MAX_TIME_TO_WAIT_FOR_OPERATION * 1000 / TIME_TO_SLEEP;
-            for (int i = 0; i < sleepCounter; i++) {
-                int status = getStatusIfExists();
-                if (status == -1 || Downloads.Impl.isStatusCompleted(getStatus())) {
-                    // row doesn't exist or the download is done
-                    return status;
-                }
-                // download not done yet. sleep a while and try again
-                Thread.sleep(TIME_TO_SLEEP);
-            }
-            return 0; // failed
-        }
-
         // waits until progress_so_far is >= (progress)%
         boolean runUntilProgress(int progress) throws InterruptedException {
+            startService(null);
+
             int sleepCounter = MAX_TIME_TO_WAIT_FOR_OPERATION * 1000 / TIME_TO_SLEEP;
             int numBytesReceivedSoFar = 0;
             int totalBytes = 0;

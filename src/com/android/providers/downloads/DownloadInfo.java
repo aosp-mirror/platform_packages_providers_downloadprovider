@@ -54,8 +54,9 @@ public class DownloadInfo {
             mCursor = cursor;
         }
 
-        public DownloadInfo newDownloadInfo(Context context, SystemFacade systemFacade) {
-            DownloadInfo info = new DownloadInfo(context, systemFacade);
+        public DownloadInfo newDownloadInfo(Context context, SystemFacade systemFacade,
+                StorageManager storageManager) {
+            DownloadInfo info = new DownloadInfo(context, systemFacade, storageManager);
             updateFromDatabase(info);
             readRequestHeaders(info);
             return info;
@@ -229,12 +230,15 @@ public class DownloadInfo {
     public int mFuzz;
 
     private List<Pair<String, String>> mRequestHeaders = new ArrayList<Pair<String, String>>();
-    private SystemFacade mSystemFacade;
-    private Context mContext;
 
-    private DownloadInfo(Context context, SystemFacade systemFacade) {
+    private final Context mContext;
+    private final SystemFacade mSystemFacade;
+    private final StorageManager mStorageManager;
+
+    private DownloadInfo(Context context, SystemFacade systemFacade, StorageManager storageManager) {
         mContext = context;
         mSystemFacade = systemFacade;
+        mStorageManager = storageManager;
         mFuzz = Helpers.sRandom.nextInt(1001);
     }
 
@@ -572,7 +576,7 @@ public class DownloadInfo {
 
     void startDownloadThread() {
         DownloadThread downloader = new DownloadThread(mContext, mSystemFacade, this,
-                StorageManager.getInstance(mContext));
+                mStorageManager);
         mSystemFacade.startThread(downloader);
     }
 

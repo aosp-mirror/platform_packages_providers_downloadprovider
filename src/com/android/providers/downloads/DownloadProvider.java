@@ -446,7 +446,7 @@ public final class DownloadProvider extends ContentProvider {
         // saves us by getting some initialization code in DownloadService out of the way.
         Context context = getContext();
         context.startService(new Intent(context, DownloadService.class));
-        mDownloadsDataDir = StorageManager.getInstance(getContext()).getDownloadDataDirectory();
+        mDownloadsDataDir = StorageManager.getDownloadDataDirectory(getContext());
         return true;
     }
 

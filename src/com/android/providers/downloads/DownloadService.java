@@ -225,7 +225,7 @@ public class DownloadService extends Service {
         mNotifier = new DownloadNotifier(this);
         mNotifier.cancelAll();
 
-        mStorageManager = StorageManager.getInstance(getApplicationContext());
+        mStorageManager = new StorageManager(this);
         updateFromProvider();
     }
 
@@ -435,7 +435,7 @@ public class DownloadService extends Service {
      * download if appropriate.
      */
     private DownloadInfo insertDownloadLocked(DownloadInfo.Reader reader, long now) {
-        DownloadInfo info = reader.newDownloadInfo(this, mSystemFacade);
+        DownloadInfo info = reader.newDownloadInfo(this, mSystemFacade, mStorageManager);
         mDownloads.put(info.mId, info);
 
         if (Constants.LOGVV) {

@@ -306,7 +306,8 @@ public class DownloadThread extends Thread {
                     case HTTP_PRECON_FAILED:
                         // TODO: probably means our etag precondition was
                         // changed; flush and retry again
-                        StopRequestException.throwUnhandledHttpError(responseCode);
+                        StopRequestException.throwUnhandledHttpError(
+                                responseCode, conn.getResponseMessage());
 
                     case HTTP_UNAVAILABLE:
                         parseRetryAfterHeaders(state, conn);
@@ -320,7 +321,8 @@ public class DownloadThread extends Thread {
                         throw new StopRequestException(STATUS_WAITING_TO_RETRY, "Internal error");
 
                     default:
-                        StopRequestException.throwUnhandledHttpError(responseCode);
+                        StopRequestException.throwUnhandledHttpError(
+                                responseCode, conn.getResponseMessage());
                 }
             } catch (IOException e) {
                 // Trouble with low-level sockets
@@ -791,10 +793,13 @@ public class DownloadThread extends Thread {
      * Add custom headers for this download to the HTTP request.
      */
     private void addRequestHeaders(State state, HttpURLConnection conn) {
-        conn.addRequestProperty("User-Agent", userAgent());
-
         for (Pair<String, String> header : mInfo.getHeaders()) {
             conn.addRequestProperty(header.first, header.second);
+        }
+
+        // Only splice in user agent when not already defined
+        if (conn.getRequestProperty("User-Agent") == null) {
+            conn.addRequestProperty("User-Agent", userAgent());
         }
 
         if (state.mContinuingDownload) {

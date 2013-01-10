@@ -47,14 +47,15 @@ class StopRequestException extends Exception {
         return mFinalStatus;
     }
 
-    public static StopRequestException throwUnhandledHttpError(int responseCode)
+    public static StopRequestException throwUnhandledHttpError(int code, String message)
             throws StopRequestException {
-        if (responseCode >= 400 && responseCode < 600) {
-            throw new StopRequestException(responseCode, "Unhandled HTTP response");
-        } else if (responseCode >= 300 && responseCode < 400) {
-            throw new StopRequestException(STATUS_UNHANDLED_REDIRECT, "Unhandled HTTP response");
+        final String error = "Unhandled HTTP response: " + code + " " + message;
+        if (code >= 400 && code < 600) {
+            throw new StopRequestException(code, error);
+        } else if (code >= 300 && code < 400) {
+            throw new StopRequestException(STATUS_UNHANDLED_REDIRECT, error);
         } else {
-            throw new StopRequestException(STATUS_UNHANDLED_HTTP_CODE, "Unhandled HTTP response");
+            throw new StopRequestException(STATUS_UNHANDLED_HTTP_CODE, error);
         }
     }
 }

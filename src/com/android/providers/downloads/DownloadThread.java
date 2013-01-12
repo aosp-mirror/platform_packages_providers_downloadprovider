@@ -50,6 +50,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 
+import com.android.providers.downloads.DownloadInfo.NetworkState;
+
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileOutputStream;
@@ -402,18 +404,17 @@ public class DownloadThread extends Thread {
         // checking connectivity will apply current policy
         mPolicyDirty = false;
 
-        int networkUsable = mInfo.checkCanUseNetwork();
-        if (networkUsable != DownloadInfo.NETWORK_OK) {
+        final NetworkState networkUsable = mInfo.checkCanUseNetwork();
+        if (networkUsable != NetworkState.OK) {
             int status = Downloads.Impl.STATUS_WAITING_FOR_NETWORK;
-            if (networkUsable == DownloadInfo.NETWORK_UNUSABLE_DUE_TO_SIZE) {
+            if (networkUsable == NetworkState.UNUSABLE_DUE_TO_SIZE) {
                 status = Downloads.Impl.STATUS_QUEUED_FOR_WIFI;
                 mInfo.notifyPauseDueToSize(true);
-            } else if (networkUsable == DownloadInfo.NETWORK_RECOMMENDED_UNUSABLE_DUE_TO_SIZE) {
+            } else if (networkUsable == NetworkState.RECOMMENDED_UNUSABLE_DUE_TO_SIZE) {
                 status = Downloads.Impl.STATUS_QUEUED_FOR_WIFI;
                 mInfo.notifyPauseDueToSize(false);
             }
-            throw new StopRequestException(status,
-                    mInfo.getLogMessageForNetworkError(networkUsable));
+            throw new StopRequestException(status, networkUsable.name());
         }
     }
 
@@ -704,11 +705,11 @@ public class DownloadThread extends Thread {
     }
 
     private int getFinalStatusForHttpError(State state) {
-        int networkUsable = mInfo.checkCanUseNetwork();
-        if (networkUsable != DownloadInfo.NETWORK_OK) {
+        final NetworkState networkUsable = mInfo.checkCanUseNetwork();
+        if (networkUsable != NetworkState.OK) {
             switch (networkUsable) {
-                case DownloadInfo.NETWORK_UNUSABLE_DUE_TO_SIZE:
-                case DownloadInfo.NETWORK_RECOMMENDED_UNUSABLE_DUE_TO_SIZE:
+                case UNUSABLE_DUE_TO_SIZE:
+                case RECOMMENDED_UNUSABLE_DUE_TO_SIZE:
                     return Downloads.Impl.STATUS_QUEUED_FOR_WIFI;
                 default:
                     return Downloads.Impl.STATUS_WAITING_FOR_NETWORK;

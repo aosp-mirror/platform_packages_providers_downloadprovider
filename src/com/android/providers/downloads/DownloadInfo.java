@@ -150,44 +150,49 @@ public class DownloadInfo {
         }
     }
 
-    // the following NETWORK_* constants are used to indicates specfic reasons for disallowing a
-    // download from using a network, since specific causes can require special handling
-
     /**
-     * The network is usable for the given download.
+     * Constants used to indicate network state for a specific download, after
+     * applying any requested constraints.
      */
-    public static final int NETWORK_OK = 1;
+    public enum NetworkState {
+        /**
+         * The network is usable for the given download.
+         */
+        OK,
 
-    /**
-     * There is no network connectivity.
-     */
-    public static final int NETWORK_NO_CONNECTION = 2;
+        /**
+         * There is no network connectivity.
+         */
+        NO_CONNECTION,
 
-    /**
-     * The download exceeds the maximum size for this network.
-     */
-    public static final int NETWORK_UNUSABLE_DUE_TO_SIZE = 3;
+        /**
+         * The download exceeds the maximum size for this network.
+         */
+        UNUSABLE_DUE_TO_SIZE,
 
-    /**
-     * The download exceeds the recommended maximum size for this network, the user must confirm for
-     * this download to proceed without WiFi.
-     */
-    public static final int NETWORK_RECOMMENDED_UNUSABLE_DUE_TO_SIZE = 4;
+        /**
+         * The download exceeds the recommended maximum size for this network,
+         * the user must confirm for this download to proceed without WiFi.
+         */
+        RECOMMENDED_UNUSABLE_DUE_TO_SIZE,
 
-    /**
-     * The current connection is roaming, and the download can't proceed over a roaming connection.
-     */
-    public static final int NETWORK_CANNOT_USE_ROAMING = 5;
+        /**
+         * The current connection is roaming, and the download can't proceed
+         * over a roaming connection.
+         */
+        CANNOT_USE_ROAMING,
 
-    /**
-     * The app requesting the download specific that it can't use the current network connection.
-     */
-    public static final int NETWORK_TYPE_DISALLOWED_BY_REQUESTOR = 6;
+        /**
+         * The app requesting the download specific that it can't use the
+         * current network connection.
+         */
+        TYPE_DISALLOWED_BY_REQUESTOR,
 
-    /**
-     * Current network is blocked for requesting application.
-     */
-    public static final int NETWORK_BLOCKED = 7;
+        /**
+         * Current network is blocked for requesting application.
+         */
+        BLOCKED;
+    }
 
     /**
      * For intents used to notify the user that a download exceeds a size threshold, if this extra
@@ -313,7 +318,7 @@ public class DownloadInfo {
 
             case Downloads.Impl.STATUS_WAITING_FOR_NETWORK:
             case Downloads.Impl.STATUS_QUEUED_FOR_WIFI:
-                return checkCanUseNetwork() == NETWORK_OK;
+                return checkCanUseNetwork() == NetworkState.OK;
 
             case Downloads.Impl.STATUS_WAITING_TO_RETRY:
                 // download was waiting for a delayed restart
@@ -346,19 +351,19 @@ public class DownloadInfo {
      * Returns whether this download is allowed to use the network.
      * @return one of the NETWORK_* constants
      */
-    public int checkCanUseNetwork() {
+    public NetworkState checkCanUseNetwork() {
         final NetworkInfo info = mSystemFacade.getActiveNetworkInfo(mUid);
         if (info == null || !info.isConnected()) {
-            return NETWORK_NO_CONNECTION;
+            return NetworkState.NO_CONNECTION;
         }
         if (DetailedState.BLOCKED.equals(info.getDetailedState())) {
-            return NETWORK_BLOCKED;
+            return NetworkState.BLOCKED;
         }
-        if (!isRoamingAllowed() && mSystemFacade.isNetworkRoaming()) {
-            return NETWORK_CANNOT_USE_ROAMING;
+        if (mSystemFacade.isNetworkRoaming() && !isRoamingAllowed()) {
+            return NetworkState.CANNOT_USE_ROAMING;
         }
-        if (!mAllowMetered && mSystemFacade.isActiveNetworkMetered()) {
-            return NETWORK_TYPE_DISALLOWED_BY_REQUESTOR;
+        if (mSystemFacade.isActiveNetworkMetered() && !mAllowMetered) {
+            return NetworkState.TYPE_DISALLOWED_BY_REQUESTOR;
         }
         return checkIsNetworkTypeAllowed(info.getType());
     }
@@ -372,45 +377,16 @@ public class DownloadInfo {
     }
 
     /**
-     * @return a non-localized string appropriate for logging corresponding to one of the
-     * NETWORK_* constants.
-     */
-    public String getLogMessageForNetworkError(int networkError) {
-        switch (networkError) {
-            case NETWORK_RECOMMENDED_UNUSABLE_DUE_TO_SIZE:
-                return "download size exceeds recommended limit for mobile network";
-
-            case NETWORK_UNUSABLE_DUE_TO_SIZE:
-                return "download size exceeds limit for mobile network";
-
-            case NETWORK_NO_CONNECTION:
-                return "no network connection available";
-
-            case NETWORK_CANNOT_USE_ROAMING:
-                return "download cannot use the current network connection because it is roaming";
-
-            case NETWORK_TYPE_DISALLOWED_BY_REQUESTOR:
-                return "download was requested to not use the current network type";
-
-            case NETWORK_BLOCKED:
-                return "network is blocked for requesting application";
-
-            default:
-                return "unknown error with network connectivity";
-        }
-    }
-
-    /**
      * Check if this download can proceed over the given network type.
      * @param networkType a constant from ConnectivityManager.TYPE_*.
      * @return one of the NETWORK_* constants
      */
-    private int checkIsNetworkTypeAllowed(int networkType) {
+    private NetworkState checkIsNetworkTypeAllowed(int networkType) {
         if (mIsPublicApi) {
             final int flag = translateNetworkTypeToApiFlag(networkType);
             final boolean allowAllNetworkTypes = mAllowedNetworkTypes == ~0;
             if (!allowAllNetworkTypes && (flag & mAllowedNetworkTypes) == 0) {
-                return NETWORK_TYPE_DISALLOWED_BY_REQUESTOR;
+                return NetworkState.TYPE_DISALLOWED_BY_REQUESTOR;
             }
         }
         return checkSizeAllowedForNetwork(networkType);
@@ -440,25 +416,25 @@ public class DownloadInfo {
      * Check if the download's size prohibits it from running over the current network.
      * @return one of the NETWORK_* constants
      */
-    private int checkSizeAllowedForNetwork(int networkType) {
+    private NetworkState checkSizeAllowedForNetwork(int networkType) {
         if (mTotalBytes <= 0) {
-            return NETWORK_OK; // we don't know the size yet
+            return NetworkState.OK; // we don't know the size yet
         }
         if (networkType == ConnectivityManager.TYPE_WIFI) {
-            return NETWORK_OK; // anything goes over wifi
+            return NetworkState.OK; // anything goes over wifi
         }
         Long maxBytesOverMobile = mSystemFacade.getMaxBytesOverMobile();
         if (maxBytesOverMobile != null && mTotalBytes > maxBytesOverMobile) {
-            return NETWORK_UNUSABLE_DUE_TO_SIZE;
+            return NetworkState.UNUSABLE_DUE_TO_SIZE;
         }
         if (mBypassRecommendedSizeLimit == 0) {
             Long recommendedMaxBytesOverMobile = mSystemFacade.getRecommendedMaxBytesOverMobile();
             if (recommendedMaxBytesOverMobile != null
                     && mTotalBytes > recommendedMaxBytesOverMobile) {
-                return NETWORK_RECOMMENDED_UNUSABLE_DUE_TO_SIZE;
+                return NetworkState.RECOMMENDED_UNUSABLE_DUE_TO_SIZE;
             }
         }
-        return NETWORK_OK;
+        return NetworkState.OK;
     }
 
     void startIfReady(long now, StorageManager storageManager) {

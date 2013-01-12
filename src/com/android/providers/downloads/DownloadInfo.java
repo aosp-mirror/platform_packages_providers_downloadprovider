@@ -31,15 +31,18 @@ import android.os.Environment;
 import android.provider.Downloads;
 import android.provider.Downloads.Impl;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Pair;
 
+import com.android.internal.annotations.GuardedBy;
 import com.android.internal.util.IndentingPrintWriter;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 /**
  * Stores information about an individual download.
@@ -58,8 +61,9 @@ public class DownloadInfo {
         }
 
         public DownloadInfo newDownloadInfo(Context context, SystemFacade systemFacade,
-                StorageManager storageManager) {
-            DownloadInfo info = new DownloadInfo(context, systemFacade, storageManager);
+                StorageManager storageManager, DownloadNotifier notifier) {
+            final DownloadInfo info = new DownloadInfo(
+                    context, systemFacade, storageManager, notifier);
             updateFromDatabase(info);
             readRequestHeaders(info);
             return info;
@@ -200,7 +204,6 @@ public class DownloadInfo {
      */
     public static final String EXTRA_IS_WIFI_REQUIRED = "isWifiRequired";
 
-
     public long mId;
     public String mUri;
     public boolean mNoIntegrity;
@@ -239,14 +242,24 @@ public class DownloadInfo {
 
     private List<Pair<String, String>> mRequestHeaders = new ArrayList<Pair<String, String>>();
 
+    /**
+     * Result of last {@link DownloadThread} started by
+     * {@link #startIfReady(ExecutorService)}.
+     */
+    @GuardedBy("this")
+    private Future<?> mActiveTask;
+
     private final Context mContext;
     private final SystemFacade mSystemFacade;
     private final StorageManager mStorageManager;
+    private final DownloadNotifier mNotifier;
 
-    private DownloadInfo(Context context, SystemFacade systemFacade, StorageManager storageManager) {
+    private DownloadInfo(Context context, SystemFacade systemFacade, StorageManager storageManager,
+            DownloadNotifier notifier) {
         mContext = context;
         mSystemFacade = systemFacade;
         mStorageManager = storageManager;
+        mNotifier = notifier;
         mFuzz = Helpers.sRandom.nextInt(1001);
     }
 
@@ -297,14 +310,9 @@ public class DownloadInfo {
     }
 
     /**
-     * Returns whether this download (which the download manager hasn't seen yet)
-     * should be started.
+     * Returns whether this download should be enqueued.
      */
-    private boolean isReadyToStart(long now) {
-        if (DownloadHandler.getInstance().hasDownloadInQueue(mId)) {
-            // already running
-            return false;
-        }
+    private boolean isReadyToStart() {
         if (mControl == Downloads.Impl.CONTROL_PAUSED) {
             // the download is paused, so it's not going to start
             return false;
@@ -322,6 +330,7 @@ public class DownloadInfo {
 
             case Downloads.Impl.STATUS_WAITING_TO_RETRY:
                 // download was waiting for a delayed restart
+                final long now = mSystemFacade.currentTimeMillis();
                 return restartTime(now) <= now;
             case Downloads.Impl.STATUS_DEVICE_NOT_FOUND_ERROR:
                 // is the media mounted?
@@ -437,21 +446,27 @@ public class DownloadInfo {
         return NetworkState.OK;
     }
 
-    void startIfReady(long now, StorageManager storageManager) {
-        if (!isReadyToStart(now)) {
-            return;
-        }
+    /**
+     * If download is ready to start, and isn't already pending or executing,
+     * create a {@link DownloadThread} and enqueue it into given
+     * {@link Executor}.
+     */
+    public void startIfReady(ExecutorService executor) {
+        synchronized (this) {
+            final boolean isActive = mActiveTask != null && !mActiveTask.isDone();
+            if (isReadyToStart() && !isActive) {
+                if (mStatus != Impl.STATUS_RUNNING) {
+                    mStatus = Impl.STATUS_RUNNING;
+                    ContentValues values = new ContentValues();
+                    values.put(Impl.COLUMN_STATUS, mStatus);
+                    mContext.getContentResolver().update(getAllDownloadsUri(), values, null, null);
+                }
 
-        if (Constants.LOGV) {
-            Log.v(Constants.TAG, "Service spawning thread to handle download " + mId);
+                final DownloadThread task = new DownloadThread(
+                        mContext, mSystemFacade, this, mStorageManager, mNotifier);
+                mActiveTask = executor.submit(task);
+            }
         }
-        if (mStatus != Impl.STATUS_RUNNING) {
-            mStatus = Impl.STATUS_RUNNING;
-            ContentValues values = new ContentValues();
-            values.put(Impl.COLUMN_STATUS, mStatus);
-            mContext.getContentResolver().update(getAllDownloadsUri(), values, null, null);
-        }
-        DownloadHandler.getInstance().enqueueDownload(this);
     }
 
     public boolean isOnCache() {
@@ -551,11 +566,6 @@ public class DownloadInfo {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(EXTRA_IS_WIFI_REQUIRED, isWifiRequired);
         mContext.startActivity(intent);
-    }
-
-    void startDownloadThread() {
-        // TODO: keep this thread strongly referenced
-        new DownloadThread(mContext, mSystemFacade, this, mStorageManager).start();
     }
 
     /**

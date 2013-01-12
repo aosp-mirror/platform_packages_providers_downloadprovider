@@ -68,10 +68,10 @@ import libcore.io.IoUtils;
 import libcore.net.http.HttpEngine;
 
 /**
- * Thread which executes a given {@link DownloadInfo}: making network requests,
+ * Task which executes a given {@link DownloadInfo}: making network requests,
  * persisting data to disk, and updating {@link DownloadProvider}.
  */
-public class DownloadThread extends Thread {
+public class DownloadThread implements Runnable {
 
     private static final int HTTP_REQUESTED_RANGE_NOT_SATISFIABLE = 416;
     private static final int HTTP_TEMP_REDIRECT = 307;
@@ -82,15 +82,17 @@ public class DownloadThread extends Thread {
     private final DownloadInfo mInfo;
     private final SystemFacade mSystemFacade;
     private final StorageManager mStorageManager;
+    private final DownloadNotifier mNotifier;
 
     private volatile boolean mPolicyDirty;
 
     public DownloadThread(Context context, SystemFacade systemFacade, DownloadInfo info,
-            StorageManager storageManager) {
+            StorageManager storageManager, DownloadNotifier notifier) {
         mContext = context;
         mSystemFacade = systemFacade;
         mInfo = info;
         mStorageManager = storageManager;
+        mNotifier = notifier;
     }
 
     /**
@@ -151,16 +153,13 @@ public class DownloadThread extends Thread {
         }
     }
 
-    /**
-     * Executes the download in a separate thread
-     */
     @Override
     public void run() {
         Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
         try {
             runInternal();
         } finally {
-            DownloadHandler.getInstance().dequeueDownload(mInfo.mId);
+            mNotifier.notifyDownloadSpeed(mInfo.mId, 0);
         }
     }
 
@@ -526,7 +525,7 @@ public class DownloadThread extends Thread {
             state.mSpeedSampleStart = now;
             state.mSpeedSampleBytes = state.mCurrentBytes;
 
-            DownloadHandler.getInstance().setCurrentSpeed(mInfo.mId, state.mSpeed);
+            mNotifier.notifyDownloadSpeed(mInfo.mId, state.mSpeed);
         }
 
         if (state.mCurrentBytes - state.mBytesNotified > Constants.MIN_PROGRESS_STEP &&

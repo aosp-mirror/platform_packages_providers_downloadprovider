@@ -26,6 +26,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.media.IMediaScannerListener;
@@ -53,6 +54,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Performs the background downloads requested by applications that use the Downloads provider.
@@ -76,12 +81,26 @@ public class DownloadService extends Service {
     @GuardedBy("mDownloads")
     private Map<Long, DownloadInfo> mDownloads = Maps.newHashMap();
 
+    private final ExecutorService mExecutor = buildDownloadExecutor();
+
+    private static ExecutorService buildDownloadExecutor() {
+        final int maxConcurrent = Resources.getSystem().getInteger(
+                com.android.internal.R.integer.config_MaxConcurrentDownloadsAllowed);
+
+        // Create a bounded thread pool for executing downloads; it creates
+        // threads as needed (up to maximum) and reclaims them when finished.
+        final ThreadPoolExecutor executor = new ThreadPoolExecutor(
+                maxConcurrent, maxConcurrent, 10, TimeUnit.SECONDS,
+                new LinkedBlockingQueue<Runnable>());
+        executor.allowCoreThreadTimeOut(true);
+        return executor;
+    }
+
     /**
      * The thread that updates the internal download list from the content
      * provider.
      */
-    @VisibleForTesting
-    UpdateThread mUpdateThread;
+    private UpdateThread mUpdateThread;
 
     /**
      * Whether the internal download list should be updated from the content
@@ -435,14 +454,15 @@ public class DownloadService extends Service {
      * download if appropriate.
      */
     private DownloadInfo insertDownloadLocked(DownloadInfo.Reader reader, long now) {
-        DownloadInfo info = reader.newDownloadInfo(this, mSystemFacade, mStorageManager);
+        final DownloadInfo info = reader.newDownloadInfo(
+                this, mSystemFacade, mStorageManager, mNotifier);
         mDownloads.put(info.mId, info);
 
         if (Constants.LOGVV) {
             Log.v(Constants.TAG, "processing inserted download " + info.mId);
         }
 
-        info.startIfReady(now, mStorageManager);
+        info.startIfReady(mExecutor);
         return info;
     }
 
@@ -458,7 +478,7 @@ public class DownloadService extends Service {
             Log.v(Constants.TAG, "processing updated download " + info.mId +
                     ", status: " + info.mStatus);
         }
-        info.startIfReady(now, mStorageManager);
+        info.startIfReady(mExecutor);
     }
 
     /**

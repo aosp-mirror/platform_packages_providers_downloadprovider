@@ -32,6 +32,7 @@ import android.net.Uri;
 import android.provider.Downloads;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.util.LongSparseLongArray;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Maps;
@@ -66,6 +67,13 @@ public class DownloadNotifier {
     @GuardedBy("mActiveNotifs")
     private final HashMap<String, Long> mActiveNotifs = Maps.newHashMap();
 
+    /**
+     * Current speed of active downloads, mapped from {@link DownloadInfo#mId}
+     * to speed in bytes per second.
+     */
+    @GuardedBy("mDownloadSpeed")
+    private final LongSparseLongArray mDownloadSpeed = new LongSparseLongArray();
+
     public DownloadNotifier(Context context) {
         mContext = context;
         mNotifManager = (NotificationManager) context.getSystemService(
@@ -74,6 +82,20 @@ public class DownloadNotifier {
 
     public void cancelAll() {
         mNotifManager.cancelAll();
+    }
+
+    /**
+     * Notify the current speed of an active download, used for calcuating
+     * estimated remaining time.
+     */
+    public void notifyDownloadSpeed(long id, long bytesPerSecond) {
+        synchronized (mDownloadSpeed) {
+            if (bytesPerSecond != 0) {
+                mDownloadSpeed.put(id, bytesPerSecond);
+            } else {
+                mDownloadSpeed.delete(id);
+            }
+        }
     }
 
     /**
@@ -163,16 +185,16 @@ public class DownloadNotifier {
             String remainingText = null;
             String percentText = null;
             if (type == TYPE_ACTIVE) {
-                final DownloadHandler handler = DownloadHandler.getInstance();
-
                 long current = 0;
                 long total = 0;
                 long speed = 0;
-                for (DownloadInfo info : cluster) {
-                    if (info.mTotalBytes != -1) {
-                        current += info.mCurrentBytes;
-                        total += info.mTotalBytes;
-                        speed += handler.getCurrentSpeed(info.mId);
+                synchronized (mDownloadSpeed) {
+                    for (DownloadInfo info : cluster) {
+                        if (info.mTotalBytes != -1) {
+                            current += info.mCurrentBytes;
+                            total += info.mTotalBytes;
+                            speed += mDownloadSpeed.get(info.mId);
+                        }
                     }
                 }
 

@@ -75,7 +75,7 @@ public class DownloadInfo {
             info.mDestination = getInt(Downloads.Impl.COLUMN_DESTINATION);
             info.mVisibility = getInt(Downloads.Impl.COLUMN_VISIBILITY);
             info.mStatus = getInt(Downloads.Impl.COLUMN_STATUS);
-            info.mNumFailed = getInt(Constants.FAILED_CONNECTIONS);
+            info.mNumFailed = getInt(Downloads.Impl.COLUMN_FAILED_CONNECTIONS);
             int retryRedirect = getInt(Constants.RETRY_AFTER_X_REDIRECT_COUNT);
             info.mRetryAfter = retryRedirect & 0xfffffff;
             info.mLastMod = getLong(Downloads.Impl.COLUMN_LAST_MODIFICATION);

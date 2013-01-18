@@ -398,7 +398,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
 
     public void testNoContentLength() throws Exception {
         enqueueResponse(buildEmptyResponse(HTTP_OK).removeHeader("Content-length"));
-        runSimpleFailureTest(DownloadManager.ERROR_HTTP_DATA_ERROR);
+        runSimpleFailureTest(DownloadManager.ERROR_CANNOT_RESUME);
     }
 
     public void testInsufficientSpace() throws Exception {

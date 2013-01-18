@@ -48,9 +48,6 @@ public class Constants {
     /** The column that is used to remember whether the media scanner was invoked */
     public static final String MEDIA_SCANNED = "scanned";
 
-    /** The column that is used to count retries */
-    public static final String FAILED_CONNECTIONS = "numfailed";
-
     /** The intent that gets sent when the service must wake up for a retry */
     public static final String ACTION_RETRY = "android.intent.action.DOWNLOAD_WAKEUP";
 

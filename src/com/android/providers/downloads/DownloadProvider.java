@@ -384,7 +384,7 @@ public final class DownloadProvider extends ContentProvider {
                         Downloads.Impl.COLUMN_VISIBILITY + " INTEGER, " +
                         Downloads.Impl.COLUMN_CONTROL + " INTEGER, " +
                         Downloads.Impl.COLUMN_STATUS + " INTEGER, " +
-                        Constants.FAILED_CONNECTIONS + " INTEGER, " +
+                        Downloads.Impl.COLUMN_FAILED_CONNECTIONS + " INTEGER, " +
                         Downloads.Impl.COLUMN_LAST_MODIFICATION + " BIGINT, " +
                         Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE + " TEXT, " +
                         Downloads.Impl.COLUMN_NOTIFICATION_CLASS + " TEXT, " +

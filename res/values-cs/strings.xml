@@ -28,7 +28,7 @@
     <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Umožňuje aplikaci zobrazit všechny soubory stažené na kartu SD bez ohledu na aplikaci, pomocí které byly staženy."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Rezervovat místo v mezipaměti stahování"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Umožňuje aplikaci stahovat soubory do mezipaměti stahování, kterou nelze automaticky vymazat, pokud správce stahování potřebuje více místa."</string>
-    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"stahovat soubory bez upozornění"</string>
+    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"stahování souborů bez upozornění"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"Umožňuje aplikaci stahovat soubory prostřednictvím správce stahování bez oznámení uživateli."</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Přístup ke všem systémovým stahováním"</string>
     <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"Umožňuje aplikaci zobrazit a upravovat všechna stahování zahájená libovolnou aplikací v systému."</string>

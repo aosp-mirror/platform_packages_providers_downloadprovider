@@ -52,11 +52,9 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
     protected static final String LOG_TAG = "DownloadProviderFunctionalTest";
     private static final String PROVIDER_AUTHORITY = "downloads";
     protected static final long RETRY_DELAY_MILLIS = 61 * 1000;
-    protected static final String FILE_CONTENT = "hello world hello world hello world hello world";
-    protected static final int HTTP_OK = 200;
-    protected static final int HTTP_PARTIAL_CONTENT = 206;
-    protected static final int HTTP_NOT_FOUND = 404;
-    protected static final int HTTP_SERVICE_UNAVAILABLE = 503;
+
+    protected static final String
+            FILE_CONTENT = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     protected MockWebServer mServer;
     protected MockContentResolverWithNotify mResolver;

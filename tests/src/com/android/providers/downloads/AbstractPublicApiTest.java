@@ -27,7 +27,6 @@ import android.os.ParcelFileDescriptor;
 import android.os.SystemClock;
 import android.util.Log;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
@@ -47,6 +46,10 @@ public abstract class AbstractPublicApiTest extends AbstractDownloadProviderFunc
 
         public int getStatus() {
             return (int) getLongField(DownloadManager.COLUMN_STATUS);
+        }
+
+        public int getReason() {
+            return (int) getLongField(DownloadManager.COLUMN_REASON);
         }
 
         public int getStatusIfExists() {
@@ -91,7 +94,8 @@ public abstract class AbstractPublicApiTest extends AbstractDownloadProviderFunc
             ParcelFileDescriptor downloadedFile = mManager.openDownloadedFile(mId);
             assertTrue("Invalid file descriptor: " + downloadedFile,
                        downloadedFile.getFileDescriptor().valid());
-            InputStream stream = new FileInputStream(downloadedFile.getFileDescriptor());
+            final InputStream stream = new ParcelFileDescriptor.AutoCloseInputStream(
+                    downloadedFile);
             try {
                 return readStream(stream);
             } finally {

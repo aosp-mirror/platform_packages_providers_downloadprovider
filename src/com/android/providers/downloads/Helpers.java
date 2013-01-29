@@ -77,7 +77,7 @@ public class Helpers {
             String mimeType,
             int destination,
             long contentLength,
-            boolean isPublicApi, StorageManager storageManager) throws StopRequestException {
+            StorageManager storageManager) throws StopRequestException {
         if (contentLength < 0) {
             contentLength = 0;
         }

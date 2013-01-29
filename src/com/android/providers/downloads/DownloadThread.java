@@ -65,7 +65,6 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import libcore.io.IoUtils;
-import libcore.net.http.HttpEngine;
 
 /**
  * Task which executes a given {@link DownloadInfo}: making network requests,
@@ -275,9 +274,7 @@ public class DownloadThread implements Runnable {
             return;
         }
 
-        // TODO: compare mInfo.mNumFailed against Constants.MAX_RETRIES
-
-        while (state.mRedirectionCount++ < HttpEngine.MAX_REDIRECTS) {
+        while (state.mRedirectionCount++ < Constants.MAX_REDIRECTS) {
             // Open connection and follow any redirects until we have a useful
             // response with body.
             HttpURLConnection conn = null;
@@ -315,17 +312,15 @@ public class DownloadThread implements Runnable {
                     case HTTP_TEMP_REDIRECT:
                         final String location = conn.getHeaderField("Location");
                         state.mUrl = new URL(state.mUrl, location);
+                        if (responseCode == HTTP_MOVED_PERM) {
+                            // Push updated URL back to database
+                            state.mRequestUri = state.mUrl.toString();
+                        }
                         continue;
 
                     case HTTP_REQUESTED_RANGE_NOT_SATISFIABLE:
                         throw new StopRequestException(
                                 STATUS_CANNOT_RESUME, "Requested range not satisfiable");
-
-                    case HTTP_PRECON_FAILED:
-                        // TODO: probably means our etag precondition was
-                        // changed; flush and retry again
-                        StopRequestException.throwUnhandledHttpError(
-                                responseCode, conn.getResponseMessage());
 
                     case HTTP_UNAVAILABLE:
                         parseRetryAfterHeaders(state, conn);
@@ -645,7 +640,7 @@ public class DownloadThread implements Runnable {
                 state.mMimeType,
                 mInfo.mDestination,
                 state.mContentLength,
-                mInfo.mIsPublicApi, mStorageManager);
+                mStorageManager);
 
         updateDatabaseFromHeaders(state);
         // check connectivity again now that we know the total size
@@ -825,6 +820,10 @@ public class DownloadThread implements Runnable {
         values.put(Downloads.Impl.COLUMN_LAST_MODIFICATION, mSystemFacade.currentTimeMillis());
         values.put(Downloads.Impl.COLUMN_FAILED_CONNECTIONS, numFailed);
         values.put(Constants.RETRY_AFTER_X_REDIRECT_COUNT, state.mRetryAfter);
+
+        if (!TextUtils.equals(mInfo.mUri, state.mRequestUri)) {
+            values.put(Downloads.Impl.COLUMN_URI, state.mRequestUri);
+        }
 
         // save the error message. could be useful to developers.
         if (!TextUtils.isEmpty(errorMsg)) {

@@ -17,6 +17,7 @@
 package com.android.providers.downloads;
 
 import static android.text.format.DateUtils.SECOND_IN_MILLIS;
+import static java.net.HttpURLConnection.HTTP_OK;
 
 import android.content.ContentValues;
 import android.database.Cursor;

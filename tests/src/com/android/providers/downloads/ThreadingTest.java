@@ -16,6 +16,8 @@
 
 package com.android.providers.downloads;
 
+import static java.net.HttpURLConnection.HTTP_OK;
+
 import android.app.DownloadManager;
 import android.test.suitebuilder.annotation.LargeTest;
 

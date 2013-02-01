@@ -16,7 +16,7 @@
 
 package com.android.providers.downloads;
 
-import static com.google.testing.littlemock.LittleMock.mock;
+import static org.mockito.Mockito.mock;
 
 import android.app.NotificationManager;
 import android.content.ComponentName;

@@ -9,11 +9,12 @@
     <application android:process="android.process.media"
                  android:label="@string/app_label"
                  android:icon="@mipmap/ic_launcher_download"
-                 android:hardwareAccelerated="true">
+                 android:hardwareAccelerated="true"
+                 android:supportsRtl="true">
+
         <activity android:name=".DownloadList"
                   android:launchMode="singleTop"
                   android:theme="@android:style/Theme.Holo.DialogWhenLarge">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

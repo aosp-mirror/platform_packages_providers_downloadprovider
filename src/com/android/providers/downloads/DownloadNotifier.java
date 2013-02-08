@@ -19,6 +19,7 @@ package com.android.providers.downloads;
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE;
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION;
+import static android.provider.Downloads.Impl.STATUS_RUNNING;
 
 import android.app.DownloadManager;
 import android.app.Notification;
@@ -327,7 +328,7 @@ public class DownloadNotifier {
     }
 
     private static boolean isActiveAndVisible(DownloadInfo download) {
-        return Downloads.Impl.isStatusInformational(download.mStatus) &&
+        return download.mStatus == STATUS_RUNNING &&
                 (download.mVisibility == VISIBILITY_VISIBLE
                 || download.mVisibility == VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
     }

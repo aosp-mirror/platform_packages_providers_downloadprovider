@@ -16,26 +16,25 @@
 
 package com.android.providers.downloads;
 
+import static android.text.format.DateUtils.MINUTE_IN_MILLIS;
 import static com.android.providers.downloads.Constants.TAG;
 
 import android.app.AlarmManager;
+import android.app.DownloadManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.ComponentName;
-import android.content.ContentValues;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.database.Cursor;
-import android.media.IMediaScannerListener;
-import android.media.IMediaScannerService;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.IBinder;
+import android.os.Message;
 import android.os.Process;
-import android.os.RemoteException;
 import android.provider.Downloads;
 import android.text.TextUtils;
 import android.util.Log;
@@ -45,12 +44,12 @@ import com.android.internal.util.IndentingPrintWriter;
 import com.google.android.collect.Maps;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -60,11 +59,25 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Performs the background downloads requested by applications that use the Downloads provider.
+ * Performs background downloads as requested by applications that use
+ * {@link DownloadManager}. Multiple start commands can be issued at this
+ * service, and it will continue running until no downloads are being actively
+ * processed. It may schedule alarms to resume downloads in future.
+ * <p>
+ * Any database updates important enough to initiate tasks should always be
+ * delivered through {@link Context#startService(Intent)}.
  */
 public class DownloadService extends Service {
-    /** amount of time to wait to connect to MediaScannerService before timing out */
-    private static final long WAIT_TIMEOUT = 10 * 1000;
+    // TODO: migrate WakeLock from individual DownloadThreads out into
+    // DownloadReceiver to protect our entire workflow.
+
+    private static final boolean DEBUG_LIFECYCLE = true;
+
+    @VisibleForTesting
+    SystemFacade mSystemFacade;
+
+    private AlarmManager mAlarmManager;
+    private StorageManager mStorageManager;
 
     /** Observer to get notified when the content observer's data changes */
     private DownloadManagerContentObserver mObserver;
@@ -79,7 +92,7 @@ public class DownloadService extends Service {
      * content provider changes or disappears.
      */
     @GuardedBy("mDownloads")
-    private Map<Long, DownloadInfo> mDownloads = Maps.newHashMap();
+    private final Map<Long, DownloadInfo> mDownloads = Maps.newHashMap();
 
     private final ExecutorService mExecutor = buildDownloadExecutor();
 
@@ -96,115 +109,24 @@ public class DownloadService extends Service {
         return executor;
     }
 
-    /**
-     * The thread that updates the internal download list from the content
-     * provider.
-     */
-    private UpdateThread mUpdateThread;
+    private DownloadScanner mScanner;
 
-    /**
-     * Whether the internal download list should be updated from the content
-     * provider.
-     */
-    private boolean mPendingUpdate;
+    private HandlerThread mUpdateThread;
+    private Handler mUpdateHandler;
 
-    /**
-     * The ServiceConnection object that tells us when we're connected to and disconnected from
-     * the Media Scanner
-     */
-    private MediaScannerConnection mMediaScannerConnection;
-
-    private boolean mMediaScannerConnecting;
-
-    /**
-     * The IPC interface to the Media Scanner
-     */
-    private IMediaScannerService mMediaScannerService;
-
-    @VisibleForTesting
-    SystemFacade mSystemFacade;
-
-    private StorageManager mStorageManager;
+    private volatile int mLastStartId;
 
     /**
      * Receives notifications when the data in the content provider changes
      */
     private class DownloadManagerContentObserver extends ContentObserver {
-
         public DownloadManagerContentObserver() {
             super(new Handler());
         }
 
-        /**
-         * Receives notification when the data in the observed content
-         * provider changes.
-         */
         @Override
         public void onChange(final boolean selfChange) {
-            if (Constants.LOGVV) {
-                Log.v(Constants.TAG, "Service ContentObserver received notification");
-            }
-            updateFromProvider();
-        }
-
-    }
-
-    /**
-     * Gets called back when the connection to the media
-     * scanner is established or lost.
-     */
-    public class MediaScannerConnection implements ServiceConnection {
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            if (Constants.LOGVV) {
-                Log.v(Constants.TAG, "Connected to Media Scanner");
-            }
-            synchronized (DownloadService.this) {
-                try {
-                    mMediaScannerConnecting = false;
-                    mMediaScannerService = IMediaScannerService.Stub.asInterface(service);
-                    if (mMediaScannerService != null) {
-                        updateFromProvider();
-                    }
-                } finally {
-                    // notify anyone waiting on successful connection to MediaService
-                    DownloadService.this.notifyAll();
-                }
-            }
-        }
-
-        public void disconnectMediaScanner() {
-            synchronized (DownloadService.this) {
-                mMediaScannerConnecting = false;
-                if (mMediaScannerService != null) {
-                    mMediaScannerService = null;
-                    if (Constants.LOGVV) {
-                        Log.v(Constants.TAG, "Disconnecting from Media Scanner");
-                    }
-                    try {
-                        unbindService(this);
-                    } catch (IllegalArgumentException ex) {
-                        Log.w(Constants.TAG, "unbindService failed: " + ex);
-                    } finally {
-                        // notify anyone waiting on unsuccessful connection to MediaService
-                        DownloadService.this.notifyAll();
-                    }
-                }
-            }
-        }
-
-        public void onServiceDisconnected(ComponentName className) {
-            try {
-                if (Constants.LOGVV) {
-                    Log.v(Constants.TAG, "Disconnected from Media Scanner");
-                }
-            } finally {
-                synchronized (DownloadService.this) {
-                    mMediaScannerService = null;
-                    mMediaScannerConnecting = false;
-                    // notify anyone waiting on disconnect from MediaService
-                    DownloadService.this.notifyAll();
-                }
-            }
+            enqueueUpdate();
         }
     }
 
@@ -233,19 +155,21 @@ public class DownloadService extends Service {
             mSystemFacade = new RealSystemFacade(this);
         }
 
-        mObserver = new DownloadManagerContentObserver();
-        getContentResolver().registerContentObserver(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
-                true, mObserver);
+        mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        mStorageManager = new StorageManager(this);
 
-        mMediaScannerService = null;
-        mMediaScannerConnecting = false;
-        mMediaScannerConnection = new MediaScannerConnection();
+        mUpdateThread = new HandlerThread(TAG + "-UpdateThread");
+        mUpdateThread.start();
+        mUpdateHandler = new Handler(mUpdateThread.getLooper(), mUpdateCallback);
+
+        mScanner = new DownloadScanner(this);
 
         mNotifier = new DownloadNotifier(this);
         mNotifier.cancelAll();
 
-        mStorageManager = new StorageManager(this);
-        updateFromProvider();
+        mObserver = new DownloadManagerContentObserver();
+        getContentResolver().registerContentObserver(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
+                true, mObserver);
     }
 
     @Override
@@ -254,15 +178,14 @@ public class DownloadService extends Service {
         if (Constants.LOGVV) {
             Log.v(Constants.TAG, "Service onStart");
         }
-        updateFromProvider();
+        mLastStartId = startId;
+        enqueueUpdate();
         return returnValue;
     }
 
-    /**
-     * Cleans up when the service is destroyed
-     */
     @Override
     public void onDestroy() {
+        mScanner.shutdown();
         getContentResolver().unregisterContentObserver(mObserver);
         if (Constants.LOGVV) {
             Log.v(Constants.TAG, "Service onDestroy");
@@ -271,182 +194,167 @@ public class DownloadService extends Service {
     }
 
     /**
-     * Parses data from the content provider into private array
+     * Enqueue an {@link #updateLocked()} pass to occur in future.
      */
-    private void updateFromProvider() {
-        synchronized (this) {
-            mPendingUpdate = true;
-            if (mUpdateThread == null) {
-                mUpdateThread = new UpdateThread();
-                mUpdateThread.start();
-            }
-        }
+    private void enqueueUpdate() {
+        mUpdateHandler.removeMessages(MSG_UPDATE);
+        mUpdateHandler.obtainMessage(MSG_UPDATE, mLastStartId, -1).sendToTarget();
     }
 
-    private class UpdateThread extends Thread {
-        public UpdateThread() {
-            super("Download Service");
-        }
+    /**
+     * Enqueue an {@link #updateLocked()} pass to occur after delay, usually to
+     * catch any finished operations that didn't trigger an update pass.
+     */
+    private void enqueueFinalUpdate() {
+        mUpdateHandler.removeMessages(MSG_FINAL_UPDATE);
+        mUpdateHandler.sendMessageDelayed(
+                mUpdateHandler.obtainMessage(MSG_FINAL_UPDATE, mLastStartId, -1),
+                MINUTE_IN_MILLIS);
+    }
 
+    private static final int MSG_UPDATE = 1;
+    private static final int MSG_FINAL_UPDATE = 2;
+
+    private Handler.Callback mUpdateCallback = new Handler.Callback() {
         @Override
-        public void run() {
+        public boolean handleMessage(Message msg) {
             Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
-            boolean keepService = false;
-            // for each update from the database, remember which download is
-            // supposed to get restarted soonest in the future
-            long wakeUp = Long.MAX_VALUE;
-            for (;;) {
-                synchronized (DownloadService.this) {
-                    if (mUpdateThread != this) {
-                        throw new IllegalStateException(
-                                "multiple UpdateThreads in DownloadService");
-                    }
-                    if (!mPendingUpdate) {
-                        mUpdateThread = null;
-                        if (!keepService) {
-                            stopSelf();
-                        }
-                        if (wakeUp != Long.MAX_VALUE) {
-                            scheduleAlarm(wakeUp);
-                        }
-                        return;
-                    }
-                    mPendingUpdate = false;
-                }
 
-                synchronized (mDownloads) {
-                    long now = mSystemFacade.currentTimeMillis();
-                    boolean mustScan = false;
-                    keepService = false;
-                    wakeUp = Long.MAX_VALUE;
-                    Set<Long> idsNoLongerInDatabase = new HashSet<Long>(mDownloads.keySet());
+            final int startId = msg.arg1;
+            if (DEBUG_LIFECYCLE) Log.v(TAG, "Updating for startId " + startId);
 
-                    Cursor cursor = getContentResolver().query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
-                            null, null, null, null);
-                    if (cursor == null) {
-                        continue;
-                    }
-                    try {
-                        DownloadInfo.Reader reader =
-                                new DownloadInfo.Reader(getContentResolver(), cursor);
-                        int idColumn = cursor.getColumnIndexOrThrow(Downloads.Impl._ID);
-                        if (Constants.LOGVV) {
-                            Log.i(Constants.TAG, "number of rows from downloads-db: " +
-                                    cursor.getCount());
-                        }
-                        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-                            long id = cursor.getLong(idColumn);
-                            idsNoLongerInDatabase.remove(id);
-                            DownloadInfo info = mDownloads.get(id);
-                            if (info != null) {
-                                updateDownload(reader, info, now);
-                            } else {
-                                info = insertDownloadLocked(reader, now);
-                            }
+            // Since database is current source of truth, our "active" status
+            // depends on database state. We always get one final update pass
+            // once the real actions have finished and persisted their state.
 
-                            if (info.shouldScanFile() && !scanFile(info, true, false)) {
-                                mustScan = true;
-                                keepService = true;
-                            }
-                            if (info.hasCompletionNotification()) {
-                                keepService = true;
-                            }
-                            long next = info.nextAction(now);
-                            if (next == 0) {
-                                keepService = true;
-                            } else if (next > 0 && next < wakeUp) {
-                                wakeUp = next;
-                            }
-                        }
-                    } finally {
-                        cursor.close();
-                    }
+            // TODO: switch to asking real tasks to derive active state
+            // TODO: handle media scanner timeouts
 
-                    for (Long id : idsNoLongerInDatabase) {
-                        deleteDownloadLocked(id);
-                    }
+            final boolean isActive;
+            synchronized (mDownloads) {
+                isActive = updateLocked();
+            }
 
-                    // is there a need to start the DownloadService? yes, if there are rows to be
-                    // deleted.
-                    if (!mustScan) {
-                        for (DownloadInfo info : mDownloads.values()) {
-                            if (info.mDeleted && TextUtils.isEmpty(info.mMediaProviderUri)) {
-                                mustScan = true;
-                                keepService = true;
-                                break;
-                            }
-                        }
-                    }
-                    mNotifier.updateWith(mDownloads.values());
-                    if (mustScan) {
-                        bindMediaScanner();
-                    } else {
-                        mMediaScannerConnection.disconnectMediaScanner();
-                    }
+            if (msg.what == MSG_FINAL_UPDATE) {
+                Log.wtf(TAG, "Final update pass triggered, isActive=" + isActive
+                        + "; someone didn't update correctly.");
+            }
 
-                    // look for all rows with deleted flag set and delete the rows from the database
-                    // permanently
-                    for (DownloadInfo info : mDownloads.values()) {
-                        if (info.mDeleted) {
-                            // this row is to be deleted from the database. but does it have
-                            // mediaProviderUri?
-                            if (TextUtils.isEmpty(info.mMediaProviderUri)) {
-                                if (info.shouldScanFile()) {
-                                    // initiate rescan of the file to - which will populate
-                                    // mediaProviderUri column in this row
-                                    if (!scanFile(info, false, true)) {
-                                        throw new IllegalStateException("scanFile failed!");
-                                    }
-                                    continue;
-                                }
-                            } else {
-                                // yes it has mediaProviderUri column already filled in.
-                                // delete it from MediaProvider database.
-                                getContentResolver().delete(Uri.parse(info.mMediaProviderUri), null,
-                                        null);
-                            }
-                            // delete the file
-                            deleteFileIfExists(info.mFileName);
-                            // delete from the downloads db
-                            getContentResolver().delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
-                                    Downloads.Impl._ID + " = ? ",
-                                    new String[]{String.valueOf(info.mId)});
-                        }
-                    }
+            if (isActive) {
+                // Still doing useful work, keep service alive. These active
+                // tasks will trigger another update pass when they're finished.
+
+                // Enqueue delayed update pass to catch finished operations that
+                // didn't trigger an update pass; these are bugs.
+                enqueueFinalUpdate();
+
+            } else {
+                // No active tasks, and any pending update messages can be
+                // ignored, since any updates important enough to initiate tasks
+                // will always be delivered with a new startId.
+
+                if (stopSelfResult(startId)) {
+                    if (DEBUG_LIFECYCLE) Log.v(TAG, "Nothing left; stopped");
+                    mUpdateHandler.removeMessages(MSG_UPDATE);
+                    mUpdateHandler.removeMessages(MSG_FINAL_UPDATE);
                 }
             }
+
+            return true;
+        }
+    };
+
+    /**
+     * Update {@link #mDownloads} to match {@link DownloadProvider} state.
+     * Depending on current download state it may enqueue {@link DownloadThread}
+     * instances, request {@link DownloadScanner} scans, update user-visible
+     * notifications, and/or schedule future actions with {@link AlarmManager}.
+     * <p>
+     * Should only be called from {@link #mUpdateThread} as after being
+     * requested through {@link #enqueueUpdate()}.
+     *
+     * @return If there are active tasks being processed, as of the database
+     *         snapshot taken in this update.
+     */
+    private boolean updateLocked() {
+        final long now = mSystemFacade.currentTimeMillis();
+
+        boolean isActive = false;
+        long nextActionMillis = Long.MAX_VALUE;
+
+        final Set<Long> staleIds = Sets.newHashSet(mDownloads.keySet());
+
+        final ContentResolver resolver = getContentResolver();
+        final Cursor cursor = resolver.query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
+                null, null, null, null);
+        try {
+            final DownloadInfo.Reader reader = new DownloadInfo.Reader(resolver, cursor);
+            final int idColumn = cursor.getColumnIndexOrThrow(Downloads.Impl._ID);
+            while (cursor.moveToNext()) {
+                final long id = cursor.getLong(idColumn);
+                staleIds.remove(id);
+
+                DownloadInfo info = mDownloads.get(id);
+                if (info != null) {
+                    updateDownload(reader, info, now);
+                } else {
+                    info = insertDownloadLocked(reader, now);
+                }
+
+                if (info.mDeleted) {
+                    // Delete download if requested, but only after cleaning up
+                    if (!TextUtils.isEmpty(info.mMediaProviderUri)) {
+                        resolver.delete(Uri.parse(info.mMediaProviderUri), null, null);
+                    }
+
+                    deleteFileIfExists(info.mFileName);
+                    resolver.delete(info.getAllDownloadsUri(), null, null);
+
+                } else {
+                    // Kick off download task if ready
+                    final boolean activeDownload = info.startDownloadIfReady(mExecutor);
+
+                    // Kick off media scan if completed
+                    final boolean activeScan = info.startScanIfReady(mScanner);
+
+                    if (DEBUG_LIFECYCLE && (activeDownload || activeScan)) {
+                        Log.v(TAG, "Download " + info.mId + ": activeDownload=" + activeDownload
+                                + ", activeScan=" + activeScan);
+                    }
+
+                    isActive |= activeDownload;
+                    isActive |= activeScan;
+                }
+
+                // Keep track of nearest next action
+                nextActionMillis = Math.min(info.nextActionMillis(now), nextActionMillis);
+            }
+        } finally {
+            cursor.close();
         }
 
-        private void bindMediaScanner() {
-            if (!mMediaScannerConnecting) {
-                Intent intent = new Intent();
-                intent.setClassName("com.android.providers.media",
-                        "com.android.providers.media.MediaScannerService");
-                mMediaScannerConnecting = true;
-                bindService(intent, mMediaScannerConnection, BIND_AUTO_CREATE);
-            }
+        // Clean up stale downloads that disappeared
+        for (Long id : staleIds) {
+            deleteDownloadLocked(id);
         }
 
-        private void scheduleAlarm(long wakeUp) {
-            AlarmManager alarms = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            if (alarms == null) {
-                Log.e(Constants.TAG, "couldn't get alarm manager");
-                return;
-            }
+        // Update notifications visible to user
+        mNotifier.updateWith(mDownloads.values());
 
+        // Set alarm when next action is in future. It's okay if the service
+        // continues to run in meantime, since it will kick off an update pass.
+        if (nextActionMillis > 0 && nextActionMillis < Long.MAX_VALUE) {
             if (Constants.LOGV) {
-                Log.v(Constants.TAG, "scheduling retry in " + wakeUp + "ms");
+                Log.v(TAG, "scheduling start in " + nextActionMillis + "ms");
             }
 
-            Intent intent = new Intent(Constants.ACTION_RETRY);
-            intent.setClassName("com.android.providers.downloads",
-                    DownloadReceiver.class.getName());
-            alarms.set(
-                    AlarmManager.RTC_WAKEUP,
-                    mSystemFacade.currentTimeMillis() + wakeUp,
-                    PendingIntent.getBroadcast(DownloadService.this, 0, intent,
-                            PendingIntent.FLAG_ONE_SHOT));
+            final Intent intent = new Intent(Constants.ACTION_RETRY);
+            intent.setClass(this, DownloadReceiver.class);
+            mAlarmManager.set(AlarmManager.RTC_WAKEUP, now + nextActionMillis,
+                    PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_ONE_SHOT));
         }
+
+        return isActive;
     }
 
     /**
@@ -462,7 +370,6 @@ public class DownloadService extends Service {
             Log.v(Constants.TAG, "processing inserted download " + info.mId);
         }
 
-        info.startIfReady(mExecutor);
         return info;
     }
 
@@ -470,15 +377,11 @@ public class DownloadService extends Service {
      * Updates the local copy of the info about a download.
      */
     private void updateDownload(DownloadInfo.Reader reader, DownloadInfo info, long now) {
-        int oldVisibility = info.mVisibility;
-        int oldStatus = info.mStatus;
-
         reader.updateFromDatabase(info);
         if (Constants.LOGVV) {
             Log.v(Constants.TAG, "processing updated download " + info.mId +
                     ", status: " + info.mStatus);
         }
-        info.startIfReady(mExecutor);
     }
 
     /**
@@ -493,88 +396,20 @@ public class DownloadService extends Service {
             if (Constants.LOGVV) {
                 Log.d(TAG, "deleteDownloadLocked() deleting " + info.mFileName);
             }
-            new File(info.mFileName).delete();
+            deleteFileIfExists(info.mFileName);
         }
         mDownloads.remove(info.mId);
     }
 
-    /**
-     * Attempts to scan the file if necessary.
-     * @return true if the file has been properly scanned.
-     */
-    private boolean scanFile(DownloadInfo info, final boolean updateDatabase,
-            final boolean deleteFile) {
-        synchronized (this) {
-            if (mMediaScannerService == null) {
-                // not bound to mediaservice. but if in the process of connecting to it, wait until
-                // connection is resolved
-                while (mMediaScannerConnecting) {
-                    Log.d(Constants.TAG, "waiting for mMediaScannerService service: ");
-                    try {
-                        this.wait(WAIT_TIMEOUT);
-                    } catch (InterruptedException e1) {
-                        throw new IllegalStateException("wait interrupted");
-                    }
-                }
-            }
-            // do we have mediaservice?
-            if (mMediaScannerService == null) {
-                // no available MediaService And not even in the process of connecting to it
-                return false;
-            }
-            if (Constants.LOGV) {
-                Log.v(Constants.TAG, "Scanning file " + info.mFileName);
-            }
-            try {
-                final Uri key = info.getAllDownloadsUri();
-                final long id = info.mId;
-                mMediaScannerService.requestScanFile(info.mFileName, info.mMimeType,
-                        new IMediaScannerListener.Stub() {
-                            public void scanCompleted(String path, Uri uri) {
-                                if (updateDatabase) {
-                                    // Mark this as 'scanned' in the database
-                                    // so that it is NOT subject to re-scanning by MediaScanner
-                                    // next time this database row row is encountered
-                                    ContentValues values = new ContentValues();
-                                    values.put(Constants.MEDIA_SCANNED, 1);
-                                    if (uri != null) {
-                                        values.put(Downloads.Impl.COLUMN_MEDIAPROVIDER_URI,
-                                                uri.toString());
-                                    }
-                                    getContentResolver().update(key, values, null, null);
-                                } else if (deleteFile) {
-                                    if (uri != null) {
-                                        // use the Uri returned to delete it from the MediaProvider
-                                        getContentResolver().delete(uri, null, null);
-                                    }
-                                    // delete the file and delete its row from the downloads db
-                                    deleteFileIfExists(path);
-                                    getContentResolver().delete(
-                                            Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
-                                            Downloads.Impl._ID + " = ? ",
-                                            new String[]{String.valueOf(id)});
-                                }
-                            }
-                        });
-                return true;
-            } catch (RemoteException e) {
-                Log.w(Constants.TAG, "Failed to scan file " + info.mFileName);
-                return false;
-            }
-        }
-    }
-
     private void deleteFileIfExists(String path) {
-        try {
-            if (!TextUtils.isEmpty(path)) {
-                if (Constants.LOGVV) {
-                    Log.d(TAG, "deleteFileIfExists() deleting " + path);
-                }
-                File file = new File(path);
-                file.delete();
+        if (!TextUtils.isEmpty(path)) {
+            if (Constants.LOGVV) {
+                Log.d(TAG, "deleteFileIfExists() deleting " + path);
             }
-        } catch (Exception e) {
-            Log.w(Constants.TAG, "file: '" + path + "' couldn't be deleted", e);
+            final File file = new File(path);
+            if (file.exists() && !file.delete()) {
+                Log.w(TAG, "file: '" + path + "' couldn't be deleted");
+            }
         }
     }
 

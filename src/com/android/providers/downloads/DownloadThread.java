@@ -20,7 +20,9 @@ import static android.provider.Downloads.Impl.STATUS_BAD_REQUEST;
 import static android.provider.Downloads.Impl.STATUS_CANNOT_RESUME;
 import static android.provider.Downloads.Impl.STATUS_FILE_ERROR;
 import static android.provider.Downloads.Impl.STATUS_HTTP_DATA_ERROR;
+import static android.provider.Downloads.Impl.STATUS_QUEUED_FOR_WIFI;
 import static android.provider.Downloads.Impl.STATUS_TOO_MANY_REDIRECTS;
+import static android.provider.Downloads.Impl.STATUS_WAITING_FOR_NETWORK;
 import static android.provider.Downloads.Impl.STATUS_WAITING_TO_RETRY;
 import static android.text.format.DateUtils.MINUTE_IN_MILLIS;
 import static com.android.providers.downloads.Constants.TAG;
@@ -29,7 +31,6 @@ import static java.net.HttpURLConnection.HTTP_MOVED_PERM;
 import static java.net.HttpURLConnection.HTTP_MOVED_TEMP;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static java.net.HttpURLConnection.HTTP_PARTIAL;
-import static java.net.HttpURLConnection.HTTP_PRECON_FAILED;
 import static java.net.HttpURLConnection.HTTP_SEE_OTHER;
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 
@@ -218,11 +219,13 @@ public class DownloadThread implements Runnable {
             }
             finalStatus = error.getFinalStatus();
 
+            // Nobody below our level should request retries, since we handle
+            // failure counts at this level.
             if (finalStatus == STATUS_WAITING_TO_RETRY) {
                 throw new IllegalStateException("Execution should always throw final error codes");
             }
 
-            // Some errors should be retryable later, unless we fail too many times.
+            // Some errors should be retryable, unless we fail too many times.
             if (isStatusRetryable(finalStatus)) {
                 if (state.mGotData) {
                     numFailed = 1;
@@ -231,7 +234,7 @@ public class DownloadThread implements Runnable {
                 }
 
                 if (numFailed < Constants.MAX_RETRIES) {
-                    finalStatus = STATUS_WAITING_TO_RETRY;
+                    finalStatus = getFinalRetryStatus();
                 }
             }
 
@@ -424,6 +427,21 @@ public class DownloadThread implements Runnable {
                 mInfo.notifyPauseDueToSize(false);
             }
             throw new StopRequestException(status, networkUsable.name());
+        }
+    }
+
+    /**
+     * Return retry status appropriate for current network conditions.
+     */
+    private int getFinalRetryStatus() {
+        switch (mInfo.checkCanUseNetwork()) {
+            case OK:
+                return STATUS_WAITING_TO_RETRY;
+            case UNUSABLE_DUE_TO_SIZE:
+            case RECOMMENDED_UNUSABLE_DUE_TO_SIZE:
+                return STATUS_QUEUED_FOR_WIFI;
+            default:
+                return STATUS_WAITING_FOR_NETWORK;
         }
     }
 
@@ -805,10 +823,10 @@ public class DownloadThread implements Runnable {
      */
     private void notifyDownloadCompleted(
             State state, int finalStatus, String errorMsg, int numFailed) {
-        notifyThroughDatabase(state, finalStatus, errorMsg, numFailed);
         if (Downloads.Impl.isStatusCompleted(finalStatus)) {
             mInfo.sendIntentIfRequested();
         }
+        notifyThroughDatabase(state, finalStatus, errorMsg, numFailed);
     }
 
     private void notifyThroughDatabase(

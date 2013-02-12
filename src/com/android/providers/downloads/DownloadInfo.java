@@ -244,10 +244,10 @@ public class DownloadInfo {
 
     /**
      * Result of last {@link DownloadThread} started by
-     * {@link #startIfReady(ExecutorService)}.
+     * {@link #startDownloadIfReady(ExecutorService)}.
      */
     @GuardedBy("this")
-    private Future<?> mActiveTask;
+    private Future<?> mActiveDownload;
 
     private final Context mContext;
     private final SystemFacade mSystemFacade;
@@ -312,7 +312,7 @@ public class DownloadInfo {
     /**
      * Returns whether this download should be enqueued.
      */
-    private boolean isReadyToStart() {
+    private boolean isReadyToDownload() {
         if (mControl == Downloads.Impl.CONTROL_PAUSED) {
             // the download is paused, so it's not going to start
             return false;
@@ -450,11 +450,14 @@ public class DownloadInfo {
      * If download is ready to start, and isn't already pending or executing,
      * create a {@link DownloadThread} and enqueue it into given
      * {@link Executor}.
+     *
+     * @return If actively downloading.
      */
-    public void startIfReady(ExecutorService executor) {
+    public boolean startDownloadIfReady(ExecutorService executor) {
         synchronized (this) {
-            final boolean isActive = mActiveTask != null && !mActiveTask.isDone();
-            if (isReadyToStart() && !isActive) {
+            final boolean isReady = isReadyToDownload();
+            final boolean isActive = mActiveDownload != null && !mActiveDownload.isDone();
+            if (isReady && !isActive) {
                 if (mStatus != Impl.STATUS_RUNNING) {
                     mStatus = Impl.STATUS_RUNNING;
                     ContentValues values = new ContentValues();
@@ -464,8 +467,25 @@ public class DownloadInfo {
 
                 final DownloadThread task = new DownloadThread(
                         mContext, mSystemFacade, this, mStorageManager, mNotifier);
-                mActiveTask = executor.submit(task);
+                mActiveDownload = executor.submit(task);
             }
+            return isReady;
+        }
+    }
+
+    /**
+     * If download is ready to be scanned, enqueue it into the given
+     * {@link DownloadScanner}.
+     *
+     * @return If actively scanning.
+     */
+    public boolean startScanIfReady(DownloadScanner scanner) {
+        synchronized (this) {
+            final boolean isReady = shouldScanFile();
+            if (isReady) {
+                scanner.requestScan(this);
+            }
+            return isReady;
         }
     }
 
@@ -527,15 +547,15 @@ public class DownloadInfo {
     }
 
     /**
-     * Returns the amount of time (as measured from the "now" parameter)
-     * at which a download will be active.
-     * 0 = immediately - service should stick around to handle this download.
-     * -1 = never - service can go away without ever waking up.
-     * positive value - service must wake up in the future, as specified in ms from "now"
+     * Return time when this download will be ready for its next action, in
+     * milliseconds after given time.
+     *
+     * @return If {@code 0}, download is ready to proceed immediately. If
+     *         {@link Long#MAX_VALUE}, then download has no future actions.
      */
-    long nextAction(long now) {
+    public long nextActionMillis(long now) {
         if (Downloads.Impl.isStatusCompleted(mStatus)) {
-            return -1;
+            return Long.MAX_VALUE;
         }
         if (mStatus != Downloads.Impl.STATUS_WAITING_TO_RETRY) {
             return 0;
@@ -550,7 +570,7 @@ public class DownloadInfo {
     /**
      * Returns whether a file should be scanned
      */
-    boolean shouldScanFile() {
+    public boolean shouldScanFile() {
         return (mMediaScanned == 0)
                 && (mDestination == Downloads.Impl.DESTINATION_EXTERNAL ||
                         mDestination == Downloads.Impl.DESTINATION_FILE_URI ||

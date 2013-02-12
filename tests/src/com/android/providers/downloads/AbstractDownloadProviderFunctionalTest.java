@@ -56,6 +56,8 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
     protected static final String
             FILE_CONTENT = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+    private final MockitoHelper mMockitoHelper = new MockitoHelper();
+
     protected MockWebServer mServer;
     protected MockContentResolverWithNotify mResolver;
     protected TestContext mTestContext;
@@ -147,6 +149,7 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        mMockitoHelper.setUp(getClass());
 
         // Since we're testing a system app, AppDataDirGuesser doesn't find our
         // cache dir, so set it explicitly.
@@ -169,6 +172,7 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
     protected void tearDown() throws Exception {
         cleanUpDownloads();
         mServer.shutdown();
+        mMockitoHelper.tearDown();
         super.tearDown();
     }
 

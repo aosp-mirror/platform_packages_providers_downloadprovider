@@ -823,10 +823,10 @@ public class DownloadThread implements Runnable {
      */
     private void notifyDownloadCompleted(
             State state, int finalStatus, String errorMsg, int numFailed) {
+        notifyThroughDatabase(state, finalStatus, errorMsg, numFailed);
         if (Downloads.Impl.isStatusCompleted(finalStatus)) {
             mInfo.sendIntentIfRequested();
         }
-        notifyThroughDatabase(state, finalStatus, errorMsg, numFailed);
     }
 
     private void notifyThroughDatabase(

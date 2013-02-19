@@ -329,14 +329,6 @@ public class Helpers {
     }
 
     /**
-     * Returns whether the network is available
-     */
-    public static boolean isNetworkAvailable(SystemFacade system, int uid) {
-        final NetworkInfo info = system.getActiveNetworkInfo(uid);
-        return info != null && info.isConnected();
-    }
-
-    /**
      * Checks whether the filename looks legitimate
      */
     static boolean isFilenameValid(String filename, File downloadsDataDir) {

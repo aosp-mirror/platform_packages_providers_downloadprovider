@@ -358,7 +358,6 @@ public class DownloadInfo {
 
     /**
      * Returns whether this download is allowed to use the network.
-     * @return one of the NETWORK_* constants
      */
     public NetworkState checkCanUseNetwork() {
         final NetworkInfo info = mSystemFacade.getActiveNetworkInfo(mUid);

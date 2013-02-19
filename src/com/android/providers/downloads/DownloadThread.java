@@ -20,7 +20,6 @@ import static android.provider.Downloads.Impl.STATUS_BAD_REQUEST;
 import static android.provider.Downloads.Impl.STATUS_CANNOT_RESUME;
 import static android.provider.Downloads.Impl.STATUS_FILE_ERROR;
 import static android.provider.Downloads.Impl.STATUS_HTTP_DATA_ERROR;
-import static android.provider.Downloads.Impl.STATUS_QUEUED_FOR_WIFI;
 import static android.provider.Downloads.Impl.STATUS_TOO_MANY_REDIRECTS;
 import static android.provider.Downloads.Impl.STATUS_WAITING_FOR_NETWORK;
 import static android.provider.Downloads.Impl.STATUS_WAITING_TO_RETRY;
@@ -39,7 +38,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.drm.DrmManagerClient;
 import android.drm.DrmOutputStream;
+import android.net.ConnectivityManager;
 import android.net.INetworkPolicyListener;
+import android.net.NetworkInfo;
 import android.net.NetworkPolicyManager;
 import android.net.TrafficStats;
 import android.os.FileUtils;
@@ -72,6 +73,9 @@ import libcore.io.IoUtils;
  * persisting data to disk, and updating {@link DownloadProvider}.
  */
 public class DownloadThread implements Runnable {
+
+    // TODO: bind each download to a specific network interface to avoid state
+    // checking races once we have ConnectivityManager API
 
     private static final int HTTP_REQUESTED_RANGE_NOT_SATISFIABLE = 416;
     private static final int HTTP_TEMP_REDIRECT = 307;
@@ -121,6 +125,7 @@ public class DownloadThread implements Runnable {
         public boolean mContinuingDownload = false;
         public long mBytesNotified = 0;
         public long mTimeLastNotification = 0;
+        public int mNetworkType = ConnectivityManager.TYPE_NONE;
 
         /** Historical bytes/second speed of this download. */
         public long mSpeed;
@@ -190,6 +195,13 @@ public class DownloadThread implements Runnable {
 
             Log.i(Constants.TAG, "Initiating download " + mInfo.mId);
 
+            // Remember which network this download started on; used to
+            // determine if errors were due to network changes.
+            final NetworkInfo info = mSystemFacade.getActiveNetworkInfo(mInfo.mUid);
+            if (info != null) {
+                state.mNetworkType = info.getType();
+            }
+
             // Network traffic on this thread should be counted against the
             // requesting UID, and is tagged with well-known value.
             TrafficStats.setThreadStatsTag(TrafficStats.TAG_SYSTEM_DOWNLOAD);
@@ -234,7 +246,15 @@ public class DownloadThread implements Runnable {
                 }
 
                 if (numFailed < Constants.MAX_RETRIES) {
-                    finalStatus = getFinalRetryStatus();
+                    final NetworkInfo info = mSystemFacade.getActiveNetworkInfo(mInfo.mUid);
+                    if (info != null && info.getType() == state.mNetworkType
+                            && info.isConnected()) {
+                        // Underlying network is still intact, use normal backoff
+                        finalStatus = STATUS_WAITING_TO_RETRY;
+                    } else {
+                        // Network changed, retry on any next available
+                        finalStatus = STATUS_WAITING_FOR_NETWORK;
+                    }
                 }
             }
 
@@ -427,21 +447,6 @@ public class DownloadThread implements Runnable {
                 mInfo.notifyPauseDueToSize(false);
             }
             throw new StopRequestException(status, networkUsable.name());
-        }
-    }
-
-    /**
-     * Return retry status appropriate for current network conditions.
-     */
-    private int getFinalRetryStatus() {
-        switch (mInfo.checkCanUseNetwork()) {
-            case OK:
-                return STATUS_WAITING_TO_RETRY;
-            case UNUSABLE_DUE_TO_SIZE:
-            case RECOMMENDED_UNUSABLE_DUE_TO_SIZE:
-                return STATUS_QUEUED_FOR_WIFI;
-            default:
-                return STATUS_WAITING_FOR_NETWORK;
         }
     }
 

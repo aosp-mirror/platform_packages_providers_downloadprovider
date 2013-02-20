@@ -540,10 +540,13 @@ public class DownloadThread implements Runnable {
                 state.mSpeed = ((state.mSpeed * 3) + sampleSpeed) / 4;
             }
 
+            // Only notify once we have a full sample window
+            if (state.mSpeedSampleStart != 0) {
+                mNotifier.notifyDownloadSpeed(mInfo.mId, state.mSpeed);
+            }
+
             state.mSpeedSampleStart = now;
             state.mSpeedSampleBytes = state.mCurrentBytes;
-
-            mNotifier.notifyDownloadSpeed(mInfo.mId, state.mSpeed);
         }
 
         if (state.mCurrentBytes - state.mBytesNotified > Constants.MIN_PROGRESS_STEP &&

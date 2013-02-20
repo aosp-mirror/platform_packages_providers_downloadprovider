@@ -185,6 +185,7 @@ public class DownloadService extends Service {
 
     @Override
     public void onDestroy() {
+        mUpdateThread.quit();
         mScanner.shutdown();
         getContentResolver().unregisterContentObserver(mObserver);
         if (Constants.LOGVV) {

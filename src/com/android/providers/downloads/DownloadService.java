@@ -158,11 +158,9 @@ public class DownloadService extends Service {
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         mStorageManager = new StorageManager(this);
 
-        if (mUpdateThread == null) {
-            mUpdateThread = new HandlerThread(TAG + "-UpdateThread");
-            mUpdateThread.start();
-            mUpdateHandler = new Handler(mUpdateThread.getLooper(), mUpdateCallback);
-        }
+        mUpdateThread = new HandlerThread(TAG + "-UpdateThread");
+        mUpdateThread.start();
+        mUpdateHandler = new Handler(mUpdateThread.getLooper(), mUpdateCallback);
 
         mScanner = new DownloadScanner(this);
 
@@ -187,8 +185,9 @@ public class DownloadService extends Service {
 
     @Override
     public void onDestroy() {
-        mScanner.shutdown();
         getContentResolver().unregisterContentObserver(mObserver);
+        mScanner.shutdown();
+        mUpdateThread.quit();
         if (Constants.LOGVV) {
             Log.v(Constants.TAG, "Service onDestroy");
         }
@@ -257,8 +256,7 @@ public class DownloadService extends Service {
 
                 if (stopSelfResult(startId)) {
                     if (DEBUG_LIFECYCLE) Log.v(TAG, "Nothing left; stopped");
-                    mUpdateHandler.removeMessages(MSG_UPDATE);
-                    mUpdateHandler.removeMessages(MSG_FINAL_UPDATE);
+                    mUpdateThread.quit();
                 }
             }
 

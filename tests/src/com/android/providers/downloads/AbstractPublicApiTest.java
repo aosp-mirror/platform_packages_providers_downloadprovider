@@ -18,6 +18,7 @@ package com.android.providers.downloads;
 
 import static android.app.DownloadManager.STATUS_FAILED;
 import static android.app.DownloadManager.STATUS_SUCCESSFUL;
+import static android.text.format.DateUtils.MINUTE_IN_MILLIS;
 import static android.text.format.DateUtils.SECOND_IN_MILLIS;
 
 import android.app.DownloadManager;
@@ -109,11 +110,21 @@ public abstract class AbstractPublicApiTest extends AbstractDownloadProviderFunc
             waitForStatus(status, startMillis);
         }
 
+        void runUntilStatus(int status, long timeout) throws TimeoutException {
+            final long startMillis = mSystemFacade.currentTimeMillis();
+            startService(null);
+            waitForStatus(status, startMillis, timeout);
+        }
+
         void waitForStatus(int expected, long afterMillis) throws TimeoutException {
+            waitForStatus(expected, afterMillis, 15 * SECOND_IN_MILLIS);
+        }
+
+        void waitForStatus(int expected, long afterMillis, long timeout) throws TimeoutException {
             int actual = -1;
 
-            final long timeout = SystemClock.elapsedRealtime() + (15 * SECOND_IN_MILLIS);
-            while (SystemClock.elapsedRealtime() < timeout) {
+            final long elapsedTimeout = SystemClock.elapsedRealtime() + timeout;
+            while (SystemClock.elapsedRealtime() < elapsedTimeout) {
                 if (getLongField(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP) >= afterMillis) {
                     actual = getStatus();
                     if (actual == STATUS_SUCCESSFUL || actual == STATUS_FAILED) {
@@ -122,9 +133,20 @@ public abstract class AbstractPublicApiTest extends AbstractDownloadProviderFunc
                     } else if (actual == expected) {
                         return;
                     }
+
+                    if (timeout > MINUTE_IN_MILLIS) {
+                        final int percent = (int) (100
+                                * getLongField(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR)
+                                / getLongField(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+                        Log.d(LOG_TAG, percent + "% complete");
+                    }
                 }
 
-                SystemClock.sleep(100);
+                if (timeout > MINUTE_IN_MILLIS) {
+                    SystemClock.sleep(SECOND_IN_MILLIS * 3);
+                } else {
+                    SystemClock.sleep(100);
+                }
             }
 
             throw new TimeoutException("Expected status " + expected + "; only reached " + actual);

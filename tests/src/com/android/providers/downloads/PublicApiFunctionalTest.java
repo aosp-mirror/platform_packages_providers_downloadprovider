@@ -18,6 +18,7 @@ package com.android.providers.downloads;
 
 import static android.app.DownloadManager.STATUS_FAILED;
 import static android.app.DownloadManager.STATUS_PAUSED;
+import static android.net.TrafficStats.GB_IN_BYTES;
 import static android.text.format.DateUtils.SECOND_IN_MILLIS;
 import static java.net.HttpURLConnection.HTTP_MOVED_TEMP;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
@@ -45,9 +46,12 @@ import android.os.Environment;
 import android.os.SystemClock;
 import android.provider.Downloads;
 import android.test.suitebuilder.annotation.LargeTest;
+import android.test.suitebuilder.annotation.Suppress;
+import android.text.format.DateUtils;
 
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.RecordedRequest;
+import com.google.mockwebserver.SocketPolicy;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -128,6 +132,24 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
                      download.getLongField(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP));
 
         checkCompleteDownload(download);
+    }
+
+    @Suppress
+    public void testExtremelyLarge() throws Exception {
+        // NOTE: suppressed since this takes several minutes to run
+        final long length = 3 * GB_IN_BYTES;
+        final InputStream body = new FakeInputStream(length);
+
+        enqueueResponse(new MockResponse().setResponseCode(HTTP_OK).setBody(body, length)
+                .setHeader("Content-type", "text/plain")
+                .setSocketPolicy(SocketPolicy.DISCONNECT_AT_END));
+
+        final Download download = enqueueRequest(getRequest()
+                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "extreme.bin"));
+        download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL, 10 * DateUtils.MINUTE_IN_MILLIS);
+
+        assertEquals(length, download.getLongField(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+        assertEquals(length, download.getLongField(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
     }
 
     private void checkUriContent(Uri uri) throws FileNotFoundException, IOException {

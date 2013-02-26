@@ -16,7 +16,7 @@
 
 package com.android.providers.downloads;
 
-import static android.text.format.DateUtils.MINUTE_IN_MILLIS;
+import static android.text.format.DateUtils.SECOND_IN_MILLIS;
 import static com.android.providers.downloads.Constants.TAG;
 
 import android.app.AlarmManager;
@@ -210,7 +210,7 @@ public class DownloadService extends Service {
         mUpdateHandler.removeMessages(MSG_FINAL_UPDATE);
         mUpdateHandler.sendMessageDelayed(
                 mUpdateHandler.obtainMessage(MSG_FINAL_UPDATE, mLastStartId, -1),
-                MINUTE_IN_MILLIS);
+                90 * SECOND_IN_MILLIS);
     }
 
     private static final int MSG_UPDATE = 1;

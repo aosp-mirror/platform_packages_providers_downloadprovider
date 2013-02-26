@@ -23,7 +23,7 @@ import static android.provider.Downloads.Impl.STATUS_HTTP_DATA_ERROR;
 import static android.provider.Downloads.Impl.STATUS_TOO_MANY_REDIRECTS;
 import static android.provider.Downloads.Impl.STATUS_WAITING_FOR_NETWORK;
 import static android.provider.Downloads.Impl.STATUS_WAITING_TO_RETRY;
-import static android.text.format.DateUtils.MINUTE_IN_MILLIS;
+import static android.text.format.DateUtils.SECOND_IN_MILLIS;
 import static com.android.providers.downloads.Constants.TAG;
 import static java.net.HttpURLConnection.HTTP_INTERNAL_ERROR;
 import static java.net.HttpURLConnection.HTTP_MOVED_PERM;
@@ -80,7 +80,7 @@ public class DownloadThread implements Runnable {
     private static final int HTTP_REQUESTED_RANGE_NOT_SATISFIABLE = 416;
     private static final int HTTP_TEMP_REDIRECT = 307;
 
-    private static final int DEFAULT_TIMEOUT = (int) MINUTE_IN_MILLIS;
+    private static final int DEFAULT_TIMEOUT = (int) (20 * SECOND_IN_MILLIS);
 
     private final Context mContext;
     private final DownloadInfo mInfo;

@@ -17,10 +17,6 @@
 package com.android.providers.downloads;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.SystemClock;
@@ -29,6 +25,7 @@ import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -43,6 +40,8 @@ public class Helpers {
     /** Regex used to parse content-disposition headers */
     private static final Pattern CONTENT_DISPOSITION_PATTERN =
             Pattern.compile("attachment;\\s*filename\\s*=\\s*\"([^\"]*)\"");
+
+    private static final Object sUniqueLock = new Object();
 
     private Helpers() {
     }
@@ -92,10 +91,10 @@ public class Helpers {
                                              destination);
         }
         storageManager.verifySpace(destination, path, contentLength);
-        path = getFullPath(path, mimeType, destination, base);
         if (DownloadDrmHelper.isDrmConvertNeeded(mimeType)) {
             path = DownloadDrmHelper.modifyDrmFwLockFileExtension(path);
         }
+        path = getFullPath(path, mimeType, destination, base);
         return path;
     }
 
@@ -132,7 +131,21 @@ public class Helpers {
         if (Constants.LOGVV) {
             Log.v(Constants.TAG, "target file: " + filename + extension);
         }
-        return chooseUniqueFilename(destination, filename, extension, recoveryDir);
+
+        synchronized (sUniqueLock) {
+            final String path = chooseUniqueFilenameLocked(
+                    destination, filename, extension, recoveryDir);
+
+            // Claim this filename inside lock to prevent other threads from
+            // clobbering us. We're not paranoid enough to use O_EXCL.
+            try {
+                new File(path).createNewFile();
+            } catch (IOException e) {
+                throw new StopRequestException(Downloads.Impl.STATUS_FILE_ERROR,
+                        "Failed to create target file " + path, e);
+            }
+            return path;
+        }
     }
 
     private static String chooseFilename(String url, String hint, String contentDisposition,
@@ -282,11 +295,8 @@ public class Helpers {
         return extension;
     }
 
-    private static String chooseUniqueFilename(int destination, String filename,
+    private static String chooseUniqueFilenameLocked(int destination, String filename,
             String extension, boolean recoveryDir) throws StopRequestException {
-        // TODO: switch to actually creating the file here, otherwise we expose
-        // ourselves to race conditions.
-
         String fullFilename = filename + extension;
         if (!new File(fullFilename).exists()
                 && (!recoveryDir ||

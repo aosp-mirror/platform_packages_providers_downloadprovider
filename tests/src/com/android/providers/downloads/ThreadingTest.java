@@ -20,6 +20,15 @@ import static java.net.HttpURLConnection.HTTP_OK;
 
 import android.app.DownloadManager;
 import android.test.suitebuilder.annotation.LargeTest;
+import android.util.Pair;
+
+import com.google.android.collect.Lists;
+import com.google.android.collect.Sets;
+import com.google.mockwebserver.MockResponse;
+import com.google.mockwebserver.SocketPolicy;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * Download manager tests that require multithreading.
@@ -46,6 +55,43 @@ public class ThreadingTest extends AbstractPublicApiTest {
         while (download.getStatus() != DownloadManager.STATUS_SUCCESSFUL) {
             startService(null);
             Thread.sleep(10);
+        }
+    }
+
+    public void testFilenameRace() throws Exception {
+        final List<Pair<Download, String>> downloads = Lists.newArrayList();
+
+        // Request dozen files at once with same name
+        for (int i = 0; i < 12; i++) {
+            final String body = "DOWNLOAD " + i + " CONTENTS";
+            enqueueResponse(new MockResponse().setResponseCode(HTTP_OK).setBody(body)
+                    .setHeader("Content-type", "text/plain")
+                    .setSocketPolicy(SocketPolicy.DISCONNECT_AT_END));
+
+            final Download d = enqueueRequest(getRequest());
+            downloads.add(Pair.create(d, body));
+        }
+
+        // Kick off downloads in parallel
+        final long startMillis = mSystemFacade.currentTimeMillis();
+        startService(null);
+
+        for (Pair<Download,String> d : downloads) {
+            d.first.waitForStatus(DownloadManager.STATUS_SUCCESSFUL, startMillis);
+        }
+
+        // Ensure that contents are clean and filenames unique
+        final Set<String> seenFiles = Sets.newHashSet();
+
+        for (Pair<Download, String> d : downloads) {
+            final String file = d.first.getStringField(DownloadManager.COLUMN_LOCAL_FILENAME);
+            if (!seenFiles.add(file)) {
+                fail("Another download already claimed " + file);
+            }
+
+            final String expected = d.second;
+            final String actual = d.first.getContents();
+            assertEquals(expected, actual);
         }
     }
 }

@@ -514,7 +514,7 @@ public class DownloadThread extends Thread {
         mContext.getContentResolver().update(mInfo.getAllDownloadsUri(), values, null, null);
 
         boolean lengthMismatched = (innerState.mHeaderContentLength != null)
-                && (state.mCurrentBytes != Integer.parseInt(innerState.mHeaderContentLength));
+                && (state.mCurrentBytes != Long.parseLong(innerState.mHeaderContentLength));
         if (lengthMismatched) {
             if (cannotResume(state)) {
                 throw new StopRequestException(Downloads.Impl.STATUS_CANNOT_RESUME,

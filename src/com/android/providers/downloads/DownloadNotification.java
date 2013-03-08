@@ -192,8 +192,13 @@ class DownloadNotification {
             if (hasPausedText) {
                 builder.setContentText(item.mPausedText);
             } else {
-                builder.setProgress(
-                        (int) item.mTotalTotal, (int) item.mTotalCurrent, item.mTotalTotal == -1);
+                long max = item.mTotalTotal;
+                long progress = item.mTotalCurrent;
+                while(max > Integer.MAX_VALUE) {
+                    max = max / 1024;
+                    progress = progress / 1024;
+                }
+                builder.setProgress((int) max, (int) progress, item.mTotalTotal == -1);
                 if (hasContentText) {
                     builder.setContentInfo(
                             buildPercentageLabel(mContext, item.mTotalTotal, item.mTotalCurrent));

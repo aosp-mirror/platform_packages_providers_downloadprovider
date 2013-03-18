@@ -39,7 +39,7 @@
     <string name="dialog_media_not_found" msgid="4468088418758018765">"Nu se poate descărca. Nu este disponibil un mediu de stocare extern."</string>
     <string name="download_no_application_title" msgid="7024782176657362251">"Fişierul nu poate fi deschis"</string>
     <string name="remove_download" msgid="6372920256257247857">"Eliminaţi"</string>
-    <string name="delete_download" msgid="76629022653866471">"Ştergeţi"</string>
+    <string name="delete_download" msgid="76629022653866471">"Ștergeţi"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"Păstraţi"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Anulaţi"</string>
     <string name="retry_download" msgid="7617100787922717912">"Reîncercaţi"</string>

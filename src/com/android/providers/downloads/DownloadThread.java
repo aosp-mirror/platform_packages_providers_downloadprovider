@@ -818,6 +818,10 @@ public class DownloadThread implements Runnable {
             conn.addRequestProperty("User-Agent", userAgent());
         }
 
+        // Defeat transparent gzip compression, since it doesn't allow us to
+        // easily resume partial downloads.
+        conn.setRequestProperty("Accept-Encoding", "identity");
+
         if (state.mContinuingDownload) {
             if (state.mHeaderETag != null) {
                 conn.addRequestProperty("If-Match", state.mHeaderETag);

@@ -78,7 +78,8 @@
 
     <TextView
         android:id="@+id/status_text"
-        android:layout_marginLeft="8dip"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:layout_marginStart="8dip"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textAlignment="viewStart" />
 
 </com.android.providers.downloads.ui.DownloadItem>

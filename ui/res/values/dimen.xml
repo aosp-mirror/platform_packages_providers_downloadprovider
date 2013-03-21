@@ -15,5 +15,5 @@
 -->
 
 <resources>
-    <dimen name="checkmark_area">40dip</dimen>
+    <dimen name="checkmark_area">48dip</dimen>
 </resources>

@@ -30,16 +30,16 @@
                  android:layout_weight="1">
 
         <ExpandableListView android:id="@+id/date_ordered_list"
-                            android:paddingLeft="16dip"
-                            android:paddingRight="16dip"
+                            android:paddingStart="16dip"
+                            android:paddingEnd="16dip"
                             android:paddingBottom="16dip"
                             android:clipToPadding="false"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scrollbarStyle="outsideOverlay" />
         <ListView android:id="@+id/size_ordered_list"
-                  android:paddingLeft="16dip"
-                  android:paddingRight="16dip"
+                  android:paddingStart="16dip"
+                  android:paddingEnd="16dip"
                   android:paddingBottom="16dip"
                   android:clipToPadding="false"
                   android:layout_width="match_parent"

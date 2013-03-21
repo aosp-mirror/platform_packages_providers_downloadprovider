@@ -273,7 +273,7 @@ public class DateSortedExpandableListAdapter implements ExpandableListAdapter {
         TextView item;
         if (null == convertView || !(convertView instanceof TextView)) {
             LayoutInflater factory = LayoutInflater.from(mContext);
-            item = (TextView) factory.inflate(R.layout.list_group_header, null);
+            item = (TextView) factory.inflate(R.layout.list_group_header, parent, false);
         } else {
             item = (TextView) convertView;
         }

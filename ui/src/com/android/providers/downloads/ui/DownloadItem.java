@@ -18,12 +18,11 @@ package com.android.providers.downloads.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.accessibility.AccessibilityEvent;
 import android.view.MotionEvent;
+import android.view.accessibility.AccessibilityEvent;
 import android.widget.CheckBox;
 import android.widget.Checkable;
 import android.widget.GridLayout;
-import android.widget.RelativeLayout;
 
 /**
  * This class customizes RelativeLayout to directly handle clicks on the left part of the view and
@@ -83,12 +82,20 @@ public class DownloadItem extends GridLayout implements Checkable {
         mDownloadList = downloadList;
     }
 
+    private boolean inCheckArea(MotionEvent event) {
+        if (isLayoutRtl()) {
+            return event.getX() > getWidth() - CHECKMARK_AREA;
+        } else {
+            return event.getX() < CHECKMARK_AREA;
+        }
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         boolean handled = false;
         switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if (event.getX() < CHECKMARK_AREA) {
+                if (inCheckArea(event)) {
                     mIsInDownEvent = true;
                     handled = true;
                 }
@@ -99,7 +106,7 @@ public class DownloadItem extends GridLayout implements Checkable {
                 break;
 
             case MotionEvent.ACTION_UP:
-                if (mIsInDownEvent && event.getX() < CHECKMARK_AREA) {
+                if (mIsInDownEvent && inCheckArea(event)) {
                     toggle();
                     sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);
                     handled = true;

@@ -34,6 +34,7 @@ import android.test.mock.MockContentResolver;
 import android.util.Log;
 
 import com.google.mockwebserver.MockResponse;
+import com.google.mockwebserver.MockStreamResponse;
 import com.google.mockwebserver.MockWebServer;
 import com.google.mockwebserver.RecordedRequest;
 import com.google.mockwebserver.SocketPolicy;
@@ -217,6 +218,10 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
     }
 
     void enqueueResponse(MockResponse resp) {
+        mServer.enqueue(resp);
+    }
+
+    void enqueueResponse(MockStreamResponse resp) {
         mServer.enqueue(resp);
     }
 

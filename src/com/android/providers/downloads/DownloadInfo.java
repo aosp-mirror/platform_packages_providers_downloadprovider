@@ -247,7 +247,10 @@ public class DownloadInfo {
      * {@link #startDownloadIfReady(ExecutorService)}.
      */
     @GuardedBy("this")
-    private Future<?> mActiveDownload;
+    private Future<?> mSubmittedTask;
+
+    @GuardedBy("this")
+    private DownloadThread mTask;
 
     private final Context mContext;
     private final SystemFacade mSystemFacade;
@@ -455,7 +458,7 @@ public class DownloadInfo {
     public boolean startDownloadIfReady(ExecutorService executor) {
         synchronized (this) {
             final boolean isReady = isReadyToDownload();
-            final boolean isActive = mActiveDownload != null && !mActiveDownload.isDone();
+            final boolean isActive = mSubmittedTask != null && !mSubmittedTask.isDone();
             if (isReady && !isActive) {
                 if (mStatus != Impl.STATUS_RUNNING) {
                     mStatus = Impl.STATUS_RUNNING;
@@ -464,9 +467,9 @@ public class DownloadInfo {
                     mContext.getContentResolver().update(getAllDownloadsUri(), values, null, null);
                 }
 
-                final DownloadThread task = new DownloadThread(
+                mTask = new DownloadThread(
                         mContext, mSystemFacade, this, mStorageManager, mNotifier);
-                mActiveDownload = executor.submit(task);
+                mSubmittedTask = executor.submit(mTask);
             }
             return isReady;
         }

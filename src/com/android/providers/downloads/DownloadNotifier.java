@@ -20,6 +20,7 @@ import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE;
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION;
 import static android.provider.Downloads.Impl.STATUS_RUNNING;
+import static com.android.providers.downloads.Constants.TAG;
 
 import android.app.DownloadManager;
 import android.app.Notification;
@@ -30,9 +31,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
+import android.os.SystemClock;
 import android.provider.Downloads;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.util.LongSparseLongArray;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -75,6 +78,13 @@ public class DownloadNotifier {
     @GuardedBy("mDownloadSpeed")
     private final LongSparseLongArray mDownloadSpeed = new LongSparseLongArray();
 
+    /**
+     * Last time speed was reproted, mapped from {@link DownloadInfo#mId} to
+     * {@link SystemClock#elapsedRealtime()}.
+     */
+    @GuardedBy("mDownloadSpeed")
+    private final LongSparseLongArray mDownloadTouch = new LongSparseLongArray();
+
     public DownloadNotifier(Context context) {
         mContext = context;
         mNotifManager = (NotificationManager) context.getSystemService(
@@ -86,15 +96,17 @@ public class DownloadNotifier {
     }
 
     /**
-     * Notify the current speed of an active download, used for calcuating
+     * Notify the current speed of an active download, used for calculating
      * estimated remaining time.
      */
     public void notifyDownloadSpeed(long id, long bytesPerSecond) {
         synchronized (mDownloadSpeed) {
             if (bytesPerSecond != 0) {
                 mDownloadSpeed.put(id, bytesPerSecond);
+                mDownloadTouch.put(id, SystemClock.elapsedRealtime());
             } else {
                 mDownloadSpeed.delete(id);
+                mDownloadTouch.delete(id);
             }
         }
     }
@@ -300,6 +312,17 @@ public class DownloadNotifier {
             ids[i++] = info.mId;
         }
         return ids;
+    }
+
+    public void dumpSpeeds() {
+        synchronized (mDownloadSpeed) {
+            for (int i = 0; i < mDownloadSpeed.size(); i++) {
+                final long id = mDownloadSpeed.keyAt(i);
+                final long delta = SystemClock.elapsedRealtime() - mDownloadTouch.get(id);
+                Log.d(TAG, "Download " + id + " speed " + mDownloadSpeed.valueAt(i) + "bps, "
+                        + delta + "ms ago");
+            }
+        }
     }
 
     /**

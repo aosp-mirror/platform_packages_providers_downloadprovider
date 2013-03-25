@@ -49,6 +49,7 @@ import com.google.common.collect.Sets;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -71,7 +72,7 @@ public class DownloadService extends Service {
     // TODO: migrate WakeLock from individual DownloadThreads out into
     // DownloadReceiver to protect our entire workflow.
 
-    private static final boolean DEBUG_LIFECYCLE = true;
+    private static final boolean DEBUG_LIFECYCLE = false;
 
     @VisibleForTesting
     SystemFacade mSystemFacade;
@@ -237,6 +238,17 @@ public class DownloadService extends Service {
             }
 
             if (msg.what == MSG_FINAL_UPDATE) {
+                // Dump thread stacks belonging to pool
+                for (Map.Entry<Thread, StackTraceElement[]> entry :
+                        Thread.getAllStackTraces().entrySet()) {
+                    if (entry.getKey().getName().startsWith("pool")) {
+                        Log.d(TAG, entry.getKey() + ": " + Arrays.toString(entry.getValue()));
+                    }
+                }
+
+                // Dump speed and update details
+                mNotifier.dumpSpeeds();
+
                 Log.wtf(TAG, "Final update pass triggered, isActive=" + isActive
                         + "; someone didn't update correctly.");
             }

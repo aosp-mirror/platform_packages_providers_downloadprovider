@@ -189,6 +189,7 @@ public class DownloadService extends Service {
         getContentResolver().unregisterContentObserver(mObserver);
         mScanner.shutdown();
         mUpdateThread.quit();
+        mUpdateThread = null;
         if (Constants.LOGVV) {
             Log.v(Constants.TAG, "Service onDestroy");
         }
@@ -199,8 +200,10 @@ public class DownloadService extends Service {
      * Enqueue an {@link #updateLocked()} pass to occur in future.
      */
     private void enqueueUpdate() {
-        mUpdateHandler.removeMessages(MSG_UPDATE);
-        mUpdateHandler.obtainMessage(MSG_UPDATE, mLastStartId, -1).sendToTarget();
+        if (mUpdateThread != null) {
+            mUpdateHandler.removeMessages(MSG_UPDATE);
+            mUpdateHandler.obtainMessage(MSG_UPDATE, mLastStartId, -1).sendToTarget();
+        }
     }
 
     /**
@@ -208,10 +211,12 @@ public class DownloadService extends Service {
      * catch any finished operations that didn't trigger an update pass.
      */
     private void enqueueFinalUpdate() {
-        mUpdateHandler.removeMessages(MSG_FINAL_UPDATE);
-        mUpdateHandler.sendMessageDelayed(
-                mUpdateHandler.obtainMessage(MSG_FINAL_UPDATE, mLastStartId, -1),
-                5 * MINUTE_IN_MILLIS);
+        if (mUpdateThread != null) {
+            mUpdateHandler.removeMessages(MSG_FINAL_UPDATE);
+            mUpdateHandler.sendMessageDelayed(
+                    mUpdateHandler.obtainMessage(MSG_FINAL_UPDATE, mLastStartId, -1),
+                    5 * MINUTE_IN_MILLIS);
+        }
     }
 
     private static final int MSG_UPDATE = 1;
@@ -269,6 +274,7 @@ public class DownloadService extends Service {
                 if (stopSelfResult(startId)) {
                     if (DEBUG_LIFECYCLE) Log.v(TAG, "Nothing left; stopped");
                     mUpdateThread.quit();
+                    mUpdateThread = null;
                 }
             }
 

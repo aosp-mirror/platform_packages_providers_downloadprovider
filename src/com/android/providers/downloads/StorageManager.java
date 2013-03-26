@@ -358,7 +358,7 @@ class StorageManager {
      * This is not a very common occurrence. So, do this only once in a while.
      */
     private void removeSpuriousFiles() {
-        if (true || Constants.LOGV) {
+        if (Constants.LOGV) {
             Log.i(Constants.TAG, "in removeSpuriousFiles");
         }
         // get a list of all files in system cache dir and downloads data dir

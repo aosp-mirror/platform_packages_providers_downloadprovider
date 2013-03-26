@@ -193,7 +193,7 @@ public class DownloadThread implements Runnable {
             // while performing download, register for rules updates
             netPolicy.registerListener(mPolicyListener);
 
-            Log.i(Constants.TAG, "Initiating download " + mInfo.mId);
+            Log.i(Constants.TAG, "Download " + mInfo.mId + " starting");
 
             // Remember which network this download started on; used to
             // determine if errors were due to network changes.
@@ -216,9 +216,6 @@ public class DownloadThread implements Runnable {
 
             executeDownload(state);
 
-            if (Constants.LOGV) {
-                Log.v(Constants.TAG, "download completed for " + mInfo.mUri);
-            }
             finalizeDestinationFile(state);
             finalStatus = Downloads.Impl.STATUS_SUCCESS;
         } catch (StopRequestException error) {
@@ -271,6 +268,9 @@ public class DownloadThread implements Runnable {
 
             cleanupDestination(state, finalStatus);
             notifyDownloadCompleted(state, finalStatus, errorMsg, numFailed);
+
+            Log.i(Constants.TAG, "Download " + mInfo.mId + " finished with status "
+                    + Downloads.Impl.statusToString(finalStatus));
 
             netPolicy.unregisterListener(mPolicyListener);
 

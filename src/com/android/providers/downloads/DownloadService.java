@@ -268,6 +268,8 @@ public class DownloadService extends Service {
 
                 if (stopSelfResult(startId)) {
                     if (DEBUG_LIFECYCLE) Log.v(TAG, "Nothing left; stopped");
+                    getContentResolver().unregisterContentObserver(mObserver);
+                    mScanner.shutdown();
                     mUpdateThread.quit();
                 }
             }

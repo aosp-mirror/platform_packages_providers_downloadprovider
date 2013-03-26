@@ -165,7 +165,8 @@ public class DownloadNotifier {
                         null, mContext, DownloadReceiver.class);
                 intent.putExtra(DownloadManager.EXTRA_NOTIFICATION_CLICK_DOWNLOAD_IDS,
                         getDownloadIds(cluster));
-                builder.setContentIntent(PendingIntent.getBroadcast(mContext, 0, intent, 0));
+                builder.setContentIntent(PendingIntent.getBroadcast(
+                        mContext, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT));
                 builder.setOngoing(true);
 
             } else if (type == TYPE_COMPLETE) {
@@ -187,7 +188,8 @@ public class DownloadNotifier {
                 final Intent intent = new Intent(action, uri, mContext, DownloadReceiver.class);
                 intent.putExtra(DownloadManager.EXTRA_NOTIFICATION_CLICK_DOWNLOAD_IDS,
                         getDownloadIds(cluster));
-                builder.setContentIntent(PendingIntent.getBroadcast(mContext, 0, intent, 0));
+                builder.setContentIntent(PendingIntent.getBroadcast(
+                        mContext, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT));
 
                 final Intent hideIntent = new Intent(Constants.ACTION_HIDE,
                         uri, mContext, DownloadReceiver.class);

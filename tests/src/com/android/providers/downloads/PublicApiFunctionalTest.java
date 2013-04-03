@@ -50,7 +50,6 @@ import android.test.suitebuilder.annotation.Suppress;
 import android.text.format.DateUtils;
 
 import com.google.mockwebserver.MockResponse;
-import com.google.mockwebserver.MockStreamResponse;
 import com.google.mockwebserver.RecordedRequest;
 import com.google.mockwebserver.SocketPolicy;
 
@@ -141,7 +140,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         final long length = 3 * GB_IN_BYTES;
         final InputStream body = new FakeInputStream(length);
 
-        enqueueResponse(new MockStreamResponse().setResponseCode(HTTP_OK).setBody(body, length)
+        enqueueResponse(new MockResponse().setResponseCode(HTTP_OK).setBody(body, length)
                 .setHeader("Content-type", "text/plain")
                 .setSocketPolicy(SocketPolicy.DISCONNECT_AT_END));
 

@@ -126,11 +126,14 @@ public class DownloadNotifier {
 
             // Build action intents
             if (type == TYPE_ACTIVE || type == TYPE_WAITING) {
+                // build a synthetic uri for intent identification purposes
+                final Uri uri = new Uri.Builder().scheme("active-dl").appendPath(tag).build();
                 final Intent intent = new Intent(Constants.ACTION_LIST,
-                        null, mContext, DownloadReceiver.class);
+                        uri, mContext, DownloadReceiver.class);
                 intent.putExtra(DownloadManager.EXTRA_NOTIFICATION_CLICK_DOWNLOAD_IDS,
                         getDownloadIds(cluster));
-                builder.setContentIntent(PendingIntent.getBroadcast(mContext, 0, intent, 0));
+                builder.setContentIntent(PendingIntent.getBroadcast(mContext,
+                        0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
                 builder.setOngoing(true);
 
             } else if (type == TYPE_COMPLETE) {
@@ -152,7 +155,8 @@ public class DownloadNotifier {
                 final Intent intent = new Intent(action, uri, mContext, DownloadReceiver.class);
                 intent.putExtra(DownloadManager.EXTRA_NOTIFICATION_CLICK_DOWNLOAD_IDS,
                         getDownloadIds(cluster));
-                builder.setContentIntent(PendingIntent.getBroadcast(mContext, 0, intent, 0));
+                builder.setContentIntent(PendingIntent.getBroadcast(mContext,
+                        0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
 
                 final Intent hideIntent = new Intent(Constants.ACTION_HIDE,
                         uri, mContext, DownloadReceiver.class);

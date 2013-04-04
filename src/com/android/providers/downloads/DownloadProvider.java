@@ -37,6 +37,7 @@ import android.os.Binder;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.os.Process;
+import android.os.SELinux;
 import android.provider.BaseColumns;
 import android.provider.Downloads;
 import android.provider.OpenableColumns;
@@ -441,8 +442,7 @@ public final class DownloadProvider extends ContentProvider {
             appInfo = getContext().getPackageManager().
                     getApplicationInfo("com.android.defcontainer", 0);
         } catch (NameNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Log.wtf(Constants.TAG, "Could not get ApplicationInfo for com.android.defconatiner", e);
         }
         if (appInfo != null) {
             mDefContainerUid = appInfo.uid;
@@ -452,6 +452,11 @@ public final class DownloadProvider extends ContentProvider {
         Context context = getContext();
         context.startService(new Intent(context, DownloadService.class));
         mDownloadsDataDir = StorageManager.getDownloadDataDirectory(getContext());
+        try {
+            SELinux.restorecon(mDownloadsDataDir.getCanonicalPath());
+        } catch (IOException e) {
+            Log.wtf(Constants.TAG, "Could not get canonical path for download directory", e);
+        }
         return true;
     }
 

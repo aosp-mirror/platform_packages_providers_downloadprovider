@@ -36,7 +36,7 @@
     <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"ማውረድመጨረስ  አይችልም። በውጪ ማህደረ መረጃ ማከማቻ ላይ በቂ ቦታ የለም።"</string>
     <string name="dialog_cannot_resume" msgid="8664509751358983543">"አውርድ ተስተጓጉሏል። መቀጠል አልተቻለም፡፡"</string>
     <string name="dialog_file_already_exists" msgid="8308563940663449590">"ማውረድ አይችልም። መድረሻ ፋይል አስቀድሞ አለ።"</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"ማውረድ አይችልም። የውጪ ማህደረመረጃ የለም።"</string>
+    <string name="dialog_media_not_found" msgid="4468088418758018765">"ማውረድ አይችልም። የውጪ  ማህደረ መረጃ  የለም።"</string>
     <string name="download_no_application_title" msgid="7024782176657362251">"ፋይል መክፈት አይቻልም"</string>
     <string name="remove_download" msgid="6372920256257247857">"አስወግድ"</string>
     <string name="delete_download" msgid="76629022653866471">"ሰርዝ"</string>

@@ -431,8 +431,10 @@ public class DownloadList extends Activity {
 
         if (mDateSortedCursor == null || mDateSortedCursor.getCount() == 0) {
             mEmptyView.setVisibility(View.VISIBLE);
+            mSortOption.setVisibility(View.GONE);
         } else {
             mEmptyView.setVisibility(View.GONE);
+            mSortOption.setVisibility(View.VISIBLE);
             ListView lv = activeListView();
             lv.setVisibility(View.VISIBLE);
             lv.invalidateViews(); // ensure checkboxes get updated

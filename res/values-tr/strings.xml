@@ -28,7 +28,7 @@
     <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Uygulamaya, indiren uygulamadan bağımsız olarak, SD karta yapılan tüm indirme işlemlerini görme izni verir."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"İndirme önbelleğinde alan ayır"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Uygulamaya, dosyaları indirme önbelleğine indirme izni verir. İndirme önbelleği indirme yöneticisine daha fazla alan gerektiğinde otomatik olarak silinemez."</string>
-    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"dosyaları bildirimde bulunmadan indir"</string>
+    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"dosyaları bildirimde bulunmadan indirme"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"Uygulamaya, kullanıcıya herhangi bir bildirim göstermeden, dosyaları indirme yöneticisi ile indirme izni verir."</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Tüm sistem indirmelerine erişim"</string>
     <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"Uygulamaya, sistemdeki herhangi bir uygulama tarafından başlatılan tüm indirme işlemlerini görüntüleme ve değiştirme izni verir."</string>

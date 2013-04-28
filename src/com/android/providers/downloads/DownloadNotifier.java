@@ -175,6 +175,7 @@ public class DownloadNotifier {
                 final DownloadInfo info = cluster.iterator().next();
                 final Uri uri = ContentUris.withAppendedId(
                         Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, info.mId);
+                builder.setAutoCancel(true);
 
                 final String action;
                 if (Downloads.Impl.isStatusError(info.mStatus)) {

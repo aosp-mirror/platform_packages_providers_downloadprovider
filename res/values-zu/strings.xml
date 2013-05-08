@@ -18,9 +18,9 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Umphathi wokulayisha"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Finyelela kumphathi wokulayisha"</string>
-    <string name="permdesc_downloadManager" msgid="4237406545998908947">"Ivuela insiza ukuthi ifinyelele izintweni ezijulile zomphathi wokulayisha. Izinsiza ezinobungozi zingakusebenzisa lokhu ukuphazamisa ukulayisha ziphinde zifinyelele emininingwaneni eyimfihlo."</string>
+    <string name="permdesc_downloadManager" msgid="4237406545998908947">"Ivuela insiza ukuthi ifinyelele izintweni ezijulile zomphathi wokulayisha. Izinsiza ezinobungozi zingakusebenzisa lokhu ukuphazamisa ukulanda ziphinde zifinyelele emininingwaneni eyimfihlo."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Izici zomphathi wokulayisha othuthukisiwe."</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Ivuela insiz ukuthi ifinyelele izinto ezijulile zomphathi wokulayisha. Izinsiza ezinobungozi zingakusebenzisa lokhu ukuphazamisa ukulayisha ziphinde zifinyelele emininingwaneni eyimfihlo."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Ivuela insiz ukuthi ifinyelele izinto ezijulile zomphathi wokulayisha. Izinsiza ezinobungozi zingakusebenzisa lokhu ukuphazamisa ukulanda ziphinde zifinyelele emininingwaneni eyimfihlo."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Thumela izaziso zokulayisha"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Ivumela insiza ukuthi ithumele izaziso yelana nokulayishwa okuqediwe. Izinsiza ezinobungozi zingakusebenzisa lokhu ukudida ezinye izinsiz ezilayisha amafayel."</string>
     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Bona konke ukulanda kwisitoreji se-USB"</string>

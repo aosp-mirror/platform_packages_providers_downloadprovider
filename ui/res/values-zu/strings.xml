@@ -27,7 +27,7 @@
     <string name="download_running" msgid="4656462962155580641">"Kuyaqhubeka"</string>
     <string name="download_success" msgid="7006048006543495236">"Qedile"</string>
     <string name="download_error" msgid="8081329546008568251">"Akuphumelelanga"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"Ayikwazanga ukulayisha."</string>
+    <string name="dialog_title_not_available" msgid="5746317632356158515">"Ayikwazanga ukulanda."</string>
     <string name="dialog_failed_body" msgid="587545111677064427">"Ufuna ukuzama futhi ukulanda ifayela emva kwesikhathi noma ukuyisusa emugqeni?"</string>
     <string name="dialog_title_queued_body" msgid="6760681913815015219">"Ifayela elimugqeni"</string>
     <string name="dialog_queued_body" msgid="708552801635572720">"Leli fayela lifakwe emugqeni ekulandweni kokulandelayo ngakho-ke alitholakali manje."</string>

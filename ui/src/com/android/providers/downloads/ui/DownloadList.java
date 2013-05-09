@@ -732,7 +732,9 @@ public class DownloadList extends Activity {
                         Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, item.getKey());
                 final String mimeType = item.getValue().getMimeType();
                 attachments.add(uri);
-                mimeTypes.add(mimeType);
+                if (mimeType != null) {
+                    mimeTypes.add(mimeType);
+                }
             }
             intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, attachments);
             intent.setType(findCommonMimeType(mimeTypes));

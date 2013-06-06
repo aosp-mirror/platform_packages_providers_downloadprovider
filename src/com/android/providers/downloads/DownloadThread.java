@@ -48,6 +48,7 @@ import android.os.FileUtils;
 import android.os.PowerManager;
 import android.os.Process;
 import android.os.SystemClock;
+import android.os.WorkSource;
 import android.provider.Downloads;
 import android.text.TextUtils;
 import android.util.Log;
@@ -189,6 +190,7 @@ public class DownloadThread implements Runnable {
 
         try {
             wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.TAG);
+            wakeLock.setWorkSource(new WorkSource(mInfo.mUid));
             wakeLock.acquire();
 
             // while performing download, register for rules updates

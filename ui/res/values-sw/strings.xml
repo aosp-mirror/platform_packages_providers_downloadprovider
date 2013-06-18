@@ -17,9 +17,9 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3070921713463294774">"Vipakuliwa"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Vipakuzi - Vimepangwa kwa tarehe"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Vipakuzi - Vimepangwa kwa ukubwa"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"Hakuna vipakuzi"</string>
+    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Vipakuliwa - Vimepangwa kulingana na tarehe"</string>
+    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Vipakuliwa - Vimepangwa kulingana na ukubwa"</string>
+    <string name="no_downloads" msgid="1029667411186146836">"Hakuna vipakuliwa."</string>
     <string name="missing_title" msgid="830115697868833773">"&lt;Haijulikani&gt;"</string>
     <string name="button_sort_by_size" msgid="7331549713691146251">"Panga kwa ukubwa"</string>
     <string name="button_sort_by_date" msgid="8800842892684101528">"Panga kwa tarehe"</string>

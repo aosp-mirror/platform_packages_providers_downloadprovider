@@ -213,4 +213,7 @@
          [CHAR LIMIT=200] -->
     <string name="download_no_application_title">Can\'t open file</string>
 
+    <!-- Label describing Downloads as a storage root [CHAR LIMIT=32] -->
+    <string name="root_downloads">Downloads</string>
+
 </resources>

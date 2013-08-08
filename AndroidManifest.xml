@@ -56,7 +56,8 @@
     <uses-permission android:name="android.permission.MODIFY_NETWORK_ACCOUNTING" />
 
     <application android:process="android.process.media"
-                 android:label="@string/app_label">
+                 android:label="@string/app_label"
+                 android:icon="@mipmap/ic_launcher_download">
 
         <provider android:name=".DownloadProvider"
                   android:authorities="downloads" android:exported="true">
@@ -77,6 +78,18 @@
                downloaded files with other viewers -->
           <grant-uri-permission android:pathPrefix="/my_downloads/"/>
         </provider>
+
+        <provider
+            android:name=".DownloadStorageProvider"
+            android:authorities="com.android.providers.downloads.storage"
+            android:grantUriPermissions="true"
+            android:exported="true"
+            android:permission="android.permission.MANAGE_DOCUMENTS">
+            <meta-data
+                android:name="android.content.DOCUMENT_PROVIDER"
+                android:resource="@xml/document_provider" />
+        </provider>
+
         <service android:name=".DownloadService"
                 android:permission="android.permission.ACCESS_DOWNLOAD_MANAGER" />
         <receiver android:name=".DownloadReceiver" android:exported="false">

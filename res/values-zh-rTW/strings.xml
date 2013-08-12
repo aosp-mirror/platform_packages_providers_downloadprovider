@@ -55,4 +55,5 @@
   </plurals>
     <string name="download_remaining" msgid="3139295890887972718">"剩餘 <xliff:g id="DURATION">%s</xliff:g>"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"無法開啟檔案"</string>
+    <string name="root_downloads" msgid="4098414876292351487">"下載內容"</string>
 </resources>

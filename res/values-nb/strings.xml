@@ -17,7 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Nedlaster"</string>
-    <string name="permlab_downloadManager" msgid="7779544811202855500">"Få tilgang til nedlasteren."</string>
+    <string name="permlab_downloadManager" msgid="7779544811202855500">"Bruke nedlasting."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Gir appen adgang til nedlastingsbehandlingen og bruke den til å laste ned filer. Skadelig programvare kan bruke dette til å forstyrre nedlastinger og få tilgang til privat informasjon."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Avansert nedlastingsfunksjonalitet."</string>
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Gir appen adgang til avanserte funksjoner i nedlastingsbehandlingen. Skadelig programvare kan bruke dette til å forstyrre nedlastinger og få tilgang til privat informasjon."</string>
@@ -55,4 +55,5 @@
   </plurals>
     <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> gjenstår"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"Kan ikke åpne filen"</string>
+    <string name="root_downloads" msgid="4098414876292351487">"Nedlastinger"</string>
 </resources>

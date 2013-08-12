@@ -55,4 +55,6 @@
   </plurals>
     <string name="download_remaining" msgid="3139295890887972718">"Засталося <xliff:g id="DURATION">%s</xliff:g>"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"Не атрымлiваецца адкрыць файл"</string>
+    <!-- no translation found for root_downloads (4098414876292351487) -->
+    <skip />
 </resources>

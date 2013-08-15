@@ -33,6 +33,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.provider.BaseColumns;
+import android.provider.DocumentsContract;
 import android.provider.Downloads;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -147,6 +148,17 @@ public class DownloadList extends Activity {
 
     @Override
     public void onCreate(Bundle icicle) {
+        super.onCreate(icicle);
+
+        // Trampoline over to new management UI
+        final Intent intent = new Intent(Intent.ACTION_MANAGE_DOCUMENT);
+        intent.setData(DocumentsContract.buildRootUri(
+                Constants.STORAGE_AUTHORITY, Constants.STORAGE_ROOT));
+        startActivity(intent);
+        finish();
+    }
+
+    public void onCreateLegacy(Bundle icicle) {
         super.onCreate(icicle);
         setFinishOnTouchOutside(true);
         setupViews();

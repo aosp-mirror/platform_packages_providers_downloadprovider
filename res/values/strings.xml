@@ -216,4 +216,14 @@
     <!-- Label describing Downloads as a storage root [CHAR LIMIT=32] -->
     <string name="root_downloads">Downloads</string>
 
+    <!-- Status indicating that the download has been queued to start in the future.  Appears for an
+         individual item in the download list.  [CHAR LIMIT=24] -->
+    <string name="download_queued">Queued</string>
+    <!-- Status indicating that the system is currently downloading the file.  Appears for an
+         individual item in the download list.  [CHAR LIMIT=24] -->
+    <string name="download_running">In progress</string>
+    <!-- Status indicating that the download has ended without completing successfully.  Appears for
+         an individual item in the download list.  [CHAR LIMIT=24] -->
+    <string name="download_error">Unsuccessful</string>
+
 </resources>

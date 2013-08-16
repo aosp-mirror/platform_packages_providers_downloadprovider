@@ -13,9 +13,9 @@
                  android:supportsRtl="true"
                  android:requiredForAllUsers="true">
 
-        <activity android:name=".DownloadList"
-                  android:launchMode="singleTop"
-                  android:theme="@android:style/Theme.Holo.DialogWhenLarge">
+        <activity
+            android:name=".DownloadList"
+            android:theme="@android:style/Theme.NoDisplay">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -17,9 +17,10 @@
 package com.android.providers.downloads;
 
 import android.app.DownloadManager;
+import android.app.DownloadManager.Query;
 import android.content.ContentProvider;
-import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.MatrixCursor;
@@ -29,9 +30,9 @@ import android.os.ParcelFileDescriptor;
 import android.provider.BaseColumns;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.DocumentColumns;
+import android.provider.DocumentsContract.Documents;
 import android.provider.DocumentsContract.RootColumns;
-import android.provider.Downloads;
-import android.util.Log;
+import android.provider.DocumentsContract.Roots;
 
 import libcore.io.IoUtils;
 
@@ -42,7 +43,8 @@ import java.io.FileNotFoundException;
  * contents.
  */
 public class DownloadStorageProvider extends ContentProvider {
-    private static final String AUTHORITY = "com.android.providers.downloads.storage";
+    public static final String AUTHORITY = Constants.STORAGE_AUTHORITY;
+    public static final String ROOT = Constants.STORAGE_ROOT;
 
     private static final UriMatcher sMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
@@ -50,6 +52,9 @@ public class DownloadStorageProvider extends ContentProvider {
     private static final int URI_ROOTS_ID = 2;
     private static final int URI_DOCS_ID = 3;
     private static final int URI_DOCS_ID_CONTENTS = 4;
+
+    private DownloadManager mDm;
+    private DownloadManager.Query mBaseQuery;
 
     static {
         sMatcher.addURI(AUTHORITY, "roots", URI_ROOTS);
@@ -60,6 +65,10 @@ public class DownloadStorageProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
+        mDm = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+        mDm.setAccessAllDownloads(true);
+        mBaseQuery = new DownloadManager.Query().setOnlyIncludeVisibleInDownloadsUi(true);
+
         return true;
     }
 
@@ -91,16 +100,15 @@ public class DownloadStorageProvider extends ContentProvider {
                 final String docId = DocumentsContract.getDocId(uri);
                 final MatrixCursor result = new MatrixCursor(docsProjection);
 
-                if (DocumentsContract.ROOT_DOC_ID.equals(docId)) {
+                if (Documents.DOC_ID_ROOT.equals(docId)) {
                     includeDefaultDocument(result);
                 } else {
                     // Delegate to real provider
                     final long token = Binder.clearCallingIdentity();
                     Cursor cursor = null;
                     try {
-                        final Uri downloadUri = getDownloadUriFromDocument(docId);
-                        cursor = getContext()
-                                .getContentResolver().query(downloadUri, null, null, null, null);
+                        cursor = mDm.query(
+                                new Query().setFilterById(getDownloadFromDocument(docId)));
                         if (cursor.moveToFirst()) {
                             includeDownloadFromCursor(result, cursor);
                         }
@@ -115,17 +123,15 @@ public class DownloadStorageProvider extends ContentProvider {
                 final String docId = DocumentsContract.getDocId(uri);
                 final MatrixCursor result = new MatrixCursor(docsProjection);
 
-                if (!DocumentsContract.ROOT_DOC_ID.equals(docId)) {
+                if (!Documents.DOC_ID_ROOT.equals(docId)) {
                     throw new UnsupportedOperationException("Unsupported Uri " + uri);
                 }
 
                 // Delegate to real provider
-                // TODO: filter visible downloads?
                 final long token = Binder.clearCallingIdentity();
                 Cursor cursor = null;
                 try {
-                    cursor = getContext().getContentResolver()
-                            .query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, null, null, null, null);
+                    cursor = mDm.query(mBaseQuery);
                     while (cursor.moveToNext()) {
                         includeDownloadFromCursor(result, cursor);
                     }
@@ -142,8 +148,8 @@ public class DownloadStorageProvider extends ContentProvider {
     }
 
     private void includeDefaultRoot(MatrixCursor result) {
-        final int rootType = DocumentsContract.ROOT_TYPE_SHORTCUT;
-        final String rootId = "downloads";
+        final int rootType = Roots.ROOT_TYPE_SHORTCUT;
+        final String rootId = ROOT;
         final int icon = 0;
         final String title = getContext().getString(R.string.root_downloads);
         final String summary = null;
@@ -156,10 +162,10 @@ public class DownloadStorageProvider extends ContentProvider {
 
     private void includeDefaultDocument(MatrixCursor result) {
         final long id = Long.MIN_VALUE;
-        final String docId = DocumentsContract.ROOT_DOC_ID;
+        final String docId = Documents.DOC_ID_ROOT;
         final String displayName = getContext().getString(R.string.root_downloads);
         final String summary = null;
-        final String mimeType = DocumentsContract.MIME_TYPE_DIRECTORY;
+        final String mimeType = Documents.MIME_TYPE_DIR;
         final long size = -1;
         final long lastModified = -1;
         final int flags = 0;
@@ -169,35 +175,56 @@ public class DownloadStorageProvider extends ContentProvider {
     }
 
     private void includeDownloadFromCursor(MatrixCursor result, Cursor cursor) {
-        final long id = cursor.getLong(cursor.getColumnIndexOrThrow(Downloads.Impl._ID));
+        final long id = cursor.getLong(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_ID));
         final String docId = getDocumentFromDownload(id);
 
         final String displayName = cursor.getString(
-                cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_TITLE));
-        final String summary = cursor.getString(
-                cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_DESCRIPTION));
+                cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TITLE));
+        String summary = cursor.getString(
+                cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_DESCRIPTION));
         String mimeType = cursor.getString(
-                cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_MIME_TYPE));
+                cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIA_TYPE));
         if (mimeType == null) {
             mimeType = "application/octet-stream";
         }
+        Long size = null;
 
         final int status = cursor.getInt(
-                cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_STATUS));
-        final long size;
-        if (Downloads.Impl.isStatusCompleted(status)) {
-            size = cursor.getLong(cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_TOTAL_BYTES));
-        } else {
-            size = -1;
+                cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS));
+        switch (status) {
+            case DownloadManager.STATUS_SUCCESSFUL:
+                size = cursor.getLong(
+                        cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+                if (size == -1) {
+                    size = null;
+                }
+                break;
+            case DownloadManager.STATUS_PAUSED:
+                mimeType = null;
+                summary = getContext().getString(R.string.download_queued);
+                break;
+            case DownloadManager.STATUS_PENDING:
+                mimeType = null;
+                summary = getContext().getString(R.string.download_queued);
+                break;
+            case DownloadManager.STATUS_RUNNING:
+                mimeType = null;
+                summary = getContext().getString(R.string.download_running);
+                break;
+            case DownloadManager.STATUS_FAILED:
+            default:
+                mimeType = null;
+                summary = getContext().getString(R.string.download_error);
+                break;
         }
 
-        int flags = DocumentsContract.FLAG_SUPPORTS_DELETE;
-        if (mimeType.startsWith("image/")) {
-            flags |= DocumentsContract.FLAG_SUPPORTS_THUMBNAIL;
+        int flags = Documents.FLAG_SUPPORTS_DELETE;
+        if (mimeType != null && mimeType.startsWith("image/")) {
+            flags |= Documents.FLAG_SUPPORTS_THUMBNAIL;
         }
 
         final long lastModified = cursor.getLong(
-                cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_LAST_MODIFICATION));
+                cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP));
 
         result.addRow(new Object[] {
                 id, displayName, size, docId, mimeType, lastModified, flags, summary });
@@ -206,22 +233,27 @@ public class DownloadStorageProvider extends ContentProvider {
     @Override
     public String getType(Uri uri) {
         switch (sMatcher.match(uri)) {
+            case URI_ROOTS: {
+                return Roots.MIME_TYPE_DIR;
+            }
+            case URI_ROOTS_ID: {
+                return Roots.MIME_TYPE_ITEM;
+            }
             case URI_DOCS_ID: {
                 final String docId = DocumentsContract.getDocId(uri);
-                if (DocumentsContract.ROOT_DOC_ID.equals(docId)) {
-                    return DocumentsContract.MIME_TYPE_DIRECTORY;
+                if (Documents.DOC_ID_ROOT.equals(docId)) {
+                    return Documents.MIME_TYPE_DIR;
                 } else {
                     // Delegate to real provider
                     final long token = Binder.clearCallingIdentity();
                     Cursor cursor = null;
                     String mimeType = null;
                     try {
-                        final Uri downloadUri = getDownloadUriFromDocument(docId);
-                        cursor = getContext().getContentResolver()
-                                .query(downloadUri, null, null, null, null);
+                        cursor = mDm.query(
+                                new Query().setFilterById(getDownloadFromDocument(docId)));
                         if (cursor.moveToFirst()) {
                             mimeType = cursor.getString(
-                                    cursor.getColumnIndexOrThrow(Downloads.Impl.COLUMN_MIME_TYPE));
+                                    cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIA_TYPE));
                         }
                     } finally {
                         IoUtils.closeQuietly(cursor);
@@ -239,11 +271,6 @@ public class DownloadStorageProvider extends ContentProvider {
         }
     }
 
-    private Uri getDownloadUriFromDocument(String docId) {
-        return ContentUris.withAppendedId(
-                Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, getDownloadFromDocument(docId));
-    }
-
     private long getDownloadFromDocument(String docId) {
         return Long.parseLong(docId.substring(docId.indexOf(':') + 1));
     }
@@ -258,11 +285,14 @@ public class DownloadStorageProvider extends ContentProvider {
             case URI_DOCS_ID: {
                 final String docId = DocumentsContract.getDocId(uri);
 
+                if (!"r".equals(mode)) {
+                    throw new IllegalArgumentException("Downloads are read-only");
+                }
+
                 // Delegate to real provider
                 final long token = Binder.clearCallingIdentity();
                 try {
-                    final Uri downloadUri = getDownloadUriFromDocument(docId);
-                    return getContext().getContentResolver().openFileDescriptor(downloadUri, mode);
+                    return mDm.openDownloadedFile(getDownloadFromDocument(docId));
                 } finally {
                     Binder.restoreCallingIdentity(token);
                 }
@@ -291,8 +321,7 @@ public class DownloadStorageProvider extends ContentProvider {
 
                 // Delegate to real provider
                 // TODO: only storage UI should be allowed to delete?
-                final Uri downloadUri = getDownloadUriFromDocument(docId);
-                getContext().getContentResolver().delete(downloadUri, null, null);
+                mDm.remove(getDownloadFromDocument(docId));
             }
             default: {
                 throw new UnsupportedOperationException("Unsupported Uri " + uri);

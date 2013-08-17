@@ -24,10 +24,10 @@ import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.MatrixCursor;
+import android.database.MatrixCursor.RowBuilder;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.ParcelFileDescriptor;
-import android.provider.BaseColumns;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.DocumentColumns;
 import android.provider.DocumentsContract.Documents;
@@ -43,8 +43,8 @@ import java.io.FileNotFoundException;
  * contents.
  */
 public class DownloadStorageProvider extends ContentProvider {
-    public static final String AUTHORITY = Constants.STORAGE_AUTHORITY;
-    public static final String ROOT = Constants.STORAGE_ROOT;
+    private static final String AUTHORITY = Constants.STORAGE_AUTHORITY;
+    private static final String ROOT = Constants.STORAGE_ROOT;
 
     private static final UriMatcher sMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
@@ -53,15 +53,25 @@ public class DownloadStorageProvider extends ContentProvider {
     private static final int URI_DOCS_ID = 3;
     private static final int URI_DOCS_ID_CONTENTS = 4;
 
-    private DownloadManager mDm;
-    private DownloadManager.Query mBaseQuery;
-
     static {
         sMatcher.addURI(AUTHORITY, "roots", URI_ROOTS);
         sMatcher.addURI(AUTHORITY, "roots/*", URI_ROOTS_ID);
         sMatcher.addURI(AUTHORITY, "roots/*/docs/*", URI_DOCS_ID);
         sMatcher.addURI(AUTHORITY, "roots/*/docs/*/contents", URI_DOCS_ID_CONTENTS);
     }
+
+    private static final String[] ALL_ROOTS_COLUMNS = new String[] {
+            RootColumns.ROOT_ID, RootColumns.ROOT_TYPE, RootColumns.ICON, RootColumns.TITLE,
+            RootColumns.SUMMARY, RootColumns.AVAILABLE_BYTES
+    };
+
+    private static final String[] ALL_DOCUMENTS_COLUMNS = new String[] {
+            DocumentColumns.DOC_ID, DocumentColumns.DISPLAY_NAME, DocumentColumns.SIZE,
+            DocumentColumns.MIME_TYPE, DocumentColumns.LAST_MODIFIED, DocumentColumns.FLAGS
+    };
+
+    private DownloadManager mDm;
+    private DownloadManager.Query mBaseQuery;
 
     @Override
     public boolean onCreate() {
@@ -75,30 +85,23 @@ public class DownloadStorageProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
             String sortOrder) {
-
-        // TODO: support custom projections
-        final String[] rootsProjection = new String[] {
-                BaseColumns._ID, RootColumns.ROOT_ID, RootColumns.ROOT_TYPE, RootColumns.ICON,
-                RootColumns.TITLE, RootColumns.SUMMARY, RootColumns.AVAILABLE_BYTES };
-        final String[] docsProjection = new String[] {
-                BaseColumns._ID, DocumentColumns.DISPLAY_NAME, DocumentColumns.SIZE,
-                DocumentColumns.DOC_ID, DocumentColumns.MIME_TYPE, DocumentColumns.LAST_MODIFIED,
-                DocumentColumns.FLAGS, DocumentColumns.SUMMARY };
-
         switch (sMatcher.match(uri)) {
             case URI_ROOTS: {
-                final MatrixCursor result = new MatrixCursor(rootsProjection);
+                final MatrixCursor result = new MatrixCursor(
+                        projection != null ? projection : ALL_ROOTS_COLUMNS);
                 includeDefaultRoot(result);
                 return result;
             }
             case URI_ROOTS_ID: {
-                final MatrixCursor result = new MatrixCursor(rootsProjection);
+                final MatrixCursor result = new MatrixCursor(
+                        projection != null ? projection : ALL_ROOTS_COLUMNS);
                 includeDefaultRoot(result);
                 return result;
             }
             case URI_DOCS_ID: {
                 final String docId = DocumentsContract.getDocId(uri);
-                final MatrixCursor result = new MatrixCursor(docsProjection);
+                final MatrixCursor result = new MatrixCursor(
+                        projection != null ? projection : ALL_DOCUMENTS_COLUMNS);
 
                 if (Documents.DOC_ID_ROOT.equals(docId)) {
                     includeDefaultDocument(result);
@@ -121,7 +124,8 @@ public class DownloadStorageProvider extends ContentProvider {
             }
             case URI_DOCS_ID_CONTENTS: {
                 final String docId = DocumentsContract.getDocId(uri);
-                final MatrixCursor result = new MatrixCursor(docsProjection);
+                final MatrixCursor result = new MatrixCursor(
+                        projection != null ? projection : ALL_DOCUMENTS_COLUMNS);
 
                 if (!Documents.DOC_ID_ROOT.equals(docId)) {
                     throw new UnsupportedOperationException("Unsupported Uri " + uri);
@@ -148,30 +152,17 @@ public class DownloadStorageProvider extends ContentProvider {
     }
 
     private void includeDefaultRoot(MatrixCursor result) {
-        final int rootType = Roots.ROOT_TYPE_SHORTCUT;
-        final String rootId = ROOT;
-        final int icon = 0;
-        final String title = getContext().getString(R.string.root_downloads);
-        final String summary = null;
-        final long availableBytes = -1;
-
-        result.addRow(new Object[] {
-                rootId.hashCode(), rootId, rootType, icon, title, summary,
-                availableBytes });
+        final RowBuilder row = result.newRow();
+        row.offer(RootColumns.ROOT_ID, ROOT);
+        row.offer(RootColumns.ROOT_TYPE, Roots.ROOT_TYPE_SHORTCUT);
+        row.offer(RootColumns.TITLE, getContext().getString(R.string.root_downloads));
     }
 
     private void includeDefaultDocument(MatrixCursor result) {
-        final long id = Long.MIN_VALUE;
-        final String docId = Documents.DOC_ID_ROOT;
-        final String displayName = getContext().getString(R.string.root_downloads);
-        final String summary = null;
-        final String mimeType = Documents.MIME_TYPE_DIR;
-        final long size = -1;
-        final long lastModified = -1;
-        final int flags = 0;
-
-        result.addRow(new Object[] {
-                id, displayName, size, docId, mimeType, lastModified, flags, summary });
+        final RowBuilder row = result.newRow();
+        row.offer(DocumentColumns.DOC_ID, Documents.DOC_ID_ROOT);
+        row.offer(DocumentColumns.DISPLAY_NAME, getContext().getString(R.string.root_downloads));
+        row.offer(DocumentColumns.MIME_TYPE, Documents.MIME_TYPE_DIR);
     }
 
     private void includeDownloadFromCursor(MatrixCursor result, Cursor cursor) {
@@ -226,8 +217,20 @@ public class DownloadStorageProvider extends ContentProvider {
         final long lastModified = cursor.getLong(
                 cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP));
 
-        result.addRow(new Object[] {
-                id, displayName, size, docId, mimeType, lastModified, flags, summary });
+        final RowBuilder row = result.newRow();
+        row.offer(DocumentColumns.DOC_ID, docId);
+        row.offer(DocumentColumns.DISPLAY_NAME, displayName);
+        row.offer(DocumentColumns.SIZE, size);
+        row.offer(DocumentColumns.MIME_TYPE, mimeType);
+        row.offer(DocumentColumns.LAST_MODIFIED, lastModified);
+        row.offer(DocumentColumns.FLAGS, flags);
+    }
+
+    private interface TypeQuery {
+        final String[] PROJECTION = {
+                DocumentColumns.MIME_TYPE };
+
+        final int MIME_TYPE = 0;
     }
 
     @Override
@@ -240,29 +243,15 @@ public class DownloadStorageProvider extends ContentProvider {
                 return Roots.MIME_TYPE_ITEM;
             }
             case URI_DOCS_ID: {
-                final String docId = DocumentsContract.getDocId(uri);
-                if (Documents.DOC_ID_ROOT.equals(docId)) {
-                    return Documents.MIME_TYPE_DIR;
-                } else {
-                    // Delegate to real provider
-                    final long token = Binder.clearCallingIdentity();
-                    Cursor cursor = null;
-                    String mimeType = null;
-                    try {
-                        cursor = mDm.query(
-                                new Query().setFilterById(getDownloadFromDocument(docId)));
-                        if (cursor.moveToFirst()) {
-                            mimeType = cursor.getString(
-                                    cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIA_TYPE));
-                        }
-                    } finally {
-                        IoUtils.closeQuietly(cursor);
-                        Binder.restoreCallingIdentity(token);
+                final Cursor cursor = query(uri, TypeQuery.PROJECTION, null, null, null);
+                try {
+                    if (cursor.moveToFirst()) {
+                        return cursor.getString(TypeQuery.MIME_TYPE);
+                    } else {
+                        return null;
                     }
-
-                    if (mimeType == null) {
-                        mimeType = "application/octet-stream";
-                    }
+                } finally {
+                    IoUtils.closeQuietly(cursor);
                 }
             }
             default: {

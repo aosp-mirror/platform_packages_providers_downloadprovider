@@ -81,7 +81,7 @@
 
         <provider
             android:name=".DownloadStorageProvider"
-            android:authorities="com.android.providers.downloads.storage"
+            android:authorities="com.android.providers.downloads.documents"
             android:grantUriPermissions="true"
             android:exported="true"
             android:permission="android.permission.MANAGE_DOCUMENTS">

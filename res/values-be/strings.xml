@@ -57,4 +57,10 @@
     <string name="download_no_application_title" msgid="7935659741162801699">"Не атрымлiваецца адкрыць файл"</string>
     <!-- no translation found for root_downloads (4098414876292351487) -->
     <skip />
+    <!-- no translation found for download_queued (3302638231377947451) -->
+    <skip />
+    <!-- no translation found for download_running (3925050393361158266) -->
+    <skip />
+    <!-- no translation found for download_error (5144180777324573236) -->
+    <skip />
 </resources>

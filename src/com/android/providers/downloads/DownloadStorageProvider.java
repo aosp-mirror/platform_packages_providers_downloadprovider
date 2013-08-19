@@ -310,7 +310,12 @@ public class DownloadStorageProvider extends ContentProvider {
 
                 // Delegate to real provider
                 // TODO: only storage UI should be allowed to delete?
-                mDm.remove(getDownloadFromDocument(docId));
+                final long token = Binder.clearCallingIdentity();
+                try {
+                    return mDm.remove(getDownloadFromDocument(docId));
+                } finally {
+                    Binder.restoreCallingIdentity(token);
+                }
             }
             default: {
                 throw new UnsupportedOperationException("Unsupported Uri " + uri);

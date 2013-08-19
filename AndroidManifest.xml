@@ -106,5 +106,19 @@
         <activity android:name=".SizeLimitActivity"
                   android:launchMode="singleTask"
                   android:theme="@style/Theme.Translucent"/>
+
+        <!-- PackageInstaller really wants raw files -->
+        <activity
+            android:name=".TrampolineActivity"
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:scheme="content"
+                    android:host="com.android.providers.downloads.documents"
+                    android:mimeType="application/vnd.android.package-archive" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>

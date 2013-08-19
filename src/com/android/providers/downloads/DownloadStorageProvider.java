@@ -260,7 +260,7 @@ public class DownloadStorageProvider extends ContentProvider {
         }
     }
 
-    private long getDownloadFromDocument(String docId) {
+    public static long getDownloadFromDocument(String docId) {
         return Long.parseLong(docId.substring(docId.indexOf(':') + 1));
     }
 

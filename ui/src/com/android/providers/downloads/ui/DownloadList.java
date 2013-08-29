@@ -151,9 +151,9 @@ public class DownloadList extends Activity {
         super.onCreate(icicle);
 
         // Trampoline over to new management UI
-        final Intent intent = new Intent(Intent.ACTION_MANAGE_DOCUMENT);
-        intent.setData(DocumentsContract.buildRootUri(
-                Constants.STORAGE_AUTHORITY, Constants.STORAGE_ROOT));
+        final Intent intent = new Intent(DocumentsContract.ACTION_MANAGE_DOCUMENTS);
+        intent.setData(DocumentsContract.buildDocumentUri(
+                Constants.STORAGE_AUTHORITY, Constants.STORAGE_DOC_ID_ROOT));
         startActivity(intent);
         finish();
     }

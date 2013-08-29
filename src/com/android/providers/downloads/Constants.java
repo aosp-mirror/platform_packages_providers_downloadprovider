@@ -176,5 +176,5 @@ public class Constants {
     public static final boolean LOGVV = LOCAL_LOGVV && LOGV;
 
     public static final String STORAGE_AUTHORITY = "com.android.providers.downloads.documents";
-    public static final String STORAGE_ROOT = "downloads";
+    public static final String STORAGE_DOC_ID_ROOT = "downloads";
 }

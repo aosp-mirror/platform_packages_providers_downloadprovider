@@ -17,10 +17,9 @@
 package com.android.providers.downloads;
 
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.DocumentsContract;
 
 /**
  * PackageInstaller really wants raw files.
@@ -30,11 +29,8 @@ public class TrampolineActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final Uri documentUri = getIntent().getData();
-        final String docId = DocumentsContract.getDocId(documentUri);
-        final long downloadId = DownloadStorageProvider.getDownloadFromDocument(docId);
-
-        final Intent intent = OpenHelper.buildViewIntent(this, downloadId);
+        final long id = ContentUris.parseId(getIntent().getData());
+        final Intent intent = OpenHelper.buildViewIntent(this, id);
         startActivity(intent);
         finish();
     }

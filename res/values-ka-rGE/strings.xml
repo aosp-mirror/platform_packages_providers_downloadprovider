@@ -53,7 +53,7 @@
     <item quantity="one" msgid="5537481763963544278">"1 ფაილი მოლოდინის რეჟმშია"</item>
     <item quantity="other" msgid="549229034166062887">"<xliff:g id="NUMBER">%d</xliff:g> ფაილი მოლოდინის რეჟიმშია"</item>
   </plurals>
-    <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> მარცხნივ"</string>
+    <string name="download_remaining" msgid="3139295890887972718">"დარჩა <xliff:g id="DURATION">%s</xliff:g>"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"ფაილის გახსნა ვერ ხერხდება"</string>
     <string name="root_downloads" msgid="4098414876292351487">"ჩამოტვირთვები"</string>
     <string name="download_queued" msgid="3302638231377947451">"რიგშია"</string>

@@ -80,9 +80,7 @@ public class DownloadStorageProvider extends DocumentsProvider {
         final RowBuilder row = result.newRow();
         row.offer(Root.COLUMN_ROOT_ID, DOC_ID_ROOT);
         row.offer(Root.COLUMN_ROOT_TYPE, Root.ROOT_TYPE_SHORTCUT);
-        row.offer(Root.COLUMN_FLAGS, Root.FLAG_LOCAL_ONLY | Root.FLAG_PROVIDES_AUDIO
-                | Root.FLAG_PROVIDES_VIDEO | Root.FLAG_PROVIDES_IMAGES
-                | Root.FLAG_SUPPORTS_RECENTS);
+        row.offer(Root.COLUMN_FLAGS, Root.FLAG_LOCAL_ONLY | Root.FLAG_SUPPORTS_RECENTS);
         row.offer(Root.COLUMN_ICON, R.mipmap.ic_launcher_download);
         row.offer(Root.COLUMN_TITLE, getContext().getString(R.string.root_downloads));
         row.offer(Root.COLUMN_DOCUMENT_ID, DOC_ID_ROOT);

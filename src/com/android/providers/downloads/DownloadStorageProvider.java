@@ -28,17 +28,13 @@ import android.os.Binder;
 import android.os.CancellationSignal;
 import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract;
-import android.provider.DocumentsContract.DocumentColumns;
-import android.provider.DocumentsContract.DocumentRoot;
-import android.provider.DocumentsContract.Documents;
+import android.provider.DocumentsContract.Document;
+import android.provider.DocumentsContract.Root;
 import android.provider.DocumentsProvider;
-
-import com.google.common.collect.Lists;
 
 import libcore.io.IoUtils;
 
 import java.io.FileNotFoundException;
-import java.util.List;
 
 /**
  * Presents a {@link DocumentsContract} view of {@link DownloadManager}
@@ -47,26 +43,22 @@ import java.util.List;
 public class DownloadStorageProvider extends DocumentsProvider {
     private static final String DOC_ID_ROOT = Constants.STORAGE_DOC_ID_ROOT;
 
-    private static final String[] SUPPORTED_COLUMNS = new String[] {
-            DocumentColumns.DOC_ID, DocumentColumns.DISPLAY_NAME, DocumentColumns.SIZE,
-            DocumentColumns.MIME_TYPE, DocumentColumns.LAST_MODIFIED, DocumentColumns.FLAGS
+    private static final String[] DEFAULT_ROOT_PROJECTION = new String[] {
+            Root.COLUMN_ROOT_ID, Root.COLUMN_ROOT_TYPE, Root.COLUMN_FLAGS, Root.COLUMN_ICON,
+            Root.COLUMN_TITLE, Root.COLUMN_SUMMARY, Root.COLUMN_DOCUMENT_ID,
+            Root.COLUMN_AVAILABLE_BYTES,
     };
 
-    private DocumentRoot mRoot;
+    private static final String[] DEFAULT_DOCUMENT_PROJECTION = new String[] {
+            Document.COLUMN_DOCUMENT_ID, Document.COLUMN_MIME_TYPE, Document.COLUMN_DISPLAY_NAME,
+            Document.COLUMN_LAST_MODIFIED, Document.COLUMN_FLAGS, Document.COLUMN_SIZE,
+    };
 
     private DownloadManager mDm;
     private DownloadManager.Query mBaseQuery;
 
     @Override
     public boolean onCreate() {
-
-        mRoot = new DocumentRoot();
-        mRoot.docId = DOC_ID_ROOT;
-        mRoot.rootType = DocumentRoot.ROOT_TYPE_SHORTCUT;
-        mRoot.title = getContext().getString(R.string.root_downloads);
-        mRoot.icon = R.mipmap.ic_launcher_download;
-        mRoot.flags = DocumentRoot.FLAG_LOCAL_ONLY;
-
         mDm = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
         mDm.setAccessAllDownloads(true);
         mBaseQuery = new DownloadManager.Query().setOnlyIncludeVisibleInDownloadsUi(true);
@@ -74,9 +66,26 @@ public class DownloadStorageProvider extends DocumentsProvider {
         return true;
     }
 
+    private static String[] resolveRootProjection(String[] projection) {
+        return projection != null ? projection : DEFAULT_ROOT_PROJECTION;
+    }
+
+    private static String[] resolveDocumentProjection(String[] projection) {
+        return projection != null ? projection : DEFAULT_DOCUMENT_PROJECTION;
+    }
+
     @Override
-    public List<DocumentRoot> getDocumentRoots() {
-        return Lists.newArrayList(mRoot);
+    public Cursor queryRoots(String[] projection) throws FileNotFoundException {
+        final MatrixCursor result = new MatrixCursor(resolveRootProjection(projection));
+        final RowBuilder row = result.newRow();
+        row.offer(Root.COLUMN_ROOT_ID, DOC_ID_ROOT);
+        row.offer(Root.COLUMN_ROOT_TYPE, Root.ROOT_TYPE_SHORTCUT);
+        row.offer(Root.COLUMN_FLAGS, Root.FLAG_LOCAL_ONLY | Root.FLAG_PROVIDES_AUDIO
+                | Root.FLAG_PROVIDES_VIDEO | Root.FLAG_PROVIDES_IMAGES);
+        row.offer(Root.COLUMN_ICON, R.mipmap.ic_launcher_download);
+        row.offer(Root.COLUMN_TITLE, getContext().getString(R.string.root_downloads));
+        row.offer(Root.COLUMN_DOCUMENT_ID, DOC_ID_ROOT);
+        return result;
     }
 
     @Override
@@ -93,8 +102,8 @@ public class DownloadStorageProvider extends DocumentsProvider {
     }
 
     @Override
-    public Cursor queryDocument(String docId) throws FileNotFoundException {
-        final MatrixCursor result = new MatrixCursor(SUPPORTED_COLUMNS);
+    public Cursor queryDocument(String docId, String[] projection) throws FileNotFoundException {
+        final MatrixCursor result = new MatrixCursor(resolveDocumentProjection(projection));
 
         if (DOC_ID_ROOT.equals(docId)) {
             includeDefaultDocument(result);
@@ -116,8 +125,9 @@ public class DownloadStorageProvider extends DocumentsProvider {
     }
 
     @Override
-    public Cursor queryDocumentChildren(String docId) throws FileNotFoundException {
-        final MatrixCursor result = new MatrixCursor(SUPPORTED_COLUMNS);
+    public Cursor queryChildDocuments(String docId, String[] projection, String sortOrder)
+            throws FileNotFoundException {
+        final MatrixCursor result = new MatrixCursor(resolveDocumentProjection(projection));
 
         // Delegate to real provider
         final long token = Binder.clearCallingIdentity();
@@ -160,8 +170,8 @@ public class DownloadStorageProvider extends DocumentsProvider {
 
     private void includeDefaultDocument(MatrixCursor result) {
         final RowBuilder row = result.newRow();
-        row.offer(DocumentColumns.DOC_ID, DOC_ID_ROOT);
-        row.offer(DocumentColumns.MIME_TYPE, Documents.MIME_TYPE_DIR);
+        row.offer(Document.COLUMN_DOCUMENT_ID, DOC_ID_ROOT);
+        row.offer(Document.COLUMN_MIME_TYPE, Document.MIME_TYPE_DIR);
     }
 
     private void includeDownloadFromCursor(MatrixCursor result, Cursor cursor) {
@@ -208,20 +218,20 @@ public class DownloadStorageProvider extends DocumentsProvider {
                 break;
         }
 
-        int flags = Documents.FLAG_SUPPORTS_DELETE;
+        int flags = Document.FLAG_SUPPORTS_DELETE;
         if (mimeType != null && mimeType.startsWith("image/")) {
-            flags |= Documents.FLAG_SUPPORTS_THUMBNAIL;
+            flags |= Document.FLAG_SUPPORTS_THUMBNAIL;
         }
 
         final long lastModified = cursor.getLong(
                 cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP));
 
         final RowBuilder row = result.newRow();
-        row.offer(DocumentColumns.DOC_ID, docId);
-        row.offer(DocumentColumns.DISPLAY_NAME, displayName);
-        row.offer(DocumentColumns.SIZE, size);
-        row.offer(DocumentColumns.MIME_TYPE, mimeType);
-        row.offer(DocumentColumns.LAST_MODIFIED, lastModified);
-        row.offer(DocumentColumns.FLAGS, flags);
+        row.offer(Document.COLUMN_DOCUMENT_ID, docId);
+        row.offer(Document.COLUMN_DISPLAY_NAME, displayName);
+        row.offer(Document.COLUMN_SIZE, size);
+        row.offer(Document.COLUMN_MIME_TYPE, mimeType);
+        row.offer(Document.COLUMN_LAST_MODIFIED, lastModified);
+        row.offer(Document.COLUMN_FLAGS, flags);
     }
 }

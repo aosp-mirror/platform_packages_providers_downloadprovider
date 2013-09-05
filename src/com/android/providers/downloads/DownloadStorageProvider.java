@@ -74,6 +74,10 @@ public class DownloadStorageProvider extends DocumentsProvider {
         return projection != null ? projection : DEFAULT_DOCUMENT_PROJECTION;
     }
 
+    private void copyNotificationUri(MatrixCursor result, Cursor cursor) {
+        result.setNotificationUri(getContext().getContentResolver(), cursor.getNotificationUri());
+    }
+
     @Override
     public Cursor queryRoots(String[] projection) throws FileNotFoundException {
         final MatrixCursor result = new MatrixCursor(resolveRootProjection(projection));
@@ -112,6 +116,7 @@ public class DownloadStorageProvider extends DocumentsProvider {
             Cursor cursor = null;
             try {
                 cursor = mDm.query(new Query().setFilterById(Long.parseLong(docId)));
+                copyNotificationUri(result, cursor);
                 if (cursor.moveToFirst()) {
                     includeDownloadFromCursor(result, cursor);
                 }
@@ -133,6 +138,7 @@ public class DownloadStorageProvider extends DocumentsProvider {
         Cursor cursor = null;
         try {
             cursor = mDm.query(mBaseQuery);
+            copyNotificationUri(result, cursor);
             while (cursor.moveToNext()) {
                 includeDownloadFromCursor(result, cursor);
             }
@@ -154,6 +160,7 @@ public class DownloadStorageProvider extends DocumentsProvider {
         try {
             cursor = mDm.query(new DownloadManager.Query().setOnlyIncludeVisibleInDownloadsUi(true)
                     .setFilterByStatus(DownloadManager.STATUS_SUCCESSFUL));
+            copyNotificationUri(result, cursor);
             while (cursor.moveToNext() && result.getCount() < 12) {
                 includeDownloadFromCursor(result, cursor);
             }

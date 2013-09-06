@@ -41,7 +41,7 @@ import java.io.FileNotFoundException;
  * contents.
  */
 public class DownloadStorageProvider extends DocumentsProvider {
-    private static final String DOC_ID_ROOT = Constants.STORAGE_DOC_ID_ROOT;
+    private static final String DOC_ID_ROOT = Constants.STORAGE_ROOT_ID;
 
     private static final String[] DEFAULT_ROOT_PROJECTION = new String[] {
             Root.COLUMN_ROOT_ID, Root.COLUMN_ROOT_TYPE, Root.COLUMN_FLAGS, Root.COLUMN_ICON,
@@ -51,7 +51,8 @@ public class DownloadStorageProvider extends DocumentsProvider {
 
     private static final String[] DEFAULT_DOCUMENT_PROJECTION = new String[] {
             Document.COLUMN_DOCUMENT_ID, Document.COLUMN_MIME_TYPE, Document.COLUMN_DISPLAY_NAME,
-            Document.COLUMN_LAST_MODIFIED, Document.COLUMN_FLAGS, Document.COLUMN_SIZE,
+            Document.COLUMN_SUMMARY, Document.COLUMN_LAST_MODIFIED, Document.COLUMN_FLAGS,
+            Document.COLUMN_SIZE,
     };
 
     private DownloadManager mDm;
@@ -214,33 +215,35 @@ public class DownloadStorageProvider extends DocumentsProvider {
         if (mimeType == null) {
             mimeType = "application/octet-stream";
         }
-        Long size = null;
+        Long size = cursor.getLong(
+                cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+        if (size == -1) {
+            size = null;
+        }
 
         final int status = cursor.getInt(
                 cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS));
         switch (status) {
             case DownloadManager.STATUS_SUCCESSFUL:
-                size = cursor.getLong(
-                        cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
-                if (size == -1) {
-                    size = null;
-                }
                 break;
             case DownloadManager.STATUS_PAUSED:
-                mimeType = null;
                 summary = getContext().getString(R.string.download_queued);
                 break;
             case DownloadManager.STATUS_PENDING:
-                mimeType = null;
                 summary = getContext().getString(R.string.download_queued);
                 break;
             case DownloadManager.STATUS_RUNNING:
-                mimeType = null;
-                summary = getContext().getString(R.string.download_running);
+                final long progress = cursor.getLong(cursor.getColumnIndexOrThrow(
+                        DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+                if (size != null) {
+                    final long percent = progress * 100 / size;
+                    summary = getContext().getString(R.string.download_running_percent, percent);
+                } else {
+                    summary = getContext().getString(R.string.download_running);
+                }
                 break;
             case DownloadManager.STATUS_FAILED:
             default:
-                mimeType = null;
                 summary = getContext().getString(R.string.download_error);
                 break;
         }
@@ -256,6 +259,7 @@ public class DownloadStorageProvider extends DocumentsProvider {
         final RowBuilder row = result.newRow();
         row.offer(Document.COLUMN_DOCUMENT_ID, docId);
         row.offer(Document.COLUMN_DISPLAY_NAME, displayName);
+        row.offer(Document.COLUMN_SUMMARY, summary);
         row.offer(Document.COLUMN_SIZE, size);
         row.offer(Document.COLUMN_MIME_TYPE, mimeType);
         row.offer(Document.COLUMN_LAST_MODIFIED, lastModified);

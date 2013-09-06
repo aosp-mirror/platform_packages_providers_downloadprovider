@@ -25,5 +25,19 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".TrampolineActivity"
+            android:theme="@android:style/Theme.NoDisplay"
+            android:permission="android.permission.MANAGE_DOCUMENTS">
+            <intent-filter>
+                <action android:name="android.provider.action.MANAGE_DOCUMENT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:scheme="content"
+                    android:host="com.android.providers.downloads.documents"
+                    android:mimeType="*/*" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>

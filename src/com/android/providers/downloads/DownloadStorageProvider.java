@@ -83,12 +83,12 @@ public class DownloadStorageProvider extends DocumentsProvider {
     public Cursor queryRoots(String[] projection) throws FileNotFoundException {
         final MatrixCursor result = new MatrixCursor(resolveRootProjection(projection));
         final RowBuilder row = result.newRow();
-        row.offer(Root.COLUMN_ROOT_ID, DOC_ID_ROOT);
-        row.offer(Root.COLUMN_ROOT_TYPE, Root.ROOT_TYPE_SHORTCUT);
-        row.offer(Root.COLUMN_FLAGS, Root.FLAG_LOCAL_ONLY | Root.FLAG_SUPPORTS_RECENTS);
-        row.offer(Root.COLUMN_ICON, R.mipmap.ic_launcher_download);
-        row.offer(Root.COLUMN_TITLE, getContext().getString(R.string.root_downloads));
-        row.offer(Root.COLUMN_DOCUMENT_ID, DOC_ID_ROOT);
+        row.add(Root.COLUMN_ROOT_ID, DOC_ID_ROOT);
+        row.add(Root.COLUMN_ROOT_TYPE, Root.ROOT_TYPE_SHORTCUT);
+        row.add(Root.COLUMN_FLAGS, Root.FLAG_LOCAL_ONLY | Root.FLAG_SUPPORTS_RECENTS);
+        row.add(Root.COLUMN_ICON, R.mipmap.ic_launcher_download);
+        row.add(Root.COLUMN_TITLE, getContext().getString(R.string.root_downloads));
+        row.add(Root.COLUMN_DOCUMENT_ID, DOC_ID_ROOT);
         return result;
     }
 
@@ -198,8 +198,9 @@ public class DownloadStorageProvider extends DocumentsProvider {
 
     private void includeDefaultDocument(MatrixCursor result) {
         final RowBuilder row = result.newRow();
-        row.offer(Document.COLUMN_DOCUMENT_ID, DOC_ID_ROOT);
-        row.offer(Document.COLUMN_MIME_TYPE, Document.MIME_TYPE_DIR);
+        row.add(Document.COLUMN_DOCUMENT_ID, DOC_ID_ROOT);
+        row.add(Document.COLUMN_MIME_TYPE, Document.MIME_TYPE_DIR);
+        row.add(Document.COLUMN_FLAGS, Document.FLAG_DIR_PREFERS_LAST_MODIFIED);
     }
 
     private void includeDownloadFromCursor(MatrixCursor result, Cursor cursor) {
@@ -257,12 +258,12 @@ public class DownloadStorageProvider extends DocumentsProvider {
                 cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP));
 
         final RowBuilder row = result.newRow();
-        row.offer(Document.COLUMN_DOCUMENT_ID, docId);
-        row.offer(Document.COLUMN_DISPLAY_NAME, displayName);
-        row.offer(Document.COLUMN_SUMMARY, summary);
-        row.offer(Document.COLUMN_SIZE, size);
-        row.offer(Document.COLUMN_MIME_TYPE, mimeType);
-        row.offer(Document.COLUMN_LAST_MODIFIED, lastModified);
-        row.offer(Document.COLUMN_FLAGS, flags);
+        row.add(Document.COLUMN_DOCUMENT_ID, docId);
+        row.add(Document.COLUMN_DISPLAY_NAME, displayName);
+        row.add(Document.COLUMN_SUMMARY, summary);
+        row.add(Document.COLUMN_SIZE, size);
+        row.add(Document.COLUMN_MIME_TYPE, mimeType);
+        row.add(Document.COLUMN_LAST_MODIFIED, lastModified);
+        row.add(Document.COLUMN_FLAGS, flags);
     }
 }

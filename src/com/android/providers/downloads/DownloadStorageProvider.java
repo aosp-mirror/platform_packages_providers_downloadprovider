@@ -31,6 +31,7 @@ import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.provider.DocumentsContract.Root;
 import android.provider.DocumentsProvider;
+import android.text.TextUtils;
 
 import libcore.io.IoUtils;
 
@@ -56,14 +57,11 @@ public class DownloadStorageProvider extends DocumentsProvider {
     };
 
     private DownloadManager mDm;
-    private DownloadManager.Query mBaseQuery;
 
     @Override
     public boolean onCreate() {
         mDm = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
         mDm.setAccessAllDownloads(true);
-        mBaseQuery = new DownloadManager.Query().setOnlyIncludeVisibleInDownloadsUi(true);
-
         return true;
     }
 
@@ -138,7 +136,31 @@ public class DownloadStorageProvider extends DocumentsProvider {
         final long token = Binder.clearCallingIdentity();
         Cursor cursor = null;
         try {
-            cursor = mDm.query(mBaseQuery);
+            cursor = mDm.query(new DownloadManager.Query().setOnlyIncludeVisibleInDownloadsUi(true)
+                    .setFilterByStatus(DownloadManager.STATUS_SUCCESSFUL));
+            copyNotificationUri(result, cursor);
+            while (cursor.moveToNext()) {
+                includeDownloadFromCursor(result, cursor);
+            }
+        } finally {
+            IoUtils.closeQuietly(cursor);
+            Binder.restoreCallingIdentity(token);
+        }
+        return result;
+    }
+
+    @Override
+    public Cursor queryChildDocumentsForManage(
+            String parentDocumentId, String[] projection, String sortOrder)
+            throws FileNotFoundException {
+        final MatrixCursor result = new MatrixCursor(resolveDocumentProjection(projection));
+
+        // Delegate to real provider
+        final long token = Binder.clearCallingIdentity();
+        Cursor cursor = null;
+        try {
+            cursor = mDm.query(
+                    new DownloadManager.Query().setOnlyIncludeVisibleInDownloadsUi(true));
             copyNotificationUri(result, cursor);
             while (cursor.moveToNext()) {
                 includeDownloadFromCursor(result, cursor);
@@ -163,6 +185,18 @@ public class DownloadStorageProvider extends DocumentsProvider {
                     .setFilterByStatus(DownloadManager.STATUS_SUCCESSFUL));
             copyNotificationUri(result, cursor);
             while (cursor.moveToNext() && result.getCount() < 12) {
+                final String mimeType = cursor.getString(
+                        cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIA_TYPE));
+                final String uri = cursor.getString(
+                        cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIAPROVIDER_URI));
+
+                // Skip images that have been inserted into the MediaStore so we
+                // don't duplicate them in the recents list.
+                if (mimeType == null
+                        || (mimeType.startsWith("image/") && !TextUtils.isEmpty(uri))) {
+                    continue;
+                }
+
                 includeDownloadFromCursor(result, cursor);
             }
         } finally {

@@ -20,7 +20,6 @@ import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMP
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION;
 
 import android.app.DownloadManager;
-import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -162,13 +161,8 @@ public class DownloadReceiver extends BroadcastReceiver {
      * {@link DownloadManager#COLUMN_ID}.
      */
     private void openDownload(Context context, long id) {
-        final Intent intent = OpenHelper.buildViewIntent(context, id);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        try {
-            context.startActivity(intent);
-        } catch (ActivityNotFoundException ex) {
-            Log.d(Constants.TAG, "no activity for " + intent, ex);
-            Toast.makeText(context, R.string.download_no_application_title, Toast.LENGTH_LONG)
+        if (!OpenHelper.startViewIntent(context, id, Intent.FLAG_ACTIVITY_NEW_TASK)) {
+            Toast.makeText(context, R.string.download_no_application_title, Toast.LENGTH_SHORT)
                     .show();
         }
     }

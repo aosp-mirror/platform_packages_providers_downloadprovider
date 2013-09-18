@@ -19,7 +19,6 @@ package com.android.providers.downloads.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
-import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -530,11 +529,8 @@ public class DownloadList extends Activity {
         }
 
         final long id = cursor.getLong(cursor.getColumnIndexOrThrow(BaseColumns._ID));
-        final Intent intent = OpenHelper.buildViewIntent(this, id);
-        try {
-            startActivity(intent);
-        } catch (ActivityNotFoundException ex) {
-            Toast.makeText(this, R.string.download_no_application_title, Toast.LENGTH_LONG).show();
+        if (!OpenHelper.startViewIntent(this, id, 0)) {
+            Toast.makeText(this, R.string.download_no_application_title, Toast.LENGTH_SHORT).show();
         }
     }
 

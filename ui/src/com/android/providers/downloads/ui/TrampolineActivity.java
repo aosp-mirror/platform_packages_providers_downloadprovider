@@ -92,8 +92,10 @@ public class TrampolineActivity extends Activity {
                 break;
 
             case DownloadManager.STATUS_SUCCESSFUL:
-                final Intent intent = OpenHelper.buildViewIntent(this, id);
-                startActivity(intent);
+                if (!OpenHelper.startViewIntent(this, id, 0)) {
+                    Toast.makeText(this, R.string.download_no_application_title, Toast.LENGTH_SHORT)
+                            .show();
+                }
                 finish();
                 break;
 

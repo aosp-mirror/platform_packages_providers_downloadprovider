@@ -35,7 +35,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.ParcelFileDescriptor;
+import android.os.ParcelFileDescriptor.OnCloseListener;
 import android.os.Process;
 import android.os.SELinux;
 import android.provider.BaseColumns;
@@ -48,6 +50,8 @@ import android.util.Log;
 import com.android.internal.util.IndentingPrintWriter;
 import com.google.android.collect.Maps;
 import com.google.common.annotations.VisibleForTesting;
+
+import libcore.io.IoUtils;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -69,7 +73,7 @@ public final class DownloadProvider extends ContentProvider {
     /** Database filename */
     private static final String DB_NAME = "downloads.db";
     /** Current database version */
-    private static final int DB_VERSION = 108;
+    private static final int DB_VERSION = 109;
     /** Name of table in the database */
     private static final String DB_TABLE = "downloads";
 
@@ -165,6 +169,8 @@ public final class DownloadProvider extends ContentProvider {
     }
     private static final List<String> downloadManagerColumnsList =
             Arrays.asList(DownloadManager.UNDERLYING_COLUMNS);
+
+    private Handler mHandler;
 
     /** The database that lies underneath this content provider */
     private SQLiteOpenHelper mOpenHelper = null;
@@ -319,6 +325,11 @@ public final class DownloadProvider extends ContentProvider {
                             "INTEGER NOT NULL DEFAULT 1");
                     break;
 
+                case 109:
+                    addColumn(db, DB_TABLE, Downloads.Impl.COLUMN_ALLOW_WRITE,
+                            "BOOLEAN NOT NULL DEFAULT 0");
+                    break;
+
                 default:
                     throw new IllegalStateException("Don't know how to upgrade to " + version);
             }
@@ -431,6 +442,8 @@ public final class DownloadProvider extends ContentProvider {
         if (mSystemFacade == null) {
             mSystemFacade = new RealSystemFacade(getContext());
         }
+
+        mHandler = new Handler();
 
         mOpenHelper = new DatabaseHelper(getContext());
         // Initialize the system uid
@@ -590,6 +603,7 @@ public final class DownloadProvider extends ContentProvider {
             filteredValues.put(Downloads.Impl.COLUMN_CURRENT_BYTES, 0);
             copyInteger(Downloads.Impl.COLUMN_MEDIA_SCANNED, values, filteredValues);
             copyString(Downloads.Impl._DATA, values, filteredValues);
+            copyBoolean(Downloads.Impl.COLUMN_ALLOW_WRITE, values, filteredValues);
         } else {
             filteredValues.put(Downloads.Impl.COLUMN_STATUS, Downloads.Impl.STATUS_PENDING);
             filteredValues.put(Downloads.Impl.COLUMN_TOTAL_BYTES, -1);
@@ -784,6 +798,7 @@ public final class DownloadProvider extends ContentProvider {
         values.remove(Downloads.Impl.COLUMN_ALLOW_METERED);
         values.remove(Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI);
         values.remove(Downloads.Impl.COLUMN_MEDIA_SCANNED);
+        values.remove(Downloads.Impl.COLUMN_ALLOW_WRITE);
         Iterator<Map.Entry<String, Object>> iterator = values.valueSet().iterator();
         while (iterator.hasNext()) {
             String key = iterator.next().getKey();
@@ -1162,13 +1177,15 @@ public final class DownloadProvider extends ContentProvider {
      * Remotely opens a file
      */
     @Override
-    public ParcelFileDescriptor openFile(Uri uri, String mode) throws FileNotFoundException {
+    public ParcelFileDescriptor openFile(final Uri uri, String mode) throws FileNotFoundException {
         if (Constants.LOGVV) {
             logVerboseOpenFileInfo(uri, mode);
         }
 
-        Cursor cursor = query(uri, new String[] {"_data"}, null, null, null);
+        final Cursor cursor = query(uri, new String[] {
+                Downloads.Impl._DATA, Downloads.Impl.COLUMN_ALLOW_WRITE }, null, null, null);
         String path;
+        boolean allowWrite;
         try {
             int count = (cursor != null) ? cursor.getCount() : 0;
             if (count != 1) {
@@ -1181,10 +1198,9 @@ public final class DownloadProvider extends ContentProvider {
 
             cursor.moveToFirst();
             path = cursor.getString(0);
+            allowWrite = cursor.getInt(1) != 0;
         } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
+            IoUtils.closeQuietly(cursor);
         }
 
         if (path == null) {
@@ -1193,12 +1209,33 @@ public final class DownloadProvider extends ContentProvider {
         if (!Helpers.isFilenameValid(path, mDownloadsDataDir)) {
             throw new FileNotFoundException("Invalid filename: " + path);
         }
-        if (!"r".equals(mode)) {
+        if (!allowWrite && !"r".equals(mode)) {
             throw new FileNotFoundException("Bad mode for " + uri + ": " + mode);
         }
 
-        ParcelFileDescriptor ret = ParcelFileDescriptor.open(new File(path),
-                ParcelFileDescriptor.MODE_READ_ONLY);
+        final File file = new File(path);
+
+        ParcelFileDescriptor ret;
+        if ("r".equals(mode)) {
+            ret = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY);
+        } else {
+            try {
+                // When finished writing, update size and timestamp
+                ret = ParcelFileDescriptor.open(file, ParcelFileDescriptor.parseMode(mode),
+                        mHandler, new OnCloseListener() {
+                            @Override
+                            public void onClose(IOException e) {
+                                final ContentValues values = new ContentValues();
+                                values.put(Downloads.Impl.COLUMN_TOTAL_BYTES, file.length());
+                                values.put(Downloads.Impl.COLUMN_LAST_MODIFICATION,
+                                        System.currentTimeMillis());
+                                update(uri, values, null, null);
+                            }
+                        });
+            } catch (IOException e) {
+                throw new FileNotFoundException("Failed to open for writing: " + e);
+            }
+        }
 
         if (ret == null) {
             if (Constants.LOGV) {

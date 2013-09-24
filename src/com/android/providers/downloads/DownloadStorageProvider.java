@@ -18,6 +18,7 @@ package com.android.providers.downloads;
 
 import android.app.DownloadManager;
 import android.app.DownloadManager.Query;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
@@ -26,16 +27,20 @@ import android.database.MatrixCursor.RowBuilder;
 import android.graphics.Point;
 import android.os.Binder;
 import android.os.CancellationSignal;
+import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.provider.DocumentsContract.Root;
 import android.provider.DocumentsProvider;
 import android.text.TextUtils;
+import android.webkit.MimeTypeMap;
 
 import libcore.io.IoUtils;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Presents a {@link DocumentsContract} view of {@link DownloadManager}
@@ -83,11 +88,46 @@ public class DownloadStorageProvider extends DocumentsProvider {
         final RowBuilder row = result.newRow();
         row.add(Root.COLUMN_ROOT_ID, DOC_ID_ROOT);
         row.add(Root.COLUMN_ROOT_TYPE, Root.ROOT_TYPE_SHORTCUT);
-        row.add(Root.COLUMN_FLAGS, Root.FLAG_LOCAL_ONLY | Root.FLAG_SUPPORTS_RECENTS);
+        row.add(Root.COLUMN_FLAGS,
+                Root.FLAG_LOCAL_ONLY | Root.FLAG_SUPPORTS_RECENTS | Root.FLAG_SUPPORTS_CREATE);
         row.add(Root.COLUMN_ICON, R.mipmap.ic_launcher_download);
         row.add(Root.COLUMN_TITLE, getContext().getString(R.string.root_downloads));
         row.add(Root.COLUMN_DOCUMENT_ID, DOC_ID_ROOT);
         return result;
+    }
+
+    @Override
+    public String createDocument(String docId, String mimeType, String displayName)
+            throws FileNotFoundException {
+        final File parent = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS);
+
+        // Delegate to real provider
+        final long token = Binder.clearCallingIdentity();
+        try {
+            displayName = removeExtension(mimeType, displayName);
+            File file = new File(parent, addExtension(mimeType, displayName));
+
+            // If conflicting file, try adding counter suffix
+            int n = 0;
+            while (file.exists() && n++ < 32) {
+                file = new File(parent, addExtension(mimeType, displayName + " (" + n + ")"));
+            }
+
+            try {
+                if (!file.createNewFile()) {
+                    throw new IllegalStateException("Failed to touch " + file);
+                }
+            } catch (IOException e) {
+                throw new IllegalStateException("Failed to touch " + file + ": " + e);
+            }
+
+            return Long.toString(mDm.addCompletedDownload(
+                    file.getName(), file.getName(), false, mimeType, file.getAbsolutePath(), 0L,
+                    false, true));
+        } finally {
+            Binder.restoreCallingIdentity(token);
+        }
     }
 
     @Override
@@ -209,14 +249,12 @@ public class DownloadStorageProvider extends DocumentsProvider {
     @Override
     public ParcelFileDescriptor openDocument(String docId, String mode, CancellationSignal signal)
             throws FileNotFoundException {
-        if (!"r".equals(mode)) {
-            throw new IllegalArgumentException("Downloads are read-only");
-        }
-
         // Delegate to real provider
         final long token = Binder.clearCallingIdentity();
         try {
-            return mDm.openDownloadedFile(Long.parseLong(docId));
+            final long id = Long.parseLong(docId);
+            final ContentResolver resolver = getContext().getContentResolver();
+            return resolver.openFileDescriptor(mDm.getDownloadUri(id), mode, signal);
         } finally {
             Binder.restoreCallingIdentity(token);
         }
@@ -234,7 +272,8 @@ public class DownloadStorageProvider extends DocumentsProvider {
         final RowBuilder row = result.newRow();
         row.add(Document.COLUMN_DOCUMENT_ID, DOC_ID_ROOT);
         row.add(Document.COLUMN_MIME_TYPE, Document.MIME_TYPE_DIR);
-        row.add(Document.COLUMN_FLAGS, Document.FLAG_DIR_PREFERS_LAST_MODIFIED);
+        row.add(Document.COLUMN_FLAGS,
+                Document.FLAG_DIR_PREFERS_LAST_MODIFIED | Document.FLAG_DIR_SUPPORTS_CREATE);
     }
 
     private void includeDownloadFromCursor(MatrixCursor result, Cursor cursor) {
@@ -288,6 +327,12 @@ public class DownloadStorageProvider extends DocumentsProvider {
             flags |= Document.FLAG_SUPPORTS_THUMBNAIL;
         }
 
+        final int allowWrite = cursor.getInt(
+                cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_ALLOW_WRITE));
+        if (allowWrite != 0) {
+            flags |= Document.FLAG_SUPPORTS_WRITE;
+        }
+
         final long lastModified = cursor.getLong(
                 cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP));
 
@@ -299,5 +344,33 @@ public class DownloadStorageProvider extends DocumentsProvider {
         row.add(Document.COLUMN_MIME_TYPE, mimeType);
         row.add(Document.COLUMN_LAST_MODIFIED, lastModified);
         row.add(Document.COLUMN_FLAGS, flags);
+    }
+
+    /**
+     * Remove file extension from name, but only if exact MIME type mapping
+     * exists. This means we can reapply the extension later.
+     */
+    private static String removeExtension(String mimeType, String name) {
+        final int lastDot = name.lastIndexOf('.');
+        if (lastDot >= 0) {
+            final String extension = name.substring(lastDot + 1);
+            final String nameMime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+            if (mimeType.equals(nameMime)) {
+                return name.substring(0, lastDot);
+            }
+        }
+        return name;
+    }
+
+    /**
+     * Add file extension to name, but only if exact MIME type mapping exists.
+     */
+    private static String addExtension(String mimeType, String name) {
+        final String extension = MimeTypeMap.getSingleton()
+                .getExtensionFromMimeType(mimeType);
+        if (extension != null) {
+            return name + "." + extension;
+        }
+        return name;
     }
 }

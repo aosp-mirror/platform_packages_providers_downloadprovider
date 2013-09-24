@@ -16,6 +16,8 @@
 
 package com.android.providers.downloads;
 
+import static com.android.providers.downloads.Constants.TAG;
+
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
@@ -342,7 +344,13 @@ public class Helpers {
      * Checks whether the filename looks legitimate
      */
     static boolean isFilenameValid(String filename, File downloadsDataDir) {
-        filename = filename.replaceFirst("/+", "/"); // normalize leading slashes
+        try {
+            filename = new File(filename).getCanonicalPath();
+        } catch (IOException e) {
+            Log.w(TAG, "Failed to resolve canonical path: " + e);
+            return false;
+        }
+
         return filename.startsWith(Environment.getDownloadCacheDirectory().toString())
                 || filename.startsWith(downloadsDataDir.toString())
                 || filename.startsWith(Environment.getExternalStorageDirectory().toString());

@@ -25,6 +25,7 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MatrixCursor.RowBuilder;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.CancellationSignal;
 import android.os.Environment;
@@ -47,6 +48,7 @@ import java.io.IOException;
  * contents.
  */
 public class DownloadStorageProvider extends DocumentsProvider {
+    private static final String AUTHORITY = Constants.STORAGE_AUTHORITY;
     private static final String DOC_ID_ROOT = Constants.STORAGE_ROOT_ID;
 
     private static final String[] DEFAULT_ROOT_PROJECTION = new String[] {
@@ -80,6 +82,11 @@ public class DownloadStorageProvider extends DocumentsProvider {
 
     private void copyNotificationUri(MatrixCursor result, Cursor cursor) {
         result.setNotificationUri(getContext().getContentResolver(), cursor.getNotificationUri());
+    }
+
+    static void onDownloadProviderDelete(Context context, long id) {
+        final Uri uri = DocumentsContract.buildDocumentUri(AUTHORITY, Long.toString(id));
+        context.revokeUriPermission(uri, ~0);
     }
 
     @Override

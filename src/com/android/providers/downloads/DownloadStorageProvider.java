@@ -52,9 +52,8 @@ public class DownloadStorageProvider extends DocumentsProvider {
     private static final String DOC_ID_ROOT = Constants.STORAGE_ROOT_ID;
 
     private static final String[] DEFAULT_ROOT_PROJECTION = new String[] {
-            Root.COLUMN_ROOT_ID, Root.COLUMN_ROOT_TYPE, Root.COLUMN_FLAGS, Root.COLUMN_ICON,
-            Root.COLUMN_TITLE, Root.COLUMN_SUMMARY, Root.COLUMN_DOCUMENT_ID,
-            Root.COLUMN_AVAILABLE_BYTES,
+            Root.COLUMN_ROOT_ID, Root.COLUMN_FLAGS, Root.COLUMN_ICON,
+            Root.COLUMN_TITLE, Root.COLUMN_DOCUMENT_ID,
     };
 
     private static final String[] DEFAULT_DOCUMENT_PROJECTION = new String[] {
@@ -94,7 +93,6 @@ public class DownloadStorageProvider extends DocumentsProvider {
         final MatrixCursor result = new MatrixCursor(resolveRootProjection(projection));
         final RowBuilder row = result.newRow();
         row.add(Root.COLUMN_ROOT_ID, DOC_ID_ROOT);
-        row.add(Root.COLUMN_ROOT_TYPE, Root.ROOT_TYPE_SHORTCUT);
         row.add(Root.COLUMN_FLAGS,
                 Root.FLAG_LOCAL_ONLY | Root.FLAG_SUPPORTS_RECENTS | Root.FLAG_SUPPORTS_CREATE);
         row.add(Root.COLUMN_ICON, R.mipmap.ic_launcher_download);

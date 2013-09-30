@@ -1162,6 +1162,19 @@ public final class DownloadProvider extends ContentProvider {
             case ALL_DOWNLOADS_ID:
                 SqlSelection selection = getWhereClause(uri, where, whereArgs, match);
                 deleteRequestHeaders(db, selection.getSelection(), selection.getParameters());
+
+                final Cursor cursor = db.query(DB_TABLE, new String[] {
+                        Downloads.Impl._ID }, selection.getSelection(), selection.getParameters(),
+                        null, null, null);
+                try {
+                    while (cursor.moveToNext()) {
+                        final long id = cursor.getLong(0);
+                        DownloadStorageProvider.onDownloadProviderDelete(getContext(), id);
+                    }
+                } finally {
+                    IoUtils.closeQuietly(cursor);
+                }
+
                 count = db.delete(DB_TABLE, selection.getSelection(), selection.getParameters());
                 break;
 

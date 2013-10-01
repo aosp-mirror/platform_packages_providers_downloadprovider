@@ -78,7 +78,6 @@ public class OpenHelper {
             mimeType = DownloadDrmHelper.getOriginalMimeType(context, file, mimeType);
 
             final Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
             if ("application/vnd.android.package-archive".equals(mimeType)) {
                 // PackageInstaller doesn't like content URIs, so open file
@@ -90,9 +89,12 @@ public class OpenHelper {
                 intent.putExtra(Intent.EXTRA_REFERRER, getRefererUri(context, id));
                 intent.putExtra(Intent.EXTRA_ORIGINATING_UID, getOriginatingUid(context, id));
             } else if ("file".equals(localUri.getScheme())) {
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 intent.setDataAndType(
                         ContentUris.withAppendedId(ALL_DOWNLOADS_CONTENT_URI, id), mimeType);
             } else {
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 intent.setDataAndType(localUri, mimeType);
             }
 

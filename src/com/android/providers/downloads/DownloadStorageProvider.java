@@ -292,7 +292,8 @@ public class DownloadStorageProvider extends DocumentsProvider {
         String mimeType = cursor.getString(
                 cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIA_TYPE));
         if (mimeType == null) {
-            mimeType = "application/octet-stream";
+            // Provide fake MIME type so it's openable
+            mimeType = "vnd.android.document/file";
         }
         Long size = cursor.getLong(
                 cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
@@ -327,15 +328,9 @@ public class DownloadStorageProvider extends DocumentsProvider {
                 break;
         }
 
-        int flags = Document.FLAG_SUPPORTS_DELETE;
+        int flags = Document.FLAG_SUPPORTS_DELETE | Document.FLAG_SUPPORTS_WRITE;
         if (mimeType != null && mimeType.startsWith("image/")) {
             flags |= Document.FLAG_SUPPORTS_THUMBNAIL;
-        }
-
-        final int allowWrite = cursor.getInt(
-                cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_ALLOW_WRITE));
-        if (allowWrite != 0) {
-            flags |= Document.FLAG_SUPPORTS_WRITE;
         }
 
         final long lastModified = cursor.getLong(

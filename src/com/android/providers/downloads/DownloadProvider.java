@@ -1195,10 +1195,8 @@ public final class DownloadProvider extends ContentProvider {
             logVerboseOpenFileInfo(uri, mode);
         }
 
-        final Cursor cursor = query(uri, new String[] {
-                Downloads.Impl._DATA, Downloads.Impl.COLUMN_ALLOW_WRITE }, null, null, null);
+        final Cursor cursor = query(uri, new String[] { Downloads.Impl._DATA }, null, null, null);
         String path;
-        boolean allowWrite;
         try {
             int count = (cursor != null) ? cursor.getCount() : 0;
             if (count != 1) {
@@ -1211,7 +1209,6 @@ public final class DownloadProvider extends ContentProvider {
 
             cursor.moveToFirst();
             path = cursor.getString(0);
-            allowWrite = cursor.getInt(1) != 0;
         } finally {
             IoUtils.closeQuietly(cursor);
         }
@@ -1222,19 +1219,14 @@ public final class DownloadProvider extends ContentProvider {
         if (!Helpers.isFilenameValid(path, mDownloadsDataDir)) {
             throw new FileNotFoundException("Invalid filename: " + path);
         }
-        if (!allowWrite && !"r".equals(mode)) {
-            throw new FileNotFoundException("Bad mode for " + uri + ": " + mode);
-        }
 
         final File file = new File(path);
-
-        ParcelFileDescriptor ret;
         if ("r".equals(mode)) {
-            ret = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY);
+            return ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY);
         } else {
             try {
                 // When finished writing, update size and timestamp
-                ret = ParcelFileDescriptor.open(file, ParcelFileDescriptor.parseMode(mode),
+                return ParcelFileDescriptor.open(file, ParcelFileDescriptor.parseMode(mode),
                         mHandler, new OnCloseListener() {
                             @Override
                             public void onClose(IOException e) {
@@ -1249,14 +1241,6 @@ public final class DownloadProvider extends ContentProvider {
                 throw new FileNotFoundException("Failed to open for writing: " + e);
             }
         }
-
-        if (ret == null) {
-            if (Constants.LOGV) {
-                Log.v(Constants.TAG, "couldn't open file");
-            }
-            throw new FileNotFoundException("couldn't open file");
-        }
-        return ret;
     }
 
     @Override

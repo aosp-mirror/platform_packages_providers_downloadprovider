@@ -683,23 +683,12 @@ public final class DownloadProvider extends ContentProvider {
         }
 
         insertRequestHeaders(db, rowID, values);
-        /*
-         * requests coming from
-         * DownloadManager.addCompletedDownload(String, String, String,
-         * boolean, String, String, long) need special treatment
-         */
-        Context context = getContext();
-        if (values.getAsInteger(Downloads.Impl.COLUMN_DESTINATION) ==
-                Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD) {
-            // When notification is requested, kick off service to process all
-            // relevant downloads.
-            if (Downloads.Impl.isNotificationToBeDisplayed(vis)) {
-                context.startService(new Intent(context, DownloadService.class));
-            }
-        } else {
-            context.startService(new Intent(context, DownloadService.class));
-        }
         notifyContentChanged(uri, match);
+
+        // Always start service to handle notifications and/or scanning
+        final Context context = getContext();
+        context.startService(new Intent(context, DownloadService.class));
+
         return ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, rowID);
     }
 

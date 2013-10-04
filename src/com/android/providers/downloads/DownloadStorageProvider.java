@@ -106,6 +106,7 @@ public class DownloadStorageProvider extends DocumentsProvider {
             throws FileNotFoundException {
         final File parent = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DOWNLOADS);
+        parent.mkdirs();
 
         // Delegate to real provider
         final long token = Binder.clearCallingIdentity();

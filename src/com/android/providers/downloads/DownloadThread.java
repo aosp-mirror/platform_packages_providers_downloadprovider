@@ -519,7 +519,7 @@ public class DownloadThread implements Runnable {
                 throw new StopRequestException(
                         Downloads.Impl.STATUS_PAUSED_BY_APP, "download paused by owner");
             }
-            if (mInfo.mStatus == Downloads.Impl.STATUS_CANCELED) {
+            if (mInfo.mStatus == Downloads.Impl.STATUS_CANCELED || mInfo.mDeleted) {
                 throw new StopRequestException(Downloads.Impl.STATUS_CANCELED, "download canceled");
             }
         }

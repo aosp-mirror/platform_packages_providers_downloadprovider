@@ -104,6 +104,10 @@ public class DownloadStorageProvider extends DocumentsProvider {
     @Override
     public String createDocument(String docId, String mimeType, String displayName)
             throws FileNotFoundException {
+        if (Document.MIME_TYPE_DIR.equals(mimeType)) {
+            throw new FileNotFoundException("Directory creation not supported");
+        }
+
         final File parent = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DOWNLOADS);
         parent.mkdirs();

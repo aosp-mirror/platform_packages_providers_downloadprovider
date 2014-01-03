@@ -141,7 +141,15 @@ public class Helpers {
             // Claim this filename inside lock to prevent other threads from
             // clobbering us. We're not paranoid enough to use O_EXCL.
             try {
-                new File(path).createNewFile();
+                File file = new File(path);
+                File parent = file.getParentFile();
+
+                // Make sure the parent directories exists before generates new file
+                if (parent != null && !parent.exists()) {
+                    parent.mkdirs();
+                }
+
+                file.createNewFile();
             } catch (IOException e) {
                 throw new StopRequestException(Downloads.Impl.STATUS_FILE_ERROR,
                         "Failed to create target file " + path, e);

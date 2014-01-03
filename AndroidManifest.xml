@@ -57,7 +57,8 @@
 
     <application android:process="android.process.media"
                  android:label="@string/app_label"
-                 android:icon="@mipmap/ic_launcher_download">
+                 android:icon="@mipmap/ic_launcher_download"
+                 android:allowBackup="false">
 
         <provider android:name=".DownloadProvider"
                   android:authorities="downloads" android:exported="true">

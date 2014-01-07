@@ -16,10 +16,10 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"Prevzatia"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Prevzatia – zoradené podľa dátumu"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Prevzatia – zoradené podľa veľkosti"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"Žiadne preberania"</string>
+    <string name="app_label" msgid="3070921713463294774">"Stiahnutia"</string>
+    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Stiahnutia – zoradené podľa dátumu"</string>
+    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Stiahnutia – zoradené podľa veľkosti"</string>
+    <string name="no_downloads" msgid="1029667411186146836">"Žiadne sťahovania"</string>
     <string name="missing_title" msgid="830115697868833773">"&lt;Neznáme&gt;"</string>
     <string name="button_sort_by_size" msgid="7331549713691146251">"Zoradiť podľa veľkosti"</string>
     <string name="button_sort_by_date" msgid="8800842892684101528">"Zoradiť podľa dátumu"</string>
@@ -27,16 +27,16 @@
     <string name="download_running" msgid="4656462962155580641">"Prebieha"</string>
     <string name="download_success" msgid="7006048006543495236">"Dokončené"</string>
     <string name="download_error" msgid="8081329546008568251">"Neúspešné"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"Nepodarilo sa prevziať"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"Chcete tento súbor skúsiť znova prevziať neskôr, alebo ho chcete zo zoznamu odstrániť?"</string>
+    <string name="dialog_title_not_available" msgid="5746317632356158515">"Nepodarilo sa stiahnuť"</string>
+    <string name="dialog_failed_body" msgid="587545111677064427">"Chcete tento súbor skúsiť znova stiahnuť neskôr, alebo ho chcete zo zoznamu odstrániť?"</string>
     <string name="dialog_title_queued_body" msgid="6760681913815015219">"Súbor v poradí"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"Súbor zatiaľ nie je k dispozícii, pretože je v poradí na budúce prevzatie."</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Prevzatý súbor sa nepodarilo nájsť."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Preberanie nie je možné dokončiť. V externom úložisku nie je dostatok miesta."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Preberanie nie je možné dokončiť. V internom úložisku na prevzaté súbory nie je dostatok miesta."</string>
-    <string name="dialog_cannot_resume" msgid="8664509751358983543">"Preberanie bolo prerušené a nie je možné v ňom pokračovať."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Nepodarilo sa prevziať. Cieľový súbor už existuje."</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"Nepodarilo sa prevziať. Externé médium nie je k dispozícii."</string>
+    <string name="dialog_queued_body" msgid="708552801635572720">"Súbor zatiaľ nie je k dispozícii, pretože je v poradí na budúce stiahnutie."</string>
+    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Stiahnutý súbor sa nepodarilo nájsť."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Sťahovanie nie je možné dokončiť. V externom úložisku nie je dostatok miesta."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Sťahovanie nie je možné dokončiť. V internom úložisku na stiahnuté súbory nie je dostatok miesta."</string>
+    <string name="dialog_cannot_resume" msgid="8664509751358983543">"Sťahovanie bolo prerušené a nie je možné v ňom pokračovať."</string>
+    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Nepodarilo sa stiahnuť. Cieľový súbor už existuje."</string>
+    <string name="dialog_media_not_found" msgid="4468088418758018765">"Nepodarilo sa stiahnuť. Externé médium nie je k dispozícii."</string>
     <string name="download_no_application_title" msgid="7024782176657362251">"Súbor nie je možné otvoriť"</string>
     <string name="remove_download" msgid="6372920256257247857">"Odstrániť"</string>
     <string name="delete_download" msgid="76629022653866471">"Odstrániť"</string>

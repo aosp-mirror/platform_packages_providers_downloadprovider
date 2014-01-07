@@ -21,7 +21,7 @@
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Tillader, at appen kan få adgang til downloadadministratoren og til at bruge den til at downloade filer. Ondsindede apps kan bruge dette til at afbryde downloads og få adgang til personlige oplysninger."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Avancerede funktioner for downloadadministrator."</string>
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Tillader, at appen kan få adgang til downloadadministrators avancerede funktioner. Ondsindede apps kan bruge dette til at afbryde downloads og få adgang til personlige oplysninger."</string>
-    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Send downloadmeddelelser."</string>
+    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Send underretninger om downloads."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Tillader, at appen kan sende meddelelser om fuldførte downloads. Ondsindede apps kan bruge dette til at forvirre andre apps, der downloader filer."</string>
     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Se alle downloads til USB-lagr."</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Se alle downloads til SD-kort"</string>

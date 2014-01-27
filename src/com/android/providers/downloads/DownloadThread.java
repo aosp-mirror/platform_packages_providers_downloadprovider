@@ -51,7 +51,7 @@ import android.os.SystemClock;
 import android.os.WorkSource;
 import android.provider.Downloads;
 import android.text.TextUtils;
-import android.util.Slog;
+import android.util.Log;
 import android.util.Pair;
 
 import com.android.providers.downloads.DownloadInfo.NetworkState;
@@ -175,7 +175,7 @@ public class DownloadThread implements Runnable {
         // probably started again while racing with UpdateThread.
         if (DownloadInfo.queryDownloadStatus(mContext.getContentResolver(), mInfo.mId)
                 == Downloads.Impl.STATUS_SUCCESS) {
-            Slog.d(TAG, "Download " + mInfo.mId + " already finished; skipping");
+            Log.d(TAG, "Download " + mInfo.mId + " already finished; skipping");
             return;
         }
 
@@ -196,7 +196,7 @@ public class DownloadThread implements Runnable {
             // while performing download, register for rules updates
             netPolicy.registerListener(mPolicyListener);
 
-            Slog.i(Constants.TAG, "Download " + mInfo.mId + " starting (" + mInfo.mUri + ")");
+            Log.i(Constants.TAG, "Download " + mInfo.mId + " starting");
 
             // Remember which network this download started on; used to
             // determine if errors were due to network changes.
@@ -225,9 +225,9 @@ public class DownloadThread implements Runnable {
             // remove the cause before printing, in case it contains PII
             errorMsg = error.getMessage();
             String msg = "Aborting request for download " + mInfo.mId + ": " + errorMsg;
-            Slog.w(Constants.TAG, msg);
+            Log.w(Constants.TAG, msg);
             if (Constants.LOGV) {
-                Slog.w(Constants.TAG, msg, error);
+                Log.w(Constants.TAG, msg, error);
             }
             finalStatus = error.getFinalStatus();
 
@@ -262,7 +262,7 @@ public class DownloadThread implements Runnable {
         } catch (Throwable ex) {
             errorMsg = ex.getMessage();
             String msg = "Exception for id " + mInfo.mId + ": " + errorMsg;
-            Slog.w(Constants.TAG, msg, ex);
+            Log.w(Constants.TAG, msg, ex);
             finalStatus = Downloads.Impl.STATUS_UNKNOWN_ERROR;
             // falls through to the code that reports an error
         } finally {
@@ -276,7 +276,7 @@ public class DownloadThread implements Runnable {
             cleanupDestination(state, finalStatus);
             notifyDownloadCompleted(state, finalStatus, errorMsg, numFailed);
 
-            Slog.i(Constants.TAG, "Download " + mInfo.mId + " finished with status "
+            Log.i(Constants.TAG, "Download " + mInfo.mId + " finished with status "
                     + Downloads.Impl.statusToString(finalStatus));
 
             netPolicy.unregisterListener(mPolicyListener);
@@ -299,7 +299,7 @@ public class DownloadThread implements Runnable {
 
         // skip when already finished; remove after fixing race in 5217390
         if (state.mCurrentBytes == state.mTotalBytes) {
-            Slog.i(Constants.TAG, "Skipping initiating request for download " +
+            Log.i(Constants.TAG, "Skipping initiating request for download " +
                   mInfo.mId + "; already completed");
             return;
         }
@@ -477,7 +477,7 @@ public class DownloadThread implements Runnable {
             reportProgress(state);
 
             if (Constants.LOGVV) {
-                Slog.v(Constants.TAG, "downloaded " + state.mCurrentBytes + " for "
+                Log.v(Constants.TAG, "downloaded " + state.mCurrentBytes + " for "
                       + mInfo.mUri);
             }
 
@@ -502,7 +502,7 @@ public class DownloadThread implements Runnable {
     private void cleanupDestination(State state, int finalStatus) {
         if (state.mFilename != null && Downloads.Impl.isStatusError(finalStatus)) {
             if (Constants.LOGVV) {
-                Slog.d(TAG, "cleanupDestination() deleting " + state.mFilename);
+                Log.d(TAG, "cleanupDestination() deleting " + state.mFilename);
             }
             new File(state.mFilename).delete();
             state.mFilename = null;
@@ -715,7 +715,7 @@ public class DownloadThread implements Runnable {
         if (transferEncoding == null) {
             state.mContentLength = getHeaderFieldLong(conn, "Content-Length", -1);
         } else {
-            Slog.i(TAG, "Ignoring Content-Length since Transfer-Encoding is also defined");
+            Log.i(TAG, "Ignoring Content-Length since Transfer-Encoding is also defined");
             state.mContentLength = -1;
         }
 
@@ -752,7 +752,7 @@ public class DownloadThread implements Runnable {
     private void setupDestinationFile(State state) throws StopRequestException {
         if (!TextUtils.isEmpty(state.mFilename)) { // only true if we've already run a thread for this download
             if (Constants.LOGV) {
-                Slog.i(Constants.TAG, "have run thread before for id: " + mInfo.mId +
+                Log.i(Constants.TAG, "have run thread before for id: " + mInfo.mId +
                         ", and state.mFilename: " + state.mFilename);
             }
             if (!Helpers.isFilenameValid(state.mFilename,
@@ -765,26 +765,26 @@ public class DownloadThread implements Runnable {
             File f = new File(state.mFilename);
             if (f.exists()) {
                 if (Constants.LOGV) {
-                    Slog.i(Constants.TAG, "resuming download for id: " + mInfo.mId +
+                    Log.i(Constants.TAG, "resuming download for id: " + mInfo.mId +
                             ", and state.mFilename: " + state.mFilename);
                 }
                 long fileLength = f.length();
                 if (fileLength == 0) {
                     // The download hadn't actually started, we can restart from scratch
                     if (Constants.LOGVV) {
-                        Slog.d(TAG, "setupDestinationFile() found fileLength=0, deleting "
+                        Log.d(TAG, "setupDestinationFile() found fileLength=0, deleting "
                                 + state.mFilename);
                     }
                     f.delete();
                     state.mFilename = null;
                     if (Constants.LOGV) {
-                        Slog.i(Constants.TAG, "resuming download for id: " + mInfo.mId +
+                        Log.i(Constants.TAG, "resuming download for id: " + mInfo.mId +
                                 ", BUT starting from scratch again: ");
                     }
                 } else if (mInfo.mETag == null && !mInfo.mNoIntegrity) {
                     // This should've been caught upon failure
                     if (Constants.LOGVV) {
-                        Slog.d(TAG, "setupDestinationFile() unable to resume download, deleting "
+                        Log.d(TAG, "setupDestinationFile() unable to resume download, deleting "
                                 + state.mFilename);
                     }
                     f.delete();
@@ -793,7 +793,7 @@ public class DownloadThread implements Runnable {
                 } else {
                     // All right, we'll be able to resume this download
                     if (Constants.LOGV) {
-                        Slog.i(Constants.TAG, "resuming download for id: " + mInfo.mId +
+                        Log.i(Constants.TAG, "resuming download for id: " + mInfo.mId +
                                 ", and starting with file of length: " + fileLength);
                     }
                     state.mCurrentBytes = (int) fileLength;
@@ -803,7 +803,7 @@ public class DownloadThread implements Runnable {
                     state.mHeaderETag = mInfo.mETag;
                     state.mContinuingDownload = true;
                     if (Constants.LOGV) {
-                        Slog.i(Constants.TAG, "resuming download for id: " + mInfo.mId +
+                        Log.i(Constants.TAG, "resuming download for id: " + mInfo.mId +
                                 ", state.mCurrentBytes: " + state.mCurrentBytes +
                                 ", and setting mContinuingDownload to true: ");
                     }

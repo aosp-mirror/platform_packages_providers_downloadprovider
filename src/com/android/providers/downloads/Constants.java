@@ -168,11 +168,11 @@ public class Constants {
     static final boolean LOGX = false;
 
     /** Enable verbose logging - use with "setprop log.tag.DownloadManager VERBOSE" */
-    private static final boolean LOCAL_LOGV = true;
-    public static final boolean LOGV = true; //LOCAL_LOGV && Log.isLoggable(TAG, Log.VERBOSE);
+    private static final boolean LOCAL_LOGV = false;
+    public static final boolean LOGV = LOCAL_LOGV && Log.isLoggable(TAG, Log.VERBOSE);
 
     /** Enable super-verbose logging */
-    private static final boolean LOCAL_LOGVV = true;
+    private static final boolean LOCAL_LOGVV = false;
     public static final boolean LOGVV = LOCAL_LOGVV && LOGV;
 
     public static final String STORAGE_AUTHORITY = "com.android.providers.downloads.documents";

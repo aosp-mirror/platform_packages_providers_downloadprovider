@@ -29,7 +29,7 @@ import android.media.MediaScannerConnection.MediaScannerConnectionClient;
 import android.net.Uri;
 import android.os.SystemClock;
 import android.provider.Downloads;
-import android.util.Slog;
+import android.util.Log;
 
 import com.android.internal.annotations.GuardedBy;
 import com.google.common.collect.Maps;
@@ -99,7 +99,7 @@ public class DownloadScanner implements MediaScannerConnectionClient {
      * @see #hasPendingScans()
      */
     public void requestScan(DownloadInfo info) {
-        if (LOGV) Slog.v(TAG, "requestScan() for " + info.mFileName);
+        if (LOGV) Log.v(TAG, "requestScan() for " + info.mFileName);
         synchronized (mConnection) {
             final ScanRequest req = new ScanRequest(info.mId, info.mFileName, info.mMimeType);
             mPending.put(req.path, req);
@@ -132,7 +132,7 @@ public class DownloadScanner implements MediaScannerConnectionClient {
             req = mPending.remove(path);
         }
         if (req == null) {
-            Slog.w(TAG, "Missing request for path " + path);
+            Log.w(TAG, "Missing request for path " + path);
             return;
         }
 

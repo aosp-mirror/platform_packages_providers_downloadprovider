@@ -33,7 +33,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.provider.Downloads;
 import android.text.TextUtils;
-import android.util.Slog;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -64,13 +64,13 @@ public class DownloadReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         if (action.equals(Intent.ACTION_BOOT_COMPLETED)) {
             if (Constants.LOGVV) {
-                Slog.v(Constants.TAG, "Received broadcast intent for " +
+                Log.v(Constants.TAG, "Received broadcast intent for " +
                         Intent.ACTION_BOOT_COMPLETED);
             }
             startService(context);
         } else if (action.equals(Intent.ACTION_MEDIA_MOUNTED)) {
             if (Constants.LOGVV) {
-                Slog.v(Constants.TAG, "Received broadcast intent for " +
+                Log.v(Constants.TAG, "Received broadcast intent for " +
                         Intent.ACTION_MEDIA_MOUNTED);
             }
             startService(context);
@@ -139,7 +139,7 @@ public class DownloadReceiver extends BroadcastReceiver {
                 status = getInt(cursor, Downloads.Impl.COLUMN_STATUS);
                 visibility = getInt(cursor, Downloads.Impl.COLUMN_VISIBILITY);
             } else {
-                Slog.w(TAG, "Missing details for download " + id);
+                Log.w(TAG, "Missing details for download " + id);
                 return;
             }
         } finally {
@@ -184,7 +184,7 @@ public class DownloadReceiver extends BroadcastReceiver {
                 clazz = getString(cursor, Downloads.Impl.COLUMN_NOTIFICATION_CLASS);
                 isPublicApi = getInt(cursor, Downloads.Impl.COLUMN_IS_PUBLIC_API) != 0;
             } else {
-                Slog.w(TAG, "Missing details for download " + ids[0]);
+                Log.w(TAG, "Missing details for download " + ids[0]);
                 return;
             }
         } finally {
@@ -192,7 +192,7 @@ public class DownloadReceiver extends BroadcastReceiver {
         }
 
         if (TextUtils.isEmpty(packageName)) {
-            Slog.w(TAG, "Missing package; skipping broadcast");
+            Log.w(TAG, "Missing package; skipping broadcast");
             return;
         }
 
@@ -204,7 +204,7 @@ public class DownloadReceiver extends BroadcastReceiver {
 
         } else { // legacy behavior
             if (TextUtils.isEmpty(clazz)) {
-                Slog.w(TAG, "Missing class; skipping broadcast");
+                Log.w(TAG, "Missing class; skipping broadcast");
                 return;
             }
 

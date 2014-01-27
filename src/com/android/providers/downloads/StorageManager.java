@@ -29,7 +29,7 @@ import android.os.Environment;
 import android.os.StatFs;
 import android.provider.Downloads;
 import android.text.TextUtils;
-import android.util.Slog;
+import android.util.Log;
 
 import com.android.internal.R;
 
@@ -130,7 +130,7 @@ class StorageManager {
         resetBytesDownloadedSinceLastCheckOnSpace();
         File dir = null;
         if (Constants.LOGV) {
-            Slog.i(Constants.TAG, "in verifySpace, destination: " + destination +
+            Log.i(Constants.TAG, "in verifySpace, destination: " + destination +
                     ", path: " + path + ", length: " + length);
         }
         if (path == null) {
@@ -202,7 +202,7 @@ class StorageManager {
                  * few MB of space left on the filesystem.
                  */
                 if (root.equals(mSystemCacheDir)) {
-                    Slog.w(Constants.TAG, "System cache dir ('/cache') is running low on space." +
+                    Log.w(Constants.TAG, "System cache dir ('/cache') is running low on space." +
                             "space available (in bytes): " + bytesAvailable);
                 } else {
                     throw new StopRequestException(Downloads.Impl.STATUS_INSUFFICIENT_SPACE_ERROR,
@@ -216,7 +216,7 @@ class StorageManager {
             bytesAvailable = getAvailableBytesInDownloadsDataDir(mDownloadDataDir);
             if (bytesAvailable < sDownloadDataDirLowSpaceThreshold) {
                 // print a warning
-                Slog.w(Constants.TAG, "Downloads data dir: " + root +
+                Log.w(Constants.TAG, "Downloads data dir: " + root +
                         " is running low on space. space available (in bytes): " + bytesAvailable);
             }
             if (bytesAvailable < targetBytes) {
@@ -248,7 +248,7 @@ class StorageManager {
             space -= files[i].length();
         }
         if (Constants.LOGV) {
-            Slog.i(Constants.TAG, "available space (in bytes) in downloads data dir: " + space);
+            Log.i(Constants.TAG, "available space (in bytes) in downloads data dir: " + space);
         }
         return space;
     }
@@ -259,7 +259,7 @@ class StorageManager {
         long availableBlocks = (long) stat.getAvailableBlocks() - 4;
         long size = stat.getBlockSize() * availableBlocks;
         if (Constants.LOGV) {
-            Slog.i(Constants.TAG, "available space (in bytes) in filesystem rooted at: " +
+            Log.i(Constants.TAG, "available space (in bytes) in filesystem rooted at: " +
                     root.getPath() + " is: " + size);
         }
         return size;
@@ -303,7 +303,7 @@ class StorageManager {
      */
     private long discardPurgeableFiles(int destination, long targetBytes) {
         if (true || Constants.LOGV) {
-            Slog.i(Constants.TAG, "discardPurgeableFiles: destination = " + destination +
+            Log.i(Constants.TAG, "discardPurgeableFiles: destination = " + destination +
                     ", targetBytes = " + targetBytes);
         }
         String destStr  = (destination == Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION) ?
@@ -330,7 +330,7 @@ class StorageManager {
 
                 File file = new File(data);
                 if (Constants.LOGV) {
-                    Slog.d(Constants.TAG, "purging " + file.getAbsolutePath() + " for "
+                    Log.d(Constants.TAG, "purging " + file.getAbsolutePath() + " for "
                             + file.length() + " bytes");
                 }
                 totalFreed += file.length();
@@ -344,7 +344,7 @@ class StorageManager {
             cursor.close();
         }
         if (true || Constants.LOGV) {
-            Slog.i(Constants.TAG, "Purged files, freed " + totalFreed + " for " +
+            Log.i(Constants.TAG, "Purged files, freed " + totalFreed + " for " +
                     targetBytes + " requested");
         }
         return totalFreed;
@@ -359,7 +359,7 @@ class StorageManager {
      */
     private void removeSpuriousFiles() {
         if (Constants.LOGV) {
-            Slog.i(Constants.TAG, "in removeSpuriousFiles");
+            Log.i(Constants.TAG, "in removeSpuriousFiles");
         }
         // get a list of all files in system cache dir and downloads data dir
         List<File> files = new ArrayList<File>();
@@ -383,7 +383,7 @@ class StorageManager {
                     String filename = cursor.getString(0);
                     if (!TextUtils.isEmpty(filename)) {
                         if (LOGV) {
-                            Slog.i(Constants.TAG, "in removeSpuriousFiles, preserving file " +
+                            Log.i(Constants.TAG, "in removeSpuriousFiles, preserving file " +
                                     filename);
                         }
                         files.remove(new File(filename));
@@ -404,12 +404,12 @@ class StorageManager {
                 final StructStat stat = Libcore.os.stat(path);
                 if (stat.st_uid == myUid) {
                     if (Constants.LOGVV) {
-                        Slog.d(TAG, "deleting spurious file " + path);
+                        Log.d(TAG, "deleting spurious file " + path);
                     }
                     file.delete();
                 }
             } catch (ErrnoException e) {
-                Slog.w(TAG, "stat(" + path + ") result: " + e);
+                Log.w(TAG, "stat(" + path + ") result: " + e);
             }
         }
     }
@@ -421,7 +421,7 @@ class StorageManager {
      */
     private void trimDatabase() {
         if (Constants.LOGV) {
-            Slog.i(Constants.TAG, "in trimDatabase");
+            Log.i(Constants.TAG, "in trimDatabase");
         }
         Cursor cursor = null;
         try {
@@ -432,7 +432,7 @@ class StorageManager {
             if (cursor == null) {
                 // This isn't good - if we can't do basic queries in our database,
                 // nothing's gonna work
-                Slog.e(Constants.TAG, "null cursor in trimDatabase");
+                Log.e(Constants.TAG, "null cursor in trimDatabase");
                 return;
             }
             if (cursor.moveToFirst()) {
@@ -452,7 +452,7 @@ class StorageManager {
             // trimming the database raised an exception. alright, ignore the exception
             // and return silently. trimming database is not exactly a critical operation
             // and there is no need to propagate the exception.
-            Slog.w(Constants.TAG, "trimDatabase failed with exception: " + e.getMessage());
+            Log.w(Constants.TAG, "trimDatabase failed with exception: " + e.getMessage());
             return;
         } finally {
             if (cursor != null) {

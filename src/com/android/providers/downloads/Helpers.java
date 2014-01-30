@@ -21,6 +21,7 @@ import static com.android.providers.downloads.Constants.TAG;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.FileUtils;
 import android.os.SystemClock;
 import android.provider.Downloads;
 import android.util.Log;
@@ -68,98 +69,79 @@ public class Helpers {
 
     /**
      * Creates a filename (where the file should be saved) from info about a download.
+     * This file will be touched to reserve it.
      */
-    static String generateSaveFile(
-            Context context,
-            String url,
-            String hint,
-            String contentDisposition,
-            String contentLocation,
-            String mimeType,
-            int destination,
-            long contentLength,
-            StorageManager storageManager) throws StopRequestException {
-        if (contentLength < 0) {
-            contentLength = 0;
-        }
-        String path;
-        File base = null;
-        if (destination == Downloads.Impl.DESTINATION_FILE_URI) {
-            path = Uri.parse(hint).getPath();
-        } else {
-            base = storageManager.locateDestinationDirectory(mimeType, destination,
-                    contentLength);
-            path = chooseFilename(url, hint, contentDisposition, contentLocation,
-                                             destination);
-        }
-        storageManager.verifySpace(destination, path, contentLength);
-        if (DownloadDrmHelper.isDrmConvertNeeded(mimeType)) {
-            path = DownloadDrmHelper.modifyDrmFwLockFileExtension(path);
-        }
-        path = getFullPath(path, mimeType, destination, base);
-        return path;
-    }
+    static String generateSaveFile(Context context, String url, String hint,
+            String contentDisposition, String contentLocation, String mimeType, int destination)
+            throws IOException {
 
-    static String getFullPath(String filename, String mimeType, int destination, File base)
-            throws StopRequestException {
-        String extension = null;
-        int dotIndex = filename.lastIndexOf('.');
-        boolean missingExtension = dotIndex < 0 || dotIndex < filename.lastIndexOf('/');
+        final File parent;
+        final File[] parentTest;
+        String name = null;
+
+        if (destination == Downloads.Impl.DESTINATION_FILE_URI) {
+            final File file = new File(Uri.parse(hint).getPath());
+            parent = file.getParentFile().getAbsoluteFile();
+            parentTest = new File[] { parent };
+            name = file.getName();
+        } else {
+            parent = getRunningDestinationDirectory(context, destination);
+            parentTest = new File[] {
+                    parent,
+                    getSuccessDestinationDirectory(context, destination)
+            };
+            name = chooseFilename(url, hint, contentDisposition, contentLocation);
+        }
+
+        // Ensure target directories are ready
+        for (File test : parentTest) {
+            if (!(test.isDirectory() || test.mkdirs())) {
+                throw new IOException("Failed to create parent for " + test);
+            }
+        }
+
+        if (DownloadDrmHelper.isDrmConvertNeeded(mimeType)) {
+            name = DownloadDrmHelper.modifyDrmFwLockFileExtension(name);
+        }
+
+        final String prefix;
+        final String suffix;
+        final int dotIndex = name.lastIndexOf('.');
+        final boolean missingExtension = dotIndex < 0;
         if (destination == Downloads.Impl.DESTINATION_FILE_URI) {
             // Destination is explicitly set - do not change the extension
             if (missingExtension) {
-                extension = "";
+                prefix = name;
+                suffix = "";
             } else {
-                extension = filename.substring(dotIndex);
-                filename = filename.substring(0, dotIndex);
+                prefix = name.substring(0, dotIndex);
+                suffix = name.substring(dotIndex);
             }
         } else {
             // Split filename between base and extension
             // Add an extension if filename does not have one
             if (missingExtension) {
-                extension = chooseExtensionFromMimeType(mimeType, true);
+                prefix = name;
+                suffix = chooseExtensionFromMimeType(mimeType, true);
             } else {
-                extension = chooseExtensionFromFilename(mimeType, destination, filename, dotIndex);
-                filename = filename.substring(0, dotIndex);
+                prefix = name.substring(0, dotIndex);
+                suffix = chooseExtensionFromFilename(mimeType, destination, name, dotIndex);
             }
-        }
-
-        boolean recoveryDir = Constants.RECOVERY_DIRECTORY.equalsIgnoreCase(filename + extension);
-
-        if (base != null) {
-            filename = base.getPath() + File.separator + filename;
-        }
-
-        if (Constants.LOGVV) {
-            Log.v(Constants.TAG, "target file: " + filename + extension);
         }
 
         synchronized (sUniqueLock) {
-            final String path = chooseUniqueFilenameLocked(
-                    destination, filename, extension, recoveryDir);
+            name = generateAvailableFilenameLocked(parentTest, prefix, suffix);
 
             // Claim this filename inside lock to prevent other threads from
             // clobbering us. We're not paranoid enough to use O_EXCL.
-            try {
-                File file = new File(path);
-                File parent = file.getParentFile();
-
-                // Make sure the parent directories exists before generates new file
-                if (parent != null && !parent.exists()) {
-                    parent.mkdirs();
-                }
-
-                file.createNewFile();
-            } catch (IOException e) {
-                throw new StopRequestException(Downloads.Impl.STATUS_FILE_ERROR,
-                        "Failed to create target file " + path, e);
-            }
-            return path;
+            final File file = new File(parent, name);
+            file.createNewFile();
+            return file.getAbsolutePath();
         }
     }
 
     private static String chooseFilename(String url, String hint, String contentDisposition,
-            String contentLocation, int destination) {
+            String contentLocation) {
         String filename = null;
 
         // First, try to use the hint from the application, if there's one
@@ -305,18 +287,25 @@ public class Helpers {
         return extension;
     }
 
-    private static String chooseUniqueFilenameLocked(int destination, String filename,
-            String extension, boolean recoveryDir) throws StopRequestException {
-        String fullFilename = filename + extension;
-        if (!new File(fullFilename).exists()
-                && (!recoveryDir ||
-                (destination != Downloads.Impl.DESTINATION_CACHE_PARTITION &&
-                        destination != Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION &&
-                        destination != Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE &&
-                        destination != Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING))) {
-            return fullFilename;
+    private static boolean isFilenameAvailableLocked(File[] parents, String name) {
+        if (Constants.RECOVERY_DIRECTORY.equalsIgnoreCase(name)) return false;
+
+        for (File parent : parents) {
+            if (new File(parent, name).exists()) {
+                return false;
+            }
         }
-        filename = filename + Constants.FILENAME_SEQUENCE_SEPARATOR;
+
+        return true;
+    }
+
+    private static String generateAvailableFilenameLocked(
+            File[] parents, String prefix, String suffix) throws IOException {
+        String name = prefix + suffix;
+        if (isFilenameAvailableLocked(parents, name)) {
+            return name;
+        }
+
         /*
         * This number is used to generate partially randomized filenames to avoid
         * collisions.
@@ -334,44 +323,86 @@ public class Helpers {
         int sequence = 1;
         for (int magnitude = 1; magnitude < 1000000000; magnitude *= 10) {
             for (int iteration = 0; iteration < 9; ++iteration) {
-                fullFilename = filename + sequence + extension;
-                if (!new File(fullFilename).exists()) {
-                    return fullFilename;
-                }
-                if (Constants.LOGVV) {
-                    Log.v(Constants.TAG, "file with sequence number " + sequence + " exists");
+                name = prefix + Constants.FILENAME_SEQUENCE_SEPARATOR + sequence + suffix;
+                if (isFilenameAvailableLocked(parents, name)) {
+                    return name;
                 }
                 sequence += sRandom.nextInt(magnitude) + 1;
             }
         }
-        throw new StopRequestException(Downloads.Impl.STATUS_FILE_ERROR,
-                "failed to generate an unused filename on internal download storage");
+
+        throw new IOException("Failed to generate an available filename");
     }
 
     /**
-     * Checks whether the filename looks legitimate
+     * Checks whether the filename looks legitimate for security purposes. This
+     * prevents us from opening files that aren't actually downloads.
      */
-    static boolean isFilenameValid(String filename, File downloadsDataDir) {
-        final String[] whitelist;
+    static boolean isFilenameValid(Context context, File file) {
+        final File[] whitelist;
         try {
-            filename = new File(filename).getCanonicalPath();
-            whitelist = new String[] {
-                    downloadsDataDir.getCanonicalPath(),
-                    Environment.getDownloadCacheDirectory().getCanonicalPath(),
-                    Environment.getExternalStorageDirectory().getCanonicalPath(),
+            file = file.getCanonicalFile();
+            whitelist = new File[] {
+                    context.getFilesDir().getCanonicalFile(),
+                    context.getCacheDir().getCanonicalFile(),
+                    Environment.getDownloadCacheDirectory().getCanonicalFile(),
+                    Environment.getExternalStorageDirectory().getCanonicalFile(),
             };
         } catch (IOException e) {
             Log.w(TAG, "Failed to resolve canonical path: " + e);
             return false;
         }
 
-        for (String test : whitelist) {
-            if (filename.startsWith(test)) {
+        for (File testDir : whitelist) {
+            if (FileUtils.contains(testDir, file)) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    public static File getRunningDestinationDirectory(Context context, int destination)
+            throws IOException {
+        return getDestinationDirectory(context, destination, true);
+    }
+
+    public static File getSuccessDestinationDirectory(Context context, int destination)
+            throws IOException {
+        return getDestinationDirectory(context, destination, false);
+    }
+
+    private static File getDestinationDirectory(Context context, int destination, boolean running)
+            throws IOException {
+        switch (destination) {
+            case Downloads.Impl.DESTINATION_CACHE_PARTITION:
+            case Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE:
+            case Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING:
+                if (running) {
+                    return context.getFilesDir();
+                } else {
+                    return context.getCacheDir();
+                }
+
+            case Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION:
+                if (running) {
+                    return new File(Environment.getDownloadCacheDirectory(),
+                            Constants.DIRECTORY_CACHE_RUNNING);
+                } else {
+                    return Environment.getDownloadCacheDirectory();
+                }
+
+            case Downloads.Impl.DESTINATION_EXTERNAL:
+                final File target = new File(
+                        Environment.getExternalStorageDirectory(), Environment.DIRECTORY_DOWNLOADS);
+                if (!target.isDirectory() && target.mkdirs()) {
+                    throw new IOException("unable to create external downloads directory");
+                }
+                return target;
+
+            default:
+                throw new IllegalStateException("unexpected destination: " + destination);
+        }
     }
 
     /**

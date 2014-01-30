@@ -178,7 +178,6 @@ public final class DownloadProvider extends ContentProvider {
     /** List of uids that can access the downloads */
     private int mSystemUid = -1;
     private int mDefContainerUid = -1;
-    private File mDownloadsDataDir;
 
     @VisibleForTesting
     SystemFacade mSystemFacade;
@@ -464,9 +463,8 @@ public final class DownloadProvider extends ContentProvider {
         // saves us by getting some initialization code in DownloadService out of the way.
         Context context = getContext();
         context.startService(new Intent(context, DownloadService.class));
-        mDownloadsDataDir = StorageManager.getDownloadDataDirectory(getContext());
         try {
-            SELinux.restorecon(mDownloadsDataDir.getCanonicalPath());
+            SELinux.restorecon(context.getCacheDir().getCanonicalPath());
         } catch (IOException e) {
             Log.wtf(Constants.TAG, "Could not get canonical path for download directory", e);
         }
@@ -540,7 +538,7 @@ public final class DownloadProvider extends ContentProvider {
         // validate the destination column
         Integer dest = values.getAsInteger(Downloads.Impl.COLUMN_DESTINATION);
         if (dest != null) {
-            if (getContext().checkCallingPermission(Downloads.Impl.PERMISSION_ACCESS_ADVANCED)
+            if (getContext().checkCallingOrSelfPermission(Downloads.Impl.PERMISSION_ACCESS_ADVANCED)
                     != PackageManager.PERMISSION_GRANTED
                     && (dest == Downloads.Impl.DESTINATION_CACHE_PARTITION
                             || dest == Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING
@@ -551,7 +549,7 @@ public final class DownloadProvider extends ContentProvider {
             // for public API behavior, if an app has CACHE_NON_PURGEABLE permission, automatically
             // switch to non-purgeable download
             boolean hasNonPurgeablePermission =
-                    getContext().checkCallingPermission(
+                    getContext().checkCallingOrSelfPermission(
                             Downloads.Impl.PERMISSION_CACHE_NON_PURGEABLE)
                             == PackageManager.PERMISSION_GRANTED;
             if (isPublicApi && dest == Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE
@@ -638,7 +636,7 @@ public final class DownloadProvider extends ContentProvider {
         copyString(Downloads.Impl.COLUMN_REFERER, values, filteredValues);
 
         // UID, PID columns
-        if (getContext().checkCallingPermission(Downloads.Impl.PERMISSION_ACCESS_ADVANCED)
+        if (getContext().checkCallingOrSelfPermission(Downloads.Impl.PERMISSION_ACCESS_ADVANCED)
                 == PackageManager.PERMISSION_GRANTED) {
             copyInteger(Downloads.Impl.COLUMN_OTHER_UID, values, filteredValues);
         }
@@ -1123,7 +1121,7 @@ public final class DownloadProvider extends ContentProvider {
             selection.appendClause(Downloads.Impl._ID + " = ?", getDownloadIdFromUri(uri));
         }
         if ((uriMatch == MY_DOWNLOADS || uriMatch == MY_DOWNLOADS_ID)
-                && getContext().checkCallingPermission(Downloads.Impl.PERMISSION_ACCESS_ALL)
+                && getContext().checkCallingOrSelfPermission(Downloads.Impl.PERMISSION_ACCESS_ALL)
                 != PackageManager.PERMISSION_GRANTED) {
             selection.appendClause(
                     Constants.UID + "= ? OR " + Downloads.Impl.COLUMN_OTHER_UID + "= ?",
@@ -1205,11 +1203,12 @@ public final class DownloadProvider extends ContentProvider {
         if (path == null) {
             throw new FileNotFoundException("No filename found.");
         }
-        if (!Helpers.isFilenameValid(path, mDownloadsDataDir)) {
-            throw new FileNotFoundException("Invalid filename: " + path);
-        }
 
         final File file = new File(path);
+        if (!Helpers.isFilenameValid(getContext(), file)) {
+            throw new FileNotFoundException("Invalid file: " + file);
+        }
+
         if ("r".equals(mode)) {
             return ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY);
         } else {

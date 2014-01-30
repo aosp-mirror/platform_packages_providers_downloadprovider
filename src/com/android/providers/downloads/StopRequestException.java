@@ -34,13 +34,13 @@ class StopRequestException extends Exception {
     }
 
     public StopRequestException(int finalStatus, Throwable t) {
-        super(t);
-        mFinalStatus = finalStatus;
+        this(finalStatus, t.getMessage());
+        initCause(t);
     }
 
     public StopRequestException(int finalStatus, String message, Throwable t) {
-        super(message, t);
-        mFinalStatus = finalStatus;
+        this(finalStatus, message);
+        initCause(t);
     }
 
     public int getFinalStatus() {

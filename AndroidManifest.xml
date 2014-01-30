@@ -54,6 +54,7 @@
     <!-- TODO: replace with READ_NETWORK_POLICY permission when it exists -->
     <uses-permission android:name="android.permission.CONNECTIVITY_INTERNAL" />
     <uses-permission android:name="android.permission.MODIFY_NETWORK_ACCOUNTING" />
+    <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
 
     <application android:process="android.process.media"
                  android:label="@string/app_label"

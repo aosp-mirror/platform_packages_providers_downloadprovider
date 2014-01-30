@@ -16,29 +16,73 @@
 
 package com.android.providers.downloads;
 
+import android.net.Uri;
 import android.provider.Downloads;
 import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.LargeTest;
+import android.test.suitebuilder.annotation.SmallTest;
+
+import libcore.io.IoUtils;
+
+import java.io.File;
 
 /**
  * This test exercises methods in the {@Helpers} utility class.
  */
-@LargeTest
+@SmallTest
 public class HelpersTest extends AndroidTestCase {
 
-    public HelpersTest() {
+    @Override
+    protected void tearDown() throws Exception {
+        IoUtils.deleteContents(getContext().getFilesDir());
+        IoUtils.deleteContents(getContext().getCacheDir());
+
+        super.tearDown();
     }
 
-    public void testGetFullPath() throws Exception {
-      String hint = "file:///com.android.providers.downloads/test";
-
-      // Test that we never change requested filename.
-      String fileName = Helpers.getFullPath(
-          hint,
-          "video/mp4", // MIME type corresponding to file extension .mp4
-          Downloads.Impl.DESTINATION_FILE_URI,
-          null);
-      assertEquals(hint, fileName);
+    public void testGenerateSaveFile() throws Exception {
+        final File expected = new File(getContext().getFilesDir(), "file.mp4");
+        final String actual = Helpers.generateSaveFile(getContext(),
+                "http://example.com/file.txt", null, null, null,
+                "video/mp4", Downloads.Impl.DESTINATION_CACHE_PARTITION);
+        assertEquals(expected.getAbsolutePath(), actual);
     }
 
+    public void testGenerateSaveFileDupes() throws Exception {
+        final File expected1 = new File(getContext().getFilesDir(), "file.txt");
+        final String actual1 = Helpers.generateSaveFile(getContext(), "http://example.com/file.txt",
+                null, null, null, null, Downloads.Impl.DESTINATION_CACHE_PARTITION);
+
+        final File expected2 = new File(getContext().getFilesDir(), "file-1.txt");
+        final String actual2 = Helpers.generateSaveFile(getContext(), "http://example.com/file.txt",
+                null, null, null, null, Downloads.Impl.DESTINATION_CACHE_PARTITION);
+
+        assertEquals(expected1.getAbsolutePath(), actual1);
+        assertEquals(expected2.getAbsolutePath(), actual2);
+    }
+
+    public void testGenerateSaveFileNoExtension() throws Exception {
+        final File expected = new File(getContext().getFilesDir(), "file.mp4");
+        final String actual = Helpers.generateSaveFile(getContext(),
+                "http://example.com/file", null, null, null,
+                "video/mp4", Downloads.Impl.DESTINATION_CACHE_PARTITION);
+        assertEquals(expected.getAbsolutePath(), actual);
+    }
+
+    public void testGenerateSaveFileHint() throws Exception {
+        final File expected = new File(getContext().getFilesDir(), "meow");
+        final String hint = Uri.fromFile(expected).toString();
+
+        // Test that we never change requested filename.
+        final String actual = Helpers.generateSaveFile(getContext(), "url", hint,
+                "dispo", "locat", "video/mp4", Downloads.Impl.DESTINATION_FILE_URI);
+        assertEquals(expected.getAbsolutePath(), actual);
+    }
+
+    public void testGenerateSaveFileDisposition() throws Exception {
+        final File expected = new File(getContext().getFilesDir(), "real.mp4");
+        final String actual = Helpers.generateSaveFile(getContext(),
+                "http://example.com/file.txt", null, "attachment; filename=\"subdir/real.pdf\"",
+                null, "video/mp4", Downloads.Impl.DESTINATION_CACHE_PARTITION);
+        assertEquals(expected.getAbsolutePath(), actual);
+    }
 }

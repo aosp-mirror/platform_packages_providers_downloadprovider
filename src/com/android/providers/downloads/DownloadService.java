@@ -54,7 +54,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -78,7 +81,6 @@ public class DownloadService extends Service {
     SystemFacade mSystemFacade;
 
     private AlarmManager mAlarmManager;
-    private StorageManager mStorageManager;
 
     /** Observer to get notified when the content observer's data changes */
     private DownloadManagerContentObserver mObserver;
@@ -105,7 +107,28 @@ public class DownloadService extends Service {
         // threads as needed (up to maximum) and reclaims them when finished.
         final ThreadPoolExecutor executor = new ThreadPoolExecutor(
                 maxConcurrent, maxConcurrent, 10, TimeUnit.SECONDS,
-                new LinkedBlockingQueue<Runnable>());
+                new LinkedBlockingQueue<Runnable>()) {
+            @Override
+            protected void afterExecute(Runnable r, Throwable t) {
+                super.afterExecute(r, t);
+
+                if (t == null && r instanceof Future<?>) {
+                    try {
+                        ((Future<?>) r).get();
+                    } catch (CancellationException ce) {
+                        t = ce;
+                    } catch (ExecutionException ee) {
+                        t = ee.getCause();
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+
+                if (t != null) {
+                    Log.w(TAG, "Uncaught exception", t);
+                }
+            }
+        };
         executor.allowCoreThreadTimeOut(true);
         return executor;
     }
@@ -157,7 +180,6 @@ public class DownloadService extends Service {
         }
 
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        mStorageManager = new StorageManager(this);
 
         mUpdateThread = new HandlerThread(TAG + "-UpdateThread");
         mUpdateThread.start();
@@ -198,9 +220,11 @@ public class DownloadService extends Service {
     /**
      * Enqueue an {@link #updateLocked()} pass to occur in future.
      */
-    private void enqueueUpdate() {
-        mUpdateHandler.removeMessages(MSG_UPDATE);
-        mUpdateHandler.obtainMessage(MSG_UPDATE, mLastStartId, -1).sendToTarget();
+    public void enqueueUpdate() {
+        if (mUpdateHandler != null) {
+            mUpdateHandler.removeMessages(MSG_UPDATE);
+            mUpdateHandler.obtainMessage(MSG_UPDATE, mLastStartId, -1).sendToTarget();
+        }
     }
 
     /**
@@ -376,8 +400,7 @@ public class DownloadService extends Service {
      * download if appropriate.
      */
     private DownloadInfo insertDownloadLocked(DownloadInfo.Reader reader, long now) {
-        final DownloadInfo info = reader.newDownloadInfo(
-                this, mSystemFacade, mStorageManager, mNotifier);
+        final DownloadInfo info = reader.newDownloadInfo(this, mSystemFacade, mNotifier);
         mDownloads.put(info.mId, info);
 
         if (Constants.LOGVV) {

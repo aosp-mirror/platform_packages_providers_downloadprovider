@@ -80,9 +80,6 @@ public class Constants {
      */
     public static final String FILENAME_SEQUENCE_SEPARATOR = "-";
 
-    /** Where we store downloaded files on the external storage */
-    public static final String DEFAULT_DL_SUBDIR = "/" + Environment.DIRECTORY_DOWNLOADS;
-
     /** A magic filename that is allowed to exist within the system cache */
     public static final String RECOVERY_DIRECTORY = "recovery";
 
@@ -123,16 +120,13 @@ public class Constants {
     public static final String MIMETYPE_APK = "application/vnd.android.package";
 
     /** The buffer size used to stream the data */
-    public static final int BUFFER_SIZE = 4096;
+    public static final int BUFFER_SIZE = 8192;
 
     /** The minimum amount of progress that has to be done before the progress bar gets updated */
-    public static final int MIN_PROGRESS_STEP = 4096;
+    public static final int MIN_PROGRESS_STEP = 65536;
 
     /** The minimum amount of time that has to elapse before the progress bar gets updated, in ms */
-    public static final long MIN_PROGRESS_TIME = 1500;
-
-    /** The maximum number of rows in the database (FIFO) */
-    public static final int MAX_DOWNLOADS = 1000;
+    public static final long MIN_PROGRESS_TIME = 2000;
 
     /**
      * The number of times that the download manager will retry its network
@@ -177,4 +171,9 @@ public class Constants {
 
     public static final String STORAGE_AUTHORITY = "com.android.providers.downloads.documents";
     public static final String STORAGE_ROOT_ID = "downloads";
+
+    /**
+     * Name of directory on cache partition containing in-progress downloads.
+     */
+    public static final String DIRECTORY_CACHE_RUNNING = "partial_downloads";
 }

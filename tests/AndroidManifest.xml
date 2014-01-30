@@ -19,6 +19,8 @@
           package="com.android.providers.downloads.tests"
           android:sharedUserId="android.media">
 
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER_ADVANCED" />
+
     <application>
         <uses-library android:name="android.test.runner" />
     </application>

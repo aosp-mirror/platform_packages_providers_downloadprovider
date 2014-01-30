@@ -36,6 +36,7 @@ import android.util.Pair;
 import com.android.internal.annotations.GuardedBy;
 import com.android.internal.util.IndentingPrintWriter;
 
+import java.io.CharArrayWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -45,7 +46,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
 /**
- * Stores information about an individual download.
+ * Details about a specific download. Fields should only be mutated by updating
+ * from database query.
  */
 public class DownloadInfo {
     // TODO: move towards these in-memory objects being sources of truth, and
@@ -60,10 +62,9 @@ public class DownloadInfo {
             mCursor = cursor;
         }
 
-        public DownloadInfo newDownloadInfo(Context context, SystemFacade systemFacade,
-                StorageManager storageManager, DownloadNotifier notifier) {
-            final DownloadInfo info = new DownloadInfo(
-                    context, systemFacade, storageManager, notifier);
+        public DownloadInfo newDownloadInfo(
+                Context context, SystemFacade systemFacade, DownloadNotifier notifier) {
+            final DownloadInfo info = new DownloadInfo(context, systemFacade, notifier);
             updateFromDatabase(info);
             readRequestHeaders(info);
             return info;
@@ -75,7 +76,7 @@ public class DownloadInfo {
             info.mNoIntegrity = getInt(Downloads.Impl.COLUMN_NO_INTEGRITY) == 1;
             info.mHint = getString(Downloads.Impl.COLUMN_FILE_NAME_HINT);
             info.mFileName = getString(Downloads.Impl._DATA);
-            info.mMimeType = getString(Downloads.Impl.COLUMN_MIME_TYPE);
+            info.mMimeType = Intent.normalizeMimeType(getString(Downloads.Impl.COLUMN_MIME_TYPE));
             info.mDestination = getInt(Downloads.Impl.COLUMN_DESTINATION);
             info.mVisibility = getInt(Downloads.Impl.COLUMN_VISIBILITY);
             info.mStatus = getInt(Downloads.Impl.COLUMN_STATUS);
@@ -206,6 +207,7 @@ public class DownloadInfo {
 
     public long mId;
     public String mUri;
+    @Deprecated
     public boolean mNoIntegrity;
     public String mHint;
     public String mFileName;
@@ -254,20 +256,25 @@ public class DownloadInfo {
 
     private final Context mContext;
     private final SystemFacade mSystemFacade;
-    private final StorageManager mStorageManager;
     private final DownloadNotifier mNotifier;
 
-    private DownloadInfo(Context context, SystemFacade systemFacade, StorageManager storageManager,
-            DownloadNotifier notifier) {
+    private DownloadInfo(Context context, SystemFacade systemFacade, DownloadNotifier notifier) {
         mContext = context;
         mSystemFacade = systemFacade;
-        mStorageManager = storageManager;
         mNotifier = notifier;
         mFuzz = Helpers.sRandom.nextInt(1001);
     }
 
     public Collection<Pair<String, String>> getHeaders() {
         return Collections.unmodifiableList(mRequestHeaders);
+    }
+
+    public String getUserAgent() {
+        if (mUserAgent != null) {
+            return mUserAgent;
+        } else {
+            return Constants.DEFAULT_USER_AGENT;
+        }
     }
 
     public void sendIntentIfRequested() {
@@ -329,7 +336,7 @@ public class DownloadInfo {
 
             case Downloads.Impl.STATUS_WAITING_FOR_NETWORK:
             case Downloads.Impl.STATUS_QUEUED_FOR_WIFI:
-                return checkCanUseNetwork() == NetworkState.OK;
+                return checkCanUseNetwork(mTotalBytes) == NetworkState.OK;
 
             case Downloads.Impl.STATUS_WAITING_TO_RETRY:
                 // download was waiting for a delayed restart
@@ -362,7 +369,7 @@ public class DownloadInfo {
     /**
      * Returns whether this download is allowed to use the network.
      */
-    public NetworkState checkCanUseNetwork() {
+    public NetworkState checkCanUseNetwork(long totalBytes) {
         final NetworkInfo info = mSystemFacade.getActiveNetworkInfo(mUid);
         if (info == null || !info.isConnected()) {
             return NetworkState.NO_CONNECTION;
@@ -376,7 +383,7 @@ public class DownloadInfo {
         if (mSystemFacade.isActiveNetworkMetered() && !mAllowMetered) {
             return NetworkState.TYPE_DISALLOWED_BY_REQUESTOR;
         }
-        return checkIsNetworkTypeAllowed(info.getType());
+        return checkIsNetworkTypeAllowed(info.getType(), totalBytes);
     }
 
     private boolean isRoamingAllowed() {
@@ -392,7 +399,7 @@ public class DownloadInfo {
      * @param networkType a constant from ConnectivityManager.TYPE_*.
      * @return one of the NETWORK_* constants
      */
-    private NetworkState checkIsNetworkTypeAllowed(int networkType) {
+    private NetworkState checkIsNetworkTypeAllowed(int networkType, long totalBytes) {
         if (mIsPublicApi) {
             final int flag = translateNetworkTypeToApiFlag(networkType);
             final boolean allowAllNetworkTypes = mAllowedNetworkTypes == ~0;
@@ -400,7 +407,7 @@ public class DownloadInfo {
                 return NetworkState.TYPE_DISALLOWED_BY_REQUESTOR;
             }
         }
-        return checkSizeAllowedForNetwork(networkType);
+        return checkSizeAllowedForNetwork(networkType, totalBytes);
     }
 
     /**
@@ -427,24 +434,27 @@ public class DownloadInfo {
      * Check if the download's size prohibits it from running over the current network.
      * @return one of the NETWORK_* constants
      */
-    private NetworkState checkSizeAllowedForNetwork(int networkType) {
-        if (mTotalBytes <= 0) {
-            return NetworkState.OK; // we don't know the size yet
+    private NetworkState checkSizeAllowedForNetwork(int networkType, long totalBytes) {
+        if (totalBytes <= 0) {
+            // we don't know the size yet
+            return NetworkState.OK;
         }
-        if (networkType == ConnectivityManager.TYPE_WIFI) {
-            return NetworkState.OK; // anything goes over wifi
-        }
-        Long maxBytesOverMobile = mSystemFacade.getMaxBytesOverMobile();
-        if (maxBytesOverMobile != null && mTotalBytes > maxBytesOverMobile) {
-            return NetworkState.UNUSABLE_DUE_TO_SIZE;
-        }
-        if (mBypassRecommendedSizeLimit == 0) {
-            Long recommendedMaxBytesOverMobile = mSystemFacade.getRecommendedMaxBytesOverMobile();
-            if (recommendedMaxBytesOverMobile != null
-                    && mTotalBytes > recommendedMaxBytesOverMobile) {
-                return NetworkState.RECOMMENDED_UNUSABLE_DUE_TO_SIZE;
+
+        if (ConnectivityManager.isNetworkTypeMobile(networkType)) {
+            Long maxBytesOverMobile = mSystemFacade.getMaxBytesOverMobile();
+            if (maxBytesOverMobile != null && totalBytes > maxBytesOverMobile) {
+                return NetworkState.UNUSABLE_DUE_TO_SIZE;
+            }
+            if (mBypassRecommendedSizeLimit == 0) {
+                Long recommendedMaxBytesOverMobile = mSystemFacade
+                        .getRecommendedMaxBytesOverMobile();
+                if (recommendedMaxBytesOverMobile != null
+                        && totalBytes > recommendedMaxBytesOverMobile) {
+                    return NetworkState.RECOMMENDED_UNUSABLE_DUE_TO_SIZE;
+                }
             }
         }
+
         return NetworkState.OK;
     }
 
@@ -467,8 +477,7 @@ public class DownloadInfo {
                     mContext.getContentResolver().update(getAllDownloadsUri(), values, null, null);
                 }
 
-                mTask = new DownloadThread(
-                        mContext, mSystemFacade, this, mStorageManager, mNotifier);
+                mTask = new DownloadThread(mContext, mSystemFacade, mNotifier, this);
                 mSubmittedTask = executor.submit(mTask);
             }
             return isReady;
@@ -504,6 +513,13 @@ public class DownloadInfo {
 
     public Uri getAllDownloadsUri() {
         return ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, mId);
+    }
+
+    @Override
+    public String toString() {
+        final CharArrayWriter writer = new CharArrayWriter();
+        dump(new IndentingPrintWriter(writer, "  "));
+        return writer.toString();
     }
 
     public void dump(IndentingPrintWriter pw) {

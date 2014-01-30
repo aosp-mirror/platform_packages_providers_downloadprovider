@@ -27,6 +27,7 @@ import com.google.android.collect.Sets;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.SocketPolicy;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -60,9 +61,10 @@ public class ThreadingTest extends AbstractPublicApiTest {
 
     public void testFilenameRace() throws Exception {
         final List<Pair<Download, String>> downloads = Lists.newArrayList();
+        final HashSet<String> expectedBodies = Sets.newHashSet();
 
         // Request dozen files at once with same name
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 32; i++) {
             final String body = "DOWNLOAD " + i + " CONTENTS";
             enqueueResponse(new MockResponse().setResponseCode(HTTP_OK).setBody(body)
                     .setHeader("Content-type", "text/plain")
@@ -70,6 +72,7 @@ public class ThreadingTest extends AbstractPublicApiTest {
 
             final Download d = enqueueRequest(getRequest());
             downloads.add(Pair.create(d, body));
+            expectedBodies.add(body);
         }
 
         // Kick off downloads in parallel
@@ -82,6 +85,7 @@ public class ThreadingTest extends AbstractPublicApiTest {
 
         // Ensure that contents are clean and filenames unique
         final Set<String> seenFiles = Sets.newHashSet();
+        final HashSet<String> actualBodies = Sets.newHashSet();
 
         for (Pair<Download, String> d : downloads) {
             final String file = d.first.getStringField(DownloadManager.COLUMN_LOCAL_FILENAME);
@@ -91,7 +95,10 @@ public class ThreadingTest extends AbstractPublicApiTest {
 
             final String expected = d.second;
             final String actual = d.first.getContents();
-            assertEquals(expected, actual);
+
+            actualBodies.add(actual);
         }
+
+        assertEquals(expectedBodies, actualBodies);
     }
 }

@@ -74,15 +74,18 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
     static class MockContentResolverWithNotify extends MockContentResolver {
         public boolean mNotifyWasCalled = false;
 
+        public MockContentResolverWithNotify(Context context) {
+            super(context);
+        }
+
         public synchronized void resetNotified() {
             mNotifyWasCalled = false;
         }
 
         @Override
-        public synchronized void notifyChange(Uri uri, ContentObserver observer,
-                boolean syncToNetwork) {
+        public synchronized void notifyChange(
+                Uri uri, ContentObserver observer, boolean syncToNetwork) {
             mNotifyWasCalled = true;
-            notifyAll();
         }
     }
 
@@ -94,18 +97,15 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
     static class TestContext extends RenamingDelegatingContext {
         private static final String FILENAME_PREFIX = "test.";
 
-        private ContentResolver mResolver;
+        private final ContentResolver mResolver;
         private final NotificationManager mNotifManager;
 
         boolean mHasServiceBeenStarted = false;
 
         public TestContext(Context realContext) {
             super(realContext, FILENAME_PREFIX);
+            mResolver = new MockContentResolverWithNotify(this);
             mNotifManager = mock(NotificationManager.class);
-        }
-
-        public void setResolver(ContentResolver resolver) {
-            mResolver = resolver;
         }
 
         /**
@@ -156,12 +156,20 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
         System.setProperty("dexmaker.dexcache", getContext().getCacheDir().toString());
 
         final Context realContext = getContext();
+
         mTestContext = new TestContext(realContext);
-        setupProviderAndResolver();
-        mTestContext.setResolver(mResolver);
+        mResolver = (MockContentResolverWithNotify) mTestContext.getContentResolver();
+
+        final DownloadProvider provider = new DownloadProvider();
+        provider.mSystemFacade = mSystemFacade;
+        provider.attachInfo(mTestContext, null);
+
+        mResolver.addProvider(PROVIDER_AUTHORITY, provider);
+
         setContext(mTestContext);
         setupService();
         getService().mSystemFacade = mSystemFacade;
+
         mSystemFacade.setUp();
         assertTrue(isDatabaseEmpty()); // ensure we're not messing with real data
         mServer = new MockWebServer();
@@ -184,14 +192,6 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
         } finally {
             cursor.close();
         }
-    }
-
-    void setupProviderAndResolver() {
-        DownloadProvider provider = new DownloadProvider();
-        provider.mSystemFacade = mSystemFacade;
-        provider.attachInfo(mTestContext, null);
-        mResolver = new MockContentResolverWithNotify();
-        mResolver.addProvider(PROVIDER_AUTHORITY, provider);
     }
 
     /**

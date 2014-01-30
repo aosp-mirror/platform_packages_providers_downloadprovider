@@ -53,6 +53,8 @@ import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.RecordedRequest;
 import com.google.mockwebserver.SocketPolicy;
 
+import libcore.io.IoUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -83,9 +85,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         mTestDirectory = new File(Environment.getExternalStorageDirectory() + File.separator
                                   + "download_manager_functional_test");
         if (mTestDirectory.exists()) {
-            for (File file : mTestDirectory.listFiles()) {
-                file.delete();
-            }
+            IoUtils.deleteContents(mTestDirectory);
         } else {
             mTestDirectory.mkdir();
         }
@@ -94,9 +94,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
     @Override
     protected void tearDown() throws Exception {
         if (mTestDirectory != null && mTestDirectory.exists()) {
-            for (File file : mTestDirectory.listFiles()) {
-                file.delete();
-            }
+            IoUtils.deleteContents(mTestDirectory);
             mTestDirectory.delete();
         }
         super.tearDown();
@@ -223,7 +221,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         boolean isFirstResponse = (start == 0);
         int status = isFirstResponse ? HTTP_OK : HTTP_PARTIAL;
         MockResponse response = buildResponse(status, FILE_CONTENT.substring(start, end))
-                .setHeader("Content-length", totalLength)
+                .setHeader("Content-length", isFirstResponse ? totalLength : (end - start))
                 .setHeader("Etag", ETAG);
         if (!isFirstResponse) {
             response.setHeader(
@@ -475,7 +473,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         // 2. Try resuming A, but fail ETag check
         mSystemFacade.incrementTimeMillis(RETRY_DELAY_MILLIS);
         download.runUntilStatus(STATUS_FAILED);
-        assertEquals(HTTP_PRECON_FAILED, download.getReason());
+        assertEquals(DownloadManager.ERROR_CANNOT_RESUME, download.getReason());
         req = takeRequest();
         assertEquals("bytes=2-", getHeaderValue(req, "Range"));
         assertEquals(A, getHeaderValue(req, "If-Match"));

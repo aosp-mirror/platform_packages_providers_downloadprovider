@@ -64,12 +64,12 @@ public class FakeSystemFacade implements SystemFacade {
 
     @Override
     public Long getMaxBytesOverMobile() {
-        return mMaxBytesOverMobile ;
+        return mMaxBytesOverMobile;
     }
 
     @Override
     public Long getRecommendedMaxBytesOverMobile() {
-        return mRecommendedMaxBytesOverMobile ;
+        return mRecommendedMaxBytesOverMobile;
     }
 
     @Override

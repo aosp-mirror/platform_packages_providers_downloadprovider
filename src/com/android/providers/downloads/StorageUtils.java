@@ -62,8 +62,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class StorageUtils {
 
-    // TODO: run idle maint service to clean up untracked downloads
-
     /**
      * Minimum age for a file to be considered for deletion.
      */
@@ -174,69 +172,6 @@ public class StorageUtils {
         }
     }
 
-    private interface DownloadQuery {
-        final String[] PROJECTION = new String[] {
-                Downloads.Impl._ID,
-                Downloads.Impl._DATA };
-
-        final int _ID = 0;
-        final int _DATA = 1;
-    }
-
-    /**
-     * Clean up orphan downloads, both in database and on disk.
-     */
-    public static void cleanOrphans(Context context) {
-        final ContentResolver resolver = context.getContentResolver();
-
-        // Collect known files from database
-        final HashSet<ConcreteFile> fromDb = Sets.newHashSet();
-        final Cursor cursor = resolver.query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
-                DownloadQuery.PROJECTION, null, null, null);
-        try {
-            while (cursor.moveToNext()) {
-                final String path = cursor.getString(DownloadQuery._DATA);
-                if (TextUtils.isEmpty(path)) continue;
-
-                final File file = new File(path);
-                try {
-                    fromDb.add(new ConcreteFile(file));
-                } catch (ErrnoException e) {
-                    // File probably no longer exists
-                    final String state = Environment.getExternalStorageState(file);
-                    if (Environment.MEDIA_UNKNOWN.equals(state)
-                            || Environment.MEDIA_MOUNTED.equals(state)) {
-                        // File appears to live on internal storage, or a
-                        // currently mounted device, so remove it from database.
-                        // This preserves files on external storage while media
-                        // is removed.
-                        final long id = cursor.getLong(DownloadQuery._ID);
-                        Slog.d(TAG, "Missing " + file + ", deleting " + id);
-                        resolver.delete(ContentUris.withAppendedId(
-                                Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id), null, null);
-                    }
-                }
-            }
-        } finally {
-            IoUtils.closeQuietly(cursor);
-        }
-
-        // Collect known files from disk
-        final int uid = android.os.Process.myUid();
-        final ArrayList<ConcreteFile> fromDisk = Lists.newArrayList();
-        fromDisk.addAll(listFilesRecursive(context.getCacheDir(), null, uid));
-        fromDisk.addAll(listFilesRecursive(context.getFilesDir(), null, uid));
-        fromDisk.addAll(listFilesRecursive(Environment.getDownloadCacheDirectory(), null, uid));
-
-        // Delete files no longer referenced by database
-        for (ConcreteFile file : fromDisk) {
-            if (!fromDb.contains(file)) {
-                Slog.d(TAG, "Missing db entry, deleting " + file.file);
-                file.file.delete();
-            }
-        }
-    }
-
     /**
      * Return number of available bytes on the filesystem backing the given
      * {@link FileDescriptor}, minus any {@link #RESERVED_BYTES} buffer.
@@ -266,7 +201,7 @@ public class StorageUtils {
      * @param exclude ignore dirs with this name, or {@code null} to ignore.
      * @param uid only return files owned by this UID, or {@code -1} to ignore.
      */
-    private static List<ConcreteFile> listFilesRecursive(File startDir, String exclude, int uid) {
+    static List<ConcreteFile> listFilesRecursive(File startDir, String exclude, int uid) {
         final ArrayList<ConcreteFile> files = Lists.newArrayList();
         final LinkedList<File> dirs = new LinkedList<File>();
         dirs.add(startDir);
@@ -298,7 +233,7 @@ public class StorageUtils {
      * Concrete file on disk that has a backing device and inode. Faster than
      * {@code realpath()} when looking for identical files.
      */
-    public static class ConcreteFile {
+    static class ConcreteFile {
         public final File file;
         public final StructStat stat;
 

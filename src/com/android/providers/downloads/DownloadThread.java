@@ -588,6 +588,7 @@ public class DownloadThread implements Runnable {
             // Delete if local file
             if (mInfoDelta.mFileName != null) {
                 new File(mInfoDelta.mFileName).delete();
+                mInfoDelta.mFileName = null;
             }
 
         } else if (Downloads.Impl.isStatusSuccess(mInfoDelta.mStatus)) {

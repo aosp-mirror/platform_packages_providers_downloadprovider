@@ -1137,7 +1137,9 @@ public final class DownloadProvider extends ContentProvider {
     public int delete(final Uri uri, final String where,
             final String[] whereArgs) {
 
-        Helpers.validateSelection(where, sAppReadableColumnsSet);
+        if (shouldRestrictVisibility()) {
+            Helpers.validateSelection(where, sAppReadableColumnsSet);
+        }
 
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         int count;

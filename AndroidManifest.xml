@@ -92,12 +92,23 @@
             </intent-filter>
         </provider>
 
-        <service android:name=".DownloadService"
-                android:permission="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+        <service
+            android:name=".DownloadService"
+            android:permission="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+
+        <service
+            android:name="com.android.providers.downloads.DownloadIdleService"
+            android:permission="android.permission.BIND_IDLE_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.idle.IdleService" />
+            </intent-filter>
+        </service>
+
         <receiver android:name=".DownloadReceiver" android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.UID_REMOVED" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_MOUNTED" />

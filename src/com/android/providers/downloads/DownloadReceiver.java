@@ -18,9 +18,11 @@ package com.android.providers.downloads;
 
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION;
+import static com.android.providers.downloads.Constants.TAG;
 
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -34,6 +36,7 @@ import android.os.HandlerThread;
 import android.provider.Downloads;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Slog;
 import android.widget.Toast;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -42,12 +45,10 @@ import com.google.common.annotations.VisibleForTesting;
  * Receives system broadcasts (boot, network connectivity)
  */
 public class DownloadReceiver extends BroadcastReceiver {
-    private static final String TAG = "DownloadReceiver";
-
     private static Handler sAsyncHandler;
 
     static {
-        final HandlerThread thread = new HandlerThread(TAG);
+        final HandlerThread thread = new HandlerThread("DownloadReceiver");
         thread.start();
         sAsyncHandler = new Handler(thread.getLooper());
     }
@@ -61,31 +62,37 @@ public class DownloadReceiver extends BroadcastReceiver {
             mSystemFacade = new RealSystemFacade(context);
         }
 
-        String action = intent.getAction();
-        if (action.equals(Intent.ACTION_BOOT_COMPLETED)) {
-            if (Constants.LOGVV) {
-                Log.v(Constants.TAG, "Received broadcast intent for " +
-                        Intent.ACTION_BOOT_COMPLETED);
-            }
+        final String action = intent.getAction();
+        if (Intent.ACTION_BOOT_COMPLETED.equals(action)) {
             startService(context);
-        } else if (action.equals(Intent.ACTION_MEDIA_MOUNTED)) {
-            if (Constants.LOGVV) {
-                Log.v(Constants.TAG, "Received broadcast intent for " +
-                        Intent.ACTION_MEDIA_MOUNTED);
-            }
+
+        } else if (Intent.ACTION_MEDIA_MOUNTED.equals(action)) {
             startService(context);
-        } else if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
+
+        } else if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action)) {
             final ConnectivityManager connManager = (ConnectivityManager) context
                     .getSystemService(Context.CONNECTIVITY_SERVICE);
             final NetworkInfo info = connManager.getActiveNetworkInfo();
             if (info != null && info.isConnected()) {
                 startService(context);
             }
-        } else if (action.equals(Constants.ACTION_RETRY)) {
+
+        } else if (Intent.ACTION_UID_REMOVED.equals(action)) {
+            final PendingResult result = goAsync();
+            sAsyncHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    handleUidRemoved(context, intent);
+                    result.finish();
+                }
+            });
+
+        } else if (Constants.ACTION_RETRY.equals(action)) {
             startService(context);
-        } else if (action.equals(Constants.ACTION_OPEN)
-                || action.equals(Constants.ACTION_LIST)
-                || action.equals(Constants.ACTION_HIDE)) {
+
+        } else if (Constants.ACTION_OPEN.equals(action)
+                || Constants.ACTION_LIST.equals(action)
+                || Constants.ACTION_HIDE.equals(action)) {
 
             final PendingResult result = goAsync();
             if (result == null) {
@@ -100,6 +107,18 @@ public class DownloadReceiver extends BroadcastReceiver {
                     }
                 });
             }
+        }
+    }
+
+    private void handleUidRemoved(Context context, Intent intent) {
+        final ContentResolver resolver = context.getContentResolver();
+
+        final int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
+        final int count = resolver.delete(
+                Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, Constants.UID + "=" + uid, null);
+
+        if (count > 0) {
+            Slog.d(TAG, "Deleted " + count + " downloads owned by UID " + uid);
         }
     }
 

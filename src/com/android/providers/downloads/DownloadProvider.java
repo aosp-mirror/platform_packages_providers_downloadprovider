@@ -39,7 +39,6 @@ import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.os.ParcelFileDescriptor.OnCloseListener;
 import android.os.Process;
-import android.os.SELinux;
 import android.provider.BaseColumns;
 import android.provider.Downloads;
 import android.provider.OpenableColumns;
@@ -463,11 +462,6 @@ public final class DownloadProvider extends ContentProvider {
         // saves us by getting some initialization code in DownloadService out of the way.
         Context context = getContext();
         context.startService(new Intent(context, DownloadService.class));
-        try {
-            SELinux.restorecon(context.getCacheDir().getCanonicalPath());
-        } catch (IOException e) {
-            Log.wtf(Constants.TAG, "Could not get canonical path for download directory", e);
-        }
         return true;
     }
 

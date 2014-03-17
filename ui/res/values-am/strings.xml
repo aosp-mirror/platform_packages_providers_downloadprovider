@@ -41,7 +41,7 @@
     <string name="remove_download" msgid="6372920256257247857">"አስወግድ"</string>
     <string name="delete_download" msgid="76629022653866471">"ሰርዝ"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"ጠብቅ"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"ሰርዝ"</string>
+    <string name="cancel_running_download" msgid="5232704030969221112">"ይቅር"</string>
     <string name="retry_download" msgid="7617100787922717912">"እንደገና ሞክር"</string>
     <string name="deselect_all" msgid="6348198946254776764">"ሁሉንም አትምረጥ"</string>
     <string name="select_all" msgid="634074918366265804">"ሁሉንም ምረጥ"</string>

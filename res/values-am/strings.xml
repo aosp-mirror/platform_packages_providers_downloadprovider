@@ -42,7 +42,7 @@
     <string name="wifi_recommended_title" msgid="7441589306734687400">"ለኋላ አውርድ ወረፋ?"</string>
     <string name="wifi_recommended_body" msgid="1314735166699936073">"ይህን <xliff:g id="SIZE">%s </xliff:g> አውርድ አሁን መጀመር የባትሪህን ዕድሜ ሊያሳጥረው ይችል ይሆናል እና/ወይም የአንተን ተንቀሳቃሽ ውሂብ ግንኙነት ከልክ ያለፈ አጠቃቀም ሊያስከስት ይችል ይሆናል፣ ይህም የአንተ  ተንቀሳቃሽ ከዋኝ በአንተ ውሂብ ክፍያ ዕቅድ ስምምነት መሰረት ተጨማሪ ክፍያ እንድትከፍል ሊጠይቅህ ይዳርገው ይሆናል፡፡ ይህን አውርድ በሚቀጥለው ጊዜ ከWi-Fi አውታረመረብ ጋር ስትገናኝ ለመጀመር \n\n ንካ<xliff:g id="QUEUE_TEXT">%s</xliff:g>፡፡"</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"ወረፋ"</string>
-    <string name="button_cancel_download" msgid="2430166148737975604">"ሰርዝ"</string>
+    <string name="button_cancel_download" msgid="2430166148737975604">"ይቅር"</string>
     <string name="button_start_now" msgid="792123674007840864">"አሁን ጀምር"</string>
     <string name="download_percent" msgid="6889426633242976698">"<xliff:g id="NUMBER">%d</xliff:g><xliff:g id="PERCENT">%%</xliff:g>"</string>
   <plurals name="notif_summary_active">

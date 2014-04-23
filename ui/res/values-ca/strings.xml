@@ -35,7 +35,7 @@
     <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"No es pot finalitzar la baixada. No hi ha prou espai a l\'emmagatzematge extern."</string>
     <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"No es pot finalitzar la baixada. No hi ha prou espai a l\'emmagatzematge intern."</string>
     <string name="dialog_cannot_resume" msgid="8664509751358983543">"S\'ha interromput la baixada i no es pot reprendre."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"No es pot baixar. El fitxer de destí ja existeix."</string>
+    <string name="dialog_file_already_exists" msgid="8308563940663449590">"No es pot baixar. El fitxer de destinació ja existeix."</string>
     <string name="dialog_media_not_found" msgid="4468088418758018765">"No es pot baixar. El mitjà extern no està disponible."</string>
     <string name="download_no_application_title" msgid="7024782176657362251">"No es pot obrir el fitxer"</string>
     <string name="remove_download" msgid="6372920256257247857">"Elimina"</string>

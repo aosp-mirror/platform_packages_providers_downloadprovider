@@ -17,16 +17,16 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Gestione download"</string>
-    <string name="permlab_downloadManager" msgid="7779544811202855500">"Accedere alla gestione dei download."</string>
+    <string name="permlab_downloadManager" msgid="7779544811202855500">"Accesso alla gestione dei download."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Consente all\'applicazione di accedere a gestione dei download e di utilizzarla per scaricare file. Le applicazioni dannose possono farne uso per disturbare i download e accedere a informazioni private."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Funzioni avanzate di gestione dei download."</string>
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Consente all\'applicazione di accedere alle funzioni avanzate di gestione dei download. Le applicazioni dannose possono farne uso per disturbare i download e accedere a informazioni private."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Inviare notifiche di download."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Consente all\'applicazione di inviare notifiche relative ai download completati. Le applicazioni dannose possono farne uso per confondere altre applicazioni che scaricano file."</string>
     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Tutti i download in archivio USB"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Visualizza tutti i download sulla scheda SD"</string>
+    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Visualizzazione di tutti i download sulla scheda SD"</string>
     <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Consente all\'applicazione di visualizzare tutti i download sulla scheda SD, a prescindere dall\'applicazione che li ha scaricati."</string>
-    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Conserva spazio nella cache dei download"</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Conservazione spazio nella cache dei download"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Consente all\'applicazione di scaricare nella cache i file che non possono essere eliminati automaticamente quando a gestione dei download serve più spazio."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"download file senza notifica"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"Consente all\'applicazione di scaricare i file tramite gestione dei download senza mostrare alcuna notifica all\'utente."</string>
@@ -55,4 +55,9 @@
   </plurals>
     <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> rimanenti"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"Impossibile aprire il file"</string>
+    <string name="root_downloads" msgid="4098414876292351487">"Download"</string>
+    <string name="download_queued" msgid="3302638231377947451">"In coda"</string>
+    <string name="download_running" msgid="3925050393361158266">"In corso"</string>
+    <string name="download_error" msgid="5144180777324573236">"Operazione non riuscita"</string>
+    <string name="download_running_percent" msgid="4529799113107391817">"In corso, <xliff:g id="NUMBER">%d</xliff:g><xliff:g id="PERCENT">%%</xliff:g>"</string>
 </resources>

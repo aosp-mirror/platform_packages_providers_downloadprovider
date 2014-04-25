@@ -28,6 +28,8 @@ import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.os.StatFs;
 import android.provider.Downloads.Impl;
+import android.system.ErrnoException;
+import android.system.StructStatVfs;
 import android.test.MoreAsserts;
 import android.util.Log;
 
@@ -35,12 +37,10 @@ import com.android.providers.downloads.StorageUtils.ObserverLatch;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.SocketPolicy;
 
-import libcore.io.ErrnoException;
 import libcore.io.ForwardingOs;
 import libcore.io.IoUtils;
 import libcore.io.Libcore;
 import libcore.io.Os;
-import libcore.io.StructStatVfs;
 
 import java.io.File;
 import java.io.FileDescriptor;

@@ -38,9 +38,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import libcore.io.ErrnoException;
-import libcore.io.Libcore;
-import libcore.io.StructStat;
+import android.system.ErrnoException;
+import android.system.Os;
+import android.system.StructStat;
 
 /**
  * Manages the storage space consumed by Downloads Data dir. When space falls below
@@ -401,7 +401,7 @@ class StorageManager {
         for (File file : files) {
             final String path = file.getAbsolutePath();
             try {
-                final StructStat stat = Libcore.os.stat(path);
+                final StructStat stat = Os.stat(path);
                 if (stat.st_uid == myUid) {
                     if (Constants.LOGVV) {
                         Log.d(TAG, "deleting spurious file " + path);

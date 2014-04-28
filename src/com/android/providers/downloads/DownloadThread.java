@@ -54,15 +54,15 @@ import android.os.Process;
 import android.os.SystemClock;
 import android.os.WorkSource;
 import android.provider.Downloads;
+import android.system.ErrnoException;
+import android.system.Os;
+import android.system.OsConstants;
 import android.util.Log;
 import android.util.Pair;
 
 import com.android.providers.downloads.DownloadInfo.NetworkState;
 
-import libcore.io.ErrnoException;
 import libcore.io.IoUtils;
-import libcore.io.Libcore;
-import libcore.io.OsConstants;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -459,18 +459,18 @@ public class DownloadThread implements Runnable {
 
                 // Pre-flight disk space requirements, when known
                 if (mInfoDelta.mTotalBytes > 0) {
-                    final long curSize = Libcore.os.fstat(outFd).st_size;
+                    final long curSize = Os.fstat(outFd).st_size;
                     final long newBytes = mInfoDelta.mTotalBytes - curSize;
 
                     StorageUtils.ensureAvailableSpace(mContext, outFd, newBytes);
 
                     try {
                         // We found enough space, so claim it for ourselves
-                        Libcore.os.posix_fallocate(outFd, 0, mInfoDelta.mTotalBytes);
+                        Os.posix_fallocate(outFd, 0, mInfoDelta.mTotalBytes);
                     } catch (ErrnoException e) {
                         if (e.errno == OsConstants.ENOTSUP) {
                             Log.w(TAG, "fallocate() said ENOTSUP; falling back to ftruncate()");
-                            Libcore.os.ftruncate(outFd, mInfoDelta.mTotalBytes);
+                            Os.ftruncate(outFd, mInfoDelta.mTotalBytes);
                         } else {
                             throw e;
                         }
@@ -478,7 +478,7 @@ public class DownloadThread implements Runnable {
                 }
 
                 // Move into place to begin writing
-                Libcore.os.lseek(outFd, mInfoDelta.mCurrentBytes, SEEK_SET);
+                Os.lseek(outFd, mInfoDelta.mCurrentBytes, SEEK_SET);
 
             } catch (ErrnoException e) {
                 throw new StopRequestException(STATUS_FILE_ERROR, e);
@@ -540,7 +540,7 @@ public class DownloadThread implements Runnable {
             try {
                 // When streaming, ensure space before each write
                 if (mInfoDelta.mTotalBytes == -1) {
-                    final long curSize = Libcore.os.fstat(outFd).st_size;
+                    final long curSize = Os.fstat(outFd).st_size;
                     final long newBytes = (mInfoDelta.mCurrentBytes + len) - curSize;
 
                     StorageUtils.ensureAvailableSpace(mContext, outFd, newBytes);
@@ -577,7 +577,7 @@ public class DownloadThread implements Runnable {
                 final ParcelFileDescriptor target = mContext.getContentResolver()
                         .openFileDescriptor(mInfo.getAllDownloadsUri(), "rw");
                 try {
-                    Libcore.os.ftruncate(target.getFileDescriptor(), 0);
+                    Os.ftruncate(target.getFileDescriptor(), 0);
                 } catch (ErrnoException ignored) {
                 } finally {
                     IoUtils.closeQuietly(target);
@@ -596,7 +596,7 @@ public class DownloadThread implements Runnable {
             if (mInfoDelta.mFileName != null) {
                 try {
                     // TODO: remove this once PackageInstaller works with content://
-                    Libcore.os.chmod(mInfoDelta.mFileName, 0644);
+                    Os.chmod(mInfoDelta.mFileName, 0644);
                 } catch (ErrnoException ignored) {
                 }
 

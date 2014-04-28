@@ -29,6 +29,7 @@ import android.os.Environment;
 import android.os.StatFs;
 import android.provider.Downloads.Impl;
 import android.system.ErrnoException;
+import android.system.Os;
 import android.system.StructStatVfs;
 import android.test.MoreAsserts;
 import android.util.Log;
@@ -39,8 +40,6 @@ import com.google.mockwebserver.SocketPolicy;
 
 import libcore.io.ForwardingOs;
 import libcore.io.IoUtils;
-import libcore.io.Libcore;
-import libcore.io.Os;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -61,7 +60,7 @@ public class StorageTest extends AbstractPublicApiTest {
         }
     }
 
-    private Os mOriginal;
+    private libcore.io.Os mOriginal;
     private long mStealBytes;
 
     public StorageTest() {
@@ -75,8 +74,8 @@ public class StorageTest extends AbstractPublicApiTest {
         StorageUtils.sForceFullEviction = true;
         mStealBytes = 0;
 
-        mOriginal = Libcore.os;
-        Libcore.os = new ForwardingOs(mOriginal) {
+        mOriginal = libcore.io.Libcore.os;
+        libcore.io.Libcore.os = new ForwardingOs(mOriginal) {
             @Override
             public StructStatVfs statvfs(String path) throws ErrnoException {
                 return stealBytes(os.statvfs(path));
@@ -104,7 +103,7 @@ public class StorageTest extends AbstractPublicApiTest {
         mStealBytes = 0;
 
         if (mOriginal != null) {
-            Libcore.os = mOriginal;
+            libcore.io.Libcore.os = mOriginal;
         }
     }
 
@@ -196,7 +195,7 @@ public class StorageTest extends AbstractPublicApiTest {
             assertTrue(dirtyFile.createNewFile());
             final FileOutputStream os = new FileOutputStream(dirtyFile);
             final int dirtySize = (DOWNLOAD_SIZE * 3) / 2;
-            Libcore.os.posix_fallocate(os.getFD(), 0, dirtySize);
+            Os.posix_fallocate(os.getFD(), 0, dirtySize);
             IoUtils.closeQuietly(os);
 
             dirtyFile.setLastModified(

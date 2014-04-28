@@ -30,6 +30,10 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Environment;
 import android.provider.Downloads;
+import android.system.ErrnoException;
+import android.system.Os;
+import android.system.StructStat;
+import android.system.StructStatVfs;
 import android.text.TextUtils;
 import android.util.Slog;
 
@@ -37,11 +41,7 @@ import com.android.internal.annotations.VisibleForTesting;
 import com.google.android.collect.Lists;
 import com.google.android.collect.Sets;
 
-import libcore.io.ErrnoException;
 import libcore.io.IoUtils;
-import libcore.io.Libcore;
-import libcore.io.StructStat;
-import libcore.io.StructStatVfs;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -100,7 +100,7 @@ public class StorageUtils {
         // the backing partition.
         final long dev;
         try {
-            dev = Libcore.os.fstat(fd).st_dev;
+            dev = Os.fstat(fd).st_dev;
         } catch (ErrnoException e) {
             throw e.rethrowAsIOException();
         }
@@ -178,7 +178,7 @@ public class StorageUtils {
      */
     private static long getAvailableBytes(FileDescriptor fd) throws IOException {
         try {
-            final StructStatVfs stat = Libcore.os.fstatvfs(fd);
+            final StructStatVfs stat = Os.fstatvfs(fd);
             return (stat.f_bavail * stat.f_bsize) - RESERVED_BYTES;
         } catch (ErrnoException e) {
             throw e.rethrowAsIOException();
@@ -187,7 +187,7 @@ public class StorageUtils {
 
     private static long getDeviceId(File file) {
         try {
-            return Libcore.os.stat(file.getAbsolutePath()).st_dev;
+            return Os.stat(file.getAbsolutePath()).st_dev;
         } catch (ErrnoException e) {
             // Safe since dev_t is uint
             return -1;
@@ -239,7 +239,7 @@ public class StorageUtils {
 
         public ConcreteFile(File file) throws ErrnoException {
             this.file = file;
-            this.stat = Libcore.os.lstat(file.getAbsolutePath());
+            this.stat = Os.lstat(file.getAbsolutePath());
         }
 
         @Override

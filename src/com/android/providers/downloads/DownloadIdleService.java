@@ -26,6 +26,7 @@ import android.content.ContentUris;
 import android.database.Cursor;
 import android.os.Environment;
 import android.provider.Downloads;
+import android.system.ErrnoException;
 import android.text.TextUtils;
 import android.util.Slog;
 
@@ -33,7 +34,6 @@ import com.android.providers.downloads.StorageUtils.ConcreteFile;
 import com.google.android.collect.Lists;
 import com.google.android.collect.Sets;
 
-import libcore.io.ErrnoException;
 import libcore.io.IoUtils;
 
 import java.io.File;

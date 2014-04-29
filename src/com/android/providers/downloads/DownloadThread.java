@@ -36,7 +36,6 @@ import static java.net.HttpURLConnection.HTTP_PARTIAL;
 import static java.net.HttpURLConnection.HTTP_PRECON_FAILED;
 import static java.net.HttpURLConnection.HTTP_SEE_OTHER;
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
-import static libcore.io.OsConstants.SEEK_SET;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -478,7 +477,7 @@ public class DownloadThread implements Runnable {
                 }
 
                 // Move into place to begin writing
-                Os.lseek(outFd, mInfoDelta.mCurrentBytes, SEEK_SET);
+                Os.lseek(outFd, mInfoDelta.mCurrentBytes, OsConstants.SEEK_SET);
 
             } catch (ErrnoException e) {
                 throw new StopRequestException(STATUS_FILE_ERROR, e);

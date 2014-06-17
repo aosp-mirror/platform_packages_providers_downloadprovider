@@ -99,10 +99,8 @@
 
         <service
             android:name="com.android.providers.downloads.DownloadIdleService"
-            android:permission="android.permission.BIND_IDLE_SERVICE">
-            <intent-filter>
-                <action android:name="android.service.idle.IdleService" />
-            </intent-filter>
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE">
         </service>
 
         <receiver android:name=".DownloadReceiver" android:exported="false">

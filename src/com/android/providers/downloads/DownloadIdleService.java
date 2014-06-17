@@ -20,7 +20,8 @@ import static com.android.providers.downloads.Constants.TAG;
 import static com.android.providers.downloads.StorageUtils.listFilesRecursive;
 
 import android.app.DownloadManager;
-import android.app.maintenance.IdleService;
+import android.app.job.JobParameters;
+import android.app.job.JobService;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.database.Cursor;
@@ -41,30 +42,37 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
- * Idle maintenance service for {@link DownloadManager}. Reconciles database
+ * Idle-time service for {@link DownloadManager}. Reconciles database
  * metadata and files on disk, which can become inconsistent when files are
  * deleted directly on disk.
  */
-public class DownloadIdleService extends IdleService {
+public class DownloadIdleService extends JobService {
 
-    private final Runnable mIdleRunnable = new Runnable() {
+    private class IdleRunnable implements Runnable {
+        private JobParameters mParams;
+
+        public IdleRunnable(JobParameters params) {
+            mParams = params;
+        }
+
         @Override
         public void run() {
             cleanOrphans();
-            finishIdle();
+            jobFinished(mParams, false);
         }
     };
 
     @Override
-    public boolean onIdleStart() {
-        new Thread(mIdleRunnable).start();
+    public boolean onStartJob(JobParameters params) {
+        new Thread(new IdleRunnable(params)).start();
         return true;
     }
 
     @Override
-    public void onIdleStop() {
+    public boolean onStopJob(JobParameters params) {
         // We're okay being killed at any point, so we don't worry about
         // checkpointing before tearing down.
+        return false;
     }
 
     private interface DownloadQuery {

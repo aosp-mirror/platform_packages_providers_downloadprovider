@@ -23,6 +23,9 @@ import android.app.AlarmManager;
 import android.app.DownloadManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -87,6 +90,15 @@ public class DownloadService extends Service {
 
     /** Class to handle Notification Manager updates */
     private DownloadNotifier mNotifier;
+
+    /** Scheduling of the periodic cleanup job */
+    private JobInfo mCleanupJob;
+
+    private static final int CLEANUP_JOB_ID = 1;
+    private static final long CLEANUP_JOB_PERIOD = 1000 * 60 * 60 * 24; // one day
+    private static ComponentName sCleanupServiceName = new ComponentName(
+            DownloadIdleService.class.getPackage().getName(),
+            DownloadIdleService.class.getName());
 
     /**
      * The Service's view of the list of downloads, mapping download IDs to the corresponding info
@@ -193,6 +205,28 @@ public class DownloadService extends Service {
         mObserver = new DownloadManagerContentObserver();
         getContentResolver().registerContentObserver(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
                 true, mObserver);
+
+        JobScheduler js = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        if (needToScheduleCleanup(js)) {
+            final JobInfo job = new JobInfo.Builder(CLEANUP_JOB_ID, sCleanupServiceName)
+                    .setPeriodic(CLEANUP_JOB_PERIOD)
+                    .setRequiresCharging(true)
+                    .setRequiresDeviceIdle(true)
+                    .build();
+            js.schedule(job);
+        }
+    }
+
+    private boolean needToScheduleCleanup(JobScheduler js) {
+        List<JobInfo> myJobs = js.getAllPendingJobs();
+        final int N = myJobs.size();
+        for (int i = 0; i < N; i++) {
+            if (myJobs.get(i).getId() == CLEANUP_JOB_ID) {
+                // It's already been (persistently) scheduled; no need to do it again
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

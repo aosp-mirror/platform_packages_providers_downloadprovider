@@ -35,10 +35,10 @@
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;शीर्षकविहिन&gt;"</string>
     <string name="notification_download_complete" msgid="5443563299253103667">"डाउनलोड पुरा भयो।"</string>
     <string name="notification_download_failed" msgid="8612136111952014978">"डाउनलोड असफल"</string>
-    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"डाउनलोड आकारलाई वाइ-फाइ चाहिन्छ।"</string>
+    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"डाउनलोड आकारलाई वाइफाइ चाहिन्छ।"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"पृष्ठभूमिमा रोकिएको छ।"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"अपरेटर सञ्जालका लागि डाउनलोड ज्यादै ठूलो"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"तपाईँले वाइफाइ प्रयोग गर्नु पर्छ यस <xliff:g id="SIZE">%s </xliff:g> डाउनलोड समाप्त गर्न। \n\nछुनुहोस् <xliff:g id="QUEUE_TEXT">%s </xliff:g> यस डाउनलोडलाई सुरु गर्न अर्को पटक तपाईँ वाइ-फाइ सञ्जालामा जडित भए पछि।"</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"तपाईँले वाइफाइ प्रयोग गर्नु पर्छ यस <xliff:g id="SIZE">%s </xliff:g> डाउनलोड समाप्त गर्न। \n\nछुनुहोस् <xliff:g id="QUEUE_TEXT">%s </xliff:g> यस डाउनलोडलाई सुरु गर्न अर्को पटक तपाईँ वाइफाइ सञ्जालामा जडित भए पछि।"</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"पछि डाउनलोडका लागि लाममा राख्ने हो?"</string>
     <string name="wifi_recommended_body" msgid="1314735166699936073">"यस <xliff:g id="SIZE">%s </xliff:g> डाउनलोडलाई सुरु गर्दा तपाईँको ब्याट्रिको काल छोट्टिन सक्छ र/वा तपाईँको मोबाइल डेटा जडानको अधिकतम प्रयोग भई तपाईँको डेटा योजना अनुसार मोबाइल अपरेटरले थप शुल्क लिन सक्छ। \n\n छुनुहोस् <xliff:g id="QUEUE_TEXT">%s</xliff:g>तल यस डाउनलोडलाई सुरु गर्न अर्को पटक तपाईँ वाइफाइ सन्जालमा जडित हुने बेला।"</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"लाम"</string>

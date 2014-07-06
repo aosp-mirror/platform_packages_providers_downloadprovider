@@ -28,7 +28,7 @@
     <string name="download_success" msgid="7006048006543495236">"เสร็จสมบูรณ์"</string>
     <string name="download_error" msgid="8081329546008568251">"ไม่สำเร็จ"</string>
     <string name="dialog_title_not_available" msgid="5746317632356158515">"ไม่สามารถดาวน์โหลดได้"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"คุณต้องการลองดาวน์โหลดไฟล์อีกครั้งในภายหลังหรือลบไฟล์ออกจากคิว"</string>
+    <string name="dialog_failed_body" msgid="587545111677064427">"คุณต้องการลองดาวน์โหลดไฟล์อีกครั้งในภายหลังหรือนำออกไฟล์ออกจากคิว"</string>
     <string name="dialog_title_queued_body" msgid="6760681913815015219">"ไฟล์ในคิว"</string>
     <string name="dialog_queued_body" msgid="708552801635572720">"ไฟล์นี้ได้รับการจัดคิวให้ดาวน์โหลดในอนาคต ดังนั้นจึงยังไม่สามารถใช้ได้"</string>
     <string name="dialog_file_missing_body" msgid="3223012612774276284">"ไม่พบไฟล์ที่ดาวน์โหลด"</string>
@@ -39,7 +39,7 @@
     <string name="dialog_media_not_found" msgid="4468088418758018765">"ไม่สามารถดาวน์โหลดได้ สื่อภายนอกไม่สามารถใช้งานได้"</string>
     <string name="download_no_application_title" msgid="7024782176657362251">"ไม่สามารถเปิดไฟล์ได้"</string>
     <string name="remove_download" msgid="6372920256257247857">"นำออก"</string>
-    <string name="delete_download" msgid="76629022653866471">"ลบ"</string>
+    <string name="delete_download" msgid="76629022653866471">"นำออก"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"เก็บไว้"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"ยกเลิก"</string>
     <string name="retry_download" msgid="7617100787922717912">"ลองอีกครั้ง"</string>

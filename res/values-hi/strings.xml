@@ -18,20 +18,20 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"डाउनलोड प्रबंधक"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"डाउनलोड प्रबंधक में पहुंच प्राप्त करें."</string>
-    <string name="permdesc_downloadManager" msgid="4237406545998908947">"एप्स को डाउनलोड प्रबंधक तक पहुंचने देता और फ़ाइलें डाउनलोड करने के लिए इसका उपयोग करने देता है. दुर्भावनापूर्ण एप्स इसका उपयोग डाउनलोड को बाधित करने और निजी जानकारी तक पहुंचने के लिए कर सकते हैं."</string>
+    <string name="permdesc_downloadManager" msgid="4237406545998908947">"ऐप्स  को डाउनलोड प्रबंधक तक पहुंचने देता और फ़ाइलें डाउनलोड करने के लिए इसका उपयोग करने देता है. दुर्भावनापूर्ण ऐप्स  इसका उपयोग डाउनलोड को बाधित करने और निजी जानकारी तक पहुंचने के लिए कर सकते हैं."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"उन्‍नत डाउनलोड प्रबंधक प्रकार्य."</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"एप्स को डाउनलोड प्रबंधक के उन्नत फ़ंक्शन तक पहुंचने देता है. दुर्भावनापूर्ण एप्स इसका उपयोग डाउनलोड को बाधित करने और निजी जानकारी तक पहुंचने के लिए कर सकते हैं."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"ऐप्स  को डाउनलोड प्रबंधक के उन्नत फ़ंक्शन तक पहुंचने देता है. दुर्भावनापूर्ण ऐप्स  इसका उपयोग डाउनलोड को बाधित करने और निजी जानकारी तक पहुंचने के लिए कर सकते हैं."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"डाउनलोड सूचनाएं भेजें."</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"पूर्ण किए गए डाउनलोड के बारे में एप्स को सूचना भेजने देता है. दुर्भावनापूर्ण एप्स इसका उपयोग फ़ाइलों को डाउनलोड करने वाले अन्य एप्स को भ्रमित करने के लिए कर सकते हैं."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"पूर्ण किए गए डाउनलोड के बारे में ऐप्स  को सूचना भेजने देता है. दुर्भावनापूर्ण ऐप्स  इसका उपयोग फ़ाइलों को डाउनलोड करने वाले अन्य ऐप्स  को भ्रमित करने के लिए कर सकते हैं."</string>
     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"USB संग्रहण के सभी डाउनलोड देखें"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"SD कार्ड के लिए सभी डाउनलोड देखें"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"इस बात पर ध्यान दिए बिना कि किस एप्स ने उन्हें डाउनलोड किया है, एप्स को SD कार्ड पर किए गए सभी डाउनलोड देखने देता है."</string>
+    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"इस बात पर ध्यान दिए बिना कि किस ऐप्स  ने उन्हें डाउनलोड किया है, ऐप्स  को SD कार्ड पर किए गए सभी डाउनलोड देखने देता है."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"डाउनलोड कैश में स्थान सुरक्षित रखें"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"एप्स को डाउनलोड संचय पर फ़ाइलें डाउनलोड करने देता है, जिन्हें अपने आप तब हटाया नहीं जा सकता, जब डाउनलोड प्रबंधक को अधिक स्थान की आवश्‍यकता होती है."</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"ऐप्स  को डाउनलोड संचय पर फ़ाइलें डाउनलोड करने देता है, जिन्हें अपने आप तब हटाया नहीं जा सकता, जब डाउनलोड प्रबंधक को अधिक स्थान की आवश्‍यकता होती है."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"बिना सूचना के फ़ाइलें डाउनलोड करें"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"उपयोगकर्ता को कोई भी सूचना दिखाए बिना एप्‍स को डाउनलोड प्रबंधक द्वारा फ़ाइलें डाउनलोड करने देता है."</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"उपयोगकर्ता को कोई भी सूचना दिखाए बिना ऐप्स को डाउनलोड प्रबंधक द्वारा फ़ाइलें डाउनलोड करने देता है."</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"सभी सिस्‍टम डाउनलोड में पहुंच प्राप्त करें"</string>
-    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"एप्स को सिस्टम पर किसी भी एप्स द्वारा शुरू किए गए सभी डाउनलोड देखने और संशोधित करने देता है."</string>
+    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"ऐप्स  को सिस्टम पर किसी भी ऐप्स  द्वारा शुरू किए गए सभी डाउनलोड देखने और संशोधित करने देता है."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;शीर्षक-रहित&gt;"</string>
     <string name="notification_download_complete" msgid="5443563299253103667">"डाउनलोड पूर्ण."</string>
     <string name="notification_download_failed" msgid="8612136111952014978">"डाउनलोड विफल."</string>

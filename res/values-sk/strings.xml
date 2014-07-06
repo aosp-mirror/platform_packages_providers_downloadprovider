@@ -47,7 +47,7 @@
     <string name="download_percent" msgid="6889426633242976698">"<xliff:g id="NUMBER">%d</xliff:g> <xliff:g id="PERCENT">%%</xliff:g>"</string>
   <plurals name="notif_summary_active">
     <item quantity="one" msgid="8475775855911967027">"Sťahuje sa 1 súbor"</item>
-    <item quantity="other" msgid="9087228371320573153">"Počet preberaných súborov: <xliff:g id="NUMBER">%d</xliff:g>"</item>
+    <item quantity="other" msgid="9087228371320573153">"Počet sťahovaných súborov: <xliff:g id="NUMBER">%d</xliff:g>"</item>
   </plurals>
   <plurals name="notif_summary_waiting">
     <item quantity="one" msgid="5537481763963544278">"1 čakajúci súbor"</item>

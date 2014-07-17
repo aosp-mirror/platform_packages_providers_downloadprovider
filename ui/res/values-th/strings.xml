@@ -38,7 +38,7 @@
     <string name="dialog_file_already_exists" msgid="8308563940663449590">"ไม่สามารถดาวน์โหลดได้ ไฟล์ปลายทางมีอยู่แล้ว"</string>
     <string name="dialog_media_not_found" msgid="4468088418758018765">"ไม่สามารถดาวน์โหลดได้ สื่อภายนอกไม่สามารถใช้งานได้"</string>
     <string name="download_no_application_title" msgid="7024782176657362251">"ไม่สามารถเปิดไฟล์ได้"</string>
-    <string name="remove_download" msgid="6372920256257247857">"นำออก"</string>
+    <string name="remove_download" msgid="6372920256257247857">"ลบ"</string>
     <string name="delete_download" msgid="76629022653866471">"นำออก"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"เก็บไว้"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"ยกเลิก"</string>

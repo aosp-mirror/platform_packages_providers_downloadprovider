@@ -133,7 +133,7 @@ public class DownloadStorageProvider extends DocumentsProvider {
             }
 
             return Long.toString(mDm.addCompletedDownload(
-                    file.getName(), file.getName(), false, mimeType, file.getAbsolutePath(), 0L,
+                    file.getName(), file.getName(), true, mimeType, file.getAbsolutePath(), 0L,
                     false, true));
         } finally {
             Binder.restoreCallingIdentity(token);

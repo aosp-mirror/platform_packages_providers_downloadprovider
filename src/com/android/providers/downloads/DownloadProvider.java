@@ -414,7 +414,7 @@ public final class DownloadProvider extends ContentProvider {
                         Downloads.Impl.COLUMN_OTHER_UID + " INTEGER, " +
                         Downloads.Impl.COLUMN_TITLE + " TEXT, " +
                         Downloads.Impl.COLUMN_DESCRIPTION + " TEXT, " +
-                        Constants.MEDIA_SCANNED + " BOOLEAN);");
+                        Downloads.Impl.COLUMN_MEDIA_SCANNED + " BOOLEAN);");
             } catch (SQLException ex) {
                 Log.e(Constants.TAG, "couldn't create table in downloads database");
                 throw ex;
@@ -1182,8 +1182,12 @@ public final class DownloadProvider extends ContentProvider {
             logVerboseOpenFileInfo(uri, mode);
         }
 
-        final Cursor cursor = query(uri, new String[] { Downloads.Impl._DATA }, null, null, null);
-        String path;
+        final Cursor cursor = query(uri, new String[] {
+                Downloads.Impl._DATA, Downloads.Impl.COLUMN_STATUS,
+                Downloads.Impl.COLUMN_DESTINATION, Downloads.Impl.COLUMN_MEDIA_SCANNED }, null,
+                null, null);
+        final String path;
+        final boolean shouldScan;
         try {
             int count = (cursor != null) ? cursor.getCount() : 0;
             if (count != 1) {
@@ -1194,8 +1198,20 @@ public final class DownloadProvider extends ContentProvider {
                 throw new FileNotFoundException("Multiple items at " + uri);
             }
 
-            cursor.moveToFirst();
-            path = cursor.getString(0);
+            if (cursor.moveToFirst()) {
+                final int status = cursor.getInt(1);
+                final int destination = cursor.getInt(2);
+                final int mediaScanned = cursor.getInt(3);
+
+                path = cursor.getString(0);
+                shouldScan = Downloads.Impl.isStatusSuccess(status) && (
+                        destination == Downloads.Impl.DESTINATION_EXTERNAL
+                        || destination == Downloads.Impl.DESTINATION_FILE_URI
+                        || destination == Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD)
+                        && mediaScanned != 2;
+            } else {
+                throw new FileNotFoundException("Failed moveToFirst");
+            }
         } finally {
             IoUtils.closeQuietly(cursor);
         }
@@ -1209,22 +1225,29 @@ public final class DownloadProvider extends ContentProvider {
             throw new FileNotFoundException("Invalid file: " + file);
         }
 
-        if ("r".equals(mode)) {
-            return ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY);
+        final int pfdMode = ParcelFileDescriptor.parseMode(mode);
+        if (pfdMode == ParcelFileDescriptor.MODE_READ_ONLY) {
+            return ParcelFileDescriptor.open(file, pfdMode);
         } else {
             try {
                 // When finished writing, update size and timestamp
-                return ParcelFileDescriptor.open(file, ParcelFileDescriptor.parseMode(mode),
-                        mHandler, new OnCloseListener() {
-                            @Override
-                            public void onClose(IOException e) {
-                                final ContentValues values = new ContentValues();
-                                values.put(Downloads.Impl.COLUMN_TOTAL_BYTES, file.length());
-                                values.put(Downloads.Impl.COLUMN_LAST_MODIFICATION,
-                                        System.currentTimeMillis());
-                                update(uri, values, null, null);
-                            }
-                        });
+                return ParcelFileDescriptor.open(file, pfdMode, mHandler, new OnCloseListener() {
+                    @Override
+                    public void onClose(IOException e) {
+                        final ContentValues values = new ContentValues();
+                        values.put(Downloads.Impl.COLUMN_TOTAL_BYTES, file.length());
+                        values.put(Downloads.Impl.COLUMN_LAST_MODIFICATION,
+                                System.currentTimeMillis());
+                        update(uri, values, null, null);
+
+                        if (shouldScan) {
+                            final Intent intent = new Intent(
+                                    Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                            intent.setData(Uri.fromFile(file));
+                            getContext().sendBroadcast(intent);
+                        }
+                    }
+                });
             } catch (IOException e) {
                 throw new FileNotFoundException("Failed to open for writing: " + e);
             }

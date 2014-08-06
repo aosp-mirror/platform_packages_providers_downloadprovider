@@ -94,7 +94,7 @@ public class DownloadInfo {
             info.mCurrentBytes = getLong(Downloads.Impl.COLUMN_CURRENT_BYTES);
             info.mETag = getString(Constants.ETAG);
             info.mUid = getInt(Constants.UID);
-            info.mMediaScanned = getInt(Constants.MEDIA_SCANNED);
+            info.mMediaScanned = getInt(Downloads.Impl.COLUMN_MEDIA_SCANNED);
             info.mDeleted = getInt(Downloads.Impl.COLUMN_DELETED) == 1;
             info.mMediaProviderUri = getString(Downloads.Impl.COLUMN_MEDIAPROVIDER_URI);
             info.mIsPublicApi = getInt(Downloads.Impl.COLUMN_IS_PUBLIC_API) != 0;

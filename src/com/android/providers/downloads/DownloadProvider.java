@@ -821,6 +821,16 @@ public final class DownloadProvider extends ContentProvider {
         throw new SecurityException("Invalid value for " + column + ": " + value);
     }
 
+    private Cursor queryCleared(Uri uri, String[] projection, String selection,
+            String[] selectionArgs, String sort) {
+        final long token = Binder.clearCallingIdentity();
+        try {
+            return query(uri, projection, selection, selectionArgs, sort);
+        } finally {
+            Binder.restoreCallingIdentity(token);
+        }
+    }
+
     /**
      * Starts a database query
      */
@@ -1182,7 +1192,7 @@ public final class DownloadProvider extends ContentProvider {
             logVerboseOpenFileInfo(uri, mode);
         }
 
-        final Cursor cursor = query(uri, new String[] {
+        final Cursor cursor = queryCleared(uri, new String[] {
                 Downloads.Impl._DATA, Downloads.Impl.COLUMN_STATUS,
                 Downloads.Impl.COLUMN_DESTINATION, Downloads.Impl.COLUMN_MEDIA_SCANNED }, null,
                 null, null);

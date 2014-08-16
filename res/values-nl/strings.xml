@@ -38,7 +38,7 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Wifi nodig voor download"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Onderbr. op achtergrond."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Download te groot voor providernetwerk"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"U moet wifi gebruiken om deze download van <xliff:g id="SIZE">%s </xliff:g> te voltooien. \n\nRaak <xliff:g id="QUEUE_TEXT">%s </xliff:g> aan om deze download te starten wanneer u verbinding heeft met een wifi-netwerk."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"U moet wifi gebruiken om deze download van <xliff:g id="SIZE">%s </xliff:g> te voltooien. \n\nTik <xliff:g id="QUEUE_TEXT">%s </xliff:g> om deze download te starten wanneer u verbinding heeft met een wifi-netwerk."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"In wachtrij plaatsen voor later downloaden?"</string>
     <string name="wifi_recommended_body" msgid="1314735166699936073">"Als u deze download van <xliff:g id="SIZE">%s </xliff:g> nu start, kan dit de levensduur van de accu verkorten en/of leiden tot bovenmatig gebruik van uw mobiele gegevensverbinding. Uw provider kan hiervoor kosten rekenen.\n\n Raak \'<xliff:g id="QUEUE_TEXT">%s</xliff:g>\' aan om deze download te starten wanneer u verbinding heeft met een wifi-netwerk."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Wachtrij"</string>

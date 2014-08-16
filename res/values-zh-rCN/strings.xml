@@ -23,9 +23,9 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"允许该应用使用下载管理器的高级功能。恶意应用可能会借此中断下载并访问私人信息。"</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"发送下载通知。"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"允许该应用发送下载已完成的通知。恶意应用可能借此伪装成其他下载文件的应用。"</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"查看所有要存储至 USB 存储设备的下载项"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"查看下载到 SD 卡的全部内容"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"允许该应用查看所有下载到 SD 卡上的内容（无论这些内容是由哪个应用下载的）。"</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"查看所有要存储至USB存储设备的下载项"</string>
+    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"查看下载到SD卡的全部内容"</string>
+    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"允许该应用查看所有下载到SD卡上的内容（无论这些内容是由哪个应用下载的）。"</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"保留下载缓存中的空间"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"允许该应用将文件下载到下载缓存中（系统不会因下载管理器需要更多空间而自动删除下载缓存中的内容）。"</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"直接下载文件而不显示通知"</string>
@@ -35,12 +35,12 @@
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;未命名&gt;"</string>
     <string name="notification_download_complete" msgid="5443563299253103667">"下载已完成。"</string>
     <string name="notification_download_failed" msgid="8612136111952014978">"下载失败。"</string>
-    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"文件过大，需要通过 WLAN 下载。"</string>
+    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"文件过大，需要通过WLAN网络下载。"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"已在后台暂停。"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"文件太大，不适于通过运营商网络下载"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"您必须使用 WLAN 完成此内容 (<xliff:g id="SIZE">%s </xliff:g>) 的下载。\n\n触摸“<xliff:g id="QUEUE_TEXT">%s </xliff:g>”可在下次连接到 WLAN 网络时开始下载此内容。"</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"您必须使用WLAN完成此内容 (<xliff:g id="SIZE">%s </xliff:g>) 的下载。\n\n触摸“<xliff:g id="QUEUE_TEXT">%s </xliff:g>”可在下次连接到WLAN网络时开始下载此内容。"</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"稍后再加入下载队列吗？"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"立即开始下载此内容 (<xliff:g id="SIZE">%s </xliff:g>) 可能会缩短电池的使用时间并/或导致过量使用移动数据连接流量（这可能导致移动运营商向您收费，具体取决于您的流量套餐）。\n\n触摸“<xliff:g id="QUEUE_TEXT">%s</xliff:g>”可在下次连接到 WLAN 网络时开始下载此内容。"</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"立即开始下载此内容 (<xliff:g id="SIZE">%s </xliff:g>) 可能会缩短电池的使用时间并/或导致过量使用移动数据连接流量（这可能导致移动运营商向您收费，具体取决于您的流量套餐）。\n\n触摸“<xliff:g id="QUEUE_TEXT">%s</xliff:g>”可在下次连接到WLAN网络时开始下载此内容。"</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"排队"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"取消"</string>
     <string name="button_start_now" msgid="792123674007840864">"立即开始"</string>

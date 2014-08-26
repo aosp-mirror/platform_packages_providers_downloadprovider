@@ -467,8 +467,8 @@ public class DownloadThread implements Runnable {
                         // We found enough space, so claim it for ourselves
                         Os.posix_fallocate(outFd, 0, mInfoDelta.mTotalBytes);
                     } catch (ErrnoException e) {
-                        if (e.errno == OsConstants.ENOTSUP) {
-                            Log.w(TAG, "fallocate() said ENOTSUP; falling back to ftruncate()");
+                        if (e.errno == OsConstants.ENOSYS || e.errno == OsConstants.ENOTSUP) {
+                            Log.w(TAG, "fallocate() not supported; falling back to ftruncate()");
                             Os.ftruncate(outFd, mInfoDelta.mTotalBytes);
                         } else {
                             throw e;

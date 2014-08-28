@@ -139,6 +139,8 @@ public class DownloadNotifier {
             final Collection<DownloadInfo> cluster = clustered.get(tag);
 
             final Notification.Builder builder = new Notification.Builder(mContext);
+            builder.setColor(res.getColor(
+                    com.android.internal.R.color.system_notification_accent_color));
 
             // Use time when cluster was first shown to avoid shuffling
             final long firstShown;

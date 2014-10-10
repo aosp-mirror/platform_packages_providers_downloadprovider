@@ -42,6 +42,7 @@ import libcore.io.IoUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.NumberFormat;
 
 /**
  * Presents a {@link DocumentsContract} view of {@link DownloadManager}
@@ -321,7 +322,8 @@ public class DownloadStorageProvider extends DocumentsProvider {
                 final long progress = cursor.getLong(cursor.getColumnIndexOrThrow(
                         DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
                 if (size != null) {
-                    final long percent = progress * 100 / size;
+                    String percent =
+                            NumberFormat.getPercentInstance().format((double) progress / size);
                     summary = getContext().getString(R.string.download_running_percent, percent);
                 } else {
                     summary = getContext().getString(R.string.download_running);

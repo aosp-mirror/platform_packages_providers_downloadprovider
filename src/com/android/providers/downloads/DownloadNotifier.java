@@ -42,6 +42,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 
+import java.text.NumberFormat;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -219,8 +220,8 @@ public class DownloadNotifier {
                 }
 
                 if (total > 0) {
-                    final int percent = (int) ((current * 100) / total);
-                    percentText = res.getString(R.string.download_percent, percent);
+                    percentText =
+                            NumberFormat.getPercentInstance().format((double) current / total);
 
                     if (speed > 0) {
                         final long remainingMillis = ((total - current) * 1000) / speed;
@@ -228,6 +229,7 @@ public class DownloadNotifier {
                                 DateUtils.formatDuration(remainingMillis));
                     }
 
+                    final int percent = (int) ((current * 100) / total);
                     builder.setProgress(100, percent, false);
                 } else {
                     builder.setProgress(100, 0, true);

@@ -190,9 +190,6 @@
          [CHAR LIMIT=25] -->
     <string name="button_start_now">Start now</string>
 
-    <!-- Short representation of download progress percentage. [CHAR LIMIT=8] -->
-    <string name="download_percent"><xliff:g id="number">%d</xliff:g><xliff:g id="percent">%%</xliff:g></string>
-
     <!-- Title summarizing active downloads. [CHAR LIMIT=32] -->
     <plurals name="notif_summary_active">
         <item quantity="one">1 file downloading</item>
@@ -227,6 +224,6 @@
     <string name="download_error">Unsuccessful</string>
 
     <!-- Representation of download progress percentage when running. [CHAR LIMIT=24] -->
-    <string name="download_running_percent">In progress, <xliff:g id="number">%d</xliff:g><xliff:g id="percent">%%</xliff:g></string>
+    <string name="download_running_percent">In progress, <xliff:g id="percentage" example="50%">%s</xliff:g></string>
 
 </resources>

@@ -42,9 +42,8 @@
     <string name="wifi_recommended_title" msgid="7441589306734687400">"ដាក់​ជា​ជួរ​ដើម្បី​ទាញ​យក​បន្ទាប់?"</string>
     <string name="wifi_recommended_body" msgid="1314735166699936073">"ចាប់ផ្ដើម​ការ​ទាញ​យក <xliff:g id="SIZE">%s </xliff:g> ឥឡូវ​អាច​បណ្ដាលឲ្យ​ថ្ម​របស់​អ្នក​មាន​អាយុ​ខ្លី និង/ឬ​បង្ហាញ​ថា​លើស​ការ​ប្រើ​នៃ​តំណ​ភ្ជាប់​ទិន្នន័យ​ទូរស័ព្ទ​របស់​អ្នក ដែល​អាច​គិត​ប្រាក់​ដោយ​ប្រតិបត្តិករ​ទូរស័ព្ទ​អាស្រ័យ​តាម​គម្រោង​ទិន្នន័យ​របស់​អ្នក។\n\n ប៉ះ <xliff:g id="QUEUE_TEXT">%s</xliff:g> ខាងក្រោម​ដើម្បី​ចាប់ផ្ដើម​ការ​ទាញ​យក​នេះ​នៅ​ពេល​អ្នក​បាន​តភ្ជាប់​បណ្ដាញ​វ៉ាយហ្វាយ។"</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"ជួរ"</string>
-    <string name="button_cancel_download" msgid="2430166148737975604">"បោះ​បង់​"</string>
+    <string name="button_cancel_download" msgid="2430166148737975604">"បោះ​បង់"</string>
     <string name="button_start_now" msgid="792123674007840864">"ចាប់ផ្ដើម​ឥឡូវ"</string>
-    <string name="download_percent" msgid="6889426633242976698">"<xliff:g id="NUMBER">%d</xliff:g><xliff:g id="PERCENT">%%</xliff:g>"</string>
   <plurals name="notif_summary_active">
     <item quantity="one" msgid="8475775855911967027">"កំពុង​ទាញ​យក​ឯកសារ ១"</item>
     <item quantity="other" msgid="9087228371320573153">"កំពុង​ទាញ​យក​ឯកសារ <xliff:g id="NUMBER">%d</xliff:g>"</item>
@@ -59,5 +58,5 @@
     <string name="download_queued" msgid="3302638231377947451">"​បាន​ដាក់​ក្នុង​ជួរ"</string>
     <string name="download_running" msgid="3925050393361158266">"កំពុង​ដំណើរការ"</string>
     <string name="download_error" msgid="5144180777324573236">"បាន​បរាជ័យ"</string>
-    <string name="download_running_percent" msgid="4529799113107391817">"កំពុង​ដំណើរការ​, <xliff:g id="NUMBER">%d</xliff:g> <xliff:g id="PERCENT">%%</xliff:g>"</string>
+    <string name="download_running_percent" msgid="4305080769167320204">"កំពុង​ដំណើរការ <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
 </resources>

@@ -29,6 +29,7 @@ import android.os.Environment;
 import android.provider.Downloads;
 import android.system.ErrnoException;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.util.Slog;
 
 import com.android.providers.downloads.StorageUtils.ConcreteFile;
@@ -57,10 +58,11 @@ public class DownloadIdleService extends JobService {
 
         @Override
         public void run() {
+            cleanStale();
             cleanOrphans();
             jobFinished(mParams, false);
         }
-    };
+    }
 
     @Override
     public boolean onStartJob(JobParameters params) {
@@ -75,7 +77,47 @@ public class DownloadIdleService extends JobService {
         return false;
     }
 
-    private interface DownloadQuery {
+    private interface StaleQuery {
+        final String[] PROJECTION = new String[] {
+                Downloads.Impl._ID,
+                Downloads.Impl.COLUMN_STATUS,
+                Downloads.Impl.COLUMN_LAST_MODIFICATION,
+                Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI };
+
+        final int _ID = 0;
+    }
+
+    /**
+     * Remove stale downloads that third-party apps probably forgot about. We
+     * only consider non-visible downloads that haven't been touched in over a
+     * week.
+     */
+    public void cleanStale() {
+        final ContentResolver resolver = getContentResolver();
+
+        final long modifiedBefore = System.currentTimeMillis() - DateUtils.WEEK_IN_MILLIS;
+        final Cursor cursor = resolver.query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
+                StaleQuery.PROJECTION, Downloads.Impl.COLUMN_STATUS + " >= '200' AND "
+                        + Downloads.Impl.COLUMN_LAST_MODIFICATION + " <= '" + modifiedBefore
+                        + "' AND " + Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI + " == '0'",
+                null, null);
+
+        int count = 0;
+        try {
+            while (cursor.moveToNext()) {
+                final long id = cursor.getLong(StaleQuery._ID);
+                resolver.delete(ContentUris.withAppendedId(
+                        Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id), null, null);
+                count++;
+            }
+        } finally {
+            IoUtils.closeQuietly(cursor);
+        }
+
+        Slog.d(TAG, "Removed " + count + " stale downloads");
+    }
+
+    private interface OrphanQuery {
         final String[] PROJECTION = new String[] {
                 Downloads.Impl._ID,
                 Downloads.Impl._DATA };
@@ -93,10 +135,10 @@ public class DownloadIdleService extends JobService {
         // Collect known files from database
         final HashSet<ConcreteFile> fromDb = Sets.newHashSet();
         final Cursor cursor = resolver.query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
-                DownloadQuery.PROJECTION, null, null, null);
+                OrphanQuery.PROJECTION, null, null, null);
         try {
             while (cursor.moveToNext()) {
-                final String path = cursor.getString(DownloadQuery._DATA);
+                final String path = cursor.getString(OrphanQuery._DATA);
                 if (TextUtils.isEmpty(path)) continue;
 
                 final File file = new File(path);
@@ -111,7 +153,7 @@ public class DownloadIdleService extends JobService {
                         // currently mounted device, so remove it from database.
                         // This logic preserves files on external storage while
                         // media is removed.
-                        final long id = cursor.getLong(DownloadQuery._ID);
+                        final long id = cursor.getLong(OrphanQuery._ID);
                         Slog.d(TAG, "Missing " + file + ", deleting " + id);
                         resolver.delete(ContentUris.withAppendedId(
                                 Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id), null, null);

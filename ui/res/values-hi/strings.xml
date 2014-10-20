@@ -28,7 +28,7 @@
     <string name="download_success" msgid="7006048006543495236">"पूर्ण"</string>
     <string name="download_error" msgid="8081329546008568251">"विफल"</string>
     <string name="dialog_title_not_available" msgid="5746317632356158515">"डाउनलोड नहीं किया जा सका"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"क्‍या आप बाद में फ़ाइल डाउनलोड करने का पुनः प्रयास करना चाहते हैं या उसे कतार से हटाना चाहते हैं?"</string>
+    <string name="dialog_failed_body" msgid="587545111677064427">"क्‍या आप बाद में फ़ाइल डाउनलोड करने का फिर से प्रयास करना चाहते हैं या उसे कतार से हटाना चाहते हैं?"</string>
     <string name="dialog_title_queued_body" msgid="6760681913815015219">"फ़ाइल कतार में"</string>
     <string name="dialog_queued_body" msgid="708552801635572720">"यह फ़ाइल भविष्य के डाउनलोड के लिए कतारबद्ध है इसलिए अभी उपलब्ध नहीं है."</string>
     <string name="dialog_file_missing_body" msgid="3223012612774276284">"डाउनलोड की गई फ़ाइल नहीं मिल रही."</string>

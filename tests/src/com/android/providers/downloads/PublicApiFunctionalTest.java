@@ -61,6 +61,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 @LargeTest
@@ -239,7 +240,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         return buildResponse(HTTP_OK, STRING_1K)
                .setHeader("Content-length", contentLength)
                .setHeader("Etag", ETAG)
-               .setBytesPerSecond(1024);
+               .throttleBody(1024, 1, TimeUnit.SECONDS);
     }
 
     public void testFiltering() throws Exception {

@@ -17,6 +17,7 @@
 package com.android.providers.downloads;
 
 import static android.provider.Downloads.Impl.STATUS_BAD_REQUEST;
+import static android.provider.Downloads.Impl.STATUS_CANCELED;
 import static android.provider.Downloads.Impl.STATUS_CANNOT_RESUME;
 import static android.provider.Downloads.Impl.STATUS_FILE_ERROR;
 import static android.provider.Downloads.Impl.STATUS_HTTP_DATA_ERROR;
@@ -143,10 +144,7 @@ public class DownloadThread implements Runnable {
             mETag = info.mETag;
         }
 
-        /**
-         * Push update of current delta values to provider.
-         */
-        public void writeToDatabase() {
+        private ContentValues buildContentValues() {
             final ContentValues values = new ContentValues();
 
             values.put(Downloads.Impl.COLUMN_URI, mUri);
@@ -162,7 +160,26 @@ public class DownloadThread implements Runnable {
             values.put(Downloads.Impl.COLUMN_LAST_MODIFICATION, mSystemFacade.currentTimeMillis());
             values.put(Downloads.Impl.COLUMN_ERROR_MSG, mErrorMsg);
 
-            mContext.getContentResolver().update(mInfo.getAllDownloadsUri(), values, null, null);
+            return values;
+        }
+
+        /**
+         * Blindly push update of current delta values to provider.
+         */
+        public void writeToDatabase() {
+            mContext.getContentResolver().update(mInfo.getAllDownloadsUri(), buildContentValues(),
+                    null, null);
+        }
+
+        /**
+         * Push update of current delta values to provider, asserting strongly
+         * that we haven't been paused or deleted.
+         */
+        public void writeToDatabaseOrThrow() throws StopRequestException {
+            if (mContext.getContentResolver().update(mInfo.getAllDownloadsUri(),
+                    buildContentValues(), Downloads.Impl.COLUMN_DELETED + " == '0'", null) == 0) {
+                throw new StopRequestException(STATUS_CANCELED, "Download deleted or missing!");
+            }
         }
     }
 
@@ -666,7 +683,7 @@ public class DownloadThread implements Runnable {
     /**
      * Report download progress through the database if necessary.
      */
-    private void updateProgress(FileDescriptor outFd) throws IOException {
+    private void updateProgress(FileDescriptor outFd) throws IOException, StopRequestException {
         final long now = SystemClock.elapsedRealtime();
         final long currentBytes = mInfoDelta.mCurrentBytes;
 
@@ -697,7 +714,7 @@ public class DownloadThread implements Runnable {
             // so we can always resume based on latest database information.
             outFd.sync();
 
-            mInfoDelta.writeToDatabase();
+            mInfoDelta.writeToDatabaseOrThrow();
 
             mLastUpdateBytes = currentBytes;
             mLastUpdateTime = now;
@@ -736,7 +753,7 @@ public class DownloadThread implements Runnable {
 
         mInfoDelta.mETag = conn.getHeaderField("ETag");
 
-        mInfoDelta.writeToDatabase();
+        mInfoDelta.writeToDatabaseOrThrow();
 
         // Check connectivity again now that we know the total size
         checkConnectivity();

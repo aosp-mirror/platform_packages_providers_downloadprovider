@@ -29,7 +29,7 @@
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"在下載快取預留空間"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"允許應用程式將檔案下載至下載快取空間，確保檔案不會因為下載管理員需要更多空間而自動遭到刪除。"</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"不顯示通知，直接下載檔案"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"允許應用程式不需通知用戶，即可透過下載管理員下載檔案。"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"允許應用程式不需通知使用者，即可透過下載管理員下載檔案。"</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"存取所有系統下載檔案"</string>
     <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"允許應用程式查看及修改系統上任何應用程式下載的所有內容。"</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;未命名&gt;"</string>
@@ -37,7 +37,7 @@
     <string name="notification_download_failed" msgid="8612136111952014978">"下載失敗。"</string>
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"這個檔案較大，需要 Wi-Fi 才能下載。"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"已在背景中暫停。"</string>
-    <string name="wifi_required_title" msgid="1995971416871498179">"檔案過大，無法透過電訊公司的網絡下載"</string>
+    <string name="wifi_required_title" msgid="1995971416871498179">"檔案過大，無法透過網絡供應商的網絡下載"</string>
     <string name="wifi_required_body" msgid="3067694630143784449">"您必須使用 Wi-Fi，才能完成下載這個 <xliff:g id="SIZE">%s </xliff:g> 的檔案。\n\n請在下次連接 Wi-Fi 網絡時，再輕觸 [<xliff:g id="QUEUE_TEXT">%s </xliff:g>] 開始下載。"</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"加入佇列供稍後下載？"</string>
     <string name="wifi_recommended_body" msgid="1314735166699936073">"現在下載這個 <xliff:g id="SIZE">%s </xliff:g> 的檔案，可能會縮短電池的壽命，並 (或) 超出流動數據連線的用量上限，導致流動網絡供應商根據數據計劃向您收費。\n\n請在下次連接 Wi-Fi 網絡時，再輕觸 [<xliff:g id="QUEUE_TEXT">%s</xliff:g>] 開始下載。"</string>

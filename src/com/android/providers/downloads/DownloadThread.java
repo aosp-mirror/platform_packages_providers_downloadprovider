@@ -792,6 +792,10 @@ public class DownloadThread implements Runnable {
         // easily resume partial downloads.
         conn.setRequestProperty("Accept-Encoding", "identity");
 
+        // Defeat connection reuse, since otherwise servers may continue
+        // streaming large downloads after cancelled.
+        conn.setRequestProperty("Connection", "close");
+
         if (resuming) {
             if (mInfoDelta.mETag != null) {
                 conn.addRequestProperty("If-Match", mInfoDelta.mETag);

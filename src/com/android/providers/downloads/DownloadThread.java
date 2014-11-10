@@ -439,12 +439,16 @@ public class DownloadThread implements Runnable {
      */
     private void transferData(HttpURLConnection conn) throws StopRequestException {
 
-        // To detect when we're really finished, we either need a length or
-        // chunked encoding.
+        // To detect when we're really finished, we either need a length, closed
+        // connection, or chunked encoding.
         final boolean hasLength = mInfoDelta.mTotalBytes != -1;
-        final String transferEncoding = conn.getHeaderField("Transfer-Encoding");
-        final boolean isChunked = "chunked".equalsIgnoreCase(transferEncoding);
-        if (!hasLength && !isChunked) {
+        final boolean isConnectionClose = "close".equalsIgnoreCase(
+                conn.getHeaderField("Connection"));
+        final boolean isEncodingChunked = "chunked".equalsIgnoreCase(
+                conn.getHeaderField("Transfer-Encoding"));
+
+        final boolean finishKnown = hasLength || isConnectionClose || isEncodingChunked;
+        if (!finishKnown) {
             throw new StopRequestException(
                     STATUS_CANNOT_RESUME, "can't know size of download, giving up");
         }

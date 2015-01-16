@@ -859,6 +859,7 @@ public class DownloadThread implements Runnable {
             case STATUS_HTTP_DATA_ERROR:
             case HTTP_UNAVAILABLE:
             case HTTP_INTERNAL_ERROR:
+            case STATUS_FILE_ERROR:
                 return true;
             default:
                 return false;

@@ -18,11 +18,11 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Pengelola Unduhan"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Akses pengelola unduhan."</string>
-    <string name="permdesc_downloadManager" msgid="4237406545998908947">"Mengizinkan apl mengakses pengelola unduhan dan menggunakannya untuk mengunduh file. Apl berbahaya dapat menggunakan ini untuk mengganggu unduhan dan mengakses informasi pribadi."</string>
+    <string name="permdesc_downloadManager" msgid="4237406545998908947">"Mengizinkan aplikasi mengakses pengelola unduhan dan menggunakannya untuk mengunduh file. Aplikasi berbahaya dapat menggunakan ini untuk mengganggu unduhan dan mengakses informasi pribadi."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Fungsi pengelola unduhan lanjutan"</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Mengizinkan apl mengakses fungsi lanjutan pengelola unduhan. Apl berbahaya dapat menggunakan ini untuk mengganggu unduhan dan mengakses informasi pribadi."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Mengizinkan aplikasi mengakses fungsi lanjutan pengelola unduhan. Aplikasi berbahaya dapat menggunakan ini untuk mengganggu unduhan dan mengakses informasi pribadi."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Kirim pemberitahuan unduhan."</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Mengizinkan apl mengirim pemberitahuan tentang unduhan yang telah diselesaikan. Apl berbahaya dapat menggunakan ini untuk mengacaukan apl lain yang mengunduh file."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Mengizinkan aplikasi mengirim pemberitahuan tentang unduhan yang telah diselesaikan. Aplikasi berbahaya dapat menggunakan ini untuk mengacaukan aplikasi lain yang mengunduh file."</string>
     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Lihat semua unduhan pada penyimpanan USB"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Melihat semua unduhan pada kartu SD"</string>
     <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Mengizinkan apl melihat semua unduhan ke kartu SD, terlepas apl apa yang mengunduhnya."</string>

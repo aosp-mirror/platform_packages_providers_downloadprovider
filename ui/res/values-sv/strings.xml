@@ -27,16 +27,16 @@
     <string name="download_running" msgid="4656462962155580641">"Bearbetas"</string>
     <string name="download_success" msgid="7006048006543495236">"Slutförd"</string>
     <string name="download_error" msgid="8081329546008568251">"Misslyckades"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"Det gick inte att hämta."</string>
+    <string name="dialog_title_not_available" msgid="5746317632356158515">"Det gick inte att ladda ned."</string>
     <string name="dialog_failed_body" msgid="587545111677064427">"Vill du prova att hämta filen vid ett senare tillfälle eller vill du ta bort den från kön?"</string>
     <string name="dialog_title_queued_body" msgid="6760681913815015219">"Fil i kö"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"Filen står i kö för hämtning, så den är inte tillgänglig än."</string>
+    <string name="dialog_queued_body" msgid="708552801635572720">"Filen står i kö för nedladdning, så den är inte tillgänglig än."</string>
     <string name="dialog_file_missing_body" msgid="3223012612774276284">"Det gick inte att hitta den hämtade filen."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Det gick inte att slutföra hämtningen. Det finns inte tillräckligt med utrymme på den externa lagringsenheten."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Det gick inte att slutföra hämtningen. Det finns inte tillräckligt med internt lagringsutrymme."</string>
-    <string name="dialog_cannot_resume" msgid="8664509751358983543">"Hämtningen avbröts och kan inte återupptas."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Det gick inte att hämta. Målfilen finns redan."</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"Det gick inte att hämta. Externa media är inte tillgängliga."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Det gick inte att slutföra nedladdningen. Det finns inte tillräckligt med utrymme på den externa lagringsenheten."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Det gick inte att slutföra nedladdningen. Det finns inte tillräckligt med internt lagringsutrymme."</string>
+    <string name="dialog_cannot_resume" msgid="8664509751358983543">"Nedladdningen avbröts och kan inte återupptas."</string>
+    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Det gick inte att ladda ned. Målfilen finns redan."</string>
+    <string name="dialog_media_not_found" msgid="4468088418758018765">"Det gick inte att ladda ned. Externa media är inte tillgängliga."</string>
     <string name="download_no_application_title" msgid="7024782176657362251">"Det går inte att öppna filen"</string>
     <string name="remove_download" msgid="6372920256257247857">"Ta bort"</string>
     <string name="delete_download" msgid="76629022653866471">"Ta bort"</string>

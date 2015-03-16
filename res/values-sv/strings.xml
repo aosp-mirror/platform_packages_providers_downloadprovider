@@ -18,20 +18,20 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Nedladdningshanterare"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Åtkomst till laddningshanterare."</string>
-    <string name="permdesc_downloadManager" msgid="4237406545998908947">"Tillåter att en app får åtkomst till nedladdningshanteraren och kan använda den för att ladda ned filer. Skadliga program kan använda detta för att störa hämtningar och komma åt privat information."</string>
+    <string name="permdesc_downloadManager" msgid="4237406545998908947">"Tillåter att en app får åtkomst till nedladdningshanteraren och kan använda den för att ladda ned filer. Skadliga program kan använda detta för att störa nedladdningar och komma åt privat information."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Avancerade funktioner för nedladdningshanterare."</string>
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Tillåter att appen får åtkomst till nedladdningshanterarens avancerade funktioner. Skadliga program kan använda detta för att störa nedladdningar och komma åt privata uppgifter."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Skicka meddelande om nedladdning."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Tillåter att appen skickar meddelanden om slutförda nedladdningar. Skadliga appar kan använda detta för att störa andra appar som laddar ned filer."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Visa hämtningar till USB"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Visa alla hämtningar till SD-kort"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Tillåter att appen ser alla hämtningar till SD-kortet, oavsett vilken app som hämtat innehållet."</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Visa nedladdningar till USB"</string>
+    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Visa alla nedladdningar till SD-kort"</string>
+    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Tillåter att appen ser alla nedladdningar till SD-kortet, oavsett vilken app som laddat ned innehållet."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Reservera utrymme i nedladdningscachen"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Tillåter att appen hämtar filer till hämtningscachen som inte kan tas bort automatiskt när hämtningshanteraren behöver mer utrymme."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"ladda ned filer utan avisering"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"Tillåter att appen hämtar filer via nedladdningshanteraren utan att något meddelande visas för användaren."</string>
-    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Åtkomst till alla hämtade filer i systemet"</string>
-    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"Tillåter att appen visar och ändrar alla hämtningar som initieras av en app i systemet."</string>
+    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Åtkomst till alla nedladdningar i systemet"</string>
+    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"Tillåter att appen visar och ändrar alla nedladdningar som initieras av en app i systemet."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Okänd&gt;"</string>
     <string name="notification_download_complete" msgid="5443563299253103667">"Nedladdningen har slutförts."</string>
     <string name="notification_download_failed" msgid="8612136111952014978">"Det gick inte att ladda ned."</string>
@@ -54,7 +54,7 @@
   </plurals>
     <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> återstår"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"Det går inte att öppna filen"</string>
-    <string name="root_downloads" msgid="4098414876292351487">"Hämtningar"</string>
+    <string name="root_downloads" msgid="4098414876292351487">"Nedladdningar"</string>
     <string name="download_queued" msgid="3302638231377947451">"I kö"</string>
     <string name="download_running" msgid="3925050393361158266">"Pågår"</string>
     <string name="download_error" msgid="5144180777324573236">"Misslyckades"</string>

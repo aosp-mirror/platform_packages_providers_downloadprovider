@@ -42,7 +42,7 @@
     <string name="wifi_recommended_title" msgid="7441589306734687400">"बाद में डाउनलोड करने के लिए कतार में रखें?"</string>
     <string name="wifi_recommended_body" msgid="1314735166699936073">"इस <xliff:g id="SIZE">%s </xliff:g> के डाउनलोड को शुरू करना बैटरी का जीवनकाल कम कर सकता है और/या मोबाइल डेटा कनेक्शन का अधिक उपयोग हो सकता है, जिससे आपका  मोबाइल डेटा ऑपरेटर आपसे आपकी डेटा योजना के आधार पर शुल्क ले सकता है.\n\n अगली बार जब आप वाई-फ़ाई  नेटवर्क से कनेक्ट हों, तो यह डाउनलोड शुरू करने के लिए <xliff:g id="QUEUE_TEXT">%s</xliff:g> को स्पर्श करें."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"कतार"</string>
-    <string name="button_cancel_download" msgid="2430166148737975604">"रहने दें"</string>
+    <string name="button_cancel_download" msgid="2430166148737975604">"अभी नहीं"</string>
     <string name="button_start_now" msgid="792123674007840864">"अब प्रारंभ करें"</string>
   <plurals name="notif_summary_active">
     <item quantity="one" msgid="8475775855911967027">"1 फ़ाइल डाउनलोड हो रही है"</item>

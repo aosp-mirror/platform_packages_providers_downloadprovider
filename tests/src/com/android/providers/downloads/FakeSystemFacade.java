@@ -16,6 +16,7 @@ public class FakeSystemFacade implements SystemFacade {
     Long mMaxBytesOverMobile = null;
     Long mRecommendedMaxBytesOverMobile = null;
     List<Intent> mBroadcastsSent = new ArrayList<Intent>();
+    boolean mCleartextTrafficPermitted = true;
     private boolean mReturnActualTime = false;
 
     public void setUp() {
@@ -80,6 +81,11 @@ public class FakeSystemFacade implements SystemFacade {
     @Override
     public boolean userOwnsPackage(int uid, String pckg) throws NameNotFoundException {
         return true;
+    }
+
+    @Override
+    public boolean isCleartextTrafficPermitted(int uid) {
+        return mCleartextTrafficPermitted;
     }
 
     public void setReturnActualTime(boolean flag) {

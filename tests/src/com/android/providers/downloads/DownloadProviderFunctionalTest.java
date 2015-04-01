@@ -101,6 +101,23 @@ public class DownloadProviderFunctionalTest extends AbstractDownloadProviderFunc
         runUntilStatus(downloadUri, Downloads.Impl.STATUS_SUCCESS);
     }
 
+    public void testCleartextTrafficPermittedFlagHonored() throws Exception {
+        enqueueResponse(buildResponse(HTTP_OK, FILE_CONTENT));
+        enqueueResponse(buildResponse(HTTP_OK, FILE_CONTENT));
+
+        // Assert that HTTP request succeeds when cleartext traffic is permitted
+        mSystemFacade.mCleartextTrafficPermitted = true;
+        Uri downloadUri = requestDownload("/path");
+        assertEquals("http", downloadUri.getScheme());
+        runUntilStatus(downloadUri, Downloads.Impl.STATUS_SUCCESS);
+
+        // Assert that HTTP request fails when cleartext traffic is not permitted
+        mSystemFacade.mCleartextTrafficPermitted = false;
+        downloadUri = requestDownload("/path");
+        assertEquals("http", downloadUri.getScheme());
+        runUntilStatus(downloadUri, Downloads.Impl.STATUS_BAD_REQUEST);
+    }
+
     /**
      * Read a downloaded file from disk.
      */

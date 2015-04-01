@@ -16,9 +16,14 @@
 
 package com.android.providers.downloads;
 
+import com.android.internal.util.ArrayUtils;
+
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -95,5 +100,44 @@ class RealSystemFacade implements SystemFacade {
     @Override
     public boolean userOwnsPackage(int uid, String packageName) throws NameNotFoundException {
         return mContext.getPackageManager().getApplicationInfo(packageName, 0).uid == uid;
+    }
+
+    @Override
+    public boolean isCleartextTrafficPermitted(int uid) {
+        PackageManager packageManager = mContext.getPackageManager();
+        String[] packageNames = packageManager.getPackagesForUid(uid);
+        if (ArrayUtils.isEmpty(packageNames)) {
+            // Unknown UID -- fail safe: cleartext traffic not permitted
+            return false;
+        }
+
+        // Cleartext traffic is permitted from the UID if it's permitted for any of the packages
+        // belonging to that UID.
+        for (String packageName : packageNames) {
+            if (isCleartextTrafficPermitted(packageName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns whether cleartext network traffic (HTTP) is permitted for the provided package.
+     */
+    private boolean isCleartextTrafficPermitted(String packageName) {
+        PackageManager packageManager = mContext.getPackageManager();
+        PackageInfo packageInfo;
+        try {
+            packageInfo = packageManager.getPackageInfo(packageName, 0);
+        } catch (NameNotFoundException e) {
+            // Unknown package -- fail safe: cleartext traffic not permitted
+            return false;
+        }
+        ApplicationInfo applicationInfo = packageInfo.applicationInfo;
+        if (applicationInfo == null) {
+            // No app info -- fail safe: cleartext traffic not permitted
+            return false;
+        }
+        return (applicationInfo.flags & ApplicationInfo.FLAG_USES_CLEARTEXT_TRAFFIC) != 0;
     }
 }

@@ -61,4 +61,9 @@ interface SystemFacade {
      * Returns true if the specified UID owns the specified package name.
      */
     public boolean userOwnsPackage(int uid, String pckg) throws NameNotFoundException;
+
+    /**
+     * Returns true if cleartext network traffic is permitted for the specified UID.
+     */
+    public boolean isCleartextTrafficPermitted(int uid);
 }

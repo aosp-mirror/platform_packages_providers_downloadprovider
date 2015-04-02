@@ -48,6 +48,7 @@ import android.net.INetworkPolicyListener;
 import android.net.NetworkInfo;
 import android.net.NetworkPolicyManager;
 import android.net.TrafficStats;
+import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.os.PowerManager;
 import android.os.Process;
@@ -350,8 +351,17 @@ public class DownloadThread implements Runnable {
             throw new StopRequestException(STATUS_BAD_REQUEST, e);
         }
 
+        boolean cleartextTrafficPermitted = mSystemFacade.isCleartextTrafficPermitted(mInfo.mUid);
         int redirectionCount = 0;
         while (redirectionCount++ < Constants.MAX_REDIRECTS) {
+            // Enforce the cleartext traffic opt-out for the UID. This cannot be enforced earlier
+            // because of HTTP redirects which can change the protocol between HTTP and HTTPS.
+            if ((!cleartextTrafficPermitted) && ("http".equalsIgnoreCase(url.getProtocol()))) {
+                throw new StopRequestException(STATUS_BAD_REQUEST,
+                        "Cleartext traffic not permitted for UID " + mInfo.mUid + ": "
+                        + Uri.parse(url.toString()).toSafeString());
+            }
+
             // Open connection and follow any redirects until we have a useful
             // response with body.
             HttpURLConnection conn = null;

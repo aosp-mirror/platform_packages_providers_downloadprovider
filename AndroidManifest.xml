@@ -60,7 +60,8 @@
     <application android:process="android.process.media"
                  android:label="@string/app_label"
                  android:icon="@mipmap/ic_launcher_download"
-                 android:allowBackup="false">
+                 android:allowBackup="false"
+                 android:usesCleartextTraffic="true">
 
         <provider android:name=".DownloadProvider"
                   android:authorities="downloads" android:exported="true">

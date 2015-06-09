@@ -219,11 +219,13 @@ public class DownloadService extends Service {
 
     private boolean needToScheduleCleanup(JobScheduler js) {
         List<JobInfo> myJobs = js.getAllPendingJobs();
-        final int N = myJobs.size();
-        for (int i = 0; i < N; i++) {
-            if (myJobs.get(i).getId() == CLEANUP_JOB_ID) {
-                // It's already been (persistently) scheduled; no need to do it again
-                return false;
+        if (myJobs != null) {
+            final int N = myJobs.size();
+            for (int i = 0; i < N; i++) {
+                if (myJobs.get(i).getId() == CLEANUP_JOB_ID) {
+                    // It's already been (persistently) scheduled; no need to do it again
+                    return false;
+                }
             }
         }
         return true;

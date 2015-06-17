@@ -1142,9 +1142,7 @@ public final class DownloadProvider extends ContentProvider {
      * Deletes a row in the database
      */
     @Override
-    public int delete(final Uri uri, final String where,
-            final String[] whereArgs) {
-
+    public int delete(final Uri uri, final String where, final String[] whereArgs) {
         if (shouldRestrictVisibility()) {
             Helpers.validateSelection(where, sAppReadableColumnsSet);
         }
@@ -1161,12 +1159,21 @@ public final class DownloadProvider extends ContentProvider {
                 deleteRequestHeaders(db, selection.getSelection(), selection.getParameters());
 
                 final Cursor cursor = db.query(DB_TABLE, new String[] {
-                        Downloads.Impl._ID }, selection.getSelection(), selection.getParameters(),
-                        null, null, null);
+                        Downloads.Impl._ID, Downloads.Impl._DATA
+                }, selection.getSelection(), selection.getParameters(), null, null, null);
                 try {
                     while (cursor.moveToNext()) {
                         final long id = cursor.getLong(0);
                         DownloadStorageProvider.onDownloadProviderDelete(getContext(), id);
+
+                        final String path = cursor.getString(1);
+                        if (!TextUtils.isEmpty(path)) {
+                            final File file = new File(path);
+                            if (Helpers.isFilenameValid(getContext(), file)) {
+                                Log.v(Constants.TAG, "Deleting " + file + " via provider delete");
+                                file.delete();
+                            }
+                        }
                     }
                 } finally {
                     IoUtils.closeQuietly(cursor);

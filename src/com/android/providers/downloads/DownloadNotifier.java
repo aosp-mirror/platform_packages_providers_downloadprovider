@@ -122,6 +122,15 @@ public class DownloadNotifier {
         }
     }
 
+    private static boolean isClusterDeleted(Collection<DownloadInfo> cluster) {
+        boolean wasDeleted = true;
+        for (DownloadInfo info : cluster) {
+            wasDeleted = wasDeleted && info.mDeleted;
+        }
+
+        return wasDeleted;
+    }
+
     private void updateWithLocked(Collection<DownloadInfo> downloads) {
         final Resources res = mContext.getResources();
 
@@ -138,6 +147,11 @@ public class DownloadNotifier {
         for (String tag : clustered.keySet()) {
             final int type = getNotificationTagType(tag);
             final Collection<DownloadInfo> cluster = clustered.get(tag);
+
+            // If each of the downloads was canceled, don't show notification for the cluster
+            if (isClusterDeleted(cluster)) {
+                continue;
+            }
 
             final Notification.Builder builder = new Notification.Builder(mContext);
             builder.setColor(res.getColor(
@@ -164,15 +178,30 @@ public class DownloadNotifier {
 
             // Build action intents
             if (type == TYPE_ACTIVE || type == TYPE_WAITING) {
+                long[] downloadIds = getDownloadIds(cluster);
+
                 // build a synthetic uri for intent identification purposes
                 final Uri uri = new Uri.Builder().scheme("active-dl").appendPath(tag).build();
                 final Intent intent = new Intent(Constants.ACTION_LIST,
                         uri, mContext, DownloadReceiver.class);
                 intent.putExtra(DownloadManager.EXTRA_NOTIFICATION_CLICK_DOWNLOAD_IDS,
-                        getDownloadIds(cluster));
+                        downloadIds);
                 builder.setContentIntent(PendingIntent.getBroadcast(mContext,
                         0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
                 builder.setOngoing(true);
+
+                // Add a Cancel action
+                final Uri cancelUri = new Uri.Builder().scheme("cancel-dl").appendPath(tag).build();
+                final Intent cancelIntent = new Intent(Constants.ACTION_CANCEL,
+                        cancelUri, mContext, DownloadReceiver.class);
+                cancelIntent.putExtra(DownloadReceiver.EXTRA_CANCELED_DOWNLOAD_IDS, downloadIds);
+                cancelIntent.putExtra(DownloadReceiver.EXTRA_CANCELED_DOWNLOAD_NOTIFICATION_TAG, tag);
+
+                builder.addAction(
+                    android.R.drawable.ic_menu_close_clear_cancel,
+                    res.getString(R.string.button_cancel_download),
+                    PendingIntent.getBroadcast(mContext,
+                            0, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
             } else if (type == TYPE_COMPLETE) {
                 final DownloadInfo info = cluster.iterator().next();

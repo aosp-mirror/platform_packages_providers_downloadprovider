@@ -54,6 +54,9 @@ public class Constants {
     /** the intent that gets sent when clicking an incomplete/failed download  */
     public static final String ACTION_LIST = "android.intent.action.DOWNLOAD_LIST";
 
+    /** the intent that gets sent when canceling a download  */
+    public static final String ACTION_CANCEL = "android.intent.action.DOWNLOAD_CANCEL";
+
     /** the intent that gets sent when deleting the notification of a completed download */
     public static final String ACTION_HIDE = "android.intent.action.DOWNLOAD_HIDE";
 

@@ -21,6 +21,7 @@ import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY
 import static com.android.providers.downloads.Constants.TAG;
 
 import android.app.DownloadManager;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -45,6 +46,21 @@ import com.google.common.annotations.VisibleForTesting;
  * Receives system broadcasts (boot, network connectivity)
  */
 public class DownloadReceiver extends BroadcastReceiver {
+    /**
+     * Intent extra included with {@link #ACTION_CANCEL} intents, indicating the IDs (as array of
+     * long) of the downloads that were canceled.
+     */
+    public static final String EXTRA_CANCELED_DOWNLOAD_IDS =
+            "com.android.providers.downloads.extra.CANCELED_DOWNLOAD_IDS";
+
+    /**
+     * Intent extra included with {@link #ACTION_CANCEL} intents, indicating the tag of the
+     * notification corresponding to the download(s) that were canceled; this notification must be
+     * canceled.
+     */
+    public static final String EXTRA_CANCELED_DOWNLOAD_NOTIFICATION_TAG =
+            "com.android.providers.downloads.extra.CANCELED_DOWNLOAD_NOTIFICATION_TAG";
+
     private static Handler sAsyncHandler;
 
     static {
@@ -107,6 +123,18 @@ public class DownloadReceiver extends BroadcastReceiver {
                     }
                 });
             }
+        } else if (Constants.ACTION_CANCEL.equals(action)) {
+            long[] downloadIds = intent.getLongArrayExtra(
+                    DownloadReceiver.EXTRA_CANCELED_DOWNLOAD_IDS);
+            DownloadManager manager = (DownloadManager) context.getSystemService(
+                    Context.DOWNLOAD_SERVICE);
+            manager.remove(downloadIds);
+
+            String notifTag = intent.getStringExtra(
+                    DownloadReceiver.EXTRA_CANCELED_DOWNLOAD_NOTIFICATION_TAG);
+            NotificationManager notifManager = (NotificationManager) context.getSystemService(
+                    Context.NOTIFICATION_SERVICE);
+            notifManager.cancel(notifTag, 0);
         }
     }
 

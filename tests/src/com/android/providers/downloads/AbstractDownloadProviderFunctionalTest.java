@@ -18,11 +18,13 @@ package com.android.providers.downloads;
 
 import static org.mockito.Mockito.mock;
 
+import android.app.DownloadManager;
 import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ProviderInfo;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -99,6 +101,7 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
 
         private final ContentResolver mResolver;
         private final NotificationManager mNotifManager;
+        private final DownloadManager mDownloadManager;
 
         boolean mHasServiceBeenStarted = false;
 
@@ -106,6 +109,7 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
             super(realContext, FILENAME_PREFIX);
             mResolver = new MockContentResolverWithNotify(this);
             mNotifManager = mock(NotificationManager.class);
+            mDownloadManager = mock(DownloadManager.class);
         }
 
         /**
@@ -123,6 +127,8 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
         public Object getSystemService(String name) {
             if (Context.NOTIFICATION_SERVICE.equals(name)) {
                 return mNotifManager;
+            } else if (Context.DOWNLOAD_SERVICE.equals(name)) {
+                return mDownloadManager;
             }
 
             return super.getSystemService(name);
@@ -162,7 +168,10 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
 
         final DownloadProvider provider = new DownloadProvider();
         provider.mSystemFacade = mSystemFacade;
-        provider.attachInfo(mTestContext, null);
+
+        ProviderInfo info = new ProviderInfo();
+        info.authority = "downloads";
+        provider.attachInfo(mTestContext, info);
 
         mResolver.addProvider(PROVIDER_AUTHORITY, provider);
 

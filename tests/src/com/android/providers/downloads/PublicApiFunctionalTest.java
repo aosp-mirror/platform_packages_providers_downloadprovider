@@ -49,6 +49,8 @@ import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.Suppress;
 import android.text.format.DateUtils;
 
+import com.android.providers.downloads.Constants;
+import com.android.providers.downloads.DownloadReceiver;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.RecordedRequest;
 import com.google.mockwebserver.SocketPolicy;
@@ -71,6 +73,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
 
     protected File mTestDirectory;
     private NotificationManager mNotifManager;
+    private DownloadManager mDownloadManager;
 
     public PublicApiFunctionalTest() {
         super(new FakeSystemFacade());
@@ -82,6 +85,8 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
 
         mNotifManager = (NotificationManager) getContext()
                 .getSystemService(Context.NOTIFICATION_SERVICE);
+        mDownloadManager = (DownloadManager) getContext()
+                .getSystemService(Context.DOWNLOAD_SERVICE);
 
         mTestDirectory = new File(Environment.getExternalStorageDirectory() + File.separator
                                   + "download_manager_functional_test");
@@ -550,6 +555,23 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         Intent broadcast = mSystemFacade.mBroadcastsSent.get(0);
         assertEquals(DownloadManager.ACTION_NOTIFICATION_CLICKED, broadcast.getAction());
         assertEquals(PACKAGE_NAME, broadcast.getPackage());
+    }
+
+    public void testNotificationCancelDownloadClicked() throws Exception {
+        Download download = enqueueRequest(getRequest());
+
+        DownloadReceiver receiver = new DownloadReceiver();
+        receiver.mSystemFacade = mSystemFacade;
+        Intent intent = new Intent(Constants.ACTION_CANCEL);
+        intent.setData(Uri.parse(Downloads.Impl.CONTENT_URI + "/" + download.mId));
+
+        long[] downloadIds = {download.mId};
+        intent.putExtra(DownloadReceiver.EXTRA_CANCELED_DOWNLOAD_IDS, downloadIds);
+        intent.putExtra(DownloadReceiver.EXTRA_CANCELED_DOWNLOAD_NOTIFICATION_TAG, "tag");
+        receiver.onReceive(mContext, intent);
+
+        verify(mNotifManager, times(1)).cancel("tag", 0);
+        verify(mDownloadManager, times(1)).remove(downloadIds);
     }
 
     public void testBasicConnectivityChanges() throws Exception {

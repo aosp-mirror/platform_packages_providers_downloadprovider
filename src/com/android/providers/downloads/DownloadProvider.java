@@ -36,6 +36,7 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.ParcelFileDescriptor;
 import android.os.ParcelFileDescriptor.OnCloseListener;
 import android.os.Process;
@@ -441,7 +442,10 @@ public final class DownloadProvider extends ContentProvider {
             mSystemFacade = new RealSystemFacade(getContext());
         }
 
-        mHandler = new Handler();
+        HandlerThread handlerThread =
+                new HandlerThread("DownloadProvider handler", Process.THREAD_PRIORITY_BACKGROUND);
+        handlerThread.start();
+        mHandler = new Handler(handlerThread.getLooper());
 
         mOpenHelper = new DatabaseHelper(getContext());
         // Initialize the system uid

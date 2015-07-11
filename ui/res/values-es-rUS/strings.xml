@@ -46,5 +46,5 @@
     <string name="deselect_all" msgid="6348198946254776764">"Desmarcar todas"</string>
     <string name="select_all" msgid="634074918366265804">"Seleccionar todas"</string>
     <string name="selected_count" msgid="2101564570019753277">"Se seleccionaron <xliff:g id="NUMBER">%1$d</xliff:g> de entre <xliff:g id="TOTAL">%2$d</xliff:g>."</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"Compartir mediante"</string>
+    <string name="download_share_dialog" msgid="3355867339806448955">"Compartir"</string>
 </resources>

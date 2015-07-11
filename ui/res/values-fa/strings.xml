@@ -45,6 +45,6 @@
     <string name="retry_download" msgid="7617100787922717912">"امتحان مجدد"</string>
     <string name="deselect_all" msgid="6348198946254776764">"لغو انتخاب همه"</string>
     <string name="select_all" msgid="634074918366265804">"انتخاب همه"</string>
-    <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="NUMBER">%1$d</xliff:g> مورد انتخاب شده از <xliff:g id="TOTAL">%2$d</xliff:g> مورد"</string>
+    <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="NUMBER">%1$d</xliff:g> مورد از <xliff:g id="TOTAL">%2$d</xliff:g> انتخاب شده"</string>
     <string name="download_share_dialog" msgid="3355867339806448955">"اشتراک‌گذاری از طریق"</string>
 </resources>

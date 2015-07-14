@@ -16,6 +16,8 @@
 
 package com.android.providers.downloads;
 
+import static com.android.providers.downloads.Constants.TAG;
+
 import android.app.DownloadManager;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -31,12 +33,14 @@ import android.os.Environment;
 import android.provider.Downloads;
 import android.provider.Downloads.Impl;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 
 import com.android.internal.annotations.GuardedBy;
 import com.android.internal.util.IndentingPrintWriter;
 
 import java.io.CharArrayWriter;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -344,7 +348,15 @@ public class DownloadInfo {
                 return restartTime(now) <= now;
             case Downloads.Impl.STATUS_DEVICE_NOT_FOUND_ERROR:
                 // is the media mounted?
-                return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+                final Uri uri = Uri.parse(mUri);
+                if (ContentResolver.SCHEME_FILE.equals(uri.getScheme())) {
+                    final File file = new File(uri.getPath());
+                    return Environment.MEDIA_MOUNTED
+                            .equals(Environment.getExternalStorageState(file));
+                } else {
+                    Log.w(TAG, "Expected file URI on external storage: " + mUri);
+                    return false;
+                }
             case Downloads.Impl.STATUS_INSUFFICIENT_SPACE_ERROR:
                 // avoids repetition of retrying download
                 return false;

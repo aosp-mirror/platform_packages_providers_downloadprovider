@@ -56,6 +56,7 @@
     <uses-permission android:name="android.permission.MODIFY_NETWORK_ACCOUNTING" />
     <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.UPDATE_APP_OPS_STATS" />
 
     <application android:process="android.process.media"
                  android:label="@string/app_label"

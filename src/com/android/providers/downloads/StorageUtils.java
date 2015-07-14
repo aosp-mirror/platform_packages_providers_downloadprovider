@@ -105,6 +105,7 @@ public class StorageUtils {
             throw e.rethrowAsIOException();
         }
 
+        // TODO: teach about evicting caches on adopted secondary storage devices
         final long dataDev = getDeviceId(Environment.getDataDirectory());
         final long cacheDev = getDeviceId(Environment.getDownloadCacheDirectory());
         final long externalDev = getDeviceId(Environment.getExternalStorageDirectory());

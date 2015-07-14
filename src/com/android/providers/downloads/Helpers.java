@@ -16,6 +16,10 @@
 
 package com.android.providers.downloads;
 
+import static android.os.Environment.buildExternalStorageAppCacheDirs;
+import static android.os.Environment.buildExternalStorageAppFilesDirs;
+import static android.os.Environment.buildExternalStorageAppMediaDirs;
+import static android.os.Environment.buildExternalStorageAppObbDirs;
 import static com.android.providers.downloads.Constants.TAG;
 
 import android.content.Context;
@@ -23,6 +27,9 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.FileUtils;
 import android.os.SystemClock;
+import android.os.UserHandle;
+import android.os.storage.StorageManager;
+import android.os.storage.StorageVolume;
 import android.provider.Downloads;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
@@ -334,31 +341,80 @@ public class Helpers {
         throw new IOException("Failed to generate an available filename");
     }
 
-    /**
-     * Checks whether the filename looks legitimate for security purposes. This
-     * prevents us from opening files that aren't actually downloads.
-     */
     static boolean isFilenameValid(Context context, File file) {
-        final File[] whitelist;
+        return isFilenameValid(context, file, true);
+    }
+
+    static boolean isFilenameValidInExternal(Context context, File file) {
+        return isFilenameValid(context, file, false);
+    }
+
+    /**
+     * Test if given file exists in one of the package-specific external storage
+     * directories that are always writable to apps, regardless of storage
+     * permission.
+     */
+    static boolean isFilenameValidInExternalPackage(Context context, File file,
+            String packageName) {
         try {
             file = file.getCanonicalFile();
-            whitelist = new File[] {
-                    context.getFilesDir().getCanonicalFile(),
-                    context.getCacheDir().getCanonicalFile(),
-                    Environment.getDownloadCacheDirectory().getCanonicalFile(),
-                    Environment.getExternalStorageDirectory().getCanonicalFile(),
-            };
+
+            if (containsCanonical(buildExternalStorageAppFilesDirs(packageName), file) ||
+                    containsCanonical(buildExternalStorageAppObbDirs(packageName), file) ||
+                    containsCanonical(buildExternalStorageAppCacheDirs(packageName), file) ||
+                    containsCanonical(buildExternalStorageAppMediaDirs(packageName), file)) {
+                return true;
+            }
         } catch (IOException e) {
             Log.w(TAG, "Failed to resolve canonical path: " + e);
             return false;
         }
 
-        for (File testDir : whitelist) {
-            if (FileUtils.contains(testDir, file)) {
+        Log.w(TAG, "Path appears to be invalid: " + file);
+        return false;
+    }
+
+    /**
+     * Checks whether the filename looks legitimate for security purposes. This
+     * prevents us from opening files that aren't actually downloads.
+     */
+    static boolean isFilenameValid(Context context, File file, boolean allowInternal) {
+        try {
+            file = file.getCanonicalFile();
+
+            if (allowInternal) {
+                if (containsCanonical(context.getFilesDir(), file)
+                        || containsCanonical(context.getCacheDir(), file)
+                        || containsCanonical(Environment.getDownloadCacheDirectory(), file)) {
+                    return true;
+                }
+            }
+
+            final StorageVolume[] volumes = StorageManager.getVolumeList(UserHandle.myUserId());
+            for (StorageVolume volume : volumes) {
+                if (containsCanonical(volume.getPathFile(), file)) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            Log.w(TAG, "Failed to resolve canonical path: " + e);
+            return false;
+        }
+
+        Log.w(TAG, "Path appears to be invalid: " + file);
+        return false;
+    }
+
+    private static boolean containsCanonical(File dir, File file) throws IOException {
+        return FileUtils.contains(dir.getCanonicalFile(), file);
+    }
+
+    private static boolean containsCanonical(File[] dirs, File file) throws IOException {
+        for (File dir : dirs) {
+            if (containsCanonical(dir, file)) {
                 return true;
             }
         }
-
         return false;
     }
 

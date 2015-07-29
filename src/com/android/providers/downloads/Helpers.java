@@ -390,7 +390,8 @@ public class Helpers {
                 }
             }
 
-            final StorageVolume[] volumes = StorageManager.getVolumeList(UserHandle.myUserId());
+            final StorageVolume[] volumes = StorageManager.getVolumeList(UserHandle.myUserId(),
+                    StorageManager.FLAG_FOR_WRITE);
             for (StorageVolume volume : volumes) {
                 if (containsCanonical(volume.getPathFile(), file)) {
                     return true;

@@ -17,11 +17,11 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3070921713463294774">"دانلودها"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"دانلودها - مرتب شده بر اساس تاریخ"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"دانلودها - مرتب شده بر اساس اندازه"</string>
+    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"دانلودها - مرتب شده براساس تاریخ"</string>
+    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"دانلودها - مرتب شده براساس اندازه"</string>
     <string name="no_downloads" msgid="1029667411186146836">"خیر دانلودها."</string>
     <string name="missing_title" msgid="830115697868833773">"‏&lt;ناشناس&gt;"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"بر اساس اندازه مرتب شود"</string>
+    <string name="button_sort_by_size" msgid="7331549713691146251">"براساس اندازه مرتب شود"</string>
     <string name="button_sort_by_date" msgid="8800842892684101528">"ترتیب براساس تاریخ"</string>
     <string name="download_queued" msgid="104973307780629904">"در صف"</string>
     <string name="download_running" msgid="4656462962155580641">"در حال انجام"</string>

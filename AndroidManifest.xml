@@ -62,6 +62,7 @@
                  android:label="@string/app_label"
                  android:icon="@mipmap/ic_launcher_download"
                  android:allowBackup="false"
+                 android:supportsRtl="true"
                  android:usesCleartextTraffic="true">
 
         <provider android:name=".DownloadProvider"

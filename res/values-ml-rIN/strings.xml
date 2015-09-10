@@ -44,14 +44,8 @@
     <string name="button_queue_for_wifi" msgid="422576726189179221">"ക്യൂ"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"റദ്ദാക്കുക"</string>
     <string name="button_start_now" msgid="792123674007840864">"ഇപ്പോൾ ആരംഭിക്കുക"</string>
-  <plurals name="notif_summary_active">
-    <item quantity="one" msgid="8475775855911967027">"ഒരു ഫയൽ ഡൗൺലോഡുചെയ്യുന്നു"</item>
-    <item quantity="other" msgid="9087228371320573153">"<xliff:g id="NUMBER">%d</xliff:g> ഫയലുകൾ ഡൗൺലോഡുചെയ്യുന്നു"</item>
-  </plurals>
-  <plurals name="notif_summary_waiting">
-    <item quantity="one" msgid="5537481763963544278">"ഒരു ഫയൽ കാത്തിരിക്കുന്നു"</item>
-    <item quantity="other" msgid="549229034166062887">"<xliff:g id="NUMBER">%d</xliff:g> ഫയലുകൾ കാത്തിരിക്കുന്നു"</item>
-  </plurals>
+    <!-- no translation found for notif_summary_active (7290448463204837173) -->
+    <!-- no translation found for notif_summary_waiting (2814217662029273005) -->
     <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> ശേഷിക്കുന്നു"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"ഫയൽ തുറക്കാനായില്ല"</string>
     <string name="root_downloads" msgid="4098414876292351487">"ഡൗൺലോഡുകൾ"</string>

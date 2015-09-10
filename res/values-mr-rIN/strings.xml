@@ -44,14 +44,8 @@
     <string name="button_queue_for_wifi" msgid="422576726189179221">"रांग"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"रद्द करा"</string>
     <string name="button_start_now" msgid="792123674007840864">"आता प्रारंभ करा"</string>
-  <plurals name="notif_summary_active">
-    <item quantity="one" msgid="8475775855911967027">"1 फाइल डाउनलोड होत आहे"</item>
-    <item quantity="other" msgid="9087228371320573153">"<xliff:g id="NUMBER">%d</xliff:g> फायली डाउनलोड होत आहेत"</item>
-  </plurals>
-  <plurals name="notif_summary_waiting">
-    <item quantity="one" msgid="5537481763963544278">"1 फाइल प्रतीक्षेत"</item>
-    <item quantity="other" msgid="549229034166062887">"<xliff:g id="NUMBER">%d</xliff:g> फायली प्रतीक्षेत"</item>
-  </plurals>
+    <!-- no translation found for notif_summary_active (7290448463204837173) -->
+    <!-- no translation found for notif_summary_waiting (2814217662029273005) -->
     <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> बाकी"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"फाइल उघडू शकत नाही"</string>
     <string name="root_downloads" msgid="4098414876292351487">"डाउनलोड"</string>

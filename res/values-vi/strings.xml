@@ -44,14 +44,8 @@
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Hàng đợi"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Hủy"</string>
     <string name="button_start_now" msgid="792123674007840864">"Bắt đầu ngay bây giờ"</string>
-  <plurals name="notif_summary_active">
-    <item quantity="one" msgid="8475775855911967027">"Đang tải xuống 1 tệp"</item>
-    <item quantity="other" msgid="9087228371320573153">"Đang tải xuống <xliff:g id="NUMBER">%d</xliff:g> tệp"</item>
-  </plurals>
-  <plurals name="notif_summary_waiting">
-    <item quantity="one" msgid="5537481763963544278">"1 tệp đang chờ tải xuống"</item>
-    <item quantity="other" msgid="549229034166062887">"<xliff:g id="NUMBER">%d</xliff:g> tệp đang chờ tải xuống"</item>
-  </plurals>
+    <!-- no translation found for notif_summary_active (7290448463204837173) -->
+    <!-- no translation found for notif_summary_waiting (2814217662029273005) -->
     <string name="download_remaining" msgid="3139295890887972718">"Còn lại <xliff:g id="DURATION">%s</xliff:g>"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"Không thể mở tệp"</string>
     <string name="root_downloads" msgid="4098414876292351487">"Bản tải xuống"</string>

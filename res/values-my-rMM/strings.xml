@@ -44,14 +44,8 @@
     <string name="button_queue_for_wifi" msgid="422576726189179221">"တန်းစီရန်"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"ထားတော့"</string>
     <string name="button_start_now" msgid="792123674007840864">"ယခုအချိန်မှစတင်ပါ"</string>
-  <plurals name="notif_summary_active">
-    <item quantity="one" msgid="8475775855911967027">"ဖိုင် ၁ ခု ဒေါင်းလုပ်ပြုလုပ်နေသည်"</item>
-    <item quantity="other" msgid="9087228371320573153">"<xliff:g id="NUMBER">%d</xliff:g> ဖိုင် ဒေါင်းလုပ်ပြုလုပ်နေသည်"</item>
-  </plurals>
-  <plurals name="notif_summary_waiting">
-    <item quantity="one" msgid="5537481763963544278">"ဖိုင်၁ ခု စောင့်နေသည်"</item>
-    <item quantity="other" msgid="549229034166062887">"<xliff:g id="NUMBER">%d</xliff:g> ဖိုင် စောင့်နေသည်"</item>
-  </plurals>
+    <!-- no translation found for notif_summary_active (7290448463204837173) -->
+    <!-- no translation found for notif_summary_waiting (2814217662029273005) -->
     <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> ကျန်ရှိသည်"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"ဖိုင်အား ဖွင့်မရပါ"</string>
     <string name="root_downloads" msgid="4098414876292351487">"ဒေါင်းလုပ်များ"</string>

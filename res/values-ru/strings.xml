@@ -44,14 +44,8 @@
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Добавить в очередь"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Отмена"</string>
     <string name="button_start_now" msgid="792123674007840864">"Запустить"</string>
-  <plurals name="notif_summary_active">
-    <item quantity="one" msgid="8475775855911967027">"Загрузка 1 файла…"</item>
-    <item quantity="other" msgid="9087228371320573153">"Загрузка <xliff:g id="NUMBER">%d</xliff:g> файлов…"</item>
-  </plurals>
-  <plurals name="notif_summary_waiting">
-    <item quantity="one" msgid="5537481763963544278">"Ожидается загрузка 1 файла"</item>
-    <item quantity="other" msgid="549229034166062887">"Ожидается загрузка <xliff:g id="NUMBER">%d</xliff:g> файлов"</item>
-  </plurals>
+    <!-- no translation found for notif_summary_active (7290448463204837173) -->
+    <!-- no translation found for notif_summary_waiting (2814217662029273005) -->
     <string name="download_remaining" msgid="3139295890887972718">"Осталось: <xliff:g id="DURATION">%s</xliff:g>"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"Не удается открыть файл"</string>
     <string name="root_downloads" msgid="4098414876292351487">"Загрузки"</string>

@@ -28,7 +28,7 @@
     <string name="download_success" msgid="7006048006543495236">"Finalizat"</string>
     <string name="download_error" msgid="8081329546008568251">"Nereuşită"</string>
     <string name="dialog_title_not_available" msgid="5746317632356158515">"Nu s-a putut descărca"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"Doriţi să reîncercaţi descărcarea fişierului mai târziu sau să îl ştergeţi din lista de aşteptare?"</string>
+    <string name="dialog_failed_body" msgid="587545111677064427">"Doriți să reîncercați descărcarea fişierului mai târziu sau să îl ştergeţi din lista de așteptare?"</string>
     <string name="dialog_title_queued_body" msgid="6760681913815015219">"Fişier în coadă"</string>
     <string name="dialog_queued_body" msgid="708552801635572720">"Fişierul este adăugat în coadă pentru descărcare ulterioară, prin urmare nu este disponibil încă."</string>
     <string name="dialog_file_missing_body" msgid="3223012612774276284">"Nu se poate găsi fişierul descărcat."</string>
@@ -42,7 +42,7 @@
     <string name="delete_download" msgid="76629022653866471">"Ștergeţi"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"Păstraţi"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Anulați"</string>
-    <string name="retry_download" msgid="7617100787922717912">"Reîncercaţi"</string>
+    <string name="retry_download" msgid="7617100787922717912">"Reîncercați"</string>
     <string name="deselect_all" msgid="6348198946254776764">"Deselectaţi-le pe toate"</string>
     <string name="select_all" msgid="634074918366265804">"Selectaţi-le pe toate"</string>
     <string name="selected_count" msgid="2101564570019753277">"Au fost selectate <xliff:g id="NUMBER">%1$d</xliff:g> din <xliff:g id="TOTAL">%2$d</xliff:g>"</string>

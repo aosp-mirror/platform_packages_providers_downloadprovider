@@ -19,7 +19,7 @@
     <string name="app_label" msgid="3658948994665187911">"Download Manager"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"‏دسترسی به Download Manager."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"‏به برنامه اجازه می‌دهد تا به download manager دسترسی داشته باشد و از آن برای دانلود فایل‌ها استفاده کند. برنامه‌های مضر می‌توانند از این امکان استفاده کرده و برای دانلودها مشکل ایجاد کنند و به اطلاعات خصوصی دسترسی داشته باشند."</string>
-    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"‏عملکرد Download Manager پیشرفته."</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"‏عملکرد پیشرفته Download Manager."</string>
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"‏به برنامه اجازه می‌دهد تا به عملکردهای پیشرفته download manager دسترسی داشته باشد. برنامه‌های مضر می‌توانند از این امکان استفاده کرده و برای دانلودها مشکل ایجاد کنند و به اطلاعات خصوصی دسترسی داشته باشند."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"اعلان‌های دانلود ارسال شود."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"به برنامه اجازه می‌دهد اعلان‌های مربوط به دانلودهای کامل شده را ارسال کند. برنامه‌های مضر می‌توانند از این امکان استفاده کرده و برای سایر برنامه‌هایی که فایل‌ها را دانلود می‌کنند، مشکلاتی را ایجاد کنند."</string>

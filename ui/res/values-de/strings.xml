@@ -29,7 +29,7 @@
     <string name="download_error" msgid="8081329546008568251">"Fehler"</string>
     <string name="dialog_title_not_available" msgid="5746317632356158515">"Downloadfehler"</string>
     <string name="dialog_failed_body" msgid="587545111677064427">"Möchten Sie später einen erneuten Downloadversuch für die Datei starten oder die Datei aus der Warteschlange löschen?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Warten auf Download"</string>
+    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Download wird vorbereitet"</string>
     <string name="dialog_queued_body" msgid="708552801635572720">"Die Datei ist noch nicht verfügbar, da auf den Download der Datei gewartet wird."</string>
     <string name="dialog_file_missing_body" msgid="3223012612774276284">"Heruntergeladene Datei kann nicht gefunden werden."</string>
     <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Der Download kann nicht abgeschlossen werden, da der Speicherplatz des externen Speichers nicht ausreicht."</string>

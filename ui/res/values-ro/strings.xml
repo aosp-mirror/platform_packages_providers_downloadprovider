@@ -26,7 +26,7 @@
     <string name="download_queued" msgid="104973307780629904">"În aştept."</string>
     <string name="download_running" msgid="4656462962155580641">"În curs"</string>
     <string name="download_success" msgid="7006048006543495236">"Finalizat"</string>
-    <string name="download_error" msgid="8081329546008568251">"Nereuşită"</string>
+    <string name="download_error" msgid="8081329546008568251">"Nereușită"</string>
     <string name="dialog_title_not_available" msgid="5746317632356158515">"Nu s-a putut descărca"</string>
     <string name="dialog_failed_body" msgid="587545111677064427">"Doriți să reîncercați descărcarea fişierului mai târziu sau să îl ştergeţi din lista de așteptare?"</string>
     <string name="dialog_title_queued_body" msgid="6760681913815015219">"Fişier în coadă"</string>

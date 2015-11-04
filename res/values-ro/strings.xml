@@ -26,7 +26,7 @@
     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Vedeți desc. în stoc. USB"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Vizualizaţi toate descărcările pe cardul SD"</string>
     <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Permite aplicației să vizualizeze toate descărcările efectuate pe cardul SD, indiferent de aplicația care le-a descărcat."</string>
-    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Rezervaţi spaţiu în memoria cache de descărcare"</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Rezervați spaţiu în memoria cache de descărcare"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Permite aplic. să descarce fişiere în memoria cache de desc., care nu poate fi ştearsă în mod automat când managerul de desc. are nevoie de mai mult spaţiu."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"descărcarea fişierelor fără notificare"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"Permite aplicației să descarce fişiere prin intermediul managerului de descărcări fără a afişa notificări utilizatorului."</string>
@@ -38,7 +38,7 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Dimen. desc. nec. Wi-Fi"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Întreruptă în fundal."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Descărcare prea mare pentru reţeaua operatorului"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Trebuie să utilizaţi Wi-Fi pentru a finaliza această descărcare de <xliff:g id="SIZE">%s </xliff:g>. \n\nAtingeţi <xliff:g id="QUEUE_TEXT">%s </xliff:g> pentru a începe această descărcare data viitoare când vă conectaţi la o reţea Wi-Fi."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Trebuie să utilizaţi Wi-Fi pentru a finaliza această descărcare de <xliff:g id="SIZE">%s </xliff:g>. \n\nAtingeţi <xliff:g id="QUEUE_TEXT">%s </xliff:g> pentru a începe această descărcare data viitoare când vă conectaţi la o rețea Wi-Fi."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Puneți în așteptare pentru descărcare ulterioară?"</string>
     <string name="wifi_recommended_body" msgid="1314735166699936073">"Pornirea ac.desc.de <xliff:g id="SIZE">%s </xliff:g> acum impl.scurt.dur.de viaţă a bater.și/sau utiliz.exces.a conex.de date mob.și tax.suplim.din partea oper.de telef.mob.,cf.plan.de date.\n\n Ating. <xliff:g id="QUEUE_TEXT">%s</xliff:g> pt.a înc.desc.la conect.la Wi-Fi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Listă de așteptare"</string>

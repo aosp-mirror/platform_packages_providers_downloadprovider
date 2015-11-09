@@ -28,8 +28,8 @@
     <string name="download_success" msgid="7006048006543495236">"Finalizat"</string>
     <string name="download_error" msgid="8081329546008568251">"Nereușită"</string>
     <string name="dialog_title_not_available" msgid="5746317632356158515">"Nu s-a putut descărca"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"Doriți să reîncercați descărcarea fişierului mai târziu sau să îl ştergeţi din lista de așteptare?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Fişier în coadă"</string>
+    <string name="dialog_failed_body" msgid="587545111677064427">"Doriți să reîncercați descărcarea fişierului mai târziu sau să îl ștergeți din lista de așteptare?"</string>
+    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Fișier în coadă"</string>
     <string name="dialog_queued_body" msgid="708552801635572720">"Fişierul este adăugat în coadă pentru descărcare ulterioară, prin urmare nu este disponibil încă."</string>
     <string name="dialog_file_missing_body" msgid="3223012612774276284">"Nu se poate găsi fişierul descărcat."</string>
     <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Nu se poate finaliza descărcarea. Nu există suficient spaţiu de stocare extern."</string>

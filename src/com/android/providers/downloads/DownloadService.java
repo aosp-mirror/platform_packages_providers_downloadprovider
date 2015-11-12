@@ -33,11 +33,15 @@ import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Binder;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
+import android.os.IDeviceIdleController;
 import android.os.Message;
 import android.os.Process;
+import android.os.RemoteException;
+import android.os.ServiceManager;
 import android.provider.Downloads;
 import android.text.TextUtils;
 import android.util.Log;
@@ -84,6 +88,7 @@ public class DownloadService extends Service {
     SystemFacade mSystemFacade;
 
     private AlarmManager mAlarmManager;
+    private IDeviceIdleController mDeviceIdleController;
 
     /** Observer to get notified when the content observer's data changes */
     private DownloadManagerContentObserver mObserver;
@@ -192,6 +197,12 @@ public class DownloadService extends Service {
         }
 
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        mDeviceIdleController = IDeviceIdleController.Stub.asInterface(
+                ServiceManager.getService(Context.DEVICE_IDLE_CONTROLLER));
+        try {
+            mDeviceIdleController.downloadServiceActive(new Binder());
+        } catch (RemoteException e) {
+        }
 
         mUpdateThread = new HandlerThread(TAG + "-UpdateThread");
         mUpdateThread.start();
@@ -330,6 +341,10 @@ public class DownloadService extends Service {
                     if (DEBUG_LIFECYCLE) Log.v(TAG, "Nothing left; stopped");
                     getContentResolver().unregisterContentObserver(mObserver);
                     mScanner.shutdown();
+                    try {
+                        mDeviceIdleController.downloadServiceInactive();
+                    } catch (RemoteException e) {
+                    }
                     mUpdateThread.quit();
                 }
             }

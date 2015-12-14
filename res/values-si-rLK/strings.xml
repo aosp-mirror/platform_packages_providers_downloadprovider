@@ -44,8 +44,14 @@
     <string name="button_queue_for_wifi" msgid="422576726189179221">"පෝලිම"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"අවලංගු කරන්න"</string>
     <string name="button_start_now" msgid="792123674007840864">"දැන් අරඹන්න"</string>
-    <!-- no translation found for notif_summary_active (7290448463204837173) -->
-    <!-- no translation found for notif_summary_waiting (2814217662029273005) -->
+    <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
+      <item quantity="one">ගොනු <xliff:g id="NUMBER">%d</xliff:g>ක් බාගනිමින්</item>
+      <item quantity="other">ගොනු <xliff:g id="NUMBER">%d</xliff:g>ක් බාගනිමින්</item>
+    </plurals>
+    <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
+      <item quantity="one">ගොනු <xliff:g id="NUMBER">%d</xliff:g>ක් පොරොත්තු වෙමින්</item>
+      <item quantity="other">ගොනු <xliff:g id="NUMBER">%d</xliff:g>ක් පොරොත්තු වෙමින්</item>
+    </plurals>
     <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> ඉතිරියි"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"ගොනුව විවෘත කළ නොහැකි විය"</string>
     <string name="root_downloads" msgid="4098414876292351487">"බාගැනීම්"</string>

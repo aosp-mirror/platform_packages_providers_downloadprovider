@@ -44,8 +44,14 @@
     <string name="button_queue_for_wifi" msgid="422576726189179221">"대기열"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"취소"</string>
     <string name="button_start_now" msgid="792123674007840864">"지금 시작"</string>
-    <!-- no translation found for notif_summary_active (7290448463204837173) -->
-    <!-- no translation found for notif_summary_waiting (2814217662029273005) -->
+    <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
+      <item quantity="other">파일 <xliff:g id="NUMBER">%d</xliff:g>개 다운로드 중</item>
+      <item quantity="one">파일 1개 다운로드 중</item>
+    </plurals>
+    <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
+      <item quantity="other">파일 <xliff:g id="NUMBER">%d</xliff:g>개 대기 중</item>
+      <item quantity="one">파일 1개 대기 중</item>
+    </plurals>
     <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> 남음"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"파일을 열 수 없음"</string>
     <string name="root_downloads" msgid="4098414876292351487">"다운로드"</string>

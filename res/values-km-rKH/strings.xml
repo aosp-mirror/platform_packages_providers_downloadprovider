@@ -44,8 +44,14 @@
     <string name="button_queue_for_wifi" msgid="422576726189179221">"ជួរ"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"បោះ​បង់​"</string>
     <string name="button_start_now" msgid="792123674007840864">"ចាប់ផ្ដើម​ឥឡូវ"</string>
-    <!-- no translation found for notif_summary_active (7290448463204837173) -->
-    <!-- no translation found for notif_summary_waiting (2814217662029273005) -->
+    <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
+      <item quantity="other">កំពុងដោនឡូតឯកសារ <xliff:g id="NUMBER">%d</xliff:g></item>
+      <item quantity="one">កំពុងដោនឡូតឯកសារ 1</item>
+    </plurals>
+    <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
+      <item quantity="other">កំពុងរង់ចាំឯកសារ <xliff:g id="NUMBER">%d</xliff:g></item>
+      <item quantity="one">កំពុងរង់ចាំឯកសារ 1</item>
+    </plurals>
     <string name="download_remaining" msgid="3139295890887972718">"នៅសល់ <xliff:g id="DURATION">%s</xliff:g>"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"មិន​អាច​បើក​ឯកសារ"</string>
     <string name="root_downloads" msgid="4098414876292351487">"ទាញ​យក"</string>

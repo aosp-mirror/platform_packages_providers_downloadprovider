@@ -49,8 +49,8 @@
       <item quantity="one">१ फाइल डाउनलोड हुँदैछ</item>
     </plurals>
     <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
-      <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> फाइलहरू प्रतीक्षा गर्दैछन्</item>
-      <item quantity="one">१ फाइल प्रतीक्षा गर्दैछ</item>
+      <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> फाइलहरू डाउनलोड हुन पालो कुर्दै</item>
+      <item quantity="one">१ फाइल डाउनलोड हुन पालो कुर्दै</item>
     </plurals>
     <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> बाँकी छ"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"फाइल खोल्न सक्दैन"</string>

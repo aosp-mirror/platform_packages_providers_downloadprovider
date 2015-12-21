@@ -48,7 +48,7 @@
       <item quantity="one">Скачивается <xliff:g id="NUMBER">%d</xliff:g> файл</item>
       <item quantity="few">Скачивается <xliff:g id="NUMBER">%d</xliff:g> файла</item>
       <item quantity="many">Скачивается <xliff:g id="NUMBER">%d</xliff:g> файлов</item>
-      <item quantity="other">Загружается <xliff:g id="NUMBER">%d</xliff:g> файла</item>
+      <item quantity="other">Скачивается <xliff:g id="NUMBER">%d</xliff:g> файла</item>
     </plurals>
     <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
       <item quantity="one">Ожидается скачивание <xliff:g id="NUMBER">%d</xliff:g> файла…</item>

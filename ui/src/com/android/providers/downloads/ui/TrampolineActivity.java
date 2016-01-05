@@ -152,7 +152,10 @@ public class TrampolineActivity extends Activity {
         @Override
         public void onDismiss(DialogInterface dialog) {
             super.onDismiss(dialog);
-            getActivity().finish();
+            final Activity activity = getActivity();
+            if (activity != null) {
+                activity.finish();
+            }
         }
     }
 
@@ -221,7 +224,10 @@ public class TrampolineActivity extends Activity {
         @Override
         public void onDismiss(DialogInterface dialog) {
             super.onDismiss(dialog);
-            getActivity().finish();
+            final Activity activity = getActivity();
+            if (activity != null) {
+                activity.finish();
+            }
         }
     }
 }

@@ -22,6 +22,8 @@ import static android.text.format.DateUtils.MINUTE_IN_MILLIS;
 import static android.text.format.DateUtils.SECOND_IN_MILLIS;
 
 import android.app.DownloadManager;
+import android.content.ContentResolver;
+import android.content.ContextWrapper;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
@@ -217,7 +219,17 @@ public abstract class AbstractPublicApiTest extends AbstractDownloadProviderFunc
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mManager = new DownloadManager(mResolver, PACKAGE_NAME);
+        mManager = new DownloadManager(new ContextWrapper(mContext) {
+            @Override
+            public ContentResolver getContentResolver() {
+                return mResolver;
+            }
+
+            @Override
+            public String getPackageName() {
+                return PACKAGE_NAME;
+            }
+        });
     }
 
     protected DownloadManager.Request getRequest()

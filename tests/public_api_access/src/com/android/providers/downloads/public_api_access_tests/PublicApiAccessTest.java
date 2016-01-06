@@ -51,7 +51,7 @@ public class PublicApiAccessTest extends AndroidTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         mContentResolver = getContext().getContentResolver();
-        mManager = new DownloadManager(mContentResolver, getContext().getPackageName());
+        mManager = new DownloadManager(getContext());
     }
 
     @Override

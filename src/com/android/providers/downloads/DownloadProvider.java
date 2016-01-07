@@ -1260,9 +1260,15 @@ public final class DownloadProvider extends ContentProvider {
             throw new FileNotFoundException("No filename found.");
         }
 
-        final File file = new File(path);
+        final File file;
+        try {
+            file = new File(path).getCanonicalFile();
+        } catch (IOException e) {
+            throw new FileNotFoundException(e.getMessage());
+        }
+
         if (!Helpers.isFilenameValid(getContext(), file)) {
-            throw new FileNotFoundException("Invalid file: " + file);
+            throw new FileNotFoundException("Invalid file path: " + file);
         }
 
         final int pfdMode = ParcelFileDescriptor.parseMode(mode);

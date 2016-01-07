@@ -72,6 +72,7 @@ public class DownloadStorageProvider extends DocumentsProvider {
     public boolean onCreate() {
         mDm = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
         mDm.setAccessAllDownloads(true);
+        mDm.setAccessFilename(true);
         mArchiveHelper = new DocumentArchiveHelper(this, ':');
         return true;
     }

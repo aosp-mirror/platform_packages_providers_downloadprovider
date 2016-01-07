@@ -341,7 +341,6 @@ public class Helpers {
     static boolean isFilenameValid(Context context, File file) {
         final File[] whitelist;
         try {
-            file = file.getCanonicalFile();
             whitelist = new File[] {
                     context.getFilesDir().getCanonicalFile(),
                     context.getCacheDir().getCanonicalFile(),

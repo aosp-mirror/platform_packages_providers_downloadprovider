@@ -65,6 +65,7 @@ public class OpenHelper {
         final DownloadManager downManager = (DownloadManager) context.getSystemService(
                 Context.DOWNLOAD_SERVICE);
         downManager.setAccessAllDownloads(true);
+        downManager.setAccessFilename(true);
 
         final Cursor cursor = downManager.query(new DownloadManager.Query().setFilterById(id));
         try {

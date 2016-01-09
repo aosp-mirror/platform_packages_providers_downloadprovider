@@ -373,8 +373,12 @@ public class DownloadStorageProvider extends DocumentsProvider {
         row.add(Document.COLUMN_SUMMARY, summary);
         row.add(Document.COLUMN_SIZE, size);
         row.add(Document.COLUMN_MIME_TYPE, mimeType);
-        row.add(Document.COLUMN_LAST_MODIFIED, lastModified);
         row.add(Document.COLUMN_FLAGS, flags);
+        // Incomplete downloads get a null timestamp.  This prevents thrashy UI when a bunch of
+        // active downloads get sorted by mod time.
+        if (status != DownloadManager.STATUS_RUNNING) {
+            row.add(Document.COLUMN_LAST_MODIFIED, lastModified);
+        }
 
         final String localFilePath = cursor.getString(
                 cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_FILENAME));

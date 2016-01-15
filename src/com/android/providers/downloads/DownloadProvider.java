@@ -1205,8 +1205,16 @@ public final class DownloadProvider extends ContentProvider {
         if (path == null) {
             throw new FileNotFoundException("No filename found.");
         }
-        if (!Helpers.isFilenameValid(path, mDownloadsDataDir)) {
-            throw new FileNotFoundException("Invalid filename: " + path);
+
+        final File file;
+        try {
+            file = new File(path).getCanonicalFile();
+        } catch (IOException e) {
+            throw new FileNotFoundException(e.getMessage());
+        }
+
+        if (!Helpers.isFilenameValid(getContext(), file)) {
+            throw new FileNotFoundException("Invalid file path: " + file);
         }
 
         final File file = new File(path);

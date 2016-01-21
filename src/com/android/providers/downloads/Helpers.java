@@ -349,29 +349,71 @@ public class Helpers {
     }
 
     /**
-     * Checks whether the filename looks legitimate
+     * Checks whether the filename looks legitimate for security purposes. This
+     * prevents us from opening files that aren't actually downloads.
      */
-    static boolean isFilenameValid(String filename, File downloadsDataDir) {
-        final String[] whitelist;
+    static boolean isFilenameValid(Context context, File file) {
+        final File[] whitelist;
         try {
-            filename = new File(filename).getCanonicalPath();
-            whitelist = new String[] {
-                    downloadsDataDir.getCanonicalPath(),
-                    Environment.getDownloadCacheDirectory().getCanonicalPath(),
-                    Environment.getExternalStorageDirectory().getCanonicalPath(),
+            whitelist = new File[] {
+                    context.getFilesDir().getCanonicalFile(),
+                    context.getCacheDir().getCanonicalFile(),
+                    Environment.getDownloadCacheDirectory().getCanonicalFile(),
+                    Environment.getExternalStorageDirectory().getCanonicalFile(),
             };
         } catch (IOException e) {
             Log.w(TAG, "Failed to resolve canonical path: " + e);
             return false;
         }
 
-        for (String test : whitelist) {
-            if (filename.startsWith(test)) {
+        for (File testDir : whitelist) {
+            if (contains(testDir, file)) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    /**
+     * Test if a file lives under the given directory, either as a direct child
+     * or a distant grandchild.
+     * <p>
+     * Both files <em>must</em> have been resolved using
+     * {@link File#getCanonicalFile()} to avoid symlink or path traversal
+     * attacks.
+     */
+    public static boolean contains(File[] dirs, File file) {
+        for (File dir : dirs) {
+            if (contains(dir, file)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Test if a file lives under the given directory, either as a direct child
+     * or a distant grandchild.
+     * <p>
+     * Both files <em>must</em> have been resolved using
+     * {@link File#getCanonicalFile()} to avoid symlink or path traversal
+     * attacks.
+     */
+    public static boolean contains(File dir, File file) {
+        if (dir == null || file == null) return false;
+
+        String dirPath = dir.getAbsolutePath();
+        String filePath = file.getAbsolutePath();
+
+        if (dirPath.equals(filePath)) {
+            return true;
+        }
+
+        if (!dirPath.endsWith("/")) {
+            dirPath += "/";
+        }
+        return filePath.startsWith(dirPath);
     }
 
     /**

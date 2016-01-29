@@ -30,6 +30,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.StrictMode;
 import android.provider.Downloads.Impl.RequestHeaders;
 import android.util.Log;
 
@@ -49,11 +50,14 @@ public class OpenHelper {
 
         intent.addFlags(intentFlags);
         try {
+            StrictMode.disableDeathOnFileUriExposure();
             context.startActivity(intent);
             return true;
         } catch (ActivityNotFoundException e) {
             Log.w(TAG, "Failed to start " + intent + ": " + e);
             return false;
+        } finally {
+            StrictMode.enableDeathOnFileUriExposure();
         }
     }
 

@@ -21,8 +21,8 @@
     <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Mga download - Inuri-uri ayon sa laki"</string>
     <string name="no_downloads" msgid="1029667411186146836">"Walang mga pag-download."</string>
     <string name="missing_title" msgid="830115697868833773">"&lt;Hindi Kilala&gt;"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"Pag-uri-uriin sa laki"</string>
-    <string name="button_sort_by_date" msgid="8800842892684101528">"Pag-uri-uriin sa petsa"</string>
+    <string name="button_sort_by_size" msgid="7331549713691146251">"Uriin ayon sa laki"</string>
+    <string name="button_sort_by_date" msgid="8800842892684101528">"Uriin ayon sa petsa"</string>
     <string name="download_queued" msgid="104973307780629904">"Naka-queue"</string>
     <string name="download_running" msgid="4656462962155580641">"Isinasagawa"</string>
     <string name="download_success" msgid="7006048006543495236">"Kumpleto"</string>

@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"Yuklab olishlar"</string>
+    <string name="app_label" msgid="3070921713463294774">"Yuklanishlar"</string>
     <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Yuklab olishlar - Sana bo‘yicha saralan."</string>
     <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Yuklab olishlar - Hajm bo‘yicha saralan."</string>
     <string name="no_downloads" msgid="1029667411186146836">"Yuklab olishlar yo‘q."</string>
@@ -45,6 +45,6 @@
     <string name="retry_download" msgid="7617100787922717912">"Qayta urinish"</string>
     <string name="deselect_all" msgid="6348198946254776764">"Belgilashlarni bekor qil."</string>
     <string name="select_all" msgid="634074918366265804">"Barchasini belgilash"</string>
-    <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="TOTAL">%2$d</xliff:g>dan <xliff:g id="NUMBER">%1$d</xliff:g>ta belgilandi"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"Bu orqali ulashish:"</string>
+    <string name="selected_count" msgid="2101564570019753277">"Tanlandi: <xliff:g id="NUMBER">%1$d</xliff:g>/<xliff:g id="TOTAL">%2$d</xliff:g>"</string>
+    <string name="download_share_dialog" msgid="3355867339806448955">"Ulashish usuli"</string>
 </resources>

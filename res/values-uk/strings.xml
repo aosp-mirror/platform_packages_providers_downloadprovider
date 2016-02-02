@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3658948994665187911">"Менеджер завантаж."</string>
+    <string name="app_label" msgid="3658948994665187911">"Менеджер завантажень"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Доступ до менедж. завантаж."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Дозволяє програмі отримувати доступ до менеджера завантажень і використовувати його для завантаження файлів. Шкідливі програми можуть використовувати це для переривання завантажень і доступу до особистої інформації."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Розширені функції менеджера завантаж."</string>
@@ -44,14 +44,18 @@
     <string name="button_queue_for_wifi" msgid="422576726189179221">"У чергу"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Скасувати"</string>
     <string name="button_start_now" msgid="792123674007840864">"Почати зараз"</string>
-  <plurals name="notif_summary_active">
-    <item quantity="one" msgid="8475775855911967027">"Завантажується 1 файл"</item>
-    <item quantity="other" msgid="9087228371320573153">"Завантажуються файли: <xliff:g id="NUMBER">%d</xliff:g>"</item>
-  </plurals>
-  <plurals name="notif_summary_waiting">
-    <item quantity="one" msgid="5537481763963544278">"Очікує 1 файл"</item>
-    <item quantity="other" msgid="549229034166062887">"Очікують файли: <xliff:g id="NUMBER">%d</xliff:g>"</item>
-  </plurals>
+    <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
+      <item quantity="one">Завантажується <xliff:g id="NUMBER">%d</xliff:g> файл</item>
+      <item quantity="few">Завантажується <xliff:g id="NUMBER">%d</xliff:g> файли</item>
+      <item quantity="many">Завантажується <xliff:g id="NUMBER">%d</xliff:g> файлів</item>
+      <item quantity="other">Завантажується <xliff:g id="NUMBER">%d</xliff:g> файлу</item>
+    </plurals>
+    <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
+      <item quantity="one">Очікує <xliff:g id="NUMBER">%d</xliff:g> файл</item>
+      <item quantity="few">Очікує <xliff:g id="NUMBER">%d</xliff:g> файли</item>
+      <item quantity="many">Очікує <xliff:g id="NUMBER">%d</xliff:g> файлів</item>
+      <item quantity="other">Очікує <xliff:g id="NUMBER">%d</xliff:g> файлу</item>
+    </plurals>
     <string name="download_remaining" msgid="3139295890887972718">"Залишилося <xliff:g id="DURATION">%s</xliff:g>"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"Неможливо відкрити файл"</string>
     <string name="root_downloads" msgid="4098414876292351487">"Завантаження"</string>

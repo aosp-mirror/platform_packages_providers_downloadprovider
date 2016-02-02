@@ -44,14 +44,22 @@
     <string name="button_queue_for_wifi" msgid="422576726189179221">"قائمة انتظار"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"إلغاء"</string>
     <string name="button_start_now" msgid="792123674007840864">"البدء الآن"</string>
-  <plurals name="notif_summary_active">
-    <item quantity="one" msgid="8475775855911967027">"جارٍ تنزيل ملف واحد"</item>
-    <item quantity="other" msgid="9087228371320573153">"جارٍ تنزيل <xliff:g id="NUMBER">%d</xliff:g> من الملفات"</item>
-  </plurals>
-  <plurals name="notif_summary_waiting">
-    <item quantity="one" msgid="5537481763963544278">"هناك ملف واحد في وضع الانتظار"</item>
-    <item quantity="other" msgid="549229034166062887">"هناك <xliff:g id="NUMBER">%d</xliff:g> من الملفات في وضع الانتظار"</item>
-  </plurals>
+    <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
+      <item quantity="zero">جارٍ تنزيل <xliff:g id="NUMBER">%d</xliff:g> ملف</item>
+      <item quantity="two">جارٍ تنزيل ملفين (<xliff:g id="NUMBER">%d</xliff:g>)</item>
+      <item quantity="few">جارٍ تنزيل <xliff:g id="NUMBER">%d</xliff:g> ملفات</item>
+      <item quantity="many">جارٍ تنزيل <xliff:g id="NUMBER">%d</xliff:g> ملفًا</item>
+      <item quantity="other">جارٍ تنزيل <xliff:g id="NUMBER">%d</xliff:g> ملف</item>
+      <item quantity="one">جارٍ تنزيل ملف واحد</item>
+    </plurals>
+    <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
+      <item quantity="zero"><xliff:g id="NUMBER">%d</xliff:g> ملف في وضع الانتظار</item>
+      <item quantity="two">ملفان (<xliff:g id="NUMBER">%d</xliff:g>) في وضع الانتظار</item>
+      <item quantity="few"><xliff:g id="NUMBER">%d</xliff:g> ملفات في وضع الانتظار</item>
+      <item quantity="many"><xliff:g id="NUMBER">%d</xliff:g> ملفًا في وضع الانتظار</item>
+      <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> ملف في وضع الانتظار</item>
+      <item quantity="one">ملف واحد في وضع الانتظار</item>
+    </plurals>
     <string name="download_remaining" msgid="3139295890887972718">"المدة المتبقية: <xliff:g id="DURATION">%s</xliff:g>"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"لا يمكن فتح الملف"</string>
     <string name="root_downloads" msgid="4098414876292351487">"التنزيلات"</string>

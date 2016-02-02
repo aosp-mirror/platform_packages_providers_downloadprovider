@@ -46,5 +46,5 @@
     <string name="deselect_all" msgid="6348198946254776764">"Барлығының таңдауын алыңыз"</string>
     <string name="select_all" msgid="634074918366265804">"Барлығын таңдау"</string>
     <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="NUMBER">%1$d</xliff:g> таңдалды, барлығы <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"Бөлісу қолданбасы"</string>
+    <string name="download_share_dialog" msgid="3355867339806448955">"Бөлісу"</string>
 </resources>

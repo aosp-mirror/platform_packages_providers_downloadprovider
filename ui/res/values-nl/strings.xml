@@ -28,7 +28,7 @@
     <string name="download_success" msgid="7006048006543495236">"Voltooid"</string>
     <string name="download_error" msgid="8081329546008568251">"Mislukt"</string>
     <string name="dialog_title_not_available" msgid="5746317632356158515">"Kan niet downloaden"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"Wilt u het bestand later opnieuw proberen te downloaden of uit de wachtrij verwijderen?"</string>
+    <string name="dialog_failed_body" msgid="587545111677064427">"Wil je het bestand later opnieuw proberen te downloaden of uit de wachtrij verwijderen?"</string>
     <string name="dialog_title_queued_body" msgid="6760681913815015219">"Bestand in wachtrij"</string>
     <string name="dialog_queued_body" msgid="708552801635572720">"Dit bestand staat in de wachtrij voor later downloaden, dus het bestand is nog niet beschikbaar."</string>
     <string name="dialog_file_missing_body" msgid="3223012612774276284">"Kan het gedownloade bestand niet vinden."</string>

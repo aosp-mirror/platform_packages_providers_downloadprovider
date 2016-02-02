@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3658948994665187911">"Atsisiuntimo tvarkyklė"</string>
+    <string name="app_label" msgid="3658948994665187911">"Atsisiuntimų tvarkytuvė"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Pasiekti atsisiuntimo tvarkyklę."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Leidžiama programai pasiekti atsisiuntimų tvarkyklę ir naudoti ją failams atsisiųsti. Kenkėjiškos programos gali naudoti šią funkciją atsisiuntimams stabdyti ir asmeninei informacijai pasiekti."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Išplėstinės atsisiuntimo tvarkyklės funkcijos."</string>
@@ -44,14 +44,18 @@
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Eilė"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Atšaukti"</string>
     <string name="button_start_now" msgid="792123674007840864">"Pradėti dabar"</string>
-  <plurals name="notif_summary_active">
-    <item quantity="one" msgid="8475775855911967027">"Atsisiunčiama failų: 1"</item>
-    <item quantity="other" msgid="9087228371320573153">"Atsisiunčiama failų: <xliff:g id="NUMBER">%d</xliff:g>"</item>
-  </plurals>
-  <plurals name="notif_summary_waiting">
-    <item quantity="one" msgid="5537481763963544278">"Laukiama failų: 1"</item>
-    <item quantity="other" msgid="549229034166062887">"Laukiama failų: <xliff:g id="NUMBER">%d</xliff:g>"</item>
-  </plurals>
+    <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
+      <item quantity="one">Atsisiunčiamas <xliff:g id="NUMBER">%d</xliff:g> failas</item>
+      <item quantity="few">Atsisiunčiami <xliff:g id="NUMBER">%d</xliff:g> failai</item>
+      <item quantity="many">Atsisiunčiama <xliff:g id="NUMBER">%d</xliff:g> failo</item>
+      <item quantity="other">Atsisiunčiama <xliff:g id="NUMBER">%d</xliff:g> failų</item>
+    </plurals>
+    <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
+      <item quantity="one">Laukiama <xliff:g id="NUMBER">%d</xliff:g> failo</item>
+      <item quantity="few">Laukiama <xliff:g id="NUMBER">%d</xliff:g> failų</item>
+      <item quantity="many">Laukiama <xliff:g id="NUMBER">%d</xliff:g> failo</item>
+      <item quantity="other">Laukiama <xliff:g id="NUMBER">%d</xliff:g> failų</item>
+    </plurals>
     <string name="download_remaining" msgid="3139295890887972718">"Liko: <xliff:g id="DURATION">%s</xliff:g>"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"Nepavyksta atidaryti failo"</string>
     <string name="root_downloads" msgid="4098414876292351487">"Atsisiuntimai"</string>

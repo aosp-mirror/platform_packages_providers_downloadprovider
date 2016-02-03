@@ -31,6 +31,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.StrictMode;
+import android.provider.DocumentsContract;
 import android.provider.Downloads.Impl.RequestHeaders;
 import android.util.Log;
 
@@ -82,6 +83,9 @@ public class OpenHelper {
             String mimeType = getCursorString(cursor, COLUMN_MEDIA_TYPE);
             mimeType = DownloadDrmHelper.getOriginalMimeType(context, file, mimeType);
 
+            final Uri documentUri = DocumentsContract.buildDocumentUri(
+                    Constants.STORAGE_AUTHORITY, String.valueOf(id));
+
             final Intent intent = new Intent(Intent.ACTION_VIEW);
 
             if ("application/vnd.android.package-archive".equals(mimeType)) {
@@ -94,13 +98,12 @@ public class OpenHelper {
                 intent.putExtra(Intent.EXTRA_REFERRER, getRefererUri(context, id));
                 intent.putExtra(Intent.EXTRA_ORIGINATING_UID, getOriginatingUid(context, id));
             } else if ("file".equals(localUri.getScheme())) {
+                intent.setDataAndType(documentUri, mimeType);
                 intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
                         | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                intent.setDataAndType(
-                        ContentUris.withAppendedId(ALL_DOWNLOADS_CONTENT_URI, id), mimeType);
             } else {
-                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                intent.setDataAndType(localUri, mimeType);
+                throw new UnsupportedOperationException(
+                        "Unsupported scheme: " + localUri.getScheme());
             }
 
             return intent;

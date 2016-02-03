@@ -32,8 +32,8 @@
     <string name="dialog_title_queued_body" msgid="6760681913815015219">"Fișier în coadă"</string>
     <string name="dialog_queued_body" msgid="708552801635572720">"Fişierul este adăugat în coadă pentru descărcare ulterioară, prin urmare nu este disponibil încă."</string>
     <string name="dialog_file_missing_body" msgid="3223012612774276284">"Nu se poate găsi fişierul descărcat."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Nu se poate finaliza descărcarea. Nu există suficient spaţiu de stocare extern."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Nu se poate finaliza descărcarea. Nu există suficient spaţiu de stocare intern."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Nu se poate finaliza descărcarea. Nu există suficient spațiu de stocare extern."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Nu se poate finaliza descărcarea. Nu există suficient spațiu de stocare intern."</string>
     <string name="dialog_cannot_resume" msgid="8664509751358983543">"Descărcarea a fost întreruptă și nu poate fi reluată."</string>
     <string name="dialog_file_already_exists" msgid="8308563940663449590">"Nu se poate descărca. Fişierul de destinaţie există deja."</string>
     <string name="dialog_media_not_found" msgid="4468088418758018765">"Nu se poate descărca. Nu este disponibil un mediu de stocare extern."</string>
@@ -43,8 +43,8 @@
     <string name="keep_queued_download" msgid="5144882786014818569">"Păstraţi"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Anulați"</string>
     <string name="retry_download" msgid="7617100787922717912">"Reîncercați"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"Deselectaţi-le pe toate"</string>
+    <string name="deselect_all" msgid="6348198946254776764">"Deselectați-le pe toate"</string>
     <string name="select_all" msgid="634074918366265804">"Selectaţi-le pe toate"</string>
     <string name="selected_count" msgid="2101564570019753277">"Au fost selectate <xliff:g id="NUMBER">%1$d</xliff:g> din <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"Distribuiţi prin"</string>
+    <string name="download_share_dialog" msgid="3355867339806448955">"Distribuiți prin"</string>
 </resources>

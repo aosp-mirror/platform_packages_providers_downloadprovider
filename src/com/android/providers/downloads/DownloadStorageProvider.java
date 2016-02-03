@@ -174,7 +174,7 @@ public class DownloadStorageProvider extends DocumentsProvider {
                 if (cursor.moveToFirst()) {
                     // We don't know if this queryDocument() call is from Downloads (manage)
                     // or Files. Safely assume it's Files.
-                    includeDownloadFromCursor(result, cursor, false /* forManage */);
+                    includeDownloadFromCursor(result, cursor);
                 }
             } finally {
                 IoUtils.closeQuietly(cursor);
@@ -202,7 +202,7 @@ public class DownloadStorageProvider extends DocumentsProvider {
                     .setFilterByStatus(DownloadManager.STATUS_SUCCESSFUL));
             copyNotificationUri(result, cursor);
             while (cursor.moveToNext()) {
-                includeDownloadFromCursor(result, cursor, false /* forManage */);
+                includeDownloadFromCursor(result, cursor);
             }
         } finally {
             IoUtils.closeQuietly(cursor);
@@ -229,7 +229,7 @@ public class DownloadStorageProvider extends DocumentsProvider {
                     new DownloadManager.Query().setOnlyIncludeVisibleInDownloadsUi(true));
             copyNotificationUri(result, cursor);
             while (cursor.moveToNext()) {
-                includeDownloadFromCursor(result, cursor, true /* forManage */);
+                includeDownloadFromCursor(result, cursor);
             }
         } finally {
             IoUtils.closeQuietly(cursor);
@@ -263,7 +263,7 @@ public class DownloadStorageProvider extends DocumentsProvider {
                     continue;
                 }
 
-                includeDownloadFromCursor(result, cursor, false /* forManage */);
+                includeDownloadFromCursor(result, cursor);
             }
         } finally {
             IoUtils.closeQuietly(cursor);
@@ -306,7 +306,7 @@ public class DownloadStorageProvider extends DocumentsProvider {
                 Document.FLAG_DIR_PREFERS_LAST_MODIFIED | Document.FLAG_DIR_SUPPORTS_CREATE);
     }
 
-    private void includeDownloadFromCursor(MatrixCursor result, Cursor cursor, boolean forManage) {
+    private void includeDownloadFromCursor(MatrixCursor result, Cursor cursor) {
         final long id = cursor.getLong(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_ID));
         final String docId = String.valueOf(id);
 
@@ -359,8 +359,7 @@ public class DownloadStorageProvider extends DocumentsProvider {
             flags |= Document.FLAG_SUPPORTS_THUMBNAIL;
         }
 
-        // TODO: Remove forManage and move the logic to DocumentsUI. b/26321218.
-        if (!forManage && mArchiveHelper.isSupportedArchiveType(mimeType)) {
+        if (mArchiveHelper.isSupportedArchiveType(mimeType)) {
             flags |= Document.FLAG_ARCHIVE;
         }
 

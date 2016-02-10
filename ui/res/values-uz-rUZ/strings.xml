@@ -44,7 +44,7 @@
     <string name="cancel_running_download" msgid="5232704030969221112">"Bekor qilish"</string>
     <string name="retry_download" msgid="7617100787922717912">"Qayta urinish"</string>
     <string name="deselect_all" msgid="6348198946254776764">"Belgilashlarni bekor qil."</string>
-    <string name="select_all" msgid="634074918366265804">"Barchasini belgilash"</string>
+    <string name="select_all" msgid="634074918366265804">"Hammasini belgilash"</string>
     <string name="selected_count" msgid="2101564570019753277">"Tanlandi: <xliff:g id="NUMBER">%1$d</xliff:g>/<xliff:g id="TOTAL">%2$d</xliff:g>"</string>
     <string name="download_share_dialog" msgid="3355867339806448955">"Ulashish usuli"</string>
 </resources>

@@ -715,7 +715,13 @@ public final class DownloadProvider extends ContentProvider {
             throw new IllegalArgumentException("Invalid file URI: " + uri);
         }
 
-        final File file = new File(path);
+        final File file;
+        try {
+            file = new File(path).getCanonicalFile();
+        } catch (IOException e) {
+            throw new SecurityException(e);
+        }
+
         if (Helpers.isFilenameValidInExternalPackage(getContext(), file, getCallingPackage())) {
             // No permissions required for paths belonging to calling package
             return;
@@ -1191,10 +1197,14 @@ public final class DownloadProvider extends ContentProvider {
 
                         final String path = cursor.getString(1);
                         if (!TextUtils.isEmpty(path)) {
-                            final File file = new File(path);
-                            if (Helpers.isFilenameValid(getContext(), file)) {
-                                Log.v(Constants.TAG, "Deleting " + file + " via provider delete");
-                                file.delete();
+                            try {
+                                final File file = new File(path).getCanonicalFile();
+                                if (Helpers.isFilenameValid(getContext(), file)) {
+                                    Log.v(Constants.TAG,
+                                            "Deleting " + file + " via provider delete");
+                                    file.delete();
+                                }
+                            } catch (IOException ignored) {
                             }
                         }
                     }

@@ -38,20 +38,20 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Downloadgröße erfordert WLAN"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Im Hintergrund pausiert"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Download zu groß für Netzwerk dieses Betreibers."</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Sie müssen eine WLAN-Verbindung nutzen, um den Download von <xliff:g id="SIZE">%s </xliff:g> abzuschließen.\n\nTippen Sie auf <xliff:g id="QUEUE_TEXT">%s </xliff:g> und der Download startet bei der nächsten WLAN-Einwahl."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Du musst eine WLAN-Verbindung nutzen, um den Download von <xliff:g id="SIZE">%s </xliff:g> abzuschließen.\n\nTippe auf <xliff:g id="QUEUE_TEXT">%s </xliff:g> und der Download startet bei der nächsten WLAN-Einwahl."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"In Warteschlange für späteren Download?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"Der Download von <xliff:g id="SIZE">%s </xliff:g> kann die Akkulaufzeit verkürzen/die mobile Datenverbindung überlasten. Je nach Vertrag können zusätzliche Kosten entstehen.\n\nTippen Sie auf <xliff:g id="QUEUE_TEXT">%s</xliff:g> und der Download startet bei der nächsten WLAN-Einwahl."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"Der Download von <xliff:g id="SIZE">%s </xliff:g> kann die Akkulaufzeit verkürzen/die mobile Datenverbindung überlasten. Je nach Vertrag können zusätzliche Kosten entstehen.\n\nTippe auf <xliff:g id="QUEUE_TEXT">%s</xliff:g> und der Download startet bei der nächsten WLAN-Einwahl."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Warteschlange"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Abbrechen"</string>
     <string name="button_start_now" msgid="792123674007840864">"Jetzt starten"</string>
-  <plurals name="notif_summary_active">
-    <item quantity="one" msgid="8475775855911967027">"1 Datei wird heruntergeladen..."</item>
-    <item quantity="other" msgid="9087228371320573153">"<xliff:g id="NUMBER">%d</xliff:g> Dateien werden heruntergeladen..."</item>
-  </plurals>
-  <plurals name="notif_summary_waiting">
-    <item quantity="one" msgid="5537481763963544278">"1 Datei steht aus."</item>
-    <item quantity="other" msgid="549229034166062887">"<xliff:g id="NUMBER">%d</xliff:g> Dateien stehen aus."</item>
-  </plurals>
+    <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
+      <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> Dateien werden heruntergeladen.</item>
+      <item quantity="one">1 Datei wird heruntergeladen.</item>
+    </plurals>
+    <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
+      <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> Dateien stehen aus.</item>
+      <item quantity="one">1 Datei steht aus.</item>
+    </plurals>
     <string name="download_remaining" msgid="3139295890887972718">"Noch <xliff:g id="DURATION">%s</xliff:g>"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"Datei kann nicht geöffnet werden."</string>
     <string name="root_downloads" msgid="4098414876292351487">"Downloads"</string>

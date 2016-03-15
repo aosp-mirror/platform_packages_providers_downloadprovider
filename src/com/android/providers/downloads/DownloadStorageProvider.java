@@ -326,10 +326,12 @@ public class DownloadStorageProvider extends DocumentsProvider {
             size = null;
         }
 
+        int extraFlags = Document.FLAG_PARTIAL;
         final int status = cursor.getInt(
                 cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS));
         switch (status) {
             case DownloadManager.STATUS_SUCCESSFUL:
+                extraFlags = 0;  // only successful is non-partial
                 break;
             case DownloadManager.STATUS_PAUSED:
                 summary = getContext().getString(R.string.download_queued);
@@ -354,7 +356,7 @@ public class DownloadStorageProvider extends DocumentsProvider {
                 break;
         }
 
-        int flags = Document.FLAG_SUPPORTS_DELETE | Document.FLAG_SUPPORTS_WRITE;
+        int flags = Document.FLAG_SUPPORTS_DELETE | Document.FLAG_SUPPORTS_WRITE | extraFlags;
         if (mimeType.startsWith("image/")) {
             flags |= Document.FLAG_SUPPORTS_THUMBNAIL;
         }

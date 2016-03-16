@@ -131,6 +131,7 @@ public class DownloadNotifier {
         return wasDeleted;
     }
 
+    @GuardedBy("mActiveNotifs")
     private void updateWithLocked(Collection<DownloadInfo> downloads) {
         final Resources res = mContext.getResources();
 

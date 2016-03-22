@@ -624,12 +624,6 @@ public class DownloadThread implements Runnable {
         } else if (Downloads.Impl.isStatusSuccess(mInfoDelta.mStatus)) {
             // When success, open access if local file
             if (mInfoDelta.mFileName != null) {
-                try {
-                    // TODO: remove this once PackageInstaller works with content://
-                    Os.chmod(mInfoDelta.mFileName, 0644);
-                } catch (ErrnoException ignored) {
-                }
-
                 if (mInfo.mDestination != Downloads.Impl.DESTINATION_FILE_URI) {
                     try {
                         // Move into final resting place, if needed

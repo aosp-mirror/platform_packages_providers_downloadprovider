@@ -3,6 +3,7 @@ package com.android.providers.downloads;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
+import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.DetailedState;
 
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 public class FakeSystemFacade implements SystemFacade {
     long mTimeMillis = 0;
+    Network mActiveNetwork = null;
     Integer mActiveNetworkType = ConnectivityManager.TYPE_WIFI;
     boolean mIsRoaming = false;
     boolean mIsMetered = false;
@@ -40,6 +42,11 @@ public class FakeSystemFacade implements SystemFacade {
             return System.currentTimeMillis();
         }
         return mTimeMillis;
+    }
+
+    @Override
+    public Network getActiveNetwork(int uid) {
+        return mActiveNetwork;
     }
 
     @Override

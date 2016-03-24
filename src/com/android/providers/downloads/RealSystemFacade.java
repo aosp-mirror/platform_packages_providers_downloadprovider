@@ -26,6 +26,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
+import android.net.Network;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -56,6 +57,13 @@ class RealSystemFacade implements SystemFacade {
             Log.v(Constants.TAG, "network is not available");
         }
         return activeInfo;
+    }
+
+    @Override
+    public Network getActiveNetwork(int uid) {
+        ConnectivityManager connectivity =
+                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return connectivity.getActiveNetworkForUid(uid);
     }
 
     @Override

@@ -32,6 +32,7 @@ import android.system.ErrnoException;
 import android.system.Os;
 import android.system.StructStatVfs;
 import android.test.MoreAsserts;
+import android.test.suitebuilder.annotation.MediumTest;
 import android.util.Log;
 
 import com.android.providers.downloads.StorageUtils.ObserverLatch;
@@ -47,6 +48,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+@MediumTest
 public class StorageTest extends AbstractPublicApiTest {
     private static final String TAG = "StorageTest";
 

@@ -211,7 +211,7 @@ public class DownloadService extends Service {
         mScanner = new DownloadScanner(this);
 
         mNotifier = new DownloadNotifier(this);
-        mNotifier.cancelAll();
+        mNotifier.init();
 
         mObserver = new DownloadManagerContentObserver();
         getContentResolver().registerContentObserver(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,

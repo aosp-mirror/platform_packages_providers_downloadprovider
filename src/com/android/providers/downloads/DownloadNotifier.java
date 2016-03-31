@@ -33,10 +33,13 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.SystemClock;
 import android.provider.Downloads;
+import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.util.LongSparseLongArray;
+
+import com.android.internal.util.ArrayUtils;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Maps;
@@ -92,8 +95,16 @@ public class DownloadNotifier {
                 Context.NOTIFICATION_SERVICE);
     }
 
-    public void cancelAll() {
-        mNotifManager.cancelAll();
+    public void init() {
+        synchronized (mActiveNotifs) {
+            mActiveNotifs.clear();
+            final StatusBarNotification[] notifs = mNotifManager.getActiveNotifications();
+            if (!ArrayUtils.isEmpty(notifs)) {
+                for (StatusBarNotification notif : notifs) {
+                    mActiveNotifs.put(notif.getTag(), notif.getPostTime());
+                }
+            }
+        }
     }
 
     /**

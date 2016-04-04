@@ -138,7 +138,6 @@ public class DownloadNotifier {
         for (DownloadInfo info : cluster) {
             wasDeleted = wasDeleted && info.mDeleted;
         }
-
         return wasDeleted;
     }
 
@@ -155,12 +154,15 @@ public class DownloadNotifier {
         }
 
         // Build notification for each cluster
-        for (String tag : clustered.keySet()) {
+        Iterator<String> it = clustered.keySet().iterator();
+        while (it.hasNext()) {
+            final String tag = it.next();
             final int type = getNotificationTagType(tag);
             final Collection<DownloadInfo> cluster = clustered.get(tag);
 
             // If each of the downloads was canceled, don't show notification for the cluster
             if (isClusterDeleted(cluster)) {
+                it.remove();
                 continue;
             }
 
@@ -336,7 +338,7 @@ public class DownloadNotifier {
         }
 
         // Remove stale tags that weren't renewed
-        final Iterator<String> it = mActiveNotifs.keySet().iterator();
+        it = mActiveNotifs.keySet().iterator();
         while (it.hasNext()) {
             final String tag = it.next();
             if (!clustered.containsKey(tag)) {

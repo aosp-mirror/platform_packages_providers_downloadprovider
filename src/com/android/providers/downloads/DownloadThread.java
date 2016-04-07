@@ -45,6 +45,7 @@ import android.drm.DrmManagerClient;
 import android.drm.DrmOutputStream;
 import android.net.ConnectivityManager;
 import android.net.INetworkPolicyListener;
+import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.NetworkPolicyManager;
 import android.net.TrafficStats;
@@ -351,6 +352,13 @@ public class DownloadThread implements Runnable {
             throw new StopRequestException(STATUS_BAD_REQUEST, e);
         }
 
+        final Network network = mSystemFacade.getActiveNetwork(mInfo.mUid);
+        if (network == null) {
+            throw new StopRequestException(Downloads.Impl.STATUS_WAITING_FOR_NETWORK,
+                    "no network associated with requesting UID");
+        }
+        logDebug("Using network: " + network);
+
         boolean cleartextTrafficPermitted = mSystemFacade.isCleartextTrafficPermitted(mInfo.mUid);
         int redirectionCount = 0;
         while (redirectionCount++ < Constants.MAX_REDIRECTS) {
@@ -367,7 +375,7 @@ public class DownloadThread implements Runnable {
             HttpURLConnection conn = null;
             try {
                 checkConnectivity();
-                conn = (HttpURLConnection) url.openConnection();
+                conn = (HttpURLConnection) network.openConnection(url);
                 conn.setInstanceFollowRedirects(false);
                 conn.setConnectTimeout(DEFAULT_TIMEOUT);
                 conn.setReadTimeout(DEFAULT_TIMEOUT);

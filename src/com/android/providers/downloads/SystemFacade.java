@@ -18,6 +18,7 @@ package com.android.providers.downloads;
 
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.Network;
 import android.net.NetworkInfo;
 
 interface SystemFacade {
@@ -31,6 +32,8 @@ interface SystemFacade {
      *         connection.
      */
     public NetworkInfo getActiveNetworkInfo(int uid);
+
+    public Network getActiveNetwork(int uid);
 
     public boolean isActiveNetworkMetered();
 

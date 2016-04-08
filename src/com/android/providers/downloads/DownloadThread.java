@@ -352,6 +352,8 @@ public class DownloadThread implements Runnable {
             throw new StopRequestException(STATUS_BAD_REQUEST, e);
         }
 
+        // Use the caller's default network to make this connection, since they might be subject to
+        // restrictions that we shouldn't let them circumvent.
         final Network network = mSystemFacade.getActiveNetwork(mInfo.mUid);
         if (network == null) {
             throw new StopRequestException(Downloads.Impl.STATUS_WAITING_FOR_NETWORK,
@@ -374,6 +376,8 @@ public class DownloadThread implements Runnable {
             // response with body.
             HttpURLConnection conn = null;
             try {
+                // Check that the caller is allowed to make network connections. If so, make one on
+                // their behalf to open the url.
                 checkConnectivity();
                 conn = (HttpURLConnection) network.openConnection(url);
                 conn.setInstanceFollowRedirects(false);

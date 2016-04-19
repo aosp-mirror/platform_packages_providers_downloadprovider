@@ -149,7 +149,7 @@ public class DownloadProviderFunctionalTest extends AbstractDownloadProviderFunc
     }
 
     protected int getDownloadStatus(Uri downloadUri) {
-        return Integer.valueOf(getDownloadField(downloadUri, Downloads.Impl.COLUMN_STATUS));
+        return Integer.parseInt(getDownloadField(downloadUri, Downloads.Impl.COLUMN_STATUS));
     }
 
     private String getDownloadFilename(Uri downloadUri) {

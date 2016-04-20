@@ -856,6 +856,12 @@ public class DownloadThread implements Runnable {
             // caller is NPMS, since we only register with them
             mPolicyDirty = true;
         }
+
+        @Override
+        public void onRestrictBackgroundWhitelistChanged(int uid, boolean whitelisted) {
+            // caller is NPMS, since we only register with them
+            mPolicyDirty = true;
+        }
     };
 
     private static long getHeaderFieldLong(URLConnection conn, String field, long defaultValue) {

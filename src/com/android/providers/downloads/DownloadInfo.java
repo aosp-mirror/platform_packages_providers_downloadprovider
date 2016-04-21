@@ -19,24 +19,20 @@ package com.android.providers.downloads;
 import static com.android.providers.downloads.Constants.TAG;
 
 import android.app.DownloadManager;
+import android.app.job.JobInfo;
 import android.content.ContentResolver;
 import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.NetworkInfo.DetailedState;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.Downloads;
-import android.provider.Downloads.Impl;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.util.Pair;
 
-import com.android.internal.annotations.GuardedBy;
 import com.android.internal.util.IndentingPrintWriter;
 
 import java.io.CharArrayWriter;
@@ -45,9 +41,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 
 /**
  * Details about a specific download. Fields should only be mutated by updating
@@ -64,14 +57,6 @@ public class DownloadInfo {
         public Reader(ContentResolver resolver, Cursor cursor) {
             mResolver = resolver;
             mCursor = cursor;
-        }
-
-        public DownloadInfo newDownloadInfo(
-                Context context, SystemFacade systemFacade, DownloadNotifier notifier) {
-            final DownloadInfo info = new DownloadInfo(context, systemFacade, notifier);
-            updateFromDatabase(info);
-            readRequestHeaders(info);
-            return info;
         }
 
         public void updateFromDatabase(DownloadInfo info) {
@@ -105,6 +90,7 @@ public class DownloadInfo {
             info.mAllowedNetworkTypes = getInt(Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES);
             info.mAllowRoaming = getInt(Downloads.Impl.COLUMN_ALLOW_ROAMING) != 0;
             info.mAllowMetered = getInt(Downloads.Impl.COLUMN_ALLOW_METERED) != 0;
+            info.mFlags = getInt(Downloads.Impl.COLUMN_FLAGS);
             info.mTitle = getString(Downloads.Impl.COLUMN_TITLE);
             info.mDescription = getString(Downloads.Impl.COLUMN_DESCRIPTION);
             info.mBypassRecommendedSizeLimit =
@@ -115,7 +101,7 @@ public class DownloadInfo {
             }
         }
 
-        private void readRequestHeaders(DownloadInfo info) {
+        public void readRequestHeaders(DownloadInfo info) {
             info.mRequestHeaders.clear();
             Uri headerUri = Uri.withAppendedPath(
                     info.getAllDownloadsUri(), Downloads.Impl.RequestHeaders.URI_SEGMENT);
@@ -159,56 +145,6 @@ public class DownloadInfo {
         }
     }
 
-    /**
-     * Constants used to indicate network state for a specific download, after
-     * applying any requested constraints.
-     */
-    public enum NetworkState {
-        /**
-         * The network is usable for the given download.
-         */
-        OK,
-
-        /**
-         * There is no network connectivity.
-         */
-        NO_CONNECTION,
-
-        /**
-         * The download exceeds the maximum size for this network.
-         */
-        UNUSABLE_DUE_TO_SIZE,
-
-        /**
-         * The download exceeds the recommended maximum size for this network,
-         * the user must confirm for this download to proceed without WiFi.
-         */
-        RECOMMENDED_UNUSABLE_DUE_TO_SIZE,
-
-        /**
-         * The current connection is roaming, and the download can't proceed
-         * over a roaming connection.
-         */
-        CANNOT_USE_ROAMING,
-
-        /**
-         * The app requesting the download specific that it can't use the
-         * current network connection.
-         */
-        TYPE_DISALLOWED_BY_REQUESTOR,
-
-        /**
-         * Current network is blocked for requesting application.
-         */
-        BLOCKED;
-    }
-
-    /**
-     * For intents used to notify the user that a download exceeds a size threshold, if this extra
-     * is true, WiFi is required for this download size; otherwise, it is only recommended.
-     */
-    public static final String EXTRA_IS_WIFI_REQUIRED = "isWifiRequired";
-
     public long mId;
     public String mUri;
     @Deprecated
@@ -240,33 +176,35 @@ public class DownloadInfo {
     public int mAllowedNetworkTypes;
     public boolean mAllowRoaming;
     public boolean mAllowMetered;
+    public int mFlags;
     public String mTitle;
     public String mDescription;
     public int mBypassRecommendedSizeLimit;
 
-    public int mFuzz;
-
     private List<Pair<String, String>> mRequestHeaders = new ArrayList<Pair<String, String>>();
-
-    /**
-     * Result of last {@link DownloadThread} started by
-     * {@link #startDownloadIfReady(ExecutorService)}.
-     */
-    @GuardedBy("this")
-    private Future<?> mSubmittedTask;
-
-    @GuardedBy("this")
-    private DownloadThread mTask;
 
     private final Context mContext;
     private final SystemFacade mSystemFacade;
-    private final DownloadNotifier mNotifier;
 
-    private DownloadInfo(Context context, SystemFacade systemFacade, DownloadNotifier notifier) {
+    public DownloadInfo(Context context) {
         mContext = context;
-        mSystemFacade = systemFacade;
-        mNotifier = notifier;
-        mFuzz = Helpers.sRandom.nextInt(1001);
+        mSystemFacade = Helpers.getSystemFacade(context);
+    }
+
+    public static DownloadInfo queryDownloadInfo(Context context, long downloadId) {
+        final ContentResolver resolver = context.getContentResolver();
+        try (Cursor cursor = resolver.query(
+                ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, downloadId),
+                null, null, null, null)) {
+            final DownloadInfo.Reader reader = new DownloadInfo.Reader(resolver, cursor);
+            final DownloadInfo info = new DownloadInfo(context);
+            if (cursor.moveToFirst()) {
+                reader.updateFromDatabase(info);
+                reader.readRequestHeaders(info);
+                return info;
+            }
+        }
+        return null;
     }
 
     public Collection<Pair<String, String>> getHeaders() {
@@ -309,43 +247,80 @@ public class DownloadInfo {
     }
 
     /**
-     * Returns the time when a download should be restarted.
+     * Add random fuzz to the given delay so it's anywhere between 1-1.5x the
+     * requested delay.
      */
-    public long restartTime(long now) {
-        if (mNumFailed == 0) {
-            return now;
-        }
-        if (mRetryAfter > 0) {
-            return mLastMod + mRetryAfter;
-        }
-        return mLastMod +
-                Constants.RETRY_FIRST_DELAY *
-                    (1000 + mFuzz) * (1 << (mNumFailed - 1));
+    private long fuzzDelay(long delay) {
+        return delay + Helpers.sRandom.nextInt((int) (delay / 2));
     }
 
     /**
-     * Returns whether this download should be enqueued.
+     * Return minimum latency in milliseconds required before this download is
+     * allowed to start again.
+     *
+     * @see android.app.job.JobInfo.Builder#setMinimumLatency(long)
      */
-    private boolean isReadyToDownload() {
+    public long getMinimumLatency() {
+        if (mStatus == Downloads.Impl.STATUS_WAITING_TO_RETRY) {
+            final long now = mSystemFacade.currentTimeMillis();
+            final long startAfter;
+            if (mNumFailed == 0) {
+                startAfter = now;
+            } else if (mRetryAfter > 0) {
+                startAfter = mLastMod + fuzzDelay(mRetryAfter);
+            } else {
+                final long delay = (Constants.RETRY_FIRST_DELAY * DateUtils.SECOND_IN_MILLIS
+                        * (1 << (mNumFailed - 1)));
+                startAfter = mLastMod + fuzzDelay(delay);
+            }
+            return Math.max(0, startAfter - now);
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * Return the network type constraint required by this download.
+     *
+     * @see android.app.job.JobInfo.Builder#setRequiredNetworkType(int)
+     */
+    public int getRequiredNetworkType(long totalBytes) {
+        if (!mAllowMetered) {
+            return JobInfo.NETWORK_TYPE_UNMETERED;
+        }
+        if (mAllowedNetworkTypes == DownloadManager.Request.NETWORK_WIFI) {
+            return JobInfo.NETWORK_TYPE_UNMETERED;
+        }
+        if (totalBytes > mSystemFacade.getMaxBytesOverMobile()) {
+            return JobInfo.NETWORK_TYPE_UNMETERED;
+        }
+        if (totalBytes > mSystemFacade.getRecommendedMaxBytesOverMobile()
+                && mBypassRecommendedSizeLimit == 0) {
+            return JobInfo.NETWORK_TYPE_UNMETERED;
+        }
+        if (!mAllowRoaming) {
+            return JobInfo.NETWORK_TYPE_NOT_ROAMING;
+        }
+        return JobInfo.NETWORK_TYPE_ANY;
+    }
+
+    /**
+     * Returns whether this download is ready to be scheduled.
+     */
+    public boolean isReadyToSchedule() {
         if (mControl == Downloads.Impl.CONTROL_PAUSED) {
             // the download is paused, so it's not going to start
             return false;
         }
         switch (mStatus) {
-            case 0: // status hasn't been initialized yet, this is a new download
-            case Downloads.Impl.STATUS_PENDING: // download is explicit marked as ready to start
-            case Downloads.Impl.STATUS_RUNNING: // download interrupted (process killed etc) while
-                                                // running, without a chance to update the database
+            case 0:
+            case Downloads.Impl.STATUS_PENDING:
+            case Downloads.Impl.STATUS_RUNNING:
+            case Downloads.Impl.STATUS_WAITING_FOR_NETWORK:
+            case Downloads.Impl.STATUS_WAITING_TO_RETRY:
+            case Downloads.Impl.STATUS_QUEUED_FOR_WIFI:
                 return true;
 
-            case Downloads.Impl.STATUS_WAITING_FOR_NETWORK:
-            case Downloads.Impl.STATUS_QUEUED_FOR_WIFI:
-                return checkCanUseNetwork(mTotalBytes) == NetworkState.OK;
-
-            case Downloads.Impl.STATUS_WAITING_TO_RETRY:
-                // download was waiting for a delayed restart
-                final long now = mSystemFacade.currentTimeMillis();
-                return restartTime(now) <= now;
             case Downloads.Impl.STATUS_DEVICE_NOT_FOUND_ERROR:
                 // is the media mounted?
                 final Uri uri = Uri.parse(mUri);
@@ -357,11 +332,10 @@ public class DownloadInfo {
                     Log.w(TAG, "Expected file URI on external storage: " + mUri);
                     return false;
                 }
-            case Downloads.Impl.STATUS_INSUFFICIENT_SPACE_ERROR:
-                // avoids repetition of retrying download
+
+            default:
                 return false;
         }
-        return false;
     }
 
     /**
@@ -378,137 +352,11 @@ public class DownloadInfo {
         return false;
     }
 
-    /**
-     * Returns whether this download is allowed to use the network.
-     */
-    public NetworkState checkCanUseNetwork(long totalBytes) {
-        final NetworkInfo info = mSystemFacade.getActiveNetworkInfo(mUid);
-        if (info == null || !info.isConnected()) {
-            return NetworkState.NO_CONNECTION;
-        }
-        if (DetailedState.BLOCKED.equals(info.getDetailedState())) {
-            return NetworkState.BLOCKED;
-        }
-        if (mSystemFacade.isNetworkRoaming() && !isRoamingAllowed()) {
-            return NetworkState.CANNOT_USE_ROAMING;
-        }
-        if (mSystemFacade.isActiveNetworkMetered() && !mAllowMetered) {
-            return NetworkState.TYPE_DISALLOWED_BY_REQUESTOR;
-        }
-        return checkIsNetworkTypeAllowed(info.getType(), totalBytes);
-    }
-
-    private boolean isRoamingAllowed() {
+    public boolean isRoamingAllowed() {
         if (mIsPublicApi) {
             return mAllowRoaming;
         } else { // legacy behavior
             return mDestination != Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING;
-        }
-    }
-
-    /**
-     * Check if this download can proceed over the given network type.
-     * @param networkType a constant from ConnectivityManager.TYPE_*.
-     * @return one of the NETWORK_* constants
-     */
-    private NetworkState checkIsNetworkTypeAllowed(int networkType, long totalBytes) {
-        if (mIsPublicApi) {
-            final int flag = translateNetworkTypeToApiFlag(networkType);
-            final boolean allowAllNetworkTypes = mAllowedNetworkTypes == ~0;
-            if (!allowAllNetworkTypes && (flag & mAllowedNetworkTypes) == 0) {
-                return NetworkState.TYPE_DISALLOWED_BY_REQUESTOR;
-            }
-        }
-        return checkSizeAllowedForNetwork(networkType, totalBytes);
-    }
-
-    /**
-     * Translate a ConnectivityManager.TYPE_* constant to the corresponding
-     * DownloadManager.Request.NETWORK_* bit flag.
-     */
-    private int translateNetworkTypeToApiFlag(int networkType) {
-        switch (networkType) {
-            case ConnectivityManager.TYPE_MOBILE:
-                return DownloadManager.Request.NETWORK_MOBILE;
-
-            case ConnectivityManager.TYPE_WIFI:
-                return DownloadManager.Request.NETWORK_WIFI;
-
-            case ConnectivityManager.TYPE_BLUETOOTH:
-                return DownloadManager.Request.NETWORK_BLUETOOTH;
-
-            default:
-                return 0;
-        }
-    }
-
-    /**
-     * Check if the download's size prohibits it from running over the current network.
-     * @return one of the NETWORK_* constants
-     */
-    private NetworkState checkSizeAllowedForNetwork(int networkType, long totalBytes) {
-        if (totalBytes <= 0) {
-            // we don't know the size yet
-            return NetworkState.OK;
-        }
-
-        if (ConnectivityManager.isNetworkTypeMobile(networkType)) {
-            Long maxBytesOverMobile = mSystemFacade.getMaxBytesOverMobile();
-            if (maxBytesOverMobile != null && totalBytes > maxBytesOverMobile) {
-                return NetworkState.UNUSABLE_DUE_TO_SIZE;
-            }
-            if (mBypassRecommendedSizeLimit == 0) {
-                Long recommendedMaxBytesOverMobile = mSystemFacade
-                        .getRecommendedMaxBytesOverMobile();
-                if (recommendedMaxBytesOverMobile != null
-                        && totalBytes > recommendedMaxBytesOverMobile) {
-                    return NetworkState.RECOMMENDED_UNUSABLE_DUE_TO_SIZE;
-                }
-            }
-        }
-
-        return NetworkState.OK;
-    }
-
-    /**
-     * If download is ready to start, and isn't already pending or executing,
-     * create a {@link DownloadThread} and enqueue it into given
-     * {@link Executor}.
-     *
-     * @return If actively downloading.
-     */
-    public boolean startDownloadIfReady(ExecutorService executor) {
-        synchronized (this) {
-            final boolean isReady = isReadyToDownload();
-            final boolean isActive = mSubmittedTask != null && !mSubmittedTask.isDone();
-            if (isReady && !isActive) {
-                if (mStatus != Impl.STATUS_RUNNING) {
-                    mStatus = Impl.STATUS_RUNNING;
-                    ContentValues values = new ContentValues();
-                    values.put(Impl.COLUMN_STATUS, mStatus);
-                    mContext.getContentResolver().update(getAllDownloadsUri(), values, null, null);
-                }
-
-                mTask = new DownloadThread(mContext, mSystemFacade, mNotifier, this);
-                mSubmittedTask = executor.submit(mTask);
-            }
-            return isReady;
-        }
-    }
-
-    /**
-     * If download is ready to be scanned, enqueue it into the given
-     * {@link DownloadScanner}.
-     *
-     * @return If actively scanning.
-     */
-    public boolean startScanIfReady(DownloadScanner scanner) {
-        synchronized (this) {
-            final boolean isReady = shouldScanFile();
-            if (isReady) {
-                scanner.requestScan(this);
-            }
-            return isReady;
         }
     }
 
@@ -571,30 +419,10 @@ public class DownloadInfo {
         pw.printPair("mAllowedNetworkTypes", mAllowedNetworkTypes);
         pw.printPair("mAllowRoaming", mAllowRoaming);
         pw.printPair("mAllowMetered", mAllowMetered);
+        pw.printPair("mFlags", mFlags);
         pw.println();
 
         pw.decreaseIndent();
-    }
-
-    /**
-     * Return time when this download will be ready for its next action, in
-     * milliseconds after given time.
-     *
-     * @return If {@code 0}, download is ready to proceed immediately. If
-     *         {@link Long#MAX_VALUE}, then download has no future actions.
-     */
-    public long nextActionMillis(long now) {
-        if (Downloads.Impl.isStatusCompleted(mStatus)) {
-            return Long.MAX_VALUE;
-        }
-        if (mStatus != Downloads.Impl.STATUS_WAITING_TO_RETRY) {
-            return 0;
-        }
-        long when = restartTime(now);
-        if (when <= now) {
-            return 0;
-        }
-        return when - now;
     }
 
     /**
@@ -608,33 +436,25 @@ public class DownloadInfo {
                 && Downloads.Impl.isStatusSuccess(mStatus);
     }
 
-    void notifyPauseDueToSize(boolean isWifiRequired) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(getAllDownloadsUri());
-        intent.setClassName(SizeLimitActivity.class.getPackage().getName(),
-                SizeLimitActivity.class.getName());
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(EXTRA_IS_WIFI_REQUIRED, isWifiRequired);
-        mContext.startActivity(intent);
-    }
-
     /**
      * Query and return status of requested download.
      */
-    public static int queryDownloadStatus(ContentResolver resolver, long id) {
-        final Cursor cursor = resolver.query(
-                ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id),
-                new String[] { Downloads.Impl.COLUMN_STATUS }, null, null, null);
-        try {
+    public int queryDownloadStatus() {
+        return queryDownloadInt(Downloads.Impl.COLUMN_STATUS, Downloads.Impl.STATUS_PENDING);
+    }
+
+    public int queryDownloadControl() {
+        return queryDownloadInt(Downloads.Impl.COLUMN_CONTROL, Downloads.Impl.CONTROL_RUN);
+    }
+
+    public int queryDownloadInt(String columnName, int defaultValue) {
+        try (Cursor cursor = mContext.getContentResolver().query(getAllDownloadsUri(),
+                new String[] { columnName }, null, null, null)) {
             if (cursor.moveToFirst()) {
                 return cursor.getInt(0);
             } else {
-                // TODO: increase strictness of value returned for unknown
-                // downloads; this is safe default for now.
-                return Downloads.Impl.STATUS_PENDING;
+                return defaultValue;
             }
-        } finally {
-            cursor.close();
         }
     }
 }

@@ -46,19 +46,6 @@ public class ThreadingTest extends AbstractPublicApiTest {
         super.tearDown();
     }
 
-    /**
-     * Test for race conditions when the service is flooded with startService() calls while running
-     * a download.
-     */
-    public void testFloodServiceWithStarts() throws Exception {
-        enqueueResponse(buildResponse(HTTP_OK, FILE_CONTENT));
-        Download download = enqueueRequest(getRequest());
-        while (download.getStatus() != DownloadManager.STATUS_SUCCESSFUL) {
-            startService(null);
-            Thread.sleep(10);
-        }
-    }
-
     public void testFilenameRace() throws Exception {
         final List<Pair<Download, String>> downloads = Lists.newArrayList();
         final HashSet<String> expectedBodies = Sets.newHashSet();
@@ -73,12 +60,10 @@ public class ThreadingTest extends AbstractPublicApiTest {
             final Download d = enqueueRequest(getRequest());
             downloads.add(Pair.create(d, body));
             expectedBodies.add(body);
+            startDownload(d.mId);
         }
 
-        // Kick off downloads in parallel
         final long startMillis = mSystemFacade.currentTimeMillis();
-        startService(null);
-
         for (Pair<Download,String> d : downloads) {
             d.first.waitForStatus(DownloadManager.STATUS_SUCCESSFUL, startMillis);
         }

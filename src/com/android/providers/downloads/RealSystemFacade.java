@@ -16,8 +16,6 @@
 
 package com.android.providers.downloads;
 
-import com.android.internal.util.ArrayUtils;
-
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -28,8 +26,8 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
-import android.telephony.TelephonyManager;
-import android.util.Log;
+
+import com.android.internal.util.ArrayUtils;
 
 class RealSystemFacade implements SystemFacade {
     private Context mContext;
@@ -44,60 +42,27 @@ class RealSystemFacade implements SystemFacade {
     }
 
     @Override
-    public NetworkInfo getActiveNetworkInfo(int uid) {
-        ConnectivityManager connectivity =
-                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivity == null) {
-            Log.w(Constants.TAG, "couldn't get connectivity manager");
-            return null;
-        }
-
-        final NetworkInfo activeInfo = connectivity.getActiveNetworkInfoForUid(uid);
-        if (activeInfo == null && Constants.LOGVV) {
-            Log.v(Constants.TAG, "network is not available");
-        }
-        return activeInfo;
-    }
-
-    @Override
     public Network getActiveNetwork(int uid) {
-        ConnectivityManager connectivity =
-                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return connectivity.getActiveNetworkForUid(uid);
+        return mContext.getSystemService(ConnectivityManager.class)
+                .getActiveNetworkForUid(uid);
     }
 
     @Override
-    public boolean isActiveNetworkMetered() {
-        final ConnectivityManager conn = ConnectivityManager.from(mContext);
-        return conn.isActiveNetworkMetered();
+    public NetworkInfo getNetworkInfo(Network network) {
+        return mContext.getSystemService(ConnectivityManager.class)
+                .getNetworkInfo(network);
     }
 
     @Override
-    public boolean isNetworkRoaming() {
-        ConnectivityManager connectivity =
-            (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivity == null) {
-            Log.w(Constants.TAG, "couldn't get connectivity manager");
-            return false;
-        }
-
-        NetworkInfo info = connectivity.getActiveNetworkInfo();
-        boolean isMobile = (info != null && info.getType() == ConnectivityManager.TYPE_MOBILE);
-        boolean isRoaming = isMobile && TelephonyManager.getDefault().isNetworkRoaming();
-        if (Constants.LOGVV && isRoaming) {
-            Log.v(Constants.TAG, "network is roaming");
-        }
-        return isRoaming;
+    public long getMaxBytesOverMobile() {
+        final Long value = DownloadManager.getMaxBytesOverMobile(mContext);
+        return (value == null) ? Long.MAX_VALUE : value;
     }
 
     @Override
-    public Long getMaxBytesOverMobile() {
-        return DownloadManager.getMaxBytesOverMobile(mContext);
-    }
-
-    @Override
-    public Long getRecommendedMaxBytesOverMobile() {
-        return DownloadManager.getRecommendedMaxBytesOverMobile(mContext);
+    public long getRecommendedMaxBytesOverMobile() {
+        final Long value = DownloadManager.getRecommendedMaxBytesOverMobile(mContext);
+        return (value == null) ? Long.MAX_VALUE : value;
     }
 
     @Override

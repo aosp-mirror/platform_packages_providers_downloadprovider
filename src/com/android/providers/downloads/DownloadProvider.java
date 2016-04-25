@@ -16,9 +16,14 @@
 
 package com.android.providers.downloads;
 
+import static android.provider.BaseColumns._ID;
+import static android.provider.Downloads.Impl.COLUMN_MEDIAPROVIDER_URI;
+import static android.provider.Downloads.Impl._DATA;
+
 import android.app.AppOpsManager;
 import android.app.DownloadManager;
 import android.app.DownloadManager.Request;
+import android.app.job.JobScheduler;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -35,8 +40,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.os.Binder;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.ParcelFileDescriptor;
 import android.os.ParcelFileDescriptor.OnCloseListener;
 import android.os.Process;
@@ -47,9 +50,10 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
 
+import com.android.internal.util.IndentingPrintWriter;
+
 import libcore.io.IoUtils;
 
-import com.android.internal.util.IndentingPrintWriter;
 import com.google.android.collect.Maps;
 import com.google.common.annotations.VisibleForTesting;
 
@@ -73,7 +77,7 @@ public final class DownloadProvider extends ContentProvider {
     /** Database filename */
     private static final String DB_NAME = "downloads.db";
     /** Current database version */
-    private static final int DB_VERSION = 109;
+    private static final int DB_VERSION = 110;
     /** Name of table in the database */
     private static final String DB_TABLE = "downloads";
 
@@ -170,7 +174,8 @@ public final class DownloadProvider extends ContentProvider {
     private static final List<String> downloadManagerColumnsList =
             Arrays.asList(DownloadManager.UNDERLYING_COLUMNS);
 
-    private Handler mHandler;
+    @VisibleForTesting
+    SystemFacade mSystemFacade;
 
     /** The database that lies underneath this content provider */
     private SQLiteOpenHelper mOpenHelper = null;
@@ -178,9 +183,6 @@ public final class DownloadProvider extends ContentProvider {
     /** List of uids that can access the downloads */
     private int mSystemUid = -1;
     private int mDefContainerUid = -1;
-
-    @VisibleForTesting
-    SystemFacade mSystemFacade;
 
     /**
      * This class encapsulates a SQL where clause and its parameters.  It makes it possible for
@@ -329,6 +331,11 @@ public final class DownloadProvider extends ContentProvider {
                             "BOOLEAN NOT NULL DEFAULT 0");
                     break;
 
+                case 110:
+                    addColumn(db, DB_TABLE, Downloads.Impl.COLUMN_FLAGS,
+                            "INTEGER NOT NULL DEFAULT 0");
+                    break;
+
                 default:
                     throw new IllegalStateException("Don't know how to upgrade to " + version);
             }
@@ -442,11 +449,6 @@ public final class DownloadProvider extends ContentProvider {
             mSystemFacade = new RealSystemFacade(getContext());
         }
 
-        HandlerThread handlerThread =
-                new HandlerThread("DownloadProvider handler", Process.THREAD_PRIORITY_BACKGROUND);
-        handlerThread.start();
-        mHandler = new Handler(handlerThread.getLooper());
-
         mOpenHelper = new DatabaseHelper(getContext());
         // Initialize the system uid
         mSystemUid = Process.SYSTEM_UID;
@@ -462,10 +464,6 @@ public final class DownloadProvider extends ContentProvider {
         if (appInfo != null) {
             mDefContainerUid = appInfo.uid;
         }
-        // start the DownloadService class. don't wait for the 1st download to be issued.
-        // saves us by getting some initialization code in DownloadService out of the way.
-        Context context = getContext();
-        context.startService(new Intent(context, DownloadService.class));
         return true;
     }
 
@@ -669,6 +667,7 @@ public final class DownloadProvider extends ContentProvider {
             copyInteger(Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES, values, filteredValues);
             copyBoolean(Downloads.Impl.COLUMN_ALLOW_ROAMING, values, filteredValues);
             copyBoolean(Downloads.Impl.COLUMN_ALLOW_METERED, values, filteredValues);
+            copyInteger(Downloads.Impl.COLUMN_FLAGS, values, filteredValues);
         }
 
         if (Constants.LOGVV) {
@@ -689,9 +688,12 @@ public final class DownloadProvider extends ContentProvider {
         insertRequestHeaders(db, rowID, values);
         notifyContentChanged(uri, match);
 
-        // Always start service to handle notifications and/or scanning
-        final Context context = getContext();
-        context.startService(new Intent(context, DownloadService.class));
+        final long token = Binder.clearCallingIdentity();
+        try {
+            Helpers.scheduleJob(getContext(), rowID);
+        } finally {
+            Binder.restoreCallingIdentity(token);
+        }
 
         return ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, rowID);
     }
@@ -806,6 +808,7 @@ public final class DownloadProvider extends ContentProvider {
         values.remove(Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES);
         values.remove(Downloads.Impl.COLUMN_ALLOW_ROAMING);
         values.remove(Downloads.Impl.COLUMN_ALLOW_METERED);
+        values.remove(Downloads.Impl.COLUMN_FLAGS);
         values.remove(Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI);
         values.remove(Downloads.Impl.COLUMN_MEDIA_SCANNED);
         values.remove(Downloads.Impl.COLUMN_ALLOW_WRITE);
@@ -1053,14 +1056,7 @@ public final class DownloadProvider extends ContentProvider {
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 
         int count;
-        boolean startService = false;
-
-        if (values.containsKey(Downloads.Impl.COLUMN_DELETED)) {
-            if (values.getAsInteger(Downloads.Impl.COLUMN_DELETED) == 1) {
-                // some rows are to be 'deleted'. need to start DownloadService.
-                startService = true;
-            }
-        }
+        boolean updateSchedule = false;
 
         ContentValues filteredValues;
         if (Binder.getCallingPid() != Process.myPid()) {
@@ -1070,7 +1066,7 @@ public final class DownloadProvider extends ContentProvider {
             Integer i = values.getAsInteger(Downloads.Impl.COLUMN_CONTROL);
             if (i != null) {
                 filteredValues.put(Downloads.Impl.COLUMN_CONTROL, i);
-                startService = true;
+                updateSchedule = true;
             }
 
             copyInteger(Downloads.Impl.COLUMN_CONTROL, values, filteredValues);
@@ -1099,7 +1095,7 @@ public final class DownloadProvider extends ContentProvider {
             boolean isUserBypassingSizeLimit =
                 values.containsKey(Downloads.Impl.COLUMN_BYPASS_RECOMMENDED_SIZE_LIMIT);
             if (isRestart || isUserBypassingSizeLimit) {
-                startService = true;
+                updateSchedule = true;
             }
         }
 
@@ -1109,12 +1105,27 @@ public final class DownloadProvider extends ContentProvider {
             case MY_DOWNLOADS_ID:
             case ALL_DOWNLOADS:
             case ALL_DOWNLOADS_ID:
-                SqlSelection selection = getWhereClause(uri, where, whereArgs, match);
-                if (filteredValues.size() > 0) {
-                    count = db.update(DB_TABLE, filteredValues, selection.getSelection(),
-                            selection.getParameters());
-                } else {
+                if (filteredValues.size() == 0) {
                     count = 0;
+                    break;
+                }
+
+                final SqlSelection selection = getWhereClause(uri, where, whereArgs, match);
+                count = db.update(DB_TABLE, filteredValues, selection.getSelection(),
+                        selection.getParameters());
+                if (updateSchedule) {
+                    final long token = Binder.clearCallingIdentity();
+                    try {
+                        try (Cursor cursor = db.query(DB_TABLE, new String[] { _ID },
+                                selection.getSelection(), selection.getParameters(),
+                                null, null, null)) {
+                            while (cursor.moveToNext()) {
+                                Helpers.scheduleJob(getContext(), cursor.getInt(0));
+                            }
+                        }
+                    } finally {
+                        Binder.restoreCallingIdentity(token);
+                    }
                 }
                 break;
 
@@ -1124,10 +1135,6 @@ public final class DownloadProvider extends ContentProvider {
         }
 
         notifyContentChanged(uri, match);
-        if (startService) {
-            Context context = getContext();
-            context.startService(new Intent(context, DownloadService.class));
-        }
         return count;
     }
 
@@ -1176,7 +1183,8 @@ public final class DownloadProvider extends ContentProvider {
             Helpers.validateSelection(where, sAppReadableColumnsSet);
         }
 
-        SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        final JobScheduler scheduler = getContext().getSystemService(JobScheduler.class);
+        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         int count;
         int match = sURIMatcher.match(uri);
         switch (match) {
@@ -1184,15 +1192,16 @@ public final class DownloadProvider extends ContentProvider {
             case MY_DOWNLOADS_ID:
             case ALL_DOWNLOADS:
             case ALL_DOWNLOADS_ID:
-                SqlSelection selection = getWhereClause(uri, where, whereArgs, match);
+                final SqlSelection selection = getWhereClause(uri, where, whereArgs, match);
                 deleteRequestHeaders(db, selection.getSelection(), selection.getParameters());
 
-                final Cursor cursor = db.query(DB_TABLE, new String[] {
-                        Downloads.Impl._ID, Downloads.Impl._DATA
-                }, selection.getSelection(), selection.getParameters(), null, null, null);
-                try {
+                try (Cursor cursor = db.query(DB_TABLE, new String[] {
+                        _ID, _DATA, COLUMN_MEDIAPROVIDER_URI
+                }, selection.getSelection(), selection.getParameters(), null, null, null)) {
                     while (cursor.moveToNext()) {
                         final long id = cursor.getLong(0);
+                        scheduler.cancel((int) id);
+
                         DownloadStorageProvider.onDownloadProviderDelete(getContext(), id);
 
                         final String path = cursor.getString(1);
@@ -1207,9 +1216,13 @@ public final class DownloadProvider extends ContentProvider {
                             } catch (IOException ignored) {
                             }
                         }
+
+                        final String mediaUri = cursor.getString(2);
+                        if (!TextUtils.isEmpty(mediaUri)) {
+                            getContext().getContentResolver().delete(Uri.parse(mediaUri), null,
+                                    null);
+                        }
                     }
-                } finally {
-                    IoUtils.closeQuietly(cursor);
                 }
 
                 count = db.delete(DB_TABLE, selection.getSelection(), selection.getParameters());
@@ -1287,7 +1300,8 @@ public final class DownloadProvider extends ContentProvider {
         } else {
             try {
                 // When finished writing, update size and timestamp
-                return ParcelFileDescriptor.open(file, pfdMode, mHandler, new OnCloseListener() {
+                return ParcelFileDescriptor.open(file, pfdMode, Helpers.getAsyncHandler(),
+                        new OnCloseListener() {
                     @Override
                     public void onClose(IOException e) {
                         final ContentValues values = new ContentValues();

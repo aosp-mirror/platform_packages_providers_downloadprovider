@@ -18,7 +18,13 @@ package com.android.providers.downloads;
 
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION;
+
 import static com.android.providers.downloads.Constants.TAG;
+import static com.android.providers.downloads.Helpers.getAsyncHandler;
+import static com.android.providers.downloads.Helpers.getDownloadNotifier;
+import static com.android.providers.downloads.Helpers.getInt;
+import static com.android.providers.downloads.Helpers.getString;
+import static com.android.providers.downloads.Helpers.getSystemFacade;
 
 import android.app.DownloadManager;
 import android.app.NotificationManager;
@@ -29,82 +35,55 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.provider.Downloads;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Slog;
 import android.widget.Toast;
 
-import com.google.common.annotations.VisibleForTesting;
-
 /**
  * Receives system broadcasts (boot, network connectivity)
  */
 public class DownloadReceiver extends BroadcastReceiver {
     /**
-     * Intent extra included with {@link #ACTION_CANCEL} intents, indicating the IDs (as array of
-     * long) of the downloads that were canceled.
+     * Intent extra included with {@link Constants#ACTION_CANCEL} intents,
+     * indicating the IDs (as array of long) of the downloads that were
+     * canceled.
      */
     public static final String EXTRA_CANCELED_DOWNLOAD_IDS =
             "com.android.providers.downloads.extra.CANCELED_DOWNLOAD_IDS";
 
     /**
-     * Intent extra included with {@link #ACTION_CANCEL} intents, indicating the tag of the
-     * notification corresponding to the download(s) that were canceled; this notification must be
-     * canceled.
+     * Intent extra included with {@link Constants#ACTION_CANCEL} intents,
+     * indicating the tag of the notification corresponding to the download(s)
+     * that were canceled; this notification must be canceled.
      */
     public static final String EXTRA_CANCELED_DOWNLOAD_NOTIFICATION_TAG =
             "com.android.providers.downloads.extra.CANCELED_DOWNLOAD_NOTIFICATION_TAG";
 
-    private static Handler sAsyncHandler;
-
-    static {
-        final HandlerThread thread = new HandlerThread("DownloadReceiver");
-        thread.start();
-        sAsyncHandler = new Handler(thread.getLooper());
-    }
-
-    @VisibleForTesting
-    SystemFacade mSystemFacade = null;
-
     @Override
     public void onReceive(final Context context, final Intent intent) {
-        if (mSystemFacade == null) {
-            mSystemFacade = new RealSystemFacade(context);
-        }
-
         final String action = intent.getAction();
-        if (Intent.ACTION_BOOT_COMPLETED.equals(action)) {
-            startService(context);
-
-        } else if (Intent.ACTION_MEDIA_MOUNTED.equals(action)) {
-            startService(context);
-
-        } else if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action)) {
-            final ConnectivityManager connManager = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-            final NetworkInfo info = connManager.getActiveNetworkInfo();
-            if (info != null && info.isConnected()) {
-                startService(context);
-            }
-
+        if (Intent.ACTION_BOOT_COMPLETED.equals(action)
+                || Intent.ACTION_MEDIA_MOUNTED.equals(action)) {
+            final PendingResult result = goAsync();
+            getAsyncHandler().post(new Runnable() {
+                @Override
+                public void run() {
+                    handleBootCompleted(context);
+                    result.finish();
+                }
+            });
         } else if (Intent.ACTION_UID_REMOVED.equals(action)) {
             final PendingResult result = goAsync();
-            sAsyncHandler.post(new Runnable() {
+            getAsyncHandler().post(new Runnable() {
                 @Override
                 public void run() {
                     handleUidRemoved(context, intent);
                     result.finish();
                 }
             });
-
-        } else if (Constants.ACTION_RETRY.equals(action)) {
-            startService(context);
 
         } else if (Constants.ACTION_OPEN.equals(action)
                 || Constants.ACTION_LIST.equals(action)
@@ -115,7 +94,7 @@ public class DownloadReceiver extends BroadcastReceiver {
                 // TODO: remove this once test is refactored
                 handleNotificationBroadcast(context, intent);
             } else {
-                sAsyncHandler.post(new Runnable() {
+                getAsyncHandler().post(new Runnable() {
                     @Override
                     public void run() {
                         handleNotificationBroadcast(context, intent);
@@ -136,6 +115,26 @@ public class DownloadReceiver extends BroadcastReceiver {
                     Context.NOTIFICATION_SERVICE);
             notifManager.cancel(notifTag, 0);
         }
+    }
+
+    private void handleBootCompleted(Context context) {
+        // Show any relevant notifications for completed downloads
+        getDownloadNotifier(context).update();
+
+        // Schedule all downloads that are ready
+        final ContentResolver resolver = context.getContentResolver();
+        try (Cursor cursor = resolver.query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, null, null,
+                null, null)) {
+            final DownloadInfo.Reader reader = new DownloadInfo.Reader(resolver, cursor);
+            final DownloadInfo info = new DownloadInfo(context);
+            while (cursor.moveToNext()) {
+                reader.updateFromDatabase(info);
+                Helpers.scheduleJob(context, info);
+            }
+        }
+
+        // Schedule idle pass to clean up orphaned files
+        DownloadIdleService.scheduleIdlePass(context);
     }
 
     private void handleUidRemoved(Context context, Intent intent) {
@@ -266,18 +265,6 @@ public class DownloadReceiver extends BroadcastReceiver {
             }
         }
 
-        mSystemFacade.sendBroadcast(appIntent);
-    }
-
-    private static String getString(Cursor cursor, String col) {
-        return cursor.getString(cursor.getColumnIndexOrThrow(col));
-    }
-
-    private static int getInt(Cursor cursor, String col) {
-        return cursor.getInt(cursor.getColumnIndexOrThrow(col));
-    }
-
-    private void startService(Context context) {
-        context.startService(new Intent(context, DownloadService.class));
+        getSystemFacade(context).sendBroadcast(appIntent);
     }
 }

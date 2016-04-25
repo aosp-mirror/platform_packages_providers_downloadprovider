@@ -35,6 +35,8 @@ import com.android.internal.annotations.GuardedBy;
 import com.google.common.collect.Maps;
 
 import java.util.HashMap;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Manages asynchronous scanning of completed downloads.
@@ -66,9 +68,24 @@ public class DownloadScanner implements MediaScannerConnectionClient {
     @GuardedBy("mConnection")
     private HashMap<String, ScanRequest> mPending = Maps.newHashMap();
 
+    private CountDownLatch mLatch;
+
     public DownloadScanner(Context context) {
         mContext = context;
         mConnection = new MediaScannerConnection(context, this);
+    }
+
+    public static void requestScanBlocking(Context context, DownloadInfo info) {
+        final DownloadScanner scanner = new DownloadScanner(context);
+        scanner.mLatch = new CountDownLatch(1);
+        scanner.requestScan(info);
+        try {
+            scanner.mLatch.await(SCAN_TIMEOUT, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } finally {
+            scanner.shutdown();
+        }
     }
 
     /**
@@ -152,6 +169,10 @@ public class DownloadScanner implements MediaScannerConnectionClient {
             // Local row disappeared during scan; download was probably deleted
             // so clean up now-orphaned media entry.
             resolver.delete(uri, null, null);
+        }
+
+        if (mLatch != null) {
+            mLatch.countDown();
         }
     }
 }

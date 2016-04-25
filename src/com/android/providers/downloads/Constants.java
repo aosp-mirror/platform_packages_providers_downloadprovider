@@ -45,9 +45,6 @@ public class Constants {
     /** The column that is used for the initiating app's UID */
     public static final String UID = "uid";
 
-    /** The intent that gets sent when the service must wake up for a retry */
-    public static final String ACTION_RETRY = "android.intent.action.DOWNLOAD_WAKEUP";
-
     /** the intent that gets sent when clicking a successful download */
     public static final String ACTION_OPEN = "android.intent.action.DOWNLOAD_OPEN";
 

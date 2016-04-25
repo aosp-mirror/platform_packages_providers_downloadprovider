@@ -27,33 +27,22 @@ interface SystemFacade {
      */
     public long currentTimeMillis();
 
-    /**
-     * @return Currently active network, or null if there's no active
-     *         connection.
-     */
-    public NetworkInfo getActiveNetworkInfo(int uid);
-
     public Network getActiveNetwork(int uid);
 
-    public boolean isActiveNetworkMetered();
-
-    /**
-     * @see android.telephony.TelephonyManager#isNetworkRoaming
-     */
-    public boolean isNetworkRoaming();
+    public NetworkInfo getNetworkInfo(Network network);
 
     /**
      * @return maximum size, in bytes, of downloads that may go over a mobile connection; or null if
      * there's no limit
      */
-    public Long getMaxBytesOverMobile();
+    public long getMaxBytesOverMobile();
 
     /**
      * @return recommended maximum size, in bytes, of downloads that may go over a mobile
      * connection; or null if there's no recommended limit.  The user will have the option to bypass
      * this limit.
      */
-    public Long getRecommendedMaxBytesOverMobile();
+    public long getRecommendedMaxBytesOverMobile();
 
     /**
      * Send a broadcast intent.

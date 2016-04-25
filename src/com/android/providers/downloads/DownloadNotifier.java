@@ -20,6 +20,7 @@ import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE;
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION;
 import static android.provider.Downloads.Impl.STATUS_RUNNING;
+
 import static com.android.providers.downloads.Constants.TAG;
 
 import android.app.DownloadManager;
@@ -30,31 +31,27 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.SystemClock;
 import android.provider.Downloads;
 import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.util.ArrayMap;
+import android.util.IntArray;
 import android.util.Log;
 import android.util.LongSparseLongArray;
 
 import com.android.internal.util.ArrayUtils;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
-
 import java.text.NumberFormat;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 
 import javax.annotation.concurrent.GuardedBy;
 
 /**
- * Update {@link NotificationManager} to reflect current {@link DownloadInfo}
- * states. Collapses similar downloads into a single notification, and builds
+ * Update {@link NotificationManager} to reflect current download states.
+ * Collapses similar downloads into a single notification, and builds
  * {@link PendingIntent} that launch towards {@link DownloadReceiver}.
  */
 public class DownloadNotifier {
@@ -70,20 +67,20 @@ public class DownloadNotifier {
      * Currently active notifications, mapped from clustering tag to timestamp
      * when first shown.
      *
-     * @see #buildNotificationTag(DownloadInfo)
+     * @see #buildNotificationTag(Cursor)
      */
     @GuardedBy("mActiveNotifs")
-    private final HashMap<String, Long> mActiveNotifs = Maps.newHashMap();
+    private final ArrayMap<String, Long> mActiveNotifs = new ArrayMap<>();
 
     /**
-     * Current speed of active downloads, mapped from {@link DownloadInfo#mId}
-     * to speed in bytes per second.
+     * Current speed of active downloads, mapped from download ID to speed in
+     * bytes per second.
      */
     @GuardedBy("mDownloadSpeed")
     private final LongSparseLongArray mDownloadSpeed = new LongSparseLongArray();
 
     /**
-     * Last time speed was reproted, mapped from {@link DownloadInfo#mId} to
+     * Last time speed was reproted, mapped from download ID to
      * {@link SystemClock#elapsedRealtime()}.
      */
     @GuardedBy("mDownloadSpeed")
@@ -123,49 +120,62 @@ public class DownloadNotifier {
         }
     }
 
-    /**
-     * Update {@link NotificationManager} to reflect the given set of
-     * {@link DownloadInfo}, adding, collapsing, and removing as needed.
-     */
-    public void updateWith(Collection<DownloadInfo> downloads) {
-        synchronized (mActiveNotifs) {
-            updateWithLocked(downloads);
+    private interface UpdateQuery {
+        final String[] PROJECTION = new String[] {
+                Downloads.Impl._ID,
+                Downloads.Impl.COLUMN_STATUS,
+                Downloads.Impl.COLUMN_VISIBILITY,
+                Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE,
+                Downloads.Impl.COLUMN_CURRENT_BYTES,
+                Downloads.Impl.COLUMN_TOTAL_BYTES,
+                Downloads.Impl.COLUMN_DESTINATION,
+                Downloads.Impl.COLUMN_TITLE,
+                Downloads.Impl.COLUMN_DESCRIPTION,
+        };
+
+        final int _ID = 0;
+        final int STATUS = 1;
+        final int VISIBILITY = 2;
+        final int NOTIFICATION_PACKAGE = 3;
+        final int CURRENT_BYTES = 4;
+        final int TOTAL_BYTES = 5;
+        final int DESTINATION = 6;
+        final int TITLE = 7;
+        final int DESCRIPTION = 8;
+    }
+
+    public void update() {
+        try (Cursor cursor = mContext.getContentResolver().query(
+                Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, UpdateQuery.PROJECTION,
+                Downloads.Impl.COLUMN_DELETED + " == '0'", null, null)) {
+            synchronized (mActiveNotifs) {
+                updateWithLocked(cursor);
+            }
         }
     }
 
-    private static boolean isClusterDeleted(Collection<DownloadInfo> cluster) {
-        boolean wasDeleted = true;
-        for (DownloadInfo info : cluster) {
-            wasDeleted = wasDeleted && info.mDeleted;
-        }
-        return wasDeleted;
-    }
-
-    @GuardedBy("mActiveNotifs")
-    private void updateWithLocked(Collection<DownloadInfo> downloads) {
+    private void updateWithLocked(Cursor cursor) {
         final Resources res = mContext.getResources();
 
         // Cluster downloads together
-        final Multimap<String, DownloadInfo> clustered = ArrayListMultimap.create();
-        for (DownloadInfo info : downloads) {
-            final String tag = buildNotificationTag(info);
+        final ArrayMap<String, IntArray> clustered = new ArrayMap<>();
+        while (cursor.moveToNext()) {
+            final String tag = buildNotificationTag(cursor);
             if (tag != null) {
-                clustered.put(tag, info);
+                IntArray cluster = clustered.get(tag);
+                if (cluster == null) {
+                    cluster = new IntArray();
+                    clustered.put(tag, cluster);
+                }
+                cluster.add(cursor.getPosition());
             }
         }
 
         // Build notification for each cluster
-        Iterator<String> it = clustered.keySet().iterator();
-        while (it.hasNext()) {
-            final String tag = it.next();
+        for (int i = 0; i < clustered.size(); i++) {
+            final String tag = clustered.keyAt(i);
+            final IntArray cluster = clustered.valueAt(i);
             final int type = getNotificationTagType(tag);
-            final Collection<DownloadInfo> cluster = clustered.get(tag);
-
-            // If each of the downloads was canceled, don't show notification for the cluster
-            if (isClusterDeleted(cluster)) {
-                it.remove();
-                continue;
-            }
 
             final Notification.Builder builder = new Notification.Builder(mContext);
             builder.setColor(res.getColor(
@@ -192,7 +202,7 @@ public class DownloadNotifier {
 
             // Build action intents
             if (type == TYPE_ACTIVE || type == TYPE_WAITING) {
-                long[] downloadIds = getDownloadIds(cluster);
+                final long[] downloadIds = getDownloadIds(cursor, cluster);
 
                 // build a synthetic uri for intent identification purposes
                 final Uri uri = new Uri.Builder().scheme("active-dl").appendPath(tag).build();
@@ -218,16 +228,20 @@ public class DownloadNotifier {
                             0, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
             } else if (type == TYPE_COMPLETE) {
-                final DownloadInfo info = cluster.iterator().next();
+                cursor.moveToPosition(cluster.get(0));
+                final long id = cursor.getLong(UpdateQuery._ID);
+                final int status = cursor.getInt(UpdateQuery.STATUS);
+                final int destination = cursor.getInt(UpdateQuery.DESTINATION);
+
                 final Uri uri = ContentUris.withAppendedId(
-                        Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, info.mId);
+                        Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id);
                 builder.setAutoCancel(true);
 
                 final String action;
-                if (Downloads.Impl.isStatusError(info.mStatus)) {
+                if (Downloads.Impl.isStatusError(status)) {
                     action = Constants.ACTION_LIST;
                 } else {
-                    if (info.mDestination != Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION) {
+                    if (destination != Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION) {
                         action = Constants.ACTION_OPEN;
                     } else {
                         action = Constants.ACTION_LIST;
@@ -236,7 +250,7 @@ public class DownloadNotifier {
 
                 final Intent intent = new Intent(action, uri, mContext, DownloadReceiver.class);
                 intent.putExtra(DownloadManager.EXTRA_NOTIFICATION_CLICK_DOWNLOAD_IDS,
-                        getDownloadIds(cluster));
+                        getDownloadIds(cursor, cluster));
                 builder.setContentIntent(PendingIntent.getBroadcast(mContext,
                         0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
 
@@ -253,11 +267,17 @@ public class DownloadNotifier {
                 long total = 0;
                 long speed = 0;
                 synchronized (mDownloadSpeed) {
-                    for (DownloadInfo info : cluster) {
-                        if (info.mTotalBytes != -1) {
-                            current += info.mCurrentBytes;
-                            total += info.mTotalBytes;
-                            speed += mDownloadSpeed.get(info.mId);
+                    for (int j = 0; j < cluster.size(); j++) {
+                        cursor.moveToPosition(cluster.get(j));
+
+                        final long id = cursor.getLong(UpdateQuery._ID);
+                        final long currentBytes = cursor.getLong(UpdateQuery.CURRENT_BYTES);
+                        final long totalBytes = cursor.getLong(UpdateQuery.TOTAL_BYTES);
+
+                        if (totalBytes != -1) {
+                            current += currentBytes;
+                            total += totalBytes;
+                            speed += mDownloadSpeed.get(id);
                         }
                     }
                 }
@@ -282,13 +302,13 @@ public class DownloadNotifier {
             // Build titles and description
             final Notification notif;
             if (cluster.size() == 1) {
-                final DownloadInfo info = cluster.iterator().next();
-
-                builder.setContentTitle(getDownloadTitle(res, info));
+                cursor.moveToPosition(cluster.get(0));
+                builder.setContentTitle(getDownloadTitle(res, cursor));
 
                 if (type == TYPE_ACTIVE) {
-                    if (!TextUtils.isEmpty(info.mDescription)) {
-                        builder.setContentText(info.mDescription);
+                    final String description = cursor.getString(UpdateQuery.DESCRIPTION);
+                    if (!TextUtils.isEmpty(description)) {
+                        builder.setContentText(description);
                     } else {
                         builder.setContentText(remainingText);
                     }
@@ -299,9 +319,10 @@ public class DownloadNotifier {
                             res.getString(R.string.notification_need_wifi_for_size));
 
                 } else if (type == TYPE_COMPLETE) {
-                    if (Downloads.Impl.isStatusError(info.mStatus)) {
+                    final int status = cursor.getInt(UpdateQuery.STATUS);
+                    if (Downloads.Impl.isStatusError(status)) {
                         builder.setContentText(res.getText(R.string.notification_download_failed));
-                    } else if (Downloads.Impl.isStatusSuccess(info.mStatus)) {
+                    } else if (Downloads.Impl.isStatusSuccess(status)) {
                         builder.setContentText(
                                 res.getText(R.string.notification_download_complete));
                     }
@@ -312,8 +333,9 @@ public class DownloadNotifier {
             } else {
                 final Notification.InboxStyle inboxStyle = new Notification.InboxStyle(builder);
 
-                for (DownloadInfo info : cluster) {
-                    inboxStyle.addLine(getDownloadTitle(res, info));
+                for (int j = 0; j < cluster.size(); j++) {
+                    cursor.moveToPosition(cluster.get(j));
+                    inboxStyle.addLine(getDownloadTitle(res, cursor));
                 }
 
                 if (type == TYPE_ACTIVE) {
@@ -339,29 +361,31 @@ public class DownloadNotifier {
         }
 
         // Remove stale tags that weren't renewed
-        it = mActiveNotifs.keySet().iterator();
-        while (it.hasNext()) {
-            final String tag = it.next();
-            if (!clustered.containsKey(tag)) {
+        for (int i = 0; i < mActiveNotifs.size();) {
+            final String tag = mActiveNotifs.keyAt(i);
+            if (clustered.containsKey(tag)) {
+                i++;
+            } else {
                 mNotifManager.cancel(tag, 0);
-                it.remove();
+                mActiveNotifs.removeAt(i);
             }
         }
     }
 
-    private static CharSequence getDownloadTitle(Resources res, DownloadInfo info) {
-        if (!TextUtils.isEmpty(info.mTitle)) {
-            return info.mTitle;
+    private static CharSequence getDownloadTitle(Resources res, Cursor cursor) {
+        final String title = cursor.getString(UpdateQuery.TITLE);
+        if (!TextUtils.isEmpty(title)) {
+            return title;
         } else {
             return res.getString(R.string.download_unknown_title);
         }
     }
 
-    private long[] getDownloadIds(Collection<DownloadInfo> infos) {
-        final long[] ids = new long[infos.size()];
-        int i = 0;
-        for (DownloadInfo info : infos) {
-            ids[i++] = info.mId;
+    private long[] getDownloadIds(Cursor cursor, IntArray cluster) {
+        final long[] ids = new long[cluster.size()];
+        for (int i = 0; i < cluster.size(); i++) {
+            cursor.moveToPosition(cluster.get(i));
+            ids[i] = cursor.getLong(UpdateQuery._ID);
         }
         return ids;
     }
@@ -378,17 +402,22 @@ public class DownloadNotifier {
     }
 
     /**
-     * Build tag used for collapsing several {@link DownloadInfo} into a single
+     * Build tag used for collapsing several downloads into a single
      * {@link Notification}.
      */
-    private static String buildNotificationTag(DownloadInfo info) {
-        if (info.mStatus == Downloads.Impl.STATUS_QUEUED_FOR_WIFI) {
-            return TYPE_WAITING + ":" + info.mPackage;
-        } else if (isActiveAndVisible(info)) {
-            return TYPE_ACTIVE + ":" + info.mPackage;
-        } else if (isCompleteAndVisible(info)) {
+    private static String buildNotificationTag(Cursor cursor) {
+        final long id = cursor.getLong(UpdateQuery._ID);
+        final int status = cursor.getInt(UpdateQuery.STATUS);
+        final int visibility = cursor.getInt(UpdateQuery.VISIBILITY);
+        final String notifPackage = cursor.getString(UpdateQuery.NOTIFICATION_PACKAGE);
+
+        if (status == Downloads.Impl.STATUS_QUEUED_FOR_WIFI) {
+            return TYPE_WAITING + ":" + notifPackage;
+        } else if (isActiveAndVisible(status, visibility)) {
+            return TYPE_ACTIVE + ":" + notifPackage;
+        } else if (isCompleteAndVisible(status, visibility)) {
             // Complete downloads always have unique notifs
-            return TYPE_COMPLETE + ":" + info.mId;
+            return TYPE_COMPLETE + ":" + id;
         } else {
             return null;
         }
@@ -396,21 +425,21 @@ public class DownloadNotifier {
 
     /**
      * Return the cluster type of the given tag, as created by
-     * {@link #buildNotificationTag(DownloadInfo)}.
+     * {@link #buildNotificationTag(Cursor)}.
      */
     private static int getNotificationTagType(String tag) {
         return Integer.parseInt(tag.substring(0, tag.indexOf(':')));
     }
 
-    private static boolean isActiveAndVisible(DownloadInfo download) {
-        return download.mStatus == STATUS_RUNNING &&
-                (download.mVisibility == VISIBILITY_VISIBLE
-                || download.mVisibility == VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+    private static boolean isActiveAndVisible(int status, int visibility) {
+        return status == STATUS_RUNNING &&
+                (visibility == VISIBILITY_VISIBLE
+                || visibility == VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
     }
 
-    private static boolean isCompleteAndVisible(DownloadInfo download) {
-        return Downloads.Impl.isStatusCompleted(download.mStatus) &&
-                (download.mVisibility == VISIBILITY_VISIBLE_NOTIFY_COMPLETED
-                || download.mVisibility == VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION);
+    private static boolean isCompleteAndVisible(int status, int visibility) {
+        return Downloads.Impl.isStatusCompleted(status) &&
+                (visibility == VISIBILITY_VISIBLE_NOTIFY_COMPLETED
+                || visibility == VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION);
     }
 }

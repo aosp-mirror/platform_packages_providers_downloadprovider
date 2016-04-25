@@ -17,8 +17,10 @@
 package com.android.providers.downloads;
 
 import static android.text.format.DateUtils.SECOND_IN_MILLIS;
+
 import static java.net.HttpURLConnection.HTTP_OK;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
@@ -56,7 +58,6 @@ public class DownloadProviderFunctionalTest extends AbstractDownloadProviderFunc
         String path = "/download_manager_test_path";
         Uri downloadUri = requestDownload(path);
         assertEquals(Downloads.Impl.STATUS_PENDING, getDownloadStatus(downloadUri));
-        assertTrue(mTestContext.mHasServiceBeenStarted);
 
         runUntilStatus(downloadUri, Downloads.Impl.STATUS_SUCCESS);
         RecordedRequest request = takeRequest();
@@ -108,13 +109,11 @@ public class DownloadProviderFunctionalTest extends AbstractDownloadProviderFunc
         // Assert that HTTP request succeeds when cleartext traffic is permitted
         mSystemFacade.mCleartextTrafficPermitted = true;
         Uri downloadUri = requestDownload("/path");
-        assertEquals("http", downloadUri.getScheme());
         runUntilStatus(downloadUri, Downloads.Impl.STATUS_SUCCESS);
 
         // Assert that HTTP request fails when cleartext traffic is not permitted
         mSystemFacade.mCleartextTrafficPermitted = false;
         downloadUri = requestDownload("/path");
-        assertEquals("http", downloadUri.getScheme());
         runUntilStatus(downloadUri, Downloads.Impl.STATUS_BAD_REQUEST);
     }
 
@@ -131,8 +130,8 @@ public class DownloadProviderFunctionalTest extends AbstractDownloadProviderFunc
     }
 
     private void runUntilStatus(Uri downloadUri, int expected) throws Exception {
-        startService(null);
-        
+        startDownload(ContentUris.parseId(downloadUri));
+
         int actual = -1;
 
         final long timeout = SystemClock.elapsedRealtime() + (15 * SECOND_IN_MILLIS);

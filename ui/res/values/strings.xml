@@ -106,6 +106,10 @@
     <!-- Text for button appearing in a dialog to restart a download, either one that failed or one
          for which the downloaded file is now missing [CHAR LIMIT=25] -->
     <string name="retry_download">Retry</string>
+    <!-- Text for button to start a download over the mobile connection now, even though it's over
+        the carrier-specified recommended maximum size for downloads over the mobile connection
+        [CHAR LIMIT=25] -->
+    <string name="start_now_download">Start now</string>
     <!-- Text for button appearing in the pop-up selection menu to deselect all currently selected
     downloads in the download list [CHAR LIMIT=25] -->
     <string name="deselect_all">Deselect all</string>

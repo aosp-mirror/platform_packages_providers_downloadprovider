@@ -47,6 +47,7 @@ public class TrampolineActivity extends Activity {
 
     private static final String KEY_ID = "id";
     private static final String KEY_REASON = "reason";
+    private static final String KEY_SIZE = "size";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +60,15 @@ public class TrampolineActivity extends Activity {
 
         final int status;
         final int reason;
+        final long size;
 
         final Cursor cursor = dm.query(new Query().setFilterById(id));
         try {
             if (cursor.moveToFirst()) {
                 status = cursor.getInt(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS));
                 reason = cursor.getInt(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_REASON));
+                size = cursor.getLong(
+                        cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
             } else {
                 Toast.makeText(this, R.string.dialog_file_missing_body, Toast.LENGTH_SHORT).show();
                 finish();
@@ -84,7 +88,7 @@ public class TrampolineActivity extends Activity {
 
             case DownloadManager.STATUS_PAUSED:
                 if (reason == DownloadManager.PAUSED_QUEUED_FOR_WIFI) {
-                    PausedDialogFragment.show(getFragmentManager(), id);
+                    PausedDialogFragment.show(getFragmentManager(), id, size);
                 } else {
                     sendRunningDownloadClickedBroadcast(id);
                     finish();
@@ -113,10 +117,11 @@ public class TrampolineActivity extends Activity {
     }
 
     public static class PausedDialogFragment extends DialogFragment {
-        public static void show(FragmentManager fm, long id) {
+        public static void show(FragmentManager fm, long id, long size) {
             final PausedDialogFragment dialog = new PausedDialogFragment();
             final Bundle args = new Bundle();
             args.putLong(KEY_ID, id);
+            args.putLong(KEY_SIZE, size);
             dialog.setArguments(args);
             dialog.show(fm, TAG_PAUSED);
         }
@@ -130,13 +135,27 @@ public class TrampolineActivity extends Activity {
             dm.setAccessAllDownloads(true);
 
             final long id = getArguments().getLong(KEY_ID);
+            final long size = getArguments().getLong(KEY_SIZE);
 
             final AlertDialog.Builder builder = new AlertDialog.Builder(
-                    context, AlertDialog.THEME_HOLO_LIGHT);
+                    context, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
             builder.setTitle(R.string.dialog_title_queued_body);
             builder.setMessage(R.string.dialog_queued_body);
 
-            builder.setPositiveButton(R.string.keep_queued_download, null);
+            final Long maxSize = DownloadManager.getMaxBytesOverMobile(context);
+            if (maxSize != null && size > maxSize) {
+                // When we have a max size, we have no choice
+                builder.setPositiveButton(R.string.keep_queued_download, null);
+            } else {
+                // Give user the choice of starting now
+                builder.setPositiveButton(R.string.start_now_download,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dm.forceDownload(id);
+                            }
+                        });
+            }
 
             builder.setNegativeButton(
                     R.string.remove_download, new DialogInterface.OnClickListener() {
@@ -181,10 +200,9 @@ public class TrampolineActivity extends Activity {
             final int reason = getArguments().getInt(KEY_REASON);
 
             final AlertDialog.Builder builder = new AlertDialog.Builder(
-                    context, AlertDialog.THEME_HOLO_LIGHT);
+                    context, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
             builder.setTitle(R.string.dialog_title_not_available);
 
-            final String message;
             switch (reason) {
                 case DownloadManager.ERROR_FILE_ALREADY_EXISTS:
                     builder.setMessage(R.string.dialog_file_already_exists);

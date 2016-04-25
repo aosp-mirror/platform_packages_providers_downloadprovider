@@ -115,13 +115,13 @@ public abstract class AbstractPublicApiTest extends AbstractDownloadProviderFunc
 
         void runUntilStatus(int status) throws TimeoutException {
             final long startMillis = mSystemFacade.currentTimeMillis();
-            startService(null);
+            startDownload(mId);
             waitForStatus(status, startMillis);
         }
 
         void runUntilStatus(int status, long timeout) throws TimeoutException {
             final long startMillis = mSystemFacade.currentTimeMillis();
-            startService(null);
+            startDownload(mId);
             waitForStatus(status, startMillis, timeout);
         }
 
@@ -169,7 +169,7 @@ public abstract class AbstractPublicApiTest extends AbstractDownloadProviderFunc
 
         // waits until progress_so_far is >= (progress)%
         boolean runUntilProgress(int progress) throws InterruptedException {
-            startService(null);
+            startDownload(mId);
 
             int sleepCounter = MAX_TIME_TO_WAIT_FOR_OPERATION * 1000 / TIME_TO_SLEEP;
             int numBytesReceivedSoFar = 0;
@@ -230,6 +230,7 @@ public abstract class AbstractPublicApiTest extends AbstractDownloadProviderFunc
                 return PACKAGE_NAME;
             }
         });
+        mManager.setAccessFilename(true);
     }
 
     protected DownloadManager.Request getRequest()

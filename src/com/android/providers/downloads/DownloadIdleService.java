@@ -20,10 +20,14 @@ import static com.android.providers.downloads.Constants.TAG;
 import static com.android.providers.downloads.StorageUtils.listFilesRecursive;
 
 import android.app.DownloadManager;
+import android.app.job.JobInfo;
 import android.app.job.JobParameters;
+import android.app.job.JobScheduler;
 import android.app.job.JobService;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Environment;
 import android.provider.Downloads;
@@ -33,10 +37,11 @@ import android.text.format.DateUtils;
 import android.util.Slog;
 
 import com.android.providers.downloads.StorageUtils.ConcreteFile;
-import com.google.android.collect.Lists;
-import com.google.android.collect.Sets;
 
 import libcore.io.IoUtils;
+
+import com.google.android.collect.Lists;
+import com.google.android.collect.Sets;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -48,6 +53,7 @@ import java.util.HashSet;
  * deleted directly on disk.
  */
 public class DownloadIdleService extends JobService {
+    private static final int IDLE_JOB_ID = -100;
 
     private class IdleRunnable implements Runnable {
         private JobParameters mParams;
@@ -66,7 +72,7 @@ public class DownloadIdleService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
-        new Thread(new IdleRunnable(params)).start();
+        Helpers.getAsyncHandler().post(new IdleRunnable(params));
         return true;
     }
 
@@ -75,6 +81,19 @@ public class DownloadIdleService extends JobService {
         // We're okay being killed at any point, so we don't worry about
         // checkpointing before tearing down.
         return false;
+    }
+
+    public static void scheduleIdlePass(Context context) {
+        final JobScheduler scheduler = context.getSystemService(JobScheduler.class);
+        if (scheduler.getPendingJob(IDLE_JOB_ID) == null) {
+            final JobInfo job = new JobInfo.Builder(IDLE_JOB_ID,
+                    new ComponentName(context, DownloadIdleService.class))
+                            .setPeriodic(12 * DateUtils.HOUR_IN_MILLIS)
+                            .setRequiresCharging(true)
+                            .setRequiresDeviceIdle(true)
+                            .build();
+            scheduler.schedule(job);
+        }
     }
 
     private interface StaleQuery {

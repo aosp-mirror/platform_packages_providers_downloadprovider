@@ -43,6 +43,8 @@
     <string name="keep_queued_download" msgid="5144882786014818569">"შენარჩუნება"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"გაუქმება"</string>
     <string name="retry_download" msgid="7617100787922717912">"გამეორება"</string>
+    <!-- no translation found for start_now_download (1564642872809509681) -->
+    <skip />
     <string name="deselect_all" msgid="6348198946254776764">"ყველა მონიშვნის მოხსნა"</string>
     <string name="select_all" msgid="634074918366265804">"ყველას არჩევა"</string>
     <string name="selected_count" msgid="2101564570019753277">"მონიშნულია <xliff:g id="NUMBER">%1$d</xliff:g>, სულ <xliff:g id="TOTAL">%2$d</xliff:g>-დან"</string>

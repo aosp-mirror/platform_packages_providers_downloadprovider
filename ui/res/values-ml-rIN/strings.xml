@@ -43,6 +43,8 @@
     <string name="keep_queued_download" msgid="5144882786014818569">"സൂക്ഷിക്കുക"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"റദ്ദാക്കുക"</string>
     <string name="retry_download" msgid="7617100787922717912">"വീണ്ടും ശ്രമിക്കുക"</string>
+    <!-- no translation found for start_now_download (1564642872809509681) -->
+    <skip />
     <string name="deselect_all" msgid="6348198946254776764">"തിരഞ്ഞെടുത്തത് എല്ലാം മാറ്റുക"</string>
     <string name="select_all" msgid="634074918366265804">"എല്ലാം തിരഞ്ഞെടുക്കുക"</string>
     <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="NUMBER">%1$d</xliff:g> / <xliff:g id="TOTAL">%2$d</xliff:g> എണ്ണം തിരഞ്ഞെടുത്തു"</string>

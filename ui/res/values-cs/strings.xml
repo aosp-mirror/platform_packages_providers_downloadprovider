@@ -43,6 +43,8 @@
     <string name="keep_queued_download" msgid="5144882786014818569">"Zachovat"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Zrušit"</string>
     <string name="retry_download" msgid="7617100787922717912">"Zkusit znovu"</string>
+    <!-- no translation found for start_now_download (1564642872809509681) -->
+    <skip />
     <string name="deselect_all" msgid="6348198946254776764">"Zrušit celý výběr"</string>
     <string name="select_all" msgid="634074918366265804">"Vybrat vše"</string>
     <string name="selected_count" msgid="2101564570019753277">"Vybráno: <xliff:g id="NUMBER">%1$d</xliff:g> z <xliff:g id="TOTAL">%2$d</xliff:g>"</string>

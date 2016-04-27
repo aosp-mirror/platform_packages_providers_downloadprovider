@@ -43,6 +43,8 @@
     <string name="keep_queued_download" msgid="5144882786014818569">"Қалсын"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Өшіру"</string>
     <string name="retry_download" msgid="7617100787922717912">"Қайта әрекеттену"</string>
+    <!-- no translation found for start_now_download (1564642872809509681) -->
+    <skip />
     <string name="deselect_all" msgid="6348198946254776764">"Барлығының таңдауын алыңыз"</string>
     <string name="select_all" msgid="634074918366265804">"Барлығын таңдау"</string>
     <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="NUMBER">%1$d</xliff:g> таңдалды, барлығы <xliff:g id="TOTAL">%2$d</xliff:g>"</string>

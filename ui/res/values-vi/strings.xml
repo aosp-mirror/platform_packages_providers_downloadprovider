@@ -43,6 +43,8 @@
     <string name="keep_queued_download" msgid="5144882786014818569">"Giữ"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Hủy"</string>
     <string name="retry_download" msgid="7617100787922717912">"Thử lại"</string>
+    <!-- no translation found for start_now_download (1564642872809509681) -->
+    <skip />
     <string name="deselect_all" msgid="6348198946254776764">"Bỏ chọn tất cả"</string>
     <string name="select_all" msgid="634074918366265804">"Chọn tất cả"</string>
     <string name="selected_count" msgid="2101564570019753277">"Đã chọn <xliff:g id="NUMBER">%1$d</xliff:g> trong tổng số <xliff:g id="TOTAL">%2$d</xliff:g>"</string>

@@ -43,6 +43,7 @@
     <string name="keep_queued_download" msgid="5144882786014818569">"ಇರಿಸಿ"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"ರದ್ದುಮಾಡು"</string>
     <string name="retry_download" msgid="7617100787922717912">"ಮರುಪ್ರಯತ್ನಿಸಿ"</string>
+    <string name="start_now_download" msgid="1564642872809509681">"ಈಗ ಪ್ರಾರಂಭಿಸಿ"</string>
     <string name="deselect_all" msgid="6348198946254776764">"ಎಲ್ಲಾ ಆಯ್ಕೆಯನ್ನು ರದ್ದುಮಾಡಿ"</string>
     <string name="select_all" msgid="634074918366265804">"ಎಲ್ಲವನ್ನೂ ಆಯ್ಕೆಮಾಡಿ"</string>
     <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="TOTAL">%2$d</xliff:g> ರಲ್ಲಿ <xliff:g id="NUMBER">%1$d</xliff:g> ಅನ್ನು ಆಯ್ಕೆ ಮಾಡಲಾಗಿದೆ"</string>

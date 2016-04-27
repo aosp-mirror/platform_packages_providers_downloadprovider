@@ -43,6 +43,8 @@
     <string name="keep_queued_download" msgid="5144882786014818569">"வைத்திரு"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"ரத்துசெய்"</string>
     <string name="retry_download" msgid="7617100787922717912">"மீண்டும் முயற்சிசெய்க"</string>
+    <!-- no translation found for start_now_download (1564642872809509681) -->
+    <skip />
     <string name="deselect_all" msgid="6348198946254776764">"எல்லாம் தேர்வுநீக்கு"</string>
     <string name="select_all" msgid="634074918366265804">"எல்லாவற்றையும் தேர்ந்தெடு"</string>
     <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="TOTAL">%2$d</xliff:g> இல் <xliff:g id="NUMBER">%1$d</xliff:g> தேர்ந்தெடுக்கப்பட்டன"</string>

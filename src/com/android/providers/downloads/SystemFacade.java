@@ -27,9 +27,9 @@ interface SystemFacade {
      */
     public long currentTimeMillis();
 
-    public Network getActiveNetwork(int uid);
+    public Network getActiveNetwork(int uid, boolean ignoreBlocked);
 
-    public NetworkInfo getNetworkInfo(Network network);
+    public NetworkInfo getNetworkInfo(Network network, int uid, boolean ignoreBlocked);
 
     /**
      * @return maximum size, in bytes, of downloads that may go over a mobile connection; or null if

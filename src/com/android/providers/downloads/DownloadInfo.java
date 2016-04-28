@@ -16,6 +16,9 @@
 
 package com.android.providers.downloads;
 
+import static android.provider.Downloads.Impl.VISIBILITY_VISIBLE;
+import static android.provider.Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
+
 import static com.android.providers.downloads.Constants.TAG;
 
 import android.app.DownloadManager;
@@ -244,6 +247,19 @@ public class DownloadInfo {
             intent.setData(getMyDownloadsUri());
         }
         mSystemFacade.sendBroadcast(intent);
+    }
+
+    /**
+     * Return if this download is visible to the user while running.
+     */
+    public boolean isVisible() {
+        switch (mVisibility) {
+            case VISIBILITY_VISIBLE:
+            case VISIBILITY_VISIBLE_NOTIFY_COMPLETED:
+                return true;
+            default:
+                return false;
+        }
     }
 
     /**

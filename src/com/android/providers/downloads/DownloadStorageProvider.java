@@ -99,8 +99,8 @@ public class DownloadStorageProvider extends DocumentsProvider {
         final MatrixCursor result = new MatrixCursor(resolveRootProjection(projection));
         final RowBuilder row = result.newRow();
         row.add(Root.COLUMN_ROOT_ID, DOC_ID_ROOT);
-        row.add(Root.COLUMN_FLAGS,
-                Root.FLAG_LOCAL_ONLY | Root.FLAG_SUPPORTS_RECENTS | Root.FLAG_SUPPORTS_CREATE);
+        row.add(Root.COLUMN_FLAGS, Root.FLAG_LOCAL_ONLY | Root.FLAG_SUPPORTS_RECENTS
+                | Root.FLAG_SUPPORTS_CREATE | Root.FLAG_SUPPORTS_SEARCH);
         row.add(Root.COLUMN_ICON, R.mipmap.ic_launcher_download);
         row.add(Root.COLUMN_TITLE, getContext().getString(R.string.root_downloads));
         row.add(Root.COLUMN_DOCUMENT_ID, DOC_ID_ROOT);
@@ -282,6 +282,28 @@ public class DownloadStorageProvider extends DocumentsProvider {
                     continue;
                 }
 
+                includeDownloadFromCursor(result, cursor);
+            }
+        } finally {
+            IoUtils.closeQuietly(cursor);
+            Binder.restoreCallingIdentity(token);
+        }
+        return result;
+    }
+
+    @Override
+    public Cursor querySearchDocuments(String rootId, String query, String[] projection)
+            throws FileNotFoundException {
+        final MatrixCursor result = new MatrixCursor(resolveDocumentProjection(projection));
+
+        // Delegate to real provider
+        final long token = Binder.clearCallingIdentity();
+        Cursor cursor = null;
+        try {
+            cursor = mDm.query(new DownloadManager.Query().setOnlyIncludeVisibleInDownloadsUi(true)
+                    .setFilterByString(query));
+            copyNotificationUri(result, cursor);
+            while (cursor.moveToNext()) {
                 includeDownloadFromCursor(result, cursor);
             }
         } finally {

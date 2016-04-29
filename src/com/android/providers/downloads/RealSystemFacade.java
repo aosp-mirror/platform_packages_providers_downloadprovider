@@ -42,15 +42,15 @@ class RealSystemFacade implements SystemFacade {
     }
 
     @Override
-    public Network getActiveNetwork(int uid) {
+    public Network getActiveNetwork(int uid, boolean ignoreBlocked) {
         return mContext.getSystemService(ConnectivityManager.class)
-                .getActiveNetworkForUid(uid);
+                .getActiveNetworkForUid(uid, ignoreBlocked);
     }
 
     @Override
-    public NetworkInfo getNetworkInfo(Network network) {
+    public NetworkInfo getNetworkInfo(Network network, int uid, boolean ignoreBlocked) {
         return mContext.getSystemService(ConnectivityManager.class)
-                .getNetworkInfo(network);
+                .getNetworkInfoForUid(network, uid, ignoreBlocked);
     }
 
     @Override

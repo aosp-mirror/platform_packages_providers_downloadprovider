@@ -55,7 +55,7 @@ public class FakeSystemFacade implements SystemFacade {
     }
 
     @Override
-    public Network getActiveNetwork(int uid) {
+    public Network getActiveNetwork(int uid, boolean ignoreBlocked) {
         if (mActiveNetworkType == null) {
             return null;
         } else {
@@ -75,7 +75,7 @@ public class FakeSystemFacade implements SystemFacade {
     }
 
     @Override
-    public NetworkInfo getNetworkInfo(Network network) {
+    public NetworkInfo getNetworkInfo(Network network, int uid, boolean ignoreBlocked) {
         if (mActiveNetworkType == null) {
             return null;
         } else {

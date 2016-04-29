@@ -221,6 +221,7 @@ public class DownloadThread extends Thread {
     private long mLastUpdateBytes = 0;
     private long mLastUpdateTime = 0;
 
+    private boolean mIgnoreBlocked;
     private Network mNetwork;
 
     private int mNetworkType = ConnectivityManager.TYPE_NONE;
@@ -269,10 +270,15 @@ public class DownloadThread extends Thread {
             mInfoDelta.mStatus = STATUS_RUNNING;
             mInfoDelta.writeToDatabase();
 
+            // If we're showing a foreground notification for the requesting
+            // app, the download isn't affected by the blocked status of the
+            // requesting app
+            mIgnoreBlocked = mInfo.isVisible();
+
             // Use the caller's default network to make this connection, since
             // they might be subject to restrictions that we shouldn't let them
-            // circumvent.
-            mNetwork = mSystemFacade.getActiveNetwork(mInfo.mUid);
+            // circumvent
+            mNetwork = mSystemFacade.getActiveNetwork(mInfo.mUid, mIgnoreBlocked);
             if (mNetwork == null) {
                 throw new StopRequestException(STATUS_WAITING_FOR_NETWORK,
                         "No network associated with requesting UID");
@@ -280,7 +286,8 @@ public class DownloadThread extends Thread {
 
             // Remember which network this download started on; used to
             // determine if errors were due to network changes.
-            final NetworkInfo info = mSystemFacade.getNetworkInfo(mNetwork);
+            final NetworkInfo info = mSystemFacade.getNetworkInfo(mNetwork, mInfo.mUid,
+                    mIgnoreBlocked);
             if (info != null) {
                 mNetworkType = info.getType();
             }
@@ -323,7 +330,8 @@ public class DownloadThread extends Thread {
                 }
 
                 if (mInfoDelta.mNumFailed < Constants.MAX_RETRIES) {
-                    final NetworkInfo info = mSystemFacade.getNetworkInfo(mNetwork);
+                    final NetworkInfo info = mSystemFacade.getNetworkInfo(mNetwork, mInfo.mUid,
+                            mIgnoreBlocked);
                     if (info != null && info.getType() == mNetworkType && info.isConnected()) {
                         // Underlying network is still intact, use normal backoff
                         mInfoDelta.mStatus = STATUS_WAITING_TO_RETRY;
@@ -707,7 +715,8 @@ public class DownloadThread extends Thread {
                 .getRequiredNetworkType(mInfoDelta.mTotalBytes) != JobInfo.NETWORK_TYPE_UNMETERED;
         final boolean allowRoaming = mInfo.isRoamingAllowed();
 
-        final NetworkInfo info = mSystemFacade.getNetworkInfo(mNetwork);
+        final NetworkInfo info = mSystemFacade.getNetworkInfo(mNetwork, mInfo.mUid,
+                mIgnoreBlocked);
         if (info == null || !info.isConnected()) {
             throw new StopRequestException(STATUS_WAITING_FOR_NETWORK, "Network is disconnected");
         }
@@ -870,7 +879,9 @@ public class DownloadThread extends Thread {
         @Override
         public void onRestrictBackgroundWhitelistChanged(int uid, boolean whitelisted) {
             // caller is NPMS, since we only register with them
-            mPolicyDirty = true;
+            if (uid == mInfo.mUid) {
+                mPolicyDirty = true;
+            }
         }
     };
 

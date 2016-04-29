@@ -22,8 +22,6 @@ import static android.os.Environment.buildExternalStorageAppMediaDirs;
 import static android.os.Environment.buildExternalStorageAppObbDirs;
 import static android.provider.Downloads.Impl.FLAG_REQUIRES_CHARGING;
 import static android.provider.Downloads.Impl.FLAG_REQUIRES_DEVICE_IDLE;
-import static android.provider.Downloads.Impl.VISIBILITY_VISIBLE;
-import static android.provider.Downloads.Impl.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
 
 import static com.android.providers.downloads.Constants.TAG;
 
@@ -138,12 +136,9 @@ public class Helpers {
 
         // When this download will show a notification, run with a higher
         // priority, since it's effectively a foreground service
-        switch (info.mVisibility) {
-            case VISIBILITY_VISIBLE:
-            case VISIBILITY_VISIBLE_NOTIFY_COMPLETED:
-                // TODO: force app out of doze, since they're showing a notification
-                builder.setPriority(JobInfo.PRIORITY_FOREGROUND_APP);
-                break;
+        if (info.isVisible()) {
+            builder.setPriority(JobInfo.PRIORITY_FOREGROUND_APP);
+            builder.setFlags(JobInfo.FLAG_WILL_BE_FOREGROUND);
         }
 
         // We might have a backoff constraint due to errors

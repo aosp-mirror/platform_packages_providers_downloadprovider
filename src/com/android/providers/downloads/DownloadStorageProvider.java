@@ -155,6 +155,25 @@ public class DownloadStorageProvider extends DocumentsProvider {
     }
 
     @Override
+    public String renameDocument(String documentId, String displayName)
+            throws FileNotFoundException {
+        displayName = FileUtils.buildValidFatFilename(displayName);
+
+        final long token = Binder.clearCallingIdentity();
+        try {
+            final long id = Long.parseLong(documentId);
+
+            if (!mDm.rename(getContext(), id, displayName)) {
+                throw new IllegalStateException(
+                        "Failed to rename to " + displayName + " in downloadsManager");
+            }
+        } finally {
+            Binder.restoreCallingIdentity(token);
+        }
+        return null;
+    }
+
+    @Override
     public Cursor queryDocument(String docId, String[] projection) throws FileNotFoundException {
         if (mArchiveHelper.isArchivedDocument(docId)) {
             return mArchiveHelper.queryDocument(docId, projection);
@@ -331,7 +350,7 @@ public class DownloadStorageProvider extends DocumentsProvider {
                 cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS));
         switch (status) {
             case DownloadManager.STATUS_SUCCESSFUL:
-                extraFlags = 0;  // only successful is non-partial
+                extraFlags = Document.FLAG_SUPPORTS_RENAME;  // only successful is non-partial
                 break;
             case DownloadManager.STATUS_PAUSED:
                 summary = getContext().getString(R.string.download_queued);

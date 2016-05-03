@@ -43,8 +43,7 @@
     <string name="keep_queued_download" msgid="5144882786014818569">"Saqlash"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Bekor qilish"</string>
     <string name="retry_download" msgid="7617100787922717912">"Qayta urinish"</string>
-    <!-- no translation found for start_now_download (1564642872809509681) -->
-    <skip />
+    <string name="start_now_download" msgid="1564642872809509681">"Boshlash"</string>
     <string name="deselect_all" msgid="6348198946254776764">"Belgilashlarni bekor qil."</string>
     <string name="select_all" msgid="634074918366265804">"Hammasini belgilash"</string>
     <string name="selected_count" msgid="2101564570019753277">"Tanlandi: <xliff:g id="NUMBER">%1$d</xliff:g>/<xliff:g id="TOTAL">%2$d</xliff:g>"</string>

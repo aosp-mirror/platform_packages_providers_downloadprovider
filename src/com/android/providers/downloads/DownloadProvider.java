@@ -17,7 +17,11 @@
 package com.android.providers.downloads;
 
 import static android.provider.BaseColumns._ID;
+import static android.provider.Downloads.Impl.COLUMN_DESTINATION;
 import static android.provider.Downloads.Impl.COLUMN_MEDIAPROVIDER_URI;
+import static android.provider.Downloads.Impl.COLUMN_MEDIA_SCANNED;
+import static android.provider.Downloads.Impl.COLUMN_MIME_TYPE;
+import static android.provider.Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD;
 import static android.provider.Downloads.Impl._DATA;
 
 import android.app.AppOpsManager;
@@ -693,6 +697,12 @@ public final class DownloadProvider extends ContentProvider {
             Helpers.scheduleJob(getContext(), rowID);
         } finally {
             Binder.restoreCallingIdentity(token);
+        }
+
+        if (values.getAsInteger(COLUMN_DESTINATION) == DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD
+                && values.getAsInteger(COLUMN_MEDIA_SCANNED) == 0) {
+            DownloadScanner.requestScanBlocking(getContext(), rowID, values.getAsString(_DATA),
+                    values.getAsString(COLUMN_MIME_TYPE));
         }
 
         return ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, rowID);

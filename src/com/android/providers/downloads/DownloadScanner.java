@@ -76,9 +76,13 @@ public class DownloadScanner implements MediaScannerConnectionClient {
     }
 
     public static void requestScanBlocking(Context context, DownloadInfo info) {
+        requestScanBlocking(context, info.mId, info.mFileName, info.mMimeType);
+    }
+
+    public static void requestScanBlocking(Context context, long id, String path, String mimeType) {
         final DownloadScanner scanner = new DownloadScanner(context);
         scanner.mLatch = new CountDownLatch(1);
-        scanner.requestScan(info);
+        scanner.requestScan(new ScanRequest(id, path, mimeType));
         try {
             scanner.mLatch.await(SCAN_TIMEOUT, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
@@ -115,10 +119,9 @@ public class DownloadScanner implements MediaScannerConnectionClient {
      *
      * @see #hasPendingScans()
      */
-    public void requestScan(DownloadInfo info) {
-        if (LOGV) Log.v(TAG, "requestScan() for " + info.mFileName);
+    public void requestScan(ScanRequest req) {
+        if (LOGV) Log.v(TAG, "requestScan() for " + req.path);
         synchronized (mConnection) {
-            final ScanRequest req = new ScanRequest(info.mId, info.mFileName, info.mMimeType);
             mPending.put(req.path, req);
 
             if (mConnection.isConnected()) {

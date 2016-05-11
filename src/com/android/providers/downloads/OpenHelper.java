@@ -97,13 +97,10 @@ public class OpenHelper {
                 intent.putExtra(Intent.EXTRA_ORIGINATING_URI, remoteUri);
                 intent.putExtra(Intent.EXTRA_REFERRER, getRefererUri(context, id));
                 intent.putExtra(Intent.EXTRA_ORIGINATING_UID, getOriginatingUid(context, id));
-            } else if ("file".equals(localUri.getScheme())) {
+            } else {
                 intent.setDataAndType(documentUri, mimeType);
                 intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
                         | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-            } else {
-                throw new UnsupportedOperationException(
-                        "Unsupported scheme: " + localUri.getScheme());
             }
 
             return intent;

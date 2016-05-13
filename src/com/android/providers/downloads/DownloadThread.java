@@ -871,12 +871,6 @@ public class DownloadThread extends Thread {
         }
 
         @Override
-        public void onRestrictPowerChanged(boolean restrictPower) {
-            // caller is NPMS, since we only register with them
-            mPolicyDirty = true;
-        }
-
-        @Override
         public void onRestrictBackgroundChanged(boolean restrictBackground) {
             // caller is NPMS, since we only register with them
             mPolicyDirty = true;

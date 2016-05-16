@@ -883,6 +883,14 @@ public class DownloadThread extends Thread {
                 mPolicyDirty = true;
             }
         }
+
+        @Override
+        public void onRestrictBackgroundBlacklistChanged(int uid, boolean blacklisted) {
+            // caller is NPMS, since we only register with them
+            if (uid == mInfo.mUid) {
+                mPolicyDirty = true;
+            }
+        }
     };
 
     private static long getHeaderFieldLong(URLConnection conn, String field, long defaultValue) {

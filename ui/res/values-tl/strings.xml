@@ -32,14 +32,14 @@
     <string name="dialog_title_queued_body" msgid="6760681913815015219">"File sa queue"</string>
     <string name="dialog_queued_body" msgid="708552801635572720">"Ang file na ito ay naka-queue para sa pag-download sa hinaharap kaya hindi pa available."</string>
     <string name="dialog_file_missing_body" msgid="3223012612774276284">"Hindi matagpuan ang na-download na file."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Hindi matapos ang pag-download. Walang sapat na puwang sa panlabas na storage."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Hindi matapos ang pag-download. Walang sapat na puwang sa panloob na storage ng pag-download."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Hindi matapos ang pag-download. Walang sapat na puwang sa external storage."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Hindi matapos ang pag-download. Walang sapat na puwang sa internal storage ng pag-download."</string>
     <string name="dialog_cannot_resume" msgid="8664509751358983543">"Naantala ang pag-download at hindi maipagpapatuloy."</string>
     <string name="dialog_file_already_exists" msgid="8308563940663449590">"Hindi ma-download. Umiiral na ang destination file."</string>
     <string name="dialog_media_not_found" msgid="4468088418758018765">"Hindi makapag-download. Hindi available ang panlabas na media."</string>
     <string name="download_no_application_title" msgid="7024782176657362251">"Hindi mabuksan ang file"</string>
     <string name="remove_download" msgid="6372920256257247857">"Alisin"</string>
-    <string name="delete_download" msgid="76629022653866471">"Tanggalin"</string>
+    <string name="delete_download" msgid="76629022653866471">"I-delete"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"Panatilihin"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Kanselahin"</string>
     <string name="retry_download" msgid="7617100787922717912">"Subukang muli"</string>

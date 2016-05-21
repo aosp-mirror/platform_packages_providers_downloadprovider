@@ -32,11 +32,11 @@
     <string name="dialog_title_queued_body" msgid="6760681913815015219">"ဖိုင်ကိုတန်းစီထားသည်"</string>
     <string name="dialog_queued_body" msgid="708552801635572720">"နောင်တွင် ဒေါင်းလုပ်ပြုလုပ်ရန် ဖိုင်ကိုတန်းစီထားသောကြောင့် မရနိုင်သေးပါ"</string>
     <string name="dialog_file_missing_body" msgid="3223012612774276284">"ဒေါင်းလုပ်ပြုလုပ်ထားသောဖိုင်အား ရှာမရပါ"</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"ဒေါင်းလုပ် မပြီးဆုံးနိုင်ပါ၊ ပြင်ပ သိုလှောင်ရာနေရာတွင် လုံလောက်သော နေရာလွတ် မရှိပါ။"</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"ဒေါင်းလုပ် မပြီးဆုံးနိုင်ပါ၊ စက်တွင်းဒေါင်းလုပ်သိုလှောင်မှုတွင် လုံလောက်သောနေရာလပ်မရှိပါ"</string>
+    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"ဒေါင်းလုဒ် မပြီးဆုံးနိုင်ပါ၊ ပြင်ပ သိုလှောင်ရာနေရာတွင် လုံလောက်သော နေရာလွတ် မရှိပါ။"</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"ဒေါင်းလုဒ် မပြီးဆုံးနိုင်ပါ၊ စက်တွင်းဒေါင်းလုဒ်သိုလှောင်မှုတွင် လုံလောက်သောနေရာလပ်မရှိပါ"</string>
     <string name="dialog_cannot_resume" msgid="8664509751358983543">"ဒေါင်းလုပ်မှာ နှောက်ယှက်ခံရသောကြောင့် ​ပြန်မစနိုင်ပါ"</string>
     <string name="dialog_file_already_exists" msgid="8308563940663449590">"ဒေါင်းလုပ်ပြုလုပ်မရပါ၊ ဦးတည်ရာဖိုင် ရှိနှင့်ပြီးဖြစ်သည်။"</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"ဒေါင်းလုပ် မပြုလုပ်နိုင်ပါ၊ ပြင်ပ မီဒီယာ မရှိပါ။"</string>
+    <string name="dialog_media_not_found" msgid="4468088418758018765">"ဒေါင်းလုဒ် မပြုလုပ်နိုင်ပါ၊ ပြင်ပ မီဒီယာ မရှိပါ။"</string>
     <string name="download_no_application_title" msgid="7024782176657362251">"ဖိုင်အား ဖွင့်မရပါ"</string>
     <string name="remove_download" msgid="6372920256257247857">"ဖယ်ရှားရန်"</string>
     <string name="delete_download" msgid="76629022653866471">"ဖျက်ပစ်ရန်"</string>

@@ -19,6 +19,7 @@ package com.android.providers.downloads;
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE;
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION;
+import static android.provider.Downloads.Impl.STATUS_QUEUED_FOR_WIFI;
 import static android.provider.Downloads.Impl.STATUS_RUNNING;
 
 import static com.android.providers.downloads.Constants.TAG;
@@ -411,7 +412,7 @@ public class DownloadNotifier {
         final int visibility = cursor.getInt(UpdateQuery.VISIBILITY);
         final String notifPackage = cursor.getString(UpdateQuery.NOTIFICATION_PACKAGE);
 
-        if (status == Downloads.Impl.STATUS_QUEUED_FOR_WIFI) {
+        if (isQueuedAndVisible(status, visibility)) {
             return TYPE_WAITING + ":" + notifPackage;
         } else if (isActiveAndVisible(status, visibility)) {
             return TYPE_ACTIVE + ":" + notifPackage;
@@ -429,6 +430,12 @@ public class DownloadNotifier {
      */
     private static int getNotificationTagType(String tag) {
         return Integer.parseInt(tag.substring(0, tag.indexOf(':')));
+    }
+
+    private static boolean isQueuedAndVisible(int status, int visibility) {
+        return status == STATUS_QUEUED_FOR_WIFI &&
+                (visibility == VISIBILITY_VISIBLE
+                || visibility == VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
     }
 
     private static boolean isActiveAndVisible(int status, int visibility) {

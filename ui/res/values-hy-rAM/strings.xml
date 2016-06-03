@@ -47,5 +47,5 @@
     <string name="deselect_all" msgid="6348198946254776764">"Ապանշել բոլորը"</string>
     <string name="select_all" msgid="634074918366265804">"Ընտրել բոլորը"</string>
     <string name="selected_count" msgid="2101564570019753277">"Ընտրված են <xliff:g id="NUMBER">%1$d</xliff:g>-ը <xliff:g id="TOTAL">%2$d</xliff:g>-ից"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"Տարածել"</string>
+    <string name="download_share_dialog" msgid="3355867339806448955">"Կիսվել"</string>
 </resources>

@@ -16,9 +16,9 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"ဒေါင်းလုပ်များ"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"ဒေါင်းလုပ်များ -နေ့စွဲအလိုက် စီထားသည်"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"ဒေါင်းလုပ်များ -အရွယ်အစားအလိုက် စီထားသည်"</string>
+    <string name="app_label" msgid="3070921713463294774">"ဒေါင်းလုဒ်များ"</string>
+    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"ဒေါင်းလုဒ်များ -နေ့စွဲအလိုက် စီထားသည်"</string>
+    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"ဒေါင်းလုဒ်များ -အရွယ်အစားအလိုက် စီထားသည်"</string>
     <string name="no_downloads" msgid="1029667411186146836">"ဒေါင်းလုပ်မရှိပါ"</string>
     <string name="missing_title" msgid="830115697868833773">"အကြောင်းအရာ မသိရှိ"</string>
     <string name="button_sort_by_size" msgid="7331549713691146251">"အရွယ်အစားအလိုက် စီရန်"</string>
@@ -41,7 +41,7 @@
     <string name="remove_download" msgid="6372920256257247857">"ဖယ်ရှားရန်"</string>
     <string name="delete_download" msgid="76629022653866471">"ဖျက်ပစ်ရန်"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"သိမ်းထားပါ"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"ဖျက်သိမ်းရန်"</string>
+    <string name="cancel_running_download" msgid="5232704030969221112">"မလုပ်တော့ပါ"</string>
     <string name="retry_download" msgid="7617100787922717912">"ပြန်ကြိုးစားပါ"</string>
     <string name="start_now_download" msgid="1564642872809509681">"ယခု စတင်ပါ"</string>
     <string name="deselect_all" msgid="6348198946254776764">"ဘာကိုမှ မရွေးပါ"</string>

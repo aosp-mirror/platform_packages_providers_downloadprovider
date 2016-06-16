@@ -16,10 +16,10 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"Aflaaisels"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Aflaaisels - gerangskik volgens datum"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Aflaaisels - gerangskik volgens grootte"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"Geen aflaaisels nie."</string>
+    <string name="app_label" msgid="3070921713463294774">"Aflaaie"</string>
+    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Aflaaie - gerangskik volgens datum"</string>
+    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Aflaaie - gerangskik volgens grootte"</string>
+    <string name="no_downloads" msgid="1029667411186146836">"Geen aflaaie nie."</string>
     <string name="missing_title" msgid="830115697868833773">"&lt;Onbekend&gt;"</string>
     <string name="button_sort_by_size" msgid="7331549713691146251">"Rangskik volgens grootte"</string>
     <string name="button_sort_by_date" msgid="8800842892684101528">"Rangskik volgens datum"</string>
@@ -43,6 +43,7 @@
     <string name="keep_queued_download" msgid="5144882786014818569">"Behou"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Kanselleer"</string>
     <string name="retry_download" msgid="7617100787922717912">"Probeer weer"</string>
+    <string name="start_now_download" msgid="1564642872809509681">"Begin nou"</string>
     <string name="deselect_all" msgid="6348198946254776764">"Ontkies almal"</string>
     <string name="select_all" msgid="634074918366265804">"Kies almal"</string>
     <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="NUMBER">%1$d</xliff:g> gekies uit <xliff:g id="TOTAL">%2$d</xliff:g>"</string>

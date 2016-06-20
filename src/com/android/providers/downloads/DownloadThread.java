@@ -85,6 +85,10 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.GeneralSecurityException;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
 
 /**
  * Task which executes a given {@link DownloadInfo}: making network requests,
@@ -403,6 +407,13 @@ public class DownloadThread extends Thread {
         }
 
         boolean cleartextTrafficPermitted = mSystemFacade.isCleartextTrafficPermitted(mInfo.mUid);
+        SSLContext appContext;
+        try {
+            appContext = mSystemFacade.getSSLContextForPackage(mContext, mInfo.mPackage);
+        } catch (GeneralSecurityException e) {
+            // This should never happen.
+            throw new StopRequestException(STATUS_UNKNOWN_ERROR, "Unable to create SSLContext.");
+        }
         int redirectionCount = 0;
         while (redirectionCount++ < Constants.MAX_REDIRECTS) {
             // Enforce the cleartext traffic opt-out for the UID. This cannot be enforced earlier
@@ -424,6 +435,11 @@ public class DownloadThread extends Thread {
                 conn.setInstanceFollowRedirects(false);
                 conn.setConnectTimeout(DEFAULT_TIMEOUT);
                 conn.setReadTimeout(DEFAULT_TIMEOUT);
+                // If this is going over HTTPS configure the trust to be the same as the calling
+                // package.
+                if (conn instanceof HttpsURLConnection) {
+                    ((HttpsURLConnection)conn).setSSLSocketFactory(appContext.getSocketFactory());
+                }
 
                 addRequestHeaders(conn, resuming);
 

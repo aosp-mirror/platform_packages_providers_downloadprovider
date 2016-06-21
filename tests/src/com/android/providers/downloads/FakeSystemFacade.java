@@ -4,6 +4,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
@@ -17,8 +18,10 @@ import org.mockito.stubbing.Answer;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.net.ssl.SSLContext;
 
 public class FakeSystemFacade implements SystemFacade {
     long mTimeMillis = 0;
@@ -30,6 +33,7 @@ public class FakeSystemFacade implements SystemFacade {
     List<Intent> mBroadcastsSent = new ArrayList<Intent>();
     boolean mCleartextTrafficPermitted = true;
     private boolean mReturnActualTime = false;
+    private SSLContext mSSLContext = null;
 
     public void setUp() {
         mTimeMillis = 0;
@@ -40,6 +44,11 @@ public class FakeSystemFacade implements SystemFacade {
         mRecommendedMaxBytesOverMobile = Long.MAX_VALUE;
         mBroadcastsSent.clear();
         mReturnActualTime = false;
+        try {
+            mSSLContext = SSLContext.getDefault();
+        } catch (GeneralSecurityException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     void incrementTimeMillis(long delta) {
@@ -110,6 +119,15 @@ public class FakeSystemFacade implements SystemFacade {
     @Override
     public boolean isCleartextTrafficPermitted(int uid) {
         return mCleartextTrafficPermitted;
+    }
+
+    @Override
+    public SSLContext getSSLContextForPackage(Context context, String pckg) {
+        return mSSLContext;
+    }
+
+    public void setSSLContext(SSLContext context) {
+        mSSLContext = context;
     }
 
     public void setReturnActualTime(boolean flag) {

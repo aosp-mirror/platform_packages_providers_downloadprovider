@@ -16,10 +16,14 @@
 
 package com.android.providers.downloads;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Network;
 import android.net.NetworkInfo;
+
+import java.security.GeneralSecurityException;
+import javax.net.ssl.SSLContext;
 
 interface SystemFacade {
     /**
@@ -58,4 +62,10 @@ interface SystemFacade {
      * Returns true if cleartext network traffic is permitted for the specified UID.
      */
     public boolean isCleartextTrafficPermitted(int uid);
+
+    /**
+     * Return a {@link SSLContext} configured using the specified package's configuration.
+     */
+    public SSLContext getSSLContextForPackage(Context context, String pckg)
+            throws GeneralSecurityException;
 }

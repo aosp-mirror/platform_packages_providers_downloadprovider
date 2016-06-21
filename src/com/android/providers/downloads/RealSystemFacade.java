@@ -26,6 +26,13 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
+import android.security.NetworkSecurityPolicy;
+import android.security.net.config.ApplicationConfig;
+
+import java.security.GeneralSecurityException;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
 
 import com.android.internal.util.ArrayUtils;
 
@@ -92,6 +99,21 @@ class RealSystemFacade implements SystemFacade {
             }
         }
         return false;
+    }
+
+    @Override
+    public SSLContext getSSLContextForPackage(Context context, String packageName)
+            throws GeneralSecurityException {
+        ApplicationConfig appConfig;
+        try {
+            appConfig = NetworkSecurityPolicy.getApplicationConfigForPackage(context, packageName);
+        } catch (NameNotFoundException e) {
+            // Unknown package -- fallback to the default SSLContext
+            return SSLContext.getDefault();
+        }
+        SSLContext ctx = SSLContext.getInstance("TLS");
+        ctx.init(null, new TrustManager[] {appConfig.getTrustManager()}, null);
+        return ctx;
     }
 
     /**

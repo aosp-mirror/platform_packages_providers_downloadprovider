@@ -368,6 +368,10 @@ public class DownloadInfo {
         return false;
     }
 
+    public boolean isMeteredAllowed(long totalBytes) {
+        return getRequiredNetworkType(totalBytes) != JobInfo.NETWORK_TYPE_UNMETERED;
+    }
+
     public boolean isRoamingAllowed() {
         if (mIsPublicApi) {
             return mAllowRoaming;

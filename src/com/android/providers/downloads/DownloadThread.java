@@ -353,6 +353,13 @@ public class DownloadThread extends Thread {
                 }
             }
 
+            // If we're waiting for a network that must be unmetered, our status
+            // is actually queued so we show relevant notifications
+            if (mInfoDelta.mStatus == STATUS_WAITING_FOR_NETWORK
+                    && !mInfo.isMeteredAllowed(mInfoDelta.mTotalBytes)) {
+                mInfoDelta.mStatus = STATUS_QUEUED_FOR_WIFI;
+            }
+
         } catch (Throwable t) {
             mInfoDelta.mStatus = STATUS_UNKNOWN_ERROR;
             mInfoDelta.mErrorMsg = t.toString();
@@ -380,7 +387,8 @@ public class DownloadThread extends Thread {
                 DownloadScanner.requestScanBlocking(mContext, mInfo);
             }
         } else if (mInfoDelta.mStatus == STATUS_WAITING_TO_RETRY
-                || mInfoDelta.mStatus == STATUS_WAITING_FOR_NETWORK) {
+                || mInfoDelta.mStatus == STATUS_WAITING_FOR_NETWORK
+                || mInfoDelta.mStatus == STATUS_QUEUED_FOR_WIFI) {
             Helpers.scheduleJob(mContext, DownloadInfo.queryDownloadInfo(mContext, mId));
         }
 
@@ -727,20 +735,16 @@ public class DownloadThread extends Thread {
         // checking connectivity will apply current policy
         mPolicyDirty = false;
 
-        final boolean allowMetered = mInfo
-                .getRequiredNetworkType(mInfoDelta.mTotalBytes) != JobInfo.NETWORK_TYPE_UNMETERED;
-        final boolean allowRoaming = mInfo.isRoamingAllowed();
-
         final NetworkInfo info = mSystemFacade.getNetworkInfo(mNetwork, mInfo.mUid,
                 mIgnoreBlocked);
         if (info == null || !info.isConnected()) {
             throw new StopRequestException(STATUS_WAITING_FOR_NETWORK, "Network is disconnected");
         }
-        if (info.isRoaming() && !allowRoaming) {
+        if (info.isRoaming() && !mInfo.isRoamingAllowed()) {
             throw new StopRequestException(STATUS_WAITING_FOR_NETWORK, "Network is roaming");
         }
-        if (info.isMetered() && !allowMetered) {
-            throw new StopRequestException(STATUS_QUEUED_FOR_WIFI, "Network is metered");
+        if (info.isMetered() && !mInfo.isMeteredAllowed(mInfoDelta.mTotalBytes)) {
+            throw new StopRequestException(STATUS_WAITING_FOR_NETWORK, "Network is metered");
         }
     }
 

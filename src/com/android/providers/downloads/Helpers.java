@@ -112,15 +112,21 @@ public class Helpers {
     }
 
     public static void scheduleJob(Context context, long downloadId) {
-        scheduleJob(context, DownloadInfo.queryDownloadInfo(context, downloadId));
+        final boolean scheduled = scheduleJob(context,
+                DownloadInfo.queryDownloadInfo(context, downloadId));
+        if (!scheduled) {
+            // If we didn't schedule a future job, kick off a notification
+            // update pass immediately
+            getDownloadNotifier(context).update();
+        }
     }
 
     /**
      * Schedule (or reschedule) a job for the given {@link DownloadInfo} using
      * its current state to define job constraints.
      */
-    public static void scheduleJob(Context context, DownloadInfo info) {
-        if (info == null) return;
+    public static boolean scheduleJob(Context context, DownloadInfo info) {
+        if (info == null) return false;
 
         final JobScheduler scheduler = context.getSystemService(JobScheduler.class);
 
@@ -129,7 +135,7 @@ public class Helpers {
         scheduler.cancel(jobId);
 
         // Skip scheduling if download is paused or finished
-        if (!info.isReadyToSchedule()) return;
+        if (!info.isReadyToSchedule()) return false;
 
         final JobInfo.Builder builder = new JobInfo.Builder(jobId,
                 new ComponentName(context, DownloadJobService.class));
@@ -166,6 +172,7 @@ public class Helpers {
         }
 
         scheduler.scheduleAsPackage(builder.build(), packageName, UserHandle.myUserId(), TAG);
+        return true;
     }
 
     /*

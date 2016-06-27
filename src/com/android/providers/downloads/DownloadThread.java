@@ -383,8 +383,9 @@ public class DownloadThread extends Thread {
 
         if (Downloads.Impl.isStatusCompleted(mInfoDelta.mStatus)) {
             mInfo.sendIntentIfRequested();
-            if (mInfo.shouldScanFile()) {
-                DownloadScanner.requestScanBlocking(mContext, mInfo);
+            if (mInfo.shouldScanFile(mInfoDelta.mStatus)) {
+                DownloadScanner.requestScanBlocking(mContext, mInfo.mId, mInfoDelta.mFileName,
+                        mInfoDelta.mMimeType);
             }
         } else if (mInfoDelta.mStatus == STATUS_WAITING_TO_RETRY
                 || mInfoDelta.mStatus == STATUS_WAITING_FOR_NETWORK

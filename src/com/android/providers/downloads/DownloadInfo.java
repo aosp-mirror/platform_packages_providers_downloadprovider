@@ -448,12 +448,12 @@ public class DownloadInfo {
     /**
      * Returns whether a file should be scanned
      */
-    public boolean shouldScanFile() {
+    public boolean shouldScanFile(int status) {
         return (mMediaScanned == 0)
                 && (mDestination == Downloads.Impl.DESTINATION_EXTERNAL ||
                         mDestination == Downloads.Impl.DESTINATION_FILE_URI ||
                         mDestination == Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD)
-                && Downloads.Impl.isStatusSuccess(mStatus);
+                && Downloads.Impl.isStatusSuccess(status);
     }
 
     /**

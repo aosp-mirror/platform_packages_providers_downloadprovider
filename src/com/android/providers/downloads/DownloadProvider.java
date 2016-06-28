@@ -1229,8 +1229,13 @@ public final class DownloadProvider extends ContentProvider {
 
                         final String mediaUri = cursor.getString(2);
                         if (!TextUtils.isEmpty(mediaUri)) {
-                            getContext().getContentResolver().delete(Uri.parse(mediaUri), null,
-                                    null);
+                            final long token = Binder.clearCallingIdentity();
+                            try {
+                                getContext().getContentResolver().delete(Uri.parse(mediaUri), null,
+                                        null);
+                            } finally {
+                                Binder.restoreCallingIdentity(token);
+                            }
                         }
                     }
                 }

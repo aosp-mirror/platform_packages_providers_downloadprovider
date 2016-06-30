@@ -43,6 +43,7 @@
     <string name="keep_queued_download" msgid="5144882786014818569">"継続"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"キャンセル"</string>
     <string name="retry_download" msgid="7617100787922717912">"再試行"</string>
+    <string name="start_now_download" msgid="1564642872809509681">"今すぐ開始"</string>
     <string name="deselect_all" msgid="6348198946254776764">"選択をすべて解除"</string>
     <string name="select_all" msgid="634074918366265804">"すべて選択"</string>
     <string name="selected_count" msgid="2101564570019753277">"選択済み: <xliff:g id="NUMBER">%1$d</xliff:g>/<xliff:g id="TOTAL">%2$d</xliff:g>件"</string>

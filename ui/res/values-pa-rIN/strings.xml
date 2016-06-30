@@ -16,10 +16,10 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"ਡਾਊਨਲੋਡਸ"</string>
+    <string name="app_label" msgid="3070921713463294774">"ਡਾਊਨਲੋਡ"</string>
     <string name="download_title_sorted_by_date" msgid="5898014492155434221">"ਡਾਊਨਲੋਡਸ - ਤਾਰੀਖ ਮੁਤਾਬਕ ਛਾਂਟਿਆ"</string>
     <string name="download_title_sorted_by_size" msgid="1417193166677094813">"ਡਾਊਨਲੋਡਸ - ਆਕਾਰ ਮੁਤਾਬਕ ਛਾਂਟਿਆ"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"ਕੋਈ ਡਾਊਨਲੋਡਸ ਨਹੀਂ।"</string>
+    <string name="no_downloads" msgid="1029667411186146836">"ਕੋਈ ਡਾਊਨਲੋਡ ਨਹੀਂ।"</string>
     <string name="missing_title" msgid="830115697868833773">"&lt;ਅਗਿਆਤ&gt;"</string>
     <string name="button_sort_by_size" msgid="7331549713691146251">"ਆਕਾਰ ਮੁਤਾਬਕ ਛਾਂਟੋ"</string>
     <string name="button_sort_by_date" msgid="8800842892684101528">"ਤਾਰੀਖ ਮੁਤਾਬਕ ਛਾਂਟੋ"</string>
@@ -43,8 +43,9 @@
     <string name="keep_queued_download" msgid="5144882786014818569">"ਰੱਖੋ"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"ਰੱਦ ਕਰੋ"</string>
     <string name="retry_download" msgid="7617100787922717912">"ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ"</string>
+    <string name="start_now_download" msgid="1564642872809509681">"ਹੁਣ ਸ਼ੁਰੂ ਕਰੋ"</string>
     <string name="deselect_all" msgid="6348198946254776764">"ਸਾਰਿਆਂ ਨੂੰ ਅਚੋਣਵਾਂ ਕਰੋ"</string>
-    <string name="select_all" msgid="634074918366265804">"ਸਾਰੇ ਚੁਣੋ"</string>
+    <string name="select_all" msgid="634074918366265804">"ਸਭ ਚੁਣੋ"</string>
     <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="TOTAL">%2$d</xliff:g> ਵਿੱਚੋਂ <xliff:g id="NUMBER">%1$d</xliff:g> ਨੂੰ ਚੁਣਿਆ ਗਿਆ"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"ਇਸ ਰਾਹੀਂ ਸ਼ੇਅਰ ਕਰੋ"</string>
+    <string name="download_share_dialog" msgid="3355867339806448955">"ਇਸ ਰਾਹੀਂ ਸਾਂਝਾ ਕਰੋ"</string>
 </resources>

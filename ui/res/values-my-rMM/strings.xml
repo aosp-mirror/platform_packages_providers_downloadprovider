@@ -39,9 +39,9 @@
     <string name="dialog_media_not_found" msgid="4468088418758018765">"ဒေါင်းလုဒ် မပြုလုပ်နိုင်ပါ၊ ပြင်ပ မီဒီယာ မရှိပါ။"</string>
     <string name="download_no_application_title" msgid="7024782176657362251">"ဖိုင်အား ဖွင့်မရပါ"</string>
     <string name="remove_download" msgid="6372920256257247857">"ဖယ်ရှားရန်"</string>
-    <string name="delete_download" msgid="76629022653866471">"ဖျက်ပစ်ရန်"</string>
+    <string name="delete_download" msgid="76629022653866471">"ဖျက်ရန်"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"သိမ်းထားပါ"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"မလုပ်တော့ပါ"</string>
+    <string name="cancel_running_download" msgid="5232704030969221112">"မလုပ်တော့"</string>
     <string name="retry_download" msgid="7617100787922717912">"ပြန်ကြိုးစားပါ"</string>
     <string name="start_now_download" msgid="1564642872809509681">"ယခု စတင်ပါ"</string>
     <string name="deselect_all" msgid="6348198946254776764">"ဘာကိုမှ မရွေးပါ"</string>

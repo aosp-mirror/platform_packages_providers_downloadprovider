@@ -22,7 +22,7 @@
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"အဆင့်မြင့် ဒေါင်းလုပ်မန်နေဂျာ လုပ်ငန်းများ"</string>
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"အပလီကေးရှင်းအား ဒေါင်းလုပ်မန်နေဂျာ၏ အဆင့်မြင့် လုပ်ဆောင်ချက်များကို သုံးစွဲခွင့်ပြုမည်။ အန္တရာယ် ရှိသော အပလီကေးရှင်းများက ၎င်းကို အသုံးပြုကာ ဒေါင်းလုပ်ပြုလုပ်ခြင်းကို နှောက်ယှက်ခြင်းနှင့် ကိုယ်ပိုင်အချက်အလက်များကို ဝင်ရောက်ယူနိုင်သည်။"</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"ဒေါင်းလုပ်နှင့် ပတ်သက်သော အကြောင်းကြားချက် အားလုံးကိုပို့မည်"</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"အက်ပ် အား ဒေါင်းလုပ်ပြီးဆုံးပါက အကြောင်းကြားရန် ခွင့်ပြုမည်။ အန္တရာယ် ရှိသော အက်ပ်များက ၎င်းကို အသုံးပြုကာ ဖိုင်များကိုဒေါင်းလုပ်ပြုထားသော အက်ပ်ကို ရောထွေးအောင်ပြုလုပ်နိုင်သည်။"</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"အက်ပ်အား ဒေါင်းလုပ်ပြီးဆုံးပါက အကြောင်းကြားရန် ခွင့်ပြုမည်။ အန္တရာယ် ရှိသော အက်ပ်များက ၎င်းကို အသုံးပြုကာ ဖိုင်များကိုဒေါင်းလုပ်ပြုထားသော အက်ပ်ကို ရောထွေးအောင်ပြုလုပ်နိုင်သည်။"</string>
     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"ဒေါင်းလုပ်အားလုံးကို USBသိုလှောင်ကတ်ထဲတွင် ကြည့်မည်"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"ဒေါင်းလုပ်အားလုံးကို SDကတ်ထဲတွင် ကြည့်မည်"</string>
     <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"အပလီကေးရှင်းအား SDကဒ်ထဲရှိ မည်သည့်အပလီကေးရှင်းမှမဆို ဒေါင်းလုပ်ပြုလုပ်ထားသည်များကို သုံးစွဲခွင့်ပြုမည်။"</string>
@@ -42,7 +42,7 @@
     <string name="wifi_recommended_title" msgid="7441589306734687400">"နောက်မှ ဒေါင်းလုပ်ပြုလုပ်ရန် တန်းစီထားမလား?"</string>
     <string name="wifi_recommended_body" msgid="1314735166699936073">"ဤ <xliff:g id="SIZE">%s </xliff:g>ဒေါင်းလုပ်ကို စတင်ခြင်းမှာ သင့်ဘက်ထရီ သက်တမ်းကို တိုစေသည် သို့မဟုတ် သင့်ဒေတာပလန်ပေါ် မူတည်၍ ကျသင့်ငွေ ပိုကုန်စေမည့် မိုဘိုင်းဒေတာ ချိတ်ဆက်မှုကို အလွန်အကျွံ သုံးနိုင်သည်။ \n\n နောက်တစ်ခါ ဝိုင်ဖိုင်ချိတ်ဆက်လျှင် ဒေါင်းလုပ်စတင်ရန် <xliff:g id="QUEUE_TEXT">%s</xliff:g> ကို တို့ထိပါ။"</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"တန်းစီရန်"</string>
-    <string name="button_cancel_download" msgid="2430166148737975604">"မလုပ်တော့ပါ"</string>
+    <string name="button_cancel_download" msgid="2430166148737975604">"မလုပ်တော့"</string>
     <string name="button_start_now" msgid="792123674007840864">"ယခုအချိန်မှစတင်ပါ"</string>
     <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> ဖိုင်များကို ဒေါင်းလုဒ် လုပ်နေပါသည်</item>

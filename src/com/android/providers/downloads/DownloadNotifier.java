@@ -213,7 +213,9 @@ public class DownloadNotifier {
                         downloadIds);
                 builder.setContentIntent(PendingIntent.getBroadcast(mContext,
                         0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
-                builder.setOngoing(true);
+                if (type == TYPE_ACTIVE) {
+                    builder.setOngoing(true);
+                }
 
                 // Add a Cancel action
                 final Uri cancelUri = new Uri.Builder().scheme("cancel-dl").appendPath(tag).build();

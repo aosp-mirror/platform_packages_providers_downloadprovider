@@ -381,7 +381,7 @@ public class DownloadStorageProvider extends DocumentsProvider {
                 // Verify that the document still exists in external storage. This is necessary
                 // because files can be deleted from the file system without their entry being
                 // removed from DownloadsManager.
-                if (!new File(localFilePath).exists()) {
+                if (localFilePath == null || !new File(localFilePath).exists()) {
                     return;
                 }
                 extraFlags = Document.FLAG_SUPPORTS_RENAME;  // only successful is non-partial

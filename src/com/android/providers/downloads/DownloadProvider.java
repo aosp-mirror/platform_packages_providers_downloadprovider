@@ -1232,6 +1232,19 @@ public final class DownloadProvider extends ContentProvider {
             logVerboseOpenFileInfo(uri, mode);
         }
 
+        // Perform normal query to enforce caller identity access before
+        // clearing it to reach internal-only columns
+        final Cursor probeCursor = query(uri, new String[] {
+                Downloads.Impl._DATA }, null, null, null);
+        try {
+            if ((probeCursor == null) || (probeCursor.getCount() == 0)) {
+                throw new FileNotFoundException(
+                        "No file found for " + uri + " as UID " + Binder.getCallingUid());
+            }
+        } finally {
+            IoUtils.closeQuietly(probeCursor);
+        }
+
         final Cursor cursor = queryCleared(uri, new String[] {
                 Downloads.Impl._DATA, Downloads.Impl.COLUMN_STATUS,
                 Downloads.Impl.COLUMN_DESTINATION, Downloads.Impl.COLUMN_MEDIA_SCANNED }, null,

@@ -1250,6 +1250,12 @@ public final class DownloadProvider extends ContentProvider {
                 throw new UnsupportedOperationException("Cannot delete URI: " + uri);
         }
         notifyContentChanged(uri, match);
+        final long token = Binder.clearCallingIdentity();
+        try {
+            Helpers.getDownloadNotifier(getContext()).update();
+        } finally {
+            Binder.restoreCallingIdentity(token);
+        }
         return count;
     }
 

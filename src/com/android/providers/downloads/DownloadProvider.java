@@ -18,7 +18,6 @@ package com.android.providers.downloads;
 
 import static android.provider.BaseColumns._ID;
 import static android.provider.Downloads.Impl.COLUMN_DESTINATION;
-import static android.provider.Downloads.Impl.COLUMN_MEDIAPROVIDER_URI;
 import static android.provider.Downloads.Impl.COLUMN_MEDIA_SCANNED;
 import static android.provider.Downloads.Impl.COLUMN_MIME_TYPE;
 import static android.provider.Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD;
@@ -29,6 +28,7 @@ import android.app.DownloadManager;
 import android.app.DownloadManager.Request;
 import android.app.job.JobScheduler;
 import android.content.ContentProvider;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -1195,7 +1195,10 @@ public final class DownloadProvider extends ContentProvider {
             Helpers.validateSelection(where, sAppReadableColumnsSet);
         }
 
-        final JobScheduler scheduler = getContext().getSystemService(JobScheduler.class);
+        final Context context = getContext();
+        final ContentResolver resolver = context.getContentResolver();
+        final JobScheduler scheduler = context.getSystemService(JobScheduler.class);
+
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         int count;
         int match = sURIMatcher.match(uri);
@@ -1207,16 +1210,17 @@ public final class DownloadProvider extends ContentProvider {
                 final SqlSelection selection = getWhereClause(uri, where, whereArgs, match);
                 deleteRequestHeaders(db, selection.getSelection(), selection.getParameters());
 
-                try (Cursor cursor = db.query(DB_TABLE, new String[] {
-                        _ID, _DATA, COLUMN_MEDIAPROVIDER_URI
-                }, selection.getSelection(), selection.getParameters(), null, null, null)) {
+                try (Cursor cursor = db.query(DB_TABLE, null, selection.getSelection(),
+                        selection.getParameters(), null, null, null)) {
+                    final DownloadInfo.Reader reader = new DownloadInfo.Reader(resolver, cursor);
+                    final DownloadInfo info = new DownloadInfo(context);
                     while (cursor.moveToNext()) {
-                        final long id = cursor.getLong(0);
-                        scheduler.cancel((int) id);
+                        reader.updateFromDatabase(info);
+                        scheduler.cancel((int) info.mId);
 
-                        DownloadStorageProvider.onDownloadProviderDelete(getContext(), id);
+                        DownloadStorageProvider.onDownloadProviderDelete(getContext(), info.mId);
 
-                        final String path = cursor.getString(1);
+                        final String path = info.mFileName;
                         if (!TextUtils.isEmpty(path)) {
                             try {
                                 final File file = new File(path).getCanonicalFile();
@@ -1229,7 +1233,7 @@ public final class DownloadProvider extends ContentProvider {
                             }
                         }
 
-                        final String mediaUri = cursor.getString(2);
+                        final String mediaUri = info.mMediaProviderUri;
                         if (!TextUtils.isEmpty(mediaUri)) {
                             final long token = Binder.clearCallingIdentity();
                             try {
@@ -1239,6 +1243,9 @@ public final class DownloadProvider extends ContentProvider {
                                 Binder.restoreCallingIdentity(token);
                             }
                         }
+
+                        // Tell requester that download is finished
+                        info.sendIntentIfRequested();
                     }
                 }
 

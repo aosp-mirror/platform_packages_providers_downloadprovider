@@ -325,6 +325,10 @@ public class DownloadStorageProvider extends DocumentsProvider {
                 Document.FLAG_DIR_PREFERS_LAST_MODIFIED | Document.FLAG_DIR_SUPPORTS_CREATE);
     }
 
+    /**
+     * Adds the entry from the cursor to the result only if the entry is valid. That is,
+     * if the file exists in the file system.
+     */
     private void includeDownloadFromCursor(MatrixCursor result, Cursor cursor) {
         final long id = cursor.getLong(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_ID));
         final String docId = String.valueOf(id);
@@ -344,12 +348,20 @@ public class DownloadStorageProvider extends DocumentsProvider {
         if (size == -1) {
             size = null;
         }
+        String localFilePath = cursor.getString(
+                cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_FILENAME));
 
         int extraFlags = Document.FLAG_PARTIAL;
         final int status = cursor.getInt(
                 cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS));
         switch (status) {
             case DownloadManager.STATUS_SUCCESSFUL:
+                // Verify that the document still exists in external storage. This is necessary
+                // because files can be deleted from the file system without their entry being
+                // removed from DownloadsManager.
+                if (localFilePath == null || !new File(localFilePath).exists()) {
+                    return;
+                }
                 extraFlags = Document.FLAG_SUPPORTS_RENAME;  // only successful is non-partial
                 break;
             case DownloadManager.STATUS_PAUSED:
@@ -400,8 +412,6 @@ public class DownloadStorageProvider extends DocumentsProvider {
             row.add(Document.COLUMN_LAST_MODIFIED, lastModified);
         }
 
-        final String localFilePath = cursor.getString(
-                cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_FILENAME));
         if (localFilePath != null) {
             row.add(DocumentArchiveHelper.COLUMN_LOCAL_FILE_PATH, localFilePath);
         }

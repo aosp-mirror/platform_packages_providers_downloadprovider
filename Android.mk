@@ -11,6 +11,8 @@ LOCAL_PRIVILEGED_MODULE := true
 LOCAL_STATIC_JAVA_LIBRARIES := guava \
     android-support-documents-archive
 
+LOCAL_JACK_COVERAGE_INCLUDE_FILTER := com.android.providers.downloads.*
+
 include $(BUILD_PACKAGE)
 
 # build UI + tests

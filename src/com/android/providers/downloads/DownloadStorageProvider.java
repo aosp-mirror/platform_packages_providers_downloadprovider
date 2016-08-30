@@ -29,28 +29,36 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.CancellationSignal;
 import android.os.Environment;
+import android.os.FileObserver;
 import android.os.FileUtils;
 import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.provider.DocumentsContract.Root;
 import android.provider.DocumentsProvider;
+import android.provider.Downloads;
 import android.support.provider.DocumentArchiveHelper;
 import android.text.TextUtils;
-import android.webkit.MimeTypeMap;
-
-import libcore.io.IoUtils;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.NumberFormat;
 
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.GuardedBy;
+
+import libcore.io.IoUtils;
+
 /**
  * Presents a {@link DocumentsContract} view of {@link DownloadManager}
  * contents.
  */
 public class DownloadStorageProvider extends DocumentsProvider {
+    private static final String TAG = "DownloadStorageProvider";
+    private static final boolean DEBUG = false;
+
     private static final String AUTHORITY = Constants.STORAGE_AUTHORITY;
     private static final String DOC_ID_ROOT = Constants.STORAGE_ROOT_ID;
 
@@ -74,6 +82,7 @@ public class DownloadStorageProvider extends DocumentsProvider {
         mDm.setAccessAllDownloads(true);
         mDm.setAccessFilename(true);
         mArchiveHelper = new DocumentArchiveHelper(this, ':');
+
         return true;
     }
 
@@ -179,7 +188,8 @@ public class DownloadStorageProvider extends DocumentsProvider {
             return mArchiveHelper.queryDocument(docId, projection);
         }
 
-        final MatrixCursor result = new MatrixCursor(resolveDocumentProjection(projection));
+        final DownloadsCursor result =
+                new DownloadsCursor(projection, getContext().getContentResolver());
 
         if (DOC_ID_ROOT.equals(docId)) {
             includeDefaultDocument(result);
@@ -200,6 +210,8 @@ public class DownloadStorageProvider extends DocumentsProvider {
                 Binder.restoreCallingIdentity(token);
             }
         }
+
+        result.start();
         return result;
     }
 
@@ -211,7 +223,8 @@ public class DownloadStorageProvider extends DocumentsProvider {
             return mArchiveHelper.queryChildDocuments(docId, projection, sortOrder);
         }
 
-        final MatrixCursor result = new MatrixCursor(resolveDocumentProjection(projection));
+        final DownloadsCursor result =
+                new DownloadsCursor(projection, getContext().getContentResolver());
 
         // Delegate to real provider
         final long token = Binder.clearCallingIdentity();
@@ -227,6 +240,8 @@ public class DownloadStorageProvider extends DocumentsProvider {
             IoUtils.closeQuietly(cursor);
             Binder.restoreCallingIdentity(token);
         }
+
+        result.start();
         return result;
     }
 
@@ -238,7 +253,8 @@ public class DownloadStorageProvider extends DocumentsProvider {
             return mArchiveHelper.queryDocument(parentDocumentId, projection);
         }
 
-        final MatrixCursor result = new MatrixCursor(resolveDocumentProjection(projection));
+        final DownloadsCursor result =
+                new DownloadsCursor(projection, getContext().getContentResolver());
 
         // Delegate to real provider
         final long token = Binder.clearCallingIdentity();
@@ -254,13 +270,17 @@ public class DownloadStorageProvider extends DocumentsProvider {
             IoUtils.closeQuietly(cursor);
             Binder.restoreCallingIdentity(token);
         }
+
+        result.start();
         return result;
     }
 
     @Override
     public Cursor queryRecentDocuments(String rootId, String[] projection)
             throws FileNotFoundException {
-        final MatrixCursor result = new MatrixCursor(resolveDocumentProjection(projection));
+
+        final DownloadsCursor result =
+                new DownloadsCursor(projection, getContext().getContentResolver());
 
         // Delegate to real provider
         final long token = Binder.clearCallingIdentity();
@@ -288,6 +308,8 @@ public class DownloadStorageProvider extends DocumentsProvider {
             IoUtils.closeQuietly(cursor);
             Binder.restoreCallingIdentity(token);
         }
+
+        result.start();
         return result;
     }
 
@@ -418,30 +440,91 @@ public class DownloadStorageProvider extends DocumentsProvider {
     }
 
     /**
-     * Remove file extension from name, but only if exact MIME type mapping
-     * exists. This means we can reapply the extension later.
+     * A MatrixCursor that spins up a file observer when the first instance is
+     * started ({@link #start()}, and stops the file observer when the last instance
+     * closed ({@link #close()}. When file changes are observed, a content change
+     * notification is sent on the Downloads content URI.
+     *
+     * <p>This is necessary as other processes, like ExternalStorageProvider,
+     * can access and modify files directly (without sending operations
+     * through DownloadStorageProvider).
+     *
+     * <p>Without this, contents accessible by one a Downloads cursor instance
+     * (like the Downloads root in Files app) can become state.
      */
-    private static String removeExtension(String mimeType, String name) {
-        final int lastDot = name.lastIndexOf('.');
-        if (lastDot >= 0) {
-            final String extension = name.substring(lastDot + 1);
-            final String nameMime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-            if (mimeType.equals(nameMime)) {
-                return name.substring(0, lastDot);
+    private static final class DownloadsCursor extends MatrixCursor {
+
+        private static final Object mLock = new Object();
+        @GuardedBy("mLock")
+        private static int mOpenCursorCount = 0;
+        @GuardedBy("mLock")
+        private static @Nullable ContentChangedRelay mFileWatcher;
+
+        private final ContentResolver mResolver;
+
+        DownloadsCursor(String[] projection, ContentResolver resolver) {
+            super(resolveDocumentProjection(projection));
+            mResolver = resolver;
+        }
+
+        void start() {
+            synchronized (mLock) {
+                if (mOpenCursorCount++ == 0) {
+                    mFileWatcher = new ContentChangedRelay(mResolver);
+                    mFileWatcher.startWatching();
+                }
             }
         }
-        return name;
+
+        @Override
+        public void close() {
+            super.close();
+            synchronized (mLock) {
+                if (--mOpenCursorCount == 0) {
+                    mFileWatcher.stopWatching();
+                    mFileWatcher = null;
+                }
+            }
+        }
     }
 
     /**
-     * Add file extension to name, but only if exact MIME type mapping exists.
+     * A file observer that notifies on the Downloads content URI(s) when
+     * files change on disk.
      */
-    private static String addExtension(String mimeType, String name) {
-        final String extension = MimeTypeMap.getSingleton()
-                .getExtensionFromMimeType(mimeType);
-        if (extension != null) {
-            return name + "." + extension;
+    private static class ContentChangedRelay extends FileObserver {
+        private static final int NOTIFY_EVENTS = ATTRIB | CLOSE_WRITE | MOVED_FROM | MOVED_TO
+                | CREATE | DELETE | DELETE_SELF | MOVE_SELF;
+
+        private static final String DOWNLOADS_PATH =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                        .getAbsolutePath();
+        private final ContentResolver mResolver;
+
+        public ContentChangedRelay(ContentResolver resolver) {
+            super(DOWNLOADS_PATH, NOTIFY_EVENTS);
+            mResolver = resolver;
         }
-        return name;
+
+        @Override
+        public void startWatching() {
+            super.startWatching();
+            if (DEBUG) Log.d(TAG, "Started watching for file changes in: " + DOWNLOADS_PATH);
+        }
+
+        @Override
+        public void stopWatching() {
+            super.stopWatching();
+            if (DEBUG) Log.d(TAG, "Stopped watching for file changes in: " + DOWNLOADS_PATH);
+        }
+
+        @Override
+        public void onEvent(int event, String path) {
+            if ((event & NOTIFY_EVENTS) != 0) {
+                if (DEBUG) Log.v(TAG, "Change detected at path: " + DOWNLOADS_PATH);
+                mResolver.notifyChange(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, null, false);
+                mResolver.notifyChange(Downloads.Impl.CONTENT_URI, null, false);
+            }
+        }
     }
 }

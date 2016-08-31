@@ -382,7 +382,11 @@ public class DownloadThread extends Thread {
         }
 
         if (Downloads.Impl.isStatusCompleted(mInfoDelta.mStatus)) {
-            mInfo.sendIntentIfRequested();
+            // If download was canceled, we already sent requested intent when
+            // deleted in the provider
+            if (mInfoDelta.mStatus != STATUS_CANCELED) {
+                mInfo.sendIntentIfRequested();
+            }
             if (mInfo.shouldScanFile(mInfoDelta.mStatus)) {
                 DownloadScanner.requestScanBlocking(mContext, mInfo.mId, mInfoDelta.mFileName,
                         mInfoDelta.mMimeType);

@@ -469,6 +469,19 @@ public final class DownloadProvider extends ContentProvider {
         if (appInfo != null) {
             mDefContainerUid = appInfo.uid;
         }
+
+        // Grant access permissions for all known downloads to the owning apps
+        final SQLiteDatabase db = mOpenHelper.getReadableDatabase();
+        final Cursor cursor = db.query(DB_TABLE, new String[] {
+                Downloads.Impl._ID, Constants.UID }, null, null, null, null, null);
+        try {
+            while (cursor.moveToNext()) {
+                grantAllDownloadsPermission(cursor.getLong(0), cursor.getInt(1));
+            }
+        } finally {
+            cursor.close();
+        }
+
         return true;
     }
 
@@ -691,6 +704,7 @@ public final class DownloadProvider extends ContentProvider {
         }
 
         insertRequestHeaders(db, rowID, values);
+        grantAllDownloadsPermission(rowID, Binder.getCallingUid());
         notifyContentChanged(uri, match);
 
         final long token = Binder.clearCallingIdentity();
@@ -1218,6 +1232,7 @@ public final class DownloadProvider extends ContentProvider {
                         reader.updateFromDatabase(info);
                         scheduler.cancel((int) info.mId);
 
+                        revokeAllDownloadsPermission(info.mId);
                         DownloadStorageProvider.onDownloadProviderDelete(getContext(), info.mId);
 
                         final String path = info.mFileName;
@@ -1273,6 +1288,19 @@ public final class DownloadProvider extends ContentProvider {
     public ParcelFileDescriptor openFile(final Uri uri, String mode) throws FileNotFoundException {
         if (Constants.LOGVV) {
             logVerboseOpenFileInfo(uri, mode);
+        }
+
+        // Perform normal query to enforce caller identity access before
+        // clearing it to reach internal-only columns
+        final Cursor probeCursor = query(uri, new String[] {
+                Downloads.Impl._DATA }, null, null, null);
+        try {
+            if ((probeCursor == null) || (probeCursor.getCount() == 0)) {
+                throw new FileNotFoundException(
+                        "No file found for " + uri + " as UID " + Binder.getCallingUid());
+            }
+        } finally {
+            IoUtils.closeQuietly(probeCursor);
         }
 
         final Cursor cursor = queryCleared(uri, new String[] {
@@ -1456,5 +1484,21 @@ public final class DownloadProvider extends ContentProvider {
         if (!to.containsKey(key)) {
             to.put(key, defaultValue);
         }
+    }
+
+    private void grantAllDownloadsPermission(long id, int uid) {
+        final String[] packageNames = getContext().getPackageManager().getPackagesForUid(uid);
+        if (packageNames == null || packageNames.length == 0) return;
+
+        // We only need to grant to the first package, since the
+        // platform internally tracks based on UIDs
+        final Uri uri = ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id);
+        getContext().grantUriPermission(packageNames[0], uri,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+    }
+
+    private void revokeAllDownloadsPermission(long id) {
+        final Uri uri = ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id);
+        getContext().revokeUriPermission(uri, ~0);
     }
 }

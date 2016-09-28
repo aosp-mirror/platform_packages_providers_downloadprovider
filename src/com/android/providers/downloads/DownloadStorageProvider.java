@@ -37,7 +37,6 @@ import android.provider.DocumentsContract.Document;
 import android.provider.DocumentsContract.Root;
 import android.provider.DocumentsProvider;
 import android.provider.Downloads;
-import android.support.provider.DocumentArchiveHelper;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -74,14 +73,12 @@ public class DownloadStorageProvider extends DocumentsProvider {
     };
 
     private DownloadManager mDm;
-    private DocumentArchiveHelper mArchiveHelper;
 
     @Override
     public boolean onCreate() {
         mDm = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
         mDm.setAccessAllDownloads(true);
         mDm.setAccessFilename(true);
-        mArchiveHelper = new DocumentArchiveHelper(this, ':');
 
         return true;
     }
@@ -184,10 +181,6 @@ public class DownloadStorageProvider extends DocumentsProvider {
 
     @Override
     public Cursor queryDocument(String docId, String[] projection) throws FileNotFoundException {
-        if (mArchiveHelper.isArchivedDocument(docId)) {
-            return mArchiveHelper.queryDocument(docId, projection);
-        }
-
         final DownloadsCursor result =
                 new DownloadsCursor(projection, getContext().getContentResolver());
 
@@ -218,11 +211,6 @@ public class DownloadStorageProvider extends DocumentsProvider {
     @Override
     public Cursor queryChildDocuments(String docId, String[] projection, String sortOrder)
             throws FileNotFoundException {
-        if (mArchiveHelper.isArchivedDocument(docId) ||
-                mArchiveHelper.isSupportedArchiveType(getDocumentType(docId))) {
-            return mArchiveHelper.queryChildDocuments(docId, projection, sortOrder);
-        }
-
         final DownloadsCursor result =
                 new DownloadsCursor(projection, getContext().getContentResolver());
 
@@ -249,10 +237,6 @@ public class DownloadStorageProvider extends DocumentsProvider {
     public Cursor queryChildDocumentsForManage(
             String parentDocumentId, String[] projection, String sortOrder)
             throws FileNotFoundException {
-        if (mArchiveHelper.isArchivedDocument(parentDocumentId)) {
-            return mArchiveHelper.queryDocument(parentDocumentId, projection);
-        }
-
         final DownloadsCursor result =
                 new DownloadsCursor(projection, getContext().getContentResolver());
 
@@ -342,10 +326,6 @@ public class DownloadStorageProvider extends DocumentsProvider {
     @Override
     public ParcelFileDescriptor openDocument(String docId, String mode, CancellationSignal signal)
             throws FileNotFoundException {
-        if (mArchiveHelper.isArchivedDocument(docId)) {
-            return mArchiveHelper.openDocument(docId, mode, signal);
-        }
-
         // Delegate to real provider
         final long token = Binder.clearCallingIdentity();
         try {
@@ -440,10 +420,6 @@ public class DownloadStorageProvider extends DocumentsProvider {
             flags |= Document.FLAG_SUPPORTS_THUMBNAIL;
         }
 
-        if (mArchiveHelper.isSupportedArchiveType(mimeType)) {
-            flags |= Document.FLAG_ARCHIVE;
-        }
-
         final long lastModified = cursor.getLong(
                 cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP));
 
@@ -458,10 +434,6 @@ public class DownloadStorageProvider extends DocumentsProvider {
         // active downloads get sorted by mod time.
         if (status != DownloadManager.STATUS_RUNNING) {
             row.add(Document.COLUMN_LAST_MODIFIED, lastModified);
-        }
-
-        if (localFilePath != null) {
-            row.add(DocumentArchiveHelper.COLUMN_LOCAL_FILE_PATH, localFilePath);
         }
     }
 

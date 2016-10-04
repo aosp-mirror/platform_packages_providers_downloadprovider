@@ -17,10 +17,10 @@
 package com.android.providers.downloads;
 
 import static android.app.DownloadManager.COLUMN_LOCAL_FILENAME;
-import static android.app.DownloadManager.COLUMN_LOCAL_URI;
 import static android.app.DownloadManager.COLUMN_MEDIA_TYPE;
 import static android.app.DownloadManager.COLUMN_URI;
 import static android.provider.Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI;
+
 import static com.android.providers.downloads.Constants.TAG;
 
 import android.app.DownloadManager;
@@ -30,7 +30,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.StrictMode;
 import android.provider.DocumentsContract;
 import android.provider.Downloads.Impl.RequestHeaders;
 import android.util.Log;
@@ -51,14 +50,11 @@ public class OpenHelper {
 
         intent.addFlags(intentFlags);
         try {
-            StrictMode.disableDeathOnFileUriExposure();
             context.startActivity(intent);
             return true;
         } catch (ActivityNotFoundException e) {
             Log.w(TAG, "Failed to start " + intent + ": " + e);
             return false;
-        } finally {
-            StrictMode.enableDeathOnFileUriExposure();
         }
     }
 
@@ -78,7 +74,6 @@ public class OpenHelper {
                 return null;
             }
 
-            final Uri localUri = getCursorUri(cursor, COLUMN_LOCAL_URI);
             final File file = getCursorFile(cursor, COLUMN_LOCAL_FILENAME);
             String mimeType = getCursorString(cursor, COLUMN_MEDIA_TYPE);
             mimeType = DownloadDrmHelper.getOriginalMimeType(context, file, mimeType);
@@ -87,20 +82,16 @@ public class OpenHelper {
                     Constants.STORAGE_AUTHORITY, String.valueOf(id));
 
             final Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(documentUri, mimeType);
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 
             if ("application/vnd.android.package-archive".equals(mimeType)) {
-                // PackageInstaller doesn't like content URIs, so open file
-                intent.setDataAndType(localUri, mimeType);
-
                 // Also splice in details about where it came from
                 final Uri remoteUri = getCursorUri(cursor, COLUMN_URI);
                 intent.putExtra(Intent.EXTRA_ORIGINATING_URI, remoteUri);
                 intent.putExtra(Intent.EXTRA_REFERRER, getRefererUri(context, id));
                 intent.putExtra(Intent.EXTRA_ORIGINATING_UID, getOriginatingUid(context, id));
-            } else {
-                intent.setDataAndType(documentUri, mimeType);
-                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
-                        | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             }
 
             return intent;

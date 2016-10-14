@@ -1079,10 +1079,14 @@ public final class DownloadProvider extends ContentProvider {
 
         Helpers.validateSelection(where, sAppReadableColumnsSet);
 
-        SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        final Context context = getContext();
+        final ContentResolver resolver = context.getContentResolver();
+
+        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 
         int count;
         boolean updateSchedule = false;
+        boolean isCompleting = false;
 
         ContentValues filteredValues;
         if (Binder.getCallingPid() != Process.myPid()) {
@@ -1123,6 +1127,7 @@ public final class DownloadProvider extends ContentProvider {
             if (isRestart || isUserBypassingSizeLimit) {
                 updateSchedule = true;
             }
+            isCompleting = status != null && Downloads.Impl.isStatusCompleted(status);
         }
 
         int match = sURIMatcher.match(uri);
@@ -1139,14 +1144,20 @@ public final class DownloadProvider extends ContentProvider {
                 final SqlSelection selection = getWhereClause(uri, where, whereArgs, match);
                 count = db.update(DB_TABLE, filteredValues, selection.getSelection(),
                         selection.getParameters());
-                if (updateSchedule) {
+                if (updateSchedule || isCompleting) {
                     final long token = Binder.clearCallingIdentity();
-                    try {
-                        try (Cursor cursor = db.query(DB_TABLE, new String[] { _ID },
-                                selection.getSelection(), selection.getParameters(),
-                                null, null, null)) {
-                            while (cursor.moveToNext()) {
-                                Helpers.scheduleJob(getContext(), cursor.getInt(0));
+                    try (Cursor cursor = db.query(DB_TABLE, null, selection.getSelection(),
+                            selection.getParameters(), null, null, null)) {
+                        final DownloadInfo.Reader reader = new DownloadInfo.Reader(resolver,
+                                cursor);
+                        final DownloadInfo info = new DownloadInfo(context);
+                        while (cursor.moveToNext()) {
+                            reader.updateFromDatabase(info);
+                            if (updateSchedule) {
+                                Helpers.scheduleJob(context, info);
+                            }
+                            if (isCompleting) {
+                                info.sendIntentIfRequested();
                             }
                         }
                     } finally {
@@ -1259,8 +1270,12 @@ public final class DownloadProvider extends ContentProvider {
                             }
                         }
 
-                        // Tell requester that download is finished
-                        info.sendIntentIfRequested();
+                        // If the download wasn't completed yet, we're
+                        // effectively completing it now, and we need to send
+                        // any requested broadcasts
+                        if (!Downloads.Impl.isStatusCompleted(info.mStatus)) {
+                            info.sendIntentIfRequested();
+                        }
                     }
                 }
 

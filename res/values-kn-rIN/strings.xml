@@ -42,7 +42,7 @@
     <string name="wifi_recommended_title" msgid="7441589306734687400">"ನಂತರದಲ್ಲಿ ಡೌನ್‌ಲೋಡ್‌ ಮಾಡಲು ಸರದಿಯಲ್ಲಿರಿಸುವುದೇ?"</string>
     <string name="wifi_recommended_body" msgid="1314735166699936073">"ಇದೀಗ ಈ <xliff:g id="SIZE">%s </xliff:g> ಡೌನ್‌ಲೋಡ್‌ ಆರಂಭಗೊಂಡು ನಿಮ್ಮ ಬ್ಯಾಟರಿ ಬಾಳಿಕೆ ಮತ್ತು/ಅಥವಾ ನಿಮ್ಮ ಮೊಬೈಲ್‌ ಡೇಟಾ ಸಂಪರ್ಕದ ಅತಿಯಾದ ಬಳಕೆಗೆ ಕಾರಣವಾಗಬಹುದು, ನಿಮ್ಮ ಡೇಟಾ ಯೋಜನೆಯನ್ನು ಅವಲಂಬಿಸಿ ನಿಮ್ಮ ಮೊಬೈಲ್ ಆಪರೇಟರ್ ಮೂಲಕ ಶುಲ್ಕಗಳನ್ನು ವಿಧಿಸುವುದಕ್ಕೆ ಕಾರಣವಾಗುತ್ತವೆ.\n\n ನೀವು ಸಂಪರ್ಕಿಸಿದ ವೈ-ಫೈ ನೆಟ್‌ವರ್ಕ್‌ನಿಂದ ಮುಂದಿನ ಬಾರಿ ಈ ಡೌನ್‌ಲೋಡ್‌ ಪ್ರಾರಂಭಿಸಲು <xliff:g id="QUEUE_TEXT">%s</xliff:g> ಸ್ಪರ್ಶಿಸಿ."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"ಸರದಿ"</string>
-    <string name="button_cancel_download" msgid="2430166148737975604">"ರದ್ದುಮಾಡು"</string>
+    <string name="button_cancel_download" msgid="2430166148737975604">"ರದ್ದುಮಾಡಿ"</string>
     <string name="button_start_now" msgid="792123674007840864">"ಈಗ ಪ್ರಾರಂಭಿಸಿ"</string>
     <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
       <item quantity="one"><xliff:g id="NUMBER">%d</xliff:g> ಫೈಲ್‌ಗಳು ಡೌನ್‌ಲೋಡ್ ಆಗುತ್ತಿವೆ</item>

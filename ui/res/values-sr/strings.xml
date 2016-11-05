@@ -42,7 +42,7 @@
     <string name="delete_download" msgid="76629022653866471">"Избриши"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"Задржи"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Откажи"</string>
-    <string name="retry_download" msgid="7617100787922717912">"Покушај поново"</string>
+    <string name="retry_download" msgid="7617100787922717912">"Пробај поново"</string>
     <string name="start_now_download" msgid="1564642872809509681">"Започни одмах"</string>
     <string name="deselect_all" msgid="6348198946254776764">"Опозови све изборе"</string>
     <string name="select_all" msgid="634074918366265804">"Изабери све"</string>

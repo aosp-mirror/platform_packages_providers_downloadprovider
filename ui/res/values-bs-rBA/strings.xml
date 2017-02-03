@@ -21,8 +21,8 @@
     <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Preuzimanja - sortirana po veličini"</string>
     <string name="no_downloads" msgid="1029667411186146836">"Nema preuzimanja."</string>
     <string name="missing_title" msgid="830115697868833773">"&lt;Nepoznato&gt;"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"Sortiraj po veličini"</string>
-    <string name="button_sort_by_date" msgid="8800842892684101528">"Sortiraj po datumu"</string>
+    <string name="button_sort_by_size" msgid="7331549713691146251">"Poredaj po veličini"</string>
+    <string name="button_sort_by_date" msgid="8800842892684101528">"Poredaj po datumu"</string>
     <string name="download_queued" msgid="104973307780629904">"U redoslijedu"</string>
     <string name="download_running" msgid="4656462962155580641">"U toku"</string>
     <string name="download_success" msgid="7006048006543495236">"Završeno"</string>

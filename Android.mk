@@ -9,7 +9,8 @@ LOCAL_PACKAGE_NAME := DownloadProvider
 LOCAL_CERTIFICATE := media
 LOCAL_PRIVILEGED_MODULE := true
 LOCAL_STATIC_JAVA_LIBRARIES := guava \
-    android-support-documents-archive
+    android-support-documents-archive \
+    android-support-annotations
 
 LOCAL_JACK_COVERAGE_INCLUDE_FILTER := com.android.providers.downloads.*
 

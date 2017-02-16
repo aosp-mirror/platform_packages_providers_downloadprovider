@@ -28,7 +28,7 @@
     <string name="download_success" msgid="7006048006543495236">"पुरा गर्नुहोस्"</string>
     <string name="download_error" msgid="8081329546008568251">"असफल"</string>
     <string name="dialog_title_not_available" msgid="5746317632356158515">"डाउनलोड गर्न सकेन"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"तपाईँ पछि फेरि फाइल डाउनलोड गर्ने प्रयास गर्न चाहनुहुन्छ कि लामबाट हटाउन चाहनुहुन्छ?"</string>
+    <string name="dialog_failed_body" msgid="587545111677064427">"तपाईं पछि फेरि फाइल डाउनलोड गर्ने प्रयास गर्न चाहनुहुन्छ कि लामबाट हटाउन चाहनुहुन्छ?"</string>
     <string name="dialog_title_queued_body" msgid="6760681913815015219">"फाइल लाममा छ"</string>
     <string name="dialog_queued_body" msgid="708552801635572720">"फाइल भविष्यमा डाउनलोड गर्नका लागि लाममा राखिएको छ, यसैले अझै उपलब्ध छैन।"</string>
     <string name="dialog_file_missing_body" msgid="3223012612774276284">"डाउनलोड गरिएको फाइल फेला पार्न सकेन।"</string>

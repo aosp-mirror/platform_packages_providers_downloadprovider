@@ -28,6 +28,7 @@ import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInstaller;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.DocumentsContract;
@@ -132,7 +133,7 @@ public class OpenHelper {
                 cursor.close();
             }
         }
-        return -1;
+        return PackageInstaller.SessionParams.UID_UNKNOWN;
     }
 
     private static String getCursorString(Cursor cursor, String column) {

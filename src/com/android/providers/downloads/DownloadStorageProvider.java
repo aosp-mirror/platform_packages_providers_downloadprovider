@@ -61,7 +61,6 @@ import javax.annotation.concurrent.GuardedBy;
  */
 public class DownloadStorageProvider extends FileSystemProvider {
     private static final String TAG = "DownloadStorageProvider";
-    private static final String RAW_PREFIX = "raw:";
     private static final boolean DEBUG = false;
 
     private static final String AUTHORITY = Constants.STORAGE_AUTHORITY;
@@ -135,7 +134,8 @@ public class DownloadStorageProvider extends FileSystemProvider {
         final long token = Binder.clearCallingIdentity();
         try {
             String newDocumentId = super.createDocument(parentDocId, mimeType, displayName);
-            if (!Document.MIME_TYPE_DIR.equals(mimeType) && !isRawDocId(parentDocId)) {
+            if (!Document.MIME_TYPE_DIR.equals(mimeType)
+                    && !RawDocumentsHelper.isRawDocId(parentDocId)) {
                 File newFile = getFileForDocId(newDocumentId);
                 newDocumentId = Long.toString(mDm.addCompletedDownload(
                         newFile.getName(), newFile.getName(), true, mimeType,
@@ -153,7 +153,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
         // Delegate to real provider
         final long token = Binder.clearCallingIdentity();
         try {
-            if (isRawDocId(docId)) {
+            if (RawDocumentsHelper.isRawDocId(docId)) {
                 super.deleteDocument(docId);
                 return;
             }
@@ -171,7 +171,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
         final long token = Binder.clearCallingIdentity();
 
         try {
-            if (isRawDocId(docId)) {
+            if (RawDocumentsHelper.isRawDocId(docId)) {
                 return super.renameDocument(docId, displayName);
             }
 
@@ -193,7 +193,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
         final long token = Binder.clearCallingIdentity();
         Cursor cursor = null;
         try {
-            if (isRawDocId(docId)) {
+            if (RawDocumentsHelper.isRawDocId(docId)) {
                 return super.queryDocument(docId, projection);
             }
 
@@ -240,7 +240,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
         final long token = Binder.clearCallingIdentity();
         Cursor cursor = null;
         try {
-            if (isRawDocId(parentDocId)) {
+            if (RawDocumentsHelper.isRawDocId(parentDocId)) {
                 return super.queryChildDocuments(parentDocId, projection, sortOrder);
             }
 
@@ -346,7 +346,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
         // Delegate to real provider
         final long token = Binder.clearCallingIdentity();
         try {
-            if (isRawDocId(docId)) {
+            if (RawDocumentsHelper.isRawDocId(docId)) {
                 return super.openDocument(docId, mode, signal);
             }
 
@@ -368,8 +368,8 @@ public class DownloadStorageProvider extends FileSystemProvider {
 
     @Override
     protected File getFileForDocId(String docId, boolean visible) throws FileNotFoundException {
-        if (isRawDocId(docId)) {
-            return new File(getAbsoluteFilePath(docId));
+        if (RawDocumentsHelper.isRawDocId(docId)) {
+            return new File(RawDocumentsHelper.getAbsoluteFilePath(docId));
         }
 
         if (DOC_ID_ROOT.equals(docId)) {
@@ -398,7 +398,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
 
     @Override
     protected String getDocIdForFile(File file) throws FileNotFoundException {
-        return RAW_PREFIX + file.getAbsolutePath();
+        return RawDocumentsHelper.getDocIdForFile(file);
     }
 
     @Override
@@ -414,9 +414,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
                 Document.FLAG_DIR_PREFERS_LAST_MODIFIED | Document.FLAG_DIR_SUPPORTS_CREATE);
     }
 
-    private static String getAbsoluteFilePath(String rawDocumentId) {
-        return rawDocumentId.substring(RAW_PREFIX.length());
-    }
+
 
     /**
      * Adds the entry from the cursor to the result only if the entry is valid. That is,
@@ -538,10 +536,6 @@ public class DownloadStorageProvider extends FileSystemProvider {
     private void includeFileFromSharedStorage(MatrixCursor result, File file)
             throws FileNotFoundException {
         includeFile(result, null, file);
-    }
-
-    private boolean isRawDocId(String docId) {
-        return docId != null && docId.startsWith(RAW_PREFIX);
     }
 
     private static File getDownloadsDirectory() {

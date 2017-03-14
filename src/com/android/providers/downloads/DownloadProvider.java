@@ -460,6 +460,32 @@ public final class DownloadProvider extends ContentProvider {
         if (appInfo != null) {
             mDefContainerUid = appInfo.uid;
         }
+
+        // Grant access permissions for all known downloads to the owning apps
+        final SQLiteDatabase db = mOpenHelper.getReadableDatabase();
+        final Cursor cursor = db.query(DB_TABLE, new String[] {
+                Downloads.Impl._ID, Constants.UID }, null, null, null, null, null);
+        final ArrayList<Long> idsToDelete = new ArrayList<Long>();
+        try {
+            while (cursor.moveToNext()) {
+                final long downloadId = cursor.getLong(0);
+                final int uid = cursor.getInt(1);
+                final String ownerPackage = getPackageForUid(uid);
+                if (ownerPackage == null) {
+                    idsToDelete.add(downloadId);
+                } else {
+                    grantAllDownloadsPermission(ownerPackage, downloadId);
+                }
+            }
+        } finally {
+            cursor.close();
+        }
+        if (idsToDelete.size() > 0) {
+            Log.i(Constants.TAG,
+                    "Deleting downloads with ids " + idsToDelete + " as owner package is missing");
+            deleteDownloadsWithIds(idsToDelete);
+        }
+
         // start the DownloadService class. don't wait for the 1st download to be issued.
         // saves us by getting some initialization code in DownloadService out of the way.
         Context context = getContext();
@@ -471,6 +497,19 @@ public final class DownloadProvider extends ContentProvider {
             Log.wtf(Constants.TAG, "Could not get canonical path for download directory", e);
         }
         return true;
+    }
+
+    private void deleteDownloadsWithIds(ArrayList<Long> downloadIds) {
+        final int N = downloadIds.size();
+        if (N == 0) {
+            return;
+        }
+        final StringBuilder queryBuilder = new StringBuilder(Downloads.Impl._ID + " in (");
+        for (int i = 0; i < N; i++) {
+            queryBuilder.append(downloadIds.get(i));
+            queryBuilder.append((i == N - 1) ? ")" : ",");
+        }
+        delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, queryBuilder.toString(), null);
     }
 
     /**
@@ -683,6 +722,13 @@ public final class DownloadProvider extends ContentProvider {
         }
 
         insertRequestHeaders(db, rowID, values);
+
+        final String callingPackage = getPackageForUid(Binder.getCallingUid());
+        if (callingPackage == null) {
+            Log.e(Constants.TAG, "Package does not exist for calling uid");
+            return null;
+        }
+        grantAllDownloadsPermission(callingPackage, rowID);
         notifyContentChanged(uri, match);
 
         // Always start service to handle notifications and/or scanning
@@ -690,6 +736,15 @@ public final class DownloadProvider extends ContentProvider {
         context.startService(new Intent(context, DownloadService.class));
 
         return ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, rowID);
+    }
+
+    private String getPackageForUid(int uid) {
+        String[] packages = getContext().getPackageManager().getPackagesForUid(uid);
+        if (packages == null || packages.length == 0) {
+            return null;
+        }
+        // For permission related purposes, any package belonging to the given uid should work.
+        return packages[0];
     }
 
     /**
@@ -1139,7 +1194,9 @@ public final class DownloadProvider extends ContentProvider {
     public int delete(final Uri uri, final String where,
             final String[] whereArgs) {
 
-        Helpers.validateSelection(where, sAppReadableColumnsSet);
+        if (shouldRestrictVisibility()) {
+            Helpers.validateSelection(where, sAppReadableColumnsSet);
+        }
 
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         int count;
@@ -1335,5 +1392,16 @@ public final class DownloadProvider extends ContentProvider {
         if (!to.containsKey(key)) {
             to.put(key, defaultValue);
         }
+    }
+
+    private void grantAllDownloadsPermission(String toPackage, long id) {
+        final Uri uri = ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id);
+        getContext().grantUriPermission(toPackage, uri,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+    }
+
+    private void revokeAllDownloadsPermission(long id) {
+        final Uri uri = ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id);
+        getContext().revokeUriPermission(uri, ~0);
     }
 }

@@ -34,6 +34,7 @@ import android.os.FileUtils;
 import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
+import android.provider.DocumentsContract.Path;
 import android.provider.DocumentsContract.Root;
 import android.provider.Downloads;
 import android.text.TextUtils;
@@ -121,6 +122,22 @@ public class DownloadStorageProvider extends FileSystemProvider {
         row.add(Root.COLUMN_TITLE, getContext().getString(R.string.root_downloads));
         row.add(Root.COLUMN_DOCUMENT_ID, DOC_ID_ROOT);
         return result;
+    }
+
+    @Override
+    public Path findDocumentPath(String parentDocId, String docId) throws FileNotFoundException {
+
+        if (parentDocId == null) {
+            parentDocId = DOC_ID_ROOT;
+        }
+
+        final File parent = getFileForDocId(parentDocId);
+
+        final File doc = getFileForDocId(docId);
+
+        final String rootId = (parentDocId == null) ? DOC_ID_ROOT : null;
+
+        return new Path(rootId, findDocumentPath(parent, doc));
     }
 
     /**

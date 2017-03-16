@@ -13,6 +13,7 @@ LOCAL_STATIC_JAVA_LIBRARIES := \
     mockito-target \
     legacy-android-test
 LOCAL_PACKAGE_NAME := DownloadProviderTests
+LOCAL_COMPATIBILITY_SUITE := device-tests
 LOCAL_CERTIFICATE := media
 
 include $(BUILD_PACKAGE)

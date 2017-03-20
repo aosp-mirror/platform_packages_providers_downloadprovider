@@ -18,6 +18,9 @@
     <!-- This is the name of the Download Manager application. -->
     <string name="app_label">Download Manager</string>
 
+    <!-- Short description shown client applications describing storage location-->
+    <string name="storage_description">Downloads</string>
+
     <!-- This is the short description of a permission associated with the
         Android Download Manager. It is displayed as part of the description
         of any application that was granted that permission.

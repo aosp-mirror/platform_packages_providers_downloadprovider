@@ -17,6 +17,8 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"ਡਾਉਨਲੋਡ ਪ੍ਰਬੰਧਕ"</string>
+    <!-- no translation found for storage_description (7982444311558023664) -->
+    <skip />
     <string name="permlab_downloadManager" msgid="7779544811202855500">"ਡਾਊਨਲੋਡ ਪ੍ਰਬੰਧਕ ਤੱਕ ਪਹੁੰਚ।"</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"ਐਪ ਨੂੰ ਡਾਊਨਲੋਡ ਪ੍ਰਬੰਧਕ ਤੱਕ ਪਹੁੰਚ ਅਤੇ ਫਾਈਲਾਂ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਇਸਦੀ ਵਰਤੋਂ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿੰਦਾ ਹੈ। ਖ਼ਰਾਬ ਐਪਸ ਇਸਦੀ ਵਰਤੋਂ ਡਾਊਨਲੋਡਸ ਵਿੱਚ ਵਿਘਨ ਪਾਉਣ ਅਤੇ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਤੱਕ ਪਹੁੰਚ ਲਈ ਕਰ ਸਕਦੇ ਹਨ।"</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"ਐਡਵਾਂਸਡ ਡਾਊਨਲੋਡ ਪ੍ਰਬੰਧਕ ਫੰਕਸ਼ਨ।"</string>

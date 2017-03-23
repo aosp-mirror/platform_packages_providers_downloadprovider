@@ -17,6 +17,8 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Ներբեռնման կառավարիչ"</string>
+    <!-- no translation found for storage_description (7982444311558023664) -->
+    <skip />
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Գործարկել ներբեռնման կառավարիչը:"</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Թույլատրում է հավելվածին օգտագործել ներբեռնման կառավարիչը և կիրառել ֆայլերի ներբեռնման համար: Վնասակար ծրագրերը կարող են օգտագործել սա՝ ներբեռնումները վնասելու և անձնական տեղեկություններն օգտագործելու համար:"</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Ընդլայնված ներբեռնման կառավարչի գործառույթներ:"</string>

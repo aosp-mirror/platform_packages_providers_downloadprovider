@@ -17,6 +17,8 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Менеджэр спампоўвання"</string>
+    <!-- no translation found for storage_description (7982444311558023664) -->
+    <skip />
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Доступ да менеджэра спампоўванняў."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Дазваляе прыкладанню атрымлiваць доступ да менеджэра спампавання i выкарыстоўваць яго для спампавання файлаў. Шкоднасныя прыкладаннi могуць выкарыстоўваць гэта, каб сарваць загрузку і закрыць доступ да прыватнай інфармацыі."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Пашыраныя функцыі менеджэра спампоўванняў."</string>

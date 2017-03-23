@@ -17,6 +17,8 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"កម្មវិធី​ទាញ​យក"</string>
+    <!-- no translation found for storage_description (7982444311558023664) -->
+    <skip />
     <string name="permlab_downloadManager" msgid="7779544811202855500">"ប្រើ​កម្មវិធី​គ្រប់គ្រង​ការ​ទាញ​យក។"</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"អនុញ្ញាត​ឲ្យ​កម្មវិធី​ប្រើ​កម្មវិធី​ទាញ​យក ដើម្បី​ទាញ​យក​ឯកសារ។ កម្មវិធី​មិន​ល្អ​ផ្សេងទៀត​អាច​ប្រើ​ដើម្បី​បង្អាក់​ការ​ទាញ​យក និង​ការ​ប្រើ​ព័ត៌មាន​ឯកជន។"</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"មុខងារ​កម្មវិធី​គ្រប់គ្រង​ការ​ទាញ​យក​កម្រិត​ខ្ពស់។"</string>

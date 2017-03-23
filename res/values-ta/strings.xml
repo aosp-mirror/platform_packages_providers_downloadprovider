@@ -17,6 +17,8 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"பதிவிறக்க நிர்வாகி"</string>
+    <!-- no translation found for storage_description (7982444311558023664) -->
+    <skip />
     <string name="permlab_downloadManager" msgid="7779544811202855500">"பதிவிறக்க நிர்வாகியை அணுகவும்."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"பதிவிறக்க நிர்வாகியை அணுகவும், கோப்புகளைப் பதிவிறக்குவதற்காக அதைப் பயன்படுத்தவும் பயன்பாட்டை அனுமதிக்கிறது. பதிவிறக்கங்களைத் தடைசெய்யவும், தனிப்பட்டத் தகவலை அணுகவும் தீங்கிழைக்கும் பயன்பாடுகள் இதைப் பயன்படுத்தலாம்."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"மேம்பட்ட பதிவிறக்க நிர்வாகி செயல்பாடுகள்."</string>

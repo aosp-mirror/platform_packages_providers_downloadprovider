@@ -17,6 +17,8 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"מנהל ההורדות"</string>
+    <!-- no translation found for storage_description (7982444311558023664) -->
+    <skip />
     <string name="permlab_downloadManager" msgid="7779544811202855500">"גישה למנהל ההורדות."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"מאפשר לאפליקציה לגשת למנהל ההורדות ולהשתמש בו לצורך הורדת קבצים. אפליקציות זדוניות עלולות לנצל אפשרות זו כדי לשבש הורדות ולגשת למידע פרטי."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"פונקציות מתקדמות של מנהל ההורדות."</string>

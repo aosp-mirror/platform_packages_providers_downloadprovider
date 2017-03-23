@@ -17,6 +17,8 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"ડાઉનલોડ સંચાલક"</string>
+    <!-- no translation found for storage_description (7982444311558023664) -->
+    <skip />
     <string name="permlab_downloadManager" msgid="7779544811202855500">"ડાઉનલોડ સંચાલકને ઍક્સેસ કરો."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"એપ્લિકેશનને ડાઉનલોડ સંચાલકને ઍક્સેસ કરવાની અને ફાઇલો ડાઉનલોડ કરવા માટે તેના ઉપયોગની મંજૂરી આપે છે. દુભાવનાપૂર્ણ ઍપ્લિકેશનો આનો ઉપયોગ ડાઉનલોડ્સમાં વિક્ષેપ નાખવા અને ખાનગી માહિતીને ઍક્સેસ કરવા માટે કરી શકે છે."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"વિગતવાર ડાઉનલોડ સંચાલક કર્યો."</string>

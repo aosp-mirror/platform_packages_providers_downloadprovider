@@ -17,8 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Menaxheri i shkarkimeve"</string>
-    <!-- no translation found for storage_description (7982444311558023664) -->
-    <skip />
+    <string name="storage_description" msgid="7982444311558023664">"Shkarkimet"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Merr qasje në menaxherin e shkarkimit."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"E lejon aplikacionin të qaset te menaxheri i shkarkimeve dhe ta përdorë për të shkarkuar skedarë. Aplikacionet keqdashëse mund ta përdorin këtë për të dëmtuar shkarkimet dhe për t\'u qasur në informacione private."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Funksionet e përparuara të menaxherit të shkarkimeve."</string>

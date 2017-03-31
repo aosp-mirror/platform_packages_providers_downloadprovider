@@ -17,8 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"డౌన్‌లోడ్ నిర్వాహికి"</string>
-    <!-- no translation found for storage_description (7982444311558023664) -->
-    <skip />
+    <string name="storage_description" msgid="7982444311558023664">"డౌన్‌లోడ్‌లు"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"డౌన్‌లోడ్ నిర్వాహికిని ప్రాప్యత చేయండి."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"డౌన్‌లోడ్ నిర్వాహికిని ప్రాప్యత చేయడానికి మరియు దీన్ని ఉపయోగించి ఫైల్‌లను డౌన్‌లోడ్ చేయడానికి అనువర్తనాన్ని అనుమతిస్తుంది. హానికరమైన అనువర్తనాలు డౌన్‌లోడ్‌లకు అంతరాయం కలిగించడానికి మరియు ప్రైవేట్ సమాచారాన్ని ప్రాప్యత చేయడానికి దీన్ని ఉపయోగించవచ్చు."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"అధునాతన డౌన్‌లోడ్ నిర్వాహికి ఫంక్షన్‌లు."</string>

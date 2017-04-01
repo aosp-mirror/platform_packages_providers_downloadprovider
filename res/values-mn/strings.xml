@@ -17,8 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Татан авалтын Менежер"</string>
-    <!-- no translation found for storage_description (7982444311558023664) -->
-    <skip />
+    <string name="storage_description" msgid="7982444311558023664">"Татаж авсан файл"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Татан авалтын менежерт хандалт хийх."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Апп нь татан авалтын менежерт хандалт хийх, үүнийг ашиглан файл татах боломжтой. Хортой апп-ууд үүнийг ашиглан татан авалтыг тасалдуулах, хувийн мэдээлэлд хандалт хийх боломжтой."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Татан авалтын менежерийн дэлгэрэнгүй функцууд."</string>

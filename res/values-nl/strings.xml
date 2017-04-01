@@ -17,8 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Downloadbeheer"</string>
-    <!-- no translation found for storage_description (7982444311558023664) -->
-    <skip />
+    <string name="storage_description" msgid="7982444311558023664">"Downloads"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Downloadbeheer weergeven."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Hiermee heeft de app toegang tot downloadbeheer en kan de app via downloadbeheer bestanden downloaden. Schadelijke apps kunnen dit gebruiken om downloads te verstoren en toegang te krijgen tot persoonlijke gegevens."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Geavanceerde functies van de downloadbeheerder."</string>

@@ -40,7 +40,7 @@
     <string name="wifi_required_title" msgid="1995971416871498179">"檔案過大，無法透過行動電話業者的網路下載"</string>
     <string name="wifi_required_body" msgid="3067694630143784449">"您必須透過 Wi-Fi 才能完整下載這個 <xliff:g id="SIZE">%s </xliff:g> 的檔案。\n\n建議您改在下次連上 Wi-Fi 網路時，再輕觸 [<xliff:g id="QUEUE_TEXT">%s </xliff:g>] 開始下載。"</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"排入佇列以供日後下載？"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"現在下載這個 <xliff:g id="SIZE">%s </xliff:g> 的檔案，可能會減少電池可使用的時間，並/或超額使用行動數據連線，導致行動通訊業者依據資費方案向您收費。\n\n建議您改在下次連上 Wi-Fi 網路時，再輕觸 [<xliff:g id="QUEUE_TEXT">%s</xliff:g>] 開始下載。"</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"現在下載這個 <xliff:g id="SIZE">%s </xliff:g> 的檔案，可能會減少電池可使用的時間，並/或超額使用行動數據連線，導致電信業者依據資費方案向您收費。\n\n建議您改在下次連上 Wi-Fi 網路時，再輕觸 [<xliff:g id="QUEUE_TEXT">%s</xliff:g>] 開始下載。"</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"佇列"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"取消"</string>
     <string name="button_start_now" msgid="792123674007840864">"立即開始"</string>

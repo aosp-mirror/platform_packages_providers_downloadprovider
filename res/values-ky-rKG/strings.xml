@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3658948994665187911">"Жүктөө менежери"</string>
+    <string name="app_label" msgid="3658948994665187911">"Жүктөп алуу башкаргычы"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Жүктөө менежерине жетүү."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Колдонмого, жүктөө мененджерине жетип, аны менен файлдарды жүктөп алууга уруксат берет. Зыяндуу колдонмолор муну колдонуп, жүктөөлөрдү үзгүлтүккө учурата алышы жана жеке маалыматка жете алышы мүмкүн."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Жүктөө менежеринин озуккан функцияларына жетүү."</string>
@@ -33,7 +33,7 @@
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Бардык системдик жүктөөлөргө жетүү"</string>
     <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"Колдонмого системдеги колдонмолор баштаган бардык жүктөөлөрдү көрүүгө жана өзгөртүүгө уруксат берет."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Аталышы жок&gt;"</string>
-    <string name="notification_download_complete" msgid="5443563299253103667">"Жүктөө аяктады."</string>
+    <string name="notification_download_complete" msgid="5443563299253103667">"Жүктөлүп алынды."</string>
     <string name="notification_download_failed" msgid="8612136111952014978">"Жүктөө ийгиликсиз."</string>
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Чоң файл, Wi-Fi керек."</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Фондо тыныгууда турат."</string>
@@ -54,7 +54,7 @@
     </plurals>
     <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> калды"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"Файл ачылбады"</string>
-    <string name="root_downloads" msgid="4098414876292351487">"Жүктөөлөр"</string>
+    <string name="root_downloads" msgid="4098414876292351487">"Жүктөлүп алынгандар"</string>
     <string name="download_queued" msgid="3302638231377947451">"Кезекте"</string>
     <string name="download_running" msgid="3925050393361158266">"Жүктөлүүдө"</string>
     <string name="download_error" msgid="5144180777324573236">"Ийгиликсиз"</string>

@@ -16,10 +16,10 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"Yuklanishlar"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Yuklab olishlar - Sana bo‘yicha saralan."</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Yuklab olishlar - Hajm bo‘yicha saralan."</string>
-    <string name="no_downloads" msgid="1029667411186146836">"Yuklab olishlar yo‘q."</string>
+    <string name="app_label" msgid="3070921713463294774">"Yuklanmalar"</string>
+    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Yuklanmalar – sanasi bo‘yicha"</string>
+    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Yuklanmalar – hajmi bo‘yicha"</string>
+    <string name="no_downloads" msgid="1029667411186146836">"Yuklanmalar yo‘q."</string>
     <string name="missing_title" msgid="830115697868833773">"&lt;Noma’lum&gt;"</string>
     <string name="button_sort_by_size" msgid="7331549713691146251">"Hajmi bo‘yicha saralash"</string>
     <string name="button_sort_by_date" msgid="8800842892684101528">"Sanasi bo‘yicha saralash"</string>
@@ -38,13 +38,14 @@
     <string name="dialog_file_already_exists" msgid="8308563940663449590">"Yuklab olinmadi. Mo‘ljaldagi fayl allaqachon mavjud."</string>
     <string name="dialog_media_not_found" msgid="4468088418758018765">"Yuklab olinmadi. Tashqi xotira qurilmasi mavjud emas."</string>
     <string name="download_no_application_title" msgid="7024782176657362251">"Fayl ochilmadi"</string>
-    <string name="remove_download" msgid="6372920256257247857">"O‘chirish"</string>
+    <string name="remove_download" msgid="6372920256257247857">"Olib tashlash"</string>
     <string name="delete_download" msgid="76629022653866471">"O‘chirish"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"Saqlash"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Bekor qilish"</string>
     <string name="retry_download" msgid="7617100787922717912">"Qayta urinish"</string>
+    <string name="start_now_download" msgid="1564642872809509681">"Boshlash"</string>
     <string name="deselect_all" msgid="6348198946254776764">"Belgilashlarni bekor qil."</string>
-    <string name="select_all" msgid="634074918366265804">"Barchasini belgilash"</string>
+    <string name="select_all" msgid="634074918366265804">"Hammasini belgilash"</string>
     <string name="selected_count" msgid="2101564570019753277">"Tanlandi: <xliff:g id="NUMBER">%1$d</xliff:g>/<xliff:g id="TOTAL">%2$d</xliff:g>"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"Ulashish usuli"</string>
+    <string name="download_share_dialog" msgid="3355867339806448955">"Baham ko‘rish"</string>
 </resources>

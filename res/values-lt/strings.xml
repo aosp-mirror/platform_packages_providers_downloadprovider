@@ -18,18 +18,18 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Atsisiuntimų tvarkytuvė"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Pasiekti atsisiuntimo tvarkyklę."</string>
-    <string name="permdesc_downloadManager" msgid="4237406545998908947">"Leidžiama programai pasiekti atsisiuntimų tvarkyklę ir naudoti ją failams atsisiųsti. Kenkėjiškos programos gali naudoti šią funkciją atsisiuntimams stabdyti ir asmeninei informacijai pasiekti."</string>
-    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Išplėstinės atsisiuntimo tvarkyklės funkcijos."</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Leidžiama programai pasiekti išplėstines atsisiuntimų tvarkyklės funkcijas. Kenkėjiškos programos gali naudoti šią funkciją atsisiuntimams stabdyti ir asmeninei informacijai gauti."</string>
+    <string name="permdesc_downloadManager" msgid="4237406545998908947">"Leidžiama programai pasiekti atsisiuntimų tvarkytuvę ir naudoti ją failams atsisiųsti. Kenkėjiškos programos gali naudoti šią funkciją atsisiuntimams stabdyti ir asmeninei informacijai pasiekti."</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Išplėstinės atsisiuntimo tvarkytuvės funkcijos."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Leidžiama programai pasiekti išplėstines atsisiuntimų tvarkytuvės funkcijas. Kenkėjiškos programos gali naudoti šią funkciją atsisiuntimams stabdyti ir asmeninei informacijai gauti."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Siųsti atsisiuntimo pranešimus."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Leidžiama programai siųsti pranešimus apie baigtus atsisiuntimus. Kenkėjiškos programos gali naudoti šią funkciją, kad supainiotų kitas programas, kurias naudojant siunčiami failai."</string>
     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Žr. visus atsis. į USB atm."</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Žiūrėti visus atsisiuntimus į SD kortelę"</string>
     <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Leidžiama programai matyti visus atsisiuntimus į SD kortelę, neatsižvelgiant į tai, kokia programa jie buvo atsiųsti."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Rezervuoti vietą atsisiuntimo talpykloje"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Leidžiama programai atsisiųsti failus į atsisiuntimo talpyklą, kurios negalima automatiškai ištrinti, kai atsisiuntimo tvarkyklei prireikia daugiau vietos."</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Leidžiama programai atsisiųsti failus į atsisiuntimo talpyklą, kurios negalima automatiškai ištrinti, kai atsisiuntimo tvarkytuvei prireikia daugiau vietos."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"atsisiųsti failus be pranešimo"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"Leidžiama programai atsisiųsti failus naudojant atsisiuntimo tvarkyklę, naudotojui nepateikus jokio pranešimo."</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"Leidžiama programai atsisiųsti failus naudojant atsisiuntimo tvarkytuvę, naudotojui nepateikus jokio pranešimo."</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Pasiekti visus sistemos atsisiuntimus"</string>
     <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"Leidžiama programai žiūrėti ir keisti visus atsisiuntimus, pradėtus naudojant bet kokią sistemos programą."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Be pavadinimo&gt;"</string>

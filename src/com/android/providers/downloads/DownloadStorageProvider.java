@@ -113,6 +113,11 @@ public class DownloadStorageProvider extends FileSystemProvider {
 
     @Override
     public Cursor queryRoots(String[] projection) throws FileNotFoundException {
+        // It's possible that the folder does not exist on disk, so we will create the folder if
+        // that is the case. If user decides to delete the folder later, then it's OK to fail on
+        // subsequent queries.
+        getDownloadsDirectory().mkdirs();
+
         final MatrixCursor result = new MatrixCursor(resolveRootProjection(projection));
         final RowBuilder row = result.newRow();
         row.add(Root.COLUMN_ROOT_ID, DOC_ID_ROOT);
@@ -430,8 +435,6 @@ public class DownloadStorageProvider extends FileSystemProvider {
         row.add(Document.COLUMN_FLAGS,
                 Document.FLAG_DIR_PREFERS_LAST_MODIFIED | Document.FLAG_DIR_SUPPORTS_CREATE);
     }
-
-
 
     /**
      * Adds the entry from the cursor to the result only if the entry is valid. That is,

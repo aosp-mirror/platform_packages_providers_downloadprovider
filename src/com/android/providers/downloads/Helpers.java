@@ -796,7 +796,7 @@ public class Helpers {
                     mCurrentToken = TOKEN_COLUMN;
                     return;
                 }
-                throw new IllegalArgumentException("unrecognized column or keyword");
+                throw new IllegalArgumentException("unrecognized column or keyword: " + word);
             }
 
             // quoted strings

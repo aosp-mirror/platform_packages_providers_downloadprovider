@@ -139,13 +139,24 @@ public class DownloadReceiver extends BroadcastReceiver {
 
     private void handleUidRemoved(Context context, Intent intent) {
         final ContentResolver resolver = context.getContentResolver();
-
         final int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
-        final int count = resolver.delete(
-                Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, Constants.UID + "=" + uid, null);
 
-        if (count > 0) {
-            Slog.d(TAG, "Deleted " + count + " downloads owned by UID " + uid);
+        // First, disown any downloads that live in shared storage
+        final ContentValues values = new ContentValues();
+        values.putNull(Constants.UID);
+        final int disowned = resolver.update(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, values,
+                Constants.UID + "=" + uid + " AND " + Downloads.Impl.COLUMN_DESTINATION + " IN ("
+                        + Downloads.Impl.DESTINATION_EXTERNAL + ","
+                        + Downloads.Impl.DESTINATION_FILE_URI + ")",
+                null);
+
+        // Finally, delete any remaining downloads owned by UID
+        final int deleted = resolver.delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
+                Constants.UID + "=" + uid, null);
+
+        if ((disowned + deleted) > 0) {
+            Slog.d(TAG, "Disowned " + disowned + " and deleted " + deleted
+                    + " downloads owned by UID " + uid);
         }
     }
 

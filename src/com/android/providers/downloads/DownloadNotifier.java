@@ -219,6 +219,7 @@ public class DownloadNotifier {
                 mActiveNotifs.put(tag, firstShown);
             }
             builder.setWhen(firstShown);
+            builder.setOnlyAlertOnce(true);
 
             // Build action intents
             if (type == TYPE_ACTIVE || type == TYPE_WAITING) {

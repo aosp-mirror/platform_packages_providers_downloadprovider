@@ -26,6 +26,7 @@ import static com.android.providers.downloads.Constants.TAG;
 
 import android.app.DownloadManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentUris;
@@ -61,6 +62,10 @@ public class DownloadNotifier {
     private static final int TYPE_WAITING = 2;
     private static final int TYPE_COMPLETE = 3;
 
+    private static final String CHANNEL_ACTIVE = "active";
+    private static final String CHANNEL_WAITING = "waiting";
+    private static final String CHANNEL_COMPLETE = "complete";
+
     private final Context mContext;
     private final NotificationManager mNotifManager;
 
@@ -89,8 +94,18 @@ public class DownloadNotifier {
 
     public DownloadNotifier(Context context) {
         mContext = context;
-        mNotifManager = (NotificationManager) context.getSystemService(
-                Context.NOTIFICATION_SERVICE);
+        mNotifManager = context.getSystemService(NotificationManager.class);
+
+        // Ensure that all our channels are ready to use
+        mNotifManager.createNotificationChannel(new NotificationChannel(CHANNEL_ACTIVE,
+                context.getText(R.string.download_running),
+                NotificationManager.IMPORTANCE_LOW));
+        mNotifManager.createNotificationChannel(new NotificationChannel(CHANNEL_WAITING,
+                context.getText(R.string.download_queued),
+                NotificationManager.IMPORTANCE_DEFAULT));
+        mNotifManager.createNotificationChannel(new NotificationChannel(CHANNEL_COMPLETE,
+                context.getText(com.android.internal.R.string.done_label),
+                NotificationManager.IMPORTANCE_DEFAULT));
     }
 
     public void init() {
@@ -178,7 +193,20 @@ public class DownloadNotifier {
             final IntArray cluster = clustered.valueAt(i);
             final int type = getNotificationTagType(tag);
 
-            final Notification.Builder builder = new Notification.Builder(mContext);
+            final Notification.Builder builder;
+            if (type == TYPE_ACTIVE) {
+                builder = new Notification.Builder(mContext, CHANNEL_ACTIVE);
+                builder.setSmallIcon(android.R.drawable.stat_sys_download);
+            } else if (type == TYPE_WAITING) {
+                builder = new Notification.Builder(mContext, CHANNEL_WAITING);
+                builder.setSmallIcon(android.R.drawable.stat_sys_warning);
+            } else if (type == TYPE_COMPLETE) {
+                builder = new Notification.Builder(mContext, CHANNEL_COMPLETE);
+                builder.setSmallIcon(android.R.drawable.stat_sys_download_done);
+            } else {
+                continue;
+            }
+
             builder.setColor(res.getColor(
                     com.android.internal.R.color.system_notification_accent_color));
 
@@ -191,15 +219,6 @@ public class DownloadNotifier {
                 mActiveNotifs.put(tag, firstShown);
             }
             builder.setWhen(firstShown);
-
-            // Show relevant icon
-            if (type == TYPE_ACTIVE) {
-                builder.setSmallIcon(android.R.drawable.stat_sys_download);
-            } else if (type == TYPE_WAITING) {
-                builder.setSmallIcon(android.R.drawable.stat_sys_warning);
-            } else if (type == TYPE_COMPLETE) {
-                builder.setSmallIcon(android.R.drawable.stat_sys_download_done);
-            }
 
             // Build action intents
             if (type == TYPE_ACTIVE || type == TYPE_WAITING) {

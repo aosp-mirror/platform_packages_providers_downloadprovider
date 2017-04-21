@@ -43,7 +43,7 @@
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Кийин жүктөө кезегине тургузулсунбу?"</string>
     <string name="wifi_recommended_body" msgid="1314735166699936073">"Өлчөмү <xliff:g id="SIZE">%s </xliff:g> болгон жүктөөнү азыр баштасаңыз, батарейиңиздин өмүрү кыскарышы жана/же мобилдик интернет трафиги өтө көп сарпталып, тарифтик планыңызга жараша, операторуңуз сизден төлөм алышы мүмкүн.\n\n Бул жүктөөнү сиз кийин Wi-Fi түйүнгө туташканда башташ үчүн, <xliff:g id="QUEUE_TEXT">%s</xliff:g> тийип коюңуз."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Кезекке тургузуу"</string>
-    <string name="button_cancel_download" msgid="2430166148737975604">"Айнуу"</string>
+    <string name="button_cancel_download" msgid="2430166148737975604">"Токтотуу"</string>
     <string name="button_start_now" msgid="792123674007840864">"Азыр баштоо"</string>
     <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> файл жүктөлүп алынууда</item>

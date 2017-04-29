@@ -39,7 +39,7 @@
     <string name="dialog_media_not_found" msgid="4468088418758018765">"ಡೌನ್‌ಲೋಡ್‌ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ಬಾಹ್ಯ ಮಾಧ್ಯಮವು ಲಭ್ಯವಿಲ್ಲ."</string>
     <string name="download_no_application_title" msgid="7024782176657362251">"ಫೈಲ್ ತೆರೆಯಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ"</string>
     <string name="remove_download" msgid="6372920256257247857">"ತೆಗೆದುಹಾಕಿ"</string>
-    <string name="delete_download" msgid="76629022653866471">"ಅಳಿಸು"</string>
+    <string name="delete_download" msgid="76629022653866471">"ಅಳಿಸಿ"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"ಇರಿಸಿ"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"ರದ್ದುಮಾಡಿ"</string>
     <string name="retry_download" msgid="7617100787922717912">"ಮರುಪ್ರಯತ್ನಿಸಿ"</string>

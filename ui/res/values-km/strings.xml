@@ -45,7 +45,7 @@
     <string name="retry_download" msgid="7617100787922717912">"សាកល្បង​ម្ដងទៀត"</string>
     <string name="start_now_download" msgid="1564642872809509681">"ចាប់ផ្ដើមឥឡូវនេះ"</string>
     <string name="deselect_all" msgid="6348198946254776764">"មិន​ជ្រើស​ទាំងអស់"</string>
-    <string name="select_all" msgid="634074918366265804">"ជ្រើស​ទាំងអស់"</string>
+    <string name="select_all" msgid="634074918366265804">"ជ្រើសរើសទាំងអស់"</string>
     <string name="selected_count" msgid="2101564570019753277">"បាន​ជ្រើស <xliff:g id="NUMBER">%1$d</xliff:g> ក្នុង​ចំណោម <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
     <string name="download_share_dialog" msgid="3355867339806448955">"ចែករំលែក​តាម"</string>
 </resources>

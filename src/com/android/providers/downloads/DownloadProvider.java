@@ -473,15 +473,40 @@ public final class DownloadProvider extends ContentProvider {
         final SQLiteDatabase db = mOpenHelper.getReadableDatabase();
         final Cursor cursor = db.query(DB_TABLE, new String[] {
                 Downloads.Impl._ID, Constants.UID }, null, null, null, null, null);
+        final ArrayList<Long> idsToDelete = new ArrayList<>();
         try {
             while (cursor.moveToNext()) {
-                grantAllDownloadsPermission(cursor.getLong(0), cursor.getInt(1));
+                final long downloadId = cursor.getLong(0);
+                final int uid = cursor.getInt(1);
+                final String ownerPackage = getPackageForUid(uid);
+                if (ownerPackage == null) {
+                    idsToDelete.add(downloadId);
+                } else {
+                    grantAllDownloadsPermission(ownerPackage, downloadId);
+                }
             }
         } finally {
             cursor.close();
         }
-
+        if (idsToDelete.size() > 0) {
+            Log.i(Constants.TAG,
+                    "Deleting downloads with ids " + idsToDelete + " as owner package is missing");
+            deleteDownloadsWithIds(idsToDelete);
+        }
         return true;
+    }
+
+    private void deleteDownloadsWithIds(ArrayList<Long> downloadIds) {
+        final int N = downloadIds.size();
+        if (N == 0) {
+            return;
+        }
+        final StringBuilder queryBuilder = new StringBuilder(Downloads.Impl._ID + " in (");
+        for (int i = 0; i < N; i++) {
+            queryBuilder.append(downloadIds.get(i));
+            queryBuilder.append((i == N - 1) ? ")" : ",");
+        }
+        delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, queryBuilder.toString(), null);
     }
 
     /**
@@ -703,7 +728,13 @@ public final class DownloadProvider extends ContentProvider {
         }
 
         insertRequestHeaders(db, rowID, values);
-        grantAllDownloadsPermission(rowID, Binder.getCallingUid());
+
+        final String callingPackage = getPackageForUid(Binder.getCallingUid());
+        if (callingPackage == null) {
+            Log.e(Constants.TAG, "Package does not exist for calling uid");
+            return null;
+        }
+        grantAllDownloadsPermission(callingPackage, rowID);
         notifyContentChanged(uri, match);
 
         final long token = Binder.clearCallingIdentity();
@@ -720,6 +751,15 @@ public final class DownloadProvider extends ContentProvider {
         }
 
         return ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, rowID);
+    }
+
+    private String getPackageForUid(int uid) {
+        String[] packages = getContext().getPackageManager().getPackagesForUid(uid);
+        if (packages == null || packages.length == 0) {
+            return null;
+        }
+        // For permission related purposes, any package belonging to the given uid should work.
+        return packages[0];
     }
 
     /**
@@ -1499,14 +1539,9 @@ public final class DownloadProvider extends ContentProvider {
         }
     }
 
-    private void grantAllDownloadsPermission(long id, int uid) {
-        final String[] packageNames = getContext().getPackageManager().getPackagesForUid(uid);
-        if (packageNames == null || packageNames.length == 0) return;
-
-        // We only need to grant to the first package, since the
-        // platform internally tracks based on UIDs
+    private void grantAllDownloadsPermission(String toPackage, long id) {
         final Uri uri = ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id);
-        getContext().grantUriPermission(packageNames[0], uri,
+        getContext().grantUriPermission(toPackage, uri,
                 Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
     }
 

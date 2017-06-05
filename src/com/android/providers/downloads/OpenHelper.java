@@ -31,6 +31,7 @@ import android.content.Intent;
 import android.content.pm.PackageInstaller;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Process;
 import android.provider.DocumentsContract;
 import android.provider.Downloads.Impl.RequestHeaders;
 import android.util.Log;
@@ -127,7 +128,10 @@ public class OpenHelper {
         if (cursor != null) {
             try {
                 if (cursor.moveToFirst()) {
-                    return cursor.getInt(cursor.getColumnIndexOrThrow(Constants.UID));
+                    final int uid = cursor.getInt(cursor.getColumnIndexOrThrow(Constants.UID));
+                    if (uid != Process.myUid()) {
+                        return uid;
+                    }
                 }
             } finally {
                 cursor.close();

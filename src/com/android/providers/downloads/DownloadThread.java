@@ -47,7 +47,6 @@ import static java.net.HttpURLConnection.HTTP_PRECON_FAILED;
 import static java.net.HttpURLConnection.HTTP_SEE_OTHER;
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 
-import android.app.job.JobInfo;
 import android.app.job.JobParameters;
 import android.content.ContentValues;
 import android.content.Context;
@@ -743,7 +742,8 @@ public class DownloadThread extends Thread {
         if (info.isRoaming() && !mInfo.isRoamingAllowed()) {
             throw new StopRequestException(STATUS_WAITING_FOR_NETWORK, "Network is roaming");
         }
-        if (info.isMetered() && !mInfo.isMeteredAllowed(mInfoDelta.mTotalBytes)) {
+        if (mSystemFacade.isNetworkMetered(mNetwork)
+                && !mInfo.isMeteredAllowed(mInfoDelta.mTotalBytes)) {
             throw new StopRequestException(STATUS_WAITING_FOR_NETWORK, "Network is metered");
         }
     }

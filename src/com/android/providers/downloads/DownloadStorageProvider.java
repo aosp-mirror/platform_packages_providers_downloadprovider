@@ -501,7 +501,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
         }
 
         int flags = Document.FLAG_SUPPORTS_DELETE | Document.FLAG_SUPPORTS_WRITE | extraFlags;
-        if (mimeType.startsWith("image/")) {
+        if (mimeType.startsWith("image/") || mimeType.equals("application/pdf")) {
             flags |= Document.FLAG_SUPPORTS_THUMBNAIL;
         }
 

@@ -580,8 +580,7 @@ public final class DownloadProvider extends ContentProvider {
             if (getContext().checkCallingOrSelfPermission(Downloads.Impl.PERMISSION_ACCESS_ADVANCED)
                     != PackageManager.PERMISSION_GRANTED
                     && (dest == Downloads.Impl.DESTINATION_CACHE_PARTITION
-                            || dest == Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING
-                            || dest == Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION)) {
+                            || dest == Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING)) {
                 throw new SecurityException("setting destination to : " + dest +
                         " not allowed, unless PERMISSION_ACCESS_ADVANCED is granted");
             }
@@ -608,12 +607,6 @@ public final class DownloadProvider extends ContentProvider {
                         getCallingPackage()) != AppOpsManager.MODE_ALLOWED) {
                     throw new SecurityException("No permission to write");
                 }
-
-            } else if (dest == Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION) {
-                getContext().enforcePermission(
-                        android.Manifest.permission.ACCESS_CACHE_FILESYSTEM,
-                        Binder.getCallingPid(), Binder.getCallingUid(),
-                        "need ACCESS_CACHE_FILESYSTEM permission to use system cache");
             }
             filteredValues.put(Downloads.Impl.COLUMN_DESTINATION, dest);
         }
@@ -1306,6 +1299,8 @@ public final class DownloadProvider extends ContentProvider {
                             try {
                                 getContext().getContentResolver().delete(Uri.parse(mediaUri), null,
                                         null);
+                            } catch (Exception e) {
+                                Log.w(Constants.TAG, "Failed to delete media entry: " + e);
                             } finally {
                                 Binder.restoreCallingIdentity(token);
                             }

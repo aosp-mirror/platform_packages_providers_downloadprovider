@@ -264,11 +264,7 @@ public class DownloadNotifier {
                 if (Downloads.Impl.isStatusError(status)) {
                     action = Constants.ACTION_LIST;
                 } else {
-                    if (destination != Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION) {
-                        action = Constants.ACTION_OPEN;
-                    } else {
-                        action = Constants.ACTION_LIST;
-                    }
+                    action = Constants.ACTION_OPEN;
                 }
 
                 final Intent intent = new Intent(action, uri, mContext, DownloadReceiver.class);

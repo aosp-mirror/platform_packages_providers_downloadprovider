@@ -99,7 +99,7 @@ public class DownloadNotifier {
         // Ensure that all our channels are ready to use
         mNotifManager.createNotificationChannel(new NotificationChannel(CHANNEL_ACTIVE,
                 context.getText(R.string.download_running),
-                NotificationManager.IMPORTANCE_LOW));
+                NotificationManager.IMPORTANCE_MIN));
         mNotifManager.createNotificationChannel(new NotificationChannel(CHANNEL_WAITING,
                 context.getText(R.string.download_queued),
                 NotificationManager.IMPORTANCE_DEFAULT));

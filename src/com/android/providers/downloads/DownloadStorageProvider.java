@@ -131,7 +131,11 @@ public class DownloadStorageProvider extends FileSystemProvider {
     }
 
     @Override
-    public Path findDocumentPath(String parentDocId, String docId) throws FileNotFoundException {
+    public Path findDocumentPath(@Nullable String parentDocId, String docId) throws FileNotFoundException {
+
+        // parentDocId is null if the client is asking for the path to the root of a doc tree.
+        // Don't share root information with those who shouldn't know it.
+        final String rootId = (parentDocId == null) ? DOC_ID_ROOT : null;
 
         if (parentDocId == null) {
             parentDocId = DOC_ID_ROOT;
@@ -140,8 +144,6 @@ public class DownloadStorageProvider extends FileSystemProvider {
         final File parent = getFileForDocId(parentDocId);
 
         final File doc = getFileForDocId(docId);
-
-        final String rootId = (parentDocId == null) ? DOC_ID_ROOT : null;
 
         return new Path(rootId, findDocumentPath(parent, doc));
     }

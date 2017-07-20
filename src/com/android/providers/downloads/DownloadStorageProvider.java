@@ -382,14 +382,6 @@ public class DownloadStorageProvider extends FileSystemProvider {
     }
 
     @Override
-    public AssetFileDescriptor openDocumentThumbnail(
-            String docId, Point sizeHint, CancellationSignal signal) throws FileNotFoundException {
-        // TODO: extend ExifInterface to support fds
-        final ParcelFileDescriptor pfd = openDocument(docId, "r", signal);
-        return new AssetFileDescriptor(pfd, 0, AssetFileDescriptor.UNKNOWN_LENGTH);
-    }
-
-    @Override
     protected File getFileForDocId(String docId, boolean visible) throws FileNotFoundException {
         if (RawDocumentsHelper.isRawDocId(docId)) {
             return new File(RawDocumentsHelper.getAbsoluteFilePath(docId));
@@ -501,7 +493,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
         }
 
         int flags = Document.FLAG_SUPPORTS_DELETE | Document.FLAG_SUPPORTS_WRITE | extraFlags;
-        if (mimeType.startsWith("image/")) {
+        if (mimeType.startsWith("image/") || mimeType.equals("application/pdf")) {
             flags |= Document.FLAG_SUPPORTS_THUMBNAIL;
         }
 

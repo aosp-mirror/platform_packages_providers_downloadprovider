@@ -497,6 +497,10 @@ public class DownloadStorageProvider extends FileSystemProvider {
             flags |= Document.FLAG_SUPPORTS_THUMBNAIL;
         }
 
+        if (typeSupportsMetadata(mimeType)) {
+            flags |= Document.FLAG_SUPPORTS_METADATA;
+        }
+
         final long lastModified = cursor.getLong(
                 cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP));
 

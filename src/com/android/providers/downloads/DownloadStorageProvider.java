@@ -426,6 +426,9 @@ public class DownloadStorageProvider extends FileSystemProvider {
     private void includeDefaultDocument(MatrixCursor result) {
         final RowBuilder row = result.newRow();
         row.add(Document.COLUMN_DOCUMENT_ID, DOC_ID_ROOT);
+        // We have the same display name as our root :)
+        row.add(Document.COLUMN_DISPLAY_NAME,
+                getContext().getString(R.string.root_downloads));
         row.add(Document.COLUMN_MIME_TYPE, Document.MIME_TYPE_DIR);
         row.add(Document.COLUMN_FLAGS,
                 Document.FLAG_DIR_PREFERS_LAST_MODIFIED | Document.FLAG_DIR_SUPPORTS_CREATE);

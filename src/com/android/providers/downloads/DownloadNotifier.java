@@ -229,6 +229,7 @@ public class DownloadNotifier {
                 final Uri uri = new Uri.Builder().scheme("active-dl").appendPath(tag).build();
                 final Intent intent = new Intent(Constants.ACTION_LIST,
                         uri, mContext, DownloadReceiver.class);
+                intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
                 intent.putExtra(DownloadManager.EXTRA_NOTIFICATION_CLICK_DOWNLOAD_IDS,
                         downloadIds);
                 builder.setContentIntent(PendingIntent.getBroadcast(mContext,
@@ -241,6 +242,7 @@ public class DownloadNotifier {
                 final Uri cancelUri = new Uri.Builder().scheme("cancel-dl").appendPath(tag).build();
                 final Intent cancelIntent = new Intent(Constants.ACTION_CANCEL,
                         cancelUri, mContext, DownloadReceiver.class);
+                cancelIntent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
                 cancelIntent.putExtra(DownloadReceiver.EXTRA_CANCELED_DOWNLOAD_IDS, downloadIds);
                 cancelIntent.putExtra(DownloadReceiver.EXTRA_CANCELED_DOWNLOAD_NOTIFICATION_TAG, tag);
 
@@ -268,6 +270,7 @@ public class DownloadNotifier {
                 }
 
                 final Intent intent = new Intent(action, uri, mContext, DownloadReceiver.class);
+                intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
                 intent.putExtra(DownloadManager.EXTRA_NOTIFICATION_CLICK_DOWNLOAD_IDS,
                         getDownloadIds(cursor, cluster));
                 builder.setContentIntent(PendingIntent.getBroadcast(mContext,
@@ -275,6 +278,7 @@ public class DownloadNotifier {
 
                 final Intent hideIntent = new Intent(Constants.ACTION_HIDE,
                         uri, mContext, DownloadReceiver.class);
+                hideIntent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
                 builder.setDeleteIntent(PendingIntent.getBroadcast(mContext, 0, hideIntent, 0));
             }
 

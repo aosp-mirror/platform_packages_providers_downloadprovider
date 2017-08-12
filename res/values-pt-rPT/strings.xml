@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3658948994665187911">"Gestor de Transferências"</string>
+    <string name="app_label" msgid="3658948994665187911">"Gestor de transferências"</string>
     <string name="storage_description" msgid="7982444311558023664">"Transferências"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Aceder ao gestor de transferências."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Permite que a aplicação aceda ao gestor de transferências e o utilize para transferir ficheiros. As aplicações maliciosas podem utilizar esta permissão para interromper transferências e aceder a informações privadas."</string>

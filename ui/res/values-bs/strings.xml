@@ -36,7 +36,7 @@
     <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Nije moguće dovršiti preuzimanje. Nema dovoljno prostora na internoj pohrani za preuzimanja."</string>
     <string name="dialog_cannot_resume" msgid="8664509751358983543">"Preuzimanje je prekinuto i ne može se nastaviti."</string>
     <string name="dialog_file_already_exists" msgid="8308563940663449590">"Nije moguće preuzeti. Odredišna datoteka već postoji."</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"Nije moguće preuzeti. Eksterni medij nije dostupan."</string>
+    <string name="dialog_media_not_found" msgid="4468088418758018765">"Nije moguće preuzeti. Vanjski medij nije dostupan."</string>
     <string name="download_no_application_title" msgid="7024782176657362251">"Nije moguće otvoriti datoteku"</string>
     <string name="remove_download" msgid="6372920256257247857">"Ukloni"</string>
     <string name="delete_download" msgid="76629022653866471">"Izbriši"</string>

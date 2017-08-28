@@ -30,9 +30,9 @@
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"ডাউনলোড ক্যাশেতে জায়গা সংরক্ষিত রাখুন"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"অ্যাপ্লিকেশানটিকে ডাউনলোড ক্যাশে থেকে ফাইলগুলি ডাউনলোড করার অনুমতি দেয়, যখন ডাউনলোড ম্যানেজার আরো বেশি জায়গা চাইবে তখন ডাউনলোড ক্যাশে স্বয়ংক্রিয়ভাবে মোছা যাবে না।"</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"বিজ্ঞপ্তি ছাড়াই ফাইল ডাউনলোড করুন"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"ব্যবহারকারীকে কোনো বিজ্ঞপ্তি না প্রদর্শন করা ছাড়াই অ্যাপ্লিকেশানটিকে ডাউনলোড ম্যানেজারের মাধ্যমে ফাইল ডাউনলোড করার অনুমতি দেয়।"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"ব্যবহারকারীকে কোনও বিজ্ঞপ্তি না প্রদর্শন করা ছাড়াই অ্যাপ্লিকেশনটিকে ডাউনলোড ম্যানেজারের মাধ্যমে ফাইল ডাউনলোড করার অনুমতি দেয়।"</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"সব সিস্টেম ডাউনলোড অ্যাক্সেস করুন"</string>
-    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"সিস্টেমে যে কোনো অ্যাপ্লিকেশান দ্বারা সূচিত সকল ডাউনলোড প্রদর্শন ও পরিবর্তনের জন্য অ্যাপ্লিকেশানটিকে অনুমতি দেয়।"</string>
+    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"সিস্টেমে যেকোনও অ্যাপ্লিকেশন দ্বারা সূচিত সকল ডাউনলোড প্রদর্শন ও পরিবর্তনের জন্য অ্যাপ্লিকেশনটিকে অনুমতি দেয়।"</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;শিরোনামহীন&gt;"</string>
     <string name="notification_download_complete" msgid="5443563299253103667">"ডাউনলোড সম্পূর্ণ হয়েছে।"</string>
     <string name="notification_download_failed" msgid="8612136111952014978">"ডাউনলোড অসফল।"</string>

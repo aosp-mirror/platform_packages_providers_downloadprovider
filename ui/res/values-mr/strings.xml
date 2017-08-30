@@ -43,7 +43,7 @@
     <string name="keep_queued_download" msgid="5144882786014818569">"ठेवा"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"रद्द करा"</string>
     <string name="retry_download" msgid="7617100787922717912">"पुन्हा प्रयत्न करा"</string>
-    <string name="start_now_download" msgid="1564642872809509681">"आता प्रारंभ करा"</string>
+    <string name="start_now_download" msgid="1564642872809509681">"आता सुरू करा"</string>
     <string name="deselect_all" msgid="6348198946254776764">"सर्व निवड रद्द करा"</string>
     <string name="select_all" msgid="634074918366265804">"सर्व निवडा"</string>
     <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="TOTAL">%2$d</xliff:g> पैकी <xliff:g id="NUMBER">%1$d</xliff:g> निवडले"</string>

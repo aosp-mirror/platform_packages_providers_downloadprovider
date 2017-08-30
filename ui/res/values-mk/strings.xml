@@ -33,7 +33,7 @@
     <string name="dialog_queued_body" msgid="708552801635572720">"Оваа датотека е ставена во ред начекање да се преземе во иднина и сè уште не е достапна."</string>
     <string name="dialog_file_missing_body" msgid="3223012612774276284">"Не може да се пронајде преземената датотека."</string>
     <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Преземањето не може да се заврши. Нема доволно простор на надворешната меморија."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Преземањето не може да се заврши. Нема доволно простор на внатрешна меморија за преземање."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Преземањето не може да се заврши. Нема доволно простор на внатрешен капацитет за преземање."</string>
     <string name="dialog_cannot_resume" msgid="8664509751358983543">"Преземањето се прекина и не може да продолжи."</string>
     <string name="dialog_file_already_exists" msgid="8308563940663449590">"Не може да се преземе. Одредишната датотека веќе постои."</string>
     <string name="dialog_media_not_found" msgid="4468088418758018765">"Не може да се преземе. Надворешниот медиум не е достапен."</string>

@@ -30,9 +30,9 @@
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"ডাউনলোড ক্যাশেতে জায়গা সংরক্ষিত রাখুন"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"অ্যাপ্লিকেশানটিকে ডাউনলোড ক্যাশে থেকে ফাইলগুলি ডাউনলোড করার অনুমতি দেয়, যখন ডাউনলোড ম্যানেজার আরো বেশি জায়গা চাইবে তখন ডাউনলোড ক্যাশে স্বয়ংক্রিয়ভাবে মোছা যাবে না।"</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"বিজ্ঞপ্তি ছাড়াই ফাইল ডাউনলোড করুন"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"ব্যবহারকারীকে কোনো বিজ্ঞপ্তি না প্রদর্শন করা ছাড়াই অ্যাপ্লিকেশানটিকে ডাউনলোড ম্যানেজারের মাধ্যমে ফাইল ডাউনলোড করার অনুমতি দেয়।"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"ব্যবহারকারীকে কোনও বিজ্ঞপ্তি না প্রদর্শন করা ছাড়াই অ্যাপ্লিকেশনটিকে ডাউনলোড ম্যানেজারের মাধ্যমে ফাইল ডাউনলোড করার অনুমতি দেয়।"</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"সব সিস্টেম ডাউনলোড অ্যাক্সেস করুন"</string>
-    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"সিস্টেমে যে কোনো অ্যাপ্লিকেশান দ্বারা সূচিত সকল ডাউনলোড প্রদর্শন ও পরিবর্তনের জন্য অ্যাপ্লিকেশানটিকে অনুমতি দেয়।"</string>
+    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"সিস্টেমে যেকোনও অ্যাপ্লিকেশন দ্বারা সূচিত সকল ডাউনলোড প্রদর্শন ও পরিবর্তনের জন্য অ্যাপ্লিকেশনটিকে অনুমতি দেয়।"</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;শিরোনামহীন&gt;"</string>
     <string name="notification_download_complete" msgid="5443563299253103667">"ডাউনলোড সম্পূর্ণ হয়েছে।"</string>
     <string name="notification_download_failed" msgid="8612136111952014978">"ডাউনলোড অসফল।"</string>
@@ -41,7 +41,7 @@
     <string name="wifi_required_title" msgid="1995971416871498179">"অপারেটর নেটওয়ার্কের জন্য ডাউনলোড অত্যন্ত বড়"</string>
     <string name="wifi_required_body" msgid="3067694630143784449">"এই <xliff:g id="SIZE">%s </xliff:g> ডাউনলোড সম্পূর্ণ করতে আপনাকে অবশ্যই ওয়াই-ফাই ব্যবহার করতে হবে।\n\nআপনি পরবর্তীতে যখন ওয়াই-ফাই নেটওয়ার্কে সংযুক্ত হবেন তখন এই ডাউনলোড শুরু করতে <xliff:g id="QUEUE_TEXT">%s </xliff:g> স্পর্শ করুন।"</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"পরে ডাউনলোডের জন্য সারিবদ্ধ করবেন?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"এই <xliff:g id="SIZE">%s </xliff:g> ডাউনলোড শুরু করলে তা আপনার ব্যাটারি জীবন এবং/অথবা ফলস্বরুপ মাত্রাতিরিক্ত আপনার মোবাইল ডেটা সংযোগ ব্যবহার হতে পারে, যার ফলে আপনার মোবাইল অপারেটর আপনার ডেটা প্ল্যানের উপর নির্ভর করে চার্জ করতে পারে।\n\n আপনার পরবর্তীতে যখন ওয়াই-ফাই নেটওয়ার্কে সংযুক্ত হবেন তখন এই ডাউনলোড শুরু করতে <xliff:g id="QUEUE_TEXT">%s</xliff:g> স্পর্শ করুন।"</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"এই <xliff:g id="SIZE">%s </xliff:g> ডাউনলোড শুরু করলে আপনার বেশি ব্যাটারি খরচ হতে পারে এবং/অথবা আপনার মোবাইল ডেটা মাত্রাতিরিক্ত ব্যবহার হতে পারে, যার ফলে আপনার মোবাইল অপারেটর আপনার ডেটা প্ল্যানের উপর নির্ভর করে চার্জ করতে পারে।\n\n পরে কখনও Wi-Fi নেটওয়ার্কে সংযুক্ত হলে তখন এই ডাউনলোড শুরু করতে <xliff:g id="QUEUE_TEXT">%s</xliff:g> টাচ করুন।"</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"সারি"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"বাতিল করুন"</string>
     <string name="button_start_now" msgid="792123674007840864">"এখন শুরু করুন"</string>

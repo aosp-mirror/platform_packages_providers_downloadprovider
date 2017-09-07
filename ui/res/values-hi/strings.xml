@@ -32,14 +32,14 @@
     <string name="dialog_title_queued_body" msgid="6760681913815015219">"फ़ाइल कतार में"</string>
     <string name="dialog_queued_body" msgid="708552801635572720">"यह फ़ाइल भविष्य के डाउनलोड के लिए कतारबद्ध है इसलिए अभी उपलब्ध नहीं है."</string>
     <string name="dialog_file_missing_body" msgid="3223012612774276284">"डाउनलोड की गई फ़ाइल नहीं मिल रही."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"डाउनलोड पूर्ण नहीं हो सकता. बाह्य मेमोरी पर पर्याप्‍त स्थान नहीं है."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"डाउनलोड पूर्ण नहीं हो सकता. आंतरिक डाउनलोड मेमोरी में पर्याप्‍त स्थान नहीं है."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"डाउनलोड पूरा नहीं हो सकता. बाहरी मेमोरी में ज़रुरत के मुताबिक जगह नहीं है."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"डाउनलोड पूरा नहीं हो सकता. डिवाइस की डाउनलोड मेमोरी में ज़रुरत के मुताबिक जगह नहीं है."</string>
     <string name="dialog_cannot_resume" msgid="8664509751358983543">"डाउनलोड बाधित हो गया था और इसे फिर से शुरू नहीं किया जा सकता."</string>
     <string name="dialog_file_already_exists" msgid="8308563940663449590">"डाउनलोड नहीं कर सकता. गंतव्‍य फ़ाइल पहले से मौजूद है."</string>
     <string name="dialog_media_not_found" msgid="4468088418758018765">"डाउनलोड नहीं किया जा सकता. बाह्य मीडिया उपलब्‍ध नहीं है."</string>
     <string name="download_no_application_title" msgid="7024782176657362251">"फ़ाइल नहीं खोली जा सकती"</string>
     <string name="remove_download" msgid="6372920256257247857">"निकालें"</string>
-    <string name="delete_download" msgid="76629022653866471">"हटाएं"</string>
+    <string name="delete_download" msgid="76629022653866471">"मिटाएं"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"रखें"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"रद्द करें"</string>
     <string name="retry_download" msgid="7617100787922717912">"पुन: प्रयास करें"</string>

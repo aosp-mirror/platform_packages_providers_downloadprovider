@@ -45,7 +45,7 @@
     <string name="retry_download" msgid="7617100787922717912">"পুনরায় চেষ্টা করুন"</string>
     <string name="start_now_download" msgid="1564642872809509681">"এখন শুরু করুন"</string>
     <string name="deselect_all" msgid="6348198946254776764">"সবগুলিকে নির্বাচনমুক্ত করুন"</string>
-    <string name="select_all" msgid="634074918366265804">"সবগুলি নির্বাচন করুন"</string>
+    <string name="select_all" msgid="634074918366265804">"সবগুলি বেছে নিন"</string>
     <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="TOTAL">%2$d</xliff:g>টির মধ্যে <xliff:g id="NUMBER">%1$d</xliff:g>টি নির্বাচিত"</string>
     <string name="download_share_dialog" msgid="3355867339806448955">"এর মাধ্যমে শেয়ার করুন"</string>
 </resources>

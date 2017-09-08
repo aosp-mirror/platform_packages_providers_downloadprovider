@@ -85,6 +85,8 @@ public final class DownloadProvider extends ContentProvider {
     private static final int DB_VERSION = 110;
     /** Name of table in the database */
     private static final String DB_TABLE = "downloads";
+    /** Memory optimization - close idle connections after 30s of inactivity */
+    private static final int IDLE_CONNECTION_TIMEOUT_MS = 30000;
 
     /** MIME type for the entire download list */
     private static final String DOWNLOAD_LIST_TYPE = "vnd.android.cursor.dir/download";
@@ -235,6 +237,7 @@ public final class DownloadProvider extends ContentProvider {
     private final class DatabaseHelper extends SQLiteOpenHelper {
         public DatabaseHelper(final Context context) {
             super(context, DB_NAME, null, DB_VERSION);
+            setIdleConnectionTimeout(IDLE_CONNECTION_TIMEOUT_MS);
         }
 
         /**

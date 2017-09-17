@@ -19,11 +19,11 @@
     <string name="app_label" msgid="3658948994665187911">"Deskargen kudeatzailea"</string>
     <string name="storage_description" msgid="7982444311558023664">"Deskargak"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Atzitu deskargen kudeatzailea."</string>
-    <string name="permdesc_downloadManager" msgid="4237406545998908947">"Deskargen kudeatzailea atzitzea eta fitxategiak deskargatzeko hori erabiltzea baimentzen die aplikazioei. Aplikazio maltzurrek deskargak eteteko eta informazio pribatua atzitzeko erabil dezakete hori."</string>
+    <string name="permdesc_downloadManager" msgid="4237406545998908947">"Deskargen kudeatzailea atzitzea eta fitxategiak deskargatzeko hori erabiltzea baimentzen die aplikazioei. Aplikazio gaiztoek deskargak eteteko eta informazio pribatua atzitzeko erabil dezakete hori."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Deskargen kudeatzailearen eginbide aurreratuak."</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Deskargen kudeatzailearen eginbide aurreratuak atzitzea baimentzen die aplikazioei. Aplikazio maltzurrek deskargak eteteko eta informazio pribatua atzitzeko erabil dezakete hori."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Deskargen kudeatzailearen eginbide aurreratuak atzitzea baimentzen die aplikazioei. Aplikazio gaiztoek deskargak eteteko eta informazio pribatua atzitzeko erabil dezakete hori."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Bidali deskargen jakinarazpenak."</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Osatutako deskargei buruzko jakinarazpenak bidaltzea baimentzen die aplikazioei. Aplikazio maltzurrek fitxategiak deskargatzen dituzten beste aplikazioak nahasteko erabil dezakete hori."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Osatutako deskargei buruzko jakinarazpenak bidaltzea baimentzen die aplikazioei. Aplikazio gaiztoek fitxategiak deskargatzen dituzten beste aplikazioak nahasteko erabil dezakete hori."</string>
     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Ikusi USB memoriako deskargak"</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Ikusi SD txartelera egin diren deskarga guztiak"</string>
     <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"SD txartelera egin diren deskarga guztiak ikustea baimentzen die aplikazioei, zein aplikaziok deskargatu zituen kontuan hartu gabe."</string>

@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3658948994665187911">"下载管理程序"</string>
+    <string name="app_label" msgid="3658948994665187911">"内容下载管理器"</string>
     <string name="storage_description" msgid="7982444311558023664">"下载内容"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"访问下载管理器。"</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"允许该应用使用下载管理器并通过它下载文件。恶意应用可能会借此中断下载并访问私人信息。"</string>

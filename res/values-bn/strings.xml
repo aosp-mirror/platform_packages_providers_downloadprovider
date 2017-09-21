@@ -28,7 +28,7 @@
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"SD কার্ডের সব ডাউনলোড দেখুন"</string>
     <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"অ্যাপ্লিকেশানটিকে কোন অ্যাপ্লিকেশন কি ডাউনলোড করেছে তা নির্বেশেষে SD কার্ডে সমস্ত ডাউনলোড দেখতে অনুমতি দেয়।"</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"ডাউনলোড ক্যাশেতে জায়গা সংরক্ষিত রাখুন"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"অ্যাপ্লিকেশানটিকে ডাউনলোড ক্যাশে থেকে ফাইলগুলি ডাউনলোড করার অনুমতি দেয়, যখন ডাউনলোড ম্যানেজার আরো বেশি জায়গা চাইবে তখন ডাউনলোড ক্যাশে স্বয়ংক্রিয়ভাবে মোছা যাবে না।"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"অ্যাপ্লিকেশনটিকে ডাউনলোড ক্যাশে থেকে ফাইলগুলি ডাউনলোড করার অনুমতি দেয়, যখন ডাউনলোড ম্যানেজার আরও বেশি জায়গা চাইবে তখন ডাউনলোড ক্যাশে অটোমেটিক মোছা যাবে না।"</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"বিজ্ঞপ্তি ছাড়াই ফাইল ডাউনলোড করুন"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"ব্যবহারকারীকে কোনও বিজ্ঞপ্তি না প্রদর্শন করা ছাড়াই অ্যাপ্লিকেশনটিকে ডাউনলোড ম্যানেজারের মাধ্যমে ফাইল ডাউনলোড করার অনুমতি দেয়।"</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"সব সিস্টেম ডাউনলোড অ্যাক্সেস করুন"</string>

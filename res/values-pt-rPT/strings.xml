@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3658948994665187911">"Gestor de Transferências"</string>
+    <string name="app_label" msgid="3658948994665187911">"Gestor de transferências"</string>
     <string name="storage_description" msgid="7982444311558023664">"Transferências"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Aceder ao gestor de transferências."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Permite que a aplicação aceda ao gestor de transferências e o utilize para transferir ficheiros. As aplicações maliciosas podem utilizar esta permissão para interromper transferências e aceder a informações privadas."</string>
@@ -46,11 +46,11 @@
     <string name="button_cancel_download" msgid="2430166148737975604">"Cancelar"</string>
     <string name="button_start_now" msgid="792123674007840864">"Começar agora"</string>
     <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
-      <item quantity="one"><xliff:g id="NUMBER">%d</xliff:g> files downloading</item>
+      <item quantity="one">1 ficheiro a ser transferido</item>
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> ficheiros a serem transferidos</item>
     </plurals>
     <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
-      <item quantity="one"><xliff:g id="NUMBER">%d</xliff:g> files waiting</item>
+      <item quantity="one">1 ficheiro em espera</item>
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> ficheiros em espera</item>
     </plurals>
     <string name="download_remaining" msgid="3139295890887972718">"Faltam <xliff:g id="DURATION">%s</xliff:g>"</string>

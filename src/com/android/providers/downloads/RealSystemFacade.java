@@ -17,6 +17,7 @@
 package com.android.providers.downloads;
 
 import android.app.DownloadManager;
+import android.app.job.JobParameters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -30,12 +31,12 @@ import android.net.NetworkInfo;
 import android.security.NetworkSecurityPolicy;
 import android.security.net.config.ApplicationConfig;
 
+import com.android.internal.util.ArrayUtils;
+
 import java.security.GeneralSecurityException;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
-
-import com.android.internal.util.ArrayUtils;
 
 class RealSystemFacade implements SystemFacade {
     private Context mContext;
@@ -50,9 +51,8 @@ class RealSystemFacade implements SystemFacade {
     }
 
     @Override
-    public Network getActiveNetwork(int uid, boolean ignoreBlocked) {
-        return mContext.getSystemService(ConnectivityManager.class)
-                .getActiveNetworkForUid(uid, ignoreBlocked);
+    public Network getNetwork(JobParameters params) {
+        return params.getNetwork();
     }
 
     @Override

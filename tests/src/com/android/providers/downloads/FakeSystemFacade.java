@@ -4,6 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import android.app.job.JobParameters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -65,7 +66,7 @@ public class FakeSystemFacade implements SystemFacade {
     }
 
     @Override
-    public Network getActiveNetwork(int uid, boolean ignoreBlocked) {
+    public Network getNetwork(JobParameters params) {
         if (mActiveNetworkType == null) {
             return null;
         } else {

@@ -41,6 +41,7 @@ import android.os.UserHandle;
 import android.os.storage.StorageManager;
 import android.os.storage.StorageVolume;
 import android.provider.Downloads;
+import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
@@ -162,6 +163,17 @@ public class Helpers {
         }
         if ((info.mFlags & FLAG_REQUIRES_DEVICE_IDLE) != 0) {
             builder.setRequiresDeviceIdle(true);
+        }
+
+        // Provide estimated network size, when possible
+        if (info.mTotalBytes > 0) {
+            if (info.mCurrentBytes > 0 && !TextUtils.isEmpty(info.mETag)) {
+                // If we're resuming an in-progress download, we only need to
+                // download the remaining bytes.
+                builder.setEstimatedNetworkBytes(info.mTotalBytes - info.mCurrentBytes);
+            } else {
+                builder.setEstimatedNetworkBytes(info.mTotalBytes);
+            }
         }
 
         // If package name was filtered during insert (probably due to being

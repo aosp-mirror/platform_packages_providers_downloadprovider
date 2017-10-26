@@ -285,7 +285,7 @@ public class DownloadThread extends Thread {
             // Use the caller's default network to make this connection, since
             // they might be subject to restrictions that we shouldn't let them
             // circumvent
-            mNetwork = mSystemFacade.getActiveNetwork(mInfo.mUid, mIgnoreBlocked);
+            mNetwork = mSystemFacade.getNetwork(mParams);
             if (mNetwork == null) {
                 throw new StopRequestException(STATUS_WAITING_FOR_NETWORK,
                         "No network associated with requesting UID");

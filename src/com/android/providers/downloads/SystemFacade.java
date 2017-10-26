@@ -16,14 +16,15 @@
 
 package com.android.providers.downloads;
 
+import android.app.job.JobParameters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Network;
-import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 
 import java.security.GeneralSecurityException;
+
 import javax.net.ssl.SSLContext;
 
 interface SystemFacade {
@@ -32,7 +33,7 @@ interface SystemFacade {
      */
     public long currentTimeMillis();
 
-    public Network getActiveNetwork(int uid, boolean ignoreBlocked);
+    public Network getNetwork(JobParameters params);
 
     public NetworkInfo getNetworkInfo(Network network, int uid, boolean ignoreBlocked);
 

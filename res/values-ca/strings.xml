@@ -17,6 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Gestor de baixades"</string>
+    <string name="storage_description" msgid="7982444311558023664">"Baixades"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Accediu al gestor de baixades."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Permet que l\'aplicació accedeixi al gestor de baixades i que el faci servir per baixar fitxers. Les aplicacions malicioses poden fer-ho servir per interrompre baixades i per accedir a informació privada."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Funcions avançades del gestor de baixades."</string>

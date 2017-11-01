@@ -42,6 +42,7 @@ import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.ParcelFileDescriptor;
@@ -473,15 +474,40 @@ public final class DownloadProvider extends ContentProvider {
         final SQLiteDatabase db = mOpenHelper.getReadableDatabase();
         final Cursor cursor = db.query(DB_TABLE, new String[] {
                 Downloads.Impl._ID, Constants.UID }, null, null, null, null, null);
+        final ArrayList<Long> idsToDelete = new ArrayList<>();
         try {
             while (cursor.moveToNext()) {
-                grantAllDownloadsPermission(cursor.getLong(0), cursor.getInt(1));
+                final long downloadId = cursor.getLong(0);
+                final int uid = cursor.getInt(1);
+                final String ownerPackage = getPackageForUid(uid);
+                if (ownerPackage == null) {
+                    idsToDelete.add(downloadId);
+                } else {
+                    grantAllDownloadsPermission(ownerPackage, downloadId);
+                }
             }
         } finally {
             cursor.close();
         }
-
+        if (idsToDelete.size() > 0) {
+            Log.i(Constants.TAG,
+                    "Deleting downloads with ids " + idsToDelete + " as owner package is missing");
+            deleteDownloadsWithIds(idsToDelete);
+        }
         return true;
+    }
+
+    private void deleteDownloadsWithIds(ArrayList<Long> downloadIds) {
+        final int N = downloadIds.size();
+        if (N == 0) {
+            return;
+        }
+        final StringBuilder queryBuilder = new StringBuilder(Downloads.Impl._ID + " in (");
+        for (int i = 0; i < N; i++) {
+            queryBuilder.append(downloadIds.get(i));
+            queryBuilder.append((i == N - 1) ? ")" : ",");
+        }
+        delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, queryBuilder.toString(), null);
     }
 
     /**
@@ -703,7 +729,13 @@ public final class DownloadProvider extends ContentProvider {
         }
 
         insertRequestHeaders(db, rowID, values);
-        grantAllDownloadsPermission(rowID, Binder.getCallingUid());
+
+        final String callingPackage = getPackageForUid(Binder.getCallingUid());
+        if (callingPackage == null) {
+            Log.e(Constants.TAG, "Package does not exist for calling uid");
+            return null;
+        }
+        grantAllDownloadsPermission(callingPackage, rowID);
         notifyContentChanged(uri, match);
 
         final long token = Binder.clearCallingIdentity();
@@ -720,6 +752,15 @@ public final class DownloadProvider extends ContentProvider {
         }
 
         return ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, rowID);
+    }
+
+    private String getPackageForUid(int uid) {
+        String[] packages = getContext().getPackageManager().getPackagesForUid(uid);
+        if (packages == null || packages.length == 0) {
+            return null;
+        }
+        // For permission related purposes, any package belonging to the given uid should work.
+        return packages[0];
     }
 
     /**
@@ -895,8 +936,6 @@ public final class DownloadProvider extends ContentProvider {
              final String selection, final String[] selectionArgs,
              final String sort) {
 
-        Helpers.validateSelection(selection, sAppReadableColumnsSet);
-
         SQLiteDatabase db = mOpenHelper.getReadableDatabase();
 
         int match = sURIMatcher.match(uri);
@@ -943,7 +982,10 @@ public final class DownloadProvider extends ContentProvider {
             logVerboseQueryInfo(projection, selection, selectionArgs, sort, db);
         }
 
-        Cursor ret = db.query(DB_TABLE, projection, fullSelection.getSelection(),
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+        builder.setTables(DB_TABLE);
+        builder.setStrict(true);
+        Cursor ret = builder.query(db, projection, fullSelection.getSelection(),
                 fullSelection.getParameters(), null, null, sort);
 
         if (ret != null) {
@@ -1074,13 +1116,18 @@ public final class DownloadProvider extends ContentProvider {
     @Override
     public int update(final Uri uri, final ContentValues values,
             final String where, final String[] whereArgs) {
+        if (shouldRestrictVisibility()) {
+            Helpers.validateSelection(where, sAppReadableColumnsSet);
+        }
 
-        Helpers.validateSelection(where, sAppReadableColumnsSet);
+        final Context context = getContext();
+        final ContentResolver resolver = context.getContentResolver();
 
-        SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 
         int count;
         boolean updateSchedule = false;
+        boolean isCompleting = false;
 
         ContentValues filteredValues;
         if (Binder.getCallingPid() != Process.myPid()) {
@@ -1121,6 +1168,7 @@ public final class DownloadProvider extends ContentProvider {
             if (isRestart || isUserBypassingSizeLimit) {
                 updateSchedule = true;
             }
+            isCompleting = status != null && Downloads.Impl.isStatusCompleted(status);
         }
 
         int match = sURIMatcher.match(uri);
@@ -1137,14 +1185,20 @@ public final class DownloadProvider extends ContentProvider {
                 final SqlSelection selection = getWhereClause(uri, where, whereArgs, match);
                 count = db.update(DB_TABLE, filteredValues, selection.getSelection(),
                         selection.getParameters());
-                if (updateSchedule) {
+                if (updateSchedule || isCompleting) {
                     final long token = Binder.clearCallingIdentity();
-                    try {
-                        try (Cursor cursor = db.query(DB_TABLE, new String[] { _ID },
-                                selection.getSelection(), selection.getParameters(),
-                                null, null, null)) {
-                            while (cursor.moveToNext()) {
-                                Helpers.scheduleJob(getContext(), cursor.getInt(0));
+                    try (Cursor cursor = db.query(DB_TABLE, null, selection.getSelection(),
+                            selection.getParameters(), null, null, null)) {
+                        final DownloadInfo.Reader reader = new DownloadInfo.Reader(resolver,
+                                cursor);
+                        final DownloadInfo info = new DownloadInfo(context);
+                        while (cursor.moveToNext()) {
+                            reader.updateFromDatabase(info);
+                            if (updateSchedule) {
+                                Helpers.scheduleJob(context, info);
+                            }
+                            if (isCompleting) {
+                                info.sendIntentIfRequested();
                             }
                         }
                     } finally {
@@ -1257,8 +1311,12 @@ public final class DownloadProvider extends ContentProvider {
                             }
                         }
 
-                        // Tell requester that download is finished
-                        info.sendIntentIfRequested();
+                        // If the download wasn't completed yet, we're
+                        // effectively completing it now, and we need to send
+                        // any requested broadcasts
+                        if (!Downloads.Impl.isStatusCompleted(info.mStatus)) {
+                            info.sendIntentIfRequested();
+                        }
                     }
                 }
 
@@ -1484,14 +1542,9 @@ public final class DownloadProvider extends ContentProvider {
         }
     }
 
-    private void grantAllDownloadsPermission(long id, int uid) {
-        final String[] packageNames = getContext().getPackageManager().getPackagesForUid(uid);
-        if (packageNames == null || packageNames.length == 0) return;
-
-        // We only need to grant to the first package, since the
-        // platform internally tracks based on UIDs
+    private void grantAllDownloadsPermission(String toPackage, long id) {
         final Uri uri = ContentUris.withAppendedId(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, id);
-        getContext().grantUriPermission(packageNames[0], uri,
+        getContext().grantUriPermission(toPackage, uri,
                 Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
     }
 

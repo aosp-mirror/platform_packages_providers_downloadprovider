@@ -17,6 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Upravitelj za preuzimanje"</string>
+    <string name="storage_description" msgid="7982444311558023664">"Preuzimanja"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Pristupite upravitelju za preuzimanje."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Omogućuje aplikaciji pristup upravitelju preuzimanja i njegovu upotrebu za preuzimanje datoteka. Zlonamjerne aplikacije mogu to iskoristiti da bi ometale preuzimanja i pristupale privatnim podacima."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Napredne funkcije upravitelja za preuzimanje."</string>

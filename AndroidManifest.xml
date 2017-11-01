@@ -87,6 +87,7 @@
 
         <provider
             android:name=".DownloadStorageProvider"
+            android:label="@string/storage_description"
             android:authorities="com.android.providers.downloads.documents"
             android:grantUriPermissions="true"
             android:exported="true"

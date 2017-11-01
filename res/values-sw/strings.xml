@@ -17,6 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Kidhibiti Vipakuliwa"</string>
+    <string name="storage_description" msgid="7982444311558023664">"Vipakuliwa"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Fikia kidhibiti cha vipakuliwa."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Huruhusu programu kufikia kidhibiti vipakuliwa na kukitumia ili kupakua faili. Programu hasidi zinaweza kutumia hii ili kutatiza vipakuliwa na kufikia maelezo ya kibinafsi."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Hatua za kina zinazoweza kufanywa na kidhibiti vipakuliwa."</string>

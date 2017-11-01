@@ -28,8 +28,10 @@ import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInstaller;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Process;
 import android.provider.DocumentsContract;
 import android.provider.Downloads.Impl.RequestHeaders;
 import android.util.Log;
@@ -126,13 +128,16 @@ public class OpenHelper {
         if (cursor != null) {
             try {
                 if (cursor.moveToFirst()) {
-                    return cursor.getInt(cursor.getColumnIndexOrThrow(Constants.UID));
+                    final int uid = cursor.getInt(cursor.getColumnIndexOrThrow(Constants.UID));
+                    if (uid != Process.myUid()) {
+                        return uid;
+                    }
                 }
             } finally {
                 cursor.close();
             }
         }
-        return -1;
+        return PackageInstaller.SessionParams.UID_UNKNOWN;
     }
 
     private static String getCursorString(Cursor cursor, String column) {

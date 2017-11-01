@@ -31,7 +31,7 @@
     <string name="dialog_failed_body" msgid="587545111677064427">"Vil du forsøge at downloade filen igen senere eller slette den fra køen?"</string>
     <string name="dialog_title_queued_body" msgid="6760681913815015219">"Fil i kø"</string>
     <string name="dialog_queued_body" msgid="708552801635572720">"Denne fil står i kø til fremtidig download, så den er ikke tilgængelig endnu."</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Den downloadede fil kan ikke findes."</string>
+    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Den downloadede fil blev ikke fundet."</string>
     <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Download kan ikke fuldføres. Der er ikke nok plads på det eksterne lager."</string>
     <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Download kan ikke fuldføres. Der er ikke nok plads på det interne lager."</string>
     <string name="dialog_cannot_resume" msgid="8664509751358983543">"Download blev afbrudt og ikke kan genoptages."</string>

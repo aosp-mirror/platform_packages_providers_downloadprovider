@@ -17,6 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Upravitelj prenosov"</string>
+    <string name="storage_description" msgid="7982444311558023664">"Prenosi"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Dostop do upravitelja prenosov."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Dovoli aplikaciji dostopanje do upravitelja prenosov in njegovo uporabo za prenos datotek. Zlonamerne aplikacije lahko s tem motijo prenose in dostopajo do zasebnih podatkov."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Dodatne funkcije upravitelja prenosov."</string>

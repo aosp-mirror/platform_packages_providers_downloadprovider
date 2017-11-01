@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Copyright (C) 2007 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label" msgid="3658948994665187911">"Deskargen kudeatzailea"</string>
+    <string name="storage_description" msgid="7982444311558023664">"Deskargak"</string>
+    <string name="permlab_downloadManager" msgid="7779544811202855500">"Atzitu deskargen kudeatzailea."</string>
+    <string name="permdesc_downloadManager" msgid="4237406545998908947">"Deskargen kudeatzailea atzitzea eta fitxategiak deskargatzeko hori erabiltzea baimentzen die aplikazioei. Aplikazio gaiztoek deskargak eteteko eta informazio pribatua atzitzeko erabil dezakete hori."</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Deskargen kudeatzailearen eginbide aurreratuak."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Deskargen kudeatzailearen eginbide aurreratuak atzitzea baimentzen die aplikazioei. Aplikazio gaiztoek deskargak eteteko eta informazio pribatua atzitzeko erabil dezakete hori."</string>
+    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Bidali deskargen jakinarazpenak."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Osatutako deskargei buruzko jakinarazpenak bidaltzea baimentzen die aplikazioei. Aplikazio gaiztoek fitxategiak deskargatzen dituzten beste aplikazioak nahasteko erabil dezakete hori."</string>
+    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Ikusi USB memoriako deskargak"</string>
+    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Ikusi SD txartelera egin diren deskarga guztiak"</string>
+    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"SD txartelera egin diren deskarga guztiak ikustea baimentzen die aplikazioei, zein aplikaziok deskargatu zituen kontuan hartu gabe."</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Erreserbatu memoria deskarga-cachean"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Fitxategiak deskarga-cachera deskargatzea baimentzen die aplikazioei (ezin izango dira automatikoki ezabatu deskargen kudeatzaileak tokia behar duenean)."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"Deskargatu fitxategiak jakinarazi gabe"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"Fitxategiak deskargen kudeatzailearen bidez baina erabiltzaileari jakinarazi gabe deskargatzea baimentzen die aplikazioei."</string>
+    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Atzitu sistemaren deskarga guztiak"</string>
+    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"Aplikazioek sisteman hasitako deskarga guztiak ikustea eta aldatzea baimentzen die aplikazioei."</string>
+    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Izengabea&gt;"</string>
+    <string name="notification_download_complete" msgid="5443563299253103667">"Osatu da deskarga."</string>
+    <string name="notification_download_failed" msgid="8612136111952014978">"Ezin izan da deskargatu."</string>
+    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Wi-Fi konexioa behar da."</string>
+    <string name="notification_paused_in_background" msgid="4328508073283591772">"Atzeko planoan pausatuta"</string>
+    <string name="wifi_required_title" msgid="1995971416871498179">"Deskarga handiegia da operadorearen sarerako"</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Wi-Fi konexioa erabili behar duzu <xliff:g id="SIZE">%s </xliff:g>-ko deskarga hau osatzeko. \n\nWi-Fi sare batera konektatzen zaren hurrengo aldian deskargari berrekiteko, ukitu <xliff:g id="QUEUE_TEXT">%s </xliff:g>."</string>
+    <string name="wifi_recommended_title" msgid="7441589306734687400">"Ilaran ezarri geroago deskargatzeko?"</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"<xliff:g id="SIZE">%s </xliff:g>-ko deskarga hau hasten baduzu, baliteke bateriak gutxiago irautea edota datu-konexioa gehiegi erabiltzea eta, horren ondorioz, operadoreak gastu gehigarriak kobratzea, darabilzun datu-planaren arabera.\n\n Wi-Fi sare batera konektatzen zaren hurrengo aldian deskargari berrekiteko, ukitu <xliff:g id="QUEUE_TEXT">%s</xliff:g>."</string>
+    <string name="button_queue_for_wifi" msgid="422576726189179221">"Ezarri ilaran"</string>
+    <string name="button_cancel_download" msgid="2430166148737975604">"Utzi"</string>
+    <string name="button_start_now" msgid="792123674007840864">"Hasi"</string>
+    <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
+      <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> fitxategi deskargatzen</item>
+      <item quantity="one">Fitxategi bat deskargatzen</item>
+    </plurals>
+    <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
+      <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> fitxategi zain</item>
+      <item quantity="one">Fitxategi bat zain</item>
+    </plurals>
+    <string name="download_remaining" msgid="3139295890887972718">"Falta den denbora: <xliff:g id="DURATION">%s</xliff:g>"</string>
+    <string name="download_no_application_title" msgid="7935659741162801699">"Ezin da fitxategia ireki"</string>
+    <string name="root_downloads" msgid="4098414876292351487">"Deskargak"</string>
+    <string name="download_queued" msgid="3302638231377947451">"Ilaran ezarri da"</string>
+    <string name="download_running" msgid="3925050393361158266">"Abian"</string>
+    <string name="download_error" msgid="5144180777324573236">"Ezin izan da deskargatu"</string>
+    <string name="download_running_percent" msgid="4305080769167320204">"Abian, <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
+</resources>

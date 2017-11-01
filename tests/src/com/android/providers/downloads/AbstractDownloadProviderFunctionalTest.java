@@ -172,6 +172,7 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
 
         mSystemFacade.setUp();
         assertTrue(isDatabaseEmpty()); // ensure we're not messing with real data
+        assertTrue(isDatabaseSecureAgainstBadSelection());
         mServer = new MockWebServer();
         mServer.play();
     }
@@ -198,6 +199,23 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
         } finally {
             cursor.close();
         }
+    }
+
+    private boolean isDatabaseSecureAgainstBadSelection() {
+        Cursor cursor = null;
+        try {
+            cursor = mResolver.query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, null,
+                    "('1'='1'))) ORDER BY lastmod DESC--", null, null);
+        }
+        catch (Exception e) {
+            return true;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return false;
     }
 
     /**

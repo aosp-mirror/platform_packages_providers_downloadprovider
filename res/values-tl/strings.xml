@@ -17,6 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Tagapamahala ng Pag-download"</string>
+    <string name="storage_description" msgid="7982444311558023664">"Mga Download"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"I-access ang tagapamahala ng pag-download."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Pinapayagan ang app na i-access ang download manager at gamitin ito upang mag-download ng mga file. Maaari itong gamitin ng mga nakapanghahamak na app upang gambalain ang mga download at mag-access ng pribadong impormasyon."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Mga advanced na pag-andar ng tagapamahala ng pag-download."</string>

@@ -17,6 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Managerul de descărcare"</string>
+    <string name="storage_description" msgid="7982444311558023664">"Descărcări"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Accesați managerul de descărcare."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Permite aplicației să acceseze managerul de descărcări și să îl utilizeze pentru a descărca fișiere. Aplicațiile rău intenționate pot utiliza această permisiune pentru a perturba descărcările și pentru a accesa informații private."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Funcții avansate ale managerului de descărcare."</string>

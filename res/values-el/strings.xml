@@ -17,6 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Διαχείριση λήψεων"</string>
+    <string name="storage_description" msgid="7982444311558023664">"Λήψεις"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Πρόσβαση στη διαχείριση λήψεων."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Επιτρέπει στην εφαρμογή την πρόσβαση στη διαχείριση λήψεων και τη χρήση του για τη λήψη αρχείων. Οι κακόβουλες εφαρμογές μπορούν να χρησιμοποιήσουν αυτήν τη δυνατότητα για να διακόψουν λήψεις και να αποκτήσουν πρόσβαση σε απόρρητες πληροφορίες."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Σύνθετες λειτουργίες προγράμματος διαχείρισης λήψεων."</string>

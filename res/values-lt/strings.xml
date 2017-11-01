@@ -17,6 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Atsisiuntimų tvarkytuvė"</string>
+    <string name="storage_description" msgid="7982444311558023664">"Atsisiuntimai"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Pasiekti atsisiuntimo tvarkyklę."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Leidžiama programai pasiekti atsisiuntimų tvarkytuvę ir naudoti ją failams atsisiųsti. Kenkėjiškos programos gali naudoti šią funkciją atsisiuntimams stabdyti ir asmeninei informacijai pasiekti."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Išplėstinės atsisiuntimo tvarkytuvės funkcijos."</string>

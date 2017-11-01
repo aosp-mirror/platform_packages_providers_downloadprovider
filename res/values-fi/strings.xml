@@ -17,6 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Lataustenhallinta"</string>
+    <string name="storage_description" msgid="7982444311558023664">"Lataukset"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Lataustenhallinnan käyttö."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Antaa sovelluksen käyttää latauksien hallintaa. Haitalliset sovellukset voivat keskeyttää latauksia ja käyttää yksityistietoja."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Lataustenhallinnan lisätoiminnot."</string>

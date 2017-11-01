@@ -17,6 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Letöltéskezelő"</string>
+    <string name="storage_description" msgid="7982444311558023664">"Letöltések"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Hozzáférés a letöltéskezelőhöz."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Lehetővé teszi az alkalmazás számára a letöltéskezelő elérését fájlok letöltéséhez. A rosszindulatú alkalmazások kihasználhatják ezt a letöltések megzavarására és személyes adatok elérésére."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Speciális letöltéskezelő-funkciók."</string>

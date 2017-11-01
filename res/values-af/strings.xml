@@ -17,6 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Aflaaibestuurder"</string>
+    <string name="storage_description" msgid="7982444311558023664">"Aflaaie"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Kry toegang tot aflaaibestuurder."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Laat die program toe om toegang te kry tot die aflaaibestuurder en dit te gebruik om lêers af te laai. Kwaadwillige programme kan dit gebruik om aflaaie te ontwrig en toegang tot private inligting te kry."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Gevorderde aflaaibestuurder-funksies"</string>

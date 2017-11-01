@@ -17,6 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Мениджър на изтеглянията"</string>
+    <string name="storage_description" msgid="7982444311558023664">"Изтегляния"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Достъп до диспечера за изтегляне."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Дава на приложението достъп до мениджъра на изтеглянията и му позволява да го използва за изтегляне на файлове. Злонамерените приложения могат да използват това за прекъсване на изтеглянията и за достъп до лична информация."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Разширени функции на диспечера за изтегляне."</string>

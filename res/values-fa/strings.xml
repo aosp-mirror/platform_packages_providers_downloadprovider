@@ -17,6 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Download Manager"</string>
+    <string name="storage_description" msgid="7982444311558023664">"بارگیری‌ها"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"‏دسترسی به Download Manager."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"‏به برنامه اجازه می‌دهد تا به download manager دسترسی داشته باشد و از آن برای بارگیری فایل‌ها استفاده کند. برنامه‌های مضر می‌توانند از این امکان استفاده کرده و برای بارگیریها مشکل ایجاد کنند و به اطلاعات خصوصی دسترسی داشته باشند."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"‏عملکرد پیشرفته Download Manager."</string>

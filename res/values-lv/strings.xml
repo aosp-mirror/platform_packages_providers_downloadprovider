@@ -17,6 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"Download Manager"</string>
+    <string name="storage_description" msgid="7982444311558023664">"Lejupielādes"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Piekļuve lietojumprogrammai Download Manager."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Ļauj lietotnei piekļūt lejupielāžu pārvaldniekam un izmantot to failu lejupielādei. Ļaunprātīgas lietotnes var izmantot šo atļauju, lai traucētu lejupielādes un piekļūtu privātai informācijai."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Izvērstas Download Manager funkcijas."</string>

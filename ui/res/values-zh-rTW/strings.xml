@@ -28,7 +28,7 @@
     <string name="download_success" msgid="7006048006543495236">"完成"</string>
     <string name="download_error" msgid="8081329546008568251">"失敗"</string>
     <string name="dialog_title_not_available" msgid="5746317632356158515">"無法下載"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"您要日後再重試下載檔案，或是從佇列中刪除檔案？"</string>
+    <string name="dialog_failed_body" msgid="587545111677064427">"你要日後再重試下載檔案，或是從佇列中刪除檔案？"</string>
     <string name="dialog_title_queued_body" msgid="6760681913815015219">"佇列中的檔案"</string>
     <string name="dialog_queued_body" msgid="708552801635572720">"檔案已排入之後要下載的佇列中，因此目前尚無法取得。"</string>
     <string name="dialog_file_missing_body" msgid="3223012612774276284">"找不到下載的檔案。"</string>

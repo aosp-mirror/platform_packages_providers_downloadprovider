@@ -154,7 +154,7 @@ public class StorageUtils {
         Collections.sort(files, new Comparator<ConcreteFile>() {
             @Override
             public int compare(ConcreteFile lhs, ConcreteFile rhs) {
-                return (int) (lhs.file.lastModified() - rhs.file.lastModified());
+                return Long.compare(lhs.file.lastModified(), rhs.file.lastModified());
             }
         });
 

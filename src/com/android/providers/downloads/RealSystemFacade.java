@@ -25,6 +25,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.security.NetworkSecurityPolicy;
 import android.security.net.config.ApplicationConfig;
@@ -58,6 +59,12 @@ class RealSystemFacade implements SystemFacade {
     public NetworkInfo getNetworkInfo(Network network, int uid, boolean ignoreBlocked) {
         return mContext.getSystemService(ConnectivityManager.class)
                 .getNetworkInfoForUid(network, uid, ignoreBlocked);
+    }
+
+    @Override
+    public boolean isNetworkMetered(Network network) {
+        return !mContext.getSystemService(ConnectivityManager.class).getNetworkCapabilities(network)
+                .hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED);
     }
 
     @Override

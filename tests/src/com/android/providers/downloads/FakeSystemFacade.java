@@ -1,5 +1,8 @@
 package com.android.providers.downloads;
 
+import static android.net.NetworkCapabilities.NET_CAPABILITY_NOT_METERED;
+import static android.net.NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -10,6 +13,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.DetailedState;
 
@@ -92,14 +96,20 @@ public class FakeSystemFacade implements SystemFacade {
         } else {
             final NetworkInfo info = new NetworkInfo(mActiveNetworkType, 0, null, null);
             info.setDetailedState(DetailedState.CONNECTED, null, null);
-            info.setRoaming(mIsRoaming);
             return info;
         }
     }
 
     @Override
-    public boolean isNetworkMetered(Network network) {
-        return mIsMetered;
+    public NetworkCapabilities getNetworkCapabilities(Network network) {
+        if (mActiveNetworkType == null) {
+            return null;
+        } else {
+            final NetworkCapabilities caps = new NetworkCapabilities();
+            caps.setCapability(NET_CAPABILITY_NOT_METERED, !mIsMetered);
+            caps.setCapability(NET_CAPABILITY_NOT_ROAMING, !mIsRoaming);
+            return caps;
+        }
     }
 
     @Override

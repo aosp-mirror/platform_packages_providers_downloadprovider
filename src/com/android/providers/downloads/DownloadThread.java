@@ -16,6 +16,8 @@
 
 package com.android.providers.downloads;
 
+import static android.net.NetworkCapabilities.NET_CAPABILITY_NOT_METERED;
+import static android.net.NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING;
 import static android.provider.Downloads.Impl.COLUMN_CONTROL;
 import static android.provider.Downloads.Impl.COLUMN_DELETED;
 import static android.provider.Downloads.Impl.COLUMN_STATUS;
@@ -57,6 +59,7 @@ import android.drm.DrmOutputStream;
 import android.net.ConnectivityManager;
 import android.net.INetworkPolicyListener;
 import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.NetworkPolicyManager;
 import android.net.TrafficStats;
@@ -718,15 +721,16 @@ public class DownloadThread extends Thread {
         // checking connectivity will apply current policy
         mPolicyDirty = false;
 
-        final NetworkInfo info = mSystemFacade.getNetworkInfo(mNetwork, mInfo.mUid,
-                mIgnoreBlocked);
+        final NetworkInfo info = mSystemFacade.getNetworkInfo(mNetwork, mInfo.mUid, mIgnoreBlocked);
+        final NetworkCapabilities caps = mSystemFacade.getNetworkCapabilities(mNetwork);
         if (info == null || !info.isConnected()) {
             throw new StopRequestException(STATUS_WAITING_FOR_NETWORK, "Network is disconnected");
         }
-        if (info.isRoaming() && !mInfo.isRoamingAllowed()) {
+        if (!caps.hasCapability(NET_CAPABILITY_NOT_ROAMING)
+                && !mInfo.isRoamingAllowed()) {
             throw new StopRequestException(STATUS_WAITING_FOR_NETWORK, "Network is roaming");
         }
-        if (mSystemFacade.isNetworkMetered(mNetwork)
+        if (!caps.hasCapability(NET_CAPABILITY_NOT_METERED)
                 && !mInfo.isMeteredAllowed(mInfoDelta.mTotalBytes)) {
             throw new StopRequestException(STATUS_WAITING_FOR_NETWORK, "Network is metered");
         }

@@ -62,9 +62,9 @@ class RealSystemFacade implements SystemFacade {
     }
 
     @Override
-    public boolean isNetworkMetered(Network network) {
-        return !mContext.getSystemService(ConnectivityManager.class).getNetworkCapabilities(network)
-                .hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED);
+    public NetworkCapabilities getNetworkCapabilities(Network network) {
+        return mContext.getSystemService(ConnectivityManager.class)
+                .getNetworkCapabilities(network);
     }
 
     @Override

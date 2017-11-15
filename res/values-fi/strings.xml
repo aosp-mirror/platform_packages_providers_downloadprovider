@@ -34,7 +34,7 @@
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Käytä kaikkia järjestelmän latauksia"</string>
     <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"Antaa sovelluksen tarkastella ja muokata kaikkia minkä tahansa järjestelmän sovelluksen käynnistämiä latauksia."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Nimetön&gt;"</string>
-    <string name="notification_download_complete" msgid="5443563299253103667">"Lataus valmis."</string>
+    <string name="notification_download_complete" msgid="5443563299253103667">"Lataus valmis"</string>
     <string name="notification_download_failed" msgid="8612136111952014978">"Lataus epäonnistui."</string>
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Lataa Wi-Fi-yhteydellä"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Keskeytetty taustalla."</string>

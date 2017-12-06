@@ -21,7 +21,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER_ADVANCED" />
 
-    <application>
+    <application android:usesCleartextTraffic="true">
         <uses-library android:name="android.test.runner" />
     </application>
 

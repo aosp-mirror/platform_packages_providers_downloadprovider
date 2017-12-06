@@ -556,14 +556,6 @@ public class Helpers {
                     return context.getCacheDir();
                 }
 
-            case Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION:
-                if (running) {
-                    return new File(Environment.getDownloadCacheDirectory(),
-                            Constants.DIRECTORY_CACHE_RUNNING);
-                } else {
-                    return Environment.getDownloadCacheDirectory();
-                }
-
             case Downloads.Impl.DESTINATION_EXTERNAL:
                 final File target = new File(
                         Environment.getExternalStorageDirectory(), Environment.DIRECTORY_DOWNLOADS);

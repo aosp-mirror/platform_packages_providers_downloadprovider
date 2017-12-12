@@ -1,6 +1,6 @@
 package com.android.providers.downloads;
 
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -21,6 +21,7 @@ import java.net.URLConnection;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.net.ssl.SSLContext;
 
 public class FakeSystemFacade implements SystemFacade {
@@ -91,9 +92,13 @@ public class FakeSystemFacade implements SystemFacade {
             final NetworkInfo info = new NetworkInfo(mActiveNetworkType, 0, null, null);
             info.setDetailedState(DetailedState.CONNECTED, null, null);
             info.setRoaming(mIsRoaming);
-            info.setMetered(mIsMetered);
             return info;
         }
+    }
+
+    @Override
+    public boolean isNetworkMetered(Network network) {
+        return mIsMetered;
     }
 
     @Override

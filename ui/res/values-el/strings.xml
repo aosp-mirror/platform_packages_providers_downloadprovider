@@ -44,7 +44,7 @@
     <string name="cancel_running_download" msgid="5232704030969221112">"Ακύρωση"</string>
     <string name="retry_download" msgid="7617100787922717912">"Επανάληψη"</string>
     <string name="start_now_download" msgid="1564642872809509681">"Έναρξη τώρα"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"Κατάργηση επιλογής όλων"</string>
+    <string name="deselect_all" msgid="6348198946254776764">"Αποεπιλογή όλων"</string>
     <string name="select_all" msgid="634074918366265804">"Επιλογή όλων"</string>
     <string name="selected_count" msgid="2101564570019753277">"Επιλέχθηκαν <xliff:g id="NUMBER">%1$d</xliff:g> από <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
     <string name="download_share_dialog" msgid="3355867339806448955">"Κοινοποίηση μέσω"</string>

@@ -380,13 +380,6 @@ public class DownloadInfo {
         }
     }
 
-    public boolean isOnCache() {
-        return (mDestination == Downloads.Impl.DESTINATION_CACHE_PARTITION
-                || mDestination == Downloads.Impl.DESTINATION_SYSTEMCACHE_PARTITION
-                || mDestination == Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING
-                || mDestination == Downloads.Impl.DESTINATION_CACHE_PARTITION_PURGEABLE);
-    }
-
     public Uri getMyDownloadsUri() {
         return ContentUris.withAppendedId(Downloads.Impl.CONTENT_URI, mId);
     }

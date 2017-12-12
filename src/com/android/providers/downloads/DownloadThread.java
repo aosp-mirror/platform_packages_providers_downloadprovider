@@ -25,6 +25,7 @@ import static android.provider.Downloads.Impl.STATUS_CANCELED;
 import static android.provider.Downloads.Impl.STATUS_CANNOT_RESUME;
 import static android.provider.Downloads.Impl.STATUS_FILE_ERROR;
 import static android.provider.Downloads.Impl.STATUS_HTTP_DATA_ERROR;
+import static android.provider.Downloads.Impl.STATUS_INSUFFICIENT_SPACE_ERROR;
 import static android.provider.Downloads.Impl.STATUS_PAUSED_BY_APP;
 import static android.provider.Downloads.Impl.STATUS_QUEUED_FOR_WIFI;
 import static android.provider.Downloads.Impl.STATUS_RUNNING;
@@ -47,7 +48,6 @@ import static java.net.HttpURLConnection.HTTP_PRECON_FAILED;
 import static java.net.HttpURLConnection.HTTP_SEE_OTHER;
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 
-import android.app.job.JobInfo;
 import android.app.job.JobParameters;
 import android.content.ContentValues;
 import android.content.Context;
@@ -64,6 +64,7 @@ import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.os.Process;
 import android.os.SystemClock;
+import android.os.storage.StorageManager;
 import android.provider.Downloads;
 import android.system.ErrnoException;
 import android.system.Os;
@@ -117,6 +118,7 @@ public class DownloadThread extends Thread {
     private final SystemFacade mSystemFacade;
     private final DownloadNotifier mNotifier;
     private final NetworkPolicyManager mNetworkPolicy;
+    private final StorageManager mStorage;
 
     private final DownloadJobService mJobService;
     private final JobParameters mParams;
@@ -245,6 +247,7 @@ public class DownloadThread extends Thread {
         mSystemFacade = Helpers.getSystemFacade(mContext);
         mNotifier = Helpers.getDownloadNotifier(mContext);
         mNetworkPolicy = mContext.getSystemService(NetworkPolicyManager.class);
+        mStorage = mContext.getSystemService(StorageManager.class);
 
         mJobService = service;
         mParams = params;
@@ -564,33 +567,21 @@ public class DownloadThread extends Thread {
                     out = new ParcelFileDescriptor.AutoCloseOutputStream(outPfd);
                 }
 
-                // Pre-flight disk space requirements, when known
-                if (mInfoDelta.mTotalBytes > 0) {
-                    final long curSize = Os.fstat(outFd).st_size;
-                    final long newBytes = mInfoDelta.mTotalBytes - curSize;
-
-                    StorageUtils.ensureAvailableSpace(mContext, outFd, newBytes);
-
-                    try {
-                        // We found enough space, so claim it for ourselves
-                        Os.posix_fallocate(outFd, 0, mInfoDelta.mTotalBytes);
-                    } catch (ErrnoException e) {
-                        if (e.errno == OsConstants.ENOSYS || e.errno == OsConstants.ENOTSUP) {
-                            Log.w(TAG, "fallocate() not supported; falling back to ftruncate()");
-                            Os.ftruncate(outFd, mInfoDelta.mTotalBytes);
-                        } else {
-                            throw e;
-                        }
-                    }
-                }
-
                 // Move into place to begin writing
                 Os.lseek(outFd, mInfoDelta.mCurrentBytes, OsConstants.SEEK_SET);
-
             } catch (ErrnoException e) {
                 throw new StopRequestException(STATUS_FILE_ERROR, e);
             } catch (IOException e) {
                 throw new StopRequestException(STATUS_FILE_ERROR, e);
+            }
+
+            try {
+                // Pre-flight disk space requirements, when known
+                if (mInfoDelta.mTotalBytes > 0 && mStorage.isAllocationSupported(outFd)) {
+                    mStorage.allocateBytes(outFd, mInfoDelta.mTotalBytes);
+                }
+            } catch (IOException e) {
+                throw new StopRequestException(STATUS_INSUFFICIENT_SPACE_ERROR, e);
             }
 
             // Start streaming data, periodically watch for pause/cancel
@@ -650,14 +641,6 @@ public class DownloadThread extends Thread {
             }
 
             try {
-                // When streaming, ensure space before each write
-                if (mInfoDelta.mTotalBytes == -1) {
-                    final long curSize = Os.fstat(outFd).st_size;
-                    final long newBytes = (mInfoDelta.mCurrentBytes + len) - curSize;
-
-                    StorageUtils.ensureAvailableSpace(mContext, outFd, newBytes);
-                }
-
                 out.write(buffer, 0, len);
 
                 mMadeProgress = true;
@@ -665,8 +648,6 @@ public class DownloadThread extends Thread {
 
                 updateProgress(outFd);
 
-            } catch (ErrnoException e) {
-                throw new StopRequestException(STATUS_FILE_ERROR, e);
             } catch (IOException e) {
                 throw new StopRequestException(STATUS_FILE_ERROR, e);
             }
@@ -674,7 +655,8 @@ public class DownloadThread extends Thread {
 
         // Finished without error; verify length if known
         if (mInfoDelta.mTotalBytes != -1 && mInfoDelta.mCurrentBytes != mInfoDelta.mTotalBytes) {
-            throw new StopRequestException(STATUS_HTTP_DATA_ERROR, "Content length mismatch");
+            throw new StopRequestException(STATUS_HTTP_DATA_ERROR, "Content length mismatch; found "
+                    + mInfoDelta.mCurrentBytes + " instead of " + mInfoDelta.mTotalBytes);
         }
     }
 
@@ -743,7 +725,8 @@ public class DownloadThread extends Thread {
         if (info.isRoaming() && !mInfo.isRoamingAllowed()) {
             throw new StopRequestException(STATUS_WAITING_FOR_NETWORK, "Network is roaming");
         }
-        if (info.isMetered() && !mInfo.isMeteredAllowed(mInfoDelta.mTotalBytes)) {
+        if (mSystemFacade.isNetworkMetered(mNetwork)
+                && !mInfo.isMeteredAllowed(mInfoDelta.mTotalBytes)) {
             throw new StopRequestException(STATUS_WAITING_FOR_NETWORK, "Network is metered");
         }
     }

@@ -28,7 +28,7 @@
     <string name="download_success" msgid="7006048006543495236">"Slutförd"</string>
     <string name="download_error" msgid="8081329546008568251">"Misslyckades"</string>
     <string name="dialog_title_not_available" msgid="5746317632356158515">"Det gick inte att ladda ned."</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"Vill du prova att hämta filen vid ett senare tillfälle eller vill du ta bort den från kön?"</string>
+    <string name="dialog_failed_body" msgid="587545111677064427">"Vill du prova att kadda ned filen vid ett senare tillfälle eller vill du ta bort den från kön?"</string>
     <string name="dialog_title_queued_body" msgid="6760681913815015219">"Fil i kö"</string>
     <string name="dialog_queued_body" msgid="708552801635572720">"Filen står i kö för nedladdning, så den är inte tillgänglig än."</string>
     <string name="dialog_file_missing_body" msgid="3223012612774276284">"Det gick inte att hitta den nedladdade filen."</string>

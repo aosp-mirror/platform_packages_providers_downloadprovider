@@ -47,5 +47,5 @@
     <string name="deselect_all" msgid="6348198946254776764">"Poništi odabir svih"</string>
     <string name="select_all" msgid="634074918366265804">"Odaberi sve"</string>
     <string name="selected_count" msgid="2101564570019753277">"Odabrano <xliff:g id="NUMBER">%1$d</xliff:g> od <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"Podijeli preko"</string>
+    <string name="download_share_dialog" msgid="3355867339806448955">"Dijeli preko"</string>
 </resources>

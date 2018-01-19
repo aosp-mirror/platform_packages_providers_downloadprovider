@@ -863,7 +863,7 @@ public class DownloadThread extends Thread {
         Log.e(TAG, "[" + mId + "] " + msg, t);
     }
 
-    private INetworkPolicyListener mPolicyListener = new INetworkPolicyListener.Stub() {
+    private INetworkPolicyListener mPolicyListener = new NetworkPolicyManager.Listener() {
         @Override
         public void onUidRulesChanged(int uid, int uidRules) {
             // caller is NPMS, since we only register with them

@@ -10,6 +10,7 @@ LOCAL_SRC_FILES := $(call all-java-files-under, src) \
     ../src/com/android/providers/downloads/RawDocumentsHelper.java
 
 LOCAL_PACKAGE_NAME := DownloadProviderUi
+LOCAL_PRIVATE_PLATFORM_APIS := true
 LOCAL_CERTIFICATE := media
 LOCAL_PRIVILEGED_MODULE := true
 

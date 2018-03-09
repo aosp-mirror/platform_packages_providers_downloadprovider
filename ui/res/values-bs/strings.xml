@@ -28,14 +28,14 @@
     <string name="download_success" msgid="7006048006543495236">"Završeno"</string>
     <string name="download_error" msgid="8081329546008568251">"Neuspješno"</string>
     <string name="dialog_title_not_available" msgid="5746317632356158515">"Nije bilo moguće preuzeti"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"Da li želite ponovo pokušati s preuzimanjem datoteke kasnije ili je želite izbrisati s redoslijeda?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Datoteka je u redoslijedu"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"Datoteka je na redoslijedu za kasnije preuzimanje tako da još nije dostupna."</string>
+    <string name="dialog_failed_body" msgid="587545111677064427">"Da li želite ponovo pokušati s preuzimanjem fajla kasnije ili je želite izbrisati s redoslijeda?"</string>
+    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Fajl je u redu čekanja"</string>
+    <string name="dialog_queued_body" msgid="708552801635572720">"Fajl je u redu čekanja za kasnije preuzimanje tako da još nije dostupan."</string>
     <string name="dialog_file_missing_body" msgid="3223012612774276284">"Nije moguće pronaći preuzetu datoteku."</string>
     <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Nije moguće dovršiti preuzimanje. Nema dovoljno prostora na eksternoj pohrani."</string>
     <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Nije moguće dovršiti preuzimanje. Nema dovoljno prostora na internoj pohrani za preuzimanja."</string>
     <string name="dialog_cannot_resume" msgid="8664509751358983543">"Preuzimanje je prekinuto i ne može se nastaviti."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Nije moguće preuzeti. Odredišna datoteka već postoji."</string>
+    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Nije moguće preuzeti. Odredišni fajl već postoji."</string>
     <string name="dialog_media_not_found" msgid="4468088418758018765">"Nije moguće preuzeti. Vanjski medij nije dostupan."</string>
     <string name="download_no_application_title" msgid="7024782176657362251">"Nije moguće otvoriti datoteku"</string>
     <string name="remove_download" msgid="6372920256257247857">"Ukloni"</string>

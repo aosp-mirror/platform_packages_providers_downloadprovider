@@ -47,5 +47,5 @@
     <string name="deselect_all" msgid="6348198946254776764">"सर्व निवड रद्द करा"</string>
     <string name="select_all" msgid="634074918366265804">"सर्व निवडा"</string>
     <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="TOTAL">%2$d</xliff:g> पैकी <xliff:g id="NUMBER">%1$d</xliff:g> निवडले"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"द्वारे सामायिक करा"</string>
+    <string name="download_share_dialog" msgid="3355867339806448955">"द्वारे शेअर करा"</string>
 </resources>

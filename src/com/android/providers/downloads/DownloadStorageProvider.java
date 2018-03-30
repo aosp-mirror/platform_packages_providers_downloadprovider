@@ -366,6 +366,23 @@ public class DownloadStorageProvider extends FileSystemProvider {
     }
 
     @Override
+    public String getDocumentType(String docId) throws FileNotFoundException {
+        // Delegate to real provider
+        final long token = Binder.clearCallingIdentity();
+        try {
+            if (RawDocumentsHelper.isRawDocId(docId)) {
+                return super.getDocumentType(docId);
+            }
+
+            final long id = Long.parseLong(docId);
+            final ContentResolver resolver = getContext().getContentResolver();
+            return resolver.getType(mDm.getDownloadUri(id));
+        } finally {
+            Binder.restoreCallingIdentity(token);
+        }
+    }
+
+    @Override
     public ParcelFileDescriptor openDocument(String docId, String mode, CancellationSignal signal)
             throws FileNotFoundException {
         // Delegate to real provider

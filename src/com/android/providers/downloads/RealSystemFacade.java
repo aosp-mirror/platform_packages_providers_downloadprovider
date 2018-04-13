@@ -90,25 +90,6 @@ class RealSystemFacade implements SystemFacade {
     }
 
     @Override
-    public boolean isCleartextTrafficPermitted(int uid) {
-        PackageManager packageManager = mContext.getPackageManager();
-        String[] packageNames = packageManager.getPackagesForUid(uid);
-        if (ArrayUtils.isEmpty(packageNames)) {
-            // Unknown UID -- fail safe: cleartext traffic not permitted
-            return false;
-        }
-
-        // Cleartext traffic is permitted from the UID if it's permitted for any of the packages
-        // belonging to that UID.
-        for (String packageName : packageNames) {
-            if (isCleartextTrafficPermitted(packageName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
     public SSLContext getSSLContextForPackage(Context context, String packageName)
             throws GeneralSecurityException {
         ApplicationConfig appConfig;
@@ -124,22 +105,17 @@ class RealSystemFacade implements SystemFacade {
     }
 
     /**
-     * Returns whether cleartext network traffic (HTTP) is permitted for the provided package.
+     * Returns whether cleartext network traffic (HTTP) is permitted for the provided package to
+     * {@code host}.
      */
-    private boolean isCleartextTrafficPermitted(String packageName) {
-        PackageManager packageManager = mContext.getPackageManager();
-        PackageInfo packageInfo;
+    public boolean isCleartextTrafficPermitted(String packageName, String host) {
+        ApplicationConfig appConfig;
         try {
-            packageInfo = packageManager.getPackageInfo(packageName, 0);
+            appConfig = NetworkSecurityPolicy.getApplicationConfigForPackage(mContext, packageName);
         } catch (NameNotFoundException e) {
-            // Unknown package -- fail safe: cleartext traffic not permitted
+            // Unknown package -- fail for safety
             return false;
         }
-        ApplicationInfo applicationInfo = packageInfo.applicationInfo;
-        if (applicationInfo == null) {
-            // No app info -- fail safe: cleartext traffic not permitted
-            return false;
-        }
-        return (applicationInfo.flags & ApplicationInfo.FLAG_USES_CLEARTEXT_TRAFFIC) != 0;
+        return appConfig.isCleartextTrafficPermitted(host);
     }
 }

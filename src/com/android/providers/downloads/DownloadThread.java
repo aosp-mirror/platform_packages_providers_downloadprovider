@@ -421,7 +421,8 @@ public class DownloadThread extends Thread {
             throw new StopRequestException(STATUS_BAD_REQUEST, e);
         }
 
-        boolean cleartextTrafficPermitted = mSystemFacade.isCleartextTrafficPermitted(mInfo.mUid);
+        boolean cleartextTrafficPermitted
+                = mSystemFacade.isCleartextTrafficPermitted(mInfo.mPackage, url.getHost());
         SSLContext appContext;
         try {
             appContext = mSystemFacade.getSSLContextForPackage(mContext, mInfo.mPackage);
@@ -435,7 +436,7 @@ public class DownloadThread extends Thread {
             // because of HTTP redirects which can change the protocol between HTTP and HTTPS.
             if ((!cleartextTrafficPermitted) && ("http".equalsIgnoreCase(url.getProtocol()))) {
                 throw new StopRequestException(STATUS_BAD_REQUEST,
-                        "Cleartext traffic not permitted for UID " + mInfo.mUid + ": "
+                        "Cleartext traffic not permitted for package " + mInfo.mPackage + ": "
                         + Uri.parse(url.toString()).toSafeString());
             }
 

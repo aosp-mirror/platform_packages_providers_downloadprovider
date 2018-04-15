@@ -63,9 +63,10 @@ interface SystemFacade {
     public boolean userOwnsPackage(int uid, String pckg) throws NameNotFoundException;
 
     /**
-     * Returns true if cleartext network traffic is permitted for the specified UID.
+     * Returns true if cleartext network traffic is permitted from {@code packageName} to
+     * {@code host}.
      */
-    public boolean isCleartextTrafficPermitted(int uid);
+    public boolean isCleartextTrafficPermitted(String packageName, String host);
 
     /**
      * Return a {@link SSLContext} configured using the specified package's configuration.

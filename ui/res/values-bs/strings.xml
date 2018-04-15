@@ -23,12 +23,12 @@
     <string name="missing_title" msgid="830115697868833773">"&lt;Nepoznato&gt;"</string>
     <string name="button_sort_by_size" msgid="7331549713691146251">"Poredaj po veličini"</string>
     <string name="button_sort_by_date" msgid="8800842892684101528">"Poredaj po datumu"</string>
-    <string name="download_queued" msgid="104973307780629904">"U redoslijedu"</string>
+    <string name="download_queued" msgid="104973307780629904">"U U redu čekanja"</string>
     <string name="download_running" msgid="4656462962155580641">"U toku"</string>
     <string name="download_success" msgid="7006048006543495236">"Završeno"</string>
     <string name="download_error" msgid="8081329546008568251">"Neuspješno"</string>
     <string name="dialog_title_not_available" msgid="5746317632356158515">"Nije bilo moguće preuzeti"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"Da li želite ponovo pokušati s preuzimanjem fajla kasnije ili je želite izbrisati s redoslijeda?"</string>
+    <string name="dialog_failed_body" msgid="587545111677064427">"Želite li ponovo kasnije pokušati s preuzimanjem fajla ili ga želite izbrisati iz reda čekanja?"</string>
     <string name="dialog_title_queued_body" msgid="6760681913815015219">"Fajl je u redu čekanja"</string>
     <string name="dialog_queued_body" msgid="708552801635572720">"Fajl je u redu čekanja za kasnije preuzimanje tako da još nije dostupan."</string>
     <string name="dialog_file_missing_body" msgid="3223012612774276284">"Nije moguće pronaći preuzetu datoteku."</string>

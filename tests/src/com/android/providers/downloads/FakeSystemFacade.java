@@ -133,7 +133,7 @@ public class FakeSystemFacade implements SystemFacade {
     }
 
     @Override
-    public boolean isCleartextTrafficPermitted(int uid) {
+    public boolean isCleartextTrafficPermitted(String packageName, String hostname) {
         return mCleartextTrafficPermitted;
     }
 

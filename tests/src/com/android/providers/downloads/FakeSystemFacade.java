@@ -102,6 +102,11 @@ public class FakeSystemFacade implements SystemFacade {
     }
 
     @Override
+    public boolean isActiveNetworkMeteredForUid(int uid) {
+        return mIsMetered;
+    }
+
+    @Override
     public long getMaxBytesOverMobile() {
         return mMaxBytesOverMobile;
     }

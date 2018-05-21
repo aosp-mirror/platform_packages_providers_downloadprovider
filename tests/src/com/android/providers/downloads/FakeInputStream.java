@@ -16,8 +16,9 @@
 
 package com.android.providers.downloads;
 
+import libcore.util.ArrayUtils;
+
 import java.io.InputStream;
-import java.util.Arrays;
 
 /**
  * Provides fake data for large transfers.
@@ -42,7 +43,7 @@ public class FakeInputStream extends InputStream {
 
     @Override
     public int read(byte[] buffer, int offset, int length) {
-        Arrays.checkOffsetAndCount(buffer.length, offset, length);
+        ArrayUtils.throwsIfOutOfBounds(buffer.length, offset, length);
 
         if (length > mRemaining) {
             length = (int) mRemaining;

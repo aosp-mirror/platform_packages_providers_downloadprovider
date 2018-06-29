@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3658948994665187911">"Gest. de tél."</string>
+    <string name="app_label" msgid="3658948994665187911">"Gestionnaire de téléchargement"</string>
     <string name="storage_description" msgid="7982444311558023664">"Téléchargements"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Accéder au gestionnaire de téléchargement."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Permet à l\'application d\'accéder au gestionnaire de téléchargement et de l\'utiliser pour télécharger des fichiers. Les applications malveillantes peuvent utiliser cette fonctionnalité pour perturber les téléchargements et accéder à des informations confidentielles."</string>

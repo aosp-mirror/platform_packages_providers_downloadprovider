@@ -21,7 +21,9 @@ import static android.provider.Downloads.Impl.COLUMN_DESTINATION;
 import static android.provider.Downloads.Impl.COLUMN_MEDIAPROVIDER_URI;
 import static android.provider.Downloads.Impl.COLUMN_MEDIA_SCANNED;
 import static android.provider.Downloads.Impl.COLUMN_MIME_TYPE;
+import static android.provider.Downloads.Impl.COLUMN_OTHER_UID;
 import static android.provider.Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD;
+import static android.provider.Downloads.Impl.PERMISSION_ACCESS_ALL;
 import static android.provider.Downloads.Impl._DATA;
 
 import android.app.AppOpsManager;
@@ -42,6 +44,7 @@ import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.ParcelFileDescriptor;
@@ -96,12 +99,14 @@ public final class DownloadProvider extends ContentProvider {
     private static final int MY_DOWNLOADS = 1;
     /** URI matcher constant for the URI of an individual download belonging to the calling UID */
     private static final int MY_DOWNLOADS_ID = 2;
-    /** URI matcher constant for the URI of all downloads in the system */
-    private static final int ALL_DOWNLOADS = 3;
-    /** URI matcher constant for the URI of an individual download */
-    private static final int ALL_DOWNLOADS_ID = 4;
     /** URI matcher constant for the URI of a download's request headers */
-    private static final int REQUEST_HEADERS_URI = 5;
+    private static final int MY_DOWNLOADS_ID_HEADERS = 3;
+    /** URI matcher constant for the URI of all downloads in the system */
+    private static final int ALL_DOWNLOADS = 4;
+    /** URI matcher constant for the URI of an individual download */
+    private static final int ALL_DOWNLOADS_ID = 5;
+    /** URI matcher constant for the URI of a download's request headers */
+    private static final int ALL_DOWNLOADS_ID_HEADERS = 6;
     static {
         sURIMatcher.addURI("downloads", "my_downloads", MY_DOWNLOADS);
         sURIMatcher.addURI("downloads", "my_downloads/#", MY_DOWNLOADS_ID);
@@ -109,16 +114,16 @@ public final class DownloadProvider extends ContentProvider {
         sURIMatcher.addURI("downloads", "all_downloads/#", ALL_DOWNLOADS_ID);
         sURIMatcher.addURI("downloads",
                 "my_downloads/#/" + Downloads.Impl.RequestHeaders.URI_SEGMENT,
-                REQUEST_HEADERS_URI);
+                MY_DOWNLOADS_ID_HEADERS);
         sURIMatcher.addURI("downloads",
                 "all_downloads/#/" + Downloads.Impl.RequestHeaders.URI_SEGMENT,
-                REQUEST_HEADERS_URI);
+                ALL_DOWNLOADS_ID_HEADERS);
         // temporary, for backwards compatibility
         sURIMatcher.addURI("downloads", "download", MY_DOWNLOADS);
         sURIMatcher.addURI("downloads", "download/#", MY_DOWNLOADS_ID);
         sURIMatcher.addURI("downloads",
                 "download/#/" + Downloads.Impl.RequestHeaders.URI_SEGMENT,
-                REQUEST_HEADERS_URI);
+                MY_DOWNLOADS_ID_HEADERS);
     }
 
     /** Different base URIs that could be used to access an individual download */
@@ -179,43 +184,6 @@ public final class DownloadProvider extends ContentProvider {
     /** List of uids that can access the downloads */
     private int mSystemUid = -1;
     private int mDefContainerUid = -1;
-
-    /**
-     * This class encapsulates a SQL where clause and its parameters.  It makes it possible for
-     * shared methods (like {@link DownloadProvider#getWhereClause(Uri, String, String[], int)})
-     * to return both pieces of information, and provides some utility logic to ease piece-by-piece
-     * construction of selections.
-     */
-    private static class SqlSelection {
-        public StringBuilder mWhereClause = new StringBuilder();
-        public List<String> mParameters = new ArrayList<String>();
-
-        public <T> void appendClause(String newClause, final T... parameters) {
-            if (newClause == null || newClause.isEmpty()) {
-                return;
-            }
-            if (mWhereClause.length() != 0) {
-                mWhereClause.append(" AND ");
-            }
-            mWhereClause.append("(");
-            mWhereClause.append(newClause);
-            mWhereClause.append(")");
-            if (parameters != null) {
-                for (Object parameter : parameters) {
-                    mParameters.add(parameter.toString());
-                }
-            }
-        }
-
-        public String getSelection() {
-            return mWhereClause.toString();
-        }
-
-        public String[] getParameters() {
-            String[] array = new String[mParameters.size()];
-            return mParameters.toArray(array);
-        }
-    }
 
     /**
      * Creates and updated database on demand when opening it.
@@ -938,15 +906,23 @@ public final class DownloadProvider extends ContentProvider {
             throw new IllegalArgumentException("Unknown URI: " + uri);
         }
 
-        if (match == REQUEST_HEADERS_URI) {
+        if (match == MY_DOWNLOADS_ID_HEADERS || match == ALL_DOWNLOADS_ID_HEADERS) {
             if (projection != null || selection != null || sort != null) {
                 throw new UnsupportedOperationException("Request header queries do not support "
                                                         + "projections, selections or sorting");
             }
-            return queryRequestHeaders(db, uri);
-        }
 
-        SqlSelection fullSelection = getWhereClause(uri, selection, selectionArgs, match);
+            // Headers are only available to callers with full access.
+            getContext().enforceCallingOrSelfPermission(
+                    Downloads.Impl.PERMISSION_ACCESS_ALL, Constants.TAG);
+
+            final SQLiteQueryBuilder qb = getQueryBuilder(uri, match);
+            projection = new String[] {
+                    Downloads.Impl.RequestHeaders.COLUMN_HEADER,
+                    Downloads.Impl.RequestHeaders.COLUMN_VALUE
+            };
+            return qb.query(db, projection, null, null, null, null, null);
+        }
 
         if (shouldRestrictVisibility()) {
             if (projection == null) {
@@ -974,8 +950,8 @@ public final class DownloadProvider extends ContentProvider {
             logVerboseQueryInfo(projection, selection, selectionArgs, sort, db);
         }
 
-        Cursor ret = db.query(DB_TABLE, projection, fullSelection.getSelection(),
-                fullSelection.getParameters(), null, null, sort);
+        final SQLiteQueryBuilder qb = getQueryBuilder(uri, match);
+        final Cursor ret = qb.query(db, projection, selection, selectionArgs, null, null, sort);
 
         if (ret != null) {
             ret.setNotificationUri(getContext().getContentResolver(), uri);
@@ -1061,35 +1037,6 @@ public final class DownloadProvider extends ContentProvider {
     }
 
     /**
-     * Handle a query for the custom request headers registered for a download.
-     */
-    private Cursor queryRequestHeaders(SQLiteDatabase db, Uri uri) {
-        String where = Downloads.Impl.RequestHeaders.COLUMN_DOWNLOAD_ID + "="
-                       + getDownloadIdFromUri(uri);
-        String[] projection = new String[] {Downloads.Impl.RequestHeaders.COLUMN_HEADER,
-                                            Downloads.Impl.RequestHeaders.COLUMN_VALUE};
-        return db.query(Downloads.Impl.RequestHeaders.HEADERS_DB_TABLE, projection, where,
-                        null, null, null, null);
-    }
-
-    /**
-     * Delete request headers for downloads matching the given query.
-     */
-    private void deleteRequestHeaders(SQLiteDatabase db, String where, String[] whereArgs) {
-        String[] projection = new String[] {Downloads.Impl._ID};
-        Cursor cursor = db.query(DB_TABLE, projection, where, whereArgs, null, null, null, null);
-        try {
-            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-                long id = cursor.getLong(0);
-                String idWhere = Downloads.Impl.RequestHeaders.COLUMN_DOWNLOAD_ID + "=" + id;
-                db.delete(Downloads.Impl.RequestHeaders.HEADERS_DB_TABLE, idWhere, null);
-            }
-        } finally {
-            cursor.close();
-        }
-    }
-
-    /**
      * @return true if we should restrict the columns readable by this caller
      */
     private boolean shouldRestrictVisibility() {
@@ -1165,14 +1112,12 @@ public final class DownloadProvider extends ContentProvider {
                     break;
                 }
 
-                final SqlSelection selection = getWhereClause(uri, where, whereArgs, match);
-                count = db.update(DB_TABLE, filteredValues, selection.getSelection(),
-                        selection.getParameters());
+                final SQLiteQueryBuilder qb = getQueryBuilder(uri, match);
+                count = qb.update(db, filteredValues, where, whereArgs);
                 if (updateSchedule) {
                     final long token = Binder.clearCallingIdentity();
                     try {
-                        try (Cursor cursor = db.query(DB_TABLE, new String[] { _ID },
-                                selection.getSelection(), selection.getParameters(),
+                        try (Cursor cursor = qb.query(db, null, where, whereArgs,
                                 null, null, null)) {
                             while (cursor.moveToNext()) {
                                 Helpers.scheduleJob(getContext(), cursor.getInt(0));
@@ -1211,21 +1156,64 @@ public final class DownloadProvider extends ContentProvider {
         }
     }
 
-    private SqlSelection getWhereClause(final Uri uri, final String where, final String[] whereArgs,
-            int uriMatch) {
-        SqlSelection selection = new SqlSelection();
-        selection.appendClause(where, whereArgs);
-        if (uriMatch == MY_DOWNLOADS_ID || uriMatch == ALL_DOWNLOADS_ID) {
-            selection.appendClause(Downloads.Impl._ID + " = ?", getDownloadIdFromUri(uri));
+    /**
+     * Create a query builder that filters access to the underlying database
+     * based on both the requested {@link Uri} and permissions of the caller.
+     */
+    private SQLiteQueryBuilder getQueryBuilder(final Uri uri, int match) {
+        final String table;
+        final StringBuilder where = new StringBuilder();
+        switch (match) {
+            // The "my_downloads" view normally limits the caller to operating
+            // on downloads that they either directly own, or have been given
+            // indirect ownership of via OTHER_UID.
+            case MY_DOWNLOADS_ID:
+                appendWhereExpression(where, _ID + "=" + getDownloadIdFromUri(uri));
+                // fall-through
+            case MY_DOWNLOADS:
+                table = DB_TABLE;
+                if (getContext().checkCallingOrSelfPermission(
+                        PERMISSION_ACCESS_ALL) != PackageManager.PERMISSION_GRANTED) {
+                    appendWhereExpression(where, Constants.UID + "=" + Binder.getCallingUid()
+                            + " OR " + COLUMN_OTHER_UID + "=" + Binder.getCallingUid());
+                }
+                break;
+
+            // The "all_downloads" view is already limited via <path-permission>
+            // to only callers holding the ACCESS_ALL_DOWNLOADS permission, but
+            // access may also be delegated via Uri permission grants.
+            case ALL_DOWNLOADS_ID:
+                appendWhereExpression(where, _ID + "=" + getDownloadIdFromUri(uri));
+                // fall-through
+            case ALL_DOWNLOADS:
+                table = DB_TABLE;
+                break;
+
+            // Headers are limited to callers holding the ACCESS_ALL_DOWNLOADS
+            // permission, since they're only needed for executing downloads.
+            case MY_DOWNLOADS_ID_HEADERS:
+            case ALL_DOWNLOADS_ID_HEADERS:
+                table = Downloads.Impl.RequestHeaders.HEADERS_DB_TABLE;
+                appendWhereExpression(where, Downloads.Impl.RequestHeaders.COLUMN_DOWNLOAD_ID + "="
+                        + getDownloadIdFromUri(uri));
+                break;
+
+            default:
+                throw new UnsupportedOperationException("Unknown URI: " + uri);
         }
-        if ((uriMatch == MY_DOWNLOADS || uriMatch == MY_DOWNLOADS_ID)
-                && getContext().checkCallingOrSelfPermission(Downloads.Impl.PERMISSION_ACCESS_ALL)
-                != PackageManager.PERMISSION_GRANTED) {
-            selection.appendClause(
-                    Constants.UID + "= ? OR " + Downloads.Impl.COLUMN_OTHER_UID + "= ?",
-                    Binder.getCallingUid(), Binder.getCallingUid());
+
+        final SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+        qb.setStrict(true);
+        qb.setTables(table);
+        qb.appendWhere(where);
+        return qb;
+    }
+
+    private static void appendWhereExpression(StringBuilder sb, String expression) {
+        if (sb.length() > 0) {
+            sb.append(" AND ");
         }
-        return selection;
+        sb.append('(').append(expression).append(')');
     }
 
     /**
@@ -1246,12 +1234,8 @@ public final class DownloadProvider extends ContentProvider {
             case MY_DOWNLOADS_ID:
             case ALL_DOWNLOADS:
             case ALL_DOWNLOADS_ID:
-                final SqlSelection selection = getWhereClause(uri, where, whereArgs, match);
-                deleteRequestHeaders(db, selection.getSelection(), selection.getParameters());
-
-                try (Cursor cursor = db.query(DB_TABLE, new String[] {
-                        _ID, _DATA, COLUMN_MEDIAPROVIDER_URI
-                }, selection.getSelection(), selection.getParameters(), null, null, null)) {
+                final SQLiteQueryBuilder qb = getQueryBuilder(uri, match);
+                try (Cursor cursor = qb.query(db, null, where, whereArgs, null, null, null)) {
                     while (cursor.moveToNext()) {
                         final long id = cursor.getLong(0);
                         scheduler.cancel((int) id);
@@ -1282,10 +1266,15 @@ public final class DownloadProvider extends ContentProvider {
                                 Binder.restoreCallingIdentity(token);
                             }
                         }
+
+                        // Delete any headers for this download
+                        db.delete(Downloads.Impl.RequestHeaders.HEADERS_DB_TABLE,
+                                Downloads.Impl.RequestHeaders.COLUMN_DOWNLOAD_ID + "=?",
+                                new String[] { Long.toString(id) });
                     }
                 }
 
-                count = db.delete(DB_TABLE, selection.getSelection(), selection.getParameters());
+                count = qb.delete(db, where, whereArgs);
                 break;
 
             default:

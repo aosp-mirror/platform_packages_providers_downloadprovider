@@ -44,7 +44,7 @@ import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteQueryBuilder;
+import android.database.sqlite.SQLiteStatementBuilder;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.ParcelFileDescriptor;
@@ -910,7 +910,7 @@ public final class DownloadProvider extends ContentProvider {
             getContext().enforceCallingOrSelfPermission(
                     Downloads.Impl.PERMISSION_ACCESS_ALL, Constants.TAG);
 
-            final SQLiteQueryBuilder qb = getQueryBuilder(uri, match);
+            final SQLiteStatementBuilder qb = getStatementBuilder(uri, match);
             projection = new String[] {
                     Downloads.Impl.RequestHeaders.COLUMN_HEADER,
                     Downloads.Impl.RequestHeaders.COLUMN_VALUE
@@ -944,7 +944,7 @@ public final class DownloadProvider extends ContentProvider {
             logVerboseQueryInfo(projection, selection, selectionArgs, sort, db);
         }
 
-        final SQLiteQueryBuilder qb = getQueryBuilder(uri, match);
+        final SQLiteStatementBuilder qb = getStatementBuilder(uri, match);
         final Cursor ret = qb.query(db, projection, selection, selectionArgs, null, null, sort);
 
         if (ret != null) {
@@ -1112,7 +1112,7 @@ public final class DownloadProvider extends ContentProvider {
                     break;
                 }
 
-                final SQLiteQueryBuilder qb = getQueryBuilder(uri, match);
+                final SQLiteStatementBuilder qb = getStatementBuilder(uri, match);
                 count = qb.update(db, filteredValues, where, whereArgs);
                 if (updateSchedule || isCompleting) {
                     final long token = Binder.clearCallingIdentity();
@@ -1166,8 +1166,8 @@ public final class DownloadProvider extends ContentProvider {
      * Create a query builder that filters access to the underlying database
      * based on both the requested {@link Uri} and permissions of the caller.
      */
-    private SQLiteQueryBuilder getQueryBuilder(final Uri uri, int match) {
-        final SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+    private SQLiteStatementBuilder getStatementBuilder(final Uri uri, int match) {
+        final SQLiteStatementBuilder qb = new SQLiteStatementBuilder();
         qb.setStrict(true);
 
         switch (match) {
@@ -1232,7 +1232,7 @@ public final class DownloadProvider extends ContentProvider {
             case MY_DOWNLOADS_ID:
             case ALL_DOWNLOADS:
             case ALL_DOWNLOADS_ID:
-                final SQLiteQueryBuilder qb = getQueryBuilder(uri, match);
+                final SQLiteStatementBuilder qb = getStatementBuilder(uri, match);
                 try (Cursor cursor = qb.query(db, null, where, whereArgs, null, null, null)) {
                     final DownloadInfo.Reader reader = new DownloadInfo.Reader(resolver, cursor);
                     final DownloadInfo info = new DownloadInfo(context);

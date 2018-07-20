@@ -68,6 +68,12 @@ class RealSystemFacade implements SystemFacade {
     }
 
     @Override
+    public boolean isActiveNetworkMeteredForUid(int uid) {
+        return mContext.getSystemService(ConnectivityManager.class)
+                .isActiveNetworkMeteredForUid(uid);
+    }
+
+    @Override
     public long getMaxBytesOverMobile() {
         final Long value = DownloadManager.getMaxBytesOverMobile(mContext);
         return (value == null) ? Long.MAX_VALUE : value;

@@ -725,7 +725,7 @@ public class DownloadThread extends Thread {
         if (info.isRoaming() && !mInfo.isRoamingAllowed()) {
             throw new StopRequestException(STATUS_WAITING_FOR_NETWORK, "Network is roaming");
         }
-        if (mSystemFacade.isNetworkMetered(mNetwork)
+        if (mSystemFacade.isActiveNetworkMeteredForUid(mInfo.mUid)
                 && !mInfo.isMeteredAllowed(mInfoDelta.mTotalBytes)) {
             throw new StopRequestException(STATUS_WAITING_FOR_NETWORK, "Network is metered");
         }

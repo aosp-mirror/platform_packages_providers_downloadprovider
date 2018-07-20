@@ -38,6 +38,8 @@ interface SystemFacade {
 
     public boolean isNetworkMetered(Network network);
 
+    public boolean isActiveNetworkMeteredForUid(int uid);
+
     /**
      * @return maximum size, in bytes, of downloads that may go over a mobile connection; or null if
      * there's no limit

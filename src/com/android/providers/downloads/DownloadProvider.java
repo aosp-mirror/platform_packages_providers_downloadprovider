@@ -44,7 +44,7 @@ import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteStatementBuilder;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.ParcelFileDescriptor;
@@ -910,7 +910,7 @@ public final class DownloadProvider extends ContentProvider {
             getContext().enforceCallingOrSelfPermission(
                     Downloads.Impl.PERMISSION_ACCESS_ALL, Constants.TAG);
 
-            final SQLiteStatementBuilder qb = getStatementBuilder(uri, match);
+            final SQLiteQueryBuilder qb = getQueryBuilder(uri, match);
             projection = new String[] {
                     Downloads.Impl.RequestHeaders.COLUMN_HEADER,
                     Downloads.Impl.RequestHeaders.COLUMN_VALUE
@@ -944,7 +944,7 @@ public final class DownloadProvider extends ContentProvider {
             logVerboseQueryInfo(projection, selection, selectionArgs, sort, db);
         }
 
-        final SQLiteStatementBuilder qb = getStatementBuilder(uri, match);
+        final SQLiteQueryBuilder qb = getQueryBuilder(uri, match);
         final Cursor ret = qb.query(db, projection, selection, selectionArgs, null, null, sort);
 
         if (ret != null) {
@@ -1112,7 +1112,7 @@ public final class DownloadProvider extends ContentProvider {
                     break;
                 }
 
-                final SQLiteStatementBuilder qb = getStatementBuilder(uri, match);
+                final SQLiteQueryBuilder qb = getQueryBuilder(uri, match);
                 count = qb.update(db, filteredValues, where, whereArgs);
                 if (updateSchedule || isCompleting) {
                     final long token = Binder.clearCallingIdentity();
@@ -1166,25 +1166,22 @@ public final class DownloadProvider extends ContentProvider {
      * Create a query builder that filters access to the underlying database
      * based on both the requested {@link Uri} and permissions of the caller.
      */
-    private SQLiteStatementBuilder getStatementBuilder(final Uri uri, int match) {
-        final SQLiteStatementBuilder qb = new SQLiteStatementBuilder();
-        qb.setStrict(true);
-
+    private SQLiteQueryBuilder getQueryBuilder(final Uri uri, int match) {
+        final String table;
+        final StringBuilder where = new StringBuilder();
         switch (match) {
             // The "my_downloads" view normally limits the caller to operating
             // on downloads that they either directly own, or have been given
             // indirect ownership of via OTHER_UID.
             case MY_DOWNLOADS_ID:
-                qb.appendWhereExpression(_ID + "=?", getDownloadIdFromUri(uri));
+                appendWhereExpression(where, _ID + "=" + getDownloadIdFromUri(uri));
                 // fall-through
             case MY_DOWNLOADS:
-                qb.setTables(DB_TABLE);
+                table = DB_TABLE;
                 if (getContext().checkCallingOrSelfPermission(
                         PERMISSION_ACCESS_ALL) != PackageManager.PERMISSION_GRANTED) {
-                    final String uidString = Integer.toString(Binder.getCallingUid());
-                    qb.appendWhereExpression(
-                            Constants.UID + "=?" + " OR " + COLUMN_OTHER_UID + "=?",
-                            uidString, uidString);
+                    appendWhereExpression(where, Constants.UID + "=" + Binder.getCallingUid()
+                            + " OR " + COLUMN_OTHER_UID + "=" + Binder.getCallingUid());
                 }
                 break;
 
@@ -1192,23 +1189,37 @@ public final class DownloadProvider extends ContentProvider {
             // to only callers holding the ACCESS_ALL_DOWNLOADS permission, but
             // access may also be delegated via Uri permission grants.
             case ALL_DOWNLOADS_ID:
-                qb.appendWhereExpression(_ID + "=?", getDownloadIdFromUri(uri));
+                appendWhereExpression(where, _ID + "=" + getDownloadIdFromUri(uri));
                 // fall-through
             case ALL_DOWNLOADS:
-                qb.setTables(DB_TABLE);
+                table = DB_TABLE;
                 break;
 
             // Headers are limited to callers holding the ACCESS_ALL_DOWNLOADS
             // permission, since they're only needed for executing downloads.
             case MY_DOWNLOADS_ID_HEADERS:
             case ALL_DOWNLOADS_ID_HEADERS:
-                qb.setTables(Downloads.Impl.RequestHeaders.HEADERS_DB_TABLE);
-                qb.appendWhereExpression(Downloads.Impl.RequestHeaders.COLUMN_DOWNLOAD_ID + "=?",
-                        getDownloadIdFromUri(uri));
+                table = Downloads.Impl.RequestHeaders.HEADERS_DB_TABLE;
+                appendWhereExpression(where, Downloads.Impl.RequestHeaders.COLUMN_DOWNLOAD_ID + "="
+                        + getDownloadIdFromUri(uri));
                 break;
+
+            default:
+                throw new UnsupportedOperationException("Unknown URI: " + uri);
         }
 
+        final SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+        qb.setStrict(true);
+        qb.setTables(table);
+        qb.appendWhere(where);
         return qb;
+    }
+
+    private static void appendWhereExpression(StringBuilder sb, String expression) {
+        if (sb.length() > 0) {
+            sb.append(" AND ");
+        }
+        sb.append('(').append(expression).append(')');
     }
 
     /**
@@ -1232,7 +1243,7 @@ public final class DownloadProvider extends ContentProvider {
             case MY_DOWNLOADS_ID:
             case ALL_DOWNLOADS:
             case ALL_DOWNLOADS_ID:
-                final SQLiteStatementBuilder qb = getStatementBuilder(uri, match);
+                final SQLiteQueryBuilder qb = getQueryBuilder(uri, match);
                 try (Cursor cursor = qb.query(db, null, where, whereArgs, null, null, null)) {
                     final DownloadInfo.Reader reader = new DownloadInfo.Reader(resolver, cursor);
                     final DownloadInfo info = new DownloadInfo(context);

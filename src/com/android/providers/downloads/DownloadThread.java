@@ -16,6 +16,8 @@
 
 package com.android.providers.downloads;
 
+import static android.net.NetworkCapabilities.NET_CAPABILITY_NOT_METERED;
+import static android.net.NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING;
 import static android.provider.Downloads.Impl.COLUMN_CONTROL;
 import static android.provider.Downloads.Impl.COLUMN_DELETED;
 import static android.provider.Downloads.Impl.COLUMN_STATUS;
@@ -57,6 +59,7 @@ import android.drm.DrmOutputStream;
 import android.net.ConnectivityManager;
 import android.net.INetworkPolicyListener;
 import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.NetworkPolicyManager;
 import android.net.TrafficStats;
@@ -285,7 +288,7 @@ public class DownloadThread extends Thread {
             // Use the caller's default network to make this connection, since
             // they might be subject to restrictions that we shouldn't let them
             // circumvent
-            mNetwork = mSystemFacade.getActiveNetwork(mInfo.mUid, mIgnoreBlocked);
+            mNetwork = mSystemFacade.getNetwork(mParams);
             if (mNetwork == null) {
                 throw new StopRequestException(STATUS_WAITING_FOR_NETWORK,
                         "No network associated with requesting UID");
@@ -384,6 +387,7 @@ public class DownloadThread extends Thread {
             mNetworkPolicy.unregisterListener(mPolicyListener);
         }
 
+        boolean needsReschedule = false;
         if (Downloads.Impl.isStatusCompleted(mInfoDelta.mStatus)) {
             if (mInfo.shouldScanFile(mInfoDelta.mStatus)) {
                 DownloadScanner.requestScanBlocking(mContext, mInfo.mId, mInfoDelta.mFileName,
@@ -392,10 +396,10 @@ public class DownloadThread extends Thread {
         } else if (mInfoDelta.mStatus == STATUS_WAITING_TO_RETRY
                 || mInfoDelta.mStatus == STATUS_WAITING_FOR_NETWORK
                 || mInfoDelta.mStatus == STATUS_QUEUED_FOR_WIFI) {
-            Helpers.scheduleJob(mContext, DownloadInfo.queryDownloadInfo(mContext, mId));
+            needsReschedule = true;
         }
 
-        mJobService.jobFinishedInternal(mParams, false);
+        mJobService.jobFinishedInternal(mParams, needsReschedule);
     }
 
     public void requestShutdown() {
@@ -417,7 +421,8 @@ public class DownloadThread extends Thread {
             throw new StopRequestException(STATUS_BAD_REQUEST, e);
         }
 
-        boolean cleartextTrafficPermitted = mSystemFacade.isCleartextTrafficPermitted(mInfo.mUid);
+        boolean cleartextTrafficPermitted
+                = mSystemFacade.isCleartextTrafficPermitted(mInfo.mPackage, url.getHost());
         SSLContext appContext;
         try {
             appContext = mSystemFacade.getSSLContextForPackage(mContext, mInfo.mPackage);
@@ -431,7 +436,7 @@ public class DownloadThread extends Thread {
             // because of HTTP redirects which can change the protocol between HTTP and HTTPS.
             if ((!cleartextTrafficPermitted) && ("http".equalsIgnoreCase(url.getProtocol()))) {
                 throw new StopRequestException(STATUS_BAD_REQUEST,
-                        "Cleartext traffic not permitted for UID " + mInfo.mUid + ": "
+                        "Cleartext traffic not permitted for package " + mInfo.mPackage + ": "
                         + Uri.parse(url.toString()).toSafeString());
             }
 
@@ -717,15 +722,16 @@ public class DownloadThread extends Thread {
         // checking connectivity will apply current policy
         mPolicyDirty = false;
 
-        final NetworkInfo info = mSystemFacade.getNetworkInfo(mNetwork, mInfo.mUid,
-                mIgnoreBlocked);
+        final NetworkInfo info = mSystemFacade.getNetworkInfo(mNetwork, mInfo.mUid, mIgnoreBlocked);
+        final NetworkCapabilities caps = mSystemFacade.getNetworkCapabilities(mNetwork);
         if (info == null || !info.isConnected()) {
             throw new StopRequestException(STATUS_WAITING_FOR_NETWORK, "Network is disconnected");
         }
-        if (info.isRoaming() && !mInfo.isRoamingAllowed()) {
+        if (!caps.hasCapability(NET_CAPABILITY_NOT_ROAMING)
+                && !mInfo.isRoamingAllowed()) {
             throw new StopRequestException(STATUS_WAITING_FOR_NETWORK, "Network is roaming");
         }
-        if (mSystemFacade.isNetworkMetered(mNetwork)
+        if (!caps.hasCapability(NET_CAPABILITY_NOT_METERED)
                 && !mInfo.isMeteredAllowed(mInfoDelta.mTotalBytes)) {
             throw new StopRequestException(STATUS_WAITING_FOR_NETWORK, "Network is metered");
         }

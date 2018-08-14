@@ -16,6 +16,7 @@
 
 package com.android.providers.downloads;
 
+import android.app.job.JobParameters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -24,6 +25,7 @@ import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 
 import java.security.GeneralSecurityException;
+
 import javax.net.ssl.SSLContext;
 
 interface SystemFacade {
@@ -32,11 +34,10 @@ interface SystemFacade {
      */
     public long currentTimeMillis();
 
-    public Network getActiveNetwork(int uid, boolean ignoreBlocked);
+    public Network getNetwork(JobParameters params);
 
     public NetworkInfo getNetworkInfo(Network network, int uid, boolean ignoreBlocked);
-
-    public boolean isNetworkMetered(Network network);
+    public NetworkCapabilities getNetworkCapabilities(Network network);
 
     /**
      * @return maximum size, in bytes, of downloads that may go over a mobile connection; or null if
@@ -62,9 +63,10 @@ interface SystemFacade {
     public boolean userOwnsPackage(int uid, String pckg) throws NameNotFoundException;
 
     /**
-     * Returns true if cleartext network traffic is permitted for the specified UID.
+     * Returns true if cleartext network traffic is permitted from {@code packageName} to
+     * {@code host}.
      */
-    public boolean isCleartextTrafficPermitted(int uid);
+    public boolean isCleartextTrafficPermitted(String packageName, String host);
 
     /**
      * Return a {@link SSLContext} configured using the specified package's configuration.

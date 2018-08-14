@@ -17,6 +17,7 @@
 package com.android.providers.downloads;
 
 import android.app.DownloadManager;
+import android.app.job.JobParameters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -30,12 +31,12 @@ import android.net.NetworkInfo;
 import android.security.NetworkSecurityPolicy;
 import android.security.net.config.ApplicationConfig;
 
+import com.android.internal.util.ArrayUtils;
+
 import java.security.GeneralSecurityException;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
-
-import com.android.internal.util.ArrayUtils;
 
 class RealSystemFacade implements SystemFacade {
     private Context mContext;
@@ -50,9 +51,8 @@ class RealSystemFacade implements SystemFacade {
     }
 
     @Override
-    public Network getActiveNetwork(int uid, boolean ignoreBlocked) {
-        return mContext.getSystemService(ConnectivityManager.class)
-                .getActiveNetworkForUid(uid, ignoreBlocked);
+    public Network getNetwork(JobParameters params) {
+        return params.getNetwork();
     }
 
     @Override
@@ -62,9 +62,9 @@ class RealSystemFacade implements SystemFacade {
     }
 
     @Override
-    public boolean isNetworkMetered(Network network) {
-        return !mContext.getSystemService(ConnectivityManager.class).getNetworkCapabilities(network)
-                .hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED);
+    public NetworkCapabilities getNetworkCapabilities(Network network) {
+        return mContext.getSystemService(ConnectivityManager.class)
+                .getNetworkCapabilities(network);
     }
 
     @Override
@@ -90,25 +90,6 @@ class RealSystemFacade implements SystemFacade {
     }
 
     @Override
-    public boolean isCleartextTrafficPermitted(int uid) {
-        PackageManager packageManager = mContext.getPackageManager();
-        String[] packageNames = packageManager.getPackagesForUid(uid);
-        if (ArrayUtils.isEmpty(packageNames)) {
-            // Unknown UID -- fail safe: cleartext traffic not permitted
-            return false;
-        }
-
-        // Cleartext traffic is permitted from the UID if it's permitted for any of the packages
-        // belonging to that UID.
-        for (String packageName : packageNames) {
-            if (isCleartextTrafficPermitted(packageName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
     public SSLContext getSSLContextForPackage(Context context, String packageName)
             throws GeneralSecurityException {
         ApplicationConfig appConfig;
@@ -124,22 +105,17 @@ class RealSystemFacade implements SystemFacade {
     }
 
     /**
-     * Returns whether cleartext network traffic (HTTP) is permitted for the provided package.
+     * Returns whether cleartext network traffic (HTTP) is permitted for the provided package to
+     * {@code host}.
      */
-    private boolean isCleartextTrafficPermitted(String packageName) {
-        PackageManager packageManager = mContext.getPackageManager();
-        PackageInfo packageInfo;
+    public boolean isCleartextTrafficPermitted(String packageName, String host) {
+        ApplicationConfig appConfig;
         try {
-            packageInfo = packageManager.getPackageInfo(packageName, 0);
+            appConfig = NetworkSecurityPolicy.getApplicationConfigForPackage(mContext, packageName);
         } catch (NameNotFoundException e) {
-            // Unknown package -- fail safe: cleartext traffic not permitted
+            // Unknown package -- fail for safety
             return false;
         }
-        ApplicationInfo applicationInfo = packageInfo.applicationInfo;
-        if (applicationInfo == null) {
-            // No app info -- fail safe: cleartext traffic not permitted
-            return false;
-        }
-        return (applicationInfo.flags & ApplicationInfo.FLAG_USES_CLEARTEXT_TRAFFIC) != 0;
+        return appConfig.isCleartextTrafficPermitted(host);
     }
 }

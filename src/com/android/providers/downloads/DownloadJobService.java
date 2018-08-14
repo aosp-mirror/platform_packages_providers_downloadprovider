@@ -66,6 +66,10 @@ public class DownloadJobService extends JobService {
 
         final DownloadThread thread;
         synchronized (mActiveThreads) {
+            if (mActiveThreads.indexOfKey(id) >= 0) {
+                Log.w(TAG, "Odd, already running download " + id);
+                return false;
+            }
             thread = new DownloadThread(this, params, info);
             mActiveThreads.put(id, thread);
         }
@@ -93,14 +97,20 @@ public class DownloadJobService extends JobService {
     }
 
     public void jobFinishedInternal(JobParameters params, boolean needsReschedule) {
+        final int id = params.getJobId();
+
         synchronized (mActiveThreads) {
             mActiveThreads.remove(params.getJobId());
+        }
+        if (needsReschedule) {
+            Helpers.scheduleJob(this, DownloadInfo.queryDownloadInfo(this, id));
         }
 
         // Update notifications one last time while job is protecting us
         mObserver.onChange(false);
 
-        jobFinished(params, needsReschedule);
+        // We do our own rescheduling above
+        jobFinished(params, false);
     }
 
     private ContentObserver mObserver = new ContentObserver(Helpers.getAsyncHandler()) {

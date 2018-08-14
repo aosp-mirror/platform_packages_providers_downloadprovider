@@ -131,7 +131,11 @@ public class DownloadStorageProvider extends FileSystemProvider {
     }
 
     @Override
-    public Path findDocumentPath(String parentDocId, String docId) throws FileNotFoundException {
+    public Path findDocumentPath(@Nullable String parentDocId, String docId) throws FileNotFoundException {
+
+        // parentDocId is null if the client is asking for the path to the root of a doc tree.
+        // Don't share root information with those who shouldn't know it.
+        final String rootId = (parentDocId == null) ? DOC_ID_ROOT : null;
 
         if (parentDocId == null) {
             parentDocId = DOC_ID_ROOT;
@@ -140,8 +144,6 @@ public class DownloadStorageProvider extends FileSystemProvider {
         final File parent = getFileForDocId(parentDocId);
 
         final File doc = getFileForDocId(docId);
-
-        final String rootId = (parentDocId == null) ? DOC_ID_ROOT : null;
 
         return new Path(rootId, findDocumentPath(parent, doc));
     }
@@ -364,6 +366,23 @@ public class DownloadStorageProvider extends FileSystemProvider {
     }
 
     @Override
+    public String getDocumentType(String docId) throws FileNotFoundException {
+        // Delegate to real provider
+        final long token = Binder.clearCallingIdentity();
+        try {
+            if (RawDocumentsHelper.isRawDocId(docId)) {
+                return super.getDocumentType(docId);
+            }
+
+            final long id = Long.parseLong(docId);
+            final ContentResolver resolver = getContext().getContentResolver();
+            return resolver.getType(mDm.getDownloadUri(id));
+        } finally {
+            Binder.restoreCallingIdentity(token);
+        }
+    }
+
+    @Override
     public ParcelFileDescriptor openDocument(String docId, String mode, CancellationSignal signal)
             throws FileNotFoundException {
         // Delegate to real provider
@@ -424,6 +443,9 @@ public class DownloadStorageProvider extends FileSystemProvider {
     private void includeDefaultDocument(MatrixCursor result) {
         final RowBuilder row = result.newRow();
         row.add(Document.COLUMN_DOCUMENT_ID, DOC_ID_ROOT);
+        // We have the same display name as our root :)
+        row.add(Document.COLUMN_DISPLAY_NAME,
+                getContext().getString(R.string.root_downloads));
         row.add(Document.COLUMN_MIME_TYPE, Document.MIME_TYPE_DIR);
         row.add(Document.COLUMN_FLAGS,
                 Document.FLAG_DIR_PREFERS_LAST_MODIFIED | Document.FLAG_DIR_SUPPORTS_CREATE);
@@ -495,6 +517,10 @@ public class DownloadStorageProvider extends FileSystemProvider {
         int flags = Document.FLAG_SUPPORTS_DELETE | Document.FLAG_SUPPORTS_WRITE | extraFlags;
         if (mimeType.startsWith("image/")) {
             flags |= Document.FLAG_SUPPORTS_THUMBNAIL;
+        }
+
+        if (typeSupportsMetadata(mimeType)) {
+            flags |= Document.FLAG_SUPPORTS_METADATA;
         }
 
         final long lastModified = cursor.getLong(

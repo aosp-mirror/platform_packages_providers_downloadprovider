@@ -42,7 +42,7 @@
     <string name="wifi_required_body" msgid="3067694630143784449">"Դուք պետք է օգտագործեք Wi-Fi՝ այս <xliff:g id="SIZE">%s </xliff:g> ներբեռնումն ավարտելու համար: \n\nՀպեք <xliff:g id="QUEUE_TEXT">%s </xliff:g>՝ սկսելու այս ներբեռնումը հաջորդ անգամ, երբ միացած կլինեք որևէ Wi-Fi ցանցի:"</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Հերթագրե՞լ ավելի ուշ ներբեռնելու համար:"</string>
     <string name="wifi_recommended_body" msgid="1314735166699936073">"Այս <xliff:g id="SIZE">%s </xliff:g> ներբեռնումը հիմա սկսելը կարող է կարճեցնել ձեր մարտկոցի կյանքը և/կամ բերել ձեր բբջային տվյալների կապի ավելորդ օգտագործման, որը կարող է ուղեկցվել ծախսերով ձեր բջջային օպերատորի կողմից՝ կախված ձեր տվյալների փաթեթից:\n\n Հպեք <xliff:g id="QUEUE_TEXT">%s</xliff:g> ստորև` այս ներբեռնումը սկսելու հաջորդ անգամ, երբ միացած կլինեք որևէ Wi-Fi ցանցի:"</string>
-    <string name="button_queue_for_wifi" msgid="422576726189179221">"Հերթականություն"</string>
+    <string name="button_queue_for_wifi" msgid="422576726189179221">"Հերթագրել"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Չեղարկել"</string>
     <string name="button_start_now" msgid="792123674007840864">"Սկսել հիմա"</string>
     <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">

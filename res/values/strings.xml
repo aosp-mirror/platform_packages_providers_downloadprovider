@@ -157,8 +157,8 @@
         download to start next time Wi-Fi is available or cancel the download altogether. [CHAR
         LIMIT=200] -->
     <string name="wifi_required_body">You must use Wi-Fi to complete this
-        <xliff:g id="size" example="12.3KB">%s
-        </xliff:g> download. \n\nTouch <xliff:g id="queue_text" example="Queue">%s
+        <xliff:g id="size" example="12.3KB">%1$s
+        </xliff:g> download. \n\nTouch <xliff:g id="queue_text" example="Queue">%2$s
         </xliff:g> to start this download the next time you\'re connected to a Wi-Fi
         network.</string>
 
@@ -172,11 +172,11 @@
         downloads over the mobile network, and the user may choose to start the download over mobile
         anyway or to queue for download to start next time a Wi-Fi connection is available [CHAR
         LIMIT=200] -->
-    <string name="wifi_recommended_body">Starting this <xliff:g id="size" example="12.3KB">%s
+    <string name="wifi_recommended_body">Starting this <xliff:g id="size" example="12.3KB">%1$s
         </xliff:g> download now may shorten your battery life and/or result in
         excessive usage of your mobile data connection, which can lead to charges by
         your mobile operator depending on your data plan.\n\n
-        Touch <xliff:g id="queue_text" example="Queue">%s</xliff:g> to start this download
+        Touch <xliff:g id="queue_text" example="Queue">%2$s</xliff:g> to start this download
         the next time you\'re connected to a Wi-Fi network.</string>
 
 

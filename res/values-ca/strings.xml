@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Mida baixad. req. Wi-Fi."</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Posada en pausa de fons."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Baixada massa gran per a la xarxa de l\'operador"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Has de fer servir Wi-Fi per completar aquesta baixada de <xliff:g id="SIZE">%s </xliff:g>. \n\nToca <xliff:g id="QUEUE_TEXT">%s </xliff:g> per iniciar aquesta baixada la propera vegada que estiguis connectat a una xarxa Wi-Fi."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Has de fer servir Wi-Fi per completar aquesta baixada de <xliff:g id="SIZE">%1$s </xliff:g>. \n\nToca <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> per iniciar aquesta baixada la propera vegada que estiguis connectat a una xarxa Wi-Fi."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Vols posar-lo en cua per baixar-lo més tard?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"Si inic. la baixada (<xliff:g id="SIZE">%s </xliff:g>), pot escurçar-se la durada de la bat. i/o fer-se ús excessiu de la conn. de dades mòb., amb càrrecs de l\'oper. segons el pla de dades.\n\n Toca <xliff:g id="QUEUE_TEXT">%s</xliff:g> per inic. baix. quan hi hagi Wi-Fi."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"Si inic. la baixada (<xliff:g id="SIZE">%1$s </xliff:g>), pot escurçar-se la durada de la bat. i/o fer-se ús excessiu de la conn. de dades mòb., amb càrrecs de l\'oper. segons el pla de dades.\n\n Toca <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> per inic. baix. quan hi hagi Wi-Fi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Cua"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Cancel·la"</string>
     <string name="button_start_now" msgid="792123674007840864">"Inicia ara"</string>

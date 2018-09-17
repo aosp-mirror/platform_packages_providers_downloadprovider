@@ -11,7 +11,8 @@
                  android:icon="@mipmap/ic_launcher_download"
                  android:hardwareAccelerated="true"
                  android:supportsRtl="true"
-                 android:requiredForAllUsers="true">
+                 android:requiredForAllUsers="true"
+                 android:usesCleartextTraffic="true">
 
         <activity
             android:name=".TrampolineActivity"

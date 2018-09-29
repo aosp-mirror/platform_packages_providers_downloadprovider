@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Pobieranie wymaga Wi-Fi"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Wstrzymane w tle."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Zbyt duży plik do pobrania dla sieci operatora"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Do pobrania <xliff:g id="SIZE">%s </xliff:g> musisz użyć połączenia Wi-Fi. \n\nWybierz <xliff:g id="QUEUE_TEXT">%s </xliff:g>, aby pobrać po nawiązaniu połączenia z siecią Wi-Fi."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Do pobrania <xliff:g id="SIZE">%1$s </xliff:g> musisz użyć połączenia Wi-Fi. \n\nWybierz <xliff:g id="QUEUE_TEXT">%2$s </xliff:g>, aby pobrać po nawiązaniu połączenia z siecią Wi-Fi."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Czy dodać do kolejki do późniejszego pobrania?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"Pobranie <xliff:g id="SIZE">%s </xliff:g> może skrócić czas pracy na baterii i spowodować przekroczenie limitu transmisji danych, za co operator może naliczyć dodatkowe opłaty.\n\nWybierz <xliff:g id="QUEUE_TEXT">%s</xliff:g>, aby pobrać po połączeniu z siecią Wi-Fi."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"Pobranie <xliff:g id="SIZE">%1$s </xliff:g> może skrócić czas pracy na baterii i spowodować przekroczenie limitu transmisji danych, za co operator może naliczyć dodatkowe opłaty.\n\nWybierz <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>, aby pobrać po połączeniu z siecią Wi-Fi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Dodaj do kolejki"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Anuluj"</string>
     <string name="button_start_now" msgid="792123674007840864">"Rozpocznij teraz"</string>

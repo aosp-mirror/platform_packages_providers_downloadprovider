@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"ডাউনলোড বড় হওয়ায় ওয়াই-ফাই লাগবে।"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"পশ্চাদপটে বিরাম দেওয়া আছে।"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"অপারেটর নেটওয়ার্কের জন্য ডাউনলোড অত্যন্ত বড়"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"এই <xliff:g id="SIZE">%s </xliff:g> ডাউনলোড সম্পূর্ণ করতে আপনাকে অবশ্যই ওয়াই-ফাই ব্যবহার করতে হবে।\n\nআপনি পরবর্তীতে যখন ওয়াই-ফাই নেটওয়ার্কে সংযুক্ত হবেন তখন এই ডাউনলোড শুরু করতে <xliff:g id="QUEUE_TEXT">%s </xliff:g> স্পর্শ করুন।"</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"এই <xliff:g id="SIZE">%1$s </xliff:g> ডাউনলোড সম্পূর্ণ করতে আপনাকে অবশ্যই ওয়াই-ফাই ব্যবহার করতে হবে।\n\nআপনি পরবর্তীতে যখন ওয়াই-ফাই নেটওয়ার্কে সংযুক্ত হবেন তখন এই ডাউনলোড শুরু করতে <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> স্পর্শ করুন।"</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"পরে ডাউনলোডের জন্য সারিবদ্ধ করবেন?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"এই <xliff:g id="SIZE">%s </xliff:g> ডাউনলোড শুরু করলে আপনার বেশি ব্যাটারি খরচ হতে পারে এবং/অথবা আপনার মোবাইল ডেটা মাত্রাতিরিক্ত ব্যবহার হতে পারে, যার ফলে আপনার মোবাইল অপারেটর আপনার ডেটা প্ল্যানের উপর নির্ভর করে চার্জ করতে পারে।\n\n পরে কখনও Wi-Fi নেটওয়ার্কে সংযুক্ত হলে তখন এই ডাউনলোড শুরু করতে <xliff:g id="QUEUE_TEXT">%s</xliff:g> টাচ করুন।"</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"এই <xliff:g id="SIZE">%1$s </xliff:g> ডাউনলোড শুরু করলে আপনার বেশি ব্যাটারি খরচ হতে পারে এবং/অথবা আপনার মোবাইল ডেটা মাত্রাতিরিক্ত ব্যবহার হতে পারে, যার ফলে আপনার মোবাইল অপারেটর আপনার ডেটা প্ল্যানের উপর নির্ভর করে চার্জ করতে পারে।\n\n পরে কখনও Wi-Fi নেটওয়ার্কে সংযুক্ত হলে তখন এই ডাউনলোড শুরু করতে <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> টাচ করুন।"</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"সারি"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"বাতিল করুন"</string>
     <string name="button_start_now" msgid="792123674007840864">"এখন শুরু করুন"</string>

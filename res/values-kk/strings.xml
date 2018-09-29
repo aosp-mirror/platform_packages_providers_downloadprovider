@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Жүктеу өлшемі Wi-Fi байланысын қажет етеді."</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Артқы шепте тоқтатылған."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Амалдық желі үшін жүктеу тым үлкен"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"<xliff:g id="SIZE">%s </xliff:g> өлшемді жүктеуді аяқтау үшін сізге Wi-Fi қажет. Келесі жолы Wi-Fi желісіне қосылғанда осы жүктеуді бастау үшін \n\nТүртіңіз <xliff:g id="QUEUE_TEXT">%s </xliff:g>."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"<xliff:g id="SIZE">%1$s </xliff:g> өлшемді жүктеуді аяқтау үшін сізге Wi-Fi қажет. Келесі жолы Wi-Fi желісіне қосылғанда осы жүктеуді бастау үшін \n\nТүртіңіз <xliff:g id="QUEUE_TEXT">%2$s </xliff:g>."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Кейінірек жүктеу үшін кезекке қойылсын ба?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"<xliff:g id="SIZE">%s </xliff:g> қазір жүктей бастау батарея ұзақтығын азайтуы және/немесе ұялы дерек байланысын тым көп қолдануға соқтыруы мүмкін, нәтижесінде дерекқор жоспарыңызға қарай ұялы операторыңыз қосымша төлем талап ету мүмкін.\nКелесі жолы Wi-Fi желісіне қосылғанда осы жүктеуді бастау үшін  \n Түртіңіз <xliff:g id="QUEUE_TEXT">%s</xliff:g>."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"<xliff:g id="SIZE">%1$s </xliff:g> қазір жүктей бастау батарея ұзақтығын азайтуы және/немесе ұялы дерек байланысын тым көп қолдануға соқтыруы мүмкін, нәтижесінде дерекқор жоспарыңызға қарай ұялы операторыңыз қосымша төлем талап ету мүмкін.\nКелесі жолы Wi-Fi желісіне қосылғанда осы жүктеуді бастау үшін  \n Түртіңіз <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Кезек"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Бас тарту"</string>
     <string name="button_start_now" msgid="792123674007840864">"Қазір бастау"</string>

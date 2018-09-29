@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"A letöltéshez Wi-Fi kell"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Szünetel a háttérben."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"A letöltés túl nagy a szolgáltató hálózatához"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Wi-Fi szükséges a letöltés (<xliff:g id="SIZE">%s </xliff:g>) befejezéséhez. \n\nÉrintse meg a(z) <xliff:g id="QUEUE_TEXT">%s </xliff:g> lehetőséget a letöltés elindításához, ha majd Wi-Fi hálózathoz csatlakozik."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Wi-Fi szükséges a letöltés (<xliff:g id="SIZE">%1$s </xliff:g>) befejezéséhez. \n\nÉrintse meg a(z) <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> lehetőséget a letöltés elindításához, ha majd Wi-Fi hálózathoz csatlakozik."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Várólistára teszi későbbi letöltés céljából?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"A fájl (<xliff:g id="SIZE">%s </xliff:g>) letöltése miatt hamarabb lemerülhet az akku, megnőhet az adathasználat, így előfizetésétől függően egyéb költségei lehetnek.\n\n Érintse meg a(z) <xliff:g id="QUEUE_TEXT">%s</xliff:g> lehetőséget, ha Wi-Fihez csatlakozik."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"A fájl (<xliff:g id="SIZE">%1$s </xliff:g>) letöltése miatt hamarabb lemerülhet az akku, megnőhet az adathasználat, így előfizetésétől függően egyéb költségei lehetnek.\n\n Érintse meg a(z) <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> lehetőséget, ha Wi-Fihez csatlakozik."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Várólista"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Mégse"</string>
     <string name="button_start_now" msgid="792123674007840864">"Indítás most"</string>

@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Wi-Fi必須のサイズです。"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"バックグラウンド一時停止"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"ダウンロードするサイズが大きすぎます"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"この<xliff:g id="SIZE">%s </xliff:g>のダウンロードを完了するにはWi-Fiを使用する必要があります。\n\n[<xliff:g id="QUEUE_TEXT">%s </xliff:g>]をタップすると、次回Wi-Fiネットワークに接続したときにこのダウンロードを開始します。"</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"この<xliff:g id="SIZE">%1$s </xliff:g>のダウンロードを完了するにはWi-Fiを使用する必要があります。\n\n[<xliff:g id="QUEUE_TEXT">%2$s </xliff:g>]をタップすると、次回Wi-Fiネットワークに接続したときにこのダウンロードを開始します。"</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"キューに登録して後でダウンロードしますか？"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"この<xliff:g id="SIZE">%s </xliff:g>のダウンロードを今すぐ行うと、電池消費量やデータ通信量が増え、通信プランによっては携帯通信会社の料金が発生します。\n\n[<xliff:g id="QUEUE_TEXT">%s</xliff:g>]をタップすると、次回Wi-Fiネットワーク接続時にダウンロードを行います。"</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"この<xliff:g id="SIZE">%1$s </xliff:g>のダウンロードを今すぐ行うと、電池消費量やデータ通信量が増え、通信プランによっては携帯通信会社の料金が発生します。\n\n[<xliff:g id="QUEUE_TEXT">%2$s</xliff:g>]をタップすると、次回Wi-Fiネットワーク接続時にダウンロードを行います。"</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"キューに登録"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"キャンセル"</string>
     <string name="button_start_now" msgid="792123674007840864">"今すぐ開始"</string>

@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Endirmə həcmi Wi-Fi tələb edir."</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Arxa fonda dayandırıldı."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Endirmə operator şəbəkə üçün çox böyükdür"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Bu <xliff:g id="SIZE">%s </xliff:g> endirməni başa çatdırmaq üçün Wi-Fi istifadə etməlisiniz. \n \n Növbəti dəfə WiFi şəbəkəsinə qoşulanda bu endirməni başlatmaq üçün <xliff:g id="QUEUE_TEXT">%s </xliff:g> toxunun."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Bu <xliff:g id="SIZE">%1$s </xliff:g> endirməni başa çatdırmaq üçün Wi-Fi istifadə etməlisiniz. \n \n Növbəti dəfə WiFi şəbəkəsinə qoşulanda bu endirməni başlatmaq üçün <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> toxunun."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Daha sonra endirmək üçün növbəyə salmaq istəyirsiniz?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"Bu <xliff:g id="SIZE">%s </xliff:g> böyüklükdəki faylı endirməyə başlamaq batareyanızı azalda bilər/və ya mobil data əlaqənizin böyük bir hissəsinin işlədilməsinə gətirib çixara bilər, bu da sizin data planınınızdan asılı olaraq mobil operatorunuz tərəfindən xərcə səbəb ola bilər. \n \n Növbəti dəfə WiFi şəbəkəsinə qoşulanda bu endirməyə başlamaq üçün <xliff:g id="QUEUE_TEXT">%s</xliff:g> toxunun."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"Bu <xliff:g id="SIZE">%1$s </xliff:g> böyüklükdəki faylı endirməyə başlamaq batareyanızı azalda bilər/və ya mobil data əlaqənizin böyük bir hissəsinin işlədilməsinə gətirib çixara bilər, bu da sizin data planınınızdan asılı olaraq mobil operatorunuz tərəfindən xərcə səbəb ola bilər. \n \n Növbəti dəfə WiFi şəbəkəsinə qoşulanda bu endirməyə başlamaq üçün <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> toxunun."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Növbəyə sal"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Ləğv et"</string>
     <string name="button_start_now" msgid="792123674007840864">"İndi başlat"</string>

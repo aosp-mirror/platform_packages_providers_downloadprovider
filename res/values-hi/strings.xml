@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"डाउनलोड आकार के लिए वाई-फ़ाई  आवश्‍यक."</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"पृष्ठभूमि में रोका गया."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"ऑपरेटर नेटवर्क के लिए डाउनलोड बहुत बड़ा है"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"इस <xliff:g id="SIZE">%s </xliff:g> के डाउनलोड को पूरा करने के लिए आपको वाई-फ़ाई का इस्तेमाल करना चाहिए.\n\nअगली बार जब आप वाई-फ़ाई नेटवर्क से जुड़ें, तो इस डाउनलोड को शुरू करने के लिए <xliff:g id="QUEUE_TEXT">%s </xliff:g> को छुएं."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"इस <xliff:g id="SIZE">%1$s </xliff:g> के डाउनलोड को पूरा करने के लिए आपको वाई-फ़ाई का इस्तेमाल करना चाहिए.\n\nअगली बार जब आप वाई-फ़ाई नेटवर्क से जुड़ें, तो इस डाउनलोड को शुरू करने के लिए <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> को छुएं."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"बाद में डाउनलोड करने के लिए कतार में रखें?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"इस <xliff:g id="SIZE">%s </xliff:g> के डाउनलोड को शुरू करने से आपकी बैटरी जल्दी खत्म हो सकती है और/या मोबाइल का बहुत सारा डेटा खर्च हो सकता है, जिसके लिए मोबाइल और इंटरनेट सेवा देने वाली कंपनी, आपके डेटा प्लान के हिसाब से आपसे पैसे ले सकती है.\n\n अगली बार जब आप वाई-फ़ाई नेटवर्क से जुड़ें, तो यह डाउनलोड शुरू करने के लिए <xliff:g id="QUEUE_TEXT">%s</xliff:g> को छुएं."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"इस <xliff:g id="SIZE">%1$s </xliff:g> के डाउनलोड को शुरू करने से आपकी बैटरी जल्दी खत्म हो सकती है और/या मोबाइल का बहुत सारा डेटा खर्च हो सकता है, जिसके लिए मोबाइल और इंटरनेट सेवा देने वाली कंपनी, आपके डेटा प्लान के हिसाब से आपसे पैसे ले सकती है.\n\n अगली बार जब आप वाई-फ़ाई नेटवर्क से जुड़ें, तो यह डाउनलोड शुरू करने के लिए <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> को छुएं."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"कतार"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"रद्द करें"</string>
     <string name="button_start_now" msgid="792123674007840864">"अब शुरू करें"</string>

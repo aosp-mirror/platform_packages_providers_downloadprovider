@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"এই আকাৰৰ ডাউনল\'ডৰ বাবে ৱাই-ফাইৰ প্ৰয়োজন।"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"নেপথ্যত পজ কৰক।"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"অপাৰেটৰ নেটৱৰ্কৰ বাবে ডাউনল\'ডটো অতি ডাঙৰ"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"আপুনি এই <xliff:g id="SIZE">%s </xliff:g> আকাৰৰ ডাউনল\'ড কৰিবলৈ ৱাই-ফাই ব্যৱহাৰ কৰিবই লাগিব।\n\nআপুনি পিছত ৱাই-ফাইৰ সৈতে সংযুক্ত হ\'লে এই ডাউনল\'ডটো আৰম্ভ কৰিবলৈ <xliff:g id="QUEUE_TEXT">%s </xliff:g>ত স্পৰ্শ কৰক।"</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"আপুনি এই <xliff:g id="SIZE">%1$s </xliff:g> আকাৰৰ ডাউনল\'ড কৰিবলৈ ৱাই-ফাই ব্যৱহাৰ কৰিবই লাগিব।\n\nআপুনি পিছত ৱাই-ফাইৰ সৈতে সংযুক্ত হ\'লে এই ডাউনল\'ডটো আৰম্ভ কৰিবলৈ <xliff:g id="QUEUE_TEXT">%2$s </xliff:g>ত স্পৰ্শ কৰক।"</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"পিছত ডাউনল\'ড কৰিবলৈ লানি পাতি ৰাখিবনে?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"এই <xliff:g id="SIZE">%s </xliff:g> আকাৰৰ ডাউনল\'ডটো আৰম্ভ কৰিলে বেটাৰিৰ জীৱনকাল হ্ৰাস হ\'ব পাৰে আৰু/বা অত্যধিক ম\'বাইল ডেটা ব্যৱহাৰ হ\'ব পাৰে, যাৰ ফলত আপোনাৰ ডেটা আঁচনি অনুসৰি মাচুল ভৰিবলগীয়া হ\'ব পাৰে।\n\nআপুনি পিছত ৱাই-ফাইৰ সৈতে সংযুক্ত হ\'লে এই ডাউনল\'ডটো আৰম্ভ কৰিবলৈ <xliff:g id="QUEUE_TEXT">%s</xliff:g>ত স্পৰ্শ কৰক।"</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"এই <xliff:g id="SIZE">%1$s </xliff:g> আকাৰৰ ডাউনল\'ডটো আৰম্ভ কৰিলে বেটাৰিৰ জীৱনকাল হ্ৰাস হ\'ব পাৰে আৰু/বা অত্যধিক ম\'বাইল ডেটা ব্যৱহাৰ হ\'ব পাৰে, যাৰ ফলত আপোনাৰ ডেটা আঁচনি অনুসৰি মাচুল ভৰিবলগীয়া হ\'ব পাৰে।\n\nআপুনি পিছত ৱাই-ফাইৰ সৈতে সংযুক্ত হ\'লে এই ডাউনল\'ডটো আৰম্ভ কৰিবলৈ <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>ত স্পৰ্শ কৰক।"</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"লানি পাতি ৰাখক"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"বাতিল কৰক"</string>
     <string name="button_start_now" msgid="792123674007840864">"এতিয়া আৰম্ভ কৰক"</string>

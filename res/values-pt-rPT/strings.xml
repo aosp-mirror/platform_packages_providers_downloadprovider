@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Tam. transf. exige Wi-Fi"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Interrompida em 2º plano"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Transf. demasiado grande para a rede do operador"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Deve utilizar uma rede Wi-Fi para concluir esta transferência de <xliff:g id="SIZE">%s </xliff:g>. \n\nToque em <xliff:g id="QUEUE_TEXT">%s </xliff:g> para iniciar a transferência da próxima vez que estiver ligado a uma rede Wi-Fi."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Deve utilizar uma rede Wi-Fi para concluir esta transferência de <xliff:g id="SIZE">%1$s </xliff:g>. \n\nToque em <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> para iniciar a transferência da próxima vez que estiver ligado a uma rede Wi-Fi."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Colocar em fila para transferir mais tarde?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"Iniciar esta transferência de <xliff:g id="SIZE">%s </xliff:g> poderá reduzir a duração da bateria e/ou resultar numa utilização excessiva da ligação móvel de dados, o que pode levar a uma cobrança por parte do operador móvel, dependendo do seu plano de dados.\n\n Toque em <xliff:g id="QUEUE_TEXT">%s</xliff:g> para iniciar a transferência da próxima vez que estiver ligado a uma rede Wi-Fi."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"Iniciar esta transferência de <xliff:g id="SIZE">%1$s </xliff:g> poderá reduzir a duração da bateria e/ou resultar numa utilização excessiva da ligação móvel de dados, o que pode levar a uma cobrança por parte do operador móvel, dependendo do seu plano de dados.\n\n Toque em <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> para iniciar a transferência da próxima vez que estiver ligado a uma rede Wi-Fi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Fila"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Cancelar"</string>
     <string name="button_start_now" msgid="792123674007840864">"Começar agora"</string>

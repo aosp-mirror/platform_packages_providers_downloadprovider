@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"ဒေါင်းလုပ်ပမာဏမှာ ဝိုင်ဖိုင်လိုအပ်သည်"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"နောက်ခံတွင် ခဏဆိုင်းထားသည်"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"ဒေါင်းလုပ်မှာ အော်ပရေတာကွန်ယက်အတွက် ကြီးလွန်းသည်"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"ဤ <xliff:g id="SIZE">%s </xliff:g> ဒေါင်းလုပ်ကို ပြုလုပ်ရန် Wi-Fi  ချိတ်ဆက်ထားရပါမည်၊ \n\nနောက်တစ်ခါ Wi-Fi ကိုချိတ်ဆက်လျှင် ဒေါင်းလုပ်စတင်ရန် <xliff:g id="QUEUE_TEXT">%s </xliff:g> ကို တို့ထိပါ။"</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"ဤ <xliff:g id="SIZE">%1$s </xliff:g> ဒေါင်းလုပ်ကို ပြုလုပ်ရန် Wi-Fi  ချိတ်ဆက်ထားရပါမည်၊ \n\nနောက်တစ်ခါ Wi-Fi ကိုချိတ်ဆက်လျှင် ဒေါင်းလုပ်စတင်ရန် <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> ကို တို့ထိပါ။"</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"နောက်မှ ဒေါင်းလုပ်ပြုလုပ်ရန် တန်းစီထားမလား?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"ဤ <xliff:g id="SIZE">%s </xliff:g>ဒေါင်းလုပ်ကို စတင်ခြင်းမှာ သင့်ဘက်ထရီ သက်တမ်းကို တိုစေသည် သို့မဟုတ် သင့်ဒေတာပလန်ပေါ် မူတည်၍ ကျသင့်ငွေ ပိုကုန်စေမည့် မိုဘိုင်းဒေတာ ချိတ်ဆက်မှုကို အလွန်အကျွံ သုံးနိုင်သည်။ \n\n နောက်တစ်ခါ ဝိုင်ဖိုင်ချိတ်ဆက်လျှင် ဒေါင်းလုပ်စတင်ရန် <xliff:g id="QUEUE_TEXT">%s</xliff:g> ကို တို့ထိပါ။"</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"ဤ <xliff:g id="SIZE">%1$s </xliff:g>ဒေါင်းလုပ်ကို စတင်ခြင်းမှာ သင့်ဘက်ထရီ သက်တမ်းကို တိုစေသည် သို့မဟုတ် သင့်ဒေတာပလန်ပေါ် မူတည်၍ ကျသင့်ငွေ ပိုကုန်စေမည့် မိုဘိုင်းဒေတာ ချိတ်ဆက်မှုကို အလွန်အကျွံ သုံးနိုင်သည်။ \n\n နောက်တစ်ခါ ဝိုင်ဖိုင်ချိတ်ဆက်လျှင် ဒေါင်းလုပ်စတင်ရန် <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> ကို တို့ထိပါ။"</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"တန်းစီရန်"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"မလုပ်တော့"</string>
     <string name="button_start_now" msgid="792123674007840864">"ယခုအချိန်မှစတင်ပါ"</string>

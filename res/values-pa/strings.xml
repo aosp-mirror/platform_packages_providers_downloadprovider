@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"ਡਾਊਨਲੋਡ ਆਕਾਰ ਲਈ ਵਾਈ-ਫਾਈ ਦੀ ਲੋੜ ਹੈ।"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"ਪਿਛੋਕੜ ਵਿੱਚ ਰੋਕਿਆ।"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"ਓਪਰੇਟਰ ਨੈੱਟਵਰਕ ਲਈ ਡਾਊਨਲੋਡ ਬਹੁਤ ਜ਼ਿਆਦਾ ਵੱਡੀ ਹੈ"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"ਤੁਹਾਨੂੰ ਇਸ <xliff:g id="SIZE">%s </xliff:g> ਡਾਊਨਲੋਡ ਨੂੰ ਪੂਰਾ ਕਰਨ ਲਈ ਵਾਈ-ਫਾਈ ਵਰਤਣੀ ਚਾਹੀਦੀ ਹੈ। \n\nਅਗਲੀ ਵਾਰ ਜਦੋਂ ਤੁਸੀਂ ਇੱਕ ਵਾਈ-ਫਾਈ ਨੈੱਟਵਰਕ ਨਾਲ ਕਨੈਕਟ ਕਰੋ ਤਾਂ ਇਸ ਡਾਊਨਲੋਡ ਨੂੰ ਚਾਲੂ ਕਰਨ ਲਈ <xliff:g id="QUEUE_TEXT">%s </xliff:g> ਨੂੰ ਸਪੱਰਸ਼ ਕਰੋ।"</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"ਤੁਹਾਨੂੰ ਇਸ <xliff:g id="SIZE">%1$s </xliff:g> ਡਾਊਨਲੋਡ ਨੂੰ ਪੂਰਾ ਕਰਨ ਲਈ ਵਾਈ-ਫਾਈ ਵਰਤਣੀ ਚਾਹੀਦੀ ਹੈ। \n\nਅਗਲੀ ਵਾਰ ਜਦੋਂ ਤੁਸੀਂ ਇੱਕ ਵਾਈ-ਫਾਈ ਨੈੱਟਵਰਕ ਨਾਲ ਕਨੈਕਟ ਕਰੋ ਤਾਂ ਇਸ ਡਾਊਨਲੋਡ ਨੂੰ ਚਾਲੂ ਕਰਨ ਲਈ <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> ਨੂੰ ਸਪੱਰਸ਼ ਕਰੋ।"</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"ਕੀ ਬਾਅਦ ਵਿੱਚ ਡਾਊਨਲੋਡ ਲਈ ਕਤਾਰ ਲਗਾਉਣੀ ਹੈ?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"ਹੁਣ ਇਸ <xliff:g id="SIZE">%s </xliff:g> ਡਾਊਨਲੋਡ ਨੂੰ ਚਾਲੂ ਕਰਨ ਨਾਲ ਤੁਹਾਡੀ ਬੈਟਰੀ ਸਮਰੱਥਾ ਘੱਟ ਸਕਦੀ ਹੈ ਅਤੇ/ਜਾਂ ਇਸਦੇ ਸਿੱਟੇ ਵਜੋਂ ਤੁਹਾਡੇ ਮੋਬਾਈਲ ਡਾਟਾ ਕਨੈਕਸ਼ਨ ਦੀ ਵਾਧੂ ਵਰਤੋਂ ਹੋ ਸਕਦੀ ਹੈ, ਜਿਸ ਨਾਲ ਤੁਹਾਡੇ ਡਾਟਾ ਪਲਾਨ ਦੇ ਆਧਾਰ ਤੇ ਤੁਹਾਡੇ ਮੋਬਾਈਲ ਓਪਰੇਟਰ ਵੱਲੋਂ ਖਰਚੇ ਪਾਏ ਜਾ ਸਕਦੇ ਹਨ।\n\n ਅਗਲੀ ਵਾਰ ਜਦੋਂ ਤੁਸੀਂ ਇੱਕ ਵਾਈ-ਫਾਈ ਨੈੱਟਵਰਕ ਨਾਲ ਕਨੈਕਟ ਕਰੋ ਤਾਂ ਇਸ ਡਾਊਨਲੋਡ ਨੂੰ ਚਾਲੂ ਕਰਨ ਲਈ <xliff:g id="QUEUE_TEXT">%s</xliff:g> ਨੂੰ ਸਪੱਰਸ਼ ਕਰੋ।"</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"ਹੁਣ ਇਸ <xliff:g id="SIZE">%1$s </xliff:g> ਡਾਊਨਲੋਡ ਨੂੰ ਚਾਲੂ ਕਰਨ ਨਾਲ ਤੁਹਾਡੀ ਬੈਟਰੀ ਸਮਰੱਥਾ ਘੱਟ ਸਕਦੀ ਹੈ ਅਤੇ/ਜਾਂ ਇਸਦੇ ਸਿੱਟੇ ਵਜੋਂ ਤੁਹਾਡੇ ਮੋਬਾਈਲ ਡਾਟਾ ਕਨੈਕਸ਼ਨ ਦੀ ਵਾਧੂ ਵਰਤੋਂ ਹੋ ਸਕਦੀ ਹੈ, ਜਿਸ ਨਾਲ ਤੁਹਾਡੇ ਡਾਟਾ ਪਲਾਨ ਦੇ ਆਧਾਰ ਤੇ ਤੁਹਾਡੇ ਮੋਬਾਈਲ ਓਪਰੇਟਰ ਵੱਲੋਂ ਖਰਚੇ ਪਾਏ ਜਾ ਸਕਦੇ ਹਨ।\n\n ਅਗਲੀ ਵਾਰ ਜਦੋਂ ਤੁਸੀਂ ਇੱਕ ਵਾਈ-ਫਾਈ ਨੈੱਟਵਰਕ ਨਾਲ ਕਨੈਕਟ ਕਰੋ ਤਾਂ ਇਸ ਡਾਊਨਲੋਡ ਨੂੰ ਚਾਲੂ ਕਰਨ ਲਈ <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> ਨੂੰ ਸਪੱਰਸ਼ ਕਰੋ।"</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"ਕਤਾਰ"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"ਰੱਦ ਕਰੋ"</string>
     <string name="button_start_now" msgid="792123674007840864">"ਹੁਣ ਚਾਲੂ ਕਰੋ"</string>

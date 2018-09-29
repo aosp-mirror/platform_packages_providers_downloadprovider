@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Nedladdningen kräver Wi-Fi."</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Pausad i bakgrunden."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Nedladdningen är för stor för operatörsnätverket"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Du måste använda Wi-Fi om du vill slutföra nedladdningen på <xliff:g id="SIZE">%s </xliff:g>. \n \n Tryck på <xliff:g id="QUEUE_TEXT">%s </xliff:g> om du vill påbörja nedladdningen nästa gång du är ansluten till ett Wi-Fi-nätverk."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Du måste använda Wi-Fi om du vill slutföra nedladdningen på <xliff:g id="SIZE">%1$s </xliff:g>. \n \n Tryck på <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> om du vill påbörja nedladdningen nästa gång du är ansluten till ett Wi-Fi-nätverk."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Vill du ställa den i kö för nedladdning senare?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"Om du laddar ned <xliff:g id="SIZE">%s </xliff:g> kan det leda till att batteritiden minskar eller att dataanslutningen överbelastas. Det kan i sin tur innebära att operatören tar ut högre avgifter, beroende på abonnemang.\n\n Tryck på <xliff:g id="QUEUE_TEXT">%s</xliff:g> om du vill starta nedladdningen nästa gång mobilen är ansluten till ett Wi-Fi-nätverk."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"Om du laddar ned <xliff:g id="SIZE">%1$s </xliff:g> kan det leda till att batteritiden minskar eller att dataanslutningen överbelastas. Det kan i sin tur innebära att operatören tar ut högre avgifter, beroende på abonnemang.\n\n Tryck på <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> om du vill starta nedladdningen nästa gång mobilen är ansluten till ett Wi-Fi-nätverk."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Kö"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Avbryt"</string>
     <string name="button_start_now" msgid="792123674007840864">"Starta nu"</string>

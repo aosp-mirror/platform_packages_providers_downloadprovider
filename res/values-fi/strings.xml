@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Lataa Wi-Fi-yhteydellä"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Keskeytetty taustalla."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Lataus liian suuri operaattorin verkolle"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Tämä <xliff:g id="SIZE">%s </xliff:g>:n lataus täytyy suorittaa Wi-Fi-yhteyden ollessa käytössä. \n\nAloita lataus seuraavan kerran, kun yhdistät Wi-Fi-verkkoon, koskettamalla <xliff:g id="QUEUE_TEXT">%s </xliff:g>."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Tämä <xliff:g id="SIZE">%1$s </xliff:g>:n lataus täytyy suorittaa Wi-Fi-yhteyden ollessa käytössä. \n\nAloita lataus seuraavan kerran, kun yhdistät Wi-Fi-verkkoon, koskettamalla <xliff:g id="QUEUE_TEXT">%2$s </xliff:g>."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Asetetaanko myöhemmin ladattavaksi?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"Jos aloitat tämän <xliff:g id="SIZE">%s </xliff:g>:n latauksen nyt, akun virtaa voi kulua tav. enemmän ja/tai operaattori voi veloittaa ylim. mobiilitiedons.\n\nAloita lataus seuraavan kerran, kun yhdistät Wi-Fi-verkkoon, koskettamalla <xliff:g id="QUEUE_TEXT">%s</xliff:g>."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"Jos aloitat tämän <xliff:g id="SIZE">%1$s </xliff:g>:n latauksen nyt, akun virtaa voi kulua tav. enemmän ja/tai operaattori voi veloittaa ylim. mobiilitiedons.\n\nAloita lataus seuraavan kerran, kun yhdistät Wi-Fi-verkkoon, koskettamalla <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Jono"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Peruuta"</string>
     <string name="button_start_now" msgid="792123674007840864">"Aloita nyt"</string>

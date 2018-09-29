@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"文件过大，需要通过WLAN网络下载。"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"已在后台暂停。"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"文件太大，不适于通过运营商网络下载"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"您必须使用WLAN完成此内容 (<xliff:g id="SIZE">%s </xliff:g>) 的下载。\n\n触摸“<xliff:g id="QUEUE_TEXT">%s </xliff:g>”可在下次连接到WLAN网络时开始下载此内容。"</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"您必须使用WLAN完成此内容 (<xliff:g id="SIZE">%1$s </xliff:g>) 的下载。\n\n触摸“<xliff:g id="QUEUE_TEXT">%2$s </xliff:g>”可在下次连接到WLAN网络时开始下载此内容。"</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"稍后再加入下载队列吗？"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"立即开始下载此内容 (<xliff:g id="SIZE">%s </xliff:g>) 可能会缩短电池的使用时间并/或导致过量使用移动数据连接流量（这可能导致移动运营商向您收费，具体取决于您的流量套餐）。\n\n触摸“<xliff:g id="QUEUE_TEXT">%s</xliff:g>”可在下次连接到WLAN网络时开始下载此内容。"</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"立即开始下载此内容 (<xliff:g id="SIZE">%1$s </xliff:g>) 可能会缩短电池的使用时间并/或导致过量使用移动数据连接流量（这可能导致移动运营商向您收费，具体取决于您的流量套餐）。\n\n触摸“<xliff:g id="QUEUE_TEXT">%2$s</xliff:g>”可在下次连接到WLAN网络时开始下载此内容。"</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"排队"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"取消"</string>
     <string name="button_start_now" msgid="792123674007840864">"立即开始"</string>

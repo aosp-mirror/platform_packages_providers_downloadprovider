@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Изисква се Wi-Fi."</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"На пауза на заден план."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Изтеглянето е твърде голямо за операторската мрежа"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Трябва да използвате Wi-Fi, за да завършите това изтегляне от <xliff:g id="SIZE">%s </xliff:g>. \n\nДокоснете „<xliff:g id="QUEUE_TEXT">%s </xliff:g>“, за да започнете изтеглянето при следващото свързване с Wi-Fi мрежа."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Трябва да използвате Wi-Fi, за да завършите това изтегляне от <xliff:g id="SIZE">%1$s </xliff:g>. \n\nДокоснете „<xliff:g id="QUEUE_TEXT">%2$s </xliff:g>“, за да започнете изтеглянето при следващото свързване с Wi-Fi мрежа."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Да се постави ли на опашка за изтегляне по-късно?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"Изтеглянето на <xliff:g id="SIZE">%s </xliff:g> може да изхаби батерията и/или да причини прекомерно използване на мобилни данни и таксуване от оператора според плана ви.\n\n Докоснете „<xliff:g id="QUEUE_TEXT">%s</xliff:g>“ за изтегляне при следващо свързване с Wi-Fi."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"Изтеглянето на <xliff:g id="SIZE">%1$s </xliff:g> може да изхаби батерията и/или да причини прекомерно използване на мобилни данни и таксуване от оператора според плана ви.\n\n Докоснете „<xliff:g id="QUEUE_TEXT">%2$s</xliff:g>“ за изтегляне при следващо свързване с Wi-Fi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Опашка"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Отказ"</string>
     <string name="button_start_now" msgid="792123674007840864">"Стартиране сега"</string>

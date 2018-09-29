@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Dimen. desc. nec. Wi-Fi"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Întreruptă în fundal."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Descărcare prea mare pentru rețeaua operatorului"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Trebuie să utilizați Wi-Fi pentru a finaliza această descărcare de <xliff:g id="SIZE">%s </xliff:g>. \n\nAtingeți <xliff:g id="QUEUE_TEXT">%s </xliff:g> pentru a începe această descărcare data viitoare când vă conectați la o rețea Wi-Fi."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Trebuie să utilizați Wi-Fi pentru a finaliza această descărcare de <xliff:g id="SIZE">%1$s </xliff:g>. \n\nAtingeți <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> pentru a începe această descărcare data viitoare când vă conectați la o rețea Wi-Fi."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Puneți în așteptare pentru descărcare ulterioară?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"Pornirea ac.desc.de <xliff:g id="SIZE">%s </xliff:g> acum impl.scurt.dur.de viață a bater.și/sau utiliz.exces.a conex.de date mob.și tax.suplim.din partea oper.de telef.mob.,cf.plan.de date.\n\n Ating. <xliff:g id="QUEUE_TEXT">%s</xliff:g> pt.a înc.desc.la conect.la Wi-Fi."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"Pornirea ac.desc.de <xliff:g id="SIZE">%1$s </xliff:g> acum impl.scurt.dur.de viață a bater.și/sau utiliz.exces.a conex.de date mob.și tax.suplim.din partea oper.de telef.mob.,cf.plan.de date.\n\n Ating. <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> pt.a înc.desc.la conect.la Wi-Fi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Listă de așteptare"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Anulați"</string>
     <string name="button_start_now" msgid="792123674007840864">"Începeți acum"</string>

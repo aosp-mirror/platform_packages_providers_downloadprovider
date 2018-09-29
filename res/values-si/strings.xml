@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"බාගැනීමේ ප්‍රමාණයට Wi-Fi අවශ්‍යවේ."</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"පසුබිමේ නවතා ඇත."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"ක්‍රියාකරු ජාලයට බාගැනීම විශාල වැඩිය"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"මෙම <xliff:g id="SIZE">%s </xliff:g> බාගැනීම සිදු කිරීමට ඔබ Wi-Fi භාවිතා කළ යුතුය. \n\nඔබ මීළඟට WiFi ජාලයකට සම්බන්ධ වූ පසු බාගැනීම ආරම්භ කිරීමට පහත <xliff:g id="QUEUE_TEXT">%s </xliff:g> ස්පර්ශ කරන්න."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"මෙම <xliff:g id="SIZE">%1$s </xliff:g> බාගැනීම සිදු කිරීමට ඔබ Wi-Fi භාවිතා කළ යුතුය. \n\nඔබ මීළඟට WiFi ජාලයකට සම්බන්ධ වූ පසු බාගැනීම ආරම්භ කිරීමට පහත <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> ස්පර්ශ කරන්න."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"පසුව බාගැනීමට පෝලිමේ තබන්නද?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"මෙම <xliff:g id="SIZE">%s </xliff:g> බාගැනීම දැන් ආරම්භ කිරීමෙන් ඔබගේ බැටරි ආයු කාලය අඩුවේ සහ/හෝ ඔබගේ ජංගම දත්ත සම්බන්ධතාවය භාවිතය අධික වේ, එය ඔබගේ දත්ත සැලසුමට අනුව විශාල ගෙවීමක් සිදුවිය හැක.\n\n ඔබ මීළඟට WiFi ජාලයකට සම්බන්ධ වූ පසු බාගැනීම ආරම්භ කිරීමට පහත <xliff:g id="QUEUE_TEXT">%s</xliff:g> ස්පර්ශ කරන්න."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"මෙම <xliff:g id="SIZE">%1$s </xliff:g> බාගැනීම දැන් ආරම්භ කිරීමෙන් ඔබගේ බැටරි ආයු කාලය අඩුවේ සහ/හෝ ඔබගේ ජංගම දත්ත සම්බන්ධතාවය භාවිතය අධික වේ, එය ඔබගේ දත්ත සැලසුමට අනුව විශාල ගෙවීමක් සිදුවිය හැක.\n\n ඔබ මීළඟට WiFi ජාලයකට සම්බන්ධ වූ පසු බාගැනීම ආරම්භ කිරීමට පහත <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> ස්පර්ශ කරන්න."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"පෝලිම"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"අවලංගු කරන්න"</string>
     <string name="button_start_now" msgid="792123674007840864">"දැන් අරඹන්න"</string>

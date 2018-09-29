@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"డౌన్‌లోడ్ పరిమాణానికి Wi-Fi అవసరం."</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"నేపథ్యంలో పాజ్ చేయబడింది."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"ఆపరేటర్ నెట్‌వర్క్‌‌కు డౌన్‌లోడ్ చాలా పెద్దదిగా ఉంది"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"మీరు ఈ <xliff:g id="SIZE">%s </xliff:g> డౌన్‌లోడ్‌ను పూర్తి చేయడానికి తప్పనిసరిగా Wi-Fiని ఉపయోగించాలి. \n\nమీరు Wi-Fi నెట్‌వర్క్‌కు కనెక్ట్ చేసిన తదుపరి సారి ఈ డౌన్‌లోడ్‌ను ప్రారంభించడానికి <xliff:g id="QUEUE_TEXT">%s </xliff:g>ని తాకండి."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"మీరు ఈ <xliff:g id="SIZE">%1$s </xliff:g> డౌన్‌లోడ్‌ను పూర్తి చేయడానికి తప్పనిసరిగా Wi-Fiని ఉపయోగించాలి. \n\nమీరు Wi-Fi నెట్‌వర్క్‌కు కనెక్ట్ చేసిన తదుపరి సారి ఈ డౌన్‌లోడ్‌ను ప్రారంభించడానికి <xliff:g id="QUEUE_TEXT">%2$s </xliff:g>ని తాకండి."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"తర్వాత డౌన్‌లోడ్ చేయడం కోసం క్రమవరుసలో ఉంచాలా?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"ఇప్పుడు ఈ <xliff:g id="SIZE">%s </xliff:g> డౌన్‌లోడ్‌ను ప్రారంభించడం వలన మీ బ్యాటరీ జీవితకాలం తగ్గవచ్చు మరియు/లేదా మీ మొబైల్ డేటా కనెక్షన్ అత్యధికంగా వినియోగించబడవచ్చు, దీని వలన మీ డేటా ప్లాన్ ఆధారంగా మీ మొబైల్ ఆపరేటర్ ఛార్జీలు విధించవచ్చు.\n\n మీరు Wi-Fi నెట్‌వర్క్‌కు కనెక్ట్ చేసిన తరువాత ఈ డౌన్‌లోడ్‌ను ప్రారంభించడానికి <xliff:g id="QUEUE_TEXT">%s</xliff:g>ని తాకండి."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"ఇప్పుడు ఈ <xliff:g id="SIZE">%1$s </xliff:g> డౌన్‌లోడ్‌ను ప్రారంభించడం వలన మీ బ్యాటరీ జీవితకాలం తగ్గవచ్చు మరియు/లేదా మీ మొబైల్ డేటా కనెక్షన్ అత్యధికంగా వినియోగించబడవచ్చు, దీని వలన మీ డేటా ప్లాన్ ఆధారంగా మీ మొబైల్ ఆపరేటర్ ఛార్జీలు విధించవచ్చు.\n\n మీరు Wi-Fi నెట్‌వర్క్‌కు కనెక్ట్ చేసిన తరువాత ఈ డౌన్‌లోడ్‌ను ప్రారంభించడానికి <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>ని తాకండి."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"క్రమవరుసలో ఉంచు"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"రద్దు చేయి"</string>
     <string name="button_start_now" msgid="792123674007840864">"ఇప్పుడే ప్రారంభించు"</string>

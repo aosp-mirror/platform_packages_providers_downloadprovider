@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Downloaden kræver Wi-Fi."</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Standset i baggrunden."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Downloadfilen er for stor til mobilnetværk"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Du skal bruge Wi-Fi for at fuldføre denne download på <xliff:g id="SIZE">%s </xliff:g>. \n\nTryk på <xliff:g id="QUEUE_TEXT">%s </xliff:g> for at starte denne download, næste gang du får forbindelse til et Wi-Fi-netværk."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Du skal bruge Wi-Fi for at fuldføre denne download på <xliff:g id="SIZE">%1$s </xliff:g>. \n\nTryk på <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> for at starte denne download, næste gang du får forbindelse til et Wi-Fi-netværk."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"I kø til senere download?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"Hvis downloaden på <xliff:g id="SIZE">%s </xliff:g> startes nu, kan batteriets levetid forkortes og/eller medføre overdreven brug af din mobildata, som kan koste ekstra hos dit mobilselskab afhængigt af dit dataabonnement.\n\n Tryk på <xliff:g id="QUEUE_TEXT">%s</xliff:g> for at starte downloaden ved næste forbindelse til Wi-Fi."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"Hvis downloaden på <xliff:g id="SIZE">%1$s </xliff:g> startes nu, kan batteriets levetid forkortes og/eller medføre overdreven brug af din mobildata, som kan koste ekstra hos dit mobilselskab afhængigt af dit dataabonnement.\n\n Tryk på <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> for at starte downloaden ved næste forbindelse til Wi-Fi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Kø"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Annuller"</string>
     <string name="button_start_now" msgid="792123674007840864">"Begynd nu"</string>

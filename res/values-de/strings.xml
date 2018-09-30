@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Downloadgröße erfordert WLAN"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Im Hintergrund pausiert"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Download zu groß für Netzwerk dieses Betreibers."</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Du musst eine WLAN-Verbindung nutzen, um den Download von <xliff:g id="SIZE">%s </xliff:g> abzuschließen.\n\nTippe auf <xliff:g id="QUEUE_TEXT">%s </xliff:g> und der Download startet bei der nächsten WLAN-Einwahl."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Du musst eine WLAN-Verbindung nutzen, um den Download von <xliff:g id="SIZE">%1$s </xliff:g> abzuschließen.\n\nTippe auf <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> und der Download startet bei der nächsten WLAN-Einwahl."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"In Warteschlange für späteren Download?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"Der Download von <xliff:g id="SIZE">%s </xliff:g> kann die Akkulaufzeit verkürzen/die mobile Datenverbindung überlasten. Je nach Vertrag können zusätzliche Kosten entstehen.\n\nTippe auf <xliff:g id="QUEUE_TEXT">%s</xliff:g> und der Download startet bei der nächsten WLAN-Einwahl."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"Der Download von <xliff:g id="SIZE">%1$s </xliff:g> kann die Akkulaufzeit verkürzen/die mobile Datenverbindung überlasten. Je nach Vertrag können zusätzliche Kosten entstehen.\n\nTippe auf <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> und der Download startet bei der nächsten WLAN-Einwahl."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Warteschlange"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Abbrechen"</string>
     <string name="button_start_now" msgid="792123674007840864">"Jetzt starten"</string>

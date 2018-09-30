@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Aflaaiselgrootte vereis Wi-Fi."</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Laat wag op agtergrond."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Aflaaisel te groot vir bedryfsnetwerk"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Jy moet Wi-Fi gebruik om hierdie <xliff:g id="SIZE">%s </xliff:g>-aflaaisel te voltooi. \n\nRaak <xliff:g id="QUEUE_TEXT">%s </xliff:g> om hierdie aflaai te begin die volgende keer as jy gekoppel is aan \'n Wi-Fi-netwerk."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Jy moet Wi-Fi gebruik om hierdie <xliff:g id="SIZE">%1$s </xliff:g>-aflaaisel te voltooi. \n\nRaak <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> om hierdie aflaai te begin die volgende keer as jy gekoppel is aan \'n Wi-Fi-netwerk."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Plaas in waglys om later af te laai?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"As jy nou hierdie <xliff:g id="SIZE">%s </xliff:g>-aflaaisel gaan aflaai, kan dit jou batterylewe verkort en/of lei tot oormatige gebruik van jou selfoon se dataverbinding, wat kan lei tot kostes deur jou selfoondiensverskaffer, afhangende van jou dataplan.\n\n Raak <xliff:g id="QUEUE_TEXT">%s</xliff:g> om hierdie aflaaisel te begin die volgende keer wat jy gekoppel is aan \'n Wi-Fi-netwerk."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"As jy nou hierdie <xliff:g id="SIZE">%1$s </xliff:g>-aflaaisel gaan aflaai, kan dit jou batterylewe verkort en/of lei tot oormatige gebruik van jou selfoon se dataverbinding, wat kan lei tot kostes deur jou selfoondiensverskaffer, afhangende van jou dataplan.\n\n Raak <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> om hierdie aflaaisel te begin die volgende keer wat jy gekoppel is aan \'n Wi-Fi-netwerk."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Waglys"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Kanselleer"</string>
     <string name="button_start_now" msgid="792123674007840864">"Begin nou"</string>

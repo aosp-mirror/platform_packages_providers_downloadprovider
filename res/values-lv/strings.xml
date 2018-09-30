@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Lejupiel. nepiec. Wi-Fi."</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Pārtraukta fonā."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Lejupielāde ir pārāk liela operatora tīklam."</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Lai pabeigtu šo lejupielādi (<xliff:g id="SIZE">%s </xliff:g>), ir jāizmanto Wi-Fi. \n\nPieskarieties <xliff:g id="QUEUE_TEXT">%s </xliff:g>, lai sāktu šo lejupielādi, kad tiks izveidots savienojums ar Wi-Fi tīklu."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Lai pabeigtu šo lejupielādi (<xliff:g id="SIZE">%1$s </xliff:g>), ir jāizmanto Wi-Fi. \n\nPieskarieties <xliff:g id="QUEUE_TEXT">%2$s </xliff:g>, lai sāktu šo lejupielādi, kad tiks izveidots savienojums ar Wi-Fi tīklu."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Vai ievietot rindā, lai lejupielādētu vēlāk?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"Sākot šo lejupiel. (<xliff:g id="SIZE">%s </xliff:g>) tūlīt, var samaz. akum. darb. ilg. un/vai var tikt pārslog. mob. datu pārr. sav. Ja sav. tiek pārslog., jūsu mob. sak. oper. var no jums iekasēt maksu atkarībā no izmant. datu pārr. apjoma plāna.\n\nPieskarieties <xliff:g id="QUEUE_TEXT">%s</xliff:g>, lai sāktu šo lejupiel., kad tiks izveidots sav. ar Wi-Fi tīklu."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"Sākot šo lejupiel. (<xliff:g id="SIZE">%1$s </xliff:g>) tūlīt, var samaz. akum. darb. ilg. un/vai var tikt pārslog. mob. datu pārr. sav. Ja sav. tiek pārslog., jūsu mob. sak. oper. var no jums iekasēt maksu atkarībā no izmant. datu pārr. apjoma plāna.\n\nPieskarieties <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>, lai sāktu šo lejupiel., kad tiks izveidots sav. ar Wi-Fi tīklu."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Rinda"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Atcelt"</string>
     <string name="button_start_now" msgid="792123674007840864">"Sākt tūlīt"</string>

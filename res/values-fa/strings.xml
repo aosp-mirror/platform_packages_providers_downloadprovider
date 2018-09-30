@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"‏برای این حجم از بارگیری به Wi-Fi نیاز است."</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"در پس‌زمینه موقتاً متوقف شد."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"بارگیری برای شبکه اپراتور بسیار بزرگ است"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"‏برای تکمیل این بارگیری <xliff:g id="SIZE">%s </xliff:g> باید از Wi-Fi استفاده کنید. در اتصال بعدی به شبکه Wi-Fi و برای شروع بارگیری، \n\nلمس<xliff:g id="QUEUE_TEXT">%s </xliff:g> کنید."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"‏برای تکمیل این بارگیری <xliff:g id="SIZE">%1$s </xliff:g> باید از Wi-Fi استفاده کنید. در اتصال بعدی به شبکه Wi-Fi و برای شروع بارگیری، \n\nلمس<xliff:g id="QUEUE_TEXT">%2$s </xliff:g> کنید."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"برای بارگیری در فرصتی دیگر در صف گذاشته شود؟"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"‏شروع بارگیری <xliff:g id="SIZE">%s </xliff:g> سبب کم شدن طول عمر باتری و/یا استفاده بیش از حد از اتصال داده تلفن همراه می‌شود که بسته به قرارداد ارائه داده شما ممکن است از طرف اپراتور تلفن هزینه‌هایی برای شما در نظر گرفته شود. \n\n<xliff:g id="QUEUE_TEXT">%s</xliff:g> را لمس کنید تا در اتصال بعدی به شبکه Wi-Fi، این بارگیری شروع شود."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"‏شروع بارگیری <xliff:g id="SIZE">%1$s </xliff:g> سبب کم شدن طول عمر باتری و/یا استفاده بیش از حد از اتصال داده تلفن همراه می‌شود که بسته به قرارداد ارائه داده شما ممکن است از طرف اپراتور تلفن هزینه‌هایی برای شما در نظر گرفته شود. \n\n<xliff:g id="QUEUE_TEXT">%2$s</xliff:g> را لمس کنید تا در اتصال بعدی به شبکه Wi-Fi، این بارگیری شروع شود."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"صف"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"لغو"</string>
     <string name="button_start_now" msgid="792123674007840864">"اکنون شروع شود"</string>

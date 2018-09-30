@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Allalaad. on vaja WiFit."</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Peatatud taustal."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Allalaadimine operaatori võrgu jaoks on liiga suur"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"<xliff:g id="SIZE">%s </xliff:g> suuruse allalaadimise jaoks tuleb kasutada WiFi-võrku.\n\nPuudutage valikut <xliff:g id="QUEUE_TEXT">%s </xliff:g>, et alustada allalaadimisega järgmine kord, kui olete WiFi-võrguga ühenduses."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"<xliff:g id="SIZE">%1$s </xliff:g> suuruse allalaadimise jaoks tuleb kasutada WiFi-võrku.\n\nPuudutage valikut <xliff:g id="QUEUE_TEXT">%2$s </xliff:g>, et alustada allalaadimisega järgmine kord, kui olete WiFi-võrguga ühenduses."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Kas lisada järjekorda hilisemaks allalaadimiseks?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"<xliff:g id="SIZE">%s </xliff:g> allalaad. võib aku tööiga lüh. ja/või mob. andmemahtu koormata, mistõttu võib mob.operaator teilt sõltuvalt andmeplaanist tasu võtta.\n\n Puud. valikut <xliff:g id="QUEUE_TEXT">%s</xliff:g>, et laadida see alla siis, kui olete WiFi-võrgus."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"<xliff:g id="SIZE">%1$s </xliff:g> allalaad. võib aku tööiga lüh. ja/või mob. andmemahtu koormata, mistõttu võib mob.operaator teilt sõltuvalt andmeplaanist tasu võtta.\n\n Puud. valikut <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>, et laadida see alla siis, kui olete WiFi-võrgus."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Järjekord"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Tühista"</string>
     <string name="button_start_now" msgid="792123674007840864">"Alusta nüüd"</string>

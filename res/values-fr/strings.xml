@@ -39,9 +39,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Taille du fichier requiert Wi-Fi."</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Interrompu en arr.-plan."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Téléchargement trop volumineux pour l\'opérateur"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Vous devez utiliser le Wi-Fi pour finaliser ce téléchargement de <xliff:g id="SIZE">%s </xliff:g>. \n\nAppuyez sur <xliff:g id="QUEUE_TEXT">%s </xliff:g> pour le lancer lors de votre prochaine connexion à un réseau Wi-Fi."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Vous devez utiliser le Wi-Fi pour finaliser ce téléchargement de <xliff:g id="SIZE">%1$s </xliff:g>. \n\nAppuyez sur <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> pour le lancer lors de votre prochaine connexion à un réseau Wi-Fi."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Ajouter à la file d\'attente des téléchargements ?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"Ce téléchargement (<xliff:g id="SIZE">%s </xliff:g>) risque de décharger votre batterie et/ou d\'entraîner une consommation excessive de votre connexion Internet mobile. Des frais supplémentaires peuvent être facturés par votre opérateur en fonction de votre forfait.\n\nAppuyez sur <xliff:g id="QUEUE_TEXT">%s</xliff:g> pour le lancer lors de votre prochaine connexion au Wi-Fi."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"Ce téléchargement (<xliff:g id="SIZE">%1$s </xliff:g>) risque de décharger votre batterie et/ou d\'entraîner une consommation excessive de votre connexion Internet mobile. Des frais supplémentaires peuvent être facturés par votre opérateur en fonction de votre forfait.\n\nAppuyez sur <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> pour le lancer lors de votre prochaine connexion au Wi-Fi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"File d\'attente"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Annuler"</string>
     <string name="button_start_now" msgid="792123674007840864">"Commencer"</string>

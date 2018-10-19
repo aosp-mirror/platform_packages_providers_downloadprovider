@@ -1235,7 +1235,9 @@ public final class DownloadProvider extends ContentProvider {
             case ALL_DOWNLOADS:
             case ALL_DOWNLOADS_ID:
                 final SQLiteQueryBuilder qb = getQueryBuilder(uri, match);
-                try (Cursor cursor = qb.query(db, null, where, whereArgs, null, null, null)) {
+                try (Cursor cursor = qb.query(db, new String[] {
+                        _ID, _DATA, COLUMN_MEDIAPROVIDER_URI
+                }, where, whereArgs, null, null, null)) {
                     while (cursor.moveToNext()) {
                         final long id = cursor.getLong(0);
                         scheduler.cancel((int) id);

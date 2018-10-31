@@ -221,7 +221,7 @@ public class TrampolineActivity extends Activity {
                     builder.setMessage(R.string.dialog_file_already_exists);
                     break;
                 case DownloadManager.ERROR_INSUFFICIENT_SPACE:
-                    builder.setMessage(R.string.dialog_insufficient_space_on_external);
+                    builder.setMessage(R.string.dialog_insufficient_space_on_cache);
                     break;
                 case DownloadManager.ERROR_DEVICE_NOT_FOUND:
                     builder.setMessage(R.string.dialog_media_not_found);

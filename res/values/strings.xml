@@ -70,15 +70,6 @@
         can use this to confuse other apps that download
         files.</string>
 
-    <!-- Title for permission to see all downloads to EXTERNAL [CHAR LIMIT=25] -->
-    <string name="permlab_seeAllExternal" product="nosdcard">See all downloads to USB storage</string>
-    <!-- Title for permission to see all downloads to EXTERNAL -->
-    <string name="permlab_seeAllExternal" product="default">See all downloads to SD card</string>
-    <!-- Description for the permission to see all downloads to EXTERNAL -->
-    <string name="permdesc_seeAllExternal">Allows the app to see all
-        downloads to the SD card, regardless of which app downloaded
-        them.</string>
-
     <!-- The label for the permission to download files to the download cache
     that can't be automatically deleted by the download manager to free up
     space [CHAR LIMIT=50] -->

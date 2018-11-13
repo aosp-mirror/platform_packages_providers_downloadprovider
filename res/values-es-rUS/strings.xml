@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Permite que la aplicación acceda a las funciones avanzadas del administrador de descargas. Las aplicaciones maliciosas pueden usar este permiso para interrumpir descargas y acceder a información privada."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Enviar notificaciones de descarga."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Permite que la aplicación envíe notificaciones acerca de descargas que se completaron. Las aplicaciones maliciosas pueden usar este permiso para confundir otras aplicaciones que descargan archivos."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Ver todas las descargas de almacenamiento USB"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Ver todas las descargas de la tarjeta SD"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Permite que la aplicación vea todas las descargas de la tarjeta SD, sin importar qué aplicación las realizó."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Reservar espacio en el caché de descarga"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Permite que la aplic. descargue archivos en la caché de descargas. Estos no se eliminarán automáticamente cuando el admin. de descargas necesite más espacio."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"descargar archivos sin notificación"</string>

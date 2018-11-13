@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Umožňuje aplikaci získat přístup k pokročilým funkcím správce stahování. Škodlivé aplikace mohou toto oprávnění použít k přerušení stahování a získání přístupu k soukromým údajům."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Odeslat oznámení o stahování."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Umožňuje aplikaci odesílat oznámení o dokončení stahování. Škodlivé aplikace mohou pomocí těchto oprávnění zmást jiné aplikace, které stahují soubory."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Zobrazit stahování – USB"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Zobrazení všech položek stažených na kartu SD"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Umožňuje aplikaci zobrazit všechny soubory stažené na kartu SD bez ohledu na aplikaci, pomocí které byly staženy."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Rezervovat místo v mezipaměti stahování"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Umožňuje aplikaci stahovat soubory do mezipaměti stahování, kterou nelze automaticky vymazat, pokud správce stahování potřebuje více místa."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"stahování souborů bez oznámení"</string>

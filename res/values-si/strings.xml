@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"යෙදුම් හට මෙය භාවිතා කර බාගැනීම් කළමනාකරුගේ උසස් විශේෂාංග ප්‍රවේශ කර ගොනු බාගැනීමට අවසර දෙන්න. කරදරකාරී යෙදුම් හට මෙය භාවිතා කර බාගැනීම් වලට බාධා පමුණුවා පෞද්ගලික තොරතුරු ප්‍රවේශ කිරීමට යොදාගත හැක."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"බාගැනීමේ දැනුම්දීම් යවන්න."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"සම්පුර්ණ වූ බාගැනීම් පිලිබඳ දැනුම්දීම් යැවීමට යෙදුමට අවසර දෙන්න. කරදරකාරී යෙදුම් වලට මෙය යොදාගනිමින් ගොනු බාගත කරන වෙනත් යෙදුම් අමාරුවේ දැමිය හැක."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"USB ආචයනය වෙත සියලු බාගැනීම් බලන්න"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"SD පත වෙත සියලු බාගැනීම් බලන්න"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"බාගත්තේ කුමන යෙදුමද යන්න සැලකිල්ලට නොගෙන, SD කාඩ්පත වෙත සියලු බාගැනීම් බැලීමට යෙදුමට අවසර දෙන්න."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"බාගැනීම් හැඹිලියේ ඉඩ වෙන් කරගන්න"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"යෙදුමට ගොනු බාගැනීමේ හැඹිලියට බාගැනීමට අවසර දෙන්න, එය බාගැනීමේ කළමනාකරුට තවත් ඉඩ අවශ්‍ය වූ විට ස්වයංක්‍රීයව මැකිය නොහැක."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"දැනුම්දීමකින් තොරව ගොනු බාගන්න"</string>

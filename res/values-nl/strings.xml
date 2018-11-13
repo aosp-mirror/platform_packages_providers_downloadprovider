@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Hiermee heeft de app toegang tot de geavanceerde functies van downloadbeheer. Schadelijke apps kunnen dit gebruiken om downloads te verstoren en toegang te krijgen tot persoonlijke gegevens."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Downloadmeldingen verzenden."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Hiermee kan de app meldingen verzenden over voltooide downloads. Schadelijke apps kunnen dit gebruiken om andere apps die bestanden downloaden in verwarring te brengen."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Alle downloads naar USB-opslag bekijken"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Alle downloads naar SD-kaart weergeven"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Hiermee kan de app alle downloads op de SD-kaart zien, ongeacht welke app ze heeft gedownload."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Ruimte in de downloadcache reserveren"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Hiermee kan de app bestanden downloaden naar de downloadcache die niet automatisch kunnen worden verwijderd wanneer downloadbeheer meer ruimte nodig heeft."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"bestanden downloaden zonder melding"</string>

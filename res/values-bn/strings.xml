@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"অ্যাপ্লিকেশানটিকে ডাউনলোড ম্যানেজারের উন্নত কার্যকারিতাগুলি অ্যাক্সেস করার অনুমতি দেয়। ক্ষতিকারক অ্যাপ্লিকেশানগুলি ডাউনলোড ব্যাহত এবং ব্যক্তিগত তথ্য অ্যাক্সেস করার জন্য এটি ব্যবহার করতে পারে।"</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"ডাউনলোডের বিজ্ঞপ্তিগুলি পাঠান।"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"অ্যাপ্লিকেশানটিকে সম্পূর্ণ হওয়া ডাউনলোডগুলির জন্য বিজ্ঞপ্তি পাঠানোর অনুমতি দেয়। অন্য যে অ্যাপ্লিকেশানগুলি ফাইল ডাউনলোড করে সেগুলিকে বিভ্রান্ত করতে ক্ষতিকারক অ্যাপ্লিকেশানগুলি এটি ব্যবহার করতে পারে।"</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"USB সঞ্চয়স্থানের সব ডাউনলোড দেখুন"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"SD কার্ডের সব ডাউনলোড দেখুন"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"অ্যাপ্লিকেশানটিকে কোন অ্যাপ্লিকেশন কি ডাউনলোড করেছে তা নির্বেশেষে SD কার্ডে সমস্ত ডাউনলোড দেখতে অনুমতি দেয়।"</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"ডাউনলোড ক্যাশেতে জায়গা সংরক্ষিত রাখুন"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"অ্যাপ্লিকেশনটিকে ডাউনলোড ক্যাশে থেকে ফাইলগুলি ডাউনলোড করার অনুমতি দেয়, যখন ডাউনলোড ম্যানেজার আরও বেশি জায়গা চাইবে তখন ডাউনলোড ক্যাশে অটোমেটিক মোছা যাবে না।"</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"বিজ্ঞপ্তি ছাড়াই ফাইল ডাউনলোড করুন"</string>

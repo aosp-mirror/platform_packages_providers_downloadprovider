@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Дозволяє програмі отримувати доступ до розширених функцій менеджера завантажень. Шкідливі програми можуть використовувати це для переривання завантажень і доступу до особистої інформації."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Надсилати сповіщ. про завантаж."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Дозволяє програмі надсилати сповіщення про завершені завантаження. Шкідливі програми можуть використовувати це для перешкоджання роботі інших програм, які завантажують файли."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Див. всі завантаж. на USB"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Див. всі завантаж. на карту SD"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Дозволяє програмі бачити всі завантаження на карту SD, незалежно від програми, яка їх завантажила."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Резервувати місце в кеші завантажень"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Дозволяє програмі завантажувати файли в кеш-пам’ять завантажень, яку неможливо автоматично видалити, якщо менеджеру завантажень потрібно більше місця."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"завантажувати файли без сповіщення"</string>

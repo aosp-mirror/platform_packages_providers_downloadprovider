@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Tillåter att appen får åtkomst till nedladdningshanterarens avancerade funktioner. Skadliga program kan använda detta för att störa nedladdningar och komma åt privata uppgifter."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Skicka meddelande om nedladdning."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Tillåter att appen skickar meddelanden om slutförda nedladdningar. Skadliga appar kan använda detta för att störa andra appar som laddar ned filer."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Visa nedladdningar till USB"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Visa alla nedladdningar till SD-kort"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Tillåter att appen ser alla nedladdningar till SD-kortet, oavsett vilken app som laddat ned innehållet."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Reservera utrymme i nedladdningscachen"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Tillåter att appen laddar ned filer till hämtningscachen som inte kan tas bort automatiskt när hämtningshanteraren behöver mer utrymme."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"ladda ned filer utan avisering"</string>

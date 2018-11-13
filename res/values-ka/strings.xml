@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"მიეცით აპს ჩამოტვირთვის მენეჯერის გაუმჯობესებულ ფუნქციებზე წვდომის უფლება. ბოროტმოქმედმა აპებმა შეიძლება ეს გამოიყენონ ჩამოტვირთვების დასაზიანებლად და პირად ინფორმაციაზე წვდომისათვის."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"ჩამოტვირთვის შეტყობინებების გაგზავნა."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"მიეცით აპს, უფლება, გააგზავნოს შეტყობინება დასრულებული ჩამოტვირთვების შესახებ. ბოროტმოქმედმა აპლიკაციებმა შეიძლება ეს გამოიყენონ ჩამოტვირთვების დასაზიანებლად და პირად ინფორმაციაზე წვდომისათვის."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"ყველა ჩამოტვირთვის USB მეხსიერებაში ნახვა"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"ყველა ჩამოტვირთვის SD ბარათზე ნახვა"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"მიეცით აპს უფლება, ნახოს ყველა ჩამოტვირთვა SD ბარათზე, განურჩევლად იმისა, თუ რომელმა აპმა ჩამოტვირთა ისინი."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"ჩამოტვირთვის ქეშში სივრცის ამობრუნება"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"მიეცით აპს უფლება ჩამოტვირთოს ფაილები ჩამოტვირთულ ქეშში. მისი წაშლა ავტომატურად შეუძლებელია მაშინ, როდესაც ჩამოტვირთვის მენეჯერს მეტი სივრცე სჭირდება."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"ფაილების ჩამოტვირთვა შეტყობინებების გარეშე"</string>

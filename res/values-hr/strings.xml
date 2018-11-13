@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Omogućuje aplikaciji pristup naprednim funkcijama upravitelja preuzimanja. Zlonamjerne aplikacije mogu to iskoristiti da bi ometale preuzimanja i pristupale privatnim podacima."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Pošaljite obavijesti o preuzimanju."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Omogućuje aplikaciji slanje obavijesti o dovršenim preuzimanjima. Zlonamjerne aplikacije mogu to iskoristiti za zbunjivanje drugih aplikacija koje preuzimaju datoteke."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Prikaz svih preuz. na USB"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Pogledajte sva preuzimanja na SD kartici"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Omogućuje aplikaciji da vidi sva preuzimanja na SD kartici, bez obzira na to koja ih je aplikacija preuzela."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Rezerviraj prostor u predmemoriji preuzimanja"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Omogućuje aplikaciji preuzimanje datoteka u predmemoriju preuzimanja koja se ne može automatski izbrisati kada upravitelj preuzimanja treba više prostora."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"preuzmi datoteke bez obavijesti"</string>

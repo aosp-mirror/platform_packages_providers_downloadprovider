@@ -20,11 +20,9 @@ import android.app.DownloadManager;
 import android.app.DownloadManager.Query;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MatrixCursor.RowBuilder;
-import android.graphics.Point;
 import android.media.MediaFile;
 import android.net.Uri;
 import android.os.Binder;
@@ -236,7 +234,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
                 if (cursor.moveToFirst()) {
                     // We don't know if this queryDocument() call is from Downloads (manage)
                     // or Files. Safely assume it's Files.
-                    includeDownloadFromCursor(result, cursor, filePaths, null);
+                    includeDownloadFromCursor(result, cursor, filePaths, null /* queryArgs */);
                 }
             }
             result.start();
@@ -285,7 +283,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
             copyNotificationUri(result, cursor);
             Set<String> filePaths = new HashSet<>();
             while (cursor.moveToNext()) {
-                includeDownloadFromCursor(result, cursor, filePaths, null);
+                includeDownloadFromCursor(result, cursor, filePaths, null /* queryArgs */);
             }
             includeFilesFromSharedStorage(result, filePaths, null);
 
@@ -375,11 +373,20 @@ public class DownloadStorageProvider extends FileSystemProvider {
             Cursor rawFilesCursor = super.querySearchDocuments(getDownloadsDirectory(),
                     projection, filePaths, queryArgs);
 
+            final boolean shouldExcludeMedia = queryArgs.getBoolean(
+                    DocumentsContract.QUERY_ARG_EXCLUDE_MEDIA, false /* defaultValue */);
             while (rawFilesCursor.moveToNext()) {
-                String docId = rawFilesCursor.getString(
-                        rawFilesCursor.getColumnIndexOrThrow(Document.COLUMN_DOCUMENT_ID));
-                File rawFile = getFileForDocId(docId);
-                includeFileFromSharedStorage(result, rawFile);
+                final String mimeType = rawFilesCursor.getString(
+                        rawFilesCursor.getColumnIndexOrThrow(Document.COLUMN_MIME_TYPE));
+                // When the value of shouldExcludeMedia is true, don't add media files into
+                // the result to avoid duplicated files. MediaScanner will scan the files
+                // into MediaStore. If the behavior is changed, we need to add the files back.
+                if (!shouldExcludeMedia || !isMediaMimeType(mimeType)) {
+                    String docId = rawFilesCursor.getString(
+                            rawFilesCursor.getColumnIndexOrThrow(Document.COLUMN_DOCUMENT_ID));
+                    File rawFile = getFileForDocId(docId);
+                    includeFileFromSharedStorage(result, rawFile);
+                }
             }
         } finally {
             IoUtils.closeQuietly(cursor);
@@ -472,6 +479,11 @@ public class DownloadStorageProvider extends FileSystemProvider {
         return DocumentsContract.buildChildDocumentsUri(AUTHORITY, docId);
     }
 
+    private static boolean isMediaMimeType(String mimeType) {
+        return MediaFile.isImageMimeType(mimeType) || MediaFile.isVideoMimeType(mimeType)
+                || MediaFile.isAudioMimeType(mimeType);
+    }
+
     private void includeDefaultDocument(MatrixCursor result) {
         final RowBuilder row = result.newRow();
         row.add(Document.COLUMN_DOCUMENT_ID, DOC_ID_ROOT);
@@ -502,6 +514,22 @@ public class DownloadStorageProvider extends FileSystemProvider {
             // Provide fake MIME type so it's openable
             mimeType = "vnd.android.document/file";
         }
+
+        if (queryArgs != null) {
+            final boolean shouldExcludeMedia = queryArgs.getBoolean(
+                    DocumentsContract.QUERY_ARG_EXCLUDE_MEDIA, false /* defaultValue */);
+            if (shouldExcludeMedia) {
+                final String uri = cursor.getString(
+                        cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIAPROVIDER_URI));
+
+                // Skip media files that have been inserted into the MediaStore so we
+                // don't duplicate them in the search list.
+                if (isMediaMimeType(mimeType) && !TextUtils.isEmpty(uri)) {
+                    return;
+                }
+            }
+        }
+
         Long size = cursor.getLong(
                 cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
         if (size == -1) {

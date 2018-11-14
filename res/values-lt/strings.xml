@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Leidžiama programai pasiekti išplėstines atsisiuntimų tvarkytuvės funkcijas. Kenkėjiškos programos gali naudoti šią funkciją atsisiuntimams stabdyti ir asmeninei informacijai gauti."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Siųsti atsisiuntimo pranešimus."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Leidžiama programai siųsti pranešimus apie baigtus atsisiuntimus. Kenkėjiškos programos gali naudoti šią funkciją, kad supainiotų kitas programas, kurias naudojant siunčiami failai."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Žr. visus atsis. į USB atm."</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Žiūrėti visus atsisiuntimus į SD kortelę"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Leidžiama programai matyti visus atsisiuntimus į SD kortelę, neatsižvelgiant į tai, kokia programa jie buvo atsiųsti."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Rezervuoti vietą atsisiuntimo talpykloje"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Leidžiama programai atsisiųsti failus į atsisiuntimo talpyklą, kurios negalima automatiškai ištrinti, kai atsisiuntimo tvarkytuvei prireikia daugiau vietos."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"atsisiųsti failus be pranešimo"</string>

@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"ഡൗൺലോഡ് മാനേജറുടെ വിപുലമായ പ്രവർത്തനങ്ങൾ ആക്‌സസ്സ് ചെയ്യാൻ അപ്ലിക്കേഷനെ അനുവദിക്കുന്നു. ഡൗൺലോഡുകൾ തടസ്സപ്പെടുത്താനും സ്വകാര്യ വിവരം ആക്‌സസ്സ് ചെയ്യാനും ദോഷകരമായ അപ്ലിക്കേഷനുകൾ ഇതുപയോഗിച്ചേക്കാം."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"ഡൗൺലോഡ് അറിയിപ്പുകൾ അയയ്‌ക്കുക"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"പൂർത്തിയാക്കിയ ഡൗൺലോഡുകളെക്കുറിച്ച് അറിയിപ്പുകൾ അയയ്‌ക്കാൻ അപ്ലിക്കേഷനെ അനുവദിക്കുന്നു. ഫയലുകൾ ഡൗൺലോഡുചെയ്യുന്ന മറ്റ് അപ്ലിക്കേഷനുകളെ ആശയക്കുഴപ്പത്തിലാക്കാൻ ക്ഷുദ്രകരമായ അപ്ലിക്കേഷനുകൾ ഇതുപയോഗിച്ചേക്കാം."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"USB സംഭരണത്തിലേക്കുള്ള എല്ലാ ഡൗൺലോഡുകളും കാണുക"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"SD കാർഡിലേക്കുള്ള എല്ലാ ഡൗൺലോഡുകളും കാണുക"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"SD കാർഡിലേക്കുള്ള എല്ലാ ഡൗൺലോഡുകളും, ഏത് അപ്ലിക്കേഷനാണ് അവയെ ഡൗൺലോഡുചെയ്‌തതെന്ന് പരിഗണിക്കാതെ തന്നെ, കാണാൻ അപ്ലിക്കേഷനെ അനുവദിക്കുന്നു."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"ഡൗൺലോഡ് കാഷെയിൽ ഇടം സംഭരിക്കുക"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"ഡൗൺലോഡ് കാഷെയിലേക്ക് ഫയലുകൾ ഡൗണ്‍ലോഡ് ചെയ്യാൻ അപ്ലിക്കേഷനെ അനുവദിക്കുന്നു, ഡൗൺലോഡ് മാനേജർക്ക് കൂടുതൽ ഇടം ആവശ്യമായി വരുമ്പോൾ ഇത് സ്വമേധയാ ഇല്ലാതാകില്ല."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"അറിയിപ്പില്ലാതെ ഫയലുകൾ ഡൗൺലോഡുചെയ്യുക"</string>

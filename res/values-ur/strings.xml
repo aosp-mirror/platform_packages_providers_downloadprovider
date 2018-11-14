@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"ایپ کو ڈاؤن لوڈ مینیجر کے جدید فنکشنز تک رسائی کی اجازت دیتا ہے۔ نقصان دہ ایپس ڈاؤن لوڈز کو معطل کرنے اور نجی معلومات تک رسائی حاصل کرنے کیلئے اس کا استعمال کر سکتی ہیں۔"</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"ڈاؤن لوڈ اطلاعات بھیجیں۔"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"ایپ کو مکمل ڈاؤن لوڈز کے بارے میں اطلاعات بھیجنے کی اجازت دیتا ہے۔ نقصان دہ ایپس فائلیں ڈاؤن لوڈ کرنے والی دیگر ایپس کو الجھانے کیلئے اس کا استعمال کر سکتی ہیں۔"</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"‏USB سٹوریج کے سب ڈاؤنلوڈز دیکھیں"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"‏SD کارڈ میں سبھی ڈاؤن لوڈز کو دیکھیں"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"‏ایپ کو SD کارڈ میں سبھی ڈاؤن لوڈز کو دیکھنے کی اجازت دیتا ہے، اس سے قطع نظر کہ کس ایپ نے ان کو ڈاؤن لوڈ کیا ہے۔"</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"ڈاؤن لوڈ کیش میں جگہ محفوظ کریں"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"ایپ کو ڈاؤن لوڈ کیش میں فائلیں ڈاؤن لوڈ کرنے کی اجازت دیتا ہے، جسے ڈاؤن لوڈ مینیجر کو مزید جگہ درکار ہونے پر خود کار طور پر حذف نہیں کیا جا سکتا ہے۔"</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"بغیر اطلاع کے فائلیں ڈاؤن لوڈ کریں"</string>

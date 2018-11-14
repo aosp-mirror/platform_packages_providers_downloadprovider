@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Allows the app to access the download manager\'s advanced functions. Malicious apps can use this to disrupt downloads and access private information."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Send download notifications."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Allows the app to send notifications about completed downloads. Malicious apps can use this to confuse other apps that download files."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"See all downloads to USB storage"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"See all downloads to SD card"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Allows the app to see all downloads to the SD card, regardless of which app downloaded them."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Reserve space in the download cache"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Allows the app to download files to the download cache, which can\'t be deleted automatically when the download manager needs more space."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"download files without notification"</string>

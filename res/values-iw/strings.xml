@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"מאפשר לאפליקציה לגשת לפונקציות המתקדמות של מנהל ההורדות. אפליקציות זדוניות עלולות לנצל אפשרות זו כדי לשבש הורדות ולגשת למידע פרטי."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"שלח הודעות על הורדות."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"מאפשר לאפליקציה לשלוח הודעות לגבי הורדות שהסתיימו. אפליקציות זדוניות עלולות לנצל אפשרות זו כדי לבלבל אפליקציות אחרות המורידות קבצים."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"‏הצג את כל ההורדות לאמצעי אחסון מסוג USB"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"‏הצג את כל ההורדות לכרטיס SD"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"‏מאפשר לאפליקציה לראות את כל ההורדות לכרטיס ה-SD, בלי קשר לאפליקציה שהורידה אותן."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"שמור מקום במטמון ההורדות"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"מאפשר לאפליקציה להוריד קבצים למטמון ההורדות שלא ניתן למחוק באופן אוטומטי כאשר דרוש למנהל ההורדות שטח נוסף."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"הורדת קבצים ללא התראה"</string>

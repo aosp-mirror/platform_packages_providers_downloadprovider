@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Leyfir forritum að fá aðgang að ítarlegum eiginleikum niðurhalsstjórnunar. Spilliforrit geta notað þetta til að trufla niðurhal og fá aðgang að einkaupplýsingum."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Senda tilkynningar um niðurhal."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Leyfir forriti að senda tilkynningar um niðurhal sem er lokið. Spilliforrit geta notað þetta til að skapa rugling hjá öðrum forritum sem sækja skrár."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Sjá allt niðurhal í USB-geymslu"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Sjá allt niðurhal á SD-korti"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Leyfir forriti að sjá allt niðurhal á SD-korti, án tillits til þess hvaða forrit sótti skrárnar."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Taka frá pláss í skyndiminni niðurhals"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Leyfir forriti að sækja skrár í skyndiminni niðurhals sem ekki er hægt að hreinsa sjálfkrafa þegar niðurhalsstjórnun þarf meira pláss."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"sækja skrár án tilkynningar"</string>

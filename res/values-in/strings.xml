@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Mengizinkan aplikasi mengakses fungsi lanjutan pengelola download. Aplikasi berbahaya dapat menggunakan ini untuk mengganggu download dan mengakses informasi pribadi."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Kirim pemberitahuan download."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Mengizinkan aplikasi mengirim pemberitahuan tentang download yang telah diselesaikan. Aplikasi berbahaya dapat menggunakan ini untuk mengacaukan aplikasi lain yang mendownload file."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Lihat semua download pada penyimpanan USB"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Melihat semua download pada kartu SD"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Mengizinkan apl melihat semua download ke kartu SD, terlepas apl apa yang mendownloadnya."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Ruang penyimpanan dalam cache download"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Mengizinkan apl mendownload file ke cache download yang tidak dapat dihapus secara otomatis saat pengelola download memerlukan lebih banyak ruang."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"download file tanpa pemberitahuan"</string>

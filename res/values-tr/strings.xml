@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Uygulamaya, indirme yöneticisinin gelişmiş fonksiyonlarına erişme izni verir. Zararlı uygulamalar indirme işlemlerini kesmek ve özel bilgilere erişmek için bunu kullanabilir."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"İndirme bildirimleri gönder."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Uygulamaya, tamamlanan indirme işlemleriyle ilgili bildirim gönderme izni verir. Zararlı uygulamalar dosya indiren diğer uygulamaların çalışma biçimini etkilemek için bunu kullanabilir."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"USB belleğe yapln tüm indr göster"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"SD karta yapılan tüm indirmeleri gör"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Uygulamaya, indiren uygulamadan bağımsız olarak, SD karta yapılan tüm indirme işlemlerini görme izni verir."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"İndirme önbelleğinde alan ayır"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Uygulamaya, dosyaları indirme önbelleğine indirme izni verir. İndirme önbelleği indirme yöneticisine daha fazla alan gerektiğinde otomatik olarak silinemez."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"dosyaları bildirimde bulunmadan indirme"</string>

@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"ଡାଉନଲୋଡ୍‌ ମ୍ୟାନେଜର୍‌ର ଉନ୍ନତ କାର୍ଯ୍ୟକାରିତାକୁ ଆକ୍ସେସ୍‌ କରିବା ପାଇଁ ଆପ୍‌କୁ ଅନୁମତି ଦେଇଥାଏ| କ୍ଷତିକାରକ ଆପ୍‌ଗୁଡ଼ିକ ଏହାକୁ, ଡାଉନଲୋଡ୍‌ରେ ବିଘ୍ନ କରିବାକୁ ଏବଂ ବ୍ୟକ୍ତିଗତ ସୂଚନା ଆକ୍ସେସ୍‌ କରିବା ପାଇଁ ବ୍ୟବହାର କରିପାରନ୍ତି|"</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"ଡାଉନଲୋଡ୍‌ ବିଜ୍ଞପ୍ତି ପଠାନ୍ତୁ|"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"ସମ୍ପୂର୍ଣ୍ଣ ହୋଇଥିବା ଡାଉନଲୋଡ୍‌ଗୁଡ଼ିକ ବିଷୟରେ ବିଜ୍ଞପ୍ତି ପଠାଇବା ପାଇଁ ଆପ୍‌କୁ ଅନୁମତି ଦେଇଥାଏ| କ୍ଷତିକାରକ ଆପ୍‌ଗୁଡ଼ିକ ଏହାକୁ, ଅନ୍ୟ ଆପ୍‌ଗୁଡ଼ିକୁ ଭ୍ରମିତ କରିବା ପାଇଁ ବ୍ୟବହାର କରିପାରନ୍ତି, ଯେଉଁଗୁଡ଼ିକ ଫାଇଲ୍‌ ଡାଉନଲୋଡ୍‌ କରନ୍ତି|"</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"USB ଷ୍ଟୋରେଜ୍‌ରେ ହୋଇଥିବା ସମସ୍ତ ଡାଉନଲୋଡ୍‌ ଦେଖନ୍ତୁ"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"SD କାର୍ଡରେ ହୋଇଥିବା ସମସ୍ତ ଡାଉନଲୋଡ୍‌ ଦେଖନ୍ତୁ"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"SD କାର୍ଡରେ ଡାଉନଲୋଡ୍‌ ହୋଇଥିବା ସମସ୍ତ ଆପ୍‌କୁ ଦେଖିବା ପାଇଁ ଆପ୍‌କୁ ଅନୁମତି ଦେଇଥାଏ, ସେଗୁଡ଼ିକୁ ଯେଉଁ ଆପ୍‌ ଡାଉନଲୋଡ୍‌ କରିଥାଉ ନା କାହିଁକି|"</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"ଡାଉନଲୋଡ୍‌ କ୍ୟାଶ୍‌ରେ ସ୍ପେସ୍‌ ରିଜର୍ଭ କରନ୍ତୁ"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"ଆପ୍‌କୁ ଡାଉନଲୋଡ୍‌ କ୍ୟାଶ୍‌ରେ ଫାଇଲ୍‌ଗୁଡ଼ିକୁ ଡାଉନଲୋଡ୍‌ କରିବାକୁ ଦେଇଥାଏ, ଯେଉଁଗୁଡ଼ିକୁ ଡାଉନଲୋଡ୍‌ ମ୍ୟାନେଜର୍‌କୁ ଅଧିକ ସ୍ଥାନ ଆବଶ୍ୟକ ହେଲେ ସ୍ୱଚାଳିତ ଭାବେ ଡିଲିଟ୍‌ କରିହେବ ନାହିଁ|"</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"କୌଣସି ବିଜ୍ଞପ୍ତି ବିନା ଫାଇଲ୍‌ଗୁଡ଼ିକୁ ଡାଉନଲୋଡ୍‌ କରନ୍ତୁ"</string>

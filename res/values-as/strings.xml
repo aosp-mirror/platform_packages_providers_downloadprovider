@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"এপটোক ডাউনল\'ড মেনেজাৰৰ উচ্চখাপৰ ফাংশ্বনত প্ৰৱেশ কৰিবলৈ অনুমতি দিয়ে। ক্ষতিকাৰক এপসমূহে এই সুবিধাটো ব্যৱহাৰ কৰি ডাউনল\'ডত বিঘিনি জন্মোৱাৰ লগতে ব্যক্তিগত তথ্য চাব পাৰিব পাৰে।"</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"ডাউনল\'ড জাননী প্ৰেৰণ কৰিব পাৰে।"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"সম্পূৰ্ণ হোৱা ডাউনল\'ডৰ বিষয়ে জাননী প্ৰেৰণ কৰিবলৈ এপটোক অনুমতি দিয়ে। ক্ষতিকাৰক এপসমূহে এই সুবিধাটো ফাইল ডাউনল\'ডকাৰী অইন এপক বিভ্ৰান্ত কৰিবলৈ ব্যৱহাৰ কৰিব পাৰে।"</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"ইউএছবি সঞ্চয়াগাৰত কৰা সকলো ডাউনল\'ড চাব পাৰে"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"এছডি কাৰ্ডত কৰা সকলো ডাউনল\'ড চাব পাৰে"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"এপটোক এছডি কাৰ্ডত কৰা সকলো ডাউনল\'ড চাবলৈ অনুমতি দিয়ে, সেইবোৰ যি এপেই ডাউনল\'ড নকৰক লাগে।"</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"ডাউন\'লড কেশ্বত ঠাই সংৰক্ষিত কৰিব পাৰে"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"এপটোক ডাউনল\'ড কেশ্বত ফাইল ডাউনল\'ড কৰিবলৈ অনুমতি দিয়ে, যাক ডাউনল\'ড মেনেজাৰক অধিক খালী ঠাই প্ৰয়োজন হ\'লে স্বয়ংক্ৰিয়ভাৱে মচি পেলাব নোৱাৰি।"</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"জাননী নিদিয়াকৈ ফাইল ডাউনল\'ড কৰিব পাৰে"</string>

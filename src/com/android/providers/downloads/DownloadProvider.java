@@ -36,9 +36,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.UriMatcher;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.SQLException;
@@ -185,7 +183,6 @@ public final class DownloadProvider extends ContentProvider {
 
     /** List of uids that can access the downloads */
     private int mSystemUid = -1;
-    private int mDefContainerUid = -1;
 
     /**
      * Creates and updated database on demand when opening it.
@@ -419,18 +416,6 @@ public final class DownloadProvider extends ContentProvider {
         mOpenHelper = new DatabaseHelper(getContext());
         // Initialize the system uid
         mSystemUid = Process.SYSTEM_UID;
-        // Initialize the default container uid. Package name hardcoded
-        // for now.
-        ApplicationInfo appInfo = null;
-        try {
-            appInfo = getContext().getPackageManager().
-                    getApplicationInfo("com.android.defcontainer", 0);
-        } catch (NameNotFoundException e) {
-            Log.wtf(Constants.TAG, "Could not get ApplicationInfo for com.android.defconatiner", e);
-        }
-        if (appInfo != null) {
-            mDefContainerUid = appInfo.uid;
-        }
 
         // Grant access permissions for all known downloads to the owning apps
         final SQLiteDatabase db = mOpenHelper.getReadableDatabase();
@@ -1036,8 +1021,7 @@ public final class DownloadProvider extends ContentProvider {
     private boolean shouldRestrictVisibility() {
         int callingUid = Binder.getCallingUid();
         return Binder.getCallingPid() != Process.myPid() &&
-                callingUid != mSystemUid &&
-                callingUid != mDefContainerUid;
+                callingUid != mSystemUid;
     }
 
     /**

@@ -27,6 +27,7 @@ import android.database.MatrixCursor.RowBuilder;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.os.Environment;
 import android.os.FileObserver;
@@ -234,7 +235,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
                 if (cursor.moveToFirst()) {
                     // We don't know if this queryDocument() call is from Downloads (manage)
                     // or Files. Safely assume it's Files.
-                    includeDownloadFromCursor(result, cursor, filePaths);
+                    includeDownloadFromCursor(result, cursor, filePaths, null);
                 }
             }
             result.start();
@@ -283,7 +284,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
             copyNotificationUri(result, cursor);
             Set<String> filePaths = new HashSet<>();
             while (cursor.moveToNext()) {
-                includeDownloadFromCursor(result, cursor, filePaths);
+                includeDownloadFromCursor(result, cursor, filePaths, null);
             }
             includeFilesFromSharedStorage(result, filePaths, null);
 
@@ -331,7 +332,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
     }
 
     @Override
-    public Cursor querySearchDocuments(String rootId, String query, String[] projection)
+    public Cursor querySearchDocuments(String rootId, String[] projection, Bundle queryArgs)
             throws FileNotFoundException {
 
         final DownloadsCursor result =
@@ -342,14 +343,15 @@ public class DownloadStorageProvider extends FileSystemProvider {
         Cursor cursor = null;
         try {
             cursor = mDm.query(new DownloadManager.Query().setOnlyIncludeVisibleInDownloadsUi(true)
-                    .setFilterByString(query));
+                    .setFilterByString(DocumentsContract.getSearchDocumentsQuery(queryArgs)));
             copyNotificationUri(result, cursor);
             Set<String> filePaths = new HashSet<>();
             while (cursor.moveToNext()) {
-                includeDownloadFromCursor(result, cursor, filePaths);
+                includeDownloadFromCursor(result, cursor, filePaths, queryArgs);
             }
-            Cursor rawFilesCursor = super.querySearchDocuments(getDownloadsDirectory(), query,
-                    projection, filePaths);
+            Cursor rawFilesCursor = super.querySearchDocuments(getDownloadsDirectory(),
+                    projection, filePaths, queryArgs);
+
             while (rawFilesCursor.moveToNext()) {
                 String docId = rawFilesCursor.getString(
                         rawFilesCursor.getColumnIndexOrThrow(Document.COLUMN_DOCUMENT_ID));
@@ -359,6 +361,13 @@ public class DownloadStorageProvider extends FileSystemProvider {
         } finally {
             IoUtils.closeQuietly(cursor);
             Binder.restoreCallingIdentity(token);
+        }
+
+        final String[] handledQueryArgs = DocumentsContract.getHandledQueryArguments(queryArgs);
+        if (handledQueryArgs.length > 0) {
+            final Bundle extras = new Bundle();
+            extras.putStringArray(ContentResolver.EXTRA_HONORED_ARGS, handledQueryArgs);
+            result.setExtras(extras);
         }
 
         result.start();
@@ -456,7 +465,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
      * if the file exists in the file system.
      */
     private void includeDownloadFromCursor(MatrixCursor result, Cursor cursor,
-            Set<String> filePaths) {
+            Set<String> filePaths, Bundle queryArgs) {
         final long id = cursor.getLong(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_ID));
         final String docId = String.valueOf(id);
 
@@ -525,6 +534,11 @@ public class DownloadStorageProvider extends FileSystemProvider {
 
         final long lastModified = cursor.getLong(
                 cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP));
+
+        if (!DocumentsContract.matchSearchQueryArguments(queryArgs, displayName, mimeType,
+                lastModified, size)) {
+            return;
+        }
 
         final RowBuilder row = result.newRow();
         row.add(Document.COLUMN_DOCUMENT_ID, docId);

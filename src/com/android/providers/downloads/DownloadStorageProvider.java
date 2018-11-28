@@ -25,6 +25,7 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MatrixCursor.RowBuilder;
 import android.graphics.Point;
+import android.media.MediaFile;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Bundle;
@@ -297,30 +298,52 @@ public class DownloadStorageProvider extends FileSystemProvider {
     }
 
     @Override
-    public Cursor queryRecentDocuments(String rootId, String[] projection)
+    public Cursor queryRecentDocuments(String rootId, String[] projection,
+            @Nullable Bundle queryArgs, @Nullable CancellationSignal signal)
             throws FileNotFoundException {
         final DownloadsCursor result =
                 new DownloadsCursor(projection, getContext().getContentResolver());
 
         // Delegate to real provider
         final long token = Binder.clearCallingIdentity();
+
+        int limit = 12;
+        if (queryArgs != null) {
+            limit = queryArgs.getInt(ContentResolver.QUERY_ARG_LIMIT, -1);
+
+            if (limit < 0) {
+                // Use default value, and no QUERY_ARG* is honored.
+                limit = 12;
+            } else {
+                // We are honoring the QUERY_ARG_LIMIT.
+                Bundle extras = new Bundle();
+                result.setExtras(extras);
+                extras.putStringArray(ContentResolver.EXTRA_HONORED_ARGS, new String[]{
+                        ContentResolver.QUERY_ARG_LIMIT
+                });
+            }
+        }
+
         Cursor cursor = null;
         try {
             cursor = mDm.query(new DownloadManager.Query().setOnlyIncludeVisibleInDownloadsUi(true)
                     .setFilterByStatus(DownloadManager.STATUS_SUCCESSFUL));
             copyNotificationUri(result, cursor);
-            while (cursor.moveToNext() && result.getCount() < 12) {
+            Set<String> filePaths = new HashSet<>();
+            while (cursor.moveToNext() && result.getCount() < limit) {
                 final String mimeType = cursor.getString(
                         cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIA_TYPE));
                 final String uri = cursor.getString(
                         cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIAPROVIDER_URI));
 
-                // Skip images that have been inserted into the MediaStore so we
-                // don't duplicate them in the recents list.
-                if (mimeType == null
-                        || (mimeType.startsWith("image/") && !TextUtils.isEmpty(uri))) {
+                // Skip images and videos that have been inserted into the MediaStore so we
+                // don't duplicate them in the recent list. The audio root of
+                // MediaDocumentsProvider doesn't support recent, we add it into recent list.
+                if (mimeType == null || (MediaFile.isImageMimeType(mimeType)
+                        || MediaFile.isVideoMimeType(mimeType)) && !TextUtils.isEmpty(uri)) {
                     continue;
                 }
+                includeDownloadFromCursor(result, cursor, filePaths, null /* queryArgs */);
             }
         } finally {
             IoUtils.closeQuietly(cursor);

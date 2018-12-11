@@ -20,11 +20,10 @@ import android.app.DownloadManager;
 import android.app.DownloadManager.Query;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MatrixCursor.RowBuilder;
-import android.graphics.Point;
+import android.media.MediaFile;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Bundle;
@@ -235,7 +234,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
                 if (cursor.moveToFirst()) {
                     // We don't know if this queryDocument() call is from Downloads (manage)
                     // or Files. Safely assume it's Files.
-                    includeDownloadFromCursor(result, cursor, filePaths, null);
+                    includeDownloadFromCursor(result, cursor, filePaths, null /* queryArgs */);
                 }
             }
             result.start();
@@ -284,7 +283,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
             copyNotificationUri(result, cursor);
             Set<String> filePaths = new HashSet<>();
             while (cursor.moveToNext()) {
-                includeDownloadFromCursor(result, cursor, filePaths, null);
+                includeDownloadFromCursor(result, cursor, filePaths, null /* queryArgs */);
             }
             includeFilesFromSharedStorage(result, filePaths, null);
 
@@ -297,30 +296,52 @@ public class DownloadStorageProvider extends FileSystemProvider {
     }
 
     @Override
-    public Cursor queryRecentDocuments(String rootId, String[] projection)
+    public Cursor queryRecentDocuments(String rootId, String[] projection,
+            @Nullable Bundle queryArgs, @Nullable CancellationSignal signal)
             throws FileNotFoundException {
         final DownloadsCursor result =
                 new DownloadsCursor(projection, getContext().getContentResolver());
 
         // Delegate to real provider
         final long token = Binder.clearCallingIdentity();
+
+        int limit = 12;
+        if (queryArgs != null) {
+            limit = queryArgs.getInt(ContentResolver.QUERY_ARG_LIMIT, -1);
+
+            if (limit < 0) {
+                // Use default value, and no QUERY_ARG* is honored.
+                limit = 12;
+            } else {
+                // We are honoring the QUERY_ARG_LIMIT.
+                Bundle extras = new Bundle();
+                result.setExtras(extras);
+                extras.putStringArray(ContentResolver.EXTRA_HONORED_ARGS, new String[]{
+                        ContentResolver.QUERY_ARG_LIMIT
+                });
+            }
+        }
+
         Cursor cursor = null;
         try {
             cursor = mDm.query(new DownloadManager.Query().setOnlyIncludeVisibleInDownloadsUi(true)
                     .setFilterByStatus(DownloadManager.STATUS_SUCCESSFUL));
             copyNotificationUri(result, cursor);
-            while (cursor.moveToNext() && result.getCount() < 12) {
+            Set<String> filePaths = new HashSet<>();
+            while (cursor.moveToNext() && result.getCount() < limit) {
                 final String mimeType = cursor.getString(
                         cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIA_TYPE));
                 final String uri = cursor.getString(
                         cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIAPROVIDER_URI));
 
-                // Skip images that have been inserted into the MediaStore so we
-                // don't duplicate them in the recents list.
-                if (mimeType == null
-                        || (mimeType.startsWith("image/") && !TextUtils.isEmpty(uri))) {
+                // Skip images and videos that have been inserted into the MediaStore so we
+                // don't duplicate them in the recent list. The audio root of
+                // MediaDocumentsProvider doesn't support recent, we add it into recent list.
+                if (mimeType == null || (MediaFile.isImageMimeType(mimeType)
+                        || MediaFile.isVideoMimeType(mimeType)) && !TextUtils.isEmpty(uri)) {
                     continue;
                 }
+                includeDownloadFromCursor(result, cursor, filePaths, null /* queryArgs */);
             }
         } finally {
             IoUtils.closeQuietly(cursor);
@@ -352,11 +373,20 @@ public class DownloadStorageProvider extends FileSystemProvider {
             Cursor rawFilesCursor = super.querySearchDocuments(getDownloadsDirectory(),
                     projection, filePaths, queryArgs);
 
+            final boolean shouldExcludeMedia = queryArgs.getBoolean(
+                    DocumentsContract.QUERY_ARG_EXCLUDE_MEDIA, false /* defaultValue */);
             while (rawFilesCursor.moveToNext()) {
-                String docId = rawFilesCursor.getString(
-                        rawFilesCursor.getColumnIndexOrThrow(Document.COLUMN_DOCUMENT_ID));
-                File rawFile = getFileForDocId(docId);
-                includeFileFromSharedStorage(result, rawFile);
+                final String mimeType = rawFilesCursor.getString(
+                        rawFilesCursor.getColumnIndexOrThrow(Document.COLUMN_MIME_TYPE));
+                // When the value of shouldExcludeMedia is true, don't add media files into
+                // the result to avoid duplicated files. MediaScanner will scan the files
+                // into MediaStore. If the behavior is changed, we need to add the files back.
+                if (!shouldExcludeMedia || !isMediaMimeType(mimeType)) {
+                    String docId = rawFilesCursor.getString(
+                            rawFilesCursor.getColumnIndexOrThrow(Document.COLUMN_DOCUMENT_ID));
+                    File rawFile = getFileForDocId(docId);
+                    includeFileFromSharedStorage(result, rawFile);
+                }
             }
         } finally {
             IoUtils.closeQuietly(cursor);
@@ -449,6 +479,11 @@ public class DownloadStorageProvider extends FileSystemProvider {
         return DocumentsContract.buildChildDocumentsUri(AUTHORITY, docId);
     }
 
+    private static boolean isMediaMimeType(String mimeType) {
+        return MediaFile.isImageMimeType(mimeType) || MediaFile.isVideoMimeType(mimeType)
+                || MediaFile.isAudioMimeType(mimeType);
+    }
+
     private void includeDefaultDocument(MatrixCursor result) {
         final RowBuilder row = result.newRow();
         row.add(Document.COLUMN_DOCUMENT_ID, DOC_ID_ROOT);
@@ -479,6 +514,22 @@ public class DownloadStorageProvider extends FileSystemProvider {
             // Provide fake MIME type so it's openable
             mimeType = "vnd.android.document/file";
         }
+
+        if (queryArgs != null) {
+            final boolean shouldExcludeMedia = queryArgs.getBoolean(
+                    DocumentsContract.QUERY_ARG_EXCLUDE_MEDIA, false /* defaultValue */);
+            if (shouldExcludeMedia) {
+                final String uri = cursor.getString(
+                        cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIAPROVIDER_URI));
+
+                // Skip media files that have been inserted into the MediaStore so we
+                // don't duplicate them in the search list.
+                if (isMediaMimeType(mimeType) && !TextUtils.isEmpty(uri)) {
+                    return;
+                }
+            }
+        }
+
         Long size = cursor.getLong(
                 cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
         if (size == -1) {

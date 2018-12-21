@@ -89,6 +89,7 @@ public class DownloadInfo {
             info.mMediaScanned = getInt(Downloads.Impl.COLUMN_MEDIA_SCANNED);
             info.mDeleted = getInt(Downloads.Impl.COLUMN_DELETED) == 1;
             info.mMediaProviderUri = getString(Downloads.Impl.COLUMN_MEDIAPROVIDER_URI);
+            info.mMediaStoreUri = getString(Downloads.Impl.COLUMN_MEDIASTORE_URI);
             info.mIsPublicApi = getInt(Downloads.Impl.COLUMN_IS_PUBLIC_API) != 0;
             info.mAllowedNetworkTypes = getInt(Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES);
             info.mAllowRoaming = getInt(Downloads.Impl.COLUMN_ALLOW_ROAMING) != 0;
@@ -98,6 +99,8 @@ public class DownloadInfo {
             info.mDescription = getString(Downloads.Impl.COLUMN_DESCRIPTION);
             info.mBypassRecommendedSizeLimit =
                     getInt(Downloads.Impl.COLUMN_BYPASS_RECOMMENDED_SIZE_LIMIT);
+            info.mIsVisibleInDownloadsUi
+                    = getInt(Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI) != 0;
 
             synchronized (this) {
                 info.mControl = getInt(Downloads.Impl.COLUMN_CONTROL);
@@ -175,6 +178,7 @@ public class DownloadInfo {
     public int mMediaScanned;
     public boolean mDeleted;
     public String mMediaProviderUri;
+    public String mMediaStoreUri;
     public boolean mIsPublicApi;
     public int mAllowedNetworkTypes;
     public boolean mAllowRoaming;
@@ -183,6 +187,7 @@ public class DownloadInfo {
     public String mTitle;
     public String mDescription;
     public int mBypassRecommendedSizeLimit;
+    public boolean mIsVisibleInDownloadsUi;
 
     private List<Pair<String, String>> mRequestHeaders = new ArrayList<Pair<String, String>>();
 

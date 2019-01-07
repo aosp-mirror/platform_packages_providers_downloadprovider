@@ -1361,8 +1361,8 @@ public final class DownloadProvider extends ContentProvider {
                                         .DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD) {
                             final Uri mediaStoreUri = updateMediaProvider(client,
                                     info.mMediaStoreUri, convertToMediaProviderValues(info));
-                            if (!TextUtils.equals(
-                                    info.mMediaStoreUri, mediaStoreUri.toString())) {
+                            if (!TextUtils.equals(info.mMediaStoreUri,
+                                    mediaStoreUri == null ? null : mediaStoreUri.toString())) {
                                 final ContentValues updateValues = new ContentValues();
                                 if (mediaStoreUri == null) {
                                     updateValues.putNull(Downloads.Impl.COLUMN_MEDIASTORE_URI);

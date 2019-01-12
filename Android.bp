@@ -47,5 +47,6 @@ filegroup {
         "src/com/android/providers/downloads/DownloadDrmHelper.java",
         "src/com/android/providers/downloads/OpenHelper.java",
         "src/com/android/providers/downloads/RawDocumentsHelper.java",
+        "src/com/android/providers/downloads/MediaStoreDownloadsHelper.java",
     ],
 }

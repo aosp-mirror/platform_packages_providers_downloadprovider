@@ -36,7 +36,7 @@
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Bez naslova&gt;"</string>
     <string name="notification_download_complete" msgid="5443563299253103667">"Preuzimanje završeno."</string>
     <string name="notification_download_failed" msgid="8612136111952014978">"Preuzimanje neuspješno."</string>
-    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Veličina preuzimanja zahtjeva WiFi."</string>
+    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Veličina preuzimanja zahtijeva WiFi."</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Pauzirano u pozadini."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Preuzimanje je preveliko za mrežu operatera"</string>
     <string name="wifi_required_body" msgid="3067694630143784449">"Morate koristiti WiFi kako biste dovršili ovo preuzimanje od <xliff:g id="SIZE">%s </xliff:g>. \n\nDodirnite <xliff:g id="QUEUE_TEXT">%s </xliff:g> kako biste pokrenuli ovo preuzimanje kada se narednog puta povežete na WiFi mrežu."</string>

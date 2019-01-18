@@ -938,7 +938,7 @@ public final class DownloadProvider extends ContentProvider {
             // No permissions required for paths belonging to calling package
             return;
         } else if (Helpers.isFilenameValidInExternal(getContext(), file)) {
-            if (!SystemProperties.getBoolean(StorageManager.PROP_ISOLATED_STORAGE, false)) {
+            if (!StorageManager.hasIsolatedStorage()) {
                 // Otherwise we require write permission
                 getContext().enforceCallingOrSelfPermission(
                         android.Manifest.permission.WRITE_EXTERNAL_STORAGE,

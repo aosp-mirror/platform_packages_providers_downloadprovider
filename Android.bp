@@ -33,6 +33,10 @@ android_app {
     privileged: true,
 
     static_libs: ["guava"],
+
+    jacoco: {
+        include_filter: ["com.android.providers.downloads.*"],
+    },
 }
 
 filegroup {

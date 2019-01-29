@@ -28,6 +28,7 @@ import android.app.DownloadManager;
 import android.app.DownloadManager.Query;
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.MatrixCursor;
@@ -246,10 +247,14 @@ public class DownloadStorageProvider extends FileSystemProvider {
             }
 
             displayName = FileUtils.buildValidFatFilename(displayName);
-            final long id = Long.parseLong(docId);
-            if (!mDm.rename(getContext(), id, displayName)) {
-                throw new IllegalStateException(
-                        "Failed to rename to " + displayName + " in downloadsManager");
+            if (isMediaStoreDownload(docId)) {
+                renameMediaStoreDownload(docId, displayName);
+            } else {
+                final long id = Long.parseLong(docId);
+                if (!mDm.rename(getContext(), id, displayName)) {
+                    throw new IllegalStateException(
+                            "Failed to rename to " + displayName + " in downloadsManager");
+                }
             }
             return null;
         } finally {
@@ -795,6 +800,34 @@ public class DownloadStorageProvider extends FileSystemProvider {
         return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
     }
 
+    private void renameMediaStoreDownload(String docId, String displayName) {
+        final File before = getFileForMediaStoreDownload(docId);
+        final File after = new File(before.getParentFile(), displayName);
+
+        if (after.exists()) {
+            throw new IllegalStateException("Already exists " + after);
+        }
+        if (!before.renameTo(after)) {
+            throw new IllegalStateException("Failed to rename from " + before + " to " + after);
+        }
+
+        final long token = Binder.clearCallingIdentity();
+        try {
+            final Uri mediaStoreUri = getMediaStoreUri(docId);
+            final ContentValues values = new ContentValues();
+            values.put(MediaStore.Downloads.DATA, after.getAbsolutePath());
+            values.put(MediaStore.Downloads.DISPLAY_NAME, displayName);
+            final int count = getContext().getContentResolver().update(mediaStoreUri, values,
+                    null, null);
+            if (count != 1) {
+                throw new IllegalStateException("Failed to update " + mediaStoreUri
+                        + ", values=" + values);
+            }
+        } finally {
+            Binder.restoreCallingIdentity(token);
+        }
+    }
+
     private File getFileForMediaStoreDownload(String docId) {
         final long token = Binder.clearCallingIdentity();
         try {
@@ -862,8 +895,11 @@ public class DownloadStorageProvider extends FileSystemProvider {
                 mediaCursor.getColumnIndex(MediaStore.Downloads.DATE_MODIFIED)) * 1000;
         final boolean isPending = mediaCursor.getInt(
                 mediaCursor.getColumnIndex(MediaStore.Downloads.IS_PENDING)) == 1;
-        // TODO: Support renaming of downlaods from MediaStore?
-        final int extraFlags = isPending ? Document.FLAG_PARTIAL : 0;
+
+        int extraFlags = isPending ? Document.FLAG_PARTIAL : 0;
+        if (!Document.MIME_TYPE_DIR.equals(mimeType)) {
+            extraFlags |= Document.FLAG_SUPPORTS_RENAME;
+        }
 
         includeDownload(result, docId, displayName, description, size, mimeType,
                 lastModifiedMs, extraFlags, isPending);

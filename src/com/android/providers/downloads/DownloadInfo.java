@@ -447,7 +447,7 @@ public class DownloadInfo {
      * Returns whether a file should be scanned
      */
     public boolean shouldScanFile(int status) {
-        return (mMediaScanned == 0)
+        return (mMediaScanned == Downloads.Impl.MEDIA_NOT_SCANNED)
                 && (mDestination == Downloads.Impl.DESTINATION_EXTERNAL ||
                         mDestination == Downloads.Impl.DESTINATION_FILE_URI ||
                         mDestination == Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD)

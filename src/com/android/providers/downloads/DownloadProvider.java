@@ -49,6 +49,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.os.ParcelFileDescriptor.OnCloseListener;
 import android.os.Process;
@@ -553,6 +554,22 @@ public final class DownloadProvider extends ContentProvider {
                 }
                 throw new IllegalArgumentException("Unknown URI: " + uri);
             }
+        }
+    }
+
+    @Override
+    public Bundle call(String method, String arg, Bundle extras) {
+        if (method == Downloads.MEDIASTORE_DOWNLOADS_DELETED_CALL) {
+            getContext().enforceCallingOrSelfPermission(
+                    android.Manifest.permission.WRITE_MEDIA_STORAGE,
+                    "Not allowed to call " + Downloads.MEDIASTORE_DOWNLOADS_DELETED_CALL);
+            final long[] deletedDownloadIds = extras.getLongArray(Downloads.EXTRA_IDS);
+            final String[] mimeTypes = extras.getStringArray(Downloads.EXTRA_MIME_TYPES);
+            DownloadStorageProvider.onMediaProviderDownloadsDelete(getContext(),
+                    deletedDownloadIds, mimeTypes);
+            return null;
+        } else {
+            throw new UnsupportedOperationException("Unsupported call: " + method);
         }
     }
 

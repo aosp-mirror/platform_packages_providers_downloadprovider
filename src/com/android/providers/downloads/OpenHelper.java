@@ -29,11 +29,13 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInstaller;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Process;
 import android.provider.DocumentsContract;
 import android.provider.Downloads.Impl.RequestHeaders;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import java.io.File;
@@ -51,6 +53,10 @@ public class OpenHelper {
         }
 
         intent.addFlags(intentFlags);
+        return startViewIntent(context, intent);
+    }
+
+    public static boolean startViewIntent(Context context, Intent intent) {
         try {
             context.startActivity(intent);
             return true;
@@ -58,6 +64,41 @@ public class OpenHelper {
             Log.w(TAG, "Failed to start " + intent + ": " + e);
             return false;
         }
+    }
+
+    public static Intent buildViewIntentForMediaStoreDownload(Context context,
+            Uri documentUri) {
+        final long mediaStoreId = MediaStoreDownloadsHelper.getMediaStoreId(
+                DocumentsContract.getDocumentId(documentUri));
+        final Uri queryUri = ContentUris.withAppendedId(
+                MediaStore.Downloads.EXTERNAL_CONTENT_URI, mediaStoreId);
+        try (Cursor cursor = context.getContentResolver().query(
+                queryUri, null, null, null)) {
+            if (cursor.moveToFirst()) {
+                final String mimeType = cursor.getString(
+                        cursor.getColumnIndex(MediaStore.Downloads.MIME_TYPE));
+
+                final Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(documentUri, mimeType);
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+                if ("application/vnd.android.package-archive".equals(mimeType)) {
+                    // Also splice in details about where it came from
+                    intent.putExtra(Intent.EXTRA_ORIGINATING_URI,
+                            getCursorUri(cursor, MediaStore.Downloads.DOWNLOAD_URI));
+                    intent.putExtra(Intent.EXTRA_REFERRER,
+                            getCursorUri(cursor, MediaStore.Downloads.REFERER_URI));
+                    final String ownerPackageName = getCursorString(cursor,
+                            MediaStore.Downloads.OWNER_PACKAGE_NAME);
+                    final int ownerUid = getPackageUid(context, ownerPackageName);
+                    if (ownerUid > 0) {
+                        intent.putExtra(Intent.EXTRA_ORIGINATING_UID, ownerUid);
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     /**
@@ -140,12 +181,25 @@ public class OpenHelper {
         return PackageInstaller.SessionParams.UID_UNKNOWN;
     }
 
+    private static int getPackageUid(Context context, String packageName) {
+        if (packageName == null) {
+            return -1;
+        }
+        try {
+            return context.getPackageManager().getPackageUid(packageName, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e(TAG, "Couldn't get uid for " + packageName, e);
+            return -1;
+        }
+    }
+
     private static String getCursorString(Cursor cursor, String column) {
         return cursor.getString(cursor.getColumnIndexOrThrow(column));
     }
 
     private static Uri getCursorUri(Cursor cursor, String column) {
-        return Uri.parse(getCursorString(cursor, column));
+        final String uriString = cursor.getString(cursor.getColumnIndexOrThrow(column));
+        return uriString == null ? null : Uri.parse(uriString);
     }
 
     private static File getCursorFile(Cursor cursor, String column) {

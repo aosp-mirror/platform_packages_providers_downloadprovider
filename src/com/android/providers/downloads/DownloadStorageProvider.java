@@ -759,7 +759,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
         final int size = downloadsDirs.size();
         for (int i = 0; i < size; ++i) {
             final File downloadsDir = downloadsDirs.get(i);
-            for (File file : downloadsDir.listFiles()) {
+            for (File file : FileUtils.listFilesOrEmpty(downloadsDir)) {
                 boolean inResultsAlready = downloadedFilePaths.contains(file.getAbsolutePath());
                 boolean containsQuery = searchString == null || file.getName().contains(
                         searchString);
@@ -774,7 +774,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
         final List<File> downloadsDirectories = new ArrayList<>();
         downloadsDirectories.add(getTopLevelDownloadsDirectory());
         final File sandboxDir = Environment.buildExternalStorageAndroidSandboxDirs()[0];
-        for (File file : sandboxDir.listFiles()) {
+        for (File file : FileUtils.listFilesOrEmpty(sandboxDir)) {
             final File downloadDir = new File(file, Environment.DIRECTORY_DOWNLOADS);
             if (downloadDir.exists()) {
                 downloadsDirectories.add(downloadDir);

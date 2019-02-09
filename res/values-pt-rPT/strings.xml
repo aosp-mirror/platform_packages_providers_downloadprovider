@@ -28,7 +28,7 @@
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Ver todas as transferências para o cartão SD"</string>
     <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Permite que a aplicação veja todas as transferências efetuadas para o cartão SD, independentemente da aplicação utilizada nas transferências."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Reservar espaço na cache de transferência"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Permite que a aplic. transfira ficheiros p/ cache transf., os quais não podem ser automaticamente eliminados quando o gestor transf. necessitar de mais espaço."</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Permite que a app transfira ficheiros p/ cache transf., os quais não podem ser automaticamente eliminados quando o gestor transf. necessitar de mais espaço."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"transferir ficheiros sem notificação"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"Permite que a aplicação transfira ficheiros através do gestor de transferências, sem apresentar qualquer notificação ao utilizador."</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Aceder a todas as transferências do sistema"</string>

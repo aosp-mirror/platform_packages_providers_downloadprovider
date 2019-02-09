@@ -29,8 +29,8 @@
     <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"‏מאפשר לאפליקציה לראות את כל ההורדות לכרטיס ה-SD, בלי קשר לאפליקציה שהורידה אותן."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"שמור מקום במטמון ההורדות"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"מאפשר לאפליקציה להוריד קבצים למטמון ההורדות שלא ניתן למחוק באופן אוטומטי כאשר דרוש למנהל ההורדות שטח נוסף."</string>
-    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"הורד קבצים ללא התראה"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"מאפשר לאפליקציה להוריד קבצים דרך מנהל ההורדות מבלי להציג הודעות כלשהן בפני המשתמש."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"הורדת קבצים ללא התראה"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"מאפשר לאפליקציה להוריד קבצים דרך מנהל ההורדות מבלי להציג התראות כלשהן בפני המשתמש."</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"גישה לכל הורדות המערכת"</string>
     <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"מאפשר לאפליקציה להציג ולשנות את כל ההורדות שהופעלו על ידי אפליקציה כלשהי במערכת."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"‏&lt;ללא כותרת&gt;"</string>

@@ -646,11 +646,10 @@ public class DownloadStorageProvider extends FileSystemProvider {
             }
         }
 
-        Long size = cursor.getLong(
+        // size could be -1 which indicates that download hasn't started.
+        final long size = cursor.getLong(
                 cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
-        if (size == -1) {
-            size = null;
-        }
+
         String localFilePath = cursor.getString(
                 cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_FILENAME));
 
@@ -676,7 +675,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
             case DownloadManager.STATUS_RUNNING:
                 final long progress = cursor.getLong(cursor.getColumnIndexOrThrow(
                         DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
-                if (size != null) {
+                if (size > 0) {
                     String percent =
                             NumberFormat.getPercentInstance().format((double) progress / size);
                     summary = getContext().getString(R.string.download_running_percent, percent);
@@ -729,9 +728,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
         row.add(Document.COLUMN_DOCUMENT_ID, docId);
         row.add(Document.COLUMN_DISPLAY_NAME, displayName);
         row.add(Document.COLUMN_SUMMARY, summary);
-        if (size != -1) {
-            row.add(Document.COLUMN_SIZE, size);
-        }
+        row.add(Document.COLUMN_SIZE, size == -1 ? null : size);
         row.add(Document.COLUMN_MIME_TYPE, mimeType);
         row.add(Document.COLUMN_FLAGS, flags);
         // Incomplete downloads get a null timestamp.  This prevents thrashy UI when a bunch of

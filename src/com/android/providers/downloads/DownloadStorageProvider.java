@@ -50,6 +50,7 @@ import android.provider.DocumentsContract.Path;
 import android.provider.DocumentsContract.Root;
 import android.provider.Downloads;
 import android.provider.MediaStore;
+import android.provider.MediaStore.Files.FileColumns;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.LongArray;
@@ -812,8 +813,8 @@ public class DownloadStorageProvider extends FileSystemProvider {
         try {
             final Uri mediaStoreUri = getMediaStoreUri(docId);
             final ContentValues values = new ContentValues();
-            values.put(MediaStore.Downloads.DATA, after.getAbsolutePath());
-            values.put(MediaStore.Downloads.DISPLAY_NAME, displayName);
+            values.put(FileColumns.DATA, after.getAbsolutePath());
+            values.put(FileColumns.DISPLAY_NAME, displayName);
             final int count = getContext().getContentResolver().update(mediaStoreUri, values,
                     null, null);
             if (count != 1) {
@@ -832,7 +833,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
             try (Cursor cursor = getContext().getContentResolver().query(
                     getMediaStoreUri(docId), null, null, null)) {
                 if (cursor.moveToNext()) {
-                    filePath = cursor.getString(cursor.getColumnIndex(MediaStore.Downloads.DATA));
+                    filePath = cursor.getString(cursor.getColumnIndex(FileColumns.DATA));
                 }
             }
             if (filePath == null) {
@@ -881,17 +882,17 @@ public class DownloadStorageProvider extends FileSystemProvider {
         final String mimeType = getMimeType(mediaCursor);
         final boolean isDir = Document.MIME_TYPE_DIR.equals(mimeType);
         final String docId = getDocIdForMediaStoreDownload(
-                mediaCursor.getLong(mediaCursor.getColumnIndex(MediaStore.Downloads._ID)), isDir);
+                mediaCursor.getLong(mediaCursor.getColumnIndex(FileColumns._ID)), isDir);
         final String displayName = mediaCursor.getString(
-                mediaCursor.getColumnIndex(MediaStore.Downloads.DISPLAY_NAME));
-        final String description = mediaCursor.getString(
-                mediaCursor.getColumnIndex(MediaStore.Downloads.DESCRIPTION));
+                mediaCursor.getColumnIndex(FileColumns.DISPLAY_NAME));
+        // TODO: Get downloads description from MediaProvider.
+        final String description = null;
         final long size = mediaCursor.getLong(
-                mediaCursor.getColumnIndex(MediaStore.Downloads.SIZE));
+                mediaCursor.getColumnIndex(FileColumns.SIZE));
         final long lastModifiedMs = mediaCursor.getLong(
-                mediaCursor.getColumnIndex(MediaStore.Downloads.DATE_MODIFIED)) * 1000;
+                mediaCursor.getColumnIndex(FileColumns.DATE_MODIFIED)) * 1000;
         final boolean isPending = mediaCursor.getInt(
-                mediaCursor.getColumnIndex(MediaStore.Downloads.IS_PENDING)) == 1;
+                mediaCursor.getColumnIndex(FileColumns.IS_PENDING)) == 1;
 
         int extraFlags = isPending ? Document.FLAG_PARTIAL : 0;
         if (!Document.MIME_TYPE_DIR.equals(mimeType)) {
@@ -902,18 +903,18 @@ public class DownloadStorageProvider extends FileSystemProvider {
                 lastModifiedMs, extraFlags, isPending);
         if (filePaths != null) {
             filePaths.add(mediaCursor.getString(
-                    mediaCursor.getColumnIndex(MediaStore.Downloads.DATA)));
+                    mediaCursor.getColumnIndex(FileColumns.DATA)));
         }
     }
 
     private String getMimeType(@NonNull Cursor mediaCursor) {
         final int format = mediaCursor.getInt(mediaCursor.getColumnIndex(
-                MediaStore.Files.FileColumns.FORMAT));
+                FileColumns.FORMAT));
         // TODO: MediaProvider should be updated to use correct mimeTypes for directories
         if (format == MtpConstants.FORMAT_ASSOCIATION) {
             return Document.MIME_TYPE_DIR;
         }
-        return mediaCursor.getString(mediaCursor.getColumnIndex(MediaStore.Downloads.MIME_TYPE));
+        return mediaCursor.getString(mediaCursor.getColumnIndex(FileColumns.MIME_TYPE));
     }
 
     // Copied from MediaDocumentsProvider with some tweaks
@@ -922,12 +923,12 @@ public class DownloadStorageProvider extends FileSystemProvider {
         final StringBuilder selection = new StringBuilder();
         final ArrayList<String> selectionArgs = new ArrayList<>();
 
-        selection.append(MediaStore.Files.FileColumns.IS_DOWNLOAD + "=?");
+        selection.append(FileColumns.IS_DOWNLOAD + "=?");
         selectionArgs.add("1");
 
         if (parentId == null && idsToExclude != null && idsToExclude.size() > 0) {
             selection.append(" AND ");
-            selection.append(MediaStore.Downloads._ID + " NOT IN (");
+            selection.append(FileColumns._ID + " NOT IN (");
             final int size = idsToExclude.size();
             for (int i = 0; i < size; ++i) {
                 selection.append(idsToExclude.get(i) + ((i == size - 1) ? ")" : ","));
@@ -936,15 +937,15 @@ public class DownloadStorageProvider extends FileSystemProvider {
 
         if (parentId != null) {
             selection.append(" AND ");
-            selection.append(MediaStore.Files.FileColumns.PARENT + "=?");
+            selection.append(FileColumns.PARENT + "=?");
             selectionArgs.add(parentId);
         } else {
             selection.append(" AND ");
             // SELECT _id FROM files where is_download=1
             final String subQuery = SQLiteQueryBuilder.buildQueryString(false,
-                    MediaStore.Files.TABLE, new String[] { MediaStore.Files.FileColumns._ID },
-                    MediaStore.Files.FileColumns.IS_DOWNLOAD + "=1", null, null, null, null);
-            selection.append(MediaStore.Files.FileColumns.PARENT + " NOT IN ("
+                    MediaStore.Files.TABLE, new String[] { FileColumns._ID },
+                    FileColumns.IS_DOWNLOAD + "=1", null, null, null, null);
+            selection.append(FileColumns.PARENT + " NOT IN ("
                     + subQuery + ")");
         }
 
@@ -953,15 +954,15 @@ public class DownloadStorageProvider extends FileSystemProvider {
                     DocumentsContract.QUERY_ARG_EXCLUDE_MEDIA, false /* defaultValue */);
             if (shouldExcludeMedia) {
                 selection.append(" AND ");
-                selection.append(MediaStore.Files.FileColumns.MEDIA_TYPE + "=?");
-                selectionArgs.add(String.valueOf(MediaStore.Files.FileColumns.MEDIA_TYPE_NONE));
+                selection.append(FileColumns.MEDIA_TYPE + "=?");
+                selectionArgs.add(String.valueOf(FileColumns.MEDIA_TYPE_NONE));
             }
 
             final String displayName = queryArgs.getString(
                     DocumentsContract.QUERY_ARG_DISPLAY_NAME);
             if (!TextUtils.isEmpty(displayName)) {
                 selection.append(" AND ");
-                selection.append(MediaStore.Downloads.DISPLAY_NAME + " LIKE ?");
+                selection.append(FileColumns.DISPLAY_NAME + " LIKE ?");
                 selectionArgs.add("%" + displayName + "%");
             }
 
@@ -969,7 +970,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
                     DocumentsContract.QUERY_ARG_LAST_MODIFIED_AFTER, -1 /* defaultValue */);
             if (lastModifiedAfter != -1) {
                 selection.append(" AND ");
-                selection.append(MediaStore.Downloads.DATE_MODIFIED
+                selection.append(FileColumns.DATE_MODIFIED
                         + " > " + lastModifiedAfter / 1000);
             }
 
@@ -977,14 +978,14 @@ public class DownloadStorageProvider extends FileSystemProvider {
                     DocumentsContract.QUERY_ARG_FILE_SIZE_OVER, -1 /* defaultValue */);
             if (fileSizeOver != -1) {
                 selection.append(" AND ");
-                selection.append(MediaStore.Downloads.SIZE + " > " + fileSizeOver);
+                selection.append(FileColumns.SIZE + " > " + fileSizeOver);
             }
 
             final String[] mimeTypes = queryArgs.getStringArray(
                     DocumentsContract.QUERY_ARG_MIME_TYPES);
             if (mimeTypes != null && mimeTypes.length > 0) {
                 selection.append(" AND ");
-                selection.append(MediaStore.Downloads.MIME_TYPE + " IN (");
+                selection.append(FileColumns.MIME_TYPE + " IN (");
                 for (int i = 0; i < mimeTypes.length; ++i) {
                     selection.append("?").append((i == mimeTypes.length - 1) ? ")" : ",");
                     selectionArgs.add(mimeTypes[i]);

@@ -910,11 +910,16 @@ public class DownloadStorageProvider extends FileSystemProvider {
     private String getMimeType(@NonNull Cursor mediaCursor) {
         final int format = mediaCursor.getInt(mediaCursor.getColumnIndex(
                 FileColumns.FORMAT));
-        // TODO: MediaProvider should be updated to use correct mimeTypes for directories
+        // TODO: Remove once b/123311895 is fixed.
         if (format == MtpConstants.FORMAT_ASSOCIATION) {
             return Document.MIME_TYPE_DIR;
         }
-        return mediaCursor.getString(mediaCursor.getColumnIndex(FileColumns.MIME_TYPE));
+        final String mimeType = mediaCursor.getString(
+                mediaCursor.getColumnIndex(FileColumns.MIME_TYPE));
+        if (mimeType == null) {
+            return Document.MIME_TYPE_DIR;
+        }
+        return mimeType;
     }
 
     // Copied from MediaDocumentsProvider with some tweaks

@@ -478,7 +478,6 @@ public class DownloadStorageProvider extends FileSystemProvider {
             String[] projection, Set<String> filePaths,
             Bundle queryArgs) throws FileNotFoundException {
         final List<File> downloadsDirs = getDownloadsDirectories();
-        result.setIncludedDownloadDirs(downloadsDirs);
         final int size = downloadsDirs.size();
         for (int i = 0; i < size; ++i) {
             final File downloadDir = downloadsDirs.get(i);
@@ -751,7 +750,6 @@ public class DownloadStorageProvider extends FileSystemProvider {
             Set<String> downloadedFilePaths, @Nullable String searchString)
             throws FileNotFoundException {
         final List<File> downloadsDirs = getDownloadsDirectories();
-        result.setIncludedDownloadDirs(downloadsDirs);
         // Add every file from the Downloads directory to the result cursor. Ignore files that
         // were in the supplied downloaded file paths.
         final int size = downloadsDirs.size();
@@ -768,7 +766,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
         }
     }
 
-    private List<File> getDownloadsDirectories() {
+    private static List<File> getDownloadsDirectories() {
         final List<File> downloadsDirectories = new ArrayList<>();
         downloadsDirectories.add(getTopLevelDownloadsDirectory());
         final File sandboxDir = Environment.buildExternalStorageAndroidSandboxDirs()[0];
@@ -1021,8 +1019,6 @@ public class DownloadStorageProvider extends FileSystemProvider {
         private static int mOpenCursorCount = 0;
         @GuardedBy("mLock")
         private static @Nullable ContentChangedRelay mFileWatcher;
-        @GuardedBy("mLock")
-        private List<File> mIncludedDownloadDirs;
 
         private final ContentResolver mResolver;
 
@@ -1031,16 +1027,10 @@ public class DownloadStorageProvider extends FileSystemProvider {
             mResolver = resolver;
         }
 
-        void setIncludedDownloadDirs(List<File> downloadDirs) {
-            synchronized (mLock) {
-                mIncludedDownloadDirs = downloadDirs;
-            }
-        }
-
         void start() {
             synchronized (mLock) {
-                if (mOpenCursorCount++ == 0 && mIncludedDownloadDirs != null) {
-                    mFileWatcher = new ContentChangedRelay(mResolver, mIncludedDownloadDirs);
+                if (mOpenCursorCount++ == 0) {
+                    mFileWatcher = new ContentChangedRelay(mResolver, getDownloadsDirectories());
                     mFileWatcher.startWatching();
                 }
             }
@@ -1050,7 +1040,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
         public void close() {
             super.close();
             synchronized (mLock) {
-                if (--mOpenCursorCount == 0 && mFileWatcher != null) {
+                if (--mOpenCursorCount == 0) {
                     mFileWatcher.stopWatching();
                     mFileWatcher = null;
                 }

@@ -389,8 +389,14 @@ public final class DownloadProvider extends ContentProvider {
                 final ContentValues updateValues = new ContentValues();
                 while (cursor.moveToNext()) {
                     reader.updateFromDatabase(info);
-                    final Uri mediaStoreUri = updateMediaProvider(client, null,
-                            convertToMediaProviderValues(info));
+                    final ContentValues mediaValues;
+                    try {
+                        mediaValues = convertToMediaProviderValues(info);
+                    } catch (IllegalArgumentException e) {
+                        Log.e(Constants.TAG, "Error getting media content values from " + info, e);
+                        continue;
+                    }
+                    final Uri mediaStoreUri = updateMediaProvider(client, null, mediaValues);
                     if (mediaStoreUri != null) {
                         updateValues.clear();
                         updateValues.put(Downloads.Impl.COLUMN_MEDIASTORE_URI,
@@ -866,8 +872,14 @@ public final class DownloadProvider extends ContentProvider {
     }
 
     private ContentValues convertToMediaProviderValues(DownloadInfo info) {
+        final String filePath;
+        try {
+            filePath = new File(info.mFileName).getCanonicalPath();
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
         final ContentValues mediaValues = new ContentValues();
-        mediaValues.put(MediaStore.Downloads.DATA, info.mFileName);
+        mediaValues.put(MediaStore.Downloads.DATA,  filePath);
         mediaValues.put(MediaStore.Downloads.SIZE, info.mTotalBytes);
         mediaValues.put(MediaStore.Downloads.DOWNLOAD_URI, info.mUri);
         mediaValues.put(MediaStore.Downloads.REFERER_URI, info.mReferer);
@@ -881,9 +893,15 @@ public final class DownloadProvider extends ContentProvider {
     }
 
     private ContentValues convertToMediaProviderValues(ContentValues downloadValues) {
+        final String filePath;
+        try {
+            filePath = new File(downloadValues.getAsString(Downloads.Impl._DATA))
+                    .getCanonicalPath();
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
         final ContentValues mediaValues = new ContentValues();
-        mediaValues.put(MediaStore.Downloads.DATA,
-                downloadValues.getAsString(Downloads.Impl._DATA));
+        mediaValues.put(MediaStore.Downloads.DATA, filePath);
         mediaValues.put(MediaStore.Downloads.SIZE,
                 downloadValues.getAsLong(Downloads.Impl.COLUMN_TOTAL_BYTES));
         mediaValues.put(MediaStore.Downloads.DOWNLOAD_URI,
@@ -911,10 +929,14 @@ public final class DownloadProvider extends ContentProvider {
         if (fileUri != null) {
             path = fileUri.getPath();
         }
-        final File app = new File(path);
-        final File system = mStorageManager.translateAppToSystem(app, pid, uid);
-        // If the input was file uri, we need to return a file uri
-        return fileUri == null ? system.getPath() : Uri.fromFile(system).toString();
+        try {
+            final File app = new File(path).getCanonicalFile();
+            final File system = mStorageManager.translateAppToSystem(app, pid, uid);
+            // If the input was file uri, we need to return a file uri
+            return fileUri == null ? system.getPath() : Uri.fromFile(system).toString();
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     private @Nullable String translateSystemToApp(@Nullable String path, int pid, int uid) {

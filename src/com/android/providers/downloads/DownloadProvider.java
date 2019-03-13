@@ -929,14 +929,10 @@ public final class DownloadProvider extends ContentProvider {
         if (fileUri != null) {
             path = fileUri.getPath();
         }
-        try {
-            final File app = new File(path).getCanonicalFile();
-            final File system = mStorageManager.translateAppToSystem(app, pid, uid);
-            // If the input was file uri, we need to return a file uri
-            return fileUri == null ? system.getPath() : Uri.fromFile(system).toString();
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e);
-        }
+        final File app = new File(path);
+        final File system = mStorageManager.translateAppToSystem(app, pid, uid);
+        // If the input was file uri, we need to return a file uri
+        return fileUri == null ? system.getPath() : Uri.fromFile(system).toString();
     }
 
     private @Nullable String translateSystemToApp(@Nullable String path, int pid, int uid) {

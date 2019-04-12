@@ -883,8 +883,6 @@ public class DownloadStorageProvider extends FileSystemProvider {
                 mediaCursor.getLong(mediaCursor.getColumnIndex(FileColumns._ID)), isDir);
         final String displayName = mediaCursor.getString(
                 mediaCursor.getColumnIndex(FileColumns.DISPLAY_NAME));
-        // TODO: Get downloads description from MediaProvider.
-        final String description = null;
         final long size = mediaCursor.getLong(
                 mediaCursor.getColumnIndex(FileColumns.SIZE));
         final long lastModifiedMs = mediaCursor.getLong(
@@ -897,7 +895,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
             extraFlags |= Document.FLAG_SUPPORTS_RENAME;
         }
 
-        includeDownload(result, docId, displayName, description, size, mimeType,
+        includeDownload(result, docId, displayName, null /* description */, size, mimeType,
                 lastModifiedMs, extraFlags, isPending);
         if (filePaths != null) {
             filePaths.add(mediaCursor.getString(

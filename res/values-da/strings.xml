@@ -22,14 +22,14 @@
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Tillader, at appen kan få adgang til downloadadministratoren og til at bruge den til at downloade filer. Ondsindede apps kan bruge dette til at afbryde downloads og få adgang til personlige oplysninger."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Avancerede funktioner for downloadadministrator."</string>
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Tillader, at appen kan få adgang til downloadadministrators avancerede funktioner. Ondsindede apps kan bruge dette til at afbryde downloads og få adgang til personlige oplysninger."</string>
-    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Send underretninger om downloads."</string>
+    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Send notifikationer om downloads."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Tillader, at appen kan sende meddelelser om fuldførte downloads. Ondsindede apps kan bruge dette til at forvirre andre apps, der downloader filer."</string>
     <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Se alle downloads til USB-lagr."</string>
     <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Se alle downloads til SD-kort"</string>
     <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Tillader, at appen kan se alle downloads på SD-kortet, uanset hvilken app der har downloadet dem."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Reserver plads i downloadcache"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Tillader, at appen kan downloade filer til downloadcachen, som ikke automatisk kan slettes, når downloadadministratoren har brug for mere plads."</string>
-    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"downloade filer uden underretning"</string>
+    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"downloade filer uden notifikation"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"Tillader, at appen kan downloade filer via downloadadministratoren, uden at brugeren får besked."</string>
     <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Adgang til alle systemdownloads"</string>
     <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"Tillader, at appen kan se og ændre alle downloads, der igangsættes af en app i systemet."</string>

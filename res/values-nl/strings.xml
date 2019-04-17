@@ -50,7 +50,7 @@
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> bestanden in de wachtrij</item>
       <item quantity="one">1 bestand in de wachtrij</item>
     </plurals>
-    <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> resterend"</string>
+    <string name="download_remaining" msgid="3139295890887972718">"Nog <xliff:g id="DURATION">%s</xliff:g>"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"Kan bestand niet openen"</string>
     <string name="root_downloads" msgid="4098414876292351487">"Downloads"</string>
     <string name="download_queued" msgid="3302638231377947451">"In wachtrij"</string>

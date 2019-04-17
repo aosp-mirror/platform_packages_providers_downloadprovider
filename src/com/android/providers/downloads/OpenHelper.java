@@ -96,6 +96,7 @@ public class OpenHelper {
                         intent.putExtra(Intent.EXTRA_ORIGINATING_UID, ownerUid);
                     }
                 }
+                return intent;
             }
         }
         return null;

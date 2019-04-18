@@ -419,9 +419,15 @@ public class DownloadStorageProvider extends FileSystemProvider {
                         mediaStoreIds, null /* queryArgs */);
             }
             notificationUris.add(cursor.getNotificationUri());
-            includeDownloadsFromMediaStore(result, null /* queryArgs */, mediaStoreIds,
-                    null /* filePaths */, notificationUris, null /* parentId */,
-                    (limit - result.getCount()), false /* includePending */);
+
+            // Skip media files that have been inserted into the MediaStore so we
+            // don't duplicate them in the recent list.
+            final Bundle args = new Bundle();
+            args.putBoolean(DocumentsContract.QUERY_ARG_EXCLUDE_MEDIA, true);
+
+            includeDownloadsFromMediaStore(result, args, mediaStoreIds, null /* filePaths */,
+                    notificationUris, null /* parentId */, (limit - result.getCount()),
+                    false /* includePending */);
         } finally {
             IoUtils.closeQuietly(cursor);
             Binder.restoreCallingIdentity(token);

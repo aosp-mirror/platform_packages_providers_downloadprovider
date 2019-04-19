@@ -50,7 +50,7 @@ import android.provider.DocumentsContract.Path;
 import android.provider.DocumentsContract.Root;
 import android.provider.Downloads;
 import android.provider.MediaStore;
-import android.provider.MediaStore.Files.FileColumns;
+import android.provider.MediaStore.DownloadColumns;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.LongArray;
@@ -141,7 +141,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
 
     static void onMediaProviderDownloadsDelete(Context context, long[] ids, String[] mimeTypes) {
         for (int i = 0; i < ids.length; ++i) {
-            final boolean isDir = mimeTypes[i] == Document.MIME_TYPE_DIR;
+            final boolean isDir = mimeTypes[i] == null;
             final Uri uri = DocumentsContract.buildDocumentUri(AUTHORITY,
                     MediaStoreDownloadsHelper.getDocIdForMediaStoreDownload(ids[i], isDir));
             context.revokeUriPermission(uri, ~0);
@@ -419,9 +419,15 @@ public class DownloadStorageProvider extends FileSystemProvider {
                         mediaStoreIds, null /* queryArgs */);
             }
             notificationUris.add(cursor.getNotificationUri());
-            includeDownloadsFromMediaStore(result, null /* queryArgs */, mediaStoreIds,
-                    null /* filePaths */, notificationUris, null /* parentId */,
-                    (limit - result.getCount()), false /* includePending */);
+
+            // Skip media files that have been inserted into the MediaStore so we
+            // don't duplicate them in the recent list.
+            final Bundle args = new Bundle();
+            args.putBoolean(DocumentsContract.QUERY_ARG_EXCLUDE_MEDIA, true);
+
+            includeDownloadsFromMediaStore(result, args, mediaStoreIds, null /* filePaths */,
+                    notificationUris, null /* parentId */, (limit - result.getCount()),
+                    false /* includePending */);
         } finally {
             IoUtils.closeQuietly(cursor);
             Binder.restoreCallingIdentity(token);
@@ -811,8 +817,8 @@ public class DownloadStorageProvider extends FileSystemProvider {
         try {
             final Uri mediaStoreUri = getMediaStoreUri(docId);
             final ContentValues values = new ContentValues();
-            values.put(FileColumns.DATA, after.getAbsolutePath());
-            values.put(FileColumns.DISPLAY_NAME, displayName);
+            values.put(DownloadColumns.DATA, after.getAbsolutePath());
+            values.put(DownloadColumns.DISPLAY_NAME, displayName);
             final int count = getContext().getContentResolver().update(mediaStoreUri, values,
                     null, null);
             if (count != 1) {
@@ -825,22 +831,71 @@ public class DownloadStorageProvider extends FileSystemProvider {
     }
 
     private File getFileForMediaStoreDownload(String docId) {
+        final Uri mediaStoreUri = getMediaStoreUri(docId);
         final long token = Binder.clearCallingIdentity();
-        try {
-            String filePath = null;
-            try (Cursor cursor = getContext().getContentResolver().query(
-                    getMediaStoreUri(docId), null, null, null)) {
-                if (cursor.moveToNext()) {
-                    filePath = cursor.getString(cursor.getColumnIndex(FileColumns.DATA));
-                }
-            }
+        try (Cursor cursor = queryForSingleItem(mediaStoreUri,
+                new String[] { DownloadColumns.DATA }, null, null, null)) {
+            final String filePath = cursor.getString(0);
             if (filePath == null) {
-                throw new IllegalStateException("Filepath could not be found for"
-                        + " mediastore docId: " + docId);
+                throw new IllegalStateException("Missing _data for " + mediaStoreUri);
             }
             return new File(filePath);
+        } catch (FileNotFoundException e) {
+            throw new IllegalStateException(e);
         } finally {
             Binder.restoreCallingIdentity(token);
+        }
+    }
+
+    private Pair<String, String> getRelativePathAndDisplayNameForDownload(long id) {
+        final Uri mediaStoreUri = ContentUris.withAppendedId(
+                MediaStore.Downloads.EXTERNAL_CONTENT_URI, id);
+        final long token = Binder.clearCallingIdentity();
+        try (Cursor cursor = queryForSingleItem(mediaStoreUri,
+                new String[] { DownloadColumns.RELATIVE_PATH, DownloadColumns.DISPLAY_NAME },
+                null, null, null)) {
+            final String relativePath = cursor.getString(0);
+            final String displayName = cursor.getString(1);
+            if (relativePath == null || displayName == null) {
+                throw new IllegalStateException(
+                        "relative_path and _display_name should not be null for " + mediaStoreUri);
+            }
+            return Pair.create(relativePath, displayName);
+        } catch (FileNotFoundException e) {
+            throw new IllegalStateException(e);
+        } finally {
+            Binder.restoreCallingIdentity(token);
+        }
+    }
+
+    /**
+     * Copied from MediaProvider.java
+     *
+     * Query the given {@link Uri}, expecting only a single item to be found.
+     *
+     * @throws FileNotFoundException if no items were found, or multiple items
+     *             were found, or there was trouble reading the data.
+     */
+    private Cursor queryForSingleItem(Uri uri, String[] projection,
+            String selection, String[] selectionArgs, CancellationSignal signal)
+            throws FileNotFoundException {
+        final Cursor c = getContext().getContentResolver().query(uri, projection,
+                ContentResolver.createSqlQueryBundle(selection, selectionArgs, null), signal);
+        if (c == null) {
+            throw new FileNotFoundException("Missing cursor for " + uri);
+        } else if (c.getCount() < 1) {
+            IoUtils.closeQuietly(c);
+            throw new FileNotFoundException("No item at " + uri);
+        } else if (c.getCount() > 1) {
+            IoUtils.closeQuietly(c);
+            throw new FileNotFoundException("Multiple items at " + uri);
+        }
+
+        if (c.moveToFirst()) {
+            return c;
+        } else {
+            IoUtils.closeQuietly(c);
+            throw new FileNotFoundException("Failed to read row from " + uri);
         }
     }
 
@@ -855,7 +910,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
         final long token = Binder.clearCallingIdentity();
         final Pair<String, String[]> selectionPair
                 = buildSearchSelection(queryArgs, idsToExclude, parentId);
-        final Uri.Builder queryUriBuilder = MediaStore.Files.EXTERNAL_CONTENT_URI.buildUpon();
+        final Uri.Builder queryUriBuilder = MediaStore.Downloads.EXTERNAL_CONTENT_URI.buildUpon();
         if (limit != NO_LIMIT) {
             queryUriBuilder.appendQueryParameter(MediaStore.PARAM_LIMIT, String.valueOf(limit));
         }
@@ -880,15 +935,15 @@ public class DownloadStorageProvider extends FileSystemProvider {
         final String mimeType = getMimeType(mediaCursor);
         final boolean isDir = Document.MIME_TYPE_DIR.equals(mimeType);
         final String docId = getDocIdForMediaStoreDownload(
-                mediaCursor.getLong(mediaCursor.getColumnIndex(FileColumns._ID)), isDir);
+                mediaCursor.getLong(mediaCursor.getColumnIndex(DownloadColumns._ID)), isDir);
         final String displayName = mediaCursor.getString(
-                mediaCursor.getColumnIndex(FileColumns.DISPLAY_NAME));
+                mediaCursor.getColumnIndex(DownloadColumns.DISPLAY_NAME));
         final long size = mediaCursor.getLong(
-                mediaCursor.getColumnIndex(FileColumns.SIZE));
+                mediaCursor.getColumnIndex(DownloadColumns.SIZE));
         final long lastModifiedMs = mediaCursor.getLong(
-                mediaCursor.getColumnIndex(FileColumns.DATE_MODIFIED)) * 1000;
+                mediaCursor.getColumnIndex(DownloadColumns.DATE_MODIFIED)) * 1000;
         final boolean isPending = mediaCursor.getInt(
-                mediaCursor.getColumnIndex(FileColumns.IS_PENDING)) == 1;
+                mediaCursor.getColumnIndex(DownloadColumns.IS_PENDING)) == 1;
 
         int extraFlags = isPending ? Document.FLAG_PARTIAL : 0;
         if (!Document.MIME_TYPE_DIR.equals(mimeType)) {
@@ -899,19 +954,13 @@ public class DownloadStorageProvider extends FileSystemProvider {
                 lastModifiedMs, extraFlags, isPending);
         if (filePaths != null) {
             filePaths.add(mediaCursor.getString(
-                    mediaCursor.getColumnIndex(FileColumns.DATA)));
+                    mediaCursor.getColumnIndex(DownloadColumns.DATA)));
         }
     }
 
     private String getMimeType(@NonNull Cursor mediaCursor) {
-        final int format = mediaCursor.getInt(mediaCursor.getColumnIndex(
-                FileColumns.FORMAT));
-        // TODO: Remove once b/123311895 is fixed.
-        if (format == MtpConstants.FORMAT_ASSOCIATION) {
-            return Document.MIME_TYPE_DIR;
-        }
         final String mimeType = mediaCursor.getString(
-                mediaCursor.getColumnIndex(FileColumns.MIME_TYPE));
+                mediaCursor.getColumnIndex(DownloadColumns.MIME_TYPE));
         if (mimeType == null) {
             return Document.MIME_TYPE_DIR;
         }
@@ -919,17 +968,16 @@ public class DownloadStorageProvider extends FileSystemProvider {
     }
 
     // Copied from MediaDocumentsProvider with some tweaks
-    private static Pair<String, String[]> buildSearchSelection(@Nullable Bundle queryArgs,
+    private Pair<String, String[]> buildSearchSelection(@Nullable Bundle queryArgs,
             @Nullable LongArray idsToExclude, @Nullable String parentId) {
         final StringBuilder selection = new StringBuilder();
         final ArrayList<String> selectionArgs = new ArrayList<>();
 
-        selection.append(FileColumns.IS_DOWNLOAD + "=?");
-        selectionArgs.add("1");
-
         if (parentId == null && idsToExclude != null && idsToExclude.size() > 0) {
-            selection.append(" AND ");
-            selection.append(FileColumns._ID + " NOT IN (");
+            if (selection.length() > 0) {
+                selection.append(" AND ");
+            }
+            selection.append(DownloadColumns._ID + " NOT IN (");
             final int size = idsToExclude.size();
             for (int i = 0; i < size; ++i) {
                 selection.append(idsToExclude.get(i) + ((i == size - 1) ? ")" : ","));
@@ -937,56 +985,71 @@ public class DownloadStorageProvider extends FileSystemProvider {
         }
 
         if (parentId != null) {
-            selection.append(" AND ");
-            selection.append(FileColumns.PARENT + "=?");
-            selectionArgs.add(parentId);
+            if (selection.length() > 0) {
+                selection.append(" AND ");
+            }
+            selection.append(DownloadColumns.RELATIVE_PATH + "=?");
+            final Pair<String, String> data = getRelativePathAndDisplayNameForDownload(
+                    Long.parseLong(parentId));
+            selectionArgs.add(data.first + "/" + data.second);
         } else {
-            selection.append(" AND ");
-            // SELECT _id FROM files where is_download=1
-            final String subQuery = SQLiteQueryBuilder.buildQueryString(false,
-                    MediaStore.Files.TABLE, new String[] { FileColumns._ID },
-                    FileColumns.IS_DOWNLOAD + "=1", null, null, null, null);
-            selection.append(FileColumns.PARENT + " NOT IN ("
-                    + subQuery + ")");
+            if (selection.length() > 0) {
+                selection.append(" AND ");
+            }
+            selection.append(DownloadColumns.RELATIVE_PATH + "=?");
+            selectionArgs.add(Environment.DIRECTORY_DOWNLOADS);
         }
 
         if (queryArgs != null) {
             final boolean shouldExcludeMedia = queryArgs.getBoolean(
                     DocumentsContract.QUERY_ARG_EXCLUDE_MEDIA, false /* defaultValue */);
             if (shouldExcludeMedia) {
+                if (selection.length() > 0) {
+                    selection.append(" AND ");
+                }
+                selection.append(DownloadColumns.MIME_TYPE + " NOT LIKE \"image/%\"");
                 selection.append(" AND ");
-                selection.append(FileColumns.MEDIA_TYPE + "=?");
-                selectionArgs.add(String.valueOf(FileColumns.MEDIA_TYPE_NONE));
+                selection.append(DownloadColumns.MIME_TYPE + " NOT LIKE \"audio/%\"");
+                selection.append(" AND ");
+                selection.append(DownloadColumns.MIME_TYPE + " NOT LIKE \"video/%\"");
             }
 
             final String displayName = queryArgs.getString(
                     DocumentsContract.QUERY_ARG_DISPLAY_NAME);
             if (!TextUtils.isEmpty(displayName)) {
-                selection.append(" AND ");
-                selection.append(FileColumns.DISPLAY_NAME + " LIKE ?");
+                if (selection.length() > 0) {
+                    selection.append(" AND ");
+                }
+                selection.append(DownloadColumns.DISPLAY_NAME + " LIKE ?");
                 selectionArgs.add("%" + displayName + "%");
             }
 
             final long lastModifiedAfter = queryArgs.getLong(
                     DocumentsContract.QUERY_ARG_LAST_MODIFIED_AFTER, -1 /* defaultValue */);
             if (lastModifiedAfter != -1) {
-                selection.append(" AND ");
-                selection.append(FileColumns.DATE_MODIFIED
+                if (selection.length() > 0) {
+                    selection.append(" AND ");
+                }
+                selection.append(DownloadColumns.DATE_MODIFIED
                         + " > " + lastModifiedAfter / 1000);
             }
 
             final long fileSizeOver = queryArgs.getLong(
                     DocumentsContract.QUERY_ARG_FILE_SIZE_OVER, -1 /* defaultValue */);
             if (fileSizeOver != -1) {
-                selection.append(" AND ");
-                selection.append(FileColumns.SIZE + " > " + fileSizeOver);
+                if (selection.length() > 0) {
+                    selection.append(" AND ");
+                }
+                selection.append(DownloadColumns.SIZE + " > " + fileSizeOver);
             }
 
             final String[] mimeTypes = queryArgs.getStringArray(
                     DocumentsContract.QUERY_ARG_MIME_TYPES);
             if (mimeTypes != null && mimeTypes.length > 0) {
-                selection.append(" AND ");
-                selection.append(FileColumns.MIME_TYPE + " IN (");
+                if (selection.length() > 0) {
+                    selection.append(" AND ");
+                }
+                selection.append(DownloadColumns.MIME_TYPE + " IN (");
                 for (int i = 0; i < mimeTypes.length; ++i) {
                     selection.append("?").append((i == mimeTypes.length - 1) ? ")" : ",");
                     selectionArgs.add(mimeTypes[i]);

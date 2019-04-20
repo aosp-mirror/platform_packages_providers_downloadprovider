@@ -153,7 +153,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
         // It's possible that the folder does not exist on disk, so we will create the folder if
         // that is the case. If user decides to delete the folder later, then it's OK to fail on
         // subsequent queries.
-        getTopLevelDownloadsDirectory().mkdirs();
+        getPublicDownloadsDirectory().mkdirs();
 
         final MatrixCursor result = new MatrixCursor(resolveRootProjection(projection));
         final RowBuilder row = result.newRow();
@@ -483,27 +483,23 @@ public class DownloadStorageProvider extends FileSystemProvider {
     private void includeSearchFilesFromSharedStorage(DownloadsCursor result,
             String[] projection, Set<String> filePaths,
             Bundle queryArgs) throws FileNotFoundException {
-        final List<File> downloadsDirs = getDownloadsDirectories();
-        final int size = downloadsDirs.size();
-        for (int i = 0; i < size; ++i) {
-            final File downloadDir = downloadsDirs.get(i);
-            try (Cursor rawFilesCursor = super.querySearchDocuments(downloadDir,
-                    projection, filePaths, queryArgs)) {
+        final File downloadDir = getPublicDownloadsDirectory();
+        try (Cursor rawFilesCursor = super.querySearchDocuments(downloadDir,
+                projection, filePaths, queryArgs)) {
 
-                final boolean shouldExcludeMedia = queryArgs.getBoolean(
-                        DocumentsContract.QUERY_ARG_EXCLUDE_MEDIA, false /* defaultValue */);
-                while (rawFilesCursor.moveToNext()) {
-                    final String mimeType = rawFilesCursor.getString(
-                            rawFilesCursor.getColumnIndexOrThrow(Document.COLUMN_MIME_TYPE));
-                    // When the value of shouldExcludeMedia is true, don't add media files into
-                    // the result to avoid duplicated files. MediaScanner will scan the files
-                    // into MediaStore. If the behavior is changed, we need to add the files back.
-                    if (!shouldExcludeMedia || !isMediaMimeType(mimeType)) {
-                        String docId = rawFilesCursor.getString(
-                                rawFilesCursor.getColumnIndexOrThrow(Document.COLUMN_DOCUMENT_ID));
-                        File rawFile = getFileForDocId(docId);
-                        includeFileFromSharedStorage(result, rawFile);
-                    }
+            final boolean shouldExcludeMedia = queryArgs.getBoolean(
+                    DocumentsContract.QUERY_ARG_EXCLUDE_MEDIA, false /* defaultValue */);
+            while (rawFilesCursor.moveToNext()) {
+                final String mimeType = rawFilesCursor.getString(
+                        rawFilesCursor.getColumnIndexOrThrow(Document.COLUMN_MIME_TYPE));
+                // When the value of shouldExcludeMedia is true, don't add media files into
+                // the result to avoid duplicated files. MediaScanner will scan the files
+                // into MediaStore. If the behavior is changed, we need to add the files back.
+                if (!shouldExcludeMedia || !isMediaMimeType(mimeType)) {
+                    String docId = rawFilesCursor.getString(
+                            rawFilesCursor.getColumnIndexOrThrow(Document.COLUMN_DOCUMENT_ID));
+                    File rawFile = getFileForDocId(docId);
+                    includeFileFromSharedStorage(result, rawFile);
                 }
             }
         }
@@ -567,7 +563,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
         }
 
         if (DOC_ID_ROOT.equals(docId)) {
-            return getTopLevelDownloadsDirectory();
+            return getPublicDownloadsDirectory();
         }
 
         final long token = Binder.clearCallingIdentity();
@@ -755,34 +751,17 @@ public class DownloadStorageProvider extends FileSystemProvider {
     private void includeFilesFromSharedStorage(DownloadsCursor result,
             Set<String> downloadedFilePaths, @Nullable String searchString)
             throws FileNotFoundException {
-        final List<File> downloadsDirs = getDownloadsDirectories();
+        final File downloadsDir = getPublicDownloadsDirectory();
         // Add every file from the Downloads directory to the result cursor. Ignore files that
         // were in the supplied downloaded file paths.
-        final int size = downloadsDirs.size();
-        for (int i = 0; i < size; ++i) {
-            final File downloadsDir = downloadsDirs.get(i);
-            for (File file : FileUtils.listFilesOrEmpty(downloadsDir)) {
-                boolean inResultsAlready = downloadedFilePaths.contains(file.getAbsolutePath());
-                boolean containsQuery = searchString == null || file.getName().contains(
-                        searchString);
-                if (!inResultsAlready && containsQuery) {
-                    includeFileFromSharedStorage(result, file);
-                }
+        for (File file : FileUtils.listFilesOrEmpty(downloadsDir)) {
+            boolean inResultsAlready = downloadedFilePaths.contains(file.getAbsolutePath());
+            boolean containsQuery = searchString == null || file.getName().contains(
+                    searchString);
+            if (!inResultsAlready && containsQuery) {
+                includeFileFromSharedStorage(result, file);
             }
         }
-    }
-
-    private static List<File> getDownloadsDirectories() {
-        final List<File> downloadsDirectories = new ArrayList<>();
-        downloadsDirectories.add(getTopLevelDownloadsDirectory());
-        final File sandboxDir = Environment.buildExternalStorageAndroidSandboxDirs()[0];
-        for (File file : FileUtils.listFilesOrEmpty(sandboxDir)) {
-            final File downloadDir = new File(file, Environment.DIRECTORY_DOWNLOADS);
-            if (downloadDir.exists()) {
-                downloadsDirectories.add(downloadDir);
-            }
-        }
-        return downloadsDirectories;
     }
 
     /**
@@ -798,7 +777,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
         includeFile(result, null, file);
     }
 
-    private static File getTopLevelDownloadsDirectory() {
+    private static File getPublicDownloadsDirectory() {
         return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
     }
 
@@ -1091,7 +1070,8 @@ public class DownloadStorageProvider extends FileSystemProvider {
         void start() {
             synchronized (mLock) {
                 if (mOpenCursorCount++ == 0) {
-                    mFileWatcher = new ContentChangedRelay(mResolver, getDownloadsDirectories());
+                    mFileWatcher = new ContentChangedRelay(mResolver,
+                            Arrays.asList(getPublicDownloadsDirectory()));
                     mFileWatcher.startWatching();
                 }
             }

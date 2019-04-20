@@ -48,7 +48,7 @@ public class MediaStoreDownloadsHelper {
     }
 
     public static Uri getMediaStoreUri(String docId) {
-        return ContentUris.withAppendedId(MediaStore.Files.EXTERNAL_CONTENT_URI,
+        return ContentUris.withAppendedId(MediaStore.Downloads.EXTERNAL_CONTENT_URI,
                 getMediaStoreId(docId));
     }
 }

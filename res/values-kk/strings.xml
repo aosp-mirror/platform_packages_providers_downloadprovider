@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3658948994665187911">"Жүктеу менеджері"</string>
+    <string name="app_label" msgid="3658948994665187911">"Жүктеп алу менеджері"</string>
     <string name="storage_description" msgid="7982444311558023664">"Жүктеп алынғандар"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"Жүктеу менеджеріне кіру."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"Қолданбаға жүктеу менеджеріне кіріп, оны файлдарды жүктеу үшін қолдану мүмкіндігін береді. Залалды қолданбалар бұны жүктеулерге кедергі жасау үшін және жеке ақпаратқа кіру үшін қолдануы мүмкін."</string>

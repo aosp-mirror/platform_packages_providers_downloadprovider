@@ -22,11 +22,14 @@ import static android.provider.Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI;
 import static android.provider.Downloads.Impl.COLUMN_MEDIASTORE_URI;
 import static android.provider.Downloads.Impl.COLUMN_MEDIA_SCANNED;
 import static android.provider.Downloads.Impl.COLUMN_OTHER_UID;
+import static android.provider.Downloads.Impl.DESTINATION_EXTERNAL;
+import static android.provider.Downloads.Impl.DESTINATION_FILE_URI;
 import static android.provider.Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD;
 import static android.provider.Downloads.Impl.MEDIA_NOT_SCANNABLE;
 import static android.provider.Downloads.Impl.MEDIA_NOT_SCANNED;
 import static android.provider.Downloads.Impl.MEDIA_SCANNED;
 import static android.provider.Downloads.Impl.PERMISSION_ACCESS_ALL;
+import static android.provider.Downloads.Impl._DATA;
 
 import android.annotation.NonNull;
 import android.annotation.Nullable;
@@ -56,6 +59,7 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.FileUtils;
 import android.os.ParcelFileDescriptor;
 import android.os.ParcelFileDescriptor.OnCloseListener;
 import android.os.Process;
@@ -100,7 +104,7 @@ public final class DownloadProvider extends ContentProvider {
     /** Database filename */
     private static final String DB_NAME = "downloads.db";
     /** Current database version */
-    private static final int DB_VERSION = 112;
+    private static final int DB_VERSION = 113;
     /** Name of table in the database */
     private static final String DB_TABLE = "downloads";
     /** Memory optimization - close idle connections after 30s of inactivity */
@@ -327,7 +331,11 @@ public final class DownloadProvider extends ContentProvider {
                     break;
 
                 case 112:
-                    UpdateMediaStoreUrisFromFilesToDownloads(db);
+                    updateMediaStoreUrisFromFilesToDownloads(db);
+                    break;
+
+                case 113:
+                    canonicalizeDataPaths(db);
                     break;
 
                 default:
@@ -423,7 +431,7 @@ public final class DownloadProvider extends ContentProvider {
          * MediaStore.Downloads specific columns. To avoid this, update the existing entries to
          * use MediaStore.Downloads based uris only.
          */
-        private void UpdateMediaStoreUrisFromFilesToDownloads(SQLiteDatabase db) {
+        private void updateMediaStoreUrisFromFilesToDownloads(SQLiteDatabase db) {
             try (Cursor cursor = db.query(DB_TABLE,
                     new String[] { Downloads.Impl._ID, COLUMN_MEDIASTORE_URI },
                     COLUMN_MEDIASTORE_URI + " IS NOT NULL", null, null, null, null)) {
@@ -439,6 +447,30 @@ public final class DownloadProvider extends ContentProvider {
 
                     updateValues.clear();
                     updateValues.put(COLUMN_MEDIASTORE_URI, mediaStoreDownloadsUri.toString());
+                    db.update(DB_TABLE, updateValues, Downloads.Impl._ID + "=?",
+                            new String[] { Long.toString(id) });
+                }
+            }
+        }
+
+        private void canonicalizeDataPaths(SQLiteDatabase db) {
+            try (Cursor cursor = db.query(DB_TABLE,
+                    new String[] { Downloads.Impl._ID, Downloads.Impl._DATA},
+                    Downloads.Impl._DATA + " IS NOT NULL", null, null, null, null)) {
+                final ContentValues updateValues = new ContentValues();
+                while (cursor.moveToNext()) {
+                    final long id = cursor.getLong(0);
+                    final String filePath = cursor.getString(1);
+                    final String canonicalPath;
+                    try {
+                        canonicalPath = new File(filePath).getCanonicalPath();
+                    } catch (IOException e) {
+                        Log.e(Constants.TAG, "Found invalid path='" + filePath + "' for id=" + id);
+                        continue;
+                    }
+
+                    updateValues.clear();
+                    updateValues.put(Downloads.Impl._DATA, canonicalPath);
                     db.update(DB_TABLE, updateValues, Downloads.Impl._ID + "=?",
                             new String[] { Long.toString(id) });
                 }
@@ -526,18 +558,38 @@ public final class DownloadProvider extends ContentProvider {
 
         mStorageManager = getContext().getSystemService(StorageManager.class);
 
+        reconcileRemovedUidEntries();
+        return true;
+    }
+
+    private void reconcileRemovedUidEntries() {
         // Grant access permissions for all known downloads to the owning apps
         final SQLiteDatabase db = mOpenHelper.getReadableDatabase();
-        final Cursor cursor = db.query(DB_TABLE, new String[] {
-                Downloads.Impl._ID, Constants.UID }, null, null, null, null, null);
+        final Cursor cursor = db.query(DB_TABLE,
+                new String[] { Downloads.Impl._ID, Constants.UID, COLUMN_DESTINATION, _DATA },
+                null, null, null, null, null);
         final ArrayList<Long> idsToDelete = new ArrayList<>();
+        final ArrayList<Long> idsToOrphan = new ArrayList<>();
+        final String downloadsDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
         try {
             while (cursor.moveToNext()) {
                 final long downloadId = cursor.getLong(0);
                 final int uid = cursor.getInt(1);
+
                 final String ownerPackage = getPackageForUid(uid);
                 if (ownerPackage == null) {
-                    idsToDelete.add(downloadId);
+                    final int destination = cursor.getInt(2);
+                    final String filePath = cursor.getString(3);
+
+                    if ((destination == DESTINATION_EXTERNAL
+                            || destination == DESTINATION_FILE_URI
+                            || destination == DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD)
+                            && FileUtils.contains(downloadsDir, filePath)) {
+                        idsToOrphan.add(downloadId);
+                    } else {
+                        idsToDelete.add(downloadId);
+                    }
                 } else {
                     grantAllDownloadsPermission(ownerPackage, downloadId);
                 }
@@ -545,25 +597,29 @@ public final class DownloadProvider extends ContentProvider {
         } finally {
             cursor.close();
         }
-        if (idsToDelete.size() > 0) {
-            Log.i(Constants.TAG,
-                    "Deleting downloads with ids " + idsToDelete + " as owner package is missing");
-            deleteDownloadsWithIds(idsToDelete);
+        if (idsToOrphan.size() > 0) {
+            Log.i(Constants.TAG, "Orphaning downloads with ids "
+                    + Arrays.toString(idsToOrphan.toArray()) + " as owner package is missing");
+            final ContentValues values = new ContentValues();
+            values.putNull(Constants.UID);
+            update(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, values,
+                    buildQueryWithIds(idsToOrphan), null);
         }
-        return true;
+        if (idsToDelete.size() > 0) {
+            Log.i(Constants.TAG, "Deleting downloads with ids "
+                    + Arrays.toString(idsToDelete.toArray()) + " as owner package is missing");
+            delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, buildQueryWithIds(idsToDelete), null);
+        }
     }
 
-    private void deleteDownloadsWithIds(ArrayList<Long> downloadIds) {
-        final int N = downloadIds.size();
-        if (N == 0) {
-            return;
-        }
+    private String buildQueryWithIds(ArrayList<Long> downloadIds) {
         final StringBuilder queryBuilder = new StringBuilder(Downloads.Impl._ID + " in (");
-        for (int i = 0; i < N; i++) {
+        final int size = downloadIds.size();
+        for (int i = 0; i < size; i++) {
             queryBuilder.append(downloadIds.get(i));
-            queryBuilder.append((i == N - 1) ? ")" : ",");
+            queryBuilder.append((i == size - 1) ? ")" : ",");
         }
-        delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, queryBuilder.toString(), null);
+        return queryBuilder.toString();
     }
 
     /**
@@ -1002,6 +1058,7 @@ public final class DownloadProvider extends ContentProvider {
         final File file;
         try {
             file = new File(path).getCanonicalFile();
+            values.put(Downloads.Impl.COLUMN_FILE_NAME_HINT, Uri.fromFile(file).toString());
         } catch (IOException e) {
             throw new SecurityException(e);
         }
@@ -1040,6 +1097,7 @@ public final class DownloadProvider extends ContentProvider {
         final File file;
         try {
             file = new File(path).getCanonicalFile();
+            values.put(Downloads.Impl._DATA, file.getPath());
         } catch (IOException e) {
             throw new SecurityException(e);
         }
@@ -1516,6 +1574,12 @@ public final class DownloadProvider extends ContentProvider {
             filteredValues = values;
             String filename = values.getAsString(Downloads.Impl._DATA);
             if (filename != null) {
+                try {
+                    filteredValues.put(Downloads.Impl._DATA, new File(filename).getCanonicalPath());
+                } catch (IOException e) {
+                    throw new IllegalStateException("Invalid path: " + filename);
+                }
+
                 Cursor c = null;
                 try {
                     c = query(uri, new String[]

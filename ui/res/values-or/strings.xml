@@ -47,5 +47,5 @@
     <string name="deselect_all" msgid="6348198946254776764">"କିଛି ବି ଚୟନ କରନ୍ତୁ ନାହିଁ"</string>
     <string name="select_all" msgid="634074918366265804">"ସବୁ ଚୟନ କରନ୍ତୁ"</string>
     <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="TOTAL">%2$d</xliff:g> ମଧ୍ୟରୁ <xliff:g id="NUMBER">%1$d</xliff:g> ଚୟନିତ"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"ଏହା ମାଧ୍ୟମରେ ଶେୟାର୍‌ କରନ୍ତୁ"</string>
+    <string name="download_share_dialog" msgid="3355867339806448955">"ଏହା ମାଧ୍ୟମରେ ସେୟାର୍‌ କରନ୍ତୁ"</string>
 </resources>

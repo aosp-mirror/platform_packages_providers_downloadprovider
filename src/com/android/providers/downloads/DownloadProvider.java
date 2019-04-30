@@ -1053,7 +1053,9 @@ public final class DownloadProvider extends ContentProvider {
         final boolean runningLegacyMode = appOpsManager.checkOp(AppOpsManager.OP_LEGACY_STORAGE,
                 Binder.getCallingUid(), getCallingPackage()) == AppOpsManager.MODE_ALLOWED;
 
-        if (Helpers.isFilenameValidInExternalPackage(getContext(), file, getCallingPackage())) {
+        if (Binder.getCallingPid() == Process.myPid()) {
+            return;
+        } else if (Helpers.isFilenameValidInExternalPackage(getContext(), file, getCallingPackage())) {
             // No permissions required for paths belonging to calling package.
             return;
         } else if ((runningLegacyMode && Helpers.isFilenameValidInPublicDownloadsDir(file))

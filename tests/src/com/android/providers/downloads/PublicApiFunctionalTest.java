@@ -85,8 +85,9 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         mNotifManager = getContext().getSystemService(NotificationManager.class);
         mDownloadManager = getContext().getSystemService(DownloadManager.class);
 
-        mTestDirectory = new File(Environment.getExternalStorageDirectory() + File.separator
-                                  + "download_manager_functional_test");
+        mTestDirectory = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS)
+                + File.separator + "download_manager_functional_test");
         if (mTestDirectory.exists()) {
             IoUtils.deleteContents(mTestDirectory);
         } else {

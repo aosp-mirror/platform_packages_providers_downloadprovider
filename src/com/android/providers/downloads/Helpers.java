@@ -16,6 +16,7 @@
 
 package com.android.providers.downloads;
 
+import static android.os.Environment.buildExternalStorageAndroidDataDirs;
 import static android.os.Environment.buildExternalStorageAppCacheDirs;
 import static android.os.Environment.buildExternalStorageAppDataDirs;
 import static android.os.Environment.buildExternalStorageAppMediaDirs;
@@ -64,6 +65,9 @@ public class Helpers {
     /** Regex used to parse content-disposition headers */
     private static final Pattern CONTENT_DISPOSITION_PATTERN =
             Pattern.compile("attachment;\\s*filename\\s*=\\s*\"([^\"]*)\"");
+
+    private static final Pattern PATTERN_ANDROID_DIRS =
+            Pattern.compile("(?i)^/storage/[^/]+(?:/[0-9]+)?/Android/(?:data|obb|media)/.+");
 
     private static final Object sUniqueLock = new Object();
 
@@ -473,6 +477,10 @@ public class Helpers {
         throw new IOException("Failed to generate an available filename");
     }
 
+    public static boolean isFileInExternalAndroidDirs(String filePath) {
+        return PATTERN_ANDROID_DIRS.matcher(filePath).matches();
+    }
+
     static boolean isFilenameValid(Context context, File file) {
         return isFilenameValid(context, file, true);
     }
@@ -491,7 +499,6 @@ public class Helpers {
         try {
             if (containsCanonical(buildExternalStorageAppDataDirs(packageName), file) ||
                     containsCanonical(buildExternalStorageAppObbDirs(packageName), file) ||
-                    containsCanonical(buildExternalStorageAppCacheDirs(packageName), file) ||
                     containsCanonical(buildExternalStorageAppMediaDirs(packageName), file)) {
                 return true;
             }

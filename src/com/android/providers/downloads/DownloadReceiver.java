@@ -37,10 +37,13 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.Downloads;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Slog;
 import android.widget.Toast;
+
+import java.util.regex.Pattern;
 
 /**
  * Receives system broadcasts (boot, network connectivity)
@@ -144,11 +147,17 @@ public class DownloadReceiver extends BroadcastReceiver {
         // First, disown any downloads that live in shared storage
         final ContentValues values = new ContentValues();
         values.putNull(Constants.UID);
+
+        final StringBuilder queryString = new StringBuilder(Constants.UID + "=" + uid);
+        queryString.append(" AND ").append(Downloads.Impl.COLUMN_DESTINATION + " IN ("
+                + Downloads.Impl.DESTINATION_EXTERNAL + ","
+                + Downloads.Impl.DESTINATION_FILE_URI + ","
+                + Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD + ")");
+        queryString.append(" AND ").append(Downloads.Impl._DATA
+                + " REGEXP '" + MediaStore.Downloads.PATTERN_DOWNLOADS_FILE.pattern() + "'");
+
         final int disowned = resolver.update(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, values,
-                Constants.UID + "=" + uid + " AND " + Downloads.Impl.COLUMN_DESTINATION + " IN ("
-                        + Downloads.Impl.DESTINATION_EXTERNAL + ","
-                        + Downloads.Impl.DESTINATION_FILE_URI + ")",
-                null);
+                queryString.toString(), null);
 
         // Finally, delete any remaining downloads owned by UID
         final int deleted = resolver.delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,

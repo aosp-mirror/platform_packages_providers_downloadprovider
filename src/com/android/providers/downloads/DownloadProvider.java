@@ -752,6 +752,8 @@ public final class DownloadProvider extends ContentProvider {
             filteredValues.put(Downloads.Impl.COLUMN_DESTINATION, dest);
         }
 
+        ensureDefaultColumns(values);
+
         // copy some of the input values as is
         copyString(Downloads.Impl.COLUMN_URI, values, filteredValues);
         copyString(Downloads.Impl.COLUMN_APP_DATA, values, filteredValues);
@@ -838,13 +840,7 @@ public final class DownloadProvider extends ContentProvider {
         copyStringWithDefault(Downloads.Impl.COLUMN_DESCRIPTION, values, filteredValues, "");
 
         // is_visible_in_downloads_ui column
-        if (values.containsKey(Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI)) {
-            copyBoolean(Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI, values, filteredValues);
-        } else {
-            // by default, make external downloads visible in the UI
-            boolean isExternal = (dest == null || dest == Downloads.Impl.DESTINATION_EXTERNAL);
-            filteredValues.put(Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI, isExternal);
-        }
+        copyBoolean(COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI, values, filteredValues);
 
         // public api requests and networktypes/roaming columns
         if (isPublicApi) {
@@ -1037,6 +1033,44 @@ public final class DownloadProvider extends ContentProvider {
         return packages[0];
     }
 
+    private void ensureDefaultColumns(ContentValues values) {
+        final Integer dest = values.getAsInteger(COLUMN_DESTINATION);
+        if (dest != null) {
+            final int mediaScannable;
+            final boolean visibleInDownloadsUi;
+            if (dest == Downloads.Impl.DESTINATION_EXTERNAL) {
+                mediaScannable = MEDIA_NOT_SCANNED;
+                visibleInDownloadsUi = true;
+            } else if (dest != DESTINATION_FILE_URI
+                    && dest != DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD) {
+                mediaScannable = MEDIA_NOT_SCANNABLE;
+                visibleInDownloadsUi = false;
+            } else {
+                final File file;
+                if (dest == Downloads.Impl.DESTINATION_FILE_URI) {
+                    final String fileUri = values.getAsString(Downloads.Impl.COLUMN_FILE_NAME_HINT);
+                    file = new File(getFileUri(fileUri).getPath());
+                } else {
+                    file = new File(values.getAsString(Downloads.Impl._DATA));
+                }
+
+                if (Helpers.isFileInExternalAndroidDirs(file.getAbsolutePath())) {
+                    mediaScannable = MEDIA_NOT_SCANNABLE;
+                    visibleInDownloadsUi = false;
+                } else {
+                    mediaScannable = MEDIA_NOT_SCANNED;
+                    visibleInDownloadsUi = true;
+                }
+            }
+            values.put(COLUMN_MEDIA_SCANNED, mediaScannable);
+            values.put(COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI, visibleInDownloadsUi);
+        } else {
+            if (!values.containsKey(COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI)) {
+                values.put(COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI, true);
+            }
+        }
+    }
+
     /**
      * Check that the file URI provided for DESTINATION_FILE_URI is valid.
      */
@@ -1111,7 +1145,9 @@ public final class DownloadProvider extends ContentProvider {
         final boolean runningLegacyMode = appOpsManager.checkOp(AppOpsManager.OP_LEGACY_STORAGE,
                 Binder.getCallingUid(), getCallingPackage()) == AppOpsManager.MODE_ALLOWED;
 
-        if (Helpers.isFilenameValidInExternalPackage(getContext(), file, getCallingPackage())) {
+        if (Binder.getCallingPid() == Process.myPid()) {
+            return;
+        } else if (Helpers.isFilenameValidInExternalPackage(getContext(), file, getCallingPackage())) {
             // No permissions required for paths belonging to calling package.
             return;
         } else if ((runningLegacyMode && Helpers.isFilenameValidInPublicDownloadsDir(file))

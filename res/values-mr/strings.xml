@@ -43,12 +43,12 @@
     <string name="button_cancel_download" msgid="2430166148737975604">"रद्द करा"</string>
     <string name="button_start_now" msgid="792123674007840864">"आता सुरू करा"</string>
     <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
-      <item quantity="one"><xliff:g id="NUMBER">%d</xliff:g>फाईल डाउनलोड होत आहे</item>
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g>फायली डाउनलोड होत आहेत</item>
+      <item quantity="one">1 फाईल डाउनलोड होत आहे</item>
     </plurals>
     <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
-      <item quantity="one"><xliff:g id="NUMBER">%d</xliff:g> फाईल प्रतीक्षेत आहे</item>
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> फायली प्रतीक्षेत आहेत</item>
+      <item quantity="one">1 फाईल प्रतीक्षेत आहे</item>
     </plurals>
     <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> बाकी"</string>
     <string name="download_no_application_title" msgid="7935659741162801699">"फाइल उघडू शकत नाही"</string>

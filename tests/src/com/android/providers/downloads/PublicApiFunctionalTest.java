@@ -250,15 +250,15 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         enqueueResponse(buildEmptyResponse(HTTP_OK));
         enqueueResponse(buildEmptyResponse(HTTP_NOT_FOUND));
 
-        Download download1 = enqueueRequest(getRequest());
+        Download download1 = enqueueRequest(getRequestWithDestinationDownloadsDir());
         download1.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
 
         mSystemFacade.incrementTimeMillis(1); // ensure downloads are correctly ordered by time
-        Download download2 = enqueueRequest(getRequest());
+        Download download2 = enqueueRequest(getRequestWithDestinationDownloadsDir());
         download2.runUntilStatus(DownloadManager.STATUS_FAILED);
 
         mSystemFacade.incrementTimeMillis(1);
-        Download download3 = enqueueRequest(getRequest());
+        Download download3 = enqueueRequest(getRequestWithDestinationDownloadsDir());
 
         Cursor cursor = mManager.query(new DownloadManager.Query());
         checkAndCloseCursor(cursor, download3, download2, download1);

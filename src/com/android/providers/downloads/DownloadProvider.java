@@ -1831,14 +1831,19 @@ public final class DownloadProvider extends ContentProvider {
 
                         final String path = info.mFileName;
                         if (!TextUtils.isEmpty(path)) {
+                            boolean fileDeleted = false;
                             try {
                                 final File file = new File(path).getCanonicalFile();
                                 if (Helpers.isFilenameValid(getContext(), file)) {
                                     Log.v(Constants.TAG,
                                             "Deleting " + file + " via provider delete");
                                     file.delete();
+                                    fileDeleted = true;
                                 }
-                            } catch (IOException ignored) {
+                            } catch (IOException ignore) {
+                            }
+                            if (!fileDeleted) {
+                                Log.d(Constants.TAG, "Ignoring invalid path: " + path);
                             }
                         }
 

@@ -507,7 +507,6 @@ public class Helpers {
             return false;
         }
 
-        Log.w(TAG, "Path appears to be invalid: " + file);
         return false;
     }
 
@@ -522,7 +521,6 @@ public class Helpers {
             return false;
         }
 
-        Log.w(TAG, "Path appears to be invalid: " + file);
         return false;
     }
 
@@ -552,7 +550,6 @@ public class Helpers {
             return false;
         }
 
-        Log.w(TAG, "Path appears to be invalid: " + file);
         return false;
     }
 

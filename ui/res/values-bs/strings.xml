@@ -23,19 +23,19 @@
     <string name="missing_title" msgid="830115697868833773">"&lt;Nepoznato&gt;"</string>
     <string name="button_sort_by_size" msgid="7331549713691146251">"Poredaj po veličini"</string>
     <string name="button_sort_by_date" msgid="8800842892684101528">"Poredaj po datumu"</string>
-    <string name="download_queued" msgid="104973307780629904">"U U redu čekanja"</string>
+    <string name="download_queued" msgid="104973307780629904">"U redoslijedu"</string>
     <string name="download_running" msgid="4656462962155580641">"U toku"</string>
     <string name="download_success" msgid="7006048006543495236">"Završeno"</string>
     <string name="download_error" msgid="8081329546008568251">"Neuspješno"</string>
     <string name="dialog_title_not_available" msgid="5746317632356158515">"Nije bilo moguće preuzeti"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"Želite li ponovo kasnije pokušati s preuzimanjem fajla ili ga želite izbrisati iz reda čekanja?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Fajl je u redu čekanja"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"Fajl je u redu čekanja za kasnije preuzimanje tako da još nije dostupan."</string>
+    <string name="dialog_failed_body" msgid="587545111677064427">"Da li želite ponovo pokušati s preuzimanjem datoteke kasnije ili je želite izbrisati s redoslijeda?"</string>
+    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Datoteka je u redoslijedu"</string>
+    <string name="dialog_queued_body" msgid="708552801635572720">"Datoteka je na redoslijedu za kasnije preuzimanje tako da još nije dostupna."</string>
     <string name="dialog_file_missing_body" msgid="3223012612774276284">"Nije moguće pronaći preuzetu datoteku."</string>
     <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Nije moguće dovršiti preuzimanje. Nema dovoljno prostora na eksternoj pohrani."</string>
     <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Nije moguće dovršiti preuzimanje. Nema dovoljno prostora na internoj pohrani za preuzimanja."</string>
     <string name="dialog_cannot_resume" msgid="8664509751358983543">"Preuzimanje je prekinuto i ne može se nastaviti."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Nije moguće preuzeti. Odredišni fajl već postoji."</string>
+    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Nije moguće preuzeti. Odredišna datoteka već postoji."</string>
     <string name="dialog_media_not_found" msgid="4468088418758018765">"Nije moguće preuzeti. Vanjski medij nije dostupan."</string>
     <string name="download_no_application_title" msgid="7024782176657362251">"Nije moguće otvoriti datoteku"</string>
     <string name="remove_download" msgid="6372920256257247857">"Ukloni"</string>
@@ -43,7 +43,7 @@
     <string name="keep_queued_download" msgid="5144882786014818569">"Zadrži"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Otkaži"</string>
     <string name="retry_download" msgid="7617100787922717912">"Pokušaj ponovo"</string>
-    <string name="start_now_download" msgid="1564642872809509681">"Započni odmah"</string>
+    <string name="start_now_download" msgid="1564642872809509681">"Pokreni odmah"</string>
     <string name="deselect_all" msgid="6348198946254776764">"Poništi odabir svih"</string>
     <string name="select_all" msgid="634074918366265804">"Odaberi sve"</string>
     <string name="selected_count" msgid="2101564570019753277">"Odabrano <xliff:g id="NUMBER">%1$d</xliff:g> od <xliff:g id="TOTAL">%2$d</xliff:g>"</string>

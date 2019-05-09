@@ -18,6 +18,8 @@ package com.android.providers.downloads;
 
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION;
+import static android.provider.Downloads.Impl.COLUMN_DESTINATION;
+import static android.provider.Downloads.Impl._DATA;
 
 import static com.android.providers.downloads.Constants.TAG;
 import static com.android.providers.downloads.Helpers.getAsyncHandler;
@@ -43,6 +45,8 @@ import android.util.Log;
 import android.util.Slog;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 /**
@@ -144,28 +148,27 @@ public class DownloadReceiver extends BroadcastReceiver {
         final ContentResolver resolver = context.getContentResolver();
         final int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
 
-        // First, disown any downloads that live in shared storage
-        final ContentValues values = new ContentValues();
-        values.putNull(Constants.UID);
+        final ArrayList<Long> idsToDelete = new ArrayList<>();
+        final ArrayList<Long> idsToOrphan = new ArrayList<>();
+        try (Cursor cursor = resolver.query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
+                new String[] { Downloads.Impl._ID, Constants.UID, COLUMN_DESTINATION, _DATA },
+                Constants.UID + "=" + uid, null, null)) {
+            Helpers.handleRemovedUidEntries(context, cursor, idsToDelete, idsToOrphan, null);
+        }
 
-        final StringBuilder queryString = new StringBuilder(Constants.UID + "=" + uid);
-        queryString.append(" AND ").append(Downloads.Impl.COLUMN_DESTINATION + " IN ("
-                + Downloads.Impl.DESTINATION_EXTERNAL + ","
-                + Downloads.Impl.DESTINATION_FILE_URI + ","
-                + Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD + ")");
-        queryString.append(" AND ").append(Downloads.Impl._DATA
-                + " REGEXP '" + MediaStore.Downloads.PATTERN_DOWNLOADS_FILE.pattern() + "'");
-
-        final int disowned = resolver.update(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, values,
-                queryString.toString(), null);
-
-        // Finally, delete any remaining downloads owned by UID
-        final int deleted = resolver.delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
-                Constants.UID + "=" + uid, null);
-
-        if ((disowned + deleted) > 0) {
-            Slog.d(TAG, "Disowned " + disowned + " and deleted " + deleted
-                    + " downloads owned by UID " + uid);
+        if (idsToOrphan.size() > 0) {
+            Log.i(Constants.TAG, "Orphaning downloads with ids "
+                    + Arrays.toString(idsToOrphan.toArray()) + " as owner package is removed");
+            final ContentValues values = new ContentValues();
+            values.putNull(Constants.UID);
+            resolver.update(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, values,
+                    Helpers.buildQueryWithIds(idsToOrphan), null);
+        }
+        if (idsToDelete.size() > 0) {
+            Log.i(Constants.TAG, "Deleting downloads with ids "
+                    + Arrays.toString(idsToDelete.toArray()) + " as owner package is removed");
+            resolver.delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
+                    Helpers.buildQueryWithIds(idsToDelete), null);
         }
     }
 

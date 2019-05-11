@@ -102,4 +102,19 @@ public class HelpersTest extends AndroidTestCase {
         assertFalse(Helpers.isFileInExternalAndroidDirs(
                 "/storage/AAAA-FFFF/Download/dir/bar.html"));
     }
+
+    public void testIsFilenameValidinKnownPublicDir() throws Exception {
+        assertTrue(Helpers.isFilenameValidInKnownPublicDir(
+                "/storage/emulated/0/Download/dir/file.txt"));
+        assertTrue(Helpers.isFilenameValidInKnownPublicDir(
+                "/storage/emulated/0/Music/foo.mp4"));
+        assertTrue(Helpers.isFilenameValidInKnownPublicDir(
+                "/storage/emulated/0/DCIM/vacation/bar.jpg"));
+        assertFalse(Helpers.isFilenameValidInKnownPublicDir(
+                "/storage/emulated/0/Testing/foo.mp4"));
+        assertFalse(Helpers.isFilenameValidInKnownPublicDir(
+                "/storage/emulated/0/Misc/Download/bar.jpg"));
+        assertFalse(Helpers.isFilenameValidInKnownPublicDir(
+                "/storage/emulated/0/Android/data/com.example/bar.jpg"));
+    }
 }

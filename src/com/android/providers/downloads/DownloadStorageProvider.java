@@ -198,7 +198,8 @@ public class DownloadStorageProvider extends FileSystemProvider {
         try {
             String newDocumentId = super.createDocument(parentDocId, mimeType, displayName);
             if (!Document.MIME_TYPE_DIR.equals(mimeType)
-                    && !RawDocumentsHelper.isRawDocId(parentDocId)) {
+                    && !RawDocumentsHelper.isRawDocId(parentDocId)
+                    && !isMediaStoreDownload(parentDocId)) {
                 File newFile = getFileForDocId(newDocumentId);
                 newDocumentId = Long.toString(mDm.addCompletedDownload(
                         newFile.getName(), newFile.getName(), true, mimeType,
@@ -243,7 +244,8 @@ public class DownloadStorageProvider extends FileSystemProvider {
         final long token = Binder.clearCallingIdentity();
 
         try {
-            if (RawDocumentsHelper.isRawDocId(docId)) {
+            if (RawDocumentsHelper.isRawDocId(docId)
+                    || isMediaStoreDownloadDir(docId)) {
                 return super.renameDocument(docId, displayName);
             }
 
@@ -925,7 +927,10 @@ public class DownloadStorageProvider extends FileSystemProvider {
                 mediaCursor.getColumnIndex(DownloadColumns.IS_PENDING)) == 1;
 
         int extraFlags = isPending ? Document.FLAG_PARTIAL : 0;
-        if (!Document.MIME_TYPE_DIR.equals(mimeType)) {
+        if (Document.MIME_TYPE_DIR.equals(mimeType)) {
+            extraFlags |= Document.FLAG_DIR_SUPPORTS_CREATE;
+        }
+        if (!isPending) {
             extraFlags |= Document.FLAG_SUPPORTS_RENAME;
         }
 

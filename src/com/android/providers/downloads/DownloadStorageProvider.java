@@ -30,12 +30,11 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.UriPermission;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MatrixCursor.RowBuilder;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.media.MediaFile;
-import android.mtp.MtpConstants;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Bundle;
@@ -53,7 +52,6 @@ import android.provider.MediaStore;
 import android.provider.MediaStore.DownloadColumns;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.LongArray;
 import android.util.Pair;
 
 import com.android.internal.annotations.GuardedBy;
@@ -66,6 +64,7 @@ import java.io.FileNotFoundException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -96,15 +95,6 @@ public class DownloadStorageProvider extends FileSystemProvider {
     };
 
     private DownloadManager mDm;
-
-    private static final String[] DOWNLOADS_PROJECTION
-            = new String[DownloadManager.UNDERLYING_COLUMNS.length + 1];
-    static {
-        System.arraycopy(DownloadManager.UNDERLYING_COLUMNS, 0,
-                DOWNLOADS_PROJECTION, 0, DownloadManager.UNDERLYING_COLUMNS.length);
-        DOWNLOADS_PROJECTION[DOWNLOADS_PROJECTION.length - 1]
-                = Downloads.Impl.COLUMN_MEDIASTORE_URI;
-    }
 
     private static final int NO_LIMIT = -1;
 
@@ -146,6 +136,22 @@ public class DownloadStorageProvider extends FileSystemProvider {
                     MediaStoreDownloadsHelper.getDocIdForMediaStoreDownload(ids[i], isDir));
             context.revokeUriPermission(uri, ~0);
         }
+    }
+
+    static void revokeAllMediaStoreUriPermissions(Context context) {
+        final List<UriPermission> uriPermissions =
+                context.getContentResolver().getOutgoingUriPermissions();
+        final int size = uriPermissions.size();
+        final StringBuilder sb = new StringBuilder("Revoking permissions for uris: ");
+        for (int i = 0; i < size; ++i) {
+            final Uri uri = uriPermissions.get(i).getUri();
+            if (AUTHORITY.equals(uri.getAuthority())
+                    && isMediaStoreDownload(DocumentsContract.getDocumentId(uri))) {
+                context.revokeUriPermission(uri, ~0);
+                sb.append(uri + ",");
+            }
+        }
+        Log.d(TAG, sb.toString());
     }
 
     @Override
@@ -288,14 +294,13 @@ public class DownloadStorageProvider extends FileSystemProvider {
                     includeDownloadFromMediaStore(result, cursor, null /* filePaths */);
                 }
             } else {
-                cursor = mDm.query(new Query().setFilterById(Long.parseLong(docId)),
-                        DOWNLOADS_PROJECTION);
+                cursor = mDm.query(new Query().setFilterById(Long.parseLong(docId)));
                 copyNotificationUri(result, cursor);
                 if (cursor.moveToFirst()) {
                     // We don't know if this queryDocument() call is from Downloads (manage)
                     // or Files. Safely assume it's Files.
                     includeDownloadFromCursor(result, cursor, null /* filePaths */,
-                            null /* mediaStoreIds */, null /* queryArgs */);
+                            null /* queryArgs */);
                 }
             }
             result.start();
@@ -335,29 +340,25 @@ public class DownloadStorageProvider extends FileSystemProvider {
             final ArrayList<Uri> notificationUris = new ArrayList<>();
             if (isMediaStoreDownloadDir(parentDocId)) {
                 includeDownloadsFromMediaStore(result, null /* queryArgs */,
-                        null /* idsToExclude */, null /* filePaths */, notificationUris,
+                        null /* filePaths */, notificationUris,
                         getMediaStoreIdString(parentDocId), NO_LIMIT, manage);
             } else {
                 assert (DOC_ID_ROOT.equals(parentDocId));
                 if (manage) {
                     cursor = mDm.query(
-                            new DownloadManager.Query().setOnlyIncludeVisibleInDownloadsUi(true),
-                            DOWNLOADS_PROJECTION);
+                            new DownloadManager.Query().setOnlyIncludeVisibleInDownloadsUi(true));
                 } else {
                     cursor = mDm.query(
                             new DownloadManager.Query().setOnlyIncludeVisibleInDownloadsUi(true)
-                                    .setFilterByStatus(DownloadManager.STATUS_SUCCESSFUL),
-                            DOWNLOADS_PROJECTION);
+                                    .setFilterByStatus(DownloadManager.STATUS_SUCCESSFUL));
                 }
                 final Set<String> filePaths = new HashSet<>();
-                final LongArray mediaStoreIds = new LongArray();
                 while (cursor.moveToNext()) {
-                    includeDownloadFromCursor(result, cursor, filePaths, mediaStoreIds,
-                            null /* queryArgs */);
+                    includeDownloadFromCursor(result, cursor, filePaths, null /* queryArgs */);
                 }
                 notificationUris.add(cursor.getNotificationUri());
                 includeDownloadsFromMediaStore(result, null /* queryArgs */,
-                        mediaStoreIds, filePaths, notificationUris,
+                        filePaths, notificationUris,
                         null /* parentId */, NO_LIMIT, manage);
                 includeFilesFromSharedStorage(result, filePaths, null);
             }
@@ -401,9 +402,8 @@ public class DownloadStorageProvider extends FileSystemProvider {
         final ArrayList<Uri> notificationUris = new ArrayList<>();
         try {
             cursor = mDm.query(new DownloadManager.Query().setOnlyIncludeVisibleInDownloadsUi(true)
-                    .setFilterByStatus(DownloadManager.STATUS_SUCCESSFUL),
-                    DOWNLOADS_PROJECTION);
-            final LongArray mediaStoreIds = new LongArray();
+                    .setFilterByStatus(DownloadManager.STATUS_SUCCESSFUL));
+            final Set<String> filePaths = new HashSet<>();
             while (cursor.moveToNext() && result.getCount() < limit) {
                 final String mimeType = cursor.getString(
                         cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIA_TYPE));
@@ -417,8 +417,8 @@ public class DownloadStorageProvider extends FileSystemProvider {
                         || MediaFile.isVideoMimeType(mimeType)) && !TextUtils.isEmpty(uri)) {
                     continue;
                 }
-                includeDownloadFromCursor(result, cursor, null /* filePaths */,
-                        mediaStoreIds, null /* queryArgs */);
+                includeDownloadFromCursor(result, cursor, filePaths,
+                        null /* queryArgs */);
             }
             notificationUris.add(cursor.getNotificationUri());
 
@@ -427,7 +427,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
             final Bundle args = new Bundle();
             args.putBoolean(DocumentsContract.QUERY_ARG_EXCLUDE_MEDIA, true);
 
-            includeDownloadsFromMediaStore(result, args, mediaStoreIds, null /* filePaths */,
+            includeDownloadsFromMediaStore(result, args, filePaths,
                     notificationUris, null /* parentId */, (limit - result.getCount()),
                     false /* includePending */);
         } finally {
@@ -453,15 +453,13 @@ public class DownloadStorageProvider extends FileSystemProvider {
         Cursor cursor = null;
         try {
             cursor = mDm.query(new DownloadManager.Query().setOnlyIncludeVisibleInDownloadsUi(true)
-                    .setFilterByString(DocumentsContract.getSearchDocumentsQuery(queryArgs)),
-                    DOWNLOADS_PROJECTION);
-            final LongArray mediaStoreIds = new LongArray();
+                    .setFilterByString(DocumentsContract.getSearchDocumentsQuery(queryArgs)));
             final Set<String> filePaths = new HashSet<>();
             while (cursor.moveToNext()) {
-                includeDownloadFromCursor(result, cursor, filePaths, mediaStoreIds, queryArgs);
+                includeDownloadFromCursor(result, cursor, filePaths, queryArgs);
             }
             notificationUris.add(cursor.getNotificationUri());
-            includeDownloadsFromMediaStore(result, queryArgs, mediaStoreIds, filePaths,
+            includeDownloadsFromMediaStore(result, queryArgs, filePaths,
                     notificationUris, null /* parentId */, NO_LIMIT, true /* includePending */);
 
             includeSearchFilesFromSharedStorage(result, projection, filePaths, queryArgs);
@@ -572,8 +570,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
         Cursor cursor = null;
         String localFilePath = null;
         try {
-            cursor = mDm.query(new Query().setFilterById(Long.parseLong(docId)),
-                    DOWNLOADS_PROJECTION);
+            cursor = mDm.query(new Query().setFilterById(Long.parseLong(docId)));
             if (cursor.moveToFirst()) {
                 localFilePath = cursor.getString(
                         cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_FILENAME));
@@ -620,7 +617,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
      * if the file exists in the file system.
      */
     private void includeDownloadFromCursor(MatrixCursor result, Cursor cursor,
-            Set<String> filePaths, LongArray mediaStoreIds, Bundle queryArgs) {
+            Set<String> filePaths, Bundle queryArgs) {
         final long id = cursor.getLong(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_ID));
         final String docId = String.valueOf(id);
 
@@ -703,14 +700,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
 
         includeDownload(result, docId, displayName, summary, size, mimeType,
                 lastModified, extraFlags, status == DownloadManager.STATUS_RUNNING);
-        if (mediaStoreIds != null) {
-            final String mediaStoreUri = cursor.getString(
-                    cursor.getColumnIndex(Downloads.Impl.COLUMN_MEDIASTORE_URI));
-            if (mediaStoreUri != null) {
-                mediaStoreIds.add(ContentUris.parseId(Uri.parse(mediaStoreUri)));
-            }
-        }
-        if (filePaths != null) {
+        if (filePaths != null && localFilePath != null) {
             filePaths.add(localFilePath);
         }
     }
@@ -881,7 +871,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
     }
 
     private void includeDownloadsFromMediaStore(@NonNull MatrixCursor result,
-            @Nullable Bundle queryArgs, @Nullable LongArray idsToExclude,
+            @Nullable Bundle queryArgs,
             @Nullable Set<String> filePaths, @NonNull ArrayList<Uri> notificationUris,
             @Nullable String parentId, int limit, boolean includePending) {
         if (limit == 0) {
@@ -890,7 +880,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
 
         final long token = Binder.clearCallingIdentity();
         final Pair<String, String[]> selectionPair
-                = buildSearchSelection(queryArgs, idsToExclude, parentId);
+                = buildSearchSelection(queryArgs, filePaths, parentId);
         final Uri.Builder queryUriBuilder = MediaStore.Downloads.EXTERNAL_CONTENT_URI.buildUpon();
         if (limit != NO_LIMIT) {
             queryUriBuilder.appendQueryParameter(MediaStore.PARAM_LIMIT, String.valueOf(limit));
@@ -953,19 +943,18 @@ public class DownloadStorageProvider extends FileSystemProvider {
 
     // Copied from MediaDocumentsProvider with some tweaks
     private Pair<String, String[]> buildSearchSelection(@Nullable Bundle queryArgs,
-            @Nullable LongArray idsToExclude, @Nullable String parentId) {
+            @Nullable Set<String> filePaths, @Nullable String parentId) {
         final StringBuilder selection = new StringBuilder();
         final ArrayList<String> selectionArgs = new ArrayList<>();
 
-        if (parentId == null && idsToExclude != null && idsToExclude.size() > 0) {
+        if (parentId == null && filePaths != null && filePaths.size() > 0) {
             if (selection.length() > 0) {
                 selection.append(" AND ");
             }
-            selection.append(DownloadColumns._ID + " NOT IN (");
-            final int size = idsToExclude.size();
-            for (int i = 0; i < size; ++i) {
-                selection.append(idsToExclude.get(i) + ((i == size - 1) ? ")" : ","));
-            }
+            selection.append(DownloadColumns.DATA + " NOT IN (");
+            selection.append(TextUtils.join(",", Collections.nCopies(filePaths.size(), "?")));
+            selection.append(")");
+            selectionArgs.addAll(filePaths);
         }
 
         if (parentId != null) {

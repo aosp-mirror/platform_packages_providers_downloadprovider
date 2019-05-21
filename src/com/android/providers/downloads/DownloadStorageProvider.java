@@ -975,13 +975,13 @@ public class DownloadStorageProvider extends FileSystemProvider {
             selection.append(DownloadColumns.RELATIVE_PATH + "=?");
             final Pair<String, String> data = getRelativePathAndDisplayNameForDownload(
                     Long.parseLong(parentId));
-            selectionArgs.add(data.first + "/" + data.second);
+            selectionArgs.add(data.first + data.second + "/");
         } else {
             if (selection.length() > 0) {
                 selection.append(" AND ");
             }
             selection.append(DownloadColumns.RELATIVE_PATH + "=?");
-            selectionArgs.add(Environment.DIRECTORY_DOWNLOADS);
+            selectionArgs.add(Environment.DIRECTORY_DOWNLOADS + "/");
         }
 
         if (queryArgs != null) {

@@ -28,7 +28,7 @@
     <string name="download_success" msgid="7006048006543495236">"पूर्ण"</string>
     <string name="download_error" msgid="8081329546008568251">"अयशस्वी"</string>
     <string name="dialog_title_not_available" msgid="5746317632356158515">"डाउनलोड करू शकलो नाही"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"तुम्ही फाइल डाउनलोड करण्‍याचा नंतर पुन्हा प्रयत्न करू इच्‍छिता कि तिला रांगेमधून हटवू इच्छिता?"</string>
+    <string name="dialog_failed_body" msgid="587545111677064427">"आपण फाइल डाउनलोड करण्‍याचा नंतर पुन्हा प्रयत्न करू इच्‍छिता कि तिला रांगेमधून हटवू इच्छिता?"</string>
     <string name="dialog_title_queued_body" msgid="6760681913815015219">"रांगेतील फाइल"</string>
     <string name="dialog_queued_body" msgid="708552801635572720">"ही फाइल भविष्‍यात डाउनलोड करण्‍यासाठी रांगेत लावली आहे म्‍हणून ती अद्याप उपलब्‍ध नाही."</string>
     <string name="dialog_file_missing_body" msgid="3223012612774276284">"डाउनलोड केलेली फाइल शोधू शकत नाही."</string>
@@ -47,5 +47,5 @@
     <string name="deselect_all" msgid="6348198946254776764">"सर्व निवड रद्द करा"</string>
     <string name="select_all" msgid="634074918366265804">"सर्व निवडा"</string>
     <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="TOTAL">%2$d</xliff:g> पैकी <xliff:g id="NUMBER">%1$d</xliff:g> निवडले"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"द्वारे शेअर करा"</string>
+    <string name="download_share_dialog" msgid="3355867339806448955">"द्वारे सामायिक करा"</string>
 </resources>

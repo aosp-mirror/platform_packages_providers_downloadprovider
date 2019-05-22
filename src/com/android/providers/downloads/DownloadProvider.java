@@ -79,6 +79,7 @@ import android.util.SparseArray;
 
 import com.android.internal.util.ArrayUtils;
 import com.android.internal.util.IndentingPrintWriter;
+import com.android.internal.util.Preconditions;
 
 import libcore.io.IoUtils;
 
@@ -636,8 +637,7 @@ public final class DownloadProvider extends ContentProvider {
     public Bundle call(String method, String arg, Bundle extras) {
         switch (method) {
             case Downloads.CALL_MEDIASTORE_DOWNLOADS_DELETED: {
-                getContext().enforceCallingOrSelfPermission(
-                        android.Manifest.permission.WRITE_MEDIA_STORAGE,
+                Preconditions.checkArgument(Binder.getCallingUid() == Process.myUid(),
                         "Not allowed to call " + Downloads.CALL_MEDIASTORE_DOWNLOADS_DELETED);
                 final long[] deletedDownloadIds = extras.getLongArray(Downloads.EXTRA_IDS);
                 final String[] mimeTypes = extras.getStringArray(Downloads.EXTRA_MIME_TYPES);
@@ -660,6 +660,12 @@ public final class DownloadProvider extends ContentProvider {
                     throw new IllegalStateException("Unable to create directory: " +
                             file.getAbsolutePath());
                 }
+                return null;
+            }
+            case Downloads.CALL_REVOKE_MEDIASTORE_URI_PERMS : {
+                Preconditions.checkArgument(Binder.getCallingUid() == Process.myUid(),
+                        "Not allowed to call " + Downloads.CALL_REVOKE_MEDIASTORE_URI_PERMS);
+                DownloadStorageProvider.revokeAllMediaStoreUriPermissions(getContext());
                 return null;
             }
             default:
@@ -1324,82 +1330,7 @@ public final class DownloadProvider extends ContentProvider {
 
         final SQLiteQueryBuilder qb = getQueryBuilder(uri, match);
 
-        // map of volumeName -> { mediastore ids that need to be queried }
-        final ArrayMap<String, LongArray> mediaStoreIdsForVolumes = new ArrayMap<>();
-        try (Cursor cursor = qb.query(db, new String[] { Downloads.Impl.COLUMN_MEDIASTORE_URI },
-                selection, selectionArgs, null, null, sort)) {
-            while (cursor.moveToNext()) {
-                final String uriString = cursor.getString(0);
-                if (uriString == null) {
-                    continue;
-                }
-                final Uri mediaStoreUri = Uri.parse(uriString);
-                final String volumeName = MediaStore.getVolumeName(mediaStoreUri);
-                LongArray ids = mediaStoreIdsForVolumes.get(volumeName);
-                if (ids == null) {
-                    ids = new LongArray();
-                    mediaStoreIdsForVolumes.put(volumeName, ids);
-                }
-                ids.add(ContentUris.parseId(mediaStoreUri));
-            }
-        }
-        // map of volumeName -> { map of {mediastore id -> mediastore data} }
-        final ArrayMap<String, LongSparseArray<String>> mediaStoreDataForVolumes
-                = new ArrayMap<>();
-        final CallingIdentity token = clearCallingIdentity();
-        try (ContentProviderClient client = getContext().getContentResolver()
-                .acquireContentProviderClient(MediaStore.AUTHORITY)) {
-            final String[] projectionIn = new String[] {
-                    MediaStore.Downloads._ID,
-                    MediaStore.Downloads.DATA,
-            };
-            for (int i = 0; i < mediaStoreIdsForVolumes.size(); ++i) {
-                final String volumeName = mediaStoreIdsForVolumes.keyAt(i);
-                final LongArray ids = mediaStoreIdsForVolumes.valueAt(i);
-                final LongSparseArray<String> mediaStoreDataForIds
-                        = new LongSparseArray<>();
-                mediaStoreDataForVolumes.put(volumeName, mediaStoreDataForIds);
-                try (Cursor mediaCursor = getMediaProviderRowsForIds(
-                        client, projectionIn, volumeName, ids)) {
-                    while (mediaCursor.moveToNext()) {
-                        final long id = mediaCursor.getLong(0);
-                        final String filePath = mediaCursor.getString(1);
-                        mediaStoreDataForIds.put(id, filePath);
-                    }
-                }
-            }
-        } catch (RemoteException e) {
-            // Should not happen
-        } finally {
-            restoreCallingIdentity(token);
-        }
-
-        final TranslatingCursor.Config config = getTranslatingCursorConfig(match);
-        final TranslatingCursor.Translator translator
-                = (data, auxiliaryColIndex, matchingColumn, cursor) -> {
-            final String uriString = cursor.getString(auxiliaryColIndex);
-            if (uriString != null) {
-                final Uri mediaStoreUri = Uri.parse(uriString);
-                final String volumeName = MediaStore.getVolumeName(mediaStoreUri);
-                final LongSparseArray<String> mediaStoreDataForIds
-                        = mediaStoreDataForVolumes.get(volumeName);
-                if (mediaStoreDataForIds != null) {
-                    switch (matchingColumn) {
-                        case Downloads.Impl._DATA:
-                        case Downloads.Impl.COLUMN_FILE_NAME_HINT:
-                        case DownloadManager.COLUMN_LOCAL_FILENAME:
-                            final long id = ContentUris.parseId(mediaStoreUri);
-                            return mediaStoreDataForIds.get(id, data);
-                        default:
-                            return data;
-                    }
-                }
-            }
-
-            return data;
-        };
-        final Cursor ret = TranslatingCursor.query(config, translator,
-                qb, db, projection, selection, selectionArgs, null, null, sort, null, null);
+        final Cursor ret = qb.query(db, projection, selection, selectionArgs, null, null, sort);
 
         if (ret != null) {
             ret.setNotificationUri(getContext().getContentResolver(), uri);
@@ -1414,39 +1345,6 @@ public final class DownloadProvider extends ContentProvider {
         }
 
         return ret;
-    }
-
-    private Cursor getMediaProviderRowsForIds(ContentProviderClient mediaProvider,
-            String[] projection, String volumeName, LongArray ids) throws RemoteException {
-        final StringBuilder queryString = new StringBuilder();
-        queryString.append(MediaStore.Downloads._ID + " in (");
-        final int size = ids.size();
-        for (int i = 0; i < size; ++i) {
-            queryString.append(ids.get(i));
-            queryString.append((i == size - 1) ? ")" : ",");
-        }
-        return mediaProvider.query(MediaStore.Downloads.getContentUri(volumeName),
-                projection, queryString.toString(), null, null);
-    }
-
-    private TranslatingCursor.Config getTranslatingCursorConfig(int match) {
-        final Uri baseUri;
-        switch (match) {
-            case MY_DOWNLOADS:
-            case MY_DOWNLOADS_ID:
-                baseUri = Downloads.Impl.CONTENT_URI;
-                break;
-            case ALL_DOWNLOADS:
-            case ALL_DOWNLOADS_ID:
-                baseUri = Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI;
-                break;
-            default:
-                baseUri = null;
-        }
-        return new TranslatingCursor.Config(baseUri, Downloads.Impl.COLUMN_MEDIASTORE_URI,
-                Downloads.Impl._DATA,
-                Downloads.Impl.COLUMN_FILE_NAME_HINT,
-                DownloadManager.COLUMN_LOCAL_FILENAME);
     }
 
     private void logVerboseQueryInfo(String[] projection, final String selection,
@@ -1622,7 +1520,8 @@ public final class DownloadProvider extends ContentProvider {
                                 || (info.mMediaScanned != MEDIA_NOT_SCANNABLE);
                         if (info.mFileName == null) {
                             if (info.mMediaStoreUri != null) {
-                                client.delete(Uri.parse(info.mMediaStoreUri), null, null);
+                                // If there was a mediastore entry, it would be deleted in it's
+                                // next idle pass.
                                 updateValues.clear();
                                 updateValues.putNull(Downloads.Impl.COLUMN_MEDIASTORE_URI);
                                 qb.update(db, updateValues, Downloads.Impl._ID + "=?",
@@ -1660,8 +1559,6 @@ public final class DownloadProvider extends ContentProvider {
                             info.sendIntentIfRequested();
                         }
                     }
-                } catch (RemoteException e) {
-                    // Should not happen
                 } finally {
                     restoreCallingIdentity(token);
                 }
@@ -1788,32 +1685,18 @@ public final class DownloadProvider extends ContentProvider {
 
                         final String path = info.mFileName;
                         if (!TextUtils.isEmpty(path)) {
-                            boolean fileDeleted = false;
                             try {
                                 final File file = new File(path).getCanonicalFile();
                                 if (Helpers.isFilenameValid(getContext(), file)) {
                                     Log.v(Constants.TAG,
                                             "Deleting " + file + " via provider delete");
                                     file.delete();
-                                    fileDeleted = true;
+                                    deleteMediaStoreEntry(file);
+                                } else {
+                                    Log.d(Constants.TAG, "Ignoring invalid file: " + file);
                                 }
-                            } catch (IOException ignore) {
-                            }
-                            if (!fileDeleted) {
-                                Log.d(Constants.TAG, "Ignoring invalid path: " + path);
-                            }
-                        }
-
-                        final String mediaUri = info.mMediaStoreUri;
-                        if (!TextUtils.isEmpty(mediaUri)) {
-                            final long token = Binder.clearCallingIdentity();
-                            try {
-                                getContext().getContentResolver().delete(Uri.parse(mediaUri), null,
-                                        null);
-                            } catch (Exception e) {
-                                Log.w(Constants.TAG, "Failed to delete media entry: " + e);
-                            } finally {
-                                Binder.restoreCallingIdentity(token);
+                            } catch (IOException e) {
+                                Log.e(Constants.TAG, "Couldn't delete file: " + path, e);
                             }
                         }
 
@@ -1846,6 +1729,24 @@ public final class DownloadProvider extends ContentProvider {
             Binder.restoreCallingIdentity(token);
         }
         return count;
+    }
+
+    private void deleteMediaStoreEntry(File file) {
+        final long token = Binder.clearCallingIdentity();
+        try {
+            final String path = file.getAbsolutePath();
+            final Uri.Builder builder = MediaStore.setIncludePending(
+                    MediaStore.Files.getContentUriForPath(path).buildUpon());
+            builder.appendQueryParameter(MediaStore.PARAM_DELETE_DATA, "false");
+
+            final Uri filesUri = builder.build();
+            getContext().getContentResolver().delete(filesUri,
+                    MediaStore.Files.FileColumns.DATA + "=?", new String[] { path });
+        } catch (Exception e) {
+            Log.d(Constants.TAG, "Failed to delete mediastore entry for file:" + file, e);
+        } finally {
+            Binder.restoreCallingIdentity(token);
+        }
     }
 
     /**

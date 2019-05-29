@@ -537,7 +537,10 @@ public class Helpers {
     }
 
     @com.android.internal.annotations.VisibleForTesting
-    public static boolean isFilenameValidInKnownPublicDir(String filePath) {
+    public static boolean isFilenameValidInKnownPublicDir(@Nullable String filePath) {
+        if (filePath == null) {
+            return false;
+        }
         final Matcher matcher = PATTERN_PUBLIC_DIRS.matcher(filePath);
         if (matcher.matches()) {
             final String publicDir = matcher.group(1);

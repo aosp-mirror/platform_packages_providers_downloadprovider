@@ -20,11 +20,13 @@ import static android.os.Environment.buildExternalStorageAppDataDirs;
 import static android.os.Environment.buildExternalStorageAppMediaDirs;
 import static android.os.Environment.buildExternalStorageAppObbDirs;
 import static android.os.Environment.buildExternalStoragePublicDirs;
+import static android.provider.Downloads.Impl.COLUMN_DESTINATION;
 import static android.provider.Downloads.Impl.DESTINATION_EXTERNAL;
 import static android.provider.Downloads.Impl.DESTINATION_FILE_URI;
 import static android.provider.Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD;
 import static android.provider.Downloads.Impl.FLAG_REQUIRES_CHARGING;
 import static android.provider.Downloads.Impl.FLAG_REQUIRES_DEVICE_IDLE;
+import static android.provider.Downloads.Impl._DATA;
 
 import static com.android.providers.downloads.Constants.TAG;
 
@@ -33,6 +35,8 @@ import android.annotation.Nullable;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
+import android.content.ContentProvider;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -48,20 +52,19 @@ import android.os.storage.StorageVolume;
 import android.provider.Downloads;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.LongSparseArray;
 import android.util.SparseArray;
-import android.util.SparseBooleanArray;
 import android.webkit.MimeTypeMap;
 
+import com.android.internal.annotations.VisibleForTesting;
 import com.android.internal.util.ArrayUtils;
-
-import com.google.common.annotations.VisibleForTesting;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -626,38 +629,62 @@ public class Helpers {
         }
     }
 
-    public static void handleRemovedUidEntries(@NonNull Context context, @NonNull Cursor cursor,
-            @NonNull ArrayList<Long> idsToDelete, @NonNull ArrayList<Long> idsToOrphan,
-            @Nullable LongSparseArray<String> idsToGrantPermission) {
+    @VisibleForTesting
+    public static void handleRemovedUidEntries(@NonNull Context context,
+            @NonNull ContentProvider downloadProvider, int removedUid,
+            @Nullable BiConsumer<String, Long> validEntryConsumer) {
         final SparseArray<String> knownUids = new SparseArray<>();
-        while (cursor.moveToNext()) {
-            final long downloadId = cursor.getLong(0);
-            final int uid = cursor.getInt(1);
+        final ArrayList<Long> idsToDelete = new ArrayList<>();
+        final ArrayList<Long> idsToOrphan = new ArrayList<>();
+        final String selection = removedUid == -1 ? Constants.UID + " IS NOT NULL"
+                : Constants.UID + "=" + removedUid;
+        try (Cursor cursor = downloadProvider.query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
+                new String[] { Downloads.Impl._ID, Constants.UID, COLUMN_DESTINATION, _DATA },
+                selection, null, null)) {
+            while (cursor.moveToNext()) {
+                final long downloadId = cursor.getLong(0);
+                final int uid = cursor.getInt(1);
 
-            final String ownerPackageName;
-            final int index = knownUids.indexOfKey(uid);
-            if (index >= 0) {
-                ownerPackageName = knownUids.valueAt(index);
-            } else {
-                ownerPackageName = getPackageForUid(context, uid);
-                knownUids.put(uid, ownerPackageName);
-            }
-
-            if (ownerPackageName == null) {
-                final int destination = cursor.getInt(2);
-                final String filePath = cursor.getString(3);
-
-                if ((destination == DESTINATION_EXTERNAL
-                        || destination == DESTINATION_FILE_URI
-                        || destination == DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD)
-                        && isFilenameValidInKnownPublicDir(filePath)) {
-                    idsToOrphan.add(downloadId);
+                final String ownerPackageName;
+                final int index = knownUids.indexOfKey(uid);
+                if (index >= 0) {
+                    ownerPackageName = knownUids.valueAt(index);
                 } else {
-                    idsToDelete.add(downloadId);
+                    ownerPackageName = getPackageForUid(context, uid);
+                    knownUids.put(uid, ownerPackageName);
                 }
-            } else if (idsToGrantPermission != null) {
-                idsToGrantPermission.put(downloadId, ownerPackageName);
+
+                if (ownerPackageName == null) {
+                    final int destination = cursor.getInt(2);
+                    final String filePath = cursor.getString(3);
+
+                    if ((destination == DESTINATION_EXTERNAL
+                            || destination == DESTINATION_FILE_URI
+                            || destination == DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD)
+                            && isFilenameValidInKnownPublicDir(filePath)) {
+                        idsToOrphan.add(downloadId);
+                    } else {
+                        idsToDelete.add(downloadId);
+                    }
+                } else if (validEntryConsumer != null) {
+                    validEntryConsumer.accept(ownerPackageName, downloadId);
+                }
             }
+        }
+
+        if (idsToOrphan.size() > 0) {
+            Log.i(Constants.TAG, "Orphaning downloads with ids "
+                    + Arrays.toString(idsToOrphan.toArray()) + " as owner package is removed");
+            final ContentValues values = new ContentValues();
+            values.putNull(Constants.UID);
+            downloadProvider.update(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, values,
+                    Helpers.buildQueryWithIds(idsToOrphan), null);
+        }
+        if (idsToDelete.size() > 0) {
+            Log.i(Constants.TAG, "Deleting downloads with ids "
+                    + Arrays.toString(idsToDelete.toArray()) + " as owner package is removed");
+            downloadProvider.delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
+                    Helpers.buildQueryWithIds(idsToDelete), null);
         }
     }
 

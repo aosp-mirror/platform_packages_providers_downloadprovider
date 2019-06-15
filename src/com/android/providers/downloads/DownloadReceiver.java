@@ -18,8 +18,7 @@ package com.android.providers.downloads;
 
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION;
-import static android.provider.Downloads.Impl.COLUMN_DESTINATION;
-import static android.provider.Downloads.Impl._DATA;
+import static android.provider.Downloads.Impl.AUTHORITY;
 
 import static com.android.providers.downloads.Constants.TAG;
 import static com.android.providers.downloads.Helpers.getAsyncHandler;
@@ -31,6 +30,7 @@ import static com.android.providers.downloads.Helpers.getSystemFacade;
 import android.app.DownloadManager;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
+import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -39,15 +39,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.Downloads;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Slog;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.regex.Pattern;
 
 /**
  * Receives system broadcasts (boot, network connectivity)
@@ -145,30 +139,14 @@ public class DownloadReceiver extends BroadcastReceiver {
     }
 
     private void handleUidRemoved(Context context, Intent intent) {
-        final ContentResolver resolver = context.getContentResolver();
         final int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
-
-        final ArrayList<Long> idsToDelete = new ArrayList<>();
-        final ArrayList<Long> idsToOrphan = new ArrayList<>();
-        try (Cursor cursor = resolver.query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
-                new String[] { Downloads.Impl._ID, Constants.UID, COLUMN_DESTINATION, _DATA },
-                Constants.UID + "=" + uid, null, null)) {
-            Helpers.handleRemovedUidEntries(context, cursor, idsToDelete, idsToOrphan, null);
+        if (uid == -1) {
+            return;
         }
 
-        if (idsToOrphan.size() > 0) {
-            Log.i(Constants.TAG, "Orphaning downloads with ids "
-                    + Arrays.toString(idsToOrphan.toArray()) + " as owner package is removed");
-            final ContentValues values = new ContentValues();
-            values.putNull(Constants.UID);
-            resolver.update(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, values,
-                    Helpers.buildQueryWithIds(idsToOrphan), null);
-        }
-        if (idsToDelete.size() > 0) {
-            Log.i(Constants.TAG, "Deleting downloads with ids "
-                    + Arrays.toString(idsToDelete.toArray()) + " as owner package is removed");
-            resolver.delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
-                    Helpers.buildQueryWithIds(idsToDelete), null);
+        try (ContentProviderClient cpc = context.getContentResolver()
+                .acquireContentProviderClient(AUTHORITY)) {
+            Helpers.handleRemovedUidEntries(context, cpc.getLocalContentProvider(), uid, null);
         }
     }
 

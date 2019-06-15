@@ -22,17 +22,14 @@ import static android.provider.Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI;
 import static android.provider.Downloads.Impl.COLUMN_MEDIASTORE_URI;
 import static android.provider.Downloads.Impl.COLUMN_MEDIA_SCANNED;
 import static android.provider.Downloads.Impl.COLUMN_OTHER_UID;
-import static android.provider.Downloads.Impl.DESTINATION_EXTERNAL;
 import static android.provider.Downloads.Impl.DESTINATION_FILE_URI;
 import static android.provider.Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD;
 import static android.provider.Downloads.Impl.MEDIA_NOT_SCANNABLE;
 import static android.provider.Downloads.Impl.MEDIA_NOT_SCANNED;
 import static android.provider.Downloads.Impl.MEDIA_SCANNED;
 import static android.provider.Downloads.Impl.PERMISSION_ACCESS_ALL;
-import static android.provider.Downloads.Impl._DATA;
 
 import android.annotation.NonNull;
-import android.annotation.Nullable;
 import android.app.AppOpsManager;
 import android.app.DownloadManager;
 import android.app.DownloadManager.Request;
@@ -50,7 +47,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.SQLException;
-import android.database.TranslatingCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
@@ -59,7 +55,6 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.FileUtils;
 import android.os.ParcelFileDescriptor;
 import android.os.ParcelFileDescriptor.OnCloseListener;
 import android.os.Process;
@@ -71,11 +66,7 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.util.ArrayMap;
 import android.util.Log;
-import android.util.LongArray;
-import android.util.LongSparseArray;
-import android.util.SparseArray;
 
 import com.android.internal.util.ArrayUtils;
 import com.android.internal.util.IndentingPrintWriter;
@@ -91,7 +82,6 @@ import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -565,36 +555,7 @@ public final class DownloadProvider extends ContentProvider {
     }
 
     private void reconcileRemovedUidEntries() {
-        // Grant access permissions for all known downloads to the owning apps
-        final ArrayList<Long> idsToDelete = new ArrayList<>();
-        final ArrayList<Long> idsToOrphan = new ArrayList<>();
-        final LongSparseArray<String> idsToGrantPermission = new LongSparseArray<>();
-        final SQLiteDatabase db = mOpenHelper.getReadableDatabase();
-        try (Cursor cursor = db.query(DB_TABLE,
-                new String[] { Downloads.Impl._ID, Constants.UID, COLUMN_DESTINATION, _DATA },
-                Constants.UID + " IS NOT NULL", null, null, null, null)) {
-            Helpers.handleRemovedUidEntries(getContext(), cursor,
-                    idsToDelete, idsToOrphan, idsToGrantPermission);
-        }
-        for (int i = 0; i < idsToGrantPermission.size(); ++i) {
-            final long downloadId = idsToGrantPermission.keyAt(i);
-            final String ownerPackageName = idsToGrantPermission.valueAt(i);
-            grantAllDownloadsPermission(ownerPackageName, downloadId);
-        }
-        if (idsToOrphan.size() > 0) {
-            Log.i(Constants.TAG, "Orphaning downloads with ids "
-                    + Arrays.toString(idsToOrphan.toArray()) + " as owner package is missing");
-            final ContentValues values = new ContentValues();
-            values.putNull(Constants.UID);
-            update(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, values,
-                    Helpers.buildQueryWithIds(idsToOrphan), null);
-        }
-        if (idsToDelete.size() > 0) {
-            Log.i(Constants.TAG, "Deleting downloads with ids "
-                    + Arrays.toString(idsToDelete.toArray()) + " as owner package is missing");
-            delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
-                    Helpers.buildQueryWithIds(idsToDelete), null);
-        }
+        Helpers.handleRemovedUidEntries(getContext(), this, -1, this::grantAllDownloadsPermission);
     }
 
     /**

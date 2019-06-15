@@ -25,7 +25,7 @@
     <string name="button_sort_by_date" msgid="8800842892684101528">"तारीख द्वारा क्रमित करें"</string>
     <string name="download_queued" msgid="104973307780629904">"कतार में"</string>
     <string name="download_running" msgid="4656462962155580641">"जारी"</string>
-    <string name="download_success" msgid="7006048006543495236">"पूर्ण"</string>
+    <string name="download_success" msgid="7006048006543495236">"पूरा हुआ"</string>
     <string name="download_error" msgid="8081329546008568251">"विफल"</string>
     <string name="dialog_title_not_available" msgid="5746317632356158515">"डाउनलोड नहीं किया जा सका"</string>
     <string name="dialog_failed_body" msgid="587545111677064427">"क्‍या आप बाद में फ़ाइल डाउनलोड करने का फिर से प्रयास करना चाहते हैं या उसे कतार से हटाना चाहते हैं?"</string>

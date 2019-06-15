@@ -223,20 +223,12 @@ public class DownloadStorageProvider extends FileSystemProvider {
         // Delegate to real provider
         final long token = Binder.clearCallingIdentity();
         try {
-            if (RawDocumentsHelper.isRawDocId(docId)) {
+            if (RawDocumentsHelper.isRawDocId(docId) || isMediaStoreDownload(docId)) {
                 super.deleteDocument(docId);
                 return;
             }
 
-            int count;
-            if (isMediaStoreDownload(docId)) {
-                count = getContext().getContentResolver().delete(
-                        getMediaStoreUri(docId), null, null);
-            } else {
-                count = mDm.remove(Long.parseLong(docId));
-            }
-
-            if (count != 1) {
+            if (mDm.remove(Long.parseLong(docId)) != 1) {
                 throw new IllegalStateException("Failed to delete " + docId);
             }
         } finally {

@@ -23,6 +23,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 
 import java.security.GeneralSecurityException;
 
@@ -56,6 +57,11 @@ interface SystemFacade {
      * Send a broadcast intent.
      */
     public void sendBroadcast(Intent intent);
+
+    /**
+     * Send a broadcast intent with options.
+     */
+    public void sendBroadcast(Intent intent, String receiverPermission, Bundle options);
 
     /**
      * Returns true if the specified UID owns the specified package name.

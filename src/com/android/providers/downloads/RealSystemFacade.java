@@ -28,6 +28,7 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.security.NetworkSecurityPolicy;
 import android.security.net.config.ApplicationConfig;
 
@@ -82,6 +83,11 @@ class RealSystemFacade implements SystemFacade {
     @Override
     public void sendBroadcast(Intent intent) {
         mContext.sendBroadcast(intent);
+    }
+
+    @Override
+    public void sendBroadcast(Intent intent, String receiverPermission, Bundle options) {
+        mContext.sendBroadcast(intent, receiverPermission, options);
     }
 
     @Override

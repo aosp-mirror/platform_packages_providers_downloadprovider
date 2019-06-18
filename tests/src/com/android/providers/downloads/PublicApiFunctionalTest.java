@@ -36,6 +36,7 @@ import static java.net.HttpURLConnection.HTTP_PARTIAL;
 import static java.net.HttpURLConnection.HTTP_PRECON_FAILED;
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 
+import android.app.BroadcastOptions;
 import android.app.DownloadManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -43,6 +44,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.provider.Downloads;
@@ -555,6 +557,11 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         Intent broadcast = mSystemFacade.mBroadcastsSent.get(0);
         assertEquals(DownloadManager.ACTION_NOTIFICATION_CLICKED, broadcast.getAction());
         assertEquals(PACKAGE_NAME, broadcast.getPackage());
+
+        Bundle bOptions = mSystemFacade.mLastBroadcastOptions;
+        assertNotNull(bOptions);
+        BroadcastOptions brOptions = new BroadcastOptions(bOptions);
+        assertTrue(brOptions.allowsBackgroundActivityStarts());
     }
 
     public void testNotificationCancelDownloadClicked() throws Exception {

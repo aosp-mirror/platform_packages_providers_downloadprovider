@@ -27,6 +27,7 @@ import static com.android.providers.downloads.Helpers.getInt;
 import static com.android.providers.downloads.Helpers.getString;
 import static com.android.providers.downloads.Helpers.getSystemFacade;
 
+import android.app.BroadcastOptions;
 import android.app.DownloadManager;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -266,6 +267,8 @@ public class DownloadReceiver extends BroadcastReceiver {
             }
         }
 
-        getSystemFacade(context).sendBroadcast(appIntent);
+        final BroadcastOptions options = BroadcastOptions.makeBasic();
+        options.setBackgroundActivityStartsAllowed(true);
+        getSystemFacade(context).sendBroadcast(appIntent, null, options.toBundle());
     }
 }

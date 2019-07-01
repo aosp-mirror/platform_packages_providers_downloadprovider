@@ -26,6 +26,7 @@ import android.content.ContentResolver;
 import android.content.ContextWrapper;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.os.SystemClock;
 import android.util.Log;
@@ -236,6 +237,13 @@ public abstract class AbstractPublicApiTest extends AbstractDownloadProviderFunc
     protected DownloadManager.Request getRequest()
             throws MalformedURLException, UnknownHostException {
         return getRequest(getServerUri(REQUEST_PATH));
+    }
+
+    protected DownloadManager.Request getRequestWithDestinationDownloadsDir()
+            throws MalformedURLException, UnknownHostException {
+        final DownloadManager.Request request = getRequest();
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "testfile.txt");
+        return request;
     }
 
     protected DownloadManager.Request getRequest(String path) {

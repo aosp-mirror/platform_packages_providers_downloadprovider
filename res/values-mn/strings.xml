@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Апп нь татан авалтын менежерийн дэлгэрэнгүй функцуудад хандалт хийх боломжтой. Хортой апп-ууд үүнийг ашиглан татан авалтыг тасалдуулах, хувийн мэдээлэлд хандалт хийх боломжтой."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Татан авалтын мэдэгдэл илгээх."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Апп нь татан авч дууссан талаарх мэдэгдэл явуулах боломжтой. Хортой апп-ууд энийг ашиглан файл татдаг бусад апп-уудыг төөрөгдөлд оруулж болно."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Татаж авсан бүх файлыг USB сангаас харах"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Татаж авсан бүх файлыг SD картаас харах"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Апп нь аль апп-с татсанаас хамаарахгүйгээр SD картад хадгалагдсан бүх файлыг харах боломжтой."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Татан авалтын кеш дотор зай нөөцлөх"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Апп нь татан авалтын менежерт илүү зай хэрэгтэй болсон үед автоматаар устгалгүйгээр файлыг татан авалтын кеш-д хадгалах боломжтой."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"мэдэгдэл өгөхгүйгээр файлуудыг татаж авах"</string>
@@ -39,9 +36,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Татаж авах хэмжээ Wi-Fi шаардана."</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Ар талд түр зогсоогдсон"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Татан авалт нь операторын сүлжээнд хэт том байна"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Та энэ <xliff:g id="SIZE">%s </xliff:g> татан авалтыг гүйцээхийн тулд Wi-Fi-д холбогдох шаардлагатай. Та дараагийн удаа Wi-Fi сүлжээнд холбогдмогц энэ татан авалтыг эхлүүлэхийн тулд \n\nХүрнэ үү <xliff:g id="QUEUE_TEXT">%s </xliff:g>"</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Та энэ <xliff:g id="SIZE">%1$s </xliff:g> татан авалтыг гүйцээхийн тулд Wi-Fi-д холбогдох шаардлагатай. Та дараагийн удаа Wi-Fi сүлжээнд холбогдмогц энэ татан авалтыг эхлүүлэхийн тулд \n\nХүрнэ үү <xliff:g id="QUEUE_TEXT">%2$s </xliff:g>"</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Дараа татахаар хүлээлгэх үү?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"Энэ <xliff:g id="SIZE">%s </xliff:g> татан авалтыг одоо эхлүүлснээр таны зайны цэнэг дуусах болон/эсхүл мобайл дата холболтыг хэт их хэрэглэх, улмаар өндөр төлбөр төлөхөд хүрч болзошгүй. Дараагийн удаа WiFi сүлжээнд холбогдохдоо татаж эхлүүлэхийн тулд доорхыг \n\n Товшино уу <xliff:g id="QUEUE_TEXT">%s</xliff:g>."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"Энэ <xliff:g id="SIZE">%1$s </xliff:g> татан авалтыг одоо эхлүүлснээр таны зайны цэнэг дуусах болон/эсхүл мобайл дата холболтыг хэт их хэрэглэх, улмаар өндөр төлбөр төлөхөд хүрч болзошгүй. Дараагийн удаа WiFi сүлжээнд холбогдохдоо татаж эхлүүлэхийн тулд доорхыг \n\n Товшино уу <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Хүлээх"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Цуцлах"</string>
     <string name="button_start_now" msgid="792123674007840864">"Одоо эхлүүлэх"</string>

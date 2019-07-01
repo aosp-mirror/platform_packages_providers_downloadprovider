@@ -20,7 +20,7 @@
     <string name="download_title_sorted_by_date" msgid="5898014492155434221">"ဒေါင်းလုဒ်များ -နေ့စွဲအလိုက် စီထားသည်"</string>
     <string name="download_title_sorted_by_size" msgid="1417193166677094813">"ဒေါင်းလုဒ်များ -အရွယ်အစားအလိုက် စီထားသည်"</string>
     <string name="no_downloads" msgid="1029667411186146836">"ဒေါင်းလုပ်မရှိပါ"</string>
-    <string name="missing_title" msgid="830115697868833773">"အကြောင်းအရာ မသိရှိ"</string>
+    <string name="missing_title" msgid="830115697868833773">"မသိပါ"</string>
     <string name="button_sort_by_size" msgid="7331549713691146251">"အရွယ်အစားအလိုက် စီရန်"</string>
     <string name="button_sort_by_date" msgid="8800842892684101528">"နေ့စွဲအလိုက် စီရန်"</string>
     <string name="download_queued" msgid="104973307780629904">"တန်းစီထားပြီး"</string>

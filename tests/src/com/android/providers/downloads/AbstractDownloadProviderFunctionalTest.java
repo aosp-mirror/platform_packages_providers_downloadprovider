@@ -24,15 +24,22 @@ import android.app.NotificationManager;
 import android.app.job.JobParameters;
 import android.app.job.JobScheduler;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.ProviderInfo;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
+import android.database.MatrixCursor;
 import android.net.Uri;
+import android.os.Binder;
+import android.os.IBinder;
 import android.provider.Downloads;
+import android.provider.MediaStore;
 import android.test.MoreAsserts;
 import android.test.RenamingDelegatingContext;
 import android.test.ServiceTestCase;
+import android.test.mock.MockContentProvider;
 import android.test.mock.MockContentResolver;
 import android.util.Log;
 
@@ -89,6 +96,35 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
         public synchronized void notifyChange(
                 Uri uri, ContentObserver observer, boolean syncToNetwork) {
             mNotifyWasCalled = true;
+        }
+    }
+
+    static class MockMediaProvider extends MockContentProvider {
+        private static final Uri TEST_URI = Uri.parse("content://media/external/11111111");
+        @Override
+        public int delete(Uri uri, String selection, String[] selectionArgs) {
+            return 0;
+        }
+
+        @Override
+        public Uri insert(Uri uri, ContentValues values) {
+            return TEST_URI;
+        }
+
+        @Override
+        public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
+                String sortOrder) {
+            return new MatrixCursor(new String[0], 0);
+        }
+
+        @Override
+        public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+            return 1;
+        }
+
+        @Override
+        public IBinder getIContentProviderBinder() {
+            return new Binder();
         }
     }
 
@@ -165,6 +201,7 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
         provider.attachInfo(mTestContext, info);
 
         mResolver.addProvider(PROVIDER_AUTHORITY, provider);
+        mResolver.addProvider(MediaStore.AUTHORITY, new MockMediaProvider());
 
         setContext(mTestContext);
         setupService();

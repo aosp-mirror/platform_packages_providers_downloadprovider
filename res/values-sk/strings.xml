@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Umožňuje aplikácii pristupovať k rozšíreným funkciám správcu sťahovania. Škodlivé aplikácie to môžu využiť a narušiť sťahovanie alebo získať prístup k súkromným informáciám."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Odoslať upozornenie o stiahnutí."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Umožňuje aplikácii odosielať upozornenia na dokončenie sťahovania. Škodlivé aplikácie môžu pomocou tohto nastavenia zmiasť iné aplikácie, ktoré preberajú súbory."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Zobr. preber. do ukl. priestoru USB"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Zobrazenie všetkých položiek stiahnutých na SD kartu"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Povolí aplikácii zobraziť všetky súbory stiahnuté na SD kartu bez ohľadu na aplikáciu, pomocou ktorej boli stiahnuté."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Rezervovať miesto vo vyrovnáv. pamäti sťahovania"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Umožňuje aplikácii sťahovať súbory do vyrovnávacej pamäte sťahovania, ktorú nie je možné automaticky odstrániť, keď správca sťahovania potrebuje viac miesta."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"sťahovať súbory bez upozornenia"</string>
@@ -39,9 +36,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Vzhľadom na veľkosť preberaného súboru sa vyžaduje pripojenie Wi‑Fi"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Pozastavené na pozadí."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Preberaný súbor je pre sieť operátora príliš veľký"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Na dokončenie sťahovania tohto súboru s veľkosťou <xliff:g id="SIZE">%s </xliff:g> je potrebné pripojenie Wi‑Fi. \n\nAk chcete spustiť sťahovanie pri ďalšom pripojení k sieti Wi‑Fi, dotknite sa možnosti <xliff:g id="QUEUE_TEXT">%s </xliff:g>."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Na dokončenie sťahovania tohto súboru s veľkosťou <xliff:g id="SIZE">%1$s </xliff:g> je potrebné pripojenie Wi‑Fi. \n\nAk chcete spustiť sťahovanie pri ďalšom pripojení k sieti Wi‑Fi, dotknite sa možnosti <xliff:g id="QUEUE_TEXT">%2$s </xliff:g>."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Zaradiť do zoznamu na neskoršie stiahnutie?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"Sťahovanie (<xliff:g id="SIZE">%s </xliff:g>) môže skrátiť výdrž batérie alebo príliš zaťažiť mobilné pripojenie a viesť k účtovaniu poplatkov podľa dát. programu.\n\n Dotykom možnosti <xliff:g id="QUEUE_TEXT">%s</xliff:g> spustíte sťahovanie pri ďalšom pripojení k Wi‑Fi."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"Sťahovanie (<xliff:g id="SIZE">%1$s </xliff:g>) môže skrátiť výdrž batérie alebo príliš zaťažiť mobilné pripojenie a viesť k účtovaniu poplatkov podľa dát. programu.\n\n Dotykom možnosti <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> spustíte sťahovanie pri ďalšom pripojení k Wi‑Fi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Zoznam"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Zrušiť"</string>
     <string name="button_start_now" msgid="792123674007840864">"Spustiť"</string>

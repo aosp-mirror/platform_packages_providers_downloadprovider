@@ -16,15 +16,20 @@
 
 package com.android.providers.downloads;
 
-import static android.os.Environment.buildExternalStorageAppCacheDirs;
-import static android.os.Environment.buildExternalStorageAppFilesDirs;
+import static android.os.Environment.buildExternalStorageAppDataDirs;
 import static android.os.Environment.buildExternalStorageAppMediaDirs;
 import static android.os.Environment.buildExternalStorageAppObbDirs;
+import static android.os.Environment.buildExternalStoragePublicDirs;
+import static android.provider.Downloads.Impl.DESTINATION_EXTERNAL;
+import static android.provider.Downloads.Impl.DESTINATION_FILE_URI;
+import static android.provider.Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD;
 import static android.provider.Downloads.Impl.FLAG_REQUIRES_CHARGING;
 import static android.provider.Downloads.Impl.FLAG_REQUIRES_DEVICE_IDLE;
 
 import static com.android.providers.downloads.Constants.TAG;
 
+import android.annotation.NonNull;
+import android.annotation.Nullable;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
@@ -43,12 +48,18 @@ import android.os.storage.StorageVolume;
 import android.provider.Downloads;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.LongSparseArray;
+import android.util.SparseArray;
+import android.util.SparseBooleanArray;
 import android.webkit.MimeTypeMap;
+
+import com.android.internal.util.ArrayUtils;
 
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -63,6 +74,12 @@ public class Helpers {
     /** Regex used to parse content-disposition headers */
     private static final Pattern CONTENT_DISPOSITION_PATTERN =
             Pattern.compile("attachment;\\s*filename\\s*=\\s*\"([^\"]*)\"");
+
+    private static final Pattern PATTERN_ANDROID_DIRS =
+            Pattern.compile("(?i)^/storage/[^/]+(?:/[0-9]+)?/Android/(?:data|obb|media)/.+");
+
+    private static final Pattern PATTERN_PUBLIC_DIRS =
+            Pattern.compile("(?i)^/storage/[^/]+(?:/[0-9]+)?/([^/]+)/.+");
 
     private static final Object sUniqueLock = new Object();
 
@@ -472,6 +489,10 @@ public class Helpers {
         throw new IOException("Failed to generate an available filename");
     }
 
+    public static boolean isFileInExternalAndroidDirs(String filePath) {
+        return PATTERN_ANDROID_DIRS.matcher(filePath).matches();
+    }
+
     static boolean isFilenameValid(Context context, File file) {
         return isFilenameValid(context, file, true);
     }
@@ -488,9 +509,8 @@ public class Helpers {
     static boolean isFilenameValidInExternalPackage(Context context, File file,
             String packageName) {
         try {
-            if (containsCanonical(buildExternalStorageAppFilesDirs(packageName), file) ||
+            if (containsCanonical(buildExternalStorageAppDataDirs(packageName), file) ||
                     containsCanonical(buildExternalStorageAppObbDirs(packageName), file) ||
-                    containsCanonical(buildExternalStorageAppCacheDirs(packageName), file) ||
                     containsCanonical(buildExternalStorageAppMediaDirs(packageName), file)) {
                 return true;
             }
@@ -499,7 +519,33 @@ public class Helpers {
             return false;
         }
 
-        Log.w(TAG, "Path appears to be invalid: " + file);
+        return false;
+    }
+
+    static boolean isFilenameValidInPublicDownloadsDir(File file) {
+        try {
+            if (containsCanonical(buildExternalStoragePublicDirs(
+                    Environment.DIRECTORY_DOWNLOADS), file)) {
+                return true;
+            }
+        } catch (IOException e) {
+            Log.w(TAG, "Failed to resolve canonical path: " + e);
+            return false;
+        }
+
+        return false;
+    }
+
+    @com.android.internal.annotations.VisibleForTesting
+    public static boolean isFilenameValidInKnownPublicDir(@Nullable String filePath) {
+        if (filePath == null) {
+            return false;
+        }
+        final Matcher matcher = PATTERN_PUBLIC_DIRS.matcher(filePath);
+        if (matcher.matches()) {
+            final String publicDir = matcher.group(1);
+            return ArrayUtils.contains(Environment.STANDARD_DIRECTORIES, publicDir);
+        }
         return false;
     }
 
@@ -529,7 +575,6 @@ public class Helpers {
             return false;
         }
 
-        Log.w(TAG, "Path appears to be invalid: " + file);
         return false;
     }
 
@@ -579,6 +624,60 @@ public class Helpers {
             default:
                 throw new IllegalStateException("unexpected destination: " + destination);
         }
+    }
+
+    public static void handleRemovedUidEntries(@NonNull Context context, @NonNull Cursor cursor,
+            @NonNull ArrayList<Long> idsToDelete, @NonNull ArrayList<Long> idsToOrphan,
+            @Nullable LongSparseArray<String> idsToGrantPermission) {
+        final SparseArray<String> knownUids = new SparseArray<>();
+        while (cursor.moveToNext()) {
+            final long downloadId = cursor.getLong(0);
+            final int uid = cursor.getInt(1);
+
+            final String ownerPackageName;
+            final int index = knownUids.indexOfKey(uid);
+            if (index >= 0) {
+                ownerPackageName = knownUids.valueAt(index);
+            } else {
+                ownerPackageName = getPackageForUid(context, uid);
+                knownUids.put(uid, ownerPackageName);
+            }
+
+            if (ownerPackageName == null) {
+                final int destination = cursor.getInt(2);
+                final String filePath = cursor.getString(3);
+
+                if ((destination == DESTINATION_EXTERNAL
+                        || destination == DESTINATION_FILE_URI
+                        || destination == DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD)
+                        && isFilenameValidInKnownPublicDir(filePath)) {
+                    idsToOrphan.add(downloadId);
+                } else {
+                    idsToDelete.add(downloadId);
+                }
+            } else if (idsToGrantPermission != null) {
+                idsToGrantPermission.put(downloadId, ownerPackageName);
+            }
+        }
+    }
+
+    public static String buildQueryWithIds(ArrayList<Long> downloadIds) {
+        final StringBuilder queryBuilder = new StringBuilder(Downloads.Impl._ID + " in (");
+        final int size = downloadIds.size();
+        for (int i = 0; i < size; i++) {
+            queryBuilder.append(downloadIds.get(i));
+            queryBuilder.append((i == size - 1) ? ")" : ",");
+        }
+        return queryBuilder.toString();
+    }
+
+    public static String getPackageForUid(Context context, int uid) {
+        String[] packages = context.getPackageManager().getPackagesForUid(uid);
+        if (packages == null || packages.length == 0) {
+            return null;
+        }
+        // For permission related purposes, any package belonging to the given uid should work.
+        return packages[0];
     }
 
     /**

@@ -161,7 +161,7 @@ public class Helpers {
         // When this download will show a notification, run with a higher
         // priority, since it's effectively a foreground service
         if (info.isVisible()) {
-            builder.setPriority(JobInfo.PRIORITY_FOREGROUND_APP);
+            builder.setPriority(JobInfo.PRIORITY_FOREGROUND_SERVICE);
             builder.setFlags(JobInfo.FLAG_WILL_BE_FOREGROUND);
         }
 

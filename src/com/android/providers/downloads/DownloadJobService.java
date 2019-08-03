@@ -81,7 +81,7 @@ public class DownloadJobService extends JobService {
     @Override
     public boolean onStopJob(JobParameters params) {
         final int id = params.getJobId();
-        Log.d(TAG, "onStopJob id=" + id + ", reason=" + params.getStopReason());
+        Log.d(TAG, "onStopJob id=" + id + ", reason=" + params.getDebugStopReason());
 
         final DownloadThread thread;
         synchronized (mActiveThreads) {

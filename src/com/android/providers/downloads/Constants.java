@@ -83,6 +83,17 @@ public class Constants {
     /** The default user agent used for downloads */
     public static final String DEFAULT_USER_AGENT;
 
+    /**
+     * Job id for the periodic service to clean-up stale and orphan downloads.
+     */
+    public static final int IDLE_JOB_ID = -100;
+
+    /**
+     * Job id for a one-time clean-up job to trigger mediascan on files which should have been
+     * mediascanned earlier when they were downloaded but didn't get scanned.
+     */
+    public static final int MEDIA_SCAN_TRIGGER_JOB_ID = -101;
+
     static {
         final StringBuilder builder = new StringBuilder();
 

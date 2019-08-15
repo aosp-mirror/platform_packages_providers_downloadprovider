@@ -32,6 +32,9 @@ import static android.provider.Downloads.Impl.PERMISSION_ACCESS_ALL;
 import static com.android.providers.downloads.Helpers.convertToMediaStoreDownloadsUri;
 import static com.android.providers.downloads.Helpers.triggerMediaScan;
 
+import static com.android.providers.downloads.Helpers.convertToMediaStoreDownloadsUri;
+import static com.android.providers.downloads.Helpers.triggerMediaScan;
+
 import android.annotation.NonNull;
 import android.app.AppOpsManager;
 import android.app.DownloadManager;

@@ -33,6 +33,7 @@ import android.database.DatabaseUtils;
 import android.database.MatrixCursor;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Downloads;
 import android.provider.MediaStore;
@@ -120,6 +121,11 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
         @Override
         public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
             return 1;
+        }
+
+        @Override
+        public Bundle call(String method, String request, Bundle args) {
+          return new Bundle();
         }
 
         @Override

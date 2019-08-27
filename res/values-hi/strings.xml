@@ -18,7 +18,7 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3658948994665187911">"डाउनलोड प्रबंधक"</string>
     <string name="storage_description" msgid="7982444311558023664">"डाउनलोड"</string>
-    <string name="permlab_downloadManager" msgid="7779544811202855500">"डाउनलोड प्रबंधक में पहुंच प्राप्त करें."</string>
+    <string name="permlab_downloadManager" msgid="7779544811202855500">"डाउनलोड मैनेजर में ऐक्सेस पाएं."</string>
     <string name="permdesc_downloadManager" msgid="4237406545998908947">"ऐप को डाउनलोड मैनेजर तक पहुंचने देता है और फ़ाइलें डाउनलोड करने के लिए इसका इस्तेमाल करने देता है. धोखा देने वाले ऐप इसका इस्तेमाल डाउनलोड को रोकने और निजी जानकारी तक पहुंचने के लिए कर सकते हैं."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"बेहतर डाउनलोड प्रबंधक फ़क्शन."</string>
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"ऐप्लिकेशन को डाउनलोड मैनेजर के बेहतर फ़ंक्शन के इस्तेमाल की मंज़ूरी देता है. धोखा देने वाले ऐप्लिकेशन इसका इस्तेमाल डाउनलोड को रोकने और निजी जानकारी तक पहुंचने के लिए कर सकते हैं."</string>
@@ -28,7 +28,7 @@
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"ऐप को डाउनलोड कैश मेमोरी में फ़ाइलें डाउनलोड करने देता है. डाउनलोड मैनेजर को ज़्यादा जगह की ज़रुरत होने पर इन फ़ाइलों को हटाया नहीं जा सकता, ."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"बिना किसी सूचना के फ़ाइलें डाउनलोड करने दें"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"उपयोगकर्ता को कोई भी सूचना दिखाए बिना ऐप को डाउनलोड मैनेजर की मदद से फ़ाइलें डाउनलोड करने देता है."</string>
-    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"सभी सिस्‍टम डाउनलोड में पहुंच प्राप्त करें"</string>
+    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"सभी सिस्‍टम डाउनलोड में ऐक्सेस पाएं"</string>
     <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"ऐप्स  को सिस्टम पर किसी भी ऐप्स  द्वारा शुरू किए गए सभी डाउनलोड देखने और संशोधित करने देता है."</string>
     <string name="download_unknown_title" msgid="7015124071247271585">"&lt;शीर्षक-रहित&gt;"</string>
     <string name="notification_download_complete" msgid="5443563299253103667">"डाउनलोड पूरा हुआ."</string>

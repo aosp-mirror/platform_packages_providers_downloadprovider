@@ -1078,7 +1078,7 @@ public final class DownloadProvider extends ContentProvider {
             throw new IllegalArgumentException("Not a file URI: " + uri);
         }
         final String path = uri.getPath();
-        if (path == null || path.contains("..")) {
+        if (path == null || ("/" + path + "/").contains("/../")) {
             throw new IllegalArgumentException("Invalid file URI: " + uri);
         }
 
@@ -1116,7 +1116,7 @@ public final class DownloadProvider extends ContentProvider {
 
     private void checkDownloadedFilePath(ContentValues values) {
         final String path = values.getAsString(Downloads.Impl._DATA);
-        if (path == null || path.contains("..")) {
+        if (path == null || ("/" + path + "/").contains("/../")) {
             throw new IllegalArgumentException("Invalid file path: "
                     + (path == null ? "null" : path));
         }

@@ -165,8 +165,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
         final RowBuilder row = result.newRow();
         row.add(Root.COLUMN_ROOT_ID, DOC_ID_ROOT);
         row.add(Root.COLUMN_FLAGS, Root.FLAG_LOCAL_ONLY | Root.FLAG_SUPPORTS_RECENTS
-                | Root.FLAG_SUPPORTS_CREATE | Root.FLAG_SUPPORTS_SEARCH
-                | Root.FLAG_SUPPORTS_IS_CHILD);
+                | Root.FLAG_SUPPORTS_CREATE | Root.FLAG_SUPPORTS_SEARCH);
         row.add(Root.COLUMN_ICON, R.mipmap.ic_launcher_download);
         row.add(Root.COLUMN_TITLE, getContext().getString(R.string.root_downloads));
         row.add(Root.COLUMN_DOCUMENT_ID, DOC_ID_ROOT);

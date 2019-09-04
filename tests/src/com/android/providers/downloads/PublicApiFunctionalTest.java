@@ -36,6 +36,7 @@ import static java.net.HttpURLConnection.HTTP_PARTIAL;
 import static java.net.HttpURLConnection.HTTP_PRECON_FAILED;
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 
+import android.app.BroadcastOptions;
 import android.app.DownloadManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -43,6 +44,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.provider.Downloads;
@@ -85,8 +87,9 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         mNotifManager = getContext().getSystemService(NotificationManager.class);
         mDownloadManager = getContext().getSystemService(DownloadManager.class);
 
-        mTestDirectory = new File(Environment.getExternalStorageDirectory() + File.separator
-                                  + "download_manager_functional_test");
+        mTestDirectory = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS)
+                + File.separator + "download_manager_functional_test");
         if (mTestDirectory.exists()) {
             IoUtils.deleteContents(mTestDirectory);
         } else {
@@ -249,15 +252,15 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         enqueueResponse(buildEmptyResponse(HTTP_OK));
         enqueueResponse(buildEmptyResponse(HTTP_NOT_FOUND));
 
-        Download download1 = enqueueRequest(getRequest());
+        Download download1 = enqueueRequest(getRequestWithDestinationDownloadsDir());
         download1.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
 
         mSystemFacade.incrementTimeMillis(1); // ensure downloads are correctly ordered by time
-        Download download2 = enqueueRequest(getRequest());
+        Download download2 = enqueueRequest(getRequestWithDestinationDownloadsDir());
         download2.runUntilStatus(DownloadManager.STATUS_FAILED);
 
         mSystemFacade.incrementTimeMillis(1);
-        Download download3 = enqueueRequest(getRequest());
+        Download download3 = enqueueRequest(getRequestWithDestinationDownloadsDir());
 
         Cursor cursor = mManager.query(new DownloadManager.Query());
         checkAndCloseCursor(cursor, download3, download2, download1);
@@ -554,6 +557,11 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         Intent broadcast = mSystemFacade.mBroadcastsSent.get(0);
         assertEquals(DownloadManager.ACTION_NOTIFICATION_CLICKED, broadcast.getAction());
         assertEquals(PACKAGE_NAME, broadcast.getPackage());
+
+        Bundle bOptions = mSystemFacade.mLastBroadcastOptions;
+        assertNotNull(bOptions);
+        BroadcastOptions brOptions = new BroadcastOptions(bOptions);
+        assertTrue(brOptions.allowsBackgroundActivityStarts());
     }
 
     public void testNotificationCancelDownloadClicked() throws Exception {

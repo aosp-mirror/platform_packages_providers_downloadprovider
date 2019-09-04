@@ -25,7 +25,7 @@
     <string name="button_sort_by_date" msgid="8800842892684101528">"Ordenar por fecha"</string>
     <string name="download_queued" msgid="104973307780629904">"En cola"</string>
     <string name="download_running" msgid="4656462962155580641">"En curso"</string>
-    <string name="download_success" msgid="7006048006543495236">"Correcta"</string>
+    <string name="download_success" msgid="7006048006543495236">"Completado"</string>
     <string name="download_error" msgid="8081329546008568251">"Incorrecta"</string>
     <string name="dialog_title_not_available" msgid="5746317632356158515">"Error al descargar"</string>
     <string name="dialog_failed_body" msgid="587545111677064427">"¿Quieres volver a intentar descargar el archivo más tarde o prefieres eliminarlo de la cola?"</string>

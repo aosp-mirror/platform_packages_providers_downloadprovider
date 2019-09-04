@@ -16,6 +16,7 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.DetailedState;
+import android.os.Bundle;
 
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -37,6 +38,7 @@ public class FakeSystemFacade implements SystemFacade {
     long mMaxBytesOverMobile = Long.MAX_VALUE;
     long mRecommendedMaxBytesOverMobile = Long.MAX_VALUE;
     List<Intent> mBroadcastsSent = new ArrayList<Intent>();
+    Bundle mLastBroadcastOptions;
     boolean mCleartextTrafficPermitted = true;
     private boolean mReturnActualTime = false;
     private SSLContext mSSLContext = null;
@@ -49,6 +51,7 @@ public class FakeSystemFacade implements SystemFacade {
         mMaxBytesOverMobile = Long.MAX_VALUE;
         mRecommendedMaxBytesOverMobile = Long.MAX_VALUE;
         mBroadcastsSent.clear();
+        mLastBroadcastOptions = null;
         mReturnActualTime = false;
         try {
             mSSLContext = SSLContext.getDefault();
@@ -125,6 +128,13 @@ public class FakeSystemFacade implements SystemFacade {
     @Override
     public void sendBroadcast(Intent intent) {
         mBroadcastsSent.add(intent);
+        mLastBroadcastOptions = null;
+    }
+
+    @Override
+    public void sendBroadcast(Intent intent, String receiverPermission, Bundle options) {
+        mBroadcastsSent.add(intent);
+        mLastBroadcastOptions = options;
     }
 
     @Override

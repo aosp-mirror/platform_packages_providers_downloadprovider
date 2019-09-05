@@ -388,12 +388,7 @@ public class DownloadThread extends Thread {
         }
 
         boolean needsReschedule = false;
-        if (Downloads.Impl.isStatusCompleted(mInfoDelta.mStatus)) {
-            if (mInfo.shouldScanFile(mInfoDelta.mStatus)) {
-                DownloadScanner.requestScanBlocking(mContext, mInfo.mId, mInfoDelta.mFileName,
-                        mInfoDelta.mMimeType);
-            }
-        } else if (mInfoDelta.mStatus == STATUS_WAITING_TO_RETRY
+        if (mInfoDelta.mStatus == STATUS_WAITING_TO_RETRY
                 || mInfoDelta.mStatus == STATUS_WAITING_FOR_NETWORK
                 || mInfoDelta.mStatus == STATUS_QUEUED_FOR_WIFI) {
             needsReschedule = true;

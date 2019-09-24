@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"Nội dung tải xuống"</string>
+    <string name="app_label" msgid="3070921713463294774">"Tệp đã tải xuống"</string>
     <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Tải xuống - Sắp xếp theo ngày"</string>
     <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Tải xuống - Sắp xếp theo kích thước"</string>
     <string name="no_downloads" msgid="1029667411186146836">"Không có bản tải xuống nào."</string>

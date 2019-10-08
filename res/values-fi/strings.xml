@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Antaa sovelluksen käyttää latauksien hallinnan lisätoimintoja. Haitalliset sovellukset voivat keskeyttää latauksia ja käyttää yksityistietoja."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Latausilmoitusten lähetys."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Antaa sovelluksen lähettää valmistuneita latauksia koskevia ilmoituksia. Haitalliset sovellukset voivat käyttää tätä muiden tiedostoja lataavien sovelluksien häiritsemiseen."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Kaikki USB-lataukset"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"SD-kortin kaikkien latausten tarkastelu."</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Antaa sovelluksen nähdä kaikki SD-kortille tehtävät lataukset huolimatta latauksen suorittaneesta sovelluksesta."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Varaa tilaa latausvälimuistista"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Antaa sovelluksen ladata tiedostoja latausvälimuistiin, jota ei voi automaattisesti poistaa latauksen hallinnan tarvitessa lisää tilaa."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"lataa tiedostoja ilmoittamatta"</string>
@@ -39,9 +36,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Lataa Wi-Fi-yhteydellä"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Keskeytetty taustalla."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Lataus liian suuri operaattorin verkolle"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Tämä <xliff:g id="SIZE">%s </xliff:g>:n lataus täytyy suorittaa Wi-Fi-yhteyden ollessa käytössä. \n\nAloita lataus seuraavan kerran, kun yhdistät Wi-Fi-verkkoon, koskettamalla <xliff:g id="QUEUE_TEXT">%s </xliff:g>."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Tämä <xliff:g id="SIZE">%1$s </xliff:g>:n lataus täytyy suorittaa Wi-Fi-yhteyden ollessa käytössä. \n\nAloita lataus seuraavan kerran, kun yhdistät Wi-Fi-verkkoon, koskettamalla <xliff:g id="QUEUE_TEXT">%2$s </xliff:g>."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Asetetaanko myöhemmin ladattavaksi?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"Jos aloitat tämän <xliff:g id="SIZE">%s </xliff:g>:n latauksen nyt, akun virtaa voi kulua tav. enemmän ja/tai operaattori voi veloittaa ylim. mobiilitiedons.\n\nAloita lataus seuraavan kerran, kun yhdistät Wi-Fi-verkkoon, koskettamalla <xliff:g id="QUEUE_TEXT">%s</xliff:g>."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"Jos aloitat tämän <xliff:g id="SIZE">%1$s </xliff:g>:n latauksen nyt, akun virtaa voi kulua tav. enemmän ja/tai operaattori voi veloittaa ylim. mobiilitiedons.\n\nAloita lataus seuraavan kerran, kun yhdistät Wi-Fi-verkkoon, koskettamalla <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Jono"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Peruuta"</string>
     <string name="button_start_now" msgid="792123674007840864">"Aloita nyt"</string>

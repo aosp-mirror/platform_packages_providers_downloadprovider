@@ -30,7 +30,7 @@
     <string name="dialog_title_not_available" msgid="5746317632356158515">"डाउनलोड गर्न सकेन"</string>
     <string name="dialog_failed_body" msgid="587545111677064427">"तपाईं पछि फेरि फाइल डाउनलोड गर्ने प्रयास गर्न चाहनुहुन्छ कि लामबाट हटाउन चाहनुहुन्छ?"</string>
     <string name="dialog_title_queued_body" msgid="6760681913815015219">"फाइल लाममा छ"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"फाइल भविष्यमा डाउनलोड गर्नका लागि लाममा राखिएको छ, यसैले अझै उपलब्ध छैन।"</string>
+    <string name="dialog_queued_body" msgid="708552801635572720">"फाइल भविष्यमा डाउनलोड गर्नाका लागि लाममा राखिएको छ, यसैले अझै उपलब्ध छैन।"</string>
     <string name="dialog_file_missing_body" msgid="3223012612774276284">"डाउनलोड गरिएको फाइल फेला पार्न सकेन।"</string>
     <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"डाउनलोड समाप्त पार्न सकेन। बाह्य भण्डारणमा पर्याप्त ठाउँ छैन।"</string>
     <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"डाउनलोड समाप्त पार्न सकेन। आन्तरिक डाउनलोड भण्डारणमा पर्याप्त ठाउँ छैन।"</string>

@@ -85,4 +85,36 @@ public class HelpersTest extends AndroidTestCase {
                 null, "video/mp4", Downloads.Impl.DESTINATION_CACHE_PARTITION);
         assertEquals(expected.getAbsolutePath(), actual);
     }
+
+    public void testIsFileInExternalAndroidDirs() throws Exception {
+        assertTrue(Helpers.isFileInExternalAndroidDirs(
+                "/storage/emulated/0/Android/data/com.example"));
+        assertTrue(Helpers.isFileInExternalAndroidDirs(
+                "/storage/emulated/0/Android/data/com.example/colors.txt"));
+        assertTrue(Helpers.isFileInExternalAndroidDirs(
+                "/storage/emulated/0/Android/media/com.example/file.mp4"));
+        assertTrue(Helpers.isFileInExternalAndroidDirs(
+                "/storage/AAAA-FFFF/Android/media/com.example/file.mp4"));
+        assertFalse(Helpers.isFileInExternalAndroidDirs(
+                "/storage/emulated/0/Download/foo.pdf"));
+        assertFalse(Helpers.isFileInExternalAndroidDirs(
+                "/storage/emulated/0/Download/dir/bar.html"));
+        assertFalse(Helpers.isFileInExternalAndroidDirs(
+                "/storage/AAAA-FFFF/Download/dir/bar.html"));
+    }
+
+    public void testIsFilenameValidinKnownPublicDir() throws Exception {
+        assertTrue(Helpers.isFilenameValidInKnownPublicDir(
+                "/storage/emulated/0/Download/dir/file.txt"));
+        assertTrue(Helpers.isFilenameValidInKnownPublicDir(
+                "/storage/emulated/0/Music/foo.mp4"));
+        assertTrue(Helpers.isFilenameValidInKnownPublicDir(
+                "/storage/emulated/0/DCIM/vacation/bar.jpg"));
+        assertFalse(Helpers.isFilenameValidInKnownPublicDir(
+                "/storage/emulated/0/Testing/foo.mp4"));
+        assertFalse(Helpers.isFilenameValidInKnownPublicDir(
+                "/storage/emulated/0/Misc/Download/bar.jpg"));
+        assertFalse(Helpers.isFilenameValidInKnownPublicDir(
+                "/storage/emulated/0/Android/data/com.example/bar.jpg"));
+    }
 }

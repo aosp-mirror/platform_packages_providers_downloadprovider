@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"अ‍ॅपला डाउनलोड व्‍यवस्‍थापकाच्या प्रगत कार्यांमध्‍ये प्रवेश करण्‍याची अनुमती देते. दुर्भावनापूर्ण अ‍ॅप्‍स याचा डाउनलोड विदारित करण्‍यासाठी आणि खाजगी माहितीमध्‍ये प्रवेश करण्‍यासाठी वापर करू शकतात."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"डाउनलोड सूचना पाठवा."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"अ‍ॅपला पूर्ण झालेल्‍या डाउनलोड विषयी सूचना पाठविण्‍यास अनुमती देते. डाउनलोड करणार्‍या अन्य अ‍ॅप्‍सचा गोंधळ करण्‍यासाठी दुर्भावनापूर्ण अ‍ॅप्‍स याचा वापर करू शकतात."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"USB संचयनाचे सर्व डाउनलोड पहा"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"SD कार्डचे सर्व डाउनलोड पहा"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"अ‍ॅपला कोणत्या अ‍ॅपने त्यांना डाउनलोड केले ते विचारात न घेता SD कार्डचे सर्व डाउनलोड पाहण्‍याची अनुमती देते."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"डाउनलोड कॅशेमधील स्‍थान आरक्षित करा"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"अ‍ॅपला डाउनलोडवर कॅशेवर, डाउनलोड व्‍यवस्‍थापकास जास्त स्‍थानाची आवश्‍यकता असते तेव्‍हा ज्या स्‍वयंचलितपणे हटविल्‍या जाऊ शकत नाहीत त्या फायली डाउनलोड करण्‍याची अनुमती देते."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"सूचनेशिवाय फायली डाउनलोड करा"</string>
@@ -39,9 +36,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"डाउनलोड आकारामानास वाय-फाय आवश्‍यक अस‍ते."</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"पार्श्वभूमीत विराम दिला."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"ऑपरेटर नेटवर्कसाठी डाउनलोड खूप मोठे आहे"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"तुम्ही हे <xliff:g id="SIZE">%s </xliff:g> डाउनलोड पूर्ण करण्‍यासाठी वाय-फाय चा वापर करणे आवश्‍यक आहे. पुढील वेळी तुम्ही वाय-फाय ला कनेक्‍ट होता तेव्‍हा हे डाउनलोड सुरू करण्‍यासाठी \n\n स्‍पर्श करा <xliff:g id="QUEUE_TEXT">%s </xliff:g>."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"तुम्ही हे <xliff:g id="SIZE">%1$s </xliff:g> डाउनलोड पूर्ण करण्‍यासाठी वाय-फाय चा वापर करणे आवश्‍यक आहे. पुढील वेळी तुम्ही वाय-फाय ला कनेक्‍ट होता तेव्‍हा हे डाउनलोड सुरू करण्‍यासाठी \n\n स्‍पर्श करा <xliff:g id="QUEUE_TEXT">%2$s </xliff:g>."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"नंतर डाउनलोड करा साठी रांग लावायची?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"हे <xliff:g id="SIZE">%s </xliff:g> डाउनलोड सुरू करण्याने तुमचे बॅटरी आयुष्‍य कमी होऊ शकते आणि/किंवा त्‍याचा परिणाम तुमच्या मोबाईल डेटा कनेक्‍शनचा अत्‍याधिक वापर करण्‍यात होऊ शकतो, ज्‍यामुळे आपल्‍या मोबाईल डेटा योजनेवर आधारित आपल्‍या मोबाईल ऑपरेटरद्वारे शुल्‍क आकारले जाऊ शकते.पुढील वेळी तुम्ही वाय-फाय नेटवर्कशी कनेक्‍ट होता तेव्‍हा हे डाउनलोड सुरू करण्‍यासाठी \n\n स्‍पर्श करा <xliff:g id="QUEUE_TEXT">%s</xliff:g>"</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"हे <xliff:g id="SIZE">%1$s </xliff:g> डाउनलोड सुरू करण्याने तुमचे बॅटरी आयुष्‍य कमी होऊ शकते आणि/किंवा त्‍याचा परिणाम तुमच्या मोबाईल डेटा कनेक्‍शनचा अत्‍याधिक वापर करण्‍यात होऊ शकतो, ज्‍यामुळे आपल्‍या मोबाईल डेटा योजनेवर आधारित आपल्‍या मोबाईल ऑपरेटरद्वारे शुल्‍क आकारले जाऊ शकते.पुढील वेळी तुम्ही वाय-फाय नेटवर्कशी कनेक्‍ट होता तेव्‍हा हे डाउनलोड सुरू करण्‍यासाठी \n\n स्‍पर्श करा <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>"</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"रांग"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"रद्द करा"</string>
     <string name="button_start_now" msgid="792123674007840864">"आता सुरू करा"</string>

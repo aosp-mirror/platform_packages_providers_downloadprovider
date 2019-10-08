@@ -19,14 +19,11 @@
     <string name="app_label" msgid="3658948994665187911">"डाउनलोड प्रबन्धक"</string>
     <string name="storage_description" msgid="7982444311558023664">"डाउनलोडहरू"</string>
     <string name="permlab_downloadManager" msgid="7779544811202855500">"डाउनलोड प्रबन्धक पहुँच गर्नुहोस्"</string>
-    <string name="permdesc_downloadManager" msgid="4237406545998908947">"फाइल डाउनलोड गर्नका लागि अनुप्रयोगलाई डाउनलोड प्रबन्धकको पहुँचको अनुमति दिन्छ। हानिकारक अनुप्रयोगहरूले यसलाई डाउनलोडहरू अवरूद्ध गर्न र निजी जानकारी पहुँच गर्न यसको प्रयोग गर्न सक्छन्।"</string>
+    <string name="permdesc_downloadManager" msgid="4237406545998908947">"फाइल डाउनलोड गर्नाका लागि अनुप्रयोगलाई डाउनलोड प्रबन्धकको पहुँचको अनुमति दिन्छ। हानिकारक अनुप्रयोगहरूले यसलाई डाउनलोडहरू अवरूद्ध गर्न र निजी जानकारी पहुँच गर्न यसको प्रयोग गर्न सक्छन्।"</string>
     <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"उन्नत डाउनलोड प्रबन्धक प्रकार्यहरू"</string>
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"अनुप्रयोगलाई डाउनलोड प्रबन्धकको उन्नत प्रकार्यहरू पहुँच गर्न अनुमति दिन्छ। हानिकारक अनुप्रयोगहरूले यसलाई डाउनलोड अवरूद्ध गरी निजी जानकारी पहुँच गर्न प्रयोग गर्न सक्छ।"</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"डाउनलोड सूचनाहरू पठाउनुहोस्।"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"अनुप्रयोगलाई समाप्त भएका डाउनलोडहरूका सूचनाहरू पठाउन अनुमति दिन्छ। हानिकारक अनुप्रयोगहरूले फाइल डाउनलोड गर्ने अन्य अनुप्रयोगलाई झुक्याउनका लागि यसलाई प्रयोग गर्न सक्छन्।"</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"सबै डाउनलोडहरूलाई USB भण्डारणमा हेर्नुहोस्"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"सबै डाउनलोडहरूलाई SD कार्डमा हेर्नुहोस्"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"जुनसुकै अनुप्रयोगले डाउनलोड गरेको भए पनि अनुप्रयोगलाई सम्पूर्ण डाउनलोडहरूलाई SD कार्डमा देख्ने अनुमति दिन्छ ।"</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"डाउनलोड केसमा ठाउँ ओगट्नुहोस्"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"अनुप्रयोगलाई फाइलहरूलाई डाउनलोड केसमा डाउनलोड गर्न अनुमति दिन्छ, जुन डाउनलोड प्रबन्धकलाई थप ठाउँ चाहिएको खण्डमा स्वचालित रूपमा हटाउन सकिदैन।"</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"बिना सूचना फाइलहरू डाउनलोड गर्नुहोस्"</string>
@@ -39,9 +36,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"डाउनलोड आकारलाई Wi-Fi चाहिन्छ।"</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"पृष्ठभूमिमा रोकिएको छ।"</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"अपरेटर सञ्जालका लागि डाउनलोड ज्यादै ठूलो"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"तपाईंले Wi-Fi प्रयोग गर्नु पर्छ यस <xliff:g id="SIZE">%s </xliff:g> डाउनलोड समाप्त गर्न। \n\nछुनुहोस् <xliff:g id="QUEUE_TEXT">%s </xliff:g> यस डाउनलोडलाई सुरु गर्न अर्को पटक तपाईं Wi-Fi सञ्जालामा जडित भए पछि।"</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"तपाईंले Wi-Fi प्रयोग गर्नु पर्छ यस <xliff:g id="SIZE">%1$s </xliff:g> डाउनलोड समाप्त गर्न। \n\nछुनुहोस् <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> यस डाउनलोडलाई सुरु गर्न अर्को पटक तपाईं Wi-Fi सञ्जालामा जडित भए पछि।"</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"पछि डाउनलोडका लागि लाममा राख्ने हो?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"यस <xliff:g id="SIZE">%s </xliff:g> डाउनलोडलाई सुरु गर्दा तपाईंको ब्याट्रिको काल छोट्टिन सक्छ र/वा तपाईंको मोबाइल डेटा जडानको अधिकतम प्रयोग भई तपाईंको डेटा योजना अनुसार मोबाइल अपरेटरले थप शुल्क लिन सक्छ। \n\n छुनुहोस् <xliff:g id="QUEUE_TEXT">%s</xliff:g>तल यस डाउनलोडलाई सुरु गर्न अर्को पटक तपाईं Wi-Fi सन्जालमा जडित हुने बेला।"</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"यस <xliff:g id="SIZE">%1$s </xliff:g> डाउनलोडलाई सुरु गर्दा तपाईंको ब्याट्रिको काल छोट्टिन सक्छ र/वा तपाईंको मोबाइल डेटा जडानको अधिकतम प्रयोग भई तपाईंको डेटा योजना अनुसार मोबाइल अपरेटरले थप शुल्क लिन सक्छ। \n\n छुनुहोस् <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>तल यस डाउनलोडलाई सुरु गर्न अर्को पटक तपाईं Wi-Fi सन्जालमा जडित हुने बेला।"</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"लाम"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"रद्द गर्नुहोस्"</string>
     <string name="button_start_now" msgid="792123674007840864">"अहिले सुरु गर्नुहोस्"</string>

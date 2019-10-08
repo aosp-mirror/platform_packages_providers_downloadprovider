@@ -44,7 +44,7 @@
     <string name="cancel_running_download" msgid="5232704030969221112">"Cancel·la"</string>
     <string name="retry_download" msgid="7617100787922717912">"Torna-ho a provar"</string>
     <string name="start_now_download" msgid="1564642872809509681">"Comença ara"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"Anul·la la selecció de tot"</string>
+    <string name="deselect_all" msgid="6348198946254776764">"Desselecciona-ho tot"</string>
     <string name="select_all" msgid="634074918366265804">"Selecciona-ho tot"</string>
     <string name="selected_count" msgid="2101564570019753277">"S\'han seleccionat <xliff:g id="NUMBER">%1$d</xliff:g> de <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
     <string name="download_share_dialog" msgid="3355867339806448955">"Compart. mitjançant"</string>

@@ -156,13 +156,19 @@ public class DownloadScanner implements MediaScannerConnectionClient {
             return;
         }
 
+        // File got deleted while waiting for it to be mediascanned.
+        if (uri == null) {
+            if (mLatch != null) {
+                mLatch.countDown();
+            }
+            return;
+        }
+
         // Update scanned column, which will kick off a database update pass,
         // eventually deciding if overall service is ready for teardown.
         final ContentValues values = new ContentValues();
         values.put(Downloads.Impl.COLUMN_MEDIA_SCANNED, 1);
-        if (uri != null) {
-            values.put(Downloads.Impl.COLUMN_MEDIAPROVIDER_URI, uri.toString());
-        }
+        values.put(Downloads.Impl.COLUMN_MEDIAPROVIDER_URI, uri.toString());
 
         final ContentResolver resolver = mContext.getContentResolver();
         final Uri downloadUri = ContentUris.withAppendedId(

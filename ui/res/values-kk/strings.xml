@@ -42,7 +42,7 @@
     <string name="delete_download" msgid="76629022653866471">"Жою"</string>
     <string name="keep_queued_download" msgid="5144882786014818569">"Қалсын"</string>
     <string name="cancel_running_download" msgid="5232704030969221112">"Жабу"</string>
-    <string name="retry_download" msgid="7617100787922717912">"Қайта әрекеттену"</string>
+    <string name="retry_download" msgid="7617100787922717912">"Әрекетті қайталау"</string>
     <string name="start_now_download" msgid="1564642872809509681">"Қазір бастау"</string>
     <string name="deselect_all" msgid="6348198946254776764">"Барлығының таңдауын алыңыз"</string>
     <string name="select_all" msgid="634074918366265804">"Барлығын таңдау"</string>

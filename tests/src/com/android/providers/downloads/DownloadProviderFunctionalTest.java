@@ -76,7 +76,7 @@ public class DownloadProviderFunctionalTest extends AbstractDownloadProviderFunc
                        Integer.toString(Downloads.Impl.DESTINATION_CACHE_PARTITION));
         runUntilStatus(downloadUri, Downloads.Impl.STATUS_SUCCESS);
         assertEquals(FILE_CONTENT, getDownloadContents(downloadUri));
-        assertStartsWith(getContext().getCacheDir().getAbsolutePath(),
+        assertStartsWith(getContext().getCacheDir().getCanonicalPath(),
                          getDownloadFilename(downloadUri));
     }
 

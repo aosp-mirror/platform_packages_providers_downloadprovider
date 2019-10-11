@@ -24,9 +24,6 @@
     <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Permite que o app acesse funções avançadas do gerenciador de download. Apps maliciosos podem usar essa ação para interromper downloads e acessar informações privadas."</string>
     <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Enviar notificações de download."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Permite que o app envie notificações sobre downloads concluídos. Apps maliciosos podem usar esse envio para confundir outros apps que fazem download de arquivos."</string>
-    <string name="permlab_seeAllExternal" product="nosdcard" msgid="4084575448409212628">"Ver downloads armaz. USB"</string>
-    <string name="permlab_seeAllExternal" product="default" msgid="140058400609165726">"Ver todos os downloads para o cartão SD"</string>
-    <string name="permdesc_seeAllExternal" msgid="1672759909065511233">"Permite que o app veja todos os downloads do cartão SD, independentemente de sua origem."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Reservar espaço no cache de download"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Permite que o aplic. faça download de arquivos no cache de downloads, que não podem ser excl. automatic. quando o gerenc. de download precisar de mais espaço."</string>
     <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"fazer download de arquivos sem notificação"</string>
@@ -39,9 +36,9 @@
     <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"O tamanho do download requer Wi-Fi."</string>
     <string name="notification_paused_in_background" msgid="4328508073283591772">"Paus. em segundo plano."</string>
     <string name="wifi_required_title" msgid="1995971416871498179">"Download muito grande para a rede da operadora"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Você deve usar o Wi-Fi para completar o download de <xliff:g id="SIZE">%s </xliff:g>. \n\nToque em <xliff:g id="QUEUE_TEXT">%s </xliff:g> para começar o download da próxima vez que você estiver conectado a uma rede Wi-Fi."</string>
+    <string name="wifi_required_body" msgid="3067694630143784449">"Você deve usar o Wi-Fi para completar o download de <xliff:g id="SIZE">%1$s </xliff:g>. \n\nToque em <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> para começar o download da próxima vez que você estiver conectado a uma rede Wi-Fi."</string>
     <string name="wifi_recommended_title" msgid="7441589306734687400">"Colocar em fila para download mais tarde?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"O download de <xliff:g id="SIZE">%s </xliff:g> agora diminui a vida da bateria e resulta no uso excess. da conexão, levando a cobr. de acordo com seu plano de dados.\n\n Toque em <xliff:g id="QUEUE_TEXT">%s</xliff:g> para fazer o download quando conect. a uma rede Wi-Fi."</string>
+    <string name="wifi_recommended_body" msgid="1314735166699936073">"O download de <xliff:g id="SIZE">%1$s </xliff:g> agora diminui a vida da bateria e resulta no uso excess. da conexão, levando a cobr. de acordo com seu plano de dados.\n\n Toque em <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> para fazer o download quando conect. a uma rede Wi-Fi."</string>
     <string name="button_queue_for_wifi" msgid="422576726189179221">"Fila"</string>
     <string name="button_cancel_download" msgid="2430166148737975604">"Cancelar"</string>
     <string name="button_start_now" msgid="792123674007840864">"Iniciar agora"</string>

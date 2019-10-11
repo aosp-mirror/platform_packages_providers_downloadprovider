@@ -18,6 +18,8 @@ package com.android.providers.downloads;
 
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION;
+import static android.provider.Downloads.Impl.COLUMN_DESTINATION;
+import static android.provider.Downloads.Impl._DATA;
 
 import static com.android.providers.downloads.Constants.TAG;
 import static com.android.providers.downloads.Helpers.getAsyncHandler;
@@ -26,6 +28,7 @@ import static com.android.providers.downloads.Helpers.getInt;
 import static com.android.providers.downloads.Helpers.getString;
 import static com.android.providers.downloads.Helpers.getSystemFacade;
 
+import android.app.BroadcastOptions;
 import android.app.DownloadManager;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -37,10 +40,15 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.Downloads;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Slog;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Pattern;
 
 /**
  * Receives system broadcasts (boot, network connectivity)
@@ -141,22 +149,27 @@ public class DownloadReceiver extends BroadcastReceiver {
         final ContentResolver resolver = context.getContentResolver();
         final int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
 
-        // First, disown any downloads that live in shared storage
-        final ContentValues values = new ContentValues();
-        values.putNull(Constants.UID);
-        final int disowned = resolver.update(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, values,
-                Constants.UID + "=" + uid + " AND " + Downloads.Impl.COLUMN_DESTINATION + " IN ("
-                        + Downloads.Impl.DESTINATION_EXTERNAL + ","
-                        + Downloads.Impl.DESTINATION_FILE_URI + ")",
-                null);
+        final ArrayList<Long> idsToDelete = new ArrayList<>();
+        final ArrayList<Long> idsToOrphan = new ArrayList<>();
+        try (Cursor cursor = resolver.query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
+                new String[] { Downloads.Impl._ID, Constants.UID, COLUMN_DESTINATION, _DATA },
+                Constants.UID + "=" + uid, null, null)) {
+            Helpers.handleRemovedUidEntries(context, cursor, idsToDelete, idsToOrphan, null);
+        }
 
-        // Finally, delete any remaining downloads owned by UID
-        final int deleted = resolver.delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
-                Constants.UID + "=" + uid, null);
-
-        if ((disowned + deleted) > 0) {
-            Slog.d(TAG, "Disowned " + disowned + " and deleted " + deleted
-                    + " downloads owned by UID " + uid);
+        if (idsToOrphan.size() > 0) {
+            Log.i(Constants.TAG, "Orphaning downloads with ids "
+                    + Arrays.toString(idsToOrphan.toArray()) + " as owner package is removed");
+            final ContentValues values = new ContentValues();
+            values.putNull(Constants.UID);
+            resolver.update(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, values,
+                    Helpers.buildQueryWithIds(idsToOrphan), null);
+        }
+        if (idsToDelete.size() > 0) {
+            Log.i(Constants.TAG, "Deleting downloads with ids "
+                    + Arrays.toString(idsToDelete.toArray()) + " as owner package is removed");
+            resolver.delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
+                    Helpers.buildQueryWithIds(idsToDelete), null);
         }
     }
 
@@ -276,6 +289,8 @@ public class DownloadReceiver extends BroadcastReceiver {
             }
         }
 
-        getSystemFacade(context).sendBroadcast(appIntent);
+        final BroadcastOptions options = BroadcastOptions.makeBasic();
+        options.setBackgroundActivityStartsAllowed(true);
+        getSystemFacade(context).sendBroadcast(appIntent, null, options.toBundle());
     }
 }

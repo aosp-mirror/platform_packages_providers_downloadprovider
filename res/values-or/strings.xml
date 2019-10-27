@@ -16,45 +16,45 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3658948994665187911">"ଡାଉନଲୋଡ୍‌ ମ୍ୟାନେଜର୍‌"</string>
-    <string name="storage_description" msgid="7982444311558023664">"ଡାଉନଲୋଡ୍‌"</string>
-    <string name="permlab_downloadManager" msgid="7779544811202855500">"ଡାଉନଲୋଡ୍‌ ମ୍ୟାନେଜର୍‌ ଆକ୍ସେସ୍‌ କରନ୍ତୁ|"</string>
-    <string name="permdesc_downloadManager" msgid="4237406545998908947">"ଡାଉନଲୋଡ୍‌ ମ୍ୟାନେଜର୍‌କୁ ଆକ୍ସେସ୍‌ କରିବା ପାଇଁ ଏବଂ ଫାଇଲ୍‌ ଡାଉନଲୋଡ୍‌ କରିବାକୁ ଏହାକୁ ବ୍ୟବହାର କରିବା ପାଇଁ ଆପ୍‌କୁ ଅନୁମତି ଦେଇଥାଏ| କ୍ଷତିକାରକ ଆପ୍‌ଗୁଡ଼ିକ ଏହାକୁ, ଡାଉନଲୋଡ୍‌ରେ ବିଘ୍ନ କରିବାକୁ ଏବଂ ବ୍ୟକ୍ତିଗତ ସୂଚନା ଆକ୍ସେସ୍‌ କରିବା ପାଇଁ ବ୍ୟବହାର କରିପାରନ୍ତି|"</string>
-    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"ଉନ୍ନତ ଡାଉନଲୋଡ୍‌ ମ୍ୟାନେଜର୍‌ କାର୍ଯ୍ୟକାରିତା|"</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"ଡାଉନଲୋଡ୍‌ ମ୍ୟାନେଜର୍‌ର ଉନ୍ନତ କାର୍ଯ୍ୟକାରିତାକୁ ଆକ୍ସେସ୍‌ କରିବା ପାଇଁ ଆପ୍‌କୁ ଅନୁମତି ଦେଇଥାଏ| କ୍ଷତିକାରକ ଆପ୍‌ଗୁଡ଼ିକ ଏହାକୁ, ଡାଉନଲୋଡ୍‌ରେ ବିଘ୍ନ କରିବାକୁ ଏବଂ ବ୍ୟକ୍ତିଗତ ସୂଚନା ଆକ୍ସେସ୍‌ କରିବା ପାଇଁ ବ୍ୟବହାର କରିପାରନ୍ତି|"</string>
-    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"ଡାଉନଲୋଡ୍‌ ବିଜ୍ଞପ୍ତି ପଠାନ୍ତୁ|"</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"ସମ୍ପୂର୍ଣ୍ଣ ହୋଇଥିବା ଡାଉନଲୋଡ୍‌ଗୁଡ଼ିକ ବିଷୟରେ ବିଜ୍ଞପ୍ତି ପଠାଇବା ପାଇଁ ଆପ୍‌କୁ ଅନୁମତି ଦେଇଥାଏ| କ୍ଷତିକାରକ ଆପ୍‌ଗୁଡ଼ିକ ଏହାକୁ, ଅନ୍ୟ ଆପ୍‌ଗୁଡ଼ିକୁ ଭ୍ରମିତ କରିବା ପାଇଁ ବ୍ୟବହାର କରିପାରନ୍ତି, ଯେଉଁଗୁଡ଼ିକ ଫାଇଲ୍‌ ଡାଉନଲୋଡ୍‌ କରନ୍ତି|"</string>
-    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"ଡାଉନଲୋଡ୍‌ କ୍ୟାଶ୍‌ରେ ସ୍ପେସ୍‌ ରିଜର୍ଭ କରନ୍ତୁ"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"ଆପ୍‌କୁ ଡାଉନଲୋଡ୍‌ କ୍ୟାଶ୍‌ରେ ଫାଇଲ୍‌ଗୁଡ଼ିକୁ ଡାଉନଲୋଡ୍‌ କରିବାକୁ ଦେଇଥାଏ, ଯେଉଁଗୁଡ଼ିକୁ ଡାଉନଲୋଡ୍‌ ମ୍ୟାନେଜର୍‌କୁ ଅଧିକ ସ୍ଥାନ ଆବଶ୍ୟକ ହେଲେ ସ୍ୱଚାଳିତ ଭାବେ ଡିଲିଟ୍‌ କରିହେବ ନାହିଁ|"</string>
-    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"କୌଣସି ବିଜ୍ଞପ୍ତି ବିନା ଫାଇଲ୍‌ଗୁଡ଼ିକୁ ଡାଉନଲୋଡ୍‌ କରନ୍ତୁ"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"ୟୁଜର୍‌ଙ୍କୁ ବିଜ୍ଞପ୍ତି ନଦେଖାଇ ଡାଉନଲୋଡ୍‌ ମ୍ୟାନେଜର୍‌ ମାଧ୍ୟମରେ ଫାଇଲ୍‌ଗୁଡ଼ିକୁ ଡାଉନଲୋଡ୍‌ କରିବା ପାଇଁ ଆପ୍‌କୁ ଅନୁମତି ଦେଇଥାଏ|"</string>
-    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"ସମସ୍ତ ସିଷ୍ଟମ୍‌ ଡାଉନଲୋଡ୍‌କୁ ଆକ୍ସେସ୍‌ କରନ୍ତୁ"</string>
-    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"ସିଷ୍ଟମ୍‌ରେ ଯେକୌଣସି ଆପ୍‌ ଦ୍ୱାରା ଆରମ୍ଭ କରାଯାଇଥିବା ସମସ୍ତ ଡାଉନଲୋଡ୍‌କୁ ଦେଖିବା ଓ ସଂଶୋଧନ କରିବା ପାଇଁ ଆପ୍‌କୁ ଅନୁମତି ଦିଅନ୍ତୁ|"</string>
-    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;ନାମହୀନ&gt;"</string>
-    <string name="notification_download_complete" msgid="5443563299253103667">"ଡାଉନଲୋଡ୍ ହୋଇଗଲା।"</string>
-    <string name="notification_download_failed" msgid="8612136111952014978">"ଡାଉନଲୋଡ୍‌ ବିଫଳ"</string>
-    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"ଡାଉନଲୋଡ୍‌ ଆକାର ୱାଇ-ଫାଇ ଆବଶ୍ୟକ କରେ|"</string>
-    <string name="notification_paused_in_background" msgid="4328508073283591772">"ବ୍ୟାକ୍‌ଗ୍ରାଉଣ୍ଡରେ ପଜ୍‌ ହୋଇ ରହିଛି|"</string>
-    <string name="wifi_required_title" msgid="1995971416871498179">"ଅପରେଟର୍‌ ନେଟ୍‌ୱର୍କ ପାଇଁ ଡାଉନଲୋଡ୍‌ ବହୁତ ବଡ଼ ଅଟେ"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"ଏହି <xliff:g id="SIZE">%1$s </xliff:g>ର ଡାଉନଲୋଡ୍‌ ସାରିବା ପାଇଁ ଆପଣଙ୍କୁ ନିଶ୍ଚିତ ଭାବେ ୱାଇ-ଫାଇର ବ୍ୟବହାର କରିବାକୁ ପଡ଼ିବ| \n\nପରବର୍ତ୍ତୀ ସମୟରେ ଯେତେବେଳେ ଆପଣ କୌଣସି ୱାଇ-ଫାଇ ନେଟ୍‌ୱର୍କ ସହିତ ଯୋଡ଼ିହେବେ, ଏହି ଡାଉନଲୋଡ୍‌ ଆରମ୍ଭ କରିବା ପାଇଁ <xliff:g id="QUEUE_TEXT">%2$s </xliff:g>କୁ ସ୍ପର୍ଶ କରନ୍ତୁ|"</string>
-    <string name="wifi_recommended_title" msgid="7441589306734687400">"ପରେ ଡାଉନଲୋଡ୍‌ କରିବା ପାଇଁ ଧାଡ଼ିରେ ରଖିବେ?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"ଏହି <xliff:g id="SIZE">%1$s </xliff:g>ର ଡାଉନଲୋଡ୍‌ ଆରମ୍ଭ କଲେ ଆପଣଙ୍କ ବ୍ୟାଟେରୀ ଶୀଘ୍ର ସରିଯାଇପାରେ ଏବଂ/କିମ୍ୱା ମୋବାଇଲ୍‌ର ଅନେକ ଡାଟା ଖର୍ଚ୍ଚ ହୋଇପାରେ, ଯାହା ପାଇଁ ମୋବାଇଲ୍‌ ଅପରେଟର୍‌, ଆପଣଙ୍କ ଡାଟା ପ୍ଲାନ୍‌ ହିସାବରେ ଆପଣଙ୍କଠାରୁ ପଇସା ନେଇପାରେ|\n\n ଆଗାମୀ ଥର ଯେତେବେଳେ ଆପଣ ୱାଇ-ଫାଇ ନେଟୱର୍କ ସହିତ ଯୋଡ଼ିହେବେ, ଏହି ଡାଉନଲୋଡ୍‌ ଆରମ୍ଭ କରିବା ପାଇଁ <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>କୁ ସ୍ପର୍ଶ କରନ୍ତୁ|"</string>
-    <string name="button_queue_for_wifi" msgid="422576726189179221">"ଧାଡ଼ିରେ ରଖନ୍ତୁ"</string>
-    <string name="button_cancel_download" msgid="2430166148737975604">"କ୍ୟାନ୍ସଲ୍‍"</string>
-    <string name="button_start_now" msgid="792123674007840864">"ବର୍ତ୍ତମାନ ଆରମ୍ଭ କରନ୍ତୁ"</string>
-    <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
+    <string name="app_label" msgid="5264040740662487684">"ଡାଉନଲୋଡ୍‌ ମ୍ୟାନେଜର୍‌"</string>
+    <string name="storage_description" msgid="169690279447532621">"ଡାଉନଲୋଡ୍‌"</string>
+    <string name="permlab_downloadManager" msgid="4241473724446132797">"ଡାଉନଲୋଡ୍‌ ମ୍ୟାନେଜର୍‌ ଆକ୍ସେସ୍‌ କରନ୍ତୁ|"</string>
+    <string name="permdesc_downloadManager" msgid="5562734314998369030">"ଡାଉନଲୋଡ୍‌ ମ୍ୟାନେଜର୍‌କୁ ଆକ୍ସେସ୍‌ କରିବା ପାଇଁ ଏବଂ ଫାଇଲ୍‌ ଡାଉନଲୋଡ୍‌ କରିବାକୁ ଏହାକୁ ବ୍ୟବହାର କରିବା ପାଇଁ ଆପ୍‌କୁ ଅନୁମତି ଦେଇଥାଏ| କ୍ଷତିକାରକ ଆପ୍‌ଗୁଡ଼ିକ ଏହାକୁ, ଡାଉନଲୋଡ୍‌ରେ ବିଘ୍ନ କରିବାକୁ ଏବଂ ବ୍ୟକ୍ତିଗତ ସୂଚନା ଆକ୍ସେସ୍‌ କରିବା ପାଇଁ ବ୍ୟବହାର କରିପାରନ୍ତି|"</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"ଉନ୍ନତ ଡାଉନଲୋଡ୍‌ ମ୍ୟାନେଜର୍‌ କାର୍ଯ୍ୟକାରିତା|"</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"ଡାଉନଲୋଡ୍‌ ମ୍ୟାନେଜର୍‌ର ଉନ୍ନତ କାର୍ଯ୍ୟକାରିତାକୁ ଆକ୍ସେସ୍‌ କରିବା ପାଇଁ ଆପ୍‌କୁ ଅନୁମତି ଦେଇଥାଏ| କ୍ଷତିକାରକ ଆପ୍‌ଗୁଡ଼ିକ ଏହାକୁ, ଡାଉନଲୋଡ୍‌ରେ ବିଘ୍ନ କରିବାକୁ ଏବଂ ବ୍ୟକ୍ତିଗତ ସୂଚନା ଆକ୍ସେସ୍‌ କରିବା ପାଇଁ ବ୍ୟବହାର କରିପାରନ୍ତି|"</string>
+    <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"ଡାଉନଲୋଡ୍‌ ବିଜ୍ଞପ୍ତି ପଠାନ୍ତୁ|"</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"ସମ୍ପୂର୍ଣ୍ଣ ହୋଇଥିବା ଡାଉନଲୋଡ୍‌ଗୁଡ଼ିକ ବିଷୟରେ ବିଜ୍ଞପ୍ତି ପଠାଇବା ପାଇଁ ଆପ୍‌କୁ ଅନୁମତି ଦେଇଥାଏ| କ୍ଷତିକାରକ ଆପ୍‌ଗୁଡ଼ିକ ଏହାକୁ, ଅନ୍ୟ ଆପ୍‌ଗୁଡ଼ିକୁ ଭ୍ରମିତ କରିବା ପାଇଁ ବ୍ୟବହାର କରିପାରନ୍ତି, ଯେଉଁଗୁଡ଼ିକ ଫାଇଲ୍‌ ଡାଉନଲୋଡ୍‌ କରନ୍ତି|"</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"ଡାଉନଲୋଡ୍‌ କ୍ୟାଶ୍‌ରେ ସ୍ପେସ୍‌ ରିଜର୍ଭ କରନ୍ତୁ"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"ଆପ୍‌କୁ ଡାଉନଲୋଡ୍‌ କ୍ୟାଶ୍‌ରେ ଫାଇଲ୍‌ଗୁଡ଼ିକୁ ଡାଉନଲୋଡ୍‌ କରିବାକୁ ଦେଇଥାଏ, ଯେଉଁଗୁଡ଼ିକୁ ଡାଉନଲୋଡ୍‌ ମ୍ୟାନେଜର୍‌କୁ ଅଧିକ ସ୍ଥାନ ଆବଶ୍ୟକ ହେଲେ ସ୍ୱଚାଳିତ ଭାବେ ଡିଲିଟ୍‌ କରିହେବ ନାହିଁ|"</string>
+    <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"କୌଣସି ବିଜ୍ଞପ୍ତି ବିନା ଫାଇଲ୍‌ଗୁଡ଼ିକୁ ଡାଉନଲୋଡ୍‌ କରନ୍ତୁ"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"ୟୁଜର୍‌ଙ୍କୁ ବିଜ୍ଞପ୍ତି ନଦେଖାଇ ଡାଉନଲୋଡ୍‌ ମ୍ୟାନେଜର୍‌ ମାଧ୍ୟମରେ ଫାଇଲ୍‌ଗୁଡ଼ିକୁ ଡାଉନଲୋଡ୍‌ କରିବା ପାଇଁ ଆପ୍‌କୁ ଅନୁମତି ଦେଇଥାଏ|"</string>
+    <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"ସମସ୍ତ ସିଷ୍ଟମ୍‌ ଡାଉନଲୋଡ୍‌କୁ ଆକ୍ସେସ୍‌ କରନ୍ତୁ"</string>
+    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"ସିଷ୍ଟମ୍‌ରେ ଯେକୌଣସି ଆପ୍‌ ଦ୍ୱାରା ଆରମ୍ଭ କରାଯାଇଥିବା ସମସ୍ତ ଡାଉନଲୋଡ୍‌କୁ ଦେଖିବା ଓ ସଂଶୋଧନ କରିବା ପାଇଁ ଆପ୍‌କୁ ଅନୁମତି ଦିଅନ୍ତୁ|"</string>
+    <string name="download_unknown_title" msgid="1017800350818840396">"&lt;ନାମହୀନ&gt;"</string>
+    <string name="notification_download_complete" msgid="466652037490092787">"ଡାଉନଲୋଡ୍ ହୋଇଗଲା।"</string>
+    <string name="notification_download_failed" msgid="3932167763860605874">"ଡାଉନଲୋଡ୍‌ ବିଫଳ"</string>
+    <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"ଡାଉନଲୋଡ୍‌ ଆକାର ୱାଇ-ଫାଇ ଆବଶ୍ୟକ କରେ|"</string>
+    <string name="notification_paused_in_background" msgid="6393408819031041778">"ବ୍ୟାକ୍‌ଗ୍ରାଉଣ୍ଡରେ ପଜ୍‌ ହୋଇ ରହିଛି|"</string>
+    <string name="wifi_required_title" msgid="7266700488421122218">"ଅପରେଟର୍‌ ନେଟ୍‌ୱର୍କ ପାଇଁ ଡାଉନଲୋଡ୍‌ ବହୁତ ବଡ଼ ଅଟେ"</string>
+    <string name="wifi_required_body" msgid="4005023496578941958">"ଏହି <xliff:g id="SIZE">%1$s </xliff:g>ର ଡାଉନଲୋଡ୍‌ ସାରିବା ପାଇଁ ଆପଣଙ୍କୁ ନିଶ୍ଚିତ ଭାବେ ୱାଇ-ଫାଇର ବ୍ୟବହାର କରିବାକୁ ପଡ଼ିବ| \n\nପରବର୍ତ୍ତୀ ସମୟରେ ଯେତେବେଳେ ଆପଣ କୌଣସି ୱାଇ-ଫାଇ ନେଟ୍‌ୱର୍କ ସହିତ ଯୋଡ଼ିହେବେ, ଏହି ଡାଉନଲୋଡ୍‌ ଆରମ୍ଭ କରିବା ପାଇଁ <xliff:g id="QUEUE_TEXT">%2$s </xliff:g>କୁ ସ୍ପର୍ଶ କରନ୍ତୁ|"</string>
+    <string name="wifi_recommended_title" msgid="6488158053932133804">"ପରେ ଡାଉନଲୋଡ୍‌ କରିବା ପାଇଁ ଧାଡ଼ିରେ ରଖିବେ?"</string>
+    <string name="wifi_recommended_body" msgid="8710820743211704403">"ଏହି <xliff:g id="SIZE">%1$s </xliff:g>ର ଡାଉନଲୋଡ୍‌ ଆରମ୍ଭ କଲେ ଆପଣଙ୍କ ବ୍ୟାଟେରୀ ଶୀଘ୍ର ସରିଯାଇପାରେ ଏବଂ/କିମ୍ୱା ମୋବାଇଲ୍‌ର ଅନେକ ଡାଟା ଖର୍ଚ୍ଚ ହୋଇପାରେ, ଯାହା ପାଇଁ ମୋବାଇଲ୍‌ ଅପରେଟର୍‌, ଆପଣଙ୍କ ଡାଟା ପ୍ଲାନ୍‌ ହିସାବରେ ଆପଣଙ୍କଠାରୁ ପଇସା ନେଇପାରେ|\n\n ଆଗାମୀ ଥର ଯେତେବେଳେ ଆପଣ ୱାଇ-ଫାଇ ନେଟୱର୍କ ସହିତ ଯୋଡ଼ିହେବେ, ଏହି ଡାଉନଲୋଡ୍‌ ଆରମ୍ଭ କରିବା ପାଇଁ <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>କୁ ସ୍ପର୍ଶ କରନ୍ତୁ|"</string>
+    <string name="button_queue_for_wifi" msgid="6650185573566994738">"ଧାଡ଼ିରେ ରଖନ୍ତୁ"</string>
+    <string name="button_cancel_download" msgid="4135046775536601831">"କ୍ୟାନ୍ସଲ୍‍"</string>
+    <string name="button_start_now" msgid="3817100969365441730">"ବର୍ତ୍ତମାନ ଆରମ୍ଭ କରନ୍ତୁ"</string>
+    <plurals name="notif_summary_active" formatted="false" msgid="8652501374845637331">
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g>ଟି ଫାଇଲ୍‌ ଡାଉନଲୋଡ୍‌ ହେଉଛି</item>
       <item quantity="one">1ଟି ଫାଇଲ୍‌ ଡାଉନଲୋଡ୍‌ ହେଉଛି</item>
     </plurals>
-    <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
+    <plurals name="notif_summary_waiting" formatted="false" msgid="1782251721955177526">
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g>ଟି ଫାଇଲ୍‌ ଅପେକ୍ଷାରତ</item>
       <item quantity="one">1ଟି ଫାଇଲ୍‌ ଅପେକ୍ଷାରତ</item>
     </plurals>
-    <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> ଅବଶିଷ୍ଟ ଅଛି"</string>
-    <string name="download_no_application_title" msgid="7935659741162801699">"ଫାଇଲ୍‌କୁ ଖୋଲିପାରିବ ନାହିଁ"</string>
-    <string name="root_downloads" msgid="4098414876292351487">"ଡାଉନଲୋଡ୍‌"</string>
-    <string name="download_queued" msgid="3302638231377947451">"ଧାଡ଼ିରେ ରଖାଯାଇଛି"</string>
-    <string name="download_running" msgid="3925050393361158266">"ଜାରି ଅଛି"</string>
-    <string name="download_error" msgid="5144180777324573236">"ଅସଫଳ"</string>
-    <string name="download_running_percent" msgid="4305080769167320204">"ଜାରି ଅଛି, <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
+    <string name="download_remaining" msgid="2313089371178695625">"<xliff:g id="DURATION">%s</xliff:g> ଅବଶିଷ୍ଟ ଅଛି"</string>
+    <string name="download_no_application_title" msgid="5780812573953335721">"ଫାଇଲ୍‌କୁ ଖୋଲିପାରିବ ନାହିଁ"</string>
+    <string name="root_downloads" msgid="8380500940211778491">"ଡାଉନଲୋଡ୍‌"</string>
+    <string name="download_queued" msgid="3383844741769045371">"ଧାଡ଼ିରେ ରଖାଯାଇଛି"</string>
+    <string name="download_running" msgid="774654178925442490">"ଜାରି ଅଛି"</string>
+    <string name="download_error" msgid="1857737890005386798">"ଅସଫଳ"</string>
+    <string name="download_running_percent" msgid="3492753569359254730">"ଜାରି ଅଛି, <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
 </resources>

@@ -16,45 +16,45 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3658948994665187911">"ডাউনল’ড মেনেজাৰ"</string>
-    <string name="storage_description" msgid="7982444311558023664">"ডাউনল\'ডসমূহ"</string>
-    <string name="permlab_downloadManager" msgid="7779544811202855500">"ডাউনল’ড মেনেজাৰত প্ৰৱেশ কৰিব পাৰে।"</string>
-    <string name="permdesc_downloadManager" msgid="4237406545998908947">"এপটোক ডাউনল’ড মেনেজাৰত প্ৰৱেশ কৰিবলৈ আৰু তাক ব্যৱহাৰ কৰি ফাইল ডাউনল’ড কৰিবলৈ অনুমতি দিয়ে। ক্ষতিকাৰক এপসমূহে এই সুবিধাটো ব্যৱহাৰ কৰি ডাউনল’ডত বিঘিনি জন্মোৱাৰ লগতে ব্যক্তিগত তথ্য চাব পাৰিব পাৰে।"</string>
-    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"উচ্চখাপৰ ডাউনল’ড মেনেজাৰ ফাংশ্বনসমূহ।"</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"এপটোক ডাউনল’ড মেনেজাৰৰ উচ্চখাপৰ ফাংশ্বনত প্ৰৱেশ কৰিবলৈ অনুমতি দিয়ে। ক্ষতিকাৰক এপসমূহে এই সুবিধাটো ব্যৱহাৰ কৰি ডাউনল’ডত বিঘিনি জন্মোৱাৰ লগতে ব্যক্তিগত তথ্য চাব পাৰিব পাৰে।"</string>
-    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"ডাউনল’ড জাননী প্ৰেৰণ কৰিব পাৰে।"</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"সম্পূৰ্ণ হোৱা ডাউনল\'ডৰ বিষয়ে জাননী প্ৰেৰণ কৰিবলৈ এপটোক অনুমতি দিয়ে। ক্ষতিকাৰক এপসমূহে এই সুবিধাটো ফাইল ডাউনল\'ডকাৰী অইন এপক বিভ্ৰান্ত কৰিবলৈ ব্যৱহাৰ কৰিব পাৰে।"</string>
-    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"ডাউন\'লড কেশ্বত ঠাই সংৰক্ষিত কৰিব পাৰে"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"এপটোক ডাউনল’ড কেশ্বত ফাইল ডাউনল’ড কৰিবলৈ অনুমতি দিয়ে, যাক ডাউনল’ড মেনেজাৰক অধিক খালী ঠাই প্ৰয়োজন হ\'লে স্বয়ংক্ৰিয়ভাৱে মচি পেলাব নোৱাৰি।"</string>
-    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"জাননী নিদিয়াকৈ ফাইল ডাউনল’ড কৰিব পাৰে"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"এপটোক ব্যৱহাৰকাৰীক কোনো জাননী নিদিয়াকৈ ডাউনল’ড মেনেজাৰ ব্যৱহাৰ কৰি ফাইল ডাউনল’ড কৰিবলৈ অনুমতি দিয়ে।"</string>
-    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"সকলো ছিষ্টেম ডাউনল\'ডত প্ৰৱেশ কৰিব পাৰে"</string>
-    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"ছিষ্টেমত থকা যিকোনো এপে সূচনা কৰা সকলো ডাউনল’ড চাবলৈ আৰু সংশোধন কৰিবলৈ এপটোক অনুমতি দিয়ে।"</string>
-    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;শিৰোনামবিহীন&gt;"</string>
-    <string name="notification_download_complete" msgid="5443563299253103667">"ডাউনল’ড সম্পূৰ্ণ হ’ল।"</string>
-    <string name="notification_download_failed" msgid="8612136111952014978">"ডাউনল’ড কৰিবপৰা নগ\'ল।"</string>
-    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"এই আকাৰৰ ডাউনল\'ডৰ বাবে ৱাই-ফাইৰ প্ৰয়োজন।"</string>
-    <string name="notification_paused_in_background" msgid="4328508073283591772">"নেপথ্যত পজ কৰক।"</string>
-    <string name="wifi_required_title" msgid="1995971416871498179">"অপাৰেটৰ নেটৱৰ্কৰ বাবে ডাউনল\'ডটো অতি ডাঙৰ"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"আপুনি এই <xliff:g id="SIZE">%1$s </xliff:g> আকাৰৰ ডাউনল’ড কৰিবলৈ ৱাই-ফাই ব্যৱহাৰ কৰিবই লাগিব।\n\nআপুনি পিছত ৱাই-ফাইৰ সৈতে সংযুক্ত হ\'লে এই ডাউনল’ডটো আৰম্ভ কৰিবলৈ <xliff:g id="QUEUE_TEXT">%2$s </xliff:g>ত স্পৰ্শ কৰক।"</string>
-    <string name="wifi_recommended_title" msgid="7441589306734687400">"পিছত ডাউনল’ড কৰিবলৈ লানি পাতি ৰাখিবনে?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"এই <xliff:g id="SIZE">%1$s </xliff:g> আকাৰৰ ডাউনল’ডটো আৰম্ভ কৰিলে বেটাৰিৰ জীৱনকাল হ্ৰাস হ\'ব পাৰে আৰু/বা অত্যধিক ম’বাইল ডেটা ব্যৱহাৰ হ’ব পাৰে, যাৰ ফলত আপোনাৰ ডেটা আঁচনি অনুসৰি মাচুল ভৰিবলগীয়া হ’ব পাৰে।\n\nআপুনি পিছত ৱাই-ফাইৰ সৈতে সংযুক্ত হ’লে এই ডাউনল\'ডটো আৰম্ভ কৰিবলৈ <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>ত স্পৰ্শ কৰক।"</string>
-    <string name="button_queue_for_wifi" msgid="422576726189179221">"লানি পাতি ৰাখক"</string>
-    <string name="button_cancel_download" msgid="2430166148737975604">"বাতিল কৰক"</string>
-    <string name="button_start_now" msgid="792123674007840864">"এতিয়া আৰম্ভ কৰক"</string>
-    <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
+    <string name="app_label" msgid="5264040740662487684">"ডাউনল’ড মেনেজাৰ"</string>
+    <string name="storage_description" msgid="169690279447532621">"ডাউনল\'ডসমূহ"</string>
+    <string name="permlab_downloadManager" msgid="4241473724446132797">"ডাউনল’ড মেনেজাৰত প্ৰৱেশ কৰিব পাৰে।"</string>
+    <string name="permdesc_downloadManager" msgid="5562734314998369030">"এপটোক ডাউনল’ড মেনেজাৰত প্ৰৱেশ কৰিবলৈ আৰু তাক ব্যৱহাৰ কৰি ফাইল ডাউনল’ড কৰিবলৈ অনুমতি দিয়ে। ক্ষতিকাৰক এপসমূহে এই সুবিধাটো ব্যৱহাৰ কৰি ডাউনল’ডত বিঘিনি জন্মোৱাৰ লগতে ব্যক্তিগত তথ্য চাব পাৰিব পাৰে।"</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"উচ্চখাপৰ ডাউনল’ড মেনেজাৰ ফাংশ্বনসমূহ।"</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"এপটোক ডাউনল’ড মেনেজাৰৰ উচ্চখাপৰ ফাংশ্বনত প্ৰৱেশ কৰিবলৈ অনুমতি দিয়ে। ক্ষতিকাৰক এপসমূহে এই সুবিধাটো ব্যৱহাৰ কৰি ডাউনল’ডত বিঘিনি জন্মোৱাৰ লগতে ব্যক্তিগত তথ্য চাব পাৰিব পাৰে।"</string>
+    <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"ডাউনল’ড জাননী প্ৰেৰণ কৰিব পাৰে।"</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"সম্পূৰ্ণ হোৱা ডাউনল\'ডৰ বিষয়ে জাননী প্ৰেৰণ কৰিবলৈ এপটোক অনুমতি দিয়ে। ক্ষতিকাৰক এপসমূহে এই সুবিধাটো ফাইল ডাউনল\'ডকাৰী অইন এপক বিভ্ৰান্ত কৰিবলৈ ব্যৱহাৰ কৰিব পাৰে।"</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"ডাউন\'লড কেশ্বত ঠাই সংৰক্ষিত কৰিব পাৰে"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"এপটোক ডাউনল’ড কেশ্বত ফাইল ডাউনল’ড কৰিবলৈ অনুমতি দিয়ে, যাক ডাউনল’ড মেনেজাৰক অধিক খালী ঠাই প্ৰয়োজন হ\'লে স্বয়ংক্ৰিয়ভাৱে মচি পেলাব নোৱাৰি।"</string>
+    <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"জাননী নিদিয়াকৈ ফাইল ডাউনল’ড কৰিব পাৰে"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"এপটোক ব্যৱহাৰকাৰীক কোনো জাননী নিদিয়াকৈ ডাউনল’ড মেনেজাৰ ব্যৱহাৰ কৰি ফাইল ডাউনল’ড কৰিবলৈ অনুমতি দিয়ে।"</string>
+    <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"সকলো ছিষ্টেম ডাউনল\'ডত প্ৰৱেশ কৰিব পাৰে"</string>
+    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"ছিষ্টেমত থকা যিকোনো এপে সূচনা কৰা সকলো ডাউনল’ড চাবলৈ আৰু সংশোধন কৰিবলৈ এপটোক অনুমতি দিয়ে।"</string>
+    <string name="download_unknown_title" msgid="1017800350818840396">"&lt;শিৰোনামবিহীন&gt;"</string>
+    <string name="notification_download_complete" msgid="466652037490092787">"ডাউনল’ড সম্পূৰ্ণ হ’ল।"</string>
+    <string name="notification_download_failed" msgid="3932167763860605874">"ডাউনল’ড কৰিবপৰা নগ\'ল।"</string>
+    <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"এই আকাৰৰ ডাউনল\'ডৰ বাবে ৱাই-ফাইৰ প্ৰয়োজন।"</string>
+    <string name="notification_paused_in_background" msgid="6393408819031041778">"নেপথ্যত পজ কৰক।"</string>
+    <string name="wifi_required_title" msgid="7266700488421122218">"অপাৰেটৰ নেটৱৰ্কৰ বাবে ডাউনল\'ডটো অতি ডাঙৰ"</string>
+    <string name="wifi_required_body" msgid="4005023496578941958">"আপুনি এই <xliff:g id="SIZE">%1$s </xliff:g> আকাৰৰ ডাউনল’ড কৰিবলৈ ৱাই-ফাই ব্যৱহাৰ কৰিবই লাগিব।\n\nআপুনি পিছত ৱাই-ফাইৰ সৈতে সংযুক্ত হ\'লে এই ডাউনল’ডটো আৰম্ভ কৰিবলৈ <xliff:g id="QUEUE_TEXT">%2$s </xliff:g>ত স্পৰ্শ কৰক।"</string>
+    <string name="wifi_recommended_title" msgid="6488158053932133804">"পিছত ডাউনল’ড কৰিবলৈ লানি পাতি ৰাখিবনে?"</string>
+    <string name="wifi_recommended_body" msgid="8710820743211704403">"এই <xliff:g id="SIZE">%1$s </xliff:g> আকাৰৰ ডাউনল’ডটো আৰম্ভ কৰিলে বেটাৰিৰ জীৱনকাল হ্ৰাস হ\'ব পাৰে আৰু/বা অত্যধিক ম’বাইল ডেটা ব্যৱহাৰ হ’ব পাৰে, যাৰ ফলত আপোনাৰ ডেটা আঁচনি অনুসৰি মাচুল ভৰিবলগীয়া হ’ব পাৰে।\n\nআপুনি পিছত ৱাই-ফাইৰ সৈতে সংযুক্ত হ’লে এই ডাউনল\'ডটো আৰম্ভ কৰিবলৈ <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>ত স্পৰ্শ কৰক।"</string>
+    <string name="button_queue_for_wifi" msgid="6650185573566994738">"লানি পাতি ৰাখক"</string>
+    <string name="button_cancel_download" msgid="4135046775536601831">"বাতিল কৰক"</string>
+    <string name="button_start_now" msgid="3817100969365441730">"এতিয়া আৰম্ভ কৰক"</string>
+    <plurals name="notif_summary_active" formatted="false" msgid="8652501374845637331">
       <item quantity="one"><xliff:g id="NUMBER">%d</xliff:g>টা ফাইল ডাউনল’ড কৰি থকা হৈছে</item>
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g>টা ফাইল ডাউনল’ড কৰি থকা হৈছে</item>
     </plurals>
-    <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
+    <plurals name="notif_summary_waiting" formatted="false" msgid="1782251721955177526">
       <item quantity="one"><xliff:g id="NUMBER">%d</xliff:g>টা ফাইল অপেক্ষাৰত</item>
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g>টা ফাইল অপেক্ষাৰত</item>
     </plurals>
-    <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> বাকী আছে"</string>
-    <string name="download_no_application_title" msgid="7935659741162801699">"ফাইল খুলিব নোৱাৰি"</string>
-    <string name="root_downloads" msgid="4098414876292351487">"ডাউনল\'ডসমূহ"</string>
-    <string name="download_queued" msgid="3302638231377947451">"লানি পাতি ৰখা হৈছে"</string>
-    <string name="download_running" msgid="3925050393361158266">"চলি আছে"</string>
-    <string name="download_error" msgid="5144180777324573236">"সফল নহ\'ল"</string>
-    <string name="download_running_percent" msgid="4305080769167320204">"চলি আছে, <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
+    <string name="download_remaining" msgid="2313089371178695625">"<xliff:g id="DURATION">%s</xliff:g> বাকী আছে"</string>
+    <string name="download_no_application_title" msgid="5780812573953335721">"ফাইল খুলিব নোৱাৰি"</string>
+    <string name="root_downloads" msgid="8380500940211778491">"ডাউনল\'ডসমূহ"</string>
+    <string name="download_queued" msgid="3383844741769045371">"লানি পাতি ৰখা হৈছে"</string>
+    <string name="download_running" msgid="774654178925442490">"চলি আছে"</string>
+    <string name="download_error" msgid="1857737890005386798">"সফল নহ\'ল"</string>
+    <string name="download_running_percent" msgid="3492753569359254730">"চলি আছে, <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
 </resources>

@@ -16,36 +16,36 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"Завантаження"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Завантаження – відсортовано за датою"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Завантаження – відсортовано за розміром"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"Немає завантажень."</string>
-    <string name="missing_title" msgid="830115697868833773">"&lt;Невідомий&gt;"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"Сортувати за розміром"</string>
-    <string name="button_sort_by_date" msgid="8800842892684101528">"Сортувати за датою"</string>
-    <string name="download_queued" msgid="104973307780629904">"У черзі"</string>
-    <string name="download_running" msgid="4656462962155580641">"Виконується"</string>
-    <string name="download_success" msgid="7006048006543495236">"Завершено"</string>
-    <string name="download_error" msgid="8081329546008568251">"Невдача"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"Помилка завантаження"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"Спробувати повторно завантажити файл пізніше чи видалити його з черги?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Файл у черзі"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"Файл поставлено в чергу для подальшого завантаження. Він поки що не доступний."</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Неможливо знайти завантажений файл."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Неможливо завершити завантаження. Недостатньо місця в зовнішній пам’яті."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Неможливо завершити завантаження. Недостатньо місця у внутрішній пам’яті для завантажень."</string>
-    <string name="dialog_cannot_resume" msgid="8664509751358983543">"Завантаження перервано. Його неможливо відновити."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Неможливо завантажити. Файл призначення вже існує."</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"Неможливо завантажити. Зовнішній носій не доступний."</string>
-    <string name="download_no_application_title" msgid="7024782176657362251">"Неможливо відкрити файл"</string>
-    <string name="remove_download" msgid="6372920256257247857">"Видалити"</string>
-    <string name="delete_download" msgid="76629022653866471">"Видалити"</string>
-    <string name="keep_queued_download" msgid="5144882786014818569">"Залишити"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"Скасувати"</string>
-    <string name="retry_download" msgid="7617100787922717912">"Повторити"</string>
-    <string name="start_now_download" msgid="1564642872809509681">"Почати"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"Відмінити все"</string>
-    <string name="select_all" msgid="634074918366265804">"Вибрати все"</string>
-    <string name="selected_count" msgid="2101564570019753277">"Вибрано <xliff:g id="NUMBER">%1$d</xliff:g> з <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"Надіслати через"</string>
+    <string name="app_label" msgid="4847371117203587513">"Завантаження"</string>
+    <string name="download_title_sorted_by_date" msgid="6033509257480233878">"Завантаження – відсортовано за датою"</string>
+    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"Завантаження – відсортовано за розміром"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"Немає завантажень."</string>
+    <string name="missing_title" msgid="3827247802608803753">"&lt;Невідомий&gt;"</string>
+    <string name="button_sort_by_size" msgid="7952187121189086395">"Сортувати за розміром"</string>
+    <string name="button_sort_by_date" msgid="2064919145709585942">"Сортувати за датою"</string>
+    <string name="download_queued" msgid="4128038702528588781">"У черзі"</string>
+    <string name="download_running" msgid="2046492059586594352">"Виконується"</string>
+    <string name="download_success" msgid="3895973294927323747">"Завершено"</string>
+    <string name="download_error" msgid="6652902885480887230">"Невдача"</string>
+    <string name="dialog_title_not_available" msgid="7793272183758002416">"Помилка завантаження"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"Спробувати повторно завантажити файл пізніше чи видалити його з черги?"</string>
+    <string name="dialog_title_queued_body" msgid="7481231558376227012">"Файл у черзі"</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"Файл поставлено в чергу для подальшого завантаження. Він поки що не доступний."</string>
+    <string name="dialog_file_missing_body" msgid="7896653198405160564">"Неможливо знайти завантажений файл."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"Неможливо завершити завантаження. Недостатньо місця в зовнішній пам’яті."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"Неможливо завершити завантаження. Недостатньо місця у внутрішній пам’яті для завантажень."</string>
+    <string name="dialog_cannot_resume" msgid="3101433441301206866">"Завантаження перервано. Його неможливо відновити."</string>
+    <string name="dialog_file_already_exists" msgid="6849168874901909994">"Неможливо завантажити. Файл призначення вже існує."</string>
+    <string name="dialog_media_not_found" msgid="7376030905821161865">"Неможливо завантажити. Зовнішній носій не доступний."</string>
+    <string name="download_no_application_title" msgid="1209223807604231431">"Неможливо відкрити файл"</string>
+    <string name="remove_download" msgid="244394809285977300">"Видалити"</string>
+    <string name="delete_download" msgid="1861638125603383676">"Видалити"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"Залишити"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"Скасувати"</string>
+    <string name="retry_download" msgid="6957856437473044831">"Повторити"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"Почати"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"Відмінити все"</string>
+    <string name="select_all" msgid="7469093306474000460">"Вибрати все"</string>
+    <string name="selected_count" msgid="5876842902167894010">"Вибрано <xliff:g id="NUMBER">%1$d</xliff:g> з <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"Надіслати через"</string>
 </resources>

@@ -16,36 +16,36 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"ಡೌನ್‌ಲೋಡ್‌ಗಳು"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"ಡೌನ್‌ಲೋಡ್‌ಗಳು - ದಿನಾಂಕದ ಪ್ರಕಾರ ವಿಂಗಡಿಸಲಾಗಿದೆ"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"ಡೌನ್‌ಲೊಡ್‌ಗಳು - ಗಾತ್ರದ ಪ್ರಕಾರ ವಿಂಗಡಿಸಲಾಗಿದೆ"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"ಯಾವುದೇ ಡೌನ್‌ಲೋಡ್‌ಗಳಿಲ್ಲ."</string>
-    <string name="missing_title" msgid="830115697868833773">"&lt;ಅಪರಿಚಿತ&gt;"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"ಗಾತ್ರದಂತೆ ವಿಂಗಡಿಸಿ"</string>
-    <string name="button_sort_by_date" msgid="8800842892684101528">"ದಿನಾಂಕದ ಪ್ರಕಾರವಾಗಿ ವಿಂಗಡಿಸಿ"</string>
-    <string name="download_queued" msgid="104973307780629904">"ಸರದಿಯಲ್ಲಿರಿಸಲಾಗಿದೆ"</string>
-    <string name="download_running" msgid="4656462962155580641">"ಪ್ರಗತಿಯಲ್ಲಿದೆ"</string>
-    <string name="download_success" msgid="7006048006543495236">"ಪೂರ್ಣಗೊಂಡಿದೆ"</string>
-    <string name="download_error" msgid="8081329546008568251">"ವಿಫಲಗೊಂಡಿದೆ"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"ಡೌನ್‌ಲೋಡ್‌ ಮಾಡಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"ನೀವು ನಂತರದಲ್ಲಿ ಫೈಲ್‌ಗಳನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಮರುಪ್ರಯತ್ನಿಸಲು ಬಯಸುವಿರಾ ಅಥವಾ ಅದನ್ನು ಸರದಿಯಿಂದ ಅಳಿಸಲು ಬಯಸುವಿರಾ?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"ಫೈಲ್‌ ಸರದಿಯಲ್ಲಿದೆ"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"ಭವಿಷ್ಯದ ಡೌನ್‌ಲೋಡ್‌ಗಾಗಿ ಈ ಫೈಲ್‌‌ ಅನ್ನು ಸರದಿಯಲ್ಲಿರಿಸಲಾಗಿದೆ ಹಾಗಾಗಿ ಇನ್ನೂ ಲಭ್ಯವಿಲ್ಲ."</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"ಡೌನ್‌ಲೋಡ್‌ ಮಾಡಿದ ಫೈಲ್‌‌ ಹುಡುಕಲು ಸಾಧ್ಯವಿಲ್ಲ."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"ಡೌನ್‌ಲೋಡ್‌ ಅನ್ನು ಪೂರ್ಣಗೊಳಿಸಲಾಗಲಿಲ್ಲ. ಬಾಹ್ಯ ಡೌನ್‌ಲೋಡ್‌ ಸಂಗ್ರಹಣೆಯಲ್ಲಿ ಸಾಕಷ್ಟು ಸ್ಥಳಾವಕಾಶವಿಲ್ಲ."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"ಡೌನ್‌ಲೋಡ್‌ ಅನ್ನು ಪೂರ್ಣಗೊಳಿಸಲಾಗಲಿಲ್ಲ. ಆಂತರಿಕ ಡೌನ್‌ಲೋಡ್‌ ಸಂಗ್ರಹಣೆಯಲ್ಲಿ ಸಾಕಷ್ಟು ಸ್ಥಳಾವಕಾಶವಿಲ್ಲ."</string>
-    <string name="dialog_cannot_resume" msgid="8664509751358983543">"ಡೌನ್‌ಲೋಡ್‌ ಅಡಚಣೆಗೊಳಗಾಗಿದೆ ಮತ್ತು ಪುನರಾರಂಭಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"ಡೌನ್‌ಲೋಡ್‌ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ಉದ್ದೇಶಿತ ಫೈಲ್‌ ಈಗಾಗಲೇ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ."</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"ಡೌನ್‌ಲೋಡ್‌ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ಬಾಹ್ಯ ಮಾಧ್ಯಮವು ಲಭ್ಯವಿಲ್ಲ."</string>
-    <string name="download_no_application_title" msgid="7024782176657362251">"ಫೈಲ್ ತೆರೆಯಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ"</string>
-    <string name="remove_download" msgid="6372920256257247857">"ತೆಗೆದುಹಾಕಿ"</string>
-    <string name="delete_download" msgid="76629022653866471">"ಅಳಿಸಿ"</string>
-    <string name="keep_queued_download" msgid="5144882786014818569">"ಇರಿಸಿ"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"ರದ್ದುಮಾಡಿ"</string>
-    <string name="retry_download" msgid="7617100787922717912">"ಮರುಪ್ರಯತ್ನಿಸಿ"</string>
-    <string name="start_now_download" msgid="1564642872809509681">"ಈಗ ಪ್ರಾರಂಭಿಸಿ"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"ಎಲ್ಲಾ ಆಯ್ಕೆಯನ್ನು ರದ್ದುಮಾಡಿ"</string>
-    <string name="select_all" msgid="634074918366265804">"ಎಲ್ಲವನ್ನೂ ಆಯ್ಕೆಮಾಡಿ"</string>
-    <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="TOTAL">%2$d</xliff:g> ರಲ್ಲಿ <xliff:g id="NUMBER">%1$d</xliff:g> ಅನ್ನು ಆಯ್ಕೆ ಮಾಡಲಾಗಿದೆ"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"ಈ ಮೂಲಕ ಹಂಚಿಕೊಳ್ಳಿ"</string>
+    <string name="app_label" msgid="4847371117203587513">"ಡೌನ್‌ಲೋಡ್‌ಗಳು"</string>
+    <string name="download_title_sorted_by_date" msgid="6033509257480233878">"ಡೌನ್‌ಲೋಡ್‌ಗಳು - ದಿನಾಂಕದ ಪ್ರಕಾರ ವಿಂಗಡಿಸಲಾಗಿದೆ"</string>
+    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"ಡೌನ್‌ಲೊಡ್‌ಗಳು - ಗಾತ್ರದ ಪ್ರಕಾರ ವಿಂಗಡಿಸಲಾಗಿದೆ"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"ಯಾವುದೇ ಡೌನ್‌ಲೋಡ್‌ಗಳಿಲ್ಲ."</string>
+    <string name="missing_title" msgid="3827247802608803753">"&lt;ಅಪರಿಚಿತ&gt;"</string>
+    <string name="button_sort_by_size" msgid="7952187121189086395">"ಗಾತ್ರದಂತೆ ವಿಂಗಡಿಸಿ"</string>
+    <string name="button_sort_by_date" msgid="2064919145709585942">"ದಿನಾಂಕದ ಪ್ರಕಾರವಾಗಿ ವಿಂಗಡಿಸಿ"</string>
+    <string name="download_queued" msgid="4128038702528588781">"ಸರದಿಯಲ್ಲಿರಿಸಲಾಗಿದೆ"</string>
+    <string name="download_running" msgid="2046492059586594352">"ಪ್ರಗತಿಯಲ್ಲಿದೆ"</string>
+    <string name="download_success" msgid="3895973294927323747">"ಪೂರ್ಣಗೊಂಡಿದೆ"</string>
+    <string name="download_error" msgid="6652902885480887230">"ವಿಫಲಗೊಂಡಿದೆ"</string>
+    <string name="dialog_title_not_available" msgid="7793272183758002416">"ಡೌನ್‌ಲೋಡ್‌ ಮಾಡಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"ನೀವು ನಂತರದಲ್ಲಿ ಫೈಲ್‌ಗಳನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಮರುಪ್ರಯತ್ನಿಸಲು ಬಯಸುವಿರಾ ಅಥವಾ ಅದನ್ನು ಸರದಿಯಿಂದ ಅಳಿಸಲು ಬಯಸುವಿರಾ?"</string>
+    <string name="dialog_title_queued_body" msgid="7481231558376227012">"ಫೈಲ್‌ ಸರದಿಯಲ್ಲಿದೆ"</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"ಭವಿಷ್ಯದ ಡೌನ್‌ಲೋಡ್‌ಗಾಗಿ ಈ ಫೈಲ್‌‌ ಅನ್ನು ಸರದಿಯಲ್ಲಿರಿಸಲಾಗಿದೆ ಹಾಗಾಗಿ ಇನ್ನೂ ಲಭ್ಯವಿಲ್ಲ."</string>
+    <string name="dialog_file_missing_body" msgid="7896653198405160564">"ಡೌನ್‌ಲೋಡ್‌ ಮಾಡಿದ ಫೈಲ್‌‌ ಹುಡುಕಲು ಸಾಧ್ಯವಿಲ್ಲ."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"ಡೌನ್‌ಲೋಡ್‌ ಅನ್ನು ಪೂರ್ಣಗೊಳಿಸಲಾಗಲಿಲ್ಲ. ಬಾಹ್ಯ ಡೌನ್‌ಲೋಡ್‌ ಸಂಗ್ರಹಣೆಯಲ್ಲಿ ಸಾಕಷ್ಟು ಸ್ಥಳಾವಕಾಶವಿಲ್ಲ."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"ಡೌನ್‌ಲೋಡ್‌ ಅನ್ನು ಪೂರ್ಣಗೊಳಿಸಲಾಗಲಿಲ್ಲ. ಆಂತರಿಕ ಡೌನ್‌ಲೋಡ್‌ ಸಂಗ್ರಹಣೆಯಲ್ಲಿ ಸಾಕಷ್ಟು ಸ್ಥಳಾವಕಾಶವಿಲ್ಲ."</string>
+    <string name="dialog_cannot_resume" msgid="3101433441301206866">"ಡೌನ್‌ಲೋಡ್‌ ಅಡಚಣೆಗೊಳಗಾಗಿದೆ ಮತ್ತು ಪುನರಾರಂಭಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ."</string>
+    <string name="dialog_file_already_exists" msgid="6849168874901909994">"ಡೌನ್‌ಲೋಡ್‌ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ಉದ್ದೇಶಿತ ಫೈಲ್‌ ಈಗಾಗಲೇ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ."</string>
+    <string name="dialog_media_not_found" msgid="7376030905821161865">"ಡೌನ್‌ಲೋಡ್‌ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ಬಾಹ್ಯ ಮಾಧ್ಯಮವು ಲಭ್ಯವಿಲ್ಲ."</string>
+    <string name="download_no_application_title" msgid="1209223807604231431">"ಫೈಲ್ ತೆರೆಯಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ"</string>
+    <string name="remove_download" msgid="244394809285977300">"ತೆಗೆದುಹಾಕಿ"</string>
+    <string name="delete_download" msgid="1861638125603383676">"ಅಳಿಸಿ"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"ಇರಿಸಿ"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"ರದ್ದುಮಾಡಿ"</string>
+    <string name="retry_download" msgid="6957856437473044831">"ಮರುಪ್ರಯತ್ನಿಸಿ"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"ಈಗ ಪ್ರಾರಂಭಿಸಿ"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"ಎಲ್ಲಾ ಆಯ್ಕೆಯನ್ನು ರದ್ದುಮಾಡಿ"</string>
+    <string name="select_all" msgid="7469093306474000460">"ಎಲ್ಲವನ್ನೂ ಆಯ್ಕೆಮಾಡಿ"</string>
+    <string name="selected_count" msgid="5876842902167894010">"<xliff:g id="TOTAL">%2$d</xliff:g> ರಲ್ಲಿ <xliff:g id="NUMBER">%1$d</xliff:g> ಅನ್ನು ಆಯ್ಕೆ ಮಾಡಲಾಗಿದೆ"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"ಈ ಮೂಲಕ ಹಂಚಿಕೊಳ್ಳಿ"</string>
 </resources>

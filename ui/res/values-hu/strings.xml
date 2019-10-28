@@ -16,36 +16,36 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"Letöltések"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Letöltések - Dátum szerint rendezve"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Letöltések - Méret szerint rendezve"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"Nincsenek letöltések"</string>
-    <string name="missing_title" msgid="830115697868833773">"&lt;Ismeretlen&gt;"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"Rendezés méret szerint"</string>
-    <string name="button_sort_by_date" msgid="8800842892684101528">"Rendezés dátum szerint"</string>
-    <string name="download_queued" msgid="104973307780629904">"Várólistán"</string>
-    <string name="download_running" msgid="4656462962155580641">"Folyamatban"</string>
-    <string name="download_success" msgid="7006048006543495236">"Kész"</string>
-    <string name="download_error" msgid="8081329546008568251">"Sikertelen"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"Nem lehetett letölteni"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"Később újra megpróbálja letölteni a fájlt vagy törli a várólistáról?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"A fájl sorban áll"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"Ez a fájl sorban áll későbbi letöltésre, így még nem áll rendelkezésre."</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"A letöltött fájl nem található."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"A letöltést nem lehet befejezni, mert nincs elég hely a külső tárhelyen."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"A letöltést nem lehet befejezni, mert nincs elég hely a belső tárhelyen."</string>
-    <string name="dialog_cannot_resume" msgid="8664509751358983543">"A letöltés megszakadt, és nem lehet újrakezdeni."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Nem lehet letölteni, mert a célfájl már létezik."</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"Nem lehet letölteni, mert a külső tároló nem érhető el."</string>
-    <string name="download_no_application_title" msgid="7024782176657362251">"A fájlt nem lehet megnyitni"</string>
-    <string name="remove_download" msgid="6372920256257247857">"Törlés"</string>
-    <string name="delete_download" msgid="76629022653866471">"Törlés"</string>
-    <string name="keep_queued_download" msgid="5144882786014818569">"Megőrzés"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"Mégse"</string>
-    <string name="retry_download" msgid="7617100787922717912">"Újra"</string>
-    <string name="start_now_download" msgid="1564642872809509681">"Indítás most"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"Az összes kijelölés törlése"</string>
-    <string name="select_all" msgid="634074918366265804">"Összes kijelölése"</string>
-    <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="TOTAL">%2$d</xliff:g>/<xliff:g id="NUMBER">%1$d</xliff:g> kiválasztva"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"Megosztás:"</string>
+    <string name="app_label" msgid="4847371117203587513">"Letöltések"</string>
+    <string name="download_title_sorted_by_date" msgid="6033509257480233878">"Letöltések - Dátum szerint rendezve"</string>
+    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"Letöltések - Méret szerint rendezve"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"Nincsenek letöltések"</string>
+    <string name="missing_title" msgid="3827247802608803753">"&lt;Ismeretlen&gt;"</string>
+    <string name="button_sort_by_size" msgid="7952187121189086395">"Rendezés méret szerint"</string>
+    <string name="button_sort_by_date" msgid="2064919145709585942">"Rendezés dátum szerint"</string>
+    <string name="download_queued" msgid="4128038702528588781">"Várólistán"</string>
+    <string name="download_running" msgid="2046492059586594352">"Folyamatban"</string>
+    <string name="download_success" msgid="3895973294927323747">"Kész"</string>
+    <string name="download_error" msgid="6652902885480887230">"Sikertelen"</string>
+    <string name="dialog_title_not_available" msgid="7793272183758002416">"Nem lehetett letölteni"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"Később újra megpróbálja letölteni a fájlt vagy törli a várólistáról?"</string>
+    <string name="dialog_title_queued_body" msgid="7481231558376227012">"A fájl sorban áll"</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"Ez a fájl sorban áll későbbi letöltésre, így még nem áll rendelkezésre."</string>
+    <string name="dialog_file_missing_body" msgid="7896653198405160564">"A letöltött fájl nem található."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"A letöltést nem lehet befejezni, mert nincs elég hely a külső tárhelyen."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"A letöltést nem lehet befejezni, mert nincs elég hely a belső tárhelyen."</string>
+    <string name="dialog_cannot_resume" msgid="3101433441301206866">"A letöltés megszakadt, és nem lehet újrakezdeni."</string>
+    <string name="dialog_file_already_exists" msgid="6849168874901909994">"Nem lehet letölteni, mert a célfájl már létezik."</string>
+    <string name="dialog_media_not_found" msgid="7376030905821161865">"Nem lehet letölteni, mert a külső tároló nem érhető el."</string>
+    <string name="download_no_application_title" msgid="1209223807604231431">"A fájlt nem lehet megnyitni"</string>
+    <string name="remove_download" msgid="244394809285977300">"Törlés"</string>
+    <string name="delete_download" msgid="1861638125603383676">"Törlés"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"Megőrzés"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"Mégse"</string>
+    <string name="retry_download" msgid="6957856437473044831">"Újra"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"Indítás most"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"Az összes kijelölés törlése"</string>
+    <string name="select_all" msgid="7469093306474000460">"Összes kijelölése"</string>
+    <string name="selected_count" msgid="5876842902167894010">"<xliff:g id="TOTAL">%2$d</xliff:g>/<xliff:g id="NUMBER">%1$d</xliff:g> kiválasztva"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"Megosztás:"</string>
 </resources>

@@ -34,23 +34,26 @@ import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.FileUtils;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Process;
+import android.os.RemoteException;
 import android.os.SystemClock;
 import android.os.UserHandle;
 import android.os.storage.StorageManager;
 import android.os.storage.StorageVolume;
 import android.provider.Downloads;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.LongSparseArray;
 import android.util.SparseArray;
-import android.util.SparseBooleanArray;
 import android.webkit.MimeTypeMap;
 
 import com.android.internal.util.ArrayUtils;
@@ -187,9 +190,10 @@ public class Helpers {
             if (info.mCurrentBytes > 0 && !TextUtils.isEmpty(info.mETag)) {
                 // If we're resuming an in-progress download, we only need to
                 // download the remaining bytes.
-                builder.setEstimatedNetworkBytes(info.mTotalBytes - info.mCurrentBytes);
+                builder.setEstimatedNetworkBytes(info.mTotalBytes - info.mCurrentBytes,
+                        JobInfo.NETWORK_BYTES_UNKNOWN);
             } else {
-                builder.setEstimatedNetworkBytes(info.mTotalBytes);
+                builder.setEstimatedNetworkBytes(info.mTotalBytes, JobInfo.NETWORK_BYTES_UNKNOWN);
             }
         }
 
@@ -487,6 +491,26 @@ public class Helpers {
         }
 
         throw new IOException("Failed to generate an available filename");
+    }
+
+    public static Uri convertToMediaStoreDownloadsUri(Uri mediaStoreUri) {
+        final String volumeName = MediaStore.getVolumeName(mediaStoreUri);
+        final long id = android.content.ContentUris.parseId(mediaStoreUri);
+        return MediaStore.Downloads.getContentUri(volumeName, id);
+    }
+
+    // TODO: Move it to MediaStore.
+    public static Uri triggerMediaScan(android.content.ContentProviderClient mediaProviderClient,
+            File file) {
+        try {
+            final Bundle in = new Bundle();
+            in.putParcelable(Intent.EXTRA_STREAM, Uri.fromFile(file));
+            final Bundle out = mediaProviderClient.call(MediaStore.SCAN_FILE_CALL, null, in);
+            return out.getParcelable(Intent.EXTRA_STREAM);
+        } catch (RemoteException e) {
+            // Should not happen
+        }
+        return null;
     }
 
     public static boolean isFileInExternalAndroidDirs(String filePath) {

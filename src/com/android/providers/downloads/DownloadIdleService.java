@@ -16,6 +16,7 @@
 
 package com.android.providers.downloads;
 
+import static com.android.providers.downloads.Constants.IDLE_JOB_ID;
 import static com.android.providers.downloads.Constants.TAG;
 import static com.android.providers.downloads.StorageUtils.listFilesRecursive;
 
@@ -53,7 +54,6 @@ import java.util.HashSet;
  * deleted directly on disk.
  */
 public class DownloadIdleService extends JobService {
-    private static final int IDLE_JOB_ID = -100;
 
     private class IdleRunnable implements Runnable {
         private JobParameters mParams;

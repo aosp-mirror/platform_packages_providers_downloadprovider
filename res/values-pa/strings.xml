@@ -16,45 +16,45 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3658948994665187911">"ਡਾਉਨਲੋਡ ਪ੍ਰਬੰਧਕ"</string>
-    <string name="storage_description" msgid="7982444311558023664">"ਡਾਊਨਲੋਡ"</string>
-    <string name="permlab_downloadManager" msgid="7779544811202855500">"ਡਾਊਨਲੋਡ ਪ੍ਰਬੰਧਕ ਤੱਕ ਪਹੁੰਚ।"</string>
-    <string name="permdesc_downloadManager" msgid="4237406545998908947">"ਐਪ ਨੂੰ ਡਾਊਨਲੋਡ ਪ੍ਰਬੰਧਕ ਤੱਕ ਪਹੁੰਚ ਅਤੇ ਫ਼ਾਈਲਾਂ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਇਸਦੀ ਵਰਤੋਂ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿੰਦਾ ਹੈ। ਖਰਾਬ ਐਪਾਂ ਇਸਦੀ ਵਰਤੋਂ ਡਾਊਨਲੋਡ ਵਿੱਚ ਵਿਘਨ ਪਾਉਣ ਅਤੇ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਤੱਕ ਪਹੁੰਚ ਲਈ ਕਰ ਸਕਦੀਆਂ ਹਨ।"</string>
-    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"ਐਡਵਾਂਸਡ ਡਾਊਨਲੋਡ ਪ੍ਰਬੰਧਕ ਫੰਕਸ਼ਨ।"</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"ਐਪ ਨੂੰ ਡਾਊਨਲੋਡ ਪ੍ਰਬੰਧਕ ਦੇ ਐਡਵਾਂਸਡ ਫੰਕਸ਼ਨਾਂ ਤੱਕ ਪਹੁੰਚ ਦੀ ਆਗਿਆ ਦਿੰਦਾ ਹੈ। ਖਰਾਬ ਐਪਾਂ ਇਸਦੀ ਵਰਤੋਂ ਡਾਊਨਲੋਡ ਵਿੱਚ ਵਿਘਨ ਪਾਉਣ ਅਤੇ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਤੱਕ ਪਹੁੰਚ ਲਈ ਕਰ ਸਕਦੀਆਂ ਹਨ।"</string>
-    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"ਡਾਊਨਲੋਡ ਸੂਚਨਾਵਾਂ ਭੇਜੋ।"</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"ਐਪ ਨੂੰ ਡਾਊਨਲੋਡਸ ਪੂਰਾ ਕੀਤੇ ਬਿਨਾਂ ਸੂਚਨਾਵਾਂ ਭੇਜਣ ਦੀ ਆਗਿਆ ਦਿੰਦਾ ਹੈ। ਖ਼ਰਾਬ ਐਪਸ ਇਸਦੀ ਵਰਤੋਂ ਹੋਰਾਂ ਐਪਸ ਨੂੰ ਉਲਝਣ ਵਿੱਚ ਪਾਉਣ ਲਈ ਕਰ ਸਕਦੇ ਹਨ ਜੋ ਫਾਈਲਾਂ ਡਾਊਨਲੋਡ ਕਰਦੇ ਹਨ।"</string>
-    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"ਡਾਊਨਲੋਡ ਕੈਸ਼ੇ ਵਿੱਚ ਜਗ੍ਹਾ ਰੱਖਿਅਤ ਕਰੋ"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"ਐਪ ਨੂੰ ਡਾਊਨਲੋਡ ਕੈਸ਼ੇ ਵਿੱਚ ਉਹ ਫਾਈਲਾਂ ਡਾਊਨਲੋਡ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿੰਦਾ ਹੈ, ਜੋ ਆਪਣੇ ਆਪ ਨਹੀਂ ਮਿਟਾਈਆਂ ਜਾ ਸਕਦੀਆਂ ਜਦੋਂ ਡਾਊਨਲੋਡ ਪ੍ਰਬੰਧਕ ਨੂੰ ਵੱਧ ਜਗ੍ਹਾ ਦੀ ਲੋੜ ਹੁੰਦੀ ਹੈ।"</string>
-    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"ਸੂਚਨਾ ਤੋਂ ਬਿਨਾਂ ਫ਼ਾਈਲਾਂ ਡਾਊਨਲੋਡ ਕਰੋ"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"ਐਪ ਨੂੰ ਵਰਤੋਂਕਾਰ ਨੂੰ ਦਿਖਾਈ ਜਾ ਰਹੀ ਕਿਸੇ ਵੀ ਸੂਚਨਾ ਤੋਂ ਬਿਨਾਂ ਡਾਊਨਲੋਡ ਪ੍ਰਬੰਧਕ ਰਾਹੀਂ ਫ਼ਾਈਲਾਂ ਡਾਊਨਲੋਡ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿੰਦਾ ਹੈ।"</string>
-    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"ਸਾਰੀਆਂ ਸਿਸਟਮ ਡਾਊਨਲੋਡਸ ਤੱਕ ਪਹੁੰਚ"</string>
-    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"ਐਪ ਨੂੰ ਸਿਸਟਮ ਤੇ ਕਿਸੇ ਵੀ ਐਪ ਵੱਲੋਂ ਸ਼ੁਰੂ ਕੀਤੇ ਡਾਊਨਲੋਡਸ ਨੂੰ ਦੇਖਣ ਅਤੇ ਸੰਸ਼ੋਧਿਤ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿੰਦਾ ਹੈ।"</string>
-    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;ਬਿਨਾਂ ਸਿਰਲੇਖ&gt;"</string>
-    <string name="notification_download_complete" msgid="5443563299253103667">"ਡਾਊਨਲੋਡ ਪੂਰਾ।"</string>
-    <string name="notification_download_failed" msgid="8612136111952014978">"ਡਾਊਨਲੋਡ ਅਸਫਲ।"</string>
-    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"ਡਾਊਨਲੋਡ ਆਕਾਰ ਲਈ ਵਾਈ-ਫਾਈ ਦੀ ਲੋੜ ਹੈ।"</string>
-    <string name="notification_paused_in_background" msgid="4328508073283591772">"ਪਿਛੋਕੜ ਵਿੱਚ ਰੋਕਿਆ।"</string>
-    <string name="wifi_required_title" msgid="1995971416871498179">"ਓਪਰੇਟਰ ਨੈੱਟਵਰਕ ਲਈ ਡਾਊਨਲੋਡ ਬਹੁਤ ਜ਼ਿਆਦਾ ਵੱਡੀ ਹੈ"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"ਤੁਹਾਨੂੰ ਇਸ <xliff:g id="SIZE">%1$s </xliff:g> ਡਾਊਨਲੋਡ ਨੂੰ ਪੂਰਾ ਕਰਨ ਲਈ ਵਾਈ-ਫਾਈ ਵਰਤਣੀ ਚਾਹੀਦੀ ਹੈ। \n\nਅਗਲੀ ਵਾਰ ਜਦੋਂ ਤੁਸੀਂ ਇੱਕ ਵਾਈ-ਫਾਈ ਨੈੱਟਵਰਕ ਨਾਲ ਕਨੈਕਟ ਕਰੋ ਤਾਂ ਇਸ ਡਾਊਨਲੋਡ ਨੂੰ ਚਾਲੂ ਕਰਨ ਲਈ <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> ਨੂੰ ਸਪੱਰਸ਼ ਕਰੋ।"</string>
-    <string name="wifi_recommended_title" msgid="7441589306734687400">"ਕੀ ਬਾਅਦ ਵਿੱਚ ਡਾਊਨਲੋਡ ਲਈ ਕਤਾਰ ਲਗਾਉਣੀ ਹੈ?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"ਹੁਣ ਇਸ <xliff:g id="SIZE">%1$s </xliff:g> ਡਾਊਨਲੋਡ ਨੂੰ ਚਾਲੂ ਕਰਨ ਨਾਲ ਤੁਹਾਡੀ ਬੈਟਰੀ ਸਮਰੱਥਾ ਘੱਟ ਸਕਦੀ ਹੈ ਅਤੇ/ਜਾਂ ਇਸਦੇ ਸਿੱਟੇ ਵਜੋਂ ਤੁਹਾਡੇ ਮੋਬਾਈਲ ਡਾਟਾ ਕਨੈਕਸ਼ਨ ਦੀ ਵਾਧੂ ਵਰਤੋਂ ਹੋ ਸਕਦੀ ਹੈ, ਜਿਸ ਨਾਲ ਤੁਹਾਡੇ ਡਾਟਾ ਪਲਾਨ ਦੇ ਆਧਾਰ ਤੇ ਤੁਹਾਡੇ ਮੋਬਾਈਲ ਓਪਰੇਟਰ ਵੱਲੋਂ ਖਰਚੇ ਪਾਏ ਜਾ ਸਕਦੇ ਹਨ।\n\n ਅਗਲੀ ਵਾਰ ਜਦੋਂ ਤੁਸੀਂ ਇੱਕ ਵਾਈ-ਫਾਈ ਨੈੱਟਵਰਕ ਨਾਲ ਕਨੈਕਟ ਕਰੋ ਤਾਂ ਇਸ ਡਾਊਨਲੋਡ ਨੂੰ ਚਾਲੂ ਕਰਨ ਲਈ <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> ਨੂੰ ਸਪੱਰਸ਼ ਕਰੋ।"</string>
-    <string name="button_queue_for_wifi" msgid="422576726189179221">"ਕਤਾਰ"</string>
-    <string name="button_cancel_download" msgid="2430166148737975604">"ਰੱਦ ਕਰੋ"</string>
-    <string name="button_start_now" msgid="792123674007840864">"ਹੁਣ ਚਾਲੂ ਕਰੋ"</string>
-    <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
+    <string name="app_label" msgid="5264040740662487684">"ਡਾਉਨਲੋਡ ਪ੍ਰਬੰਧਕ"</string>
+    <string name="storage_description" msgid="169690279447532621">"ਡਾਊਨਲੋਡ"</string>
+    <string name="permlab_downloadManager" msgid="4241473724446132797">"ਡਾਊਨਲੋਡ ਪ੍ਰਬੰਧਕ ਤੱਕ ਪਹੁੰਚ।"</string>
+    <string name="permdesc_downloadManager" msgid="5562734314998369030">"ਐਪ ਨੂੰ ਡਾਊਨਲੋਡ ਪ੍ਰਬੰਧਕ ਤੱਕ ਪਹੁੰਚ ਅਤੇ ਫ਼ਾਈਲਾਂ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਇਸਦੀ ਵਰਤੋਂ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿੰਦਾ ਹੈ। ਖਰਾਬ ਐਪਾਂ ਇਸਦੀ ਵਰਤੋਂ ਡਾਊਨਲੋਡ ਵਿੱਚ ਵਿਘਨ ਪਾਉਣ ਅਤੇ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਤੱਕ ਪਹੁੰਚ ਲਈ ਕਰ ਸਕਦੀਆਂ ਹਨ।"</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"ਐਡਵਾਂਸਡ ਡਾਊਨਲੋਡ ਪ੍ਰਬੰਧਕ ਫੰਕਸ਼ਨ।"</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"ਐਪ ਨੂੰ ਡਾਊਨਲੋਡ ਪ੍ਰਬੰਧਕ ਦੇ ਐਡਵਾਂਸਡ ਫੰਕਸ਼ਨਾਂ ਤੱਕ ਪਹੁੰਚ ਦੀ ਆਗਿਆ ਦਿੰਦਾ ਹੈ। ਖਰਾਬ ਐਪਾਂ ਇਸਦੀ ਵਰਤੋਂ ਡਾਊਨਲੋਡ ਵਿੱਚ ਵਿਘਨ ਪਾਉਣ ਅਤੇ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਤੱਕ ਪਹੁੰਚ ਲਈ ਕਰ ਸਕਦੀਆਂ ਹਨ।"</string>
+    <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"ਡਾਊਨਲੋਡ ਸੂਚਨਾਵਾਂ ਭੇਜੋ।"</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"ਐਪ ਨੂੰ ਡਾਊਨਲੋਡਸ ਪੂਰਾ ਕੀਤੇ ਬਿਨਾਂ ਸੂਚਨਾਵਾਂ ਭੇਜਣ ਦੀ ਆਗਿਆ ਦਿੰਦਾ ਹੈ। ਖ਼ਰਾਬ ਐਪਸ ਇਸਦੀ ਵਰਤੋਂ ਹੋਰਾਂ ਐਪਸ ਨੂੰ ਉਲਝਣ ਵਿੱਚ ਪਾਉਣ ਲਈ ਕਰ ਸਕਦੇ ਹਨ ਜੋ ਫਾਈਲਾਂ ਡਾਊਨਲੋਡ ਕਰਦੇ ਹਨ।"</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"ਡਾਊਨਲੋਡ ਕੈਸ਼ੇ ਵਿੱਚ ਜਗ੍ਹਾ ਰੱਖਿਅਤ ਕਰੋ"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"ਐਪ ਨੂੰ ਡਾਊਨਲੋਡ ਕੈਸ਼ੇ ਵਿੱਚ ਉਹ ਫਾਈਲਾਂ ਡਾਊਨਲੋਡ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿੰਦਾ ਹੈ, ਜੋ ਆਪਣੇ ਆਪ ਨਹੀਂ ਮਿਟਾਈਆਂ ਜਾ ਸਕਦੀਆਂ ਜਦੋਂ ਡਾਊਨਲੋਡ ਪ੍ਰਬੰਧਕ ਨੂੰ ਵੱਧ ਜਗ੍ਹਾ ਦੀ ਲੋੜ ਹੁੰਦੀ ਹੈ।"</string>
+    <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"ਸੂਚਨਾ ਤੋਂ ਬਿਨਾਂ ਫ਼ਾਈਲਾਂ ਡਾਊਨਲੋਡ ਕਰੋ"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"ਐਪ ਨੂੰ ਵਰਤੋਂਕਾਰ ਨੂੰ ਦਿਖਾਈ ਜਾ ਰਹੀ ਕਿਸੇ ਵੀ ਸੂਚਨਾ ਤੋਂ ਬਿਨਾਂ ਡਾਊਨਲੋਡ ਪ੍ਰਬੰਧਕ ਰਾਹੀਂ ਫ਼ਾਈਲਾਂ ਡਾਊਨਲੋਡ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿੰਦਾ ਹੈ।"</string>
+    <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"ਸਾਰੀਆਂ ਸਿਸਟਮ ਡਾਊਨਲੋਡਸ ਤੱਕ ਪਹੁੰਚ"</string>
+    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"ਐਪ ਨੂੰ ਸਿਸਟਮ ਤੇ ਕਿਸੇ ਵੀ ਐਪ ਵੱਲੋਂ ਸ਼ੁਰੂ ਕੀਤੇ ਡਾਊਨਲੋਡਸ ਨੂੰ ਦੇਖਣ ਅਤੇ ਸੰਸ਼ੋਧਿਤ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿੰਦਾ ਹੈ।"</string>
+    <string name="download_unknown_title" msgid="1017800350818840396">"&lt;ਬਿਨਾਂ ਸਿਰਲੇਖ&gt;"</string>
+    <string name="notification_download_complete" msgid="466652037490092787">"ਡਾਊਨਲੋਡ ਪੂਰਾ।"</string>
+    <string name="notification_download_failed" msgid="3932167763860605874">"ਡਾਊਨਲੋਡ ਅਸਫਲ।"</string>
+    <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"ਡਾਊਨਲੋਡ ਆਕਾਰ ਲਈ ਵਾਈ-ਫਾਈ ਦੀ ਲੋੜ ਹੈ।"</string>
+    <string name="notification_paused_in_background" msgid="6393408819031041778">"ਪਿਛੋਕੜ ਵਿੱਚ ਰੋਕਿਆ।"</string>
+    <string name="wifi_required_title" msgid="7266700488421122218">"ਓਪਰੇਟਰ ਨੈੱਟਵਰਕ ਲਈ ਡਾਊਨਲੋਡ ਬਹੁਤ ਜ਼ਿਆਦਾ ਵੱਡੀ ਹੈ"</string>
+    <string name="wifi_required_body" msgid="4005023496578941958">"ਤੁਹਾਨੂੰ ਇਸ <xliff:g id="SIZE">%1$s </xliff:g> ਡਾਊਨਲੋਡ ਨੂੰ ਪੂਰਾ ਕਰਨ ਲਈ ਵਾਈ-ਫਾਈ ਵਰਤਣੀ ਚਾਹੀਦੀ ਹੈ। \n\nਅਗਲੀ ਵਾਰ ਜਦੋਂ ਤੁਸੀਂ ਇੱਕ ਵਾਈ-ਫਾਈ ਨੈੱਟਵਰਕ ਨਾਲ ਕਨੈਕਟ ਕਰੋ ਤਾਂ ਇਸ ਡਾਊਨਲੋਡ ਨੂੰ ਚਾਲੂ ਕਰਨ ਲਈ <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> ਨੂੰ ਸਪੱਰਸ਼ ਕਰੋ।"</string>
+    <string name="wifi_recommended_title" msgid="6488158053932133804">"ਕੀ ਬਾਅਦ ਵਿੱਚ ਡਾਊਨਲੋਡ ਲਈ ਕਤਾਰ ਲਗਾਉਣੀ ਹੈ?"</string>
+    <string name="wifi_recommended_body" msgid="8710820743211704403">"ਹੁਣ ਇਸ <xliff:g id="SIZE">%1$s </xliff:g> ਡਾਊਨਲੋਡ ਨੂੰ ਚਾਲੂ ਕਰਨ ਨਾਲ ਤੁਹਾਡੀ ਬੈਟਰੀ ਸਮਰੱਥਾ ਘੱਟ ਸਕਦੀ ਹੈ ਅਤੇ/ਜਾਂ ਇਸਦੇ ਸਿੱਟੇ ਵਜੋਂ ਤੁਹਾਡੇ ਮੋਬਾਈਲ ਡਾਟਾ ਕਨੈਕਸ਼ਨ ਦੀ ਵਾਧੂ ਵਰਤੋਂ ਹੋ ਸਕਦੀ ਹੈ, ਜਿਸ ਨਾਲ ਤੁਹਾਡੇ ਡਾਟਾ ਪਲਾਨ ਦੇ ਆਧਾਰ ਤੇ ਤੁਹਾਡੇ ਮੋਬਾਈਲ ਓਪਰੇਟਰ ਵੱਲੋਂ ਖਰਚੇ ਪਾਏ ਜਾ ਸਕਦੇ ਹਨ।\n\n ਅਗਲੀ ਵਾਰ ਜਦੋਂ ਤੁਸੀਂ ਇੱਕ ਵਾਈ-ਫਾਈ ਨੈੱਟਵਰਕ ਨਾਲ ਕਨੈਕਟ ਕਰੋ ਤਾਂ ਇਸ ਡਾਊਨਲੋਡ ਨੂੰ ਚਾਲੂ ਕਰਨ ਲਈ <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> ਨੂੰ ਸਪੱਰਸ਼ ਕਰੋ।"</string>
+    <string name="button_queue_for_wifi" msgid="6650185573566994738">"ਕਤਾਰ"</string>
+    <string name="button_cancel_download" msgid="4135046775536601831">"ਰੱਦ ਕਰੋ"</string>
+    <string name="button_start_now" msgid="3817100969365441730">"ਹੁਣ ਚਾਲੂ ਕਰੋ"</string>
+    <plurals name="notif_summary_active" formatted="false" msgid="8652501374845637331">
       <item quantity="one"><xliff:g id="NUMBER">%d</xliff:g> ਫ਼ਾਈਲਾਂ ਡਾਊਨਲੋਡ ਹੋ ਰਹੀਆਂ ਹਨ</item>
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> ਫ਼ਾਈਲਾਂ ਡਾਊਨਲੋਡ ਹੋ ਰਹੀਆਂ ਹਨ</item>
     </plurals>
-    <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
+    <plurals name="notif_summary_waiting" formatted="false" msgid="1782251721955177526">
       <item quantity="one"><xliff:g id="NUMBER">%d</xliff:g> ਫ਼ਾਈਲਾਂ ਉਡੀਕ ਵਿੱਚ ਹਨ</item>
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> ਫ਼ਾਈਲਾਂ ਉਡੀਕ ਵਿੱਚ ਹਨ</item>
     </plurals>
-    <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> ਛੱਡਿਆ"</string>
-    <string name="download_no_application_title" msgid="7935659741162801699">"ਫਾਈਲ ਨਹੀਂ ਖੋਲ੍ਹ ਸਕਦਾ"</string>
-    <string name="root_downloads" msgid="4098414876292351487">"ਡਾਊਨਲੋਡ"</string>
-    <string name="download_queued" msgid="3302638231377947451">"ਕਤਾਰਬੱਧ"</string>
-    <string name="download_running" msgid="3925050393361158266">"ਪ੍ਰਗਤੀ ਵਿੱਚ"</string>
-    <string name="download_error" msgid="5144180777324573236">"ਅਸਫਲ"</string>
-    <string name="download_running_percent" msgid="4305080769167320204">"ਪ੍ਰਗਤੀ ਵਿੱਚ, <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
+    <string name="download_remaining" msgid="2313089371178695625">"<xliff:g id="DURATION">%s</xliff:g> ਛੱਡਿਆ"</string>
+    <string name="download_no_application_title" msgid="5780812573953335721">"ਫਾਈਲ ਨਹੀਂ ਖੋਲ੍ਹ ਸਕਦਾ"</string>
+    <string name="root_downloads" msgid="8380500940211778491">"ਡਾਊਨਲੋਡ"</string>
+    <string name="download_queued" msgid="3383844741769045371">"ਕਤਾਰਬੱਧ"</string>
+    <string name="download_running" msgid="774654178925442490">"ਪ੍ਰਗਤੀ ਵਿੱਚ"</string>
+    <string name="download_error" msgid="1857737890005386798">"ਅਸਫਲ"</string>
+    <string name="download_running_percent" msgid="3492753569359254730">"ਪ੍ਰਗਤੀ ਵਿੱਚ, <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
 </resources>

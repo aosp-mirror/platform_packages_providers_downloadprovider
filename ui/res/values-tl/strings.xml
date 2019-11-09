@@ -16,36 +16,36 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"Mga Download"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Mga download - Inuri-uri ayon sa petsa"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Mga download - Inuri-uri ayon sa laki"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"Walang mga pag-download."</string>
-    <string name="missing_title" msgid="830115697868833773">"&lt;Hindi Kilala&gt;"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"Isaayos ayon sa laki"</string>
-    <string name="button_sort_by_date" msgid="8800842892684101528">"Isaayos ayon sa petsa"</string>
-    <string name="download_queued" msgid="104973307780629904">"Naka-queue"</string>
-    <string name="download_running" msgid="4656462962155580641">"Isinasagawa"</string>
-    <string name="download_success" msgid="7006048006543495236">"Kumpleto"</string>
-    <string name="download_error" msgid="8081329546008568251">"Hindi matagumpay"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"Hindi ma-download"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"Gusto mo bang subukang muling i-download ang file sa ibang pagkakataon o alisin ito mula sa queue?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"File sa queue"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"Ang file na ito ay naka-queue para sa pag-download sa hinaharap kaya hindi pa available."</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Hindi matagpuan ang na-download na file."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Hindi matapos ang pag-download. Walang sapat na puwang sa external storage."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Hindi matapos ang pag-download. Walang sapat na puwang sa internal storage ng pag-download."</string>
-    <string name="dialog_cannot_resume" msgid="8664509751358983543">"Naantala ang pag-download at hindi maipagpapatuloy."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Hindi ma-download. Umiiral na ang destination file."</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"Hindi makapag-download. Hindi available ang panlabas na media."</string>
-    <string name="download_no_application_title" msgid="7024782176657362251">"Hindi mabuksan ang file"</string>
-    <string name="remove_download" msgid="6372920256257247857">"Alisin"</string>
-    <string name="delete_download" msgid="76629022653866471">"I-delete"</string>
-    <string name="keep_queued_download" msgid="5144882786014818569">"Panatilihin"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"Kanselahin"</string>
-    <string name="retry_download" msgid="7617100787922717912">"Subukang muli"</string>
-    <string name="start_now_download" msgid="1564642872809509681">"Magsimula ngayon"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"Alisin sa pagkakapili lahat"</string>
-    <string name="select_all" msgid="634074918366265804">"Piliin lahat"</string>
-    <string name="selected_count" msgid="2101564570019753277">"Pinili <xliff:g id="NUMBER">%1$d</xliff:g> sa <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"Ibahagi gamit ang"</string>
+    <string name="app_label" msgid="4847371117203587513">"Mga Download"</string>
+    <string name="download_title_sorted_by_date" msgid="6033509257480233878">"Mga download - Inuri-uri ayon sa petsa"</string>
+    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"Mga download - Inuri-uri ayon sa laki"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"Walang mga pag-download."</string>
+    <string name="missing_title" msgid="3827247802608803753">"&lt;Hindi Kilala&gt;"</string>
+    <string name="button_sort_by_size" msgid="7952187121189086395">"Isaayos ayon sa laki"</string>
+    <string name="button_sort_by_date" msgid="2064919145709585942">"Isaayos ayon sa petsa"</string>
+    <string name="download_queued" msgid="4128038702528588781">"Naka-queue"</string>
+    <string name="download_running" msgid="2046492059586594352">"Isinasagawa"</string>
+    <string name="download_success" msgid="3895973294927323747">"Kumpleto"</string>
+    <string name="download_error" msgid="6652902885480887230">"Hindi matagumpay"</string>
+    <string name="dialog_title_not_available" msgid="7793272183758002416">"Hindi ma-download"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"Gusto mo bang subukang muling i-download ang file sa ibang pagkakataon o alisin ito mula sa queue?"</string>
+    <string name="dialog_title_queued_body" msgid="7481231558376227012">"File sa queue"</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"Ang file na ito ay naka-queue para sa pag-download sa hinaharap kaya hindi pa available."</string>
+    <string name="dialog_file_missing_body" msgid="7896653198405160564">"Hindi matagpuan ang na-download na file."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"Hindi matapos ang pag-download. Walang sapat na puwang sa external storage."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"Hindi matapos ang pag-download. Walang sapat na puwang sa internal storage ng pag-download."</string>
+    <string name="dialog_cannot_resume" msgid="3101433441301206866">"Naantala ang pag-download at hindi maipagpapatuloy."</string>
+    <string name="dialog_file_already_exists" msgid="6849168874901909994">"Hindi ma-download. Umiiral na ang destination file."</string>
+    <string name="dialog_media_not_found" msgid="7376030905821161865">"Hindi makapag-download. Hindi available ang panlabas na media."</string>
+    <string name="download_no_application_title" msgid="1209223807604231431">"Hindi mabuksan ang file"</string>
+    <string name="remove_download" msgid="244394809285977300">"Alisin"</string>
+    <string name="delete_download" msgid="1861638125603383676">"I-delete"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"Panatilihin"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"Kanselahin"</string>
+    <string name="retry_download" msgid="6957856437473044831">"Subukang muli"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"Magsimula ngayon"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"Alisin sa pagkakapili lahat"</string>
+    <string name="select_all" msgid="7469093306474000460">"Piliin lahat"</string>
+    <string name="selected_count" msgid="5876842902167894010">"Pinili <xliff:g id="NUMBER">%1$d</xliff:g> sa <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"Ibahagi gamit ang"</string>
 </resources>

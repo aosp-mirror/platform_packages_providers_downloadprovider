@@ -16,45 +16,45 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3658948994665187911">"பதிவிறக்க நிர்வாகி"</string>
-    <string name="storage_description" msgid="7982444311558023664">"பதிவிறக்கங்கள்"</string>
-    <string name="permlab_downloadManager" msgid="7779544811202855500">"பதிவிறக்க நிர்வாகியை அணுகவும்."</string>
-    <string name="permdesc_downloadManager" msgid="4237406545998908947">"பதிவிறக்க நிர்வாகியை அணுகவும், கோப்புகளைப் பதிவிறக்குவதற்காக அதைப் பயன்படுத்தவும் ஆப்ஸை அனுமதிக்கிறது. பதிவிறக்கங்களைத் தடைசெய்யவும், தனிப்பட்டத் தகவலை அணுகவும் தீங்கிழைக்கும் ஆப்ஸ் இதைப் பயன்படுத்தலாம்."</string>
-    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"மேம்பட்ட பதிவிறக்க நிர்வாகி செயல்பாடுகள்."</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"பதிவிறக்க நிர்வாகியின் மேம்பட்ட செயல்பாடுகளை அணுகுவதற்குப் ஆப்ஸை அனுமதிக்கிறது. பதிவிறக்கங்களைத் தடைசெய்யவும், தனிப்பட்டத் தகவலை அணுகவும் தீங்கிழைக்கும் ஆப்ஸ் இதைப் பயன்படுத்தலாம்."</string>
-    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"பதிவிறக்க அறிவிப்புகளை அனுப்பவும்."</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"முடிந்த பதிவிறக்கங்கள் குறித்த அறிவிப்புகளை அனுப்புவதற்குப் ஆப்ஸை அனுமதிக்கிறது. கோப்புகளைப் பதிவிறக்கும் பிற பயன்பாடுகளைக் குழப்புவதற்கு தீங்கிழைக்கும் ஆப்ஸ் இதைப் பயன்படுத்தலாம்."</string>
-    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"தற்காலிகச் சேமிப்பில் இடத்தை முன்பதிவு செய்தல்"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"பதிவிறக்க நிர்வாகிக்கு அதிகப்படியான இடம் தேவைப்படும்போது தானாகவே நீக்கப்படாத, தற்காலிகச் சேமிப்பில் கோப்புகளைப் பதிவிறக்க ஆப்ஸை அனுமதிக்கிறது."</string>
-    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"அறிவிப்பு இல்லாமல் கோப்புகளைப் பதிவிறக்குதல்"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"எந்த அறிவிப்பையும் பயனருக்குக் காட்டாமல் பதிவிறக்க நிர்வாகியின் மூலம் கோப்புகளைப் பதிவிறக்கப் ஆப்ஸை அனுமதிக்கிறது."</string>
-    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"அமைப்பின் எல்லா பதிவிறக்கங்களையும் அணுகுதல்"</string>
-    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"அமைப்பில் உள்ள எந்தப் பயன்பாட்டினாலும் தொடங்கப்படும் எல்லா பதிவிறக்கங்களையும் கண்டு மாற்றுவதற்குப் ஆப்ஸை அனுமதிக்கிறது."</string>
-    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;பெயரிடப்படாதது&gt;"</string>
-    <string name="notification_download_complete" msgid="5443563299253103667">"பதிவிறக்கம் முடிந்தது."</string>
-    <string name="notification_download_failed" msgid="8612136111952014978">"பதிவிறக்கம் தோல்வி."</string>
-    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"பதிவிறக்க அளவு வைஃபைக்குத் தேவை."</string>
-    <string name="notification_paused_in_background" msgid="4328508073283591772">"பின்புலத்தில் இடைநிறுத்தப்பட்டது."</string>
-    <string name="wifi_required_title" msgid="1995971416871498179">"ஆபரேட்டர் நெட்வொர்க்கில் மிக அதிக அளவில் பதிவிறக்கப்படுகிறது"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"<xliff:g id="SIZE">%1$s </xliff:g> பதிவிறக்கத்தை முடிக்க நீங்கள் வைஃபை ஐப் பயன்படுத்த வேண்டும். \n\nஅடுத்த முறை நீங்கள் வைஃபை நெட்வொர்க்குடன் இணைந்தவுடன் பதிவிறக்கத்தைத் தொடங்குவதற்கு <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> ஐத் தொடவும்."</string>
-    <string name="wifi_recommended_title" msgid="7441589306734687400">"பின்னர் பதிவிறக்க வரிசைப்படுத்தவா?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"<xliff:g id="SIZE">%1$s </xliff:g> அளவிலான இந்தப் பதிவிறக்கத்தை இப்போது தொடங்குவது உங்கள் பேட்டரியின் ஆயுளைக் குறைக்கலாம் மற்றும்/அல்லது உங்கள் மொபைல் டேட்டா இணைப்பை அதிகமாகப் பயன்படுத்த நேரிடலாம், இதன் காரணமாக உங்கள் தரவு திட்டத்தைப் பொறுத்து உங்கள் மொபைல் ஆபரேட்டர் பேமெண்ட்கள் விதிக்கலாம்.\n\nஅடுத்த முறை நீங்கள் வைஃபை நெட்வொர்க்கில் இணைந்தவுடன் இந்தப் பதிவிறக்கத்தைத் தொடங்குவதற்கு <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> ஐத் தொடவும்."</string>
-    <string name="button_queue_for_wifi" msgid="422576726189179221">"வரிசை"</string>
-    <string name="button_cancel_download" msgid="2430166148737975604">"ரத்துசெய்"</string>
-    <string name="button_start_now" msgid="792123674007840864">"இப்போது தொடங்கு"</string>
-    <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
+    <string name="app_label" msgid="5264040740662487684">"பதிவிறக்க நிர்வாகி"</string>
+    <string name="storage_description" msgid="169690279447532621">"பதிவிறக்கங்கள்"</string>
+    <string name="permlab_downloadManager" msgid="4241473724446132797">"பதிவிறக்க நிர்வாகியை அணுகவும்."</string>
+    <string name="permdesc_downloadManager" msgid="5562734314998369030">"பதிவிறக்க நிர்வாகியை அணுகவும், கோப்புகளைப் பதிவிறக்குவதற்காக அதைப் பயன்படுத்தவும் ஆப்ஸை அனுமதிக்கிறது. பதிவிறக்கங்களைத் தடைசெய்யவும், தனிப்பட்டத் தகவலை அணுகவும் தீங்கிழைக்கும் ஆப்ஸ் இதைப் பயன்படுத்தலாம்."</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"மேம்பட்ட பதிவிறக்க நிர்வாகி செயல்பாடுகள்."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"பதிவிறக்க நிர்வாகியின் மேம்பட்ட செயல்பாடுகளை அணுகுவதற்குப் ஆப்ஸை அனுமதிக்கிறது. பதிவிறக்கங்களைத் தடைசெய்யவும், தனிப்பட்டத் தகவலை அணுகவும் தீங்கிழைக்கும் ஆப்ஸ் இதைப் பயன்படுத்தலாம்."</string>
+    <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"பதிவிறக்க அறிவிப்புகளை அனுப்பவும்."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"முடிந்த பதிவிறக்கங்கள் குறித்த அறிவிப்புகளை அனுப்புவதற்குப் ஆப்ஸை அனுமதிக்கிறது. கோப்புகளைப் பதிவிறக்கும் பிற பயன்பாடுகளைக் குழப்புவதற்கு தீங்கிழைக்கும் ஆப்ஸ் இதைப் பயன்படுத்தலாம்."</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"தற்காலிகச் சேமிப்பில் இடத்தை முன்பதிவு செய்தல்"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"பதிவிறக்க நிர்வாகிக்கு அதிகப்படியான இடம் தேவைப்படும்போது தானாகவே நீக்கப்படாத, தற்காலிகச் சேமிப்பில் கோப்புகளைப் பதிவிறக்க ஆப்ஸை அனுமதிக்கிறது."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"அறிவிப்பு இல்லாமல் கோப்புகளைப் பதிவிறக்குதல்"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"எந்த அறிவிப்பையும் பயனருக்குக் காட்டாமல் பதிவிறக்க நிர்வாகியின் மூலம் கோப்புகளைப் பதிவிறக்கப் ஆப்ஸை அனுமதிக்கிறது."</string>
+    <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"அமைப்பின் எல்லா பதிவிறக்கங்களையும் அணுகுதல்"</string>
+    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"அமைப்பில் உள்ள எந்தப் பயன்பாட்டினாலும் தொடங்கப்படும் எல்லா பதிவிறக்கங்களையும் கண்டு மாற்றுவதற்குப் ஆப்ஸை அனுமதிக்கிறது."</string>
+    <string name="download_unknown_title" msgid="1017800350818840396">"&lt;பெயரிடப்படாதது&gt;"</string>
+    <string name="notification_download_complete" msgid="466652037490092787">"பதிவிறக்கம் முடிந்தது."</string>
+    <string name="notification_download_failed" msgid="3932167763860605874">"பதிவிறக்கம் தோல்வி."</string>
+    <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"பதிவிறக்க அளவு வைஃபைக்குத் தேவை."</string>
+    <string name="notification_paused_in_background" msgid="6393408819031041778">"பின்புலத்தில் இடைநிறுத்தப்பட்டது."</string>
+    <string name="wifi_required_title" msgid="7266700488421122218">"ஆபரேட்டர் நெட்வொர்க்கில் மிக அதிக அளவில் பதிவிறக்கப்படுகிறது"</string>
+    <string name="wifi_required_body" msgid="4005023496578941958">"<xliff:g id="SIZE">%1$s </xliff:g> பதிவிறக்கத்தை முடிக்க நீங்கள் வைஃபை ஐப் பயன்படுத்த வேண்டும். \n\nஅடுத்த முறை நீங்கள் வைஃபை நெட்வொர்க்குடன் இணைந்தவுடன் பதிவிறக்கத்தைத் தொடங்குவதற்கு <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> ஐத் தொடவும்."</string>
+    <string name="wifi_recommended_title" msgid="6488158053932133804">"பின்னர் பதிவிறக்க வரிசைப்படுத்தவா?"</string>
+    <string name="wifi_recommended_body" msgid="8710820743211704403">"<xliff:g id="SIZE">%1$s </xliff:g> அளவிலான இந்தப் பதிவிறக்கத்தை இப்போது தொடங்குவது உங்கள் பேட்டரியின் ஆயுளைக் குறைக்கலாம் மற்றும்/அல்லது உங்கள் மொபைல் டேட்டா இணைப்பை அதிகமாகப் பயன்படுத்த நேரிடலாம், இதன் காரணமாக உங்கள் தரவு திட்டத்தைப் பொறுத்து உங்கள் மொபைல் ஆபரேட்டர் பேமெண்ட்கள் விதிக்கலாம்.\n\nஅடுத்த முறை நீங்கள் வைஃபை நெட்வொர்க்கில் இணைந்தவுடன் இந்தப் பதிவிறக்கத்தைத் தொடங்குவதற்கு <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> ஐத் தொடவும்."</string>
+    <string name="button_queue_for_wifi" msgid="6650185573566994738">"வரிசை"</string>
+    <string name="button_cancel_download" msgid="4135046775536601831">"ரத்துசெய்"</string>
+    <string name="button_start_now" msgid="3817100969365441730">"இப்போது தொடங்கு"</string>
+    <plurals name="notif_summary_active" formatted="false" msgid="8652501374845637331">
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> கோப்புகளை இறக்குகிறது</item>
       <item quantity="one">1 கோப்பை இறக்குகிறது</item>
     </plurals>
-    <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
+    <plurals name="notif_summary_waiting" formatted="false" msgid="1782251721955177526">
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> கோப்புகள் காத்திருக்கின்றன</item>
       <item quantity="one">1 கோப்பு காத்திருக்கிறது</item>
     </plurals>
-    <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> மீதமுள்ளது"</string>
-    <string name="download_no_application_title" msgid="7935659741162801699">"கோப்பைத் திறக்க முடியவில்லை"</string>
-    <string name="root_downloads" msgid="4098414876292351487">"பதிவிறக்கங்கள்"</string>
-    <string name="download_queued" msgid="3302638231377947451">"வரிசைப்படுத்தப்பட்டது"</string>
-    <string name="download_running" msgid="3925050393361158266">"செயலிலுள்ளது"</string>
-    <string name="download_error" msgid="5144180777324573236">"தோல்வி"</string>
-    <string name="download_running_percent" msgid="4305080769167320204">"செயலில், <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
+    <string name="download_remaining" msgid="2313089371178695625">"<xliff:g id="DURATION">%s</xliff:g> மீதமுள்ளது"</string>
+    <string name="download_no_application_title" msgid="5780812573953335721">"கோப்பைத் திறக்க முடியவில்லை"</string>
+    <string name="root_downloads" msgid="8380500940211778491">"பதிவிறக்கங்கள்"</string>
+    <string name="download_queued" msgid="3383844741769045371">"வரிசைப்படுத்தப்பட்டது"</string>
+    <string name="download_running" msgid="774654178925442490">"செயலிலுள்ளது"</string>
+    <string name="download_error" msgid="1857737890005386798">"தோல்வி"</string>
+    <string name="download_running_percent" msgid="3492753569359254730">"செயலில், <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
 </resources>

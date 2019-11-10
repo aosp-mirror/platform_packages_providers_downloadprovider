@@ -16,36 +16,36 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"ਡਾਊਨਲੋਡ"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"ਡਾਊਨਲੋਡਸ - ਤਾਰੀਖ ਮੁਤਾਬਕ ਛਾਂਟਿਆ"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"ਡਾਊਨਲੋਡਸ - ਆਕਾਰ ਮੁਤਾਬਕ ਛਾਂਟਿਆ"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"ਕੋਈ ਡਾਊਨਲੋਡ ਨਹੀਂ।"</string>
-    <string name="missing_title" msgid="830115697868833773">"&lt;ਅਗਿਆਤ&gt;"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"ਆਕਾਰ ਮੁਤਾਬਕ ਛਾਂਟੋ"</string>
-    <string name="button_sort_by_date" msgid="8800842892684101528">"ਤਾਰੀਖ ਮੁਤਾਬਕ ਛਾਂਟੋ"</string>
-    <string name="download_queued" msgid="104973307780629904">"ਕਤਾਰਬੱਧ"</string>
-    <string name="download_running" msgid="4656462962155580641">"ਪ੍ਰਗਤੀ ਵਿੱਚ"</string>
-    <string name="download_success" msgid="7006048006543495236">"ਪੂਰਾ"</string>
-    <string name="download_error" msgid="8081329546008568251">"ਅਸਫਲ"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"ਡਾਊਨਲੋਡ ਨਹੀਂ ਕਰ ਸਕਿਆ"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"ਕੀ ਤੁਸੀਂ ਬਾਅਦ ਵਿੱਚ ਫ਼ਾਈਲ ਨੂੰ ਡਾਊਨਲੋਡ ਕਰਨ ਦੀ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ ਜਾਂ ਇਸਨੂੰ ਕਤਾਰ ਵਿੱਚੋਂ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"ਕਤਾਰ ਵਿੱਚ ਫਾਈਲ"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"ਫਾਈਲ ਭਵਿੱਖੀ ਡਾਊਨਲੋਡ ਲਈ ਕਤਾਰਬੱਧ ਨਹੀਂ ਹੈ ਇਸਲਈ ਇਹ ਅਜੇ ਉਪਲਬਧ ਨਹੀਂ ਹੈ।"</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"ਡਾਊਨਲੋਡ ਫਾਈਲ ਨਹੀਂ ਲੱਭੀ ਜਾ ਸਕਦੀ।"</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"ਡਾਊਨਲੋਡ ਪੂਰਾ ਨਹੀਂ ਹੋ ਸਕਦਾ। ਬਾਹਰੀ ਡਾਊਨਲੋਡ ਸਟੋਰੇਜ ਤੇ ਲੋੜੀਂਦੀ ਜਗ੍ਹਾ ਨਹੀਂ ਹੈ।"</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"ਡਾਊਨਲੋਡ ਪੂਰਾ ਨਹੀਂ ਹੋ ਸਕਦਾ। ਅੰਦਰੂਨੀ ਡਾਊਨਲੋਡ ਸਟੋਰੇਜ ਤੇ ਲੋੜੀਂਦੀ ਜਗ੍ਹਾ ਨਹੀਂ ਹੈ।"</string>
-    <string name="dialog_cannot_resume" msgid="8664509751358983543">"ਡਾਊਨਲੋਡ ਰੋਕੀ ਗਈ ਸੀ ਅਤੇ ਦੁਬਾਰਾ ਸ਼ੁਰੂ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕਦੀ।"</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"ਡਾਊਨਲੋਡ ਨਹੀਂ ਕਰ ਸਕਦਾ। ਡੈਸਟੀਨੇਸ਼ਨ ਫਾਈਲ ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ।"</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"ਡਾਊਨਲੋਡ ਨਹੀਂ ਕਰ ਸਕਦਾ। ਬਾਹਰੀ ਮੀਡੀਆ ਉਪਲਬਧ ਨਹੀਂ ਹੈ।"</string>
-    <string name="download_no_application_title" msgid="7024782176657362251">"ਫਾਈਲ ਨਹੀਂ ਖੋਲ੍ਹ ਸਕਦਾ"</string>
-    <string name="remove_download" msgid="6372920256257247857">"ਹਟਾਓ"</string>
-    <string name="delete_download" msgid="76629022653866471">"ਮਿਟਾਓ"</string>
-    <string name="keep_queued_download" msgid="5144882786014818569">"ਰੱਖੋ"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"ਰੱਦ ਕਰੋ"</string>
-    <string name="retry_download" msgid="7617100787922717912">"ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ"</string>
-    <string name="start_now_download" msgid="1564642872809509681">"ਹੁਣ ਸ਼ੁਰੂ ਕਰੋ"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"ਸਾਰਿਆਂ ਨੂੰ ਅਚੋਣਵਾਂ ਕਰੋ"</string>
-    <string name="select_all" msgid="634074918366265804">"ਸਭ ਚੁਣੋ"</string>
-    <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="TOTAL">%2$d</xliff:g> ਵਿੱਚੋਂ <xliff:g id="NUMBER">%1$d</xliff:g> ਨੂੰ ਚੁਣਿਆ ਗਿਆ"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"ਇਸ ਰਾਹੀਂ ਸਾਂਝਾ ਕਰੋ"</string>
+    <string name="app_label" msgid="4847371117203587513">"ਡਾਊਨਲੋਡ"</string>
+    <string name="download_title_sorted_by_date" msgid="6033509257480233878">"ਡਾਊਨਲੋਡਸ - ਤਾਰੀਖ ਮੁਤਾਬਕ ਛਾਂਟਿਆ"</string>
+    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"ਡਾਊਨਲੋਡਸ - ਆਕਾਰ ਮੁਤਾਬਕ ਛਾਂਟਿਆ"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"ਕੋਈ ਡਾਊਨਲੋਡ ਨਹੀਂ।"</string>
+    <string name="missing_title" msgid="3827247802608803753">"&lt;ਅਗਿਆਤ&gt;"</string>
+    <string name="button_sort_by_size" msgid="7952187121189086395">"ਆਕਾਰ ਮੁਤਾਬਕ ਛਾਂਟੋ"</string>
+    <string name="button_sort_by_date" msgid="2064919145709585942">"ਤਾਰੀਖ ਮੁਤਾਬਕ ਛਾਂਟੋ"</string>
+    <string name="download_queued" msgid="4128038702528588781">"ਕਤਾਰਬੱਧ"</string>
+    <string name="download_running" msgid="2046492059586594352">"ਪ੍ਰਗਤੀ ਵਿੱਚ"</string>
+    <string name="download_success" msgid="3895973294927323747">"ਪੂਰਾ"</string>
+    <string name="download_error" msgid="6652902885480887230">"ਅਸਫਲ"</string>
+    <string name="dialog_title_not_available" msgid="7793272183758002416">"ਡਾਊਨਲੋਡ ਨਹੀਂ ਕਰ ਸਕਿਆ"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"ਕੀ ਤੁਸੀਂ ਬਾਅਦ ਵਿੱਚ ਫ਼ਾਈਲ ਨੂੰ ਡਾਊਨਲੋਡ ਕਰਨ ਦੀ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ ਜਾਂ ਇਸਨੂੰ ਕਤਾਰ ਵਿੱਚੋਂ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?"</string>
+    <string name="dialog_title_queued_body" msgid="7481231558376227012">"ਕਤਾਰ ਵਿੱਚ ਫਾਈਲ"</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"ਫਾਈਲ ਭਵਿੱਖੀ ਡਾਊਨਲੋਡ ਲਈ ਕਤਾਰਬੱਧ ਨਹੀਂ ਹੈ ਇਸਲਈ ਇਹ ਅਜੇ ਉਪਲਬਧ ਨਹੀਂ ਹੈ।"</string>
+    <string name="dialog_file_missing_body" msgid="7896653198405160564">"ਡਾਊਨਲੋਡ ਫਾਈਲ ਨਹੀਂ ਲੱਭੀ ਜਾ ਸਕਦੀ।"</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"ਡਾਊਨਲੋਡ ਪੂਰਾ ਨਹੀਂ ਹੋ ਸਕਦਾ। ਬਾਹਰੀ ਡਾਊਨਲੋਡ ਸਟੋਰੇਜ ਤੇ ਲੋੜੀਂਦੀ ਜਗ੍ਹਾ ਨਹੀਂ ਹੈ।"</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"ਡਾਊਨਲੋਡ ਪੂਰਾ ਨਹੀਂ ਹੋ ਸਕਦਾ। ਅੰਦਰੂਨੀ ਡਾਊਨਲੋਡ ਸਟੋਰੇਜ ਤੇ ਲੋੜੀਂਦੀ ਜਗ੍ਹਾ ਨਹੀਂ ਹੈ।"</string>
+    <string name="dialog_cannot_resume" msgid="3101433441301206866">"ਡਾਊਨਲੋਡ ਰੋਕੀ ਗਈ ਸੀ ਅਤੇ ਦੁਬਾਰਾ ਸ਼ੁਰੂ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕਦੀ।"</string>
+    <string name="dialog_file_already_exists" msgid="6849168874901909994">"ਡਾਊਨਲੋਡ ਨਹੀਂ ਕਰ ਸਕਦਾ। ਡੈਸਟੀਨੇਸ਼ਨ ਫਾਈਲ ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ।"</string>
+    <string name="dialog_media_not_found" msgid="7376030905821161865">"ਡਾਊਨਲੋਡ ਨਹੀਂ ਕਰ ਸਕਦਾ। ਬਾਹਰੀ ਮੀਡੀਆ ਉਪਲਬਧ ਨਹੀਂ ਹੈ।"</string>
+    <string name="download_no_application_title" msgid="1209223807604231431">"ਫਾਈਲ ਨਹੀਂ ਖੋਲ੍ਹ ਸਕਦਾ"</string>
+    <string name="remove_download" msgid="244394809285977300">"ਹਟਾਓ"</string>
+    <string name="delete_download" msgid="1861638125603383676">"ਮਿਟਾਓ"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"ਰੱਖੋ"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"ਰੱਦ ਕਰੋ"</string>
+    <string name="retry_download" msgid="6957856437473044831">"ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"ਹੁਣ ਸ਼ੁਰੂ ਕਰੋ"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"ਸਾਰਿਆਂ ਨੂੰ ਅਚੋਣਵਾਂ ਕਰੋ"</string>
+    <string name="select_all" msgid="7469093306474000460">"ਸਭ ਚੁਣੋ"</string>
+    <string name="selected_count" msgid="5876842902167894010">"<xliff:g id="TOTAL">%2$d</xliff:g> ਵਿੱਚੋਂ <xliff:g id="NUMBER">%1$d</xliff:g> ਨੂੰ ਚੁਣਿਆ ਗਿਆ"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"ਇਸ ਰਾਹੀਂ ਸਾਂਝਾ ਕਰੋ"</string>
 </resources>

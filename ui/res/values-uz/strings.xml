@@ -16,36 +16,36 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"Yuklanmalar"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Yuklanmalar – sanasi bo‘yicha"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Yuklanmalar – hajmi bo‘yicha"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"Yuklanmalar yo‘q."</string>
-    <string name="missing_title" msgid="830115697868833773">"&lt;Noma’lum&gt;"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"Hajmi asosida saralash"</string>
-    <string name="button_sort_by_date" msgid="8800842892684101528">"Sanasi bo‘yicha saralash"</string>
-    <string name="download_queued" msgid="104973307780629904">"Navbatda"</string>
-    <string name="download_running" msgid="4656462962155580641">"Yuk. amalda"</string>
-    <string name="download_success" msgid="7006048006543495236">"Y"</string>
-    <string name="download_error" msgid="8081329546008568251">"Muvaff-siz"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"Yuklab olinmadi"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"Faylni keyinroq qaytadan yuklab olishga urinib ko‘rasizmi yoki navbatdan o‘chirilsinmi?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Fayl navbatda"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"Ushbu fayl keyinroq yuklab olish uchun navbatga qo‘shildi, shuning uchun hozir mavjud emas."</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Yukab olingan fayl topilmadi."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Yuklab olish tugamadi. Tashqi yuklab olish xotirasida yetarlicha bo‘sh joy yo‘q."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Yuklab olish tugamadi. Ichki yuklab olish xotirasida yetarlicha bo‘sh joy yo‘q."</string>
-    <string name="dialog_cannot_resume" msgid="8664509751358983543">"Yuklab olish uzildi, shuning uchun davom ettirib bo‘lmaydi."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Yuklab olinmadi. Mo‘ljaldagi fayl allaqachon mavjud."</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"Yuklab olinmadi. Tashqi xotira qurilmasi mavjud emas."</string>
-    <string name="download_no_application_title" msgid="7024782176657362251">"Fayl ochilmadi"</string>
-    <string name="remove_download" msgid="6372920256257247857">"Olib tashlash"</string>
-    <string name="delete_download" msgid="76629022653866471">"O‘chirish"</string>
-    <string name="keep_queued_download" msgid="5144882786014818569">"Saqlash"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"Bekor qilish"</string>
-    <string name="retry_download" msgid="7617100787922717912">"Qayta urinish"</string>
-    <string name="start_now_download" msgid="1564642872809509681">"Boshlash"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"Belgilashlarni bekor qil."</string>
-    <string name="select_all" msgid="634074918366265804">"Hammasini belgilash"</string>
-    <string name="selected_count" msgid="2101564570019753277">"Tanlandi: <xliff:g id="NUMBER">%1$d</xliff:g>/<xliff:g id="TOTAL">%2$d</xliff:g>"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"Ulashish"</string>
+    <string name="app_label" msgid="4847371117203587513">"Yuklanmalar"</string>
+    <string name="download_title_sorted_by_date" msgid="6033509257480233878">"Yuklanmalar – sanasi bo‘yicha"</string>
+    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"Yuklanmalar – hajmi bo‘yicha"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"Yuklanmalar yo‘q."</string>
+    <string name="missing_title" msgid="3827247802608803753">"&lt;Noma’lum&gt;"</string>
+    <string name="button_sort_by_size" msgid="7952187121189086395">"Hajmi asosida saralash"</string>
+    <string name="button_sort_by_date" msgid="2064919145709585942">"Sanasi bo‘yicha saralash"</string>
+    <string name="download_queued" msgid="4128038702528588781">"Navbatda"</string>
+    <string name="download_running" msgid="2046492059586594352">"Yuk. amalda"</string>
+    <string name="download_success" msgid="3895973294927323747">"Y"</string>
+    <string name="download_error" msgid="6652902885480887230">"Muvaff-siz"</string>
+    <string name="dialog_title_not_available" msgid="7793272183758002416">"Yuklab olinmadi"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"Faylni keyinroq qaytadan yuklab olishga urinib ko‘rasizmi yoki navbatdan o‘chirilsinmi?"</string>
+    <string name="dialog_title_queued_body" msgid="7481231558376227012">"Fayl navbatda"</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"Ushbu fayl keyinroq yuklab olish uchun navbatga qo‘shildi, shuning uchun hozir mavjud emas."</string>
+    <string name="dialog_file_missing_body" msgid="7896653198405160564">"Yukab olingan fayl topilmadi."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"Yuklab olish tugamadi. Tashqi yuklab olish xotirasida yetarlicha bo‘sh joy yo‘q."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"Yuklab olish tugamadi. Ichki yuklab olish xotirasida yetarlicha bo‘sh joy yo‘q."</string>
+    <string name="dialog_cannot_resume" msgid="3101433441301206866">"Yuklab olish uzildi, shuning uchun davom ettirib bo‘lmaydi."</string>
+    <string name="dialog_file_already_exists" msgid="6849168874901909994">"Yuklab olinmadi. Mo‘ljaldagi fayl allaqachon mavjud."</string>
+    <string name="dialog_media_not_found" msgid="7376030905821161865">"Yuklab olinmadi. Tashqi xotira qurilmasi mavjud emas."</string>
+    <string name="download_no_application_title" msgid="1209223807604231431">"Fayl ochilmadi"</string>
+    <string name="remove_download" msgid="244394809285977300">"Olib tashlash"</string>
+    <string name="delete_download" msgid="1861638125603383676">"O‘chirish"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"Saqlash"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"Bekor qilish"</string>
+    <string name="retry_download" msgid="6957856437473044831">"Qayta urinish"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"Boshlash"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"Belgilashlarni bekor qil."</string>
+    <string name="select_all" msgid="7469093306474000460">"Hammasini belgilash"</string>
+    <string name="selected_count" msgid="5876842902167894010">"Tanlandi: <xliff:g id="NUMBER">%1$d</xliff:g>/<xliff:g id="TOTAL">%2$d</xliff:g>"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"Ulashish"</string>
 </resources>

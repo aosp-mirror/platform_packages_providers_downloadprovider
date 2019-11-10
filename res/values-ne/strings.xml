@@ -16,45 +16,45 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3658948994665187911">"डाउनलोड प्रबन्धक"</string>
-    <string name="storage_description" msgid="7982444311558023664">"डाउनलोडहरू"</string>
-    <string name="permlab_downloadManager" msgid="7779544811202855500">"डाउनलोड प्रबन्धक पहुँच गर्नुहोस्"</string>
-    <string name="permdesc_downloadManager" msgid="4237406545998908947">"फाइल डाउनलोड गर्नाका लागि अनुप्रयोगलाई डाउनलोड प्रबन्धकको पहुँचको अनुमति दिन्छ। हानिकारक अनुप्रयोगहरूले यसलाई डाउनलोडहरू अवरूद्ध गर्न र निजी जानकारी पहुँच गर्न यसको प्रयोग गर्न सक्छन्।"</string>
-    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"उन्नत डाउनलोड प्रबन्धक प्रकार्यहरू"</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"अनुप्रयोगलाई डाउनलोड प्रबन्धकको उन्नत प्रकार्यहरू पहुँच गर्न अनुमति दिन्छ। हानिकारक अनुप्रयोगहरूले यसलाई डाउनलोड अवरूद्ध गरी निजी जानकारी पहुँच गर्न प्रयोग गर्न सक्छ।"</string>
-    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"डाउनलोड सूचनाहरू पठाउनुहोस्।"</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"अनुप्रयोगलाई समाप्त भएका डाउनलोडहरूका सूचनाहरू पठाउन अनुमति दिन्छ। हानिकारक अनुप्रयोगहरूले फाइल डाउनलोड गर्ने अन्य अनुप्रयोगलाई झुक्याउनका लागि यसलाई प्रयोग गर्न सक्छन्।"</string>
-    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"डाउनलोड केसमा ठाउँ ओगट्नुहोस्"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"अनुप्रयोगलाई फाइलहरूलाई डाउनलोड केसमा डाउनलोड गर्न अनुमति दिन्छ, जुन डाउनलोड प्रबन्धकलाई थप ठाउँ चाहिएको खण्डमा स्वचालित रूपमा हटाउन सकिदैन।"</string>
-    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"बिना सूचना फाइलहरू डाउनलोड गर्नुहोस्"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"अनुप्रयोगलाई डाउनलोड प्रबन्धकका माध्ययमद्वारा प्रयोगकर्तामा सूचना नदेखाई फाइलहरू डाउनलोड गर्ने अनुमति दिन्छ।"</string>
-    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"सम्पूर्ण प्रणाली डाउनलोडहरू पहुँच गर्नुहोस्"</string>
-    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"अनुप्रयोगलाई कुनै पनि अनुप्रयोगले प्रणालीमा पहल गरेको सम्पूर्ण डाउनलोडहरू हेर्ने र परिमार्जन गर्ने अनुमति दिन्छ।"</string>
-    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;शीर्षकविहिन&gt;"</string>
-    <string name="notification_download_complete" msgid="5443563299253103667">"डाउनलोड पुरा भयो।"</string>
-    <string name="notification_download_failed" msgid="8612136111952014978">"डाउनलोड असफल"</string>
-    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"डाउनलोड आकारलाई Wi-Fi चाहिन्छ।"</string>
-    <string name="notification_paused_in_background" msgid="4328508073283591772">"पृष्ठभूमिमा रोकिएको छ।"</string>
-    <string name="wifi_required_title" msgid="1995971416871498179">"अपरेटर सञ्जालका लागि डाउनलोड ज्यादै ठूलो"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"तपाईंले Wi-Fi प्रयोग गर्नु पर्छ यस <xliff:g id="SIZE">%1$s </xliff:g> डाउनलोड समाप्त गर्न। \n\nछुनुहोस् <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> यस डाउनलोडलाई सुरु गर्न अर्को पटक तपाईं Wi-Fi सञ्जालामा जडित भए पछि।"</string>
-    <string name="wifi_recommended_title" msgid="7441589306734687400">"पछि डाउनलोडका लागि लाममा राख्ने हो?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"यस <xliff:g id="SIZE">%1$s </xliff:g> डाउनलोडलाई सुरु गर्दा तपाईंको ब्याट्रिको काल छोट्टिन सक्छ र/वा तपाईंको मोबाइल डेटा जडानको अधिकतम प्रयोग भई तपाईंको डेटा योजना अनुसार मोबाइल अपरेटरले थप शुल्क लिन सक्छ। \n\n छुनुहोस् <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>तल यस डाउनलोडलाई सुरु गर्न अर्को पटक तपाईं Wi-Fi सन्जालमा जडित हुने बेला।"</string>
-    <string name="button_queue_for_wifi" msgid="422576726189179221">"लाम"</string>
-    <string name="button_cancel_download" msgid="2430166148737975604">"रद्द गर्नुहोस्"</string>
-    <string name="button_start_now" msgid="792123674007840864">"अहिले सुरु गर्नुहोस्"</string>
-    <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
+    <string name="app_label" msgid="5264040740662487684">"डाउनलोड प्रबन्धक"</string>
+    <string name="storage_description" msgid="169690279447532621">"डाउनलोडहरू"</string>
+    <string name="permlab_downloadManager" msgid="4241473724446132797">"डाउनलोड प्रबन्धक पहुँच गर्नुहोस्"</string>
+    <string name="permdesc_downloadManager" msgid="5562734314998369030">"फाइल डाउनलोड गर्नाका लागि अनुप्रयोगलाई डाउनलोड प्रबन्धकको पहुँचको अनुमति दिन्छ। हानिकारक अनुप्रयोगहरूले यसलाई डाउनलोडहरू अवरूद्ध गर्न र निजी जानकारी पहुँच गर्न यसको प्रयोग गर्न सक्छन्।"</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"उन्नत डाउनलोड प्रबन्धक प्रकार्यहरू"</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"अनुप्रयोगलाई डाउनलोड प्रबन्धकको उन्नत प्रकार्यहरू पहुँच गर्न अनुमति दिन्छ। हानिकारक अनुप्रयोगहरूले यसलाई डाउनलोड अवरूद्ध गरी निजी जानकारी पहुँच गर्न प्रयोग गर्न सक्छ।"</string>
+    <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"डाउनलोड सूचनाहरू पठाउनुहोस्।"</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"अनुप्रयोगलाई समाप्त भएका डाउनलोडहरूका सूचनाहरू पठाउन अनुमति दिन्छ। हानिकारक अनुप्रयोगहरूले फाइल डाउनलोड गर्ने अन्य अनुप्रयोगलाई झुक्याउनका लागि यसलाई प्रयोग गर्न सक्छन्।"</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"डाउनलोड केसमा ठाउँ ओगट्नुहोस्"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"अनुप्रयोगलाई फाइलहरूलाई डाउनलोड केसमा डाउनलोड गर्न अनुमति दिन्छ, जुन डाउनलोड प्रबन्धकलाई थप ठाउँ चाहिएको खण्डमा स्वचालित रूपमा हटाउन सकिदैन।"</string>
+    <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"बिना सूचना फाइलहरू डाउनलोड गर्नुहोस्"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"अनुप्रयोगलाई डाउनलोड प्रबन्धकका माध्ययमद्वारा प्रयोगकर्तामा सूचना नदेखाई फाइलहरू डाउनलोड गर्ने अनुमति दिन्छ।"</string>
+    <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"सम्पूर्ण प्रणाली डाउनलोडहरू पहुँच गर्नुहोस्"</string>
+    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"अनुप्रयोगलाई कुनै पनि अनुप्रयोगले प्रणालीमा पहल गरेको सम्पूर्ण डाउनलोडहरू हेर्ने र परिमार्जन गर्ने अनुमति दिन्छ।"</string>
+    <string name="download_unknown_title" msgid="1017800350818840396">"&lt;शीर्षकविहिन&gt;"</string>
+    <string name="notification_download_complete" msgid="466652037490092787">"डाउनलोड पुरा भयो।"</string>
+    <string name="notification_download_failed" msgid="3932167763860605874">"डाउनलोड असफल"</string>
+    <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"डाउनलोड आकारलाई Wi-Fi चाहिन्छ।"</string>
+    <string name="notification_paused_in_background" msgid="6393408819031041778">"पृष्ठभूमिमा रोकिएको छ।"</string>
+    <string name="wifi_required_title" msgid="7266700488421122218">"अपरेटर सञ्जालका लागि डाउनलोड ज्यादै ठूलो"</string>
+    <string name="wifi_required_body" msgid="4005023496578941958">"तपाईंले Wi-Fi प्रयोग गर्नु पर्छ यस <xliff:g id="SIZE">%1$s </xliff:g> डाउनलोड समाप्त गर्न। \n\nछुनुहोस् <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> यस डाउनलोडलाई सुरु गर्न अर्को पटक तपाईं Wi-Fi सञ्जालामा जडित भए पछि।"</string>
+    <string name="wifi_recommended_title" msgid="6488158053932133804">"पछि डाउनलोडका लागि लाममा राख्ने हो?"</string>
+    <string name="wifi_recommended_body" msgid="8710820743211704403">"यस <xliff:g id="SIZE">%1$s </xliff:g> डाउनलोडलाई सुरु गर्दा तपाईंको ब्याट्रिको काल छोट्टिन सक्छ र/वा तपाईंको मोबाइल डेटा जडानको अधिकतम प्रयोग भई तपाईंको डेटा योजना अनुसार मोबाइल अपरेटरले थप शुल्क लिन सक्छ। \n\n छुनुहोस् <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>तल यस डाउनलोडलाई सुरु गर्न अर्को पटक तपाईं Wi-Fi सन्जालमा जडित हुने बेला।"</string>
+    <string name="button_queue_for_wifi" msgid="6650185573566994738">"लाम"</string>
+    <string name="button_cancel_download" msgid="4135046775536601831">"रद्द गर्नुहोस्"</string>
+    <string name="button_start_now" msgid="3817100969365441730">"अहिले सुरु गर्नुहोस्"</string>
+    <plurals name="notif_summary_active" formatted="false" msgid="8652501374845637331">
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> फाइलहरू डाउनलोड हुँदैछन्</item>
       <item quantity="one">१ फाइल डाउनलोड हुँदैछ</item>
     </plurals>
-    <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
+    <plurals name="notif_summary_waiting" formatted="false" msgid="1782251721955177526">
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> फाइलहरू डाउनलोड हुन पालो कुर्दै</item>
       <item quantity="one">१ फाइल डाउनलोड हुन पालो कुर्दै</item>
     </plurals>
-    <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> बाँकी छ"</string>
-    <string name="download_no_application_title" msgid="7935659741162801699">"फाइल खोल्न सक्दैन"</string>
-    <string name="root_downloads" msgid="4098414876292351487">"डाउनलोडहरू"</string>
-    <string name="download_queued" msgid="3302638231377947451">"लाममा राखियो"</string>
-    <string name="download_running" msgid="3925050393361158266">"प्रगतिमा"</string>
-    <string name="download_error" msgid="5144180777324573236">"असफल"</string>
-    <string name="download_running_percent" msgid="4305080769167320204">"प्रगति हुँदै, <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
+    <string name="download_remaining" msgid="2313089371178695625">"<xliff:g id="DURATION">%s</xliff:g> बाँकी छ"</string>
+    <string name="download_no_application_title" msgid="5780812573953335721">"फाइल खोल्न सक्दैन"</string>
+    <string name="root_downloads" msgid="8380500940211778491">"डाउनलोडहरू"</string>
+    <string name="download_queued" msgid="3383844741769045371">"लाममा राखियो"</string>
+    <string name="download_running" msgid="774654178925442490">"प्रगतिमा"</string>
+    <string name="download_error" msgid="1857737890005386798">"असफल"</string>
+    <string name="download_running_percent" msgid="3492753569359254730">"प्रगति हुँदै, <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
 </resources>

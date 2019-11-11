@@ -37,7 +37,7 @@
     <string name="dialog_cannot_resume" msgid="3101433441301206866">"Kupakua kulikatizwa na hakuwezi kuendelea."</string>
     <string name="dialog_file_already_exists" msgid="6849168874901909994">"Haiwezi kupakua. Faili fikio tayari ipo."</string>
     <string name="dialog_media_not_found" msgid="7376030905821161865">"Haiwezi kupakua. Chombo cha habari cha nje hakipatikani."</string>
-    <string name="download_no_application_title" msgid="1209223807604231431">"Haiwezi kufungua faili"</string>
+    <string name="download_no_application_title" msgid="1209223807604231431">"Imeshindwa kufungua faili"</string>
     <string name="remove_download" msgid="244394809285977300">"Ondoa"</string>
     <string name="delete_download" msgid="1861638125603383676">"Futa"</string>
     <string name="keep_queued_download" msgid="6905870466259272973">"Weka"</string>

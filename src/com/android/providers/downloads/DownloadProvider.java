@@ -683,8 +683,8 @@ public final class DownloadProvider extends ContentProvider {
     public Bundle call(String method, String arg, Bundle extras) {
         switch (method) {
             case Downloads.CALL_MEDIASTORE_DOWNLOADS_DELETED: {
-                Preconditions.checkArgument(Binder.getCallingUid() == Process.myUid(),
-                        "Not allowed to call " + Downloads.CALL_MEDIASTORE_DOWNLOADS_DELETED);
+                getContext().enforceCallingOrSelfPermission(
+                        android.Manifest.permission.WRITE_MEDIA_STORAGE, Constants.TAG);
                 final long[] deletedDownloadIds = extras.getLongArray(Downloads.EXTRA_IDS);
                 final String[] mimeTypes = extras.getStringArray(Downloads.EXTRA_MIME_TYPES);
                 DownloadStorageProvider.onMediaProviderDownloadsDelete(getContext(),
@@ -709,8 +709,8 @@ public final class DownloadProvider extends ContentProvider {
                 return null;
             }
             case Downloads.CALL_REVOKE_MEDIASTORE_URI_PERMS : {
-                Preconditions.checkArgument(Binder.getCallingUid() == Process.myUid(),
-                        "Not allowed to call " + Downloads.CALL_REVOKE_MEDIASTORE_URI_PERMS);
+                getContext().enforceCallingOrSelfPermission(
+                        android.Manifest.permission.WRITE_MEDIA_STORAGE, Constants.TAG);
                 DownloadStorageProvider.revokeAllMediaStoreUriPermissions(getContext());
                 return null;
             }

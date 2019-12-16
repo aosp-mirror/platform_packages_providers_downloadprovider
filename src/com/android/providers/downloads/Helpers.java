@@ -36,6 +36,7 @@ import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.ContentProvider;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -502,18 +503,15 @@ public class Helpers {
         return MediaStore.Downloads.getContentUri(volumeName, id);
     }
 
-    // TODO: Move it to MediaStore.
     public static Uri triggerMediaScan(android.content.ContentProviderClient mediaProviderClient,
             File file) {
-        try {
-            final Bundle in = new Bundle();
-            in.putParcelable(Intent.EXTRA_STREAM, Uri.fromFile(file));
-            final Bundle out = mediaProviderClient.call(MediaStore.SCAN_FILE_CALL, null, in);
-            return out.getParcelable(Intent.EXTRA_STREAM);
-        } catch (RemoteException e) {
-            // Should not happen
-        }
-        return null;
+        return MediaStore.scanFile(ContentResolver.wrap(mediaProviderClient), file);
+    }
+
+    public static final Uri getContentUriForPath(Context context, String path) {
+        final StorageManager sm = context.getSystemService(StorageManager.class);
+        final String volumeName = sm.getStorageVolume(new File(path)).getMediaStoreVolumeName();
+        return MediaStore.Files.getContentUri(volumeName);
     }
 
     public static boolean isFileInExternalAndroidDirs(String filePath) {

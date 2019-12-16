@@ -888,7 +888,7 @@ public final class DownloadProvider extends ContentProvider {
                 == DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD) {
             final CallingIdentity token = clearCallingIdentity();
             try {
-                final Uri mediaStoreUri = MediaStore.scanFile(getContext(),
+                final Uri mediaStoreUri = MediaStore.scanFile(getContext().getContentResolver(),
                         new File(filteredValues.getAsString(Downloads.Impl._DATA)));
                 if (mediaStoreUri != null) {
                     final ContentValues mediaValues = new ContentValues();
@@ -962,7 +962,7 @@ public final class DownloadProvider extends ContentProvider {
         try {
             if (mediaStoreUri == null) {
                 mediaStoreUri = mediaProvider.insert(
-                        MediaStore.Files.getContentUriForPath(filePath),
+                        Helpers.getContentUriForPath(getContext(), filePath),
                         mediaValues);
                 if (mediaStoreUri == null) {
                     Log.e(Constants.TAG, "Error inserting into mediaProvider: " + mediaValues);
@@ -984,7 +984,7 @@ public final class DownloadProvider extends ContentProvider {
     private Uri getMediaStoreUri(@NonNull ContentProviderClient mediaProvider,
             @NonNull String filePath) {
         final Uri filesUri = MediaStore.setIncludePending(
-                MediaStore.Files.getContentUriForPath(filePath));
+                Helpers.getContentUriForPath(getContext(), filePath));
         try (Cursor cursor = mediaProvider.query(filesUri,
                 new String[] { MediaStore.Files.FileColumns._ID },
                 MediaStore.Files.FileColumns.DATA + "=?", new String[] { filePath }, null, null)) {
@@ -1699,7 +1699,7 @@ public final class DownloadProvider extends ContentProvider {
                                     Log.v(Constants.TAG,
                                             "Deleting " + file + " via provider delete");
                                     file.delete();
-                                    deleteMediaStoreEntry(file);
+                                    MediaStore.scanFile(getContext().getContentResolver(), file);
                                 } else {
                                     Log.d(Constants.TAG, "Ignoring invalid file: " + file);
                                 }
@@ -1737,24 +1737,6 @@ public final class DownloadProvider extends ContentProvider {
             Binder.restoreCallingIdentity(token);
         }
         return count;
-    }
-
-    private void deleteMediaStoreEntry(File file) {
-        final long token = Binder.clearCallingIdentity();
-        try {
-            final String path = file.getAbsolutePath();
-            final Uri.Builder builder = MediaStore.setIncludePending(
-                    MediaStore.Files.getContentUriForPath(path).buildUpon());
-            builder.appendQueryParameter(MediaStore.PARAM_DELETE_DATA, "false");
-
-            final Uri filesUri = builder.build();
-            getContext().getContentResolver().delete(filesUri,
-                    MediaStore.Files.FileColumns.DATA + "=?", new String[] { path });
-        } catch (Exception e) {
-            Log.d(Constants.TAG, "Failed to delete mediastore entry for file:" + file, e);
-        } finally {
-            Binder.restoreCallingIdentity(token);
-        }
     }
 
     /**

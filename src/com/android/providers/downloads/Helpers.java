@@ -511,7 +511,7 @@ public class Helpers {
     public static final Uri getContentUriForPath(Context context, String path) {
         final StorageManager sm = context.getSystemService(StorageManager.class);
         final String volumeName = sm.getStorageVolume(new File(path)).getMediaStoreVolumeName();
-        return MediaStore.Files.getContentUri(volumeName);
+        return MediaStore.Downloads.getContentUri(volumeName);
     }
 
     public static boolean isFileInExternalAndroidDirs(String filePath) {

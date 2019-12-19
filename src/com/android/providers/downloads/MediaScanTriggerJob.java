@@ -81,7 +81,7 @@ public class MediaScanTriggerJob extends JobService {
                         final String filePath = cursor.getString(1);
                         final ContentValues mediaValues = new ContentValues();
                         mediaValues.put(MediaStore.Files.FileColumns.SIZE, 0);
-                        mediaProviderClient.update(MediaStore.Files.getContentUriForPath(filePath),
+                        mediaProviderClient.update(Helpers.getContentUriForPath(this, filePath),
                                 mediaValues,
                                 MediaStore.Files.FileColumns.DATA + "=?",
                                 new String[] { filePath });

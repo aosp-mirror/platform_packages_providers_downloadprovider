@@ -811,7 +811,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
 
     private Pair<String, String> getRelativePathAndDisplayNameForDownload(long id) {
         final Uri mediaStoreUri = ContentUris.withAppendedId(
-                MediaStore.Downloads.EXTERNAL_CONTENT_URI, id);
+                MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL), id);
         final long token = Binder.clearCallingIdentity();
         try (Cursor cursor = queryForSingleItem(mediaStoreUri,
                 new String[] { DownloadColumns.RELATIVE_PATH, DownloadColumns.DISPLAY_NAME },
@@ -870,23 +870,30 @@ public class DownloadStorageProvider extends FileSystemProvider {
         }
 
         final long token = Binder.clearCallingIdentity();
-        final Pair<String, String[]> selectionPair
-                = buildSearchSelection(queryArgs, filePaths, parentId);
-        final Uri.Builder queryUriBuilder = MediaStore.Downloads.EXTERNAL_CONTENT_URI.buildUpon();
+
+        final Uri uriInner = MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL);
+        final Bundle queryArgsInner = new Bundle();
+
+        final Pair<String, String[]> selectionPair = buildSearchSelection(
+                queryArgs, filePaths, parentId);
+        queryArgsInner.putString(ContentResolver.QUERY_ARG_SQL_SELECTION,
+                selectionPair.first);
+        queryArgsInner.putStringArray(ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS,
+                selectionPair.second);
         if (limit != NO_LIMIT) {
-            queryUriBuilder.appendQueryParameter(MediaStore.PARAM_LIMIT, String.valueOf(limit));
+            queryArgsInner.putInt(ContentResolver.QUERY_ARG_LIMIT, limit);
         }
         if (includePending) {
-            MediaStore.setIncludePending(queryUriBuilder);
+            queryArgsInner.putInt(MediaStore.QUERY_ARG_MATCH_PENDING, MediaStore.MATCH_INCLUDE);
         }
-        try (Cursor cursor = getContext().getContentResolver().query(
-                queryUriBuilder.build(), null,
-                selectionPair.first, selectionPair.second, null)) {
+
+        try (Cursor cursor = getContext().getContentResolver().query(uriInner,
+                null, queryArgsInner, null)) {
             while (cursor.moveToNext()) {
                 includeDownloadFromMediaStore(result, cursor, filePaths);
             }
-            notificationUris.add(MediaStore.Files.EXTERNAL_CONTENT_URI);
-            notificationUris.add(MediaStore.Downloads.EXTERNAL_CONTENT_URI);
+            notificationUris.add(MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL));
+            notificationUris.add(MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL));
         } finally {
             Binder.restoreCallingIdentity(token);
         }

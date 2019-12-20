@@ -1015,7 +1015,6 @@ public final class DownloadProvider extends ContentProvider {
         mediaValues.put(MediaStore.Downloads.IS_PENDING, downloadCompleted ? 0 : 1);
         mediaValues.put(MediaStore.Downloads.OWNER_PACKAGE_NAME,
                 Helpers.getPackageForUid(getContext(), info.mUid));
-        mediaValues.put(MediaStore.Files.FileColumns.IS_DOWNLOAD, info.mIsVisibleInDownloadsUi);
         return mediaValues;
     }
 

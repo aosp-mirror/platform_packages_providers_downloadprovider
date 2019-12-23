@@ -31,6 +31,9 @@ import static android.provider.Downloads.Impl.MEDIA_SCANNED;
 import static android.provider.Downloads.Impl.PERMISSION_ACCESS_ALL;
 import static android.provider.Downloads.Impl._DATA;
 
+import static com.android.providers.downloads.Helpers.convertToMediaStoreDownloadsUri;
+import static com.android.providers.downloads.Helpers.triggerMediaScan;
+
 import android.annotation.NonNull;
 import android.annotation.Nullable;
 import android.app.AppOpsManager;
@@ -104,7 +107,7 @@ public final class DownloadProvider extends ContentProvider {
     /** Database filename */
     private static final String DB_NAME = "downloads.db";
     /** Current database version */
-    private static final int DB_VERSION = 113;
+    private static final int DB_VERSION = 114;
     /** Name of table in the database */
     private static final String DB_TABLE = "downloads";
     /** Memory optimization - close idle connections after 30s of inactivity */
@@ -398,6 +401,11 @@ public final class DownloadProvider extends ContentProvider {
                     canonicalizeDataPaths(db);
                     break;
 
+                case 114:
+                    nullifyMediaStoreUris(db);
+                    MediaScanTriggerJob.schedule(getContext());
+                    break;
+
                 default:
                     throw new IllegalStateException("Don't know how to upgrade to " + version);
             }
@@ -535,6 +543,24 @@ public final class DownloadProvider extends ContentProvider {
                             new String[] { Long.toString(id) });
                 }
             }
+        }
+
+        /**
+         * Set mediastore uri column to null before the clean-up job and fill it again while
+         * running the job so that if the clean-up job gets preempted, we could use it
+         * as a way to know the entries which are already handled when the job gets restarted.
+         */
+        private void nullifyMediaStoreUris(SQLiteDatabase db) {
+            final String whereClause = Downloads.Impl._DATA + " IS NOT NULL"
+                    + " AND (" + COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI + "=1"
+                    + " OR " + COLUMN_MEDIA_SCANNED + "=" + MEDIA_SCANNED + ")"
+                    + " AND (" + COLUMN_DESTINATION + "=" + Downloads.Impl.DESTINATION_EXTERNAL
+                    + " OR " + COLUMN_DESTINATION + "=" + DESTINATION_FILE_URI
+                    + " OR " + COLUMN_DESTINATION + "=" + DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD
+                    + ")";
+            final ContentValues values = new ContentValues();
+            values.putNull(COLUMN_MEDIASTORE_URI);
+            db.update(DB_TABLE, values, whereClause, null);
         }
 
         /**
@@ -898,11 +924,22 @@ public final class DownloadProvider extends ContentProvider {
         if (shouldBeVisibleToUser && filteredValues.getAsInteger(COLUMN_DESTINATION)
                 == DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD) {
             final CallingIdentity token = clearCallingIdentity();
-            try (ContentProviderClient client = getContext().getContentResolver()
-                    .acquireContentProviderClient(MediaStore.AUTHORITY)) {
-                final Uri mediaStoreUri = updateMediaProvider(client,
-                        convertToMediaProviderValues(filteredValues));
+            try {
+                final Uri mediaStoreUri = MediaStore.scanFile(getContext(),
+                        new File(filteredValues.getAsString(Downloads.Impl._DATA)));
                 if (mediaStoreUri != null) {
+                    final ContentValues mediaValues = new ContentValues();
+                    mediaValues.put(MediaStore.Downloads.DOWNLOAD_URI,
+                            filteredValues.getAsString(Downloads.Impl.COLUMN_URI));
+                    mediaValues.put(MediaStore.Downloads.REFERER_URI,
+                            filteredValues.getAsString(Downloads.Impl.COLUMN_REFERER));
+                    mediaValues.put(MediaStore.Downloads.OWNER_PACKAGE_NAME,
+                            Helpers.getPackageForUid(getContext(),
+                                    filteredValues.getAsInteger(Constants.UID)));
+                    getContext().getContentResolver().update(
+                            convertToMediaStoreDownloadsUri(mediaStoreUri),
+                            mediaValues, null, null);
+
                     filteredValues.put(Downloads.Impl.COLUMN_MEDIASTORE_URI,
                             mediaStoreUri.toString());
                     filteredValues.put(Downloads.Impl.COLUMN_MEDIAPROVIDER_URI,
@@ -1006,45 +1043,18 @@ public final class DownloadProvider extends ContentProvider {
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
+        final boolean downloadCompleted = Downloads.Impl.isStatusCompleted(info.mStatus);
         final ContentValues mediaValues = new ContentValues();
         mediaValues.put(MediaStore.Downloads.DATA,  filePath);
-        mediaValues.put(MediaStore.Downloads.SIZE, info.mTotalBytes);
+        mediaValues.put(MediaStore.Downloads.SIZE,
+                downloadCompleted ? info.mTotalBytes : info.mCurrentBytes);
         mediaValues.put(MediaStore.Downloads.DOWNLOAD_URI, info.mUri);
         mediaValues.put(MediaStore.Downloads.REFERER_URI, info.mReferer);
         mediaValues.put(MediaStore.Downloads.MIME_TYPE, info.mMimeType);
-        mediaValues.put(MediaStore.Downloads.IS_PENDING,
-                Downloads.Impl.isStatusSuccess(info.mStatus) ? 0 : 1);
+        mediaValues.put(MediaStore.Downloads.IS_PENDING, downloadCompleted ? 0 : 1);
         mediaValues.put(MediaStore.Downloads.OWNER_PACKAGE_NAME,
                 Helpers.getPackageForUid(getContext(), info.mUid));
         mediaValues.put(MediaStore.Files.FileColumns.IS_DOWNLOAD, info.mIsVisibleInDownloadsUi);
-        return mediaValues;
-    }
-
-    private ContentValues convertToMediaProviderValues(ContentValues downloadValues) {
-        final String filePath;
-        try {
-            filePath = new File(downloadValues.getAsString(Downloads.Impl._DATA))
-                    .getCanonicalPath();
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e);
-        }
-        final ContentValues mediaValues = new ContentValues();
-        mediaValues.put(MediaStore.Downloads.DATA, filePath);
-        mediaValues.put(MediaStore.Downloads.SIZE,
-                downloadValues.getAsLong(Downloads.Impl.COLUMN_TOTAL_BYTES));
-        mediaValues.put(MediaStore.Downloads.DOWNLOAD_URI,
-                downloadValues.getAsString(Downloads.Impl.COLUMN_URI));
-        mediaValues.put(MediaStore.Downloads.REFERER_URI,
-                downloadValues.getAsString(Downloads.Impl.COLUMN_REFERER));
-        mediaValues.put(MediaStore.Downloads.MIME_TYPE,
-                downloadValues.getAsString(Downloads.Impl.COLUMN_MIME_TYPE));
-        final boolean isPending = downloadValues.getAsInteger(Downloads.Impl.COLUMN_STATUS)
-                != Downloads.Impl.STATUS_SUCCESS;
-        mediaValues.put(MediaStore.Downloads.IS_PENDING, isPending ? 1 : 0);
-        mediaValues.put(MediaStore.Downloads.OWNER_PACKAGE_NAME,
-                Helpers.getPackageForUid(getContext(), downloadValues.getAsInteger(Constants.UID)));
-        mediaValues.put(MediaStore.Files.FileColumns.IS_DOWNLOAD,
-                downloadValues.getAsBoolean(COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI));
         return mediaValues;
     }
 
@@ -1555,8 +1565,16 @@ public final class DownloadProvider extends ContentProvider {
                                 || info.mDestination == Downloads.Impl
                                         .DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD)
                                 && visibleToUser) {
-                            final Uri mediaStoreUri = updateMediaProvider(client,
-                                    convertToMediaProviderValues(info));
+                            final ContentValues mediaValues = convertToMediaProviderValues(info);
+                            final Uri mediaStoreUri;
+                            if (Downloads.Impl.isStatusCompleted(info.mStatus)) {
+                                // Set size to 0 to ensure MediaScanner will scan this file.
+                                mediaValues.put(MediaStore.Downloads.SIZE, 0);
+                                updateMediaProvider(client, mediaValues);
+                                mediaStoreUri = triggerMediaScan(client, new File(info.mFileName));
+                            } else {
+                                mediaStoreUri = updateMediaProvider(client, mediaValues);
+                            }
                             if (!TextUtils.equals(info.mMediaStoreUri,
                                     mediaStoreUri == null ? null : mediaStoreUri.toString())) {
                                 updateValues.clear();

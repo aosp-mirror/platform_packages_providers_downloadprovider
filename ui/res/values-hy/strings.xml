@@ -44,7 +44,7 @@
     <string name="cancel_running_download" msgid="5232704030969221112">"Չեղարկել"</string>
     <string name="retry_download" msgid="7617100787922717912">"Կրկնել"</string>
     <string name="start_now_download" msgid="1564642872809509681">"Սկսել հիմա"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"Ապանշել բոլորը"</string>
+    <string name="deselect_all" msgid="6348198946254776764">"Չեղարկել ընտրությունը"</string>
     <string name="select_all" msgid="634074918366265804">"Ընտրել բոլորը"</string>
     <string name="selected_count" msgid="2101564570019753277">"Ընտրված են <xliff:g id="NUMBER">%1$d</xliff:g>-ը <xliff:g id="TOTAL">%2$d</xliff:g>-ից"</string>
     <string name="download_share_dialog" msgid="3355867339806448955">"Կիսվել"</string>

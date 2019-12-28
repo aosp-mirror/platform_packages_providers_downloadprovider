@@ -31,7 +31,7 @@
     <string name="dialog_failed_body" msgid="4538779125597383173">"می‌خواهید بعداً دوباره برای بارگیری فایل تلاش کنید یا آن را از صف خارج کنید؟"</string>
     <string name="dialog_title_queued_body" msgid="7481231558376227012">"فایل‌ در نوبت"</string>
     <string name="dialog_queued_body" msgid="2374398802707010234">"این فایل برای بارگیری در آینده در نوبت قرار گرفته است، بنابراین هنوز در دسترس نیست."</string>
-    <string name="dialog_file_missing_body" msgid="7896653198405160564">"نمی‌توانم فایل‌های بارگیری شده را پیدا کنم."</string>
+    <string name="dialog_file_missing_body" msgid="7896653198405160564">"نمی‌توانم فایل‌های بارگیری‌شده را پیدا کنم."</string>
     <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"نمی‌توان بارگیری را به پایان رساند. فضای کافی در حافظه خارجی وجود ندارد."</string>
     <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"نمی‌توان بارگیری را به پایان رساند. فضای کافی در حافظهٔ داخلی بارگیری وجود ندارد."</string>
     <string name="dialog_cannot_resume" msgid="3101433441301206866">"بارگیری قطع شد و نمی‌توان آن را از سرگیری کرد."</string>

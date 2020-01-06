@@ -116,8 +116,11 @@ public class DownloadStorageProvider extends FileSystemProvider {
         return projection != null ? projection : DEFAULT_DOCUMENT_PROJECTION;
     }
 
-    private void copyNotificationUri(MatrixCursor result, Cursor cursor) {
-        result.setNotificationUri(getContext().getContentResolver(), cursor.getNotificationUri());
+    private void copyNotificationUri(@NonNull MatrixCursor result, @NonNull Cursor cursor) {
+        final List<Uri> notifyUris = cursor.getNotificationUris();
+        if (notifyUris != null) {
+            result.setNotificationUris(getContext().getContentResolver(), notifyUris);
+        }
     }
 
     /**

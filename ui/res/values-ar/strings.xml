@@ -44,8 +44,8 @@
     <string name="cancel_running_download" msgid="8586888328847044473">"إلغاء"</string>
     <string name="retry_download" msgid="6957856437473044831">"إعادة المحاولة"</string>
     <string name="start_now_download" msgid="1518778561803897734">"البدء الآن"</string>
-    <string name="deselect_all" msgid="4673983454506880405">"إلغاء تحديد الكل"</string>
-    <string name="select_all" msgid="7469093306474000460">"تحديد الكل"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"إلغاء اختيار الكل"</string>
+    <string name="select_all" msgid="7469093306474000460">"اختيار الكل"</string>
     <string name="selected_count" msgid="5876842902167894010">"حدد <xliff:g id="NUMBER">%1$d</xliff:g> من إجمالي <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
     <string name="download_share_dialog" msgid="5212760257251501969">"مشاركة عبر"</string>
 </resources>

@@ -981,11 +981,14 @@ public class DownloadStorageProvider extends FileSystemProvider {
                 if (selection.length() > 0) {
                     selection.append(" AND ");
                 }
-                selection.append(DownloadColumns.MIME_TYPE + " NOT LIKE \"image/%\"");
+                selection.append(DownloadColumns.MIME_TYPE + " NOT LIKE ?");
+                selectionArgs.add("image/%");
                 selection.append(" AND ");
-                selection.append(DownloadColumns.MIME_TYPE + " NOT LIKE \"audio/%\"");
+                selection.append(DownloadColumns.MIME_TYPE + " NOT LIKE ?");
+                selectionArgs.add("audio/%");
                 selection.append(" AND ");
-                selection.append(DownloadColumns.MIME_TYPE + " NOT LIKE \"video/%\"");
+                selection.append(DownloadColumns.MIME_TYPE + " NOT LIKE ?");
+                selectionArgs.add("video/%");
             }
 
             final String displayName = queryArgs.getString(

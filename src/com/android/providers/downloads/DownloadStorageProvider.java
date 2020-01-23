@@ -285,7 +285,8 @@ public class DownloadStorageProvider extends FileSystemProvider {
                         null, null, null);
                 copyNotificationUri(result, cursor);
                 if (cursor.moveToFirst()) {
-                    includeDownloadFromMediaStore(result, cursor, null /* filePaths */);
+                    includeDownloadFromMediaStore(result, cursor, null /* filePaths */,
+                            false /* shouldExcludeMedia */);
                 }
             } else {
                 cursor = mDm.query(new Query().setFilterById(Long.parseLong(docId)));
@@ -404,11 +405,12 @@ public class DownloadStorageProvider extends FileSystemProvider {
                 final String uri = cursor.getString(
                         cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIAPROVIDER_URI));
 
-                // Skip images and videos that have been inserted into the MediaStore so we
-                // don't duplicate them in the recent list. The audio root of
+                // Skip images, videos and documents that have been inserted into the MediaStore so
+                // we don't duplicate them in the recent list. The audio root of
                 // MediaDocumentsProvider doesn't support recent, we add it into recent list.
                 if (mimeType == null || (MediaFile.isImageMimeType(mimeType)
-                        || MediaFile.isVideoMimeType(mimeType)) && !TextUtils.isEmpty(uri)) {
+                        || MediaFile.isVideoMimeType(mimeType) || MediaFile.isDocumentMimeType(
+                        mimeType)) && !TextUtils.isEmpty(uri)) {
                     continue;
                 }
                 includeDownloadFromCursor(result, cursor, filePaths,
@@ -592,7 +594,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
 
     private static boolean isMediaMimeType(String mimeType) {
         return MediaFile.isImageMimeType(mimeType) || MediaFile.isVideoMimeType(mimeType)
-                || MediaFile.isAudioMimeType(mimeType);
+                || MediaFile.isAudioMimeType(mimeType) || MediaFile.isDocumentMimeType(mimeType);
     }
 
     private void includeDefaultDocument(MatrixCursor result) {
@@ -892,8 +894,10 @@ public class DownloadStorageProvider extends FileSystemProvider {
 
         try (Cursor cursor = getContext().getContentResolver().query(uriInner,
                 null, queryArgsInner, null)) {
+            final boolean shouldExcludeMedia = queryArgs != null && queryArgs.getBoolean(
+                    DocumentsContract.QUERY_ARG_EXCLUDE_MEDIA, false /* defaultValue */);
             while (cursor.moveToNext()) {
-                includeDownloadFromMediaStore(result, cursor, filePaths);
+                includeDownloadFromMediaStore(result, cursor, filePaths, shouldExcludeMedia);
             }
             notificationUris.add(MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL));
             notificationUris.add(MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL));
@@ -903,8 +907,16 @@ public class DownloadStorageProvider extends FileSystemProvider {
     }
 
     private void includeDownloadFromMediaStore(@NonNull MatrixCursor result,
-            @NonNull Cursor mediaCursor, @Nullable Set<String> filePaths) {
+            @NonNull Cursor mediaCursor, @Nullable Set<String> filePaths,
+            boolean shouldExcludeMedia) {
         final String mimeType = getMimeType(mediaCursor);
+
+        // Image, Audio and Video are excluded from buildSearchSelection in querySearchDocuments
+        // and queryRecentDocuments. Only exclude document type here for both cases.
+        if (shouldExcludeMedia && MediaFile.isDocumentMimeType(mimeType)) {
+            return;
+        }
+
         final boolean isDir = Document.MIME_TYPE_DIR.equals(mimeType);
         final String docId = getDocIdForMediaStoreDownload(
                 mediaCursor.getLong(mediaCursor.getColumnIndex(DownloadColumns._ID)), isDir);
@@ -1026,11 +1038,43 @@ public class DownloadStorageProvider extends FileSystemProvider {
                 if (selection.length() > 0) {
                     selection.append(" AND ");
                 }
-                selection.append(DownloadColumns.MIME_TYPE + " IN (");
+
+                selection.append("(");
+                final List<String> tempSelectionArgs = new ArrayList<>();
+                final StringBuilder tempSelection = new StringBuilder();
+                List<String> wildcardMimeTypeList = new ArrayList<>();
                 for (int i = 0; i < mimeTypes.length; ++i) {
-                    selection.append("?").append((i == mimeTypes.length - 1) ? ")" : ",");
-                    selectionArgs.add(mimeTypes[i]);
+                    final String mimeType = mimeTypes[i];
+                    if (!TextUtils.isEmpty(mimeType) && mimeType.endsWith("/*")) {
+                        wildcardMimeTypeList.add(mimeType);
+                        continue;
+                    }
+
+                    if (tempSelectionArgs.size() > 0) {
+                        tempSelection.append(",");
+                    }
+                    tempSelection.append("?");
+                    tempSelectionArgs.add(mimeType);
                 }
+
+                for (int i = 0; i < wildcardMimeTypeList.size(); i++) {
+                    selection.append(DownloadColumns.MIME_TYPE + " LIKE ?")
+                            .append((i != wildcardMimeTypeList.size() - 1) ? " OR " : "");
+                    final String mimeType = wildcardMimeTypeList.get(i);
+                    selectionArgs.add(mimeType.substring(0, mimeType.length() - 1) + "%");
+                }
+
+                if (tempSelectionArgs.size() > 0) {
+                    if (wildcardMimeTypeList.size() > 0) {
+                        selection.append(" OR ");
+                    }
+                    selection.append(DownloadColumns.MIME_TYPE + " IN (")
+                            .append(tempSelection.toString())
+                            .append(")");
+                    selectionArgs.addAll(tempSelectionArgs);
+                }
+
+                selection.append(")");
             }
         }
 

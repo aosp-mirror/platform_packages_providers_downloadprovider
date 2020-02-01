@@ -16,36 +16,36 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"Загрузки"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Загрузки – по дате"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Загрузки – по размеру"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"Нет загрузок."</string>
-    <string name="missing_title" msgid="830115697868833773">"&lt;Неизвестно&gt;"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"Сортировать по размеру"</string>
-    <string name="button_sort_by_date" msgid="8800842892684101528">"Сортировать по дате"</string>
-    <string name="download_queued" msgid="104973307780629904">"В очереди"</string>
-    <string name="download_running" msgid="4656462962155580641">"В процессе"</string>
-    <string name="download_success" msgid="7006048006543495236">"Завершено"</string>
-    <string name="download_error" msgid="8081329546008568251">"Сбой"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"Невозможно загрузить файл"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"Попробовать еще раз загрузить файл позже или удалить его из очереди?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Файл в очереди"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"Файл еще не загружен."</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Не удалось найти загруженный файл."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Невозможно завершить загрузку. Недостаточно места на внешнем накопителе."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Невозможно завершить загрузку. Не хватает встроенной памяти."</string>
-    <string name="dialog_cannot_resume" msgid="8664509751358983543">"Невозможно возобновить прерванную загрузку."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Загрузка невозможна. Такой файл уже существует."</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"Невозможно загрузить файл. Внешний носитель не подключен."</string>
-    <string name="download_no_application_title" msgid="7024782176657362251">"Невозможно открыть файл"</string>
-    <string name="remove_download" msgid="6372920256257247857">"Удалить"</string>
-    <string name="delete_download" msgid="76629022653866471">"Удалить"</string>
-    <string name="keep_queued_download" msgid="5144882786014818569">"Сохранить"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"Отмена"</string>
-    <string name="retry_download" msgid="7617100787922717912">"Повторить"</string>
-    <string name="start_now_download" msgid="1564642872809509681">"Начать"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"Отменить все"</string>
-    <string name="select_all" msgid="634074918366265804">"Выбрать все"</string>
-    <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="NUMBER">%1$d</xliff:g> из <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"Способ отправки"</string>
+    <string name="app_label" msgid="4847371117203587513">"Загрузки"</string>
+    <string name="download_title_sorted_by_date" msgid="6033509257480233878">"Загрузки – по дате"</string>
+    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"Загрузки – по размеру"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"Нет загрузок."</string>
+    <string name="missing_title" msgid="3827247802608803753">"&lt;Неизвестно&gt;"</string>
+    <string name="button_sort_by_size" msgid="7952187121189086395">"Сортировать по размеру"</string>
+    <string name="button_sort_by_date" msgid="2064919145709585942">"Сортировать по дате"</string>
+    <string name="download_queued" msgid="4128038702528588781">"В очереди"</string>
+    <string name="download_running" msgid="2046492059586594352">"В процессе"</string>
+    <string name="download_success" msgid="3895973294927323747">"Завершено"</string>
+    <string name="download_error" msgid="6652902885480887230">"Сбой"</string>
+    <string name="dialog_title_not_available" msgid="7793272183758002416">"Невозможно загрузить файл"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"Попробовать еще раз загрузить файл позже или удалить его из очереди?"</string>
+    <string name="dialog_title_queued_body" msgid="7481231558376227012">"Файл в очереди"</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"Файл еще не загружен."</string>
+    <string name="dialog_file_missing_body" msgid="7896653198405160564">"Не удалось найти загруженный файл."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"Невозможно завершить загрузку. Недостаточно места на внешнем накопителе."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"Невозможно завершить загрузку. Не хватает встроенной памяти."</string>
+    <string name="dialog_cannot_resume" msgid="3101433441301206866">"Невозможно возобновить прерванную загрузку."</string>
+    <string name="dialog_file_already_exists" msgid="6849168874901909994">"Загрузка невозможна. Такой файл уже существует."</string>
+    <string name="dialog_media_not_found" msgid="7376030905821161865">"Невозможно загрузить файл. Внешний носитель не подключен."</string>
+    <string name="download_no_application_title" msgid="1209223807604231431">"Невозможно открыть файл"</string>
+    <string name="remove_download" msgid="244394809285977300">"Удалить"</string>
+    <string name="delete_download" msgid="1861638125603383676">"Удалить"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"Сохранить"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"Отмена"</string>
+    <string name="retry_download" msgid="6957856437473044831">"Повторить"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"Начать"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"Отменить все"</string>
+    <string name="select_all" msgid="7469093306474000460">"Выбрать все"</string>
+    <string name="selected_count" msgid="5876842902167894010">"<xliff:g id="NUMBER">%1$d</xliff:g> из <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"Способ отправки"</string>
 </resources>

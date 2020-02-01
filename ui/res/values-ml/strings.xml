@@ -16,36 +16,36 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"ഡൗണ്‍ലോഡുകള്‍"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"ഡൗൺലോഡുകൾ - തീയതി പ്രകാരം അടുക്കുക"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"ഡൗൺലോഡുകൾ - വലുപ്പം പ്രകാരം അടുക്കുക"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"ഡൗൺലോഡുകളൊന്നുമില്ല."</string>
-    <string name="missing_title" msgid="830115697868833773">"&lt;അജ്ഞാതം&gt;"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"വലുപ്പമനുസരിച്ച് അടുക്കുക"</string>
-    <string name="button_sort_by_date" msgid="8800842892684101528">"തീയതി അനുസരിച്ച് അടുക്കുക"</string>
-    <string name="download_queued" msgid="104973307780629904">"ക്യൂവിലാണ്"</string>
-    <string name="download_running" msgid="4656462962155580641">"പുരോഗമിക്കുന്നു"</string>
-    <string name="download_success" msgid="7006048006543495236">"പൂർത്തിയായി"</string>
-    <string name="download_error" msgid="8081329546008568251">"പരാജയപ്പെട്ടു"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"ഡൗൺലോഡുചെയ്യാനായില്ല"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"ഫയൽ ഡൗൺലോഡുചെയ്യാൻ വീണ്ടും ശ്രമിക്കുകയോ ക്യൂവിൽ നിന്നും അത് ഇല്ലാതാക്കുകയോ ചെയ്യണോ?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"ഫയൽ ക്യൂവിലാണ്"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"ഭാവിയിൽ ഡൗൺലോഡുചെയ്യാനായി ഫയൽ ക്യൂവിലായതിനാൽ ഇതുവരെയും ലഭ്യമല്ല."</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"ഡൗൺലോഡുചെയ്‌ത ഫയൽ കണ്ടെത്താനായില്ല."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"ഡൗൺലോഡ് പൂർത്തിയാക്കാനാകില്ല. ബാഹ്യ സ്‌റ്റോറേജില്‍  ആവശ്യമായ ഇടമില്ല."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"ഡൗൺലോഡ് പൂർത്തിയാക്കാനാവില്ല. ആന്തരിക ഡൗൺലോഡ് സ്‌റ്റോറേജില്‍ ആവശ്യമായ ഇടമില്ല."</string>
-    <string name="dialog_cannot_resume" msgid="8664509751358983543">"ഡൗൺലോഡ് തടസ്സപ്പെട്ടു. പുനരാരംഭിക്കാനാകില്ല."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"ഡൗൺലോഡുചെയ്യാനാകില്ല. ലക്ഷ്യസ്ഥാന ഫയൽ ഇതിനകം നിലവിലുണ്ട്."</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"ഡൗൺലോഡുചെയ്യാനാകില്ല. ബാഹ്യ മീഡിയ ലഭ്യമല്ല."</string>
-    <string name="download_no_application_title" msgid="7024782176657362251">"ഫയൽ തുറക്കാനായില്ല"</string>
-    <string name="remove_download" msgid="6372920256257247857">"നീക്കംചെയ്യുക"</string>
-    <string name="delete_download" msgid="76629022653866471">"ഇല്ലാതാക്കുക"</string>
-    <string name="keep_queued_download" msgid="5144882786014818569">"സൂക്ഷിക്കുക"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"റദ്ദാക്കുക"</string>
-    <string name="retry_download" msgid="7617100787922717912">"വീണ്ടും ശ്രമിക്കുക"</string>
-    <string name="start_now_download" msgid="1564642872809509681">"ഇപ്പോൾ ആരംഭിക്കുക"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"തിരഞ്ഞെടുത്തത് എല്ലാം മാറ്റുക"</string>
-    <string name="select_all" msgid="634074918366265804">"എല്ലാം തിരഞ്ഞെടുക്കുക"</string>
-    <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="NUMBER">%1$d</xliff:g> / <xliff:g id="TOTAL">%2$d</xliff:g> എണ്ണം തിരഞ്ഞെടുത്തു"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"ഇതുവഴി പങ്കിടുക"</string>
+    <string name="app_label" msgid="4847371117203587513">"ഡൗണ്‍ലോഡുകള്‍"</string>
+    <string name="download_title_sorted_by_date" msgid="6033509257480233878">"ഡൗൺലോഡുകൾ - തീയതി പ്രകാരം അടുക്കുക"</string>
+    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"ഡൗൺലോഡുകൾ - വലുപ്പം പ്രകാരം അടുക്കുക"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"ഡൗൺലോഡുകളൊന്നുമില്ല."</string>
+    <string name="missing_title" msgid="3827247802608803753">"&lt;അജ്ഞാതം&gt;"</string>
+    <string name="button_sort_by_size" msgid="7952187121189086395">"വലുപ്പമനുസരിച്ച് അടുക്കുക"</string>
+    <string name="button_sort_by_date" msgid="2064919145709585942">"തീയതി അനുസരിച്ച് അടുക്കുക"</string>
+    <string name="download_queued" msgid="4128038702528588781">"ക്യൂവിലാണ്"</string>
+    <string name="download_running" msgid="2046492059586594352">"പുരോഗമിക്കുന്നു"</string>
+    <string name="download_success" msgid="3895973294927323747">"പൂർത്തിയായി"</string>
+    <string name="download_error" msgid="6652902885480887230">"പരാജയപ്പെട്ടു"</string>
+    <string name="dialog_title_not_available" msgid="7793272183758002416">"ഡൗൺലോഡുചെയ്യാനായില്ല"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"ഫയൽ ഡൗൺലോഡുചെയ്യാൻ വീണ്ടും ശ്രമിക്കുകയോ ക്യൂവിൽ നിന്നും അത് ഇല്ലാതാക്കുകയോ ചെയ്യണോ?"</string>
+    <string name="dialog_title_queued_body" msgid="7481231558376227012">"ഫയൽ ക്യൂവിലാണ്"</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"ഭാവിയിൽ ഡൗൺലോഡുചെയ്യാനായി ഫയൽ ക്യൂവിലായതിനാൽ ഇതുവരെയും ലഭ്യമല്ല."</string>
+    <string name="dialog_file_missing_body" msgid="7896653198405160564">"ഡൗൺലോഡുചെയ്‌ത ഫയൽ കണ്ടെത്താനായില്ല."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"ഡൗൺലോഡ് പൂർത്തിയാക്കാനാകില്ല. ബാഹ്യ സ്‌റ്റോറേജില്‍  ആവശ്യമായ ഇടമില്ല."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"ഡൗൺലോഡ് പൂർത്തിയാക്കാനാവില്ല. ആന്തരിക ഡൗൺലോഡ് സ്‌റ്റോറേജില്‍ ആവശ്യമായ ഇടമില്ല."</string>
+    <string name="dialog_cannot_resume" msgid="3101433441301206866">"ഡൗൺലോഡ് തടസ്സപ്പെട്ടു. പുനരാരംഭിക്കാനാകില്ല."</string>
+    <string name="dialog_file_already_exists" msgid="6849168874901909994">"ഡൗൺലോഡുചെയ്യാനാകില്ല. ലക്ഷ്യസ്ഥാന ഫയൽ ഇതിനകം നിലവിലുണ്ട്."</string>
+    <string name="dialog_media_not_found" msgid="7376030905821161865">"ഡൗൺലോഡുചെയ്യാനാകില്ല. ബാഹ്യ മീഡിയ ലഭ്യമല്ല."</string>
+    <string name="download_no_application_title" msgid="1209223807604231431">"ഫയൽ തുറക്കാനായില്ല"</string>
+    <string name="remove_download" msgid="244394809285977300">"നീക്കംചെയ്യുക"</string>
+    <string name="delete_download" msgid="1861638125603383676">"ഇല്ലാതാക്കുക"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"സൂക്ഷിക്കുക"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"റദ്ദാക്കുക"</string>
+    <string name="retry_download" msgid="6957856437473044831">"വീണ്ടും ശ്രമിക്കുക"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"ഇപ്പോൾ ആരംഭിക്കുക"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"തിരഞ്ഞെടുത്തത് എല്ലാം മാറ്റുക"</string>
+    <string name="select_all" msgid="7469093306474000460">"എല്ലാം തിരഞ്ഞെടുക്കുക"</string>
+    <string name="selected_count" msgid="5876842902167894010">"<xliff:g id="NUMBER">%1$d</xliff:g> / <xliff:g id="TOTAL">%2$d</xliff:g> എണ്ണം തിരഞ്ഞെടുത്തു"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"ഇതുവഴി പങ്കിടുക"</string>
 </resources>

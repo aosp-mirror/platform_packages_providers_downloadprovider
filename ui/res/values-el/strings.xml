@@ -16,36 +16,36 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"Λήψεις"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Λήψεις - Ταξινόμηση κατά ημερομηνία"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Λήψεις - Ταξινόμηση κατά μέγεθος"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"Καμία λήψη."</string>
-    <string name="missing_title" msgid="830115697868833773">"&lt;Άγνωστο&gt;"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"Ταξινόμηση κατά μέγεθος"</string>
-    <string name="button_sort_by_date" msgid="8800842892684101528">"Ταξινόμηση κατά ημερομηνία"</string>
-    <string name="download_queued" msgid="104973307780629904">"Σε ουρά"</string>
-    <string name="download_running" msgid="4656462962155580641">"Σε εξέλιξη"</string>
-    <string name="download_success" msgid="7006048006543495236">"Ολοκληρ."</string>
-    <string name="download_error" msgid="8081329546008568251">"Ανεπιτυχής"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"Δεν ήταν δυνατή η λήψη."</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"Θέλετε να επαναλάβετε τη λήψη του αρχείου αργότερα ή να διαγραφεί από την ουρά;"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Αρχείο στην ουρά"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"Αυτό το αρχείο βρίσκεται στην ουρά για μελλοντική λήψη, επομένως δεν είναι ακόμα διαθέσιμο."</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Δεν είναι δυνατή η εύρεση του αρχείου που λήφθηκε."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Δεν είναι δυνατή η ολοκλήρωση της λήψης. Δεν υπάρχει αρκετός χώρος στον εξωτερικό χώρο αποθήκευσης."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Δεν είναι δυνατή η ολοκλήρωση της λήψης. Δεν υπάρχει αρκετός χώρος στον εσωτερικό χώρο αποθήκευσης λήψεων."</string>
-    <string name="dialog_cannot_resume" msgid="8664509751358983543">"Η λήψη διακόπηκε και δεν είναι δυνατό να συνεχιστεί."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Δεν είναι δυνατή η λήψη. Το αρχείο προορισμού υπάρχει ήδη."</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"Δεν είναι δυνατή η λήψη. Το εξωτερικό μέσο δεν είναι διαθέσιμο."</string>
-    <string name="download_no_application_title" msgid="7024782176657362251">"Δεν είναι δυνατό το άνοιγμα του αρχείου"</string>
-    <string name="remove_download" msgid="6372920256257247857">"Κατάργηση"</string>
-    <string name="delete_download" msgid="76629022653866471">"Διαγραφή"</string>
-    <string name="keep_queued_download" msgid="5144882786014818569">"Διατήρηση"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"Ακύρωση"</string>
-    <string name="retry_download" msgid="7617100787922717912">"Επανάληψη"</string>
-    <string name="start_now_download" msgid="1564642872809509681">"Έναρξη τώρα"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"Αποεπιλογή όλων"</string>
-    <string name="select_all" msgid="634074918366265804">"Επιλογή όλων"</string>
-    <string name="selected_count" msgid="2101564570019753277">"Επιλέχθηκαν <xliff:g id="NUMBER">%1$d</xliff:g> από <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"Κοινοποίηση μέσω"</string>
+    <string name="app_label" msgid="4847371117203587513">"Λήψεις"</string>
+    <string name="download_title_sorted_by_date" msgid="6033509257480233878">"Λήψεις - Ταξινόμηση κατά ημερομηνία"</string>
+    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"Λήψεις - Ταξινόμηση κατά μέγεθος"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"Καμία λήψη."</string>
+    <string name="missing_title" msgid="3827247802608803753">"&lt;Άγνωστο&gt;"</string>
+    <string name="button_sort_by_size" msgid="7952187121189086395">"Ταξινόμηση κατά μέγεθος"</string>
+    <string name="button_sort_by_date" msgid="2064919145709585942">"Ταξινόμηση κατά ημερομηνία"</string>
+    <string name="download_queued" msgid="4128038702528588781">"Σε ουρά"</string>
+    <string name="download_running" msgid="2046492059586594352">"Σε εξέλιξη"</string>
+    <string name="download_success" msgid="3895973294927323747">"Ολοκληρ."</string>
+    <string name="download_error" msgid="6652902885480887230">"Ανεπιτυχής"</string>
+    <string name="dialog_title_not_available" msgid="7793272183758002416">"Δεν ήταν δυνατή η λήψη."</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"Θέλετε να επαναλάβετε τη λήψη του αρχείου αργότερα ή να διαγραφεί από την ουρά;"</string>
+    <string name="dialog_title_queued_body" msgid="7481231558376227012">"Αρχείο στην ουρά"</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"Αυτό το αρχείο βρίσκεται στην ουρά για μελλοντική λήψη, επομένως δεν είναι ακόμα διαθέσιμο."</string>
+    <string name="dialog_file_missing_body" msgid="7896653198405160564">"Δεν είναι δυνατή η εύρεση του αρχείου που λήφθηκε."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"Δεν είναι δυνατή η ολοκλήρωση της λήψης. Δεν υπάρχει αρκετός χώρος στον εξωτερικό χώρο αποθήκευσης."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"Δεν είναι δυνατή η ολοκλήρωση της λήψης. Δεν υπάρχει αρκετός χώρος στον εσωτερικό χώρο αποθήκευσης λήψεων."</string>
+    <string name="dialog_cannot_resume" msgid="3101433441301206866">"Η λήψη διακόπηκε και δεν είναι δυνατό να συνεχιστεί."</string>
+    <string name="dialog_file_already_exists" msgid="6849168874901909994">"Δεν είναι δυνατή η λήψη. Το αρχείο προορισμού υπάρχει ήδη."</string>
+    <string name="dialog_media_not_found" msgid="7376030905821161865">"Δεν είναι δυνατή η λήψη. Το εξωτερικό μέσο δεν είναι διαθέσιμο."</string>
+    <string name="download_no_application_title" msgid="1209223807604231431">"Δεν είναι δυνατό το άνοιγμα του αρχείου"</string>
+    <string name="remove_download" msgid="244394809285977300">"Κατάργηση"</string>
+    <string name="delete_download" msgid="1861638125603383676">"Διαγραφή"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"Διατήρηση"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"Ακύρωση"</string>
+    <string name="retry_download" msgid="6957856437473044831">"Επανάληψη"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"Έναρξη τώρα"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"Αποεπιλογή όλων"</string>
+    <string name="select_all" msgid="7469093306474000460">"Επιλογή όλων"</string>
+    <string name="selected_count" msgid="5876842902167894010">"Επιλέχθηκαν <xliff:g id="NUMBER">%1$d</xliff:g> από <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"Κοινοποίηση μέσω"</string>
 </resources>

@@ -107,6 +107,11 @@
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
+        <service
+                android:name=".MediaScanTriggerJob"
+                android:exported="true"
+                android:permission="android.permission.BIND_JOB_SERVICE" />
+
         <receiver android:name=".DownloadReceiver" android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

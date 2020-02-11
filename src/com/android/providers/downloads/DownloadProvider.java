@@ -31,6 +31,9 @@ import static android.provider.Downloads.Impl.MEDIA_SCANNED;
 import static android.provider.Downloads.Impl.PERMISSION_ACCESS_ALL;
 import static android.provider.Downloads.Impl._DATA;
 
+import static com.android.providers.downloads.Helpers.convertToMediaStoreDownloadsUri;
+import static com.android.providers.downloads.Helpers.triggerMediaScan;
+
 import android.annotation.NonNull;
 import android.annotation.Nullable;
 import android.app.AppOpsManager;
@@ -83,7 +86,6 @@ import com.android.internal.util.Preconditions;
 
 import libcore.io.IoUtils;
 
-import com.google.android.collect.Maps;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.File;
@@ -96,7 +98,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -106,7 +107,7 @@ public final class DownloadProvider extends ContentProvider {
     /** Database filename */
     private static final String DB_NAME = "downloads.db";
     /** Current database version */
-    private static final int DB_VERSION = 113;
+    private static final int DB_VERSION = 114;
     /** Name of table in the database */
     private static final String DB_TABLE = "downloads";
     /** Memory optimization - close idle connections after 30s of inactivity */
@@ -156,48 +157,108 @@ public final class DownloadProvider extends ContentProvider {
             Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
     };
 
-    private static final String[] sAppReadableColumnsArray = new String[] {
-        Downloads.Impl._ID,
-        Downloads.Impl.COLUMN_APP_DATA,
-        Downloads.Impl._DATA,
-        Downloads.Impl.COLUMN_MIME_TYPE,
-        Downloads.Impl.COLUMN_VISIBILITY,
-        Downloads.Impl.COLUMN_DESTINATION,
-        Downloads.Impl.COLUMN_CONTROL,
-        Downloads.Impl.COLUMN_STATUS,
-        Downloads.Impl.COLUMN_LAST_MODIFICATION,
-        Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE,
-        Downloads.Impl.COLUMN_NOTIFICATION_CLASS,
-        Downloads.Impl.COLUMN_TOTAL_BYTES,
-        Downloads.Impl.COLUMN_CURRENT_BYTES,
-        Downloads.Impl.COLUMN_TITLE,
-        Downloads.Impl.COLUMN_DESCRIPTION,
-        Downloads.Impl.COLUMN_URI,
-        Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI,
-        Downloads.Impl.COLUMN_FILE_NAME_HINT,
-        Downloads.Impl.COLUMN_MEDIAPROVIDER_URI,
-        Downloads.Impl.COLUMN_DELETED,
-        OpenableColumns.DISPLAY_NAME,
-        OpenableColumns.SIZE,
-    };
-
-    private static final HashSet<String> sAppReadableColumnsSet;
-    private static final HashMap<String, String> sColumnsMap;
-
-    static {
-        sAppReadableColumnsSet = new HashSet<String>();
-        for (int i = 0; i < sAppReadableColumnsArray.length; ++i) {
-            sAppReadableColumnsSet.add(sAppReadableColumnsArray[i]);
+    private static void addMapping(Map<String, String> map, String column) {
+        if (!map.containsKey(column)) {
+            map.put(column, column);
         }
-
-        sColumnsMap = Maps.newHashMap();
-        sColumnsMap.put(OpenableColumns.DISPLAY_NAME,
-                Downloads.Impl.COLUMN_TITLE + " AS " + OpenableColumns.DISPLAY_NAME);
-        sColumnsMap.put(OpenableColumns.SIZE,
-                Downloads.Impl.COLUMN_TOTAL_BYTES + " AS " + OpenableColumns.SIZE);
     }
-    private static final List<String> downloadManagerColumnsList =
-            Arrays.asList(DownloadManager.UNDERLYING_COLUMNS);
+
+    private static void addMapping(Map<String, String> map, String column, String rawColumn) {
+        if (!map.containsKey(column)) {
+            map.put(column, rawColumn + " AS " + column);
+        }
+    }
+
+    private static final Map<String, String> sDownloadsMap = new ArrayMap<>();
+    static {
+        final Map<String, String> map = sDownloadsMap;
+
+        // Columns defined by public API
+        addMapping(map, DownloadManager.COLUMN_ID,
+                Downloads.Impl._ID);
+        addMapping(map, DownloadManager.COLUMN_LOCAL_FILENAME,
+                Downloads.Impl._DATA);
+        addMapping(map, DownloadManager.COLUMN_MEDIAPROVIDER_URI);
+        addMapping(map, DownloadManager.COLUMN_DESTINATION);
+        addMapping(map, DownloadManager.COLUMN_TITLE);
+        addMapping(map, DownloadManager.COLUMN_DESCRIPTION);
+        addMapping(map, DownloadManager.COLUMN_URI);
+        addMapping(map, DownloadManager.COLUMN_STATUS);
+        addMapping(map, DownloadManager.COLUMN_FILE_NAME_HINT);
+        addMapping(map, DownloadManager.COLUMN_MEDIA_TYPE,
+                Downloads.Impl.COLUMN_MIME_TYPE);
+        addMapping(map, DownloadManager.COLUMN_TOTAL_SIZE_BYTES,
+                Downloads.Impl.COLUMN_TOTAL_BYTES);
+        addMapping(map, DownloadManager.COLUMN_LAST_MODIFIED_TIMESTAMP,
+                Downloads.Impl.COLUMN_LAST_MODIFICATION);
+        addMapping(map, DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR,
+                Downloads.Impl.COLUMN_CURRENT_BYTES);
+        addMapping(map, DownloadManager.COLUMN_ALLOW_WRITE);
+        addMapping(map, DownloadManager.COLUMN_LOCAL_URI,
+                "'placeholder'");
+        addMapping(map, DownloadManager.COLUMN_REASON,
+                "'placeholder'");
+
+        // Columns defined by OpenableColumns
+        addMapping(map, OpenableColumns.DISPLAY_NAME,
+                Downloads.Impl.COLUMN_TITLE);
+        addMapping(map, OpenableColumns.SIZE,
+                Downloads.Impl.COLUMN_TOTAL_BYTES);
+
+        // Allow references to all other columns to support DownloadInfo.Reader;
+        // we're already using SQLiteQueryBuilder to block access to other rows
+        // that don't belong to the calling UID.
+        addMapping(map, Downloads.Impl._ID);
+        addMapping(map, Downloads.Impl._DATA);
+        addMapping(map, Downloads.Impl.COLUMN_ALLOWED_NETWORK_TYPES);
+        addMapping(map, Downloads.Impl.COLUMN_ALLOW_METERED);
+        addMapping(map, Downloads.Impl.COLUMN_ALLOW_ROAMING);
+        addMapping(map, Downloads.Impl.COLUMN_ALLOW_WRITE);
+        addMapping(map, Downloads.Impl.COLUMN_APP_DATA);
+        addMapping(map, Downloads.Impl.COLUMN_BYPASS_RECOMMENDED_SIZE_LIMIT);
+        addMapping(map, Downloads.Impl.COLUMN_CONTROL);
+        addMapping(map, Downloads.Impl.COLUMN_COOKIE_DATA);
+        addMapping(map, Downloads.Impl.COLUMN_CURRENT_BYTES);
+        addMapping(map, Downloads.Impl.COLUMN_DELETED);
+        addMapping(map, Downloads.Impl.COLUMN_DESCRIPTION);
+        addMapping(map, Downloads.Impl.COLUMN_DESTINATION);
+        addMapping(map, Downloads.Impl.COLUMN_ERROR_MSG);
+        addMapping(map, Downloads.Impl.COLUMN_FAILED_CONNECTIONS);
+        addMapping(map, Downloads.Impl.COLUMN_FILE_NAME_HINT);
+        addMapping(map, Downloads.Impl.COLUMN_FLAGS);
+        addMapping(map, Downloads.Impl.COLUMN_IS_PUBLIC_API);
+        addMapping(map, Downloads.Impl.COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI);
+        addMapping(map, Downloads.Impl.COLUMN_LAST_MODIFICATION);
+        addMapping(map, Downloads.Impl.COLUMN_MEDIAPROVIDER_URI);
+        addMapping(map, Downloads.Impl.COLUMN_MEDIA_SCANNED);
+        addMapping(map, Downloads.Impl.COLUMN_MEDIASTORE_URI);
+        addMapping(map, Downloads.Impl.COLUMN_MIME_TYPE);
+        addMapping(map, Downloads.Impl.COLUMN_NO_INTEGRITY);
+        addMapping(map, Downloads.Impl.COLUMN_NOTIFICATION_CLASS);
+        addMapping(map, Downloads.Impl.COLUMN_NOTIFICATION_EXTRAS);
+        addMapping(map, Downloads.Impl.COLUMN_NOTIFICATION_PACKAGE);
+        addMapping(map, Downloads.Impl.COLUMN_OTHER_UID);
+        addMapping(map, Downloads.Impl.COLUMN_REFERER);
+        addMapping(map, Downloads.Impl.COLUMN_STATUS);
+        addMapping(map, Downloads.Impl.COLUMN_TITLE);
+        addMapping(map, Downloads.Impl.COLUMN_TOTAL_BYTES);
+        addMapping(map, Downloads.Impl.COLUMN_URI);
+        addMapping(map, Downloads.Impl.COLUMN_USER_AGENT);
+        addMapping(map, Downloads.Impl.COLUMN_VISIBILITY);
+
+        addMapping(map, Constants.ETAG);
+        addMapping(map, Constants.RETRY_AFTER_X_REDIRECT_COUNT);
+        addMapping(map, Constants.UID);
+    }
+
+    private static final Map<String, String> sHeadersMap = new ArrayMap<>();
+    static {
+        final Map<String, String> map = sHeadersMap;
+        addMapping(map, "id");
+        addMapping(map, Downloads.Impl.RequestHeaders.COLUMN_DOWNLOAD_ID);
+        addMapping(map, Downloads.Impl.RequestHeaders.COLUMN_HEADER);
+        addMapping(map, Downloads.Impl.RequestHeaders.COLUMN_VALUE);
+    }
 
     @VisibleForTesting
     SystemFacade mSystemFacade;
@@ -340,6 +401,11 @@ public final class DownloadProvider extends ContentProvider {
                     canonicalizeDataPaths(db);
                     break;
 
+                case 114:
+                    nullifyMediaStoreUris(db);
+                    MediaScanTriggerJob.schedule(getContext());
+                    break;
+
                 default:
                     throw new IllegalStateException("Don't know how to upgrade to " + version);
             }
@@ -477,6 +543,24 @@ public final class DownloadProvider extends ContentProvider {
                             new String[] { Long.toString(id) });
                 }
             }
+        }
+
+        /**
+         * Set mediastore uri column to null before the clean-up job and fill it again while
+         * running the job so that if the clean-up job gets preempted, we could use it
+         * as a way to know the entries which are already handled when the job gets restarted.
+         */
+        private void nullifyMediaStoreUris(SQLiteDatabase db) {
+            final String whereClause = Downloads.Impl._DATA + " IS NOT NULL"
+                    + " AND (" + COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI + "=1"
+                    + " OR " + COLUMN_MEDIA_SCANNED + "=" + MEDIA_SCANNED + ")"
+                    + " AND (" + COLUMN_DESTINATION + "=" + Downloads.Impl.DESTINATION_EXTERNAL
+                    + " OR " + COLUMN_DESTINATION + "=" + DESTINATION_FILE_URI
+                    + " OR " + COLUMN_DESTINATION + "=" + DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD
+                    + ")";
+            final ContentValues values = new ContentValues();
+            values.putNull(COLUMN_MEDIASTORE_URI);
+            db.update(DB_TABLE, values, whereClause, null);
         }
 
         /**
@@ -840,19 +924,28 @@ public final class DownloadProvider extends ContentProvider {
         if (shouldBeVisibleToUser && filteredValues.getAsInteger(COLUMN_DESTINATION)
                 == DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD) {
             final CallingIdentity token = clearCallingIdentity();
-            try (ContentProviderClient client = getContext().getContentResolver()
-                    .acquireContentProviderClient(MediaStore.AUTHORITY)) {
-                final Uri mediaStoreUri = updateMediaProvider(client,
-                        convertToMediaProviderValues(filteredValues));
+            try {
+                final Uri mediaStoreUri = MediaStore.scanFile(getContext(),
+                        new File(filteredValues.getAsString(Downloads.Impl._DATA)));
                 if (mediaStoreUri != null) {
+                    final ContentValues mediaValues = new ContentValues();
+                    mediaValues.put(MediaStore.Downloads.DOWNLOAD_URI,
+                            filteredValues.getAsString(Downloads.Impl.COLUMN_URI));
+                    mediaValues.put(MediaStore.Downloads.REFERER_URI,
+                            filteredValues.getAsString(Downloads.Impl.COLUMN_REFERER));
+                    mediaValues.put(MediaStore.Downloads.OWNER_PACKAGE_NAME,
+                            Helpers.getPackageForUid(getContext(),
+                                    filteredValues.getAsInteger(Constants.UID)));
+                    getContext().getContentResolver().update(
+                            convertToMediaStoreDownloadsUri(mediaStoreUri),
+                            mediaValues, null, null);
+
                     filteredValues.put(Downloads.Impl.COLUMN_MEDIASTORE_URI,
                             mediaStoreUri.toString());
                     filteredValues.put(Downloads.Impl.COLUMN_MEDIAPROVIDER_URI,
                             mediaStoreUri.toString());
                     filteredValues.put(COLUMN_MEDIA_SCANNED, MEDIA_SCANNED);
                 }
-                MediaStore.scanFile(getContext(),
-                        new File(filteredValues.getAsString(Downloads.Impl._DATA)));
             } finally {
                 restoreCallingIdentity(token);
             }
@@ -948,45 +1041,18 @@ public final class DownloadProvider extends ContentProvider {
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
+        final boolean downloadCompleted = Downloads.Impl.isStatusCompleted(info.mStatus);
         final ContentValues mediaValues = new ContentValues();
         mediaValues.put(MediaStore.Downloads.DATA,  filePath);
-        mediaValues.put(MediaStore.Downloads.SIZE, info.mTotalBytes);
+        mediaValues.put(MediaStore.Downloads.SIZE,
+                downloadCompleted ? info.mTotalBytes : info.mCurrentBytes);
         mediaValues.put(MediaStore.Downloads.DOWNLOAD_URI, info.mUri);
         mediaValues.put(MediaStore.Downloads.REFERER_URI, info.mReferer);
         mediaValues.put(MediaStore.Downloads.MIME_TYPE, info.mMimeType);
-        mediaValues.put(MediaStore.Downloads.IS_PENDING,
-                Downloads.Impl.isStatusSuccess(info.mStatus) ? 0 : 1);
+        mediaValues.put(MediaStore.Downloads.IS_PENDING, downloadCompleted ? 0 : 1);
         mediaValues.put(MediaStore.Downloads.OWNER_PACKAGE_NAME,
                 Helpers.getPackageForUid(getContext(), info.mUid));
         mediaValues.put(MediaStore.Files.FileColumns.IS_DOWNLOAD, info.mIsVisibleInDownloadsUi);
-        return mediaValues;
-    }
-
-    private ContentValues convertToMediaProviderValues(ContentValues downloadValues) {
-        final String filePath;
-        try {
-            filePath = new File(downloadValues.getAsString(Downloads.Impl._DATA))
-                    .getCanonicalPath();
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e);
-        }
-        final ContentValues mediaValues = new ContentValues();
-        mediaValues.put(MediaStore.Downloads.DATA, filePath);
-        mediaValues.put(MediaStore.Downloads.SIZE,
-                downloadValues.getAsLong(Downloads.Impl.COLUMN_TOTAL_BYTES));
-        mediaValues.put(MediaStore.Downloads.DOWNLOAD_URI,
-                downloadValues.getAsString(Downloads.Impl.COLUMN_URI));
-        mediaValues.put(MediaStore.Downloads.REFERER_URI,
-                downloadValues.getAsString(Downloads.Impl.COLUMN_REFERER));
-        mediaValues.put(MediaStore.Downloads.MIME_TYPE,
-                downloadValues.getAsString(Downloads.Impl.COLUMN_MIME_TYPE));
-        final boolean isPending = downloadValues.getAsInteger(Downloads.Impl.COLUMN_STATUS)
-                != Downloads.Impl.STATUS_SUCCESS;
-        mediaValues.put(MediaStore.Downloads.IS_PENDING, isPending ? 1 : 0);
-        mediaValues.put(MediaStore.Downloads.OWNER_PACKAGE_NAME,
-                Helpers.getPackageForUid(getContext(), downloadValues.getAsInteger(Constants.UID)));
-        mediaValues.put(MediaStore.Files.FileColumns.IS_DOWNLOAD,
-                downloadValues.getAsBoolean(COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI));
         return mediaValues;
     }
 
@@ -1304,28 +1370,6 @@ public final class DownloadProvider extends ContentProvider {
             return qb.query(db, projection, null, null, null, null, null);
         }
 
-        if (shouldRestrictVisibility()) {
-            if (projection == null) {
-                projection = sAppReadableColumnsArray.clone();
-            } else {
-                // check the validity of the columns in projection 
-                for (int i = 0; i < projection.length; ++i) {
-                    if (!sAppReadableColumnsSet.contains(projection[i]) &&
-                            !downloadManagerColumnsList.contains(projection[i])) {
-                        throw new IllegalArgumentException(
-                                "column " + projection[i] + " is not allowed in queries");
-                    }
-                }
-            }
-
-            for (int i = 0; i < projection.length; i++) {
-                final String newColumn = sColumnsMap.get(projection[i]);
-                if (newColumn != null) {
-                    projection[i] = newColumn;
-                }
-            }
-        }
-
         if (Constants.LOGVV) {
             logVerboseQueryInfo(projection, selection, selectionArgs, sort, db);
         }
@@ -1418,26 +1462,11 @@ public final class DownloadProvider extends ContentProvider {
     }
 
     /**
-     * @return true if we should restrict the columns readable by this caller
-     */
-    private boolean shouldRestrictVisibility() {
-        int callingUid = Binder.getCallingUid();
-        return Binder.getCallingPid() != Process.myPid()
-                && callingUid != mSystemUid
-                && callingUid != Process.SHELL_UID
-                && callingUid != Process.ROOT_UID;
-    }
-
-    /**
      * Updates a row in the database
      */
     @Override
     public int update(final Uri uri, final ContentValues values,
             final String where, final String[] whereArgs) {
-        if (shouldRestrictVisibility()) {
-            Helpers.validateSelection(where, sAppReadableColumnsSet);
-        }
-
         final Context context = getContext();
         final ContentResolver resolver = context.getContentResolver();
 
@@ -1534,8 +1563,16 @@ public final class DownloadProvider extends ContentProvider {
                                 || info.mDestination == Downloads.Impl
                                         .DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD)
                                 && visibleToUser) {
-                            final Uri mediaStoreUri = updateMediaProvider(client,
-                                    convertToMediaProviderValues(info));
+                            final ContentValues mediaValues = convertToMediaProviderValues(info);
+                            final Uri mediaStoreUri;
+                            if (Downloads.Impl.isStatusCompleted(info.mStatus)) {
+                                // Set size to 0 to ensure MediaScanner will scan this file.
+                                mediaValues.put(MediaStore.Downloads.SIZE, 0);
+                                updateMediaProvider(client, mediaValues);
+                                mediaStoreUri = triggerMediaScan(client, new File(info.mFileName));
+                            } else {
+                                mediaStoreUri = updateMediaProvider(client, mediaValues);
+                            }
                             if (!TextUtils.equals(info.mMediaStoreUri,
                                     mediaStoreUri == null ? null : mediaStoreUri.toString())) {
                                 updateValues.clear();
@@ -1552,9 +1589,6 @@ public final class DownloadProvider extends ContentProvider {
                                 }
                                 qb.update(db, updateValues, Downloads.Impl._ID + "=?",
                                         new String[] { Long.toString(info.mId) });
-                            }
-                            if (Downloads.Impl.isStatusSuccess(info.mStatus)) {
-                                MediaStore.scanFile(getContext(), new File(info.mFileName));
                             }
                         }
                         if (updateSchedule) {
@@ -1602,6 +1636,8 @@ public final class DownloadProvider extends ContentProvider {
      */
     private SQLiteQueryBuilder getQueryBuilder(final Uri uri, int match) {
         final String table;
+        final Map<String, String> projectionMap;
+
         final StringBuilder where = new StringBuilder();
         switch (match) {
             // The "my_downloads" view normally limits the caller to operating
@@ -1612,6 +1648,7 @@ public final class DownloadProvider extends ContentProvider {
                 // fall-through
             case MY_DOWNLOADS:
                 table = DB_TABLE;
+                projectionMap = sDownloadsMap;
                 if (getContext().checkCallingOrSelfPermission(
                         PERMISSION_ACCESS_ALL) != PackageManager.PERMISSION_GRANTED) {
                     appendWhereExpression(where, Constants.UID + "=" + Binder.getCallingUid()
@@ -1627,6 +1664,7 @@ public final class DownloadProvider extends ContentProvider {
                 // fall-through
             case ALL_DOWNLOADS:
                 table = DB_TABLE;
+                projectionMap = sDownloadsMap;
                 break;
 
             // Headers are limited to callers holding the ACCESS_ALL_DOWNLOADS
@@ -1634,6 +1672,7 @@ public final class DownloadProvider extends ContentProvider {
             case MY_DOWNLOADS_ID_HEADERS:
             case ALL_DOWNLOADS_ID_HEADERS:
                 table = Downloads.Impl.RequestHeaders.HEADERS_DB_TABLE;
+                projectionMap = sHeadersMap;
                 appendWhereExpression(where, Downloads.Impl.RequestHeaders.COLUMN_DOWNLOAD_ID + "="
                         + getDownloadIdFromUri(uri));
                 break;
@@ -1643,8 +1682,11 @@ public final class DownloadProvider extends ContentProvider {
         }
 
         final SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        qb.setStrict(true);
         qb.setTables(table);
+        qb.setProjectionMap(projectionMap);
+        qb.setStrict(true);
+        qb.setStrictColumns(true);
+        qb.setStrictGrammar(true);
         qb.appendWhere(where);
         return qb;
     }
@@ -1661,10 +1703,6 @@ public final class DownloadProvider extends ContentProvider {
      */
     @Override
     public int delete(final Uri uri, final String where, final String[] whereArgs) {
-        if (shouldRestrictVisibility()) {
-            Helpers.validateSelection(where, sAppReadableColumnsSet);
-        }
-
         final Context context = getContext();
         final ContentResolver resolver = context.getContentResolver();
         final JobScheduler scheduler = context.getSystemService(JobScheduler.class);

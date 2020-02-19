@@ -17,19 +17,19 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="5264040740662487684">"إدارة التنزيل"</string>
-    <string name="storage_description" msgid="169690279447532621">"التنزيلات"</string>
+    <string name="storage_description" msgid="169690279447532621">"المحتوى الذي تم تنزيله"</string>
     <string name="permlab_downloadManager" msgid="4241473724446132797">"الدخول إلى إدارة التنزيل."</string>
-    <string name="permdesc_downloadManager" msgid="5562734314998369030">"للسماح للتطبيق بالدخول إلى إدارة التنزيل واستخدامها لتنزيل الملفات. يمكن للتطبيقات الضارة استخدام هذا لتعطيل التنزيلات والدخول إلى المعلومات الخاصة."</string>
+    <string name="permdesc_downloadManager" msgid="5562734314998369030">"للسماح للتطبيق بالدخول إلى إدارة التنزيل واستخدامها لتنزيل الملفات. يمكن للتطبيقات الضارة استخدام هذا لتعطيل عمليات التنزيل والدخول إلى المعلومات الخاصة."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"وظائف إدارة التنزيل المتقدمة."</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"للسماح للتطبيق بالدخول إلى وظائف إدارة التنزيل المتقدمة. يمكن للتطبيقات الضارة استخدام هذا لتعطيل التنزيلات والدخول إلى المعلومات الخاصة."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"للسماح للتطبيق بالدخول إلى وظائف إدارة التنزيل المتقدمة. يمكن للتطبيقات الضارة استخدام هذا لتعطيل عمليات التنزيل والدخول إلى المعلومات الخاصة."</string>
     <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"إرسال اشعارات بالتنزيل."</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"للسماح للتطبيق بإرسال اشعارات عن التنزيلات المكتملة. يمكن للتطبيقات الضارة استخدام هذا لإرباك التطبيقات الأخرى التي تنزل الملفات."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"للسماح للتطبيق بإرسال اشعارات عن عمليات التنزيل المكتملة. يمكن للتطبيقات الضارة استخدام هذا لإرباك التطبيقات الأخرى التي تنزل الملفات."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"الاحتفاظ بمساحة في ذاكرة التخزين المؤقت للتنزيل"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"للسماح للتطبيق بتنزيل الملفات إلى ذاكرة التخزين المؤقت للتنزيل والتي لا يمكن حذفها تلقائيًا عندما تكون إدارة التنزيل في حاجة إلى مساحة أكبر."</string>
     <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"تنزيل الملفات بدون تنبيه"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"للسماح للتطبيق بتنزيل ملفات من خلال إدارة التنزيل بدون عرض أي اشعارات للمستخدم."</string>
-    <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"الدخول إلى جميع تنزيلات النظام"</string>
-    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"للسماح للتطبيق بعرض وتعديل جميع التنزيلات التي بدأت من خلال أي تطبيق على النظام."</string>
+    <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"الدخول إلى جميع عمليات تنزيل النظام"</string>
+    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"للسماح للتطبيق بعرض وتعديل جميع عمليات التنزيل التي بدأت من خلال أي تطبيق على النظام."</string>
     <string name="download_unknown_title" msgid="1017800350818840396">"‏&lt;بلا عنوان&gt;"</string>
     <string name="notification_download_complete" msgid="466652037490092787">"اكتمل التنزيل."</string>
     <string name="notification_download_failed" msgid="3932167763860605874">"تعذّر التنزيل."</string>
@@ -60,7 +60,7 @@
     </plurals>
     <string name="download_remaining" msgid="2313089371178695625">"المدة المتبقية: <xliff:g id="DURATION">%s</xliff:g>"</string>
     <string name="download_no_application_title" msgid="5780812573953335721">"لا يمكن فتح الملف"</string>
-    <string name="root_downloads" msgid="8380500940211778491">"التنزيلات"</string>
+    <string name="root_downloads" msgid="8380500940211778491">"المحتوى الذي تم تنزيله"</string>
     <string name="download_queued" msgid="3383844741769045371">"في قائمة الانتظار"</string>
     <string name="download_running" msgid="774654178925442490">"قيد التقدم"</string>
     <string name="download_error" msgid="1857737890005386798">"تعذّر الاتصال بالشبكة"</string>

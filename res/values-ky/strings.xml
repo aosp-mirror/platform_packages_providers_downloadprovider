@@ -23,7 +23,7 @@
     <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"Жүктөө менежеринин озуккан функцияларына жетүү."</string>
     <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"Колдонмого жүктөө менежеринин озуккан функцияларына жетүү уруксатын берет. Зыяндуу колдонмолор муну колдонуп, жүктөөлөрдү үзгүлтүккө учуратышы жана жеке маалыматтарга жетиши мүмкүн."</string>
     <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"Жүктөө эскертмелерин жөнөтүү."</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"Колдонмо аяктаган жүктөөлөр тууралуу эскертмелерди жөнөтүүгө уруксат алат. Зыяндуу колдонмолор муну башка файл жүктөөчү колдонмолорго тоскоол кылыш үчүн колдонушу мүмкүн."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"Колдонмо аяктаган жүктөөлөр тууралуу билдирмелерди жөнөтүүгө уруксат алат. Зыяндуу колдонмолор муну башка файл жүктөөчү колдонмолорго тоскоол кылыш үчүн колдонушу мүмкүн."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"Жүктөө кэшинен орун ээлөө"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"Колдонмого, жүктөө менежерине көбүрөөк орун керек болсо, автоматтык тазалана турган файлдарды жүктөө кэшине  жүктөөгө уруксат берет."</string>
     <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"файлдарды эскертмесиз жүктөө"</string>

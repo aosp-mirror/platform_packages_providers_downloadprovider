@@ -97,18 +97,18 @@ public class Constants {
     static {
         final StringBuilder builder = new StringBuilder();
 
-        final boolean validRelease = !TextUtils.isEmpty(Build.VERSION.RELEASE);
+        final boolean validRelease = !TextUtils.isEmpty(Build.VERSION.RELEASE_OR_CODENAME);
         final boolean validId = !TextUtils.isEmpty(Build.ID);
         final boolean includeModel = "REL".equals(Build.VERSION.CODENAME)
                 && !TextUtils.isEmpty(Build.MODEL);
 
         builder.append("AndroidDownloadManager");
         if (validRelease) {
-            builder.append("/").append(Build.VERSION.RELEASE);
+            builder.append("/").append(Build.VERSION.RELEASE_OR_CODENAME);
         }
         builder.append(" (Linux; U; Android");
         if (validRelease) {
-            builder.append(" ").append(Build.VERSION.RELEASE);
+            builder.append(" ").append(Build.VERSION.RELEASE_OR_CODENAME);
         }
         if (includeModel || validId) {
             builder.append(";");

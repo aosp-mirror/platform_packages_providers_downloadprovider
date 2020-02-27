@@ -16,10 +16,10 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="4847371117203587513">"التنزيلات"</string>
+    <string name="app_label" msgid="4847371117203587513">"التنزيل"</string>
     <string name="download_title_sorted_by_date" msgid="6033509257480233878">"عمليات التنزيل - مصنفة بحسب التاريخ"</string>
     <string name="download_title_sorted_by_size" msgid="2575551670173644253">"عمليات التنزيل - مصنفة بحسب الحجم"</string>
-    <string name="no_downloads" msgid="1654764193290918538">"ليس هناك أي تنزيلات"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"لم يتم تنزيل أي محتوى."</string>
     <string name="missing_title" msgid="3827247802608803753">"‏&lt;غير معروف&gt;"</string>
     <string name="button_sort_by_size" msgid="7952187121189086395">"التصنيف بحسب الحجم"</string>
     <string name="button_sort_by_date" msgid="2064919145709585942">"التصنيف بحسب التاريخ"</string>

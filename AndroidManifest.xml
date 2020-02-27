@@ -66,6 +66,7 @@
                  android:icon="@mipmap/ic_launcher_download"
                  android:allowBackup="false"
                  android:supportsRtl="true"
+                 android:forceQueryable="true"
                  android:usesCleartextTraffic="true">
 
         <provider android:name=".DownloadProvider"

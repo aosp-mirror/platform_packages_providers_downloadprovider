@@ -770,7 +770,7 @@ public final class DownloadProvider extends ContentProvider {
 
                 final AppOpsManager appOps = getContext().getSystemService(AppOpsManager.class);
                 if (appOps.noteProxyOp(AppOpsManager.OP_WRITE_EXTERNAL_STORAGE, getCallingPackage(),
-                        Binder.getCallingUid(), getCallingFeatureId(), null)
+                        Binder.getCallingUid(), getCallingAttributionTag(), null)
                         != AppOpsManager.MODE_ALLOWED) {
                     throw new SecurityException("No permission to write");
                 }
@@ -1106,7 +1106,7 @@ public final class DownloadProvider extends ContentProvider {
 
             final AppOpsManager appOps = getContext().getSystemService(AppOpsManager.class);
             if (appOps.noteProxyOp(AppOpsManager.OP_WRITE_EXTERNAL_STORAGE, getCallingPackage(),
-                    Binder.getCallingUid(), getCallingFeatureId(), null)
+                    Binder.getCallingUid(), getCallingAttributionTag(), null)
                     != AppOpsManager.MODE_ALLOWED) {
                 throw new SecurityException("No permission to write to " + file);
             }
@@ -1154,7 +1154,7 @@ public final class DownloadProvider extends ContentProvider {
 
             final AppOpsManager appOps = getContext().getSystemService(AppOpsManager.class);
             if (appOps.noteProxyOp(AppOpsManager.OP_WRITE_EXTERNAL_STORAGE, getCallingPackage(),
-                    Binder.getCallingUid(), getCallingFeatureId(), null)
+                    Binder.getCallingUid(), getCallingAttributionTag(), null)
                     != AppOpsManager.MODE_ALLOWED) {
                 throw new SecurityException("No permission to write to " + file);
             }

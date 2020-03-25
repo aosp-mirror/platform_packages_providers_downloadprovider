@@ -688,6 +688,13 @@ public class DownloadThread extends Thread {
         } else if (Downloads.Impl.isStatusSuccess(mInfoDelta.mStatus)) {
             // When success, open access if local file
             if (mInfoDelta.mFileName != null) {
+                if (Helpers.isFileInExternalAndroidDirs(mInfoDelta.mFileName)) {
+                    // Files that are downloaded in Android/ may need fixing up
+                    // of permissions on devices without sdcardfs; do so here,
+                    // before we give the file back to the client
+                    File file = new File(mInfoDelta.mFileName);
+                    mStorage.fixupAppDir(file.getParentFile());
+                }
                 if (mInfo.mDestination != Downloads.Impl.DESTINATION_FILE_URI) {
                     try {
                         // Move into final resting place, if needed

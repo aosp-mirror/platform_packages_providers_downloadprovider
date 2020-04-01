@@ -16,36 +16,36 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"التنزيلات"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"عمليات التنزيل - مصنفة بحسب التاريخ"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"عمليات التنزيل - مصنفة بحسب الحجم"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"ليس هناك أي تنزيلات"</string>
-    <string name="missing_title" msgid="830115697868833773">"‏&lt;غير معروف&gt;"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"التصنيف بحسب الحجم"</string>
-    <string name="button_sort_by_date" msgid="8800842892684101528">"التصنيف بحسب التاريخ"</string>
-    <string name="download_queued" msgid="104973307780629904">"في الانتظار"</string>
-    <string name="download_running" msgid="4656462962155580641">"قيد التقدم"</string>
-    <string name="download_success" msgid="7006048006543495236">"مكتمل"</string>
-    <string name="download_error" msgid="8081329546008568251">"لم يتم بنجاح"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"تعذر التنزيل"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"هل تريد إعادة محاولة تنزيل الملف لاحقًا أو حذفه من قائمة الانتظار؟"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"الملف قيد الانتظار"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"هذا الملف قيد انتظار التنزيل لاحقًا، ومن ثم فهو لم يتوفر بعد."</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"تعذر العثور على الملف الذي تم تنزيله"</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"يتعذر إنهاء التنزيل. ليست هناك مساحة كافية على وحدة التخزين الخارجية."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"تعذر إنهاء التنزيل. ليست هناك مساحة كافية على وحدة تخزين التنزيل الداخلية."</string>
-    <string name="dialog_cannot_resume" msgid="8664509751358983543">"تمت مقاطعة التنزيل ويتعذر الاستئناف."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"يتعذر التنزيل. ملف الوجهة موجود من قبل."</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"تعذر التنزيل. الوسيط الخارجي ليس متاحًا."</string>
-    <string name="download_no_application_title" msgid="7024782176657362251">"يتعذر فتح الملف"</string>
-    <string name="remove_download" msgid="6372920256257247857">"إزالة"</string>
-    <string name="delete_download" msgid="76629022653866471">"حذف"</string>
-    <string name="keep_queued_download" msgid="5144882786014818569">"مواصلة"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"إلغاء"</string>
-    <string name="retry_download" msgid="7617100787922717912">"إعادة المحاولة"</string>
-    <string name="start_now_download" msgid="1564642872809509681">"البدء الآن"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"إلغاء تحديد الكل"</string>
-    <string name="select_all" msgid="634074918366265804">"تحديد الكل"</string>
-    <string name="selected_count" msgid="2101564570019753277">"حدد <xliff:g id="NUMBER">%1$d</xliff:g> من إجمالي <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"مشاركة عبر"</string>
+    <string name="app_label" msgid="4847371117203587513">"التنزيلات"</string>
+    <string name="download_title_sorted_by_date" msgid="6033509257480233878">"عمليات التنزيل - مصنفة بحسب التاريخ"</string>
+    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"عمليات التنزيل - مصنفة بحسب الحجم"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"ليس هناك أي تنزيلات"</string>
+    <string name="missing_title" msgid="3827247802608803753">"‏&lt;غير معروف&gt;"</string>
+    <string name="button_sort_by_size" msgid="7952187121189086395">"التصنيف بحسب الحجم"</string>
+    <string name="button_sort_by_date" msgid="2064919145709585942">"التصنيف بحسب التاريخ"</string>
+    <string name="download_queued" msgid="4128038702528588781">"في الانتظار"</string>
+    <string name="download_running" msgid="2046492059586594352">"قيد التقدم"</string>
+    <string name="download_success" msgid="3895973294927323747">"مكتمل"</string>
+    <string name="download_error" msgid="6652902885480887230">"لم يتم بنجاح"</string>
+    <string name="dialog_title_not_available" msgid="7793272183758002416">"تعذر التنزيل"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"هل تريد إعادة محاولة تنزيل الملف لاحقًا أو حذفه من قائمة الانتظار؟"</string>
+    <string name="dialog_title_queued_body" msgid="7481231558376227012">"الملف قيد الانتظار"</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"هذا الملف قيد انتظار التنزيل لاحقًا، ومن ثم فهو لم يتوفر بعد."</string>
+    <string name="dialog_file_missing_body" msgid="7896653198405160564">"تعذر العثور على الملف الذي تم تنزيله"</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"يتعذر إنهاء التنزيل. ليست هناك مساحة كافية على وحدة التخزين الخارجية."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"تعذر إنهاء التنزيل. ليست هناك مساحة كافية على وحدة تخزين التنزيل الداخلية."</string>
+    <string name="dialog_cannot_resume" msgid="3101433441301206866">"تمت مقاطعة التنزيل ويتعذر الاستئناف."</string>
+    <string name="dialog_file_already_exists" msgid="6849168874901909994">"يتعذر التنزيل. ملف الوجهة موجود من قبل."</string>
+    <string name="dialog_media_not_found" msgid="7376030905821161865">"تعذر التنزيل. الوسيط الخارجي ليس متاحًا."</string>
+    <string name="download_no_application_title" msgid="1209223807604231431">"يتعذر فتح الملف"</string>
+    <string name="remove_download" msgid="244394809285977300">"إزالة"</string>
+    <string name="delete_download" msgid="1861638125603383676">"حذف"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"مواصلة"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"إلغاء"</string>
+    <string name="retry_download" msgid="6957856437473044831">"إعادة المحاولة"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"البدء الآن"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"إلغاء تحديد الكل"</string>
+    <string name="select_all" msgid="7469093306474000460">"تحديد الكل"</string>
+    <string name="selected_count" msgid="5876842902167894010">"حدد <xliff:g id="NUMBER">%1$d</xliff:g> من إجمالي <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"مشاركة عبر"</string>
 </resources>

@@ -16,45 +16,45 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3658948994665187911">"ഡൗൺലോഡ് മാനേജർ"</string>
-    <string name="storage_description" msgid="7982444311558023664">"ഡൗണ്‍ലോഡുകൾ"</string>
-    <string name="permlab_downloadManager" msgid="7779544811202855500">"ഡൗൺലോഡ് മാനേജർ ആക്‌സസ്സ് ചെയ്യുക."</string>
-    <string name="permdesc_downloadManager" msgid="4237406545998908947">"ഡൗൺലോഡ് മാനേജർ ആക്‌സസ്സ് ചെയ്യാനും ഫയലുകൾ ഡൗൺലോഡ് ചെയ്യുന്നതിന് അത് ഉപയോഗിക്കാനും അപ്ലിക്കേഷനെ അനുവദിക്കുന്നു. ഡൗൺലോഡുകൾ തടസ്സപ്പെടുത്താനും സ്വകാര്യ വിവരം ആക്‌സസ്സ് ചെയ്യാനും ദോഷകരമായ അപ്ലിക്കേഷനുകൾ ഇതുപയോഗിച്ചേക്കാം."</string>
-    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"വിപുലമായ ഡൗൺലോഡ് മാനേജർ പ്രവർത്തനങ്ങൾ."</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"ഡൗൺലോഡ് മാനേജറുടെ വിപുലമായ പ്രവർത്തനങ്ങൾ ആക്‌സസ്സ് ചെയ്യാൻ അപ്ലിക്കേഷനെ അനുവദിക്കുന്നു. ഡൗൺലോഡുകൾ തടസ്സപ്പെടുത്താനും സ്വകാര്യ വിവരം ആക്‌സസ്സ് ചെയ്യാനും ദോഷകരമായ അപ്ലിക്കേഷനുകൾ ഇതുപയോഗിച്ചേക്കാം."</string>
-    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"ഡൗൺലോഡ് അറിയിപ്പുകൾ അയയ്‌ക്കുക"</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"പൂർത്തിയാക്കിയ ഡൗൺലോഡുകളെക്കുറിച്ച് അറിയിപ്പുകൾ അയയ്‌ക്കാൻ അപ്ലിക്കേഷനെ അനുവദിക്കുന്നു. ഫയലുകൾ ഡൗൺലോഡുചെയ്യുന്ന മറ്റ് അപ്ലിക്കേഷനുകളെ ആശയക്കുഴപ്പത്തിലാക്കാൻ ക്ഷുദ്രകരമായ അപ്ലിക്കേഷനുകൾ ഇതുപയോഗിച്ചേക്കാം."</string>
-    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"ഡൗൺലോഡ് കാഷെയിൽ ഇടം സംഭരിക്കുക"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"ഡൗൺലോഡ് കാഷെയിലേക്ക് ഫയലുകൾ ഡൗണ്‍ലോഡ് ചെയ്യാൻ അപ്ലിക്കേഷനെ അനുവദിക്കുന്നു, ഡൗൺലോഡ് മാനേജർക്ക് കൂടുതൽ ഇടം ആവശ്യമായി വരുമ്പോൾ ഇത് സ്വമേധയാ ഇല്ലാതാകില്ല."</string>
-    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"അറിയിപ്പില്ലാതെ ഫയലുകൾ ഡൗൺലോഡുചെയ്യുക"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"ഉപയോക്താവിന് അറിയിപ്പൊന്നും ദൃശ്യമാക്കാതെ തന്നെ ഡൗൺലോഡ് മാനേജർ മുഖേന ഫയലുകൾ ഡൗണ്‍ലോഡ് ചെയ്യാൻ അപ്ലിക്കേഷനെ അനുവദിക്കുന്നു."</string>
-    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"എല്ലാ സിസ്റ്റം ഡൗൺലോഡുകളും ആക്‌സസ്സുചെയ്യുക"</string>
-    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"സിസ്റ്റത്തിലെ ഏതെങ്കിലും അപ്ലിക്കേഷൻ സമാരംഭിച്ച എല്ലാ ഡൗൺലോഡുകളും കാണുന്നതിനും പരിഷ്‌ക്കരിക്കുന്നതിനും അപ്ലിക്കേഷനെ അനുവദിക്കുന്നു."</string>
-    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;ശീർഷകമില്ലാത്തത്&gt;"</string>
-    <string name="notification_download_complete" msgid="5443563299253103667">"ഡൗൺലോഡ് പൂർത്തിയായി."</string>
-    <string name="notification_download_failed" msgid="8612136111952014978">"ഡൗൺലോഡുചെയ്‌തു."</string>
-    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"ഡൗൺലോഡിന് WiFi ആവശ്യം."</string>
-    <string name="notification_paused_in_background" msgid="4328508073283591772">"പശ്ചാത്തലത്തിൽ താൽക്കാലികമായി നിർത്തി."</string>
-    <string name="wifi_required_title" msgid="1995971416871498179">"ഓപ്പറേറ്റർ നെറ്റ്‌വർക്കിനാവുന്നതിലും വലിയ ഡൗൺലോഡ്"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"ഈ ഡൗൺലോഡ് <xliff:g id="SIZE">%1$s </xliff:g> പൂർത്തിയാക്കാൻ നിങ്ങൾ Wi-Fi ഉപയോഗിക്കണം.\n\n നിങ്ങൾ അടുത്ത തവണ Wi-Fi നെറ്റ്‌വർക്കിൽ കണക്റ്റുചെയ്യുമ്പോൾ ഈ ഡൗൺലോഡ് ആരംഭിക്കാൻ <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> സ്‌പർശിക്കുക."</string>
-    <string name="wifi_recommended_title" msgid="7441589306734687400">"പിന്നീട് ഡൗൺലോഡുചെയ്യുന്നതിനായി ക്യൂവിലാക്കണോ?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"ഈ <xliff:g id="SIZE">%1$s </xliff:g> ഡൗൺലോഡ് ആരംഭിക്കുന്നത്, നിങ്ങളുടെ ബാറ്ററിയുടെ ആയുസ്സ് കുറയ്‌ക്കാനോ കൂടാതെ/അല്ലെങ്കിൽ നിങ്ങളുടെ മൊബൈൽ ഡാറ്റ കണക്ഷന്റെ അമിതോപയോഗത്തിനോ ഇടയാക്കാം, അത് നിങ്ങളുടെ ഡാറ്റ പ്ലാനിനെ ആശ്രയിച്ച് മൊബൈൽ ഓപ്പറേറ്റർ നിശ്ചയിക്കുന്ന നിരക്കുകളിലേക്ക് നയിക്കാനിടയുണ്ട്.\n\n നിങ്ങൾ അടുത്ത തവണ Wi-Fi നെറ്റ്‌വർക്കിൽ കണക്റ്റുചെയ്യുമ്പോൾ ഈ ഡൗൺലോഡ് ആരംഭിക്കാൻ <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> സ്‌പർശിക്കുക."</string>
-    <string name="button_queue_for_wifi" msgid="422576726189179221">"ക്യൂ"</string>
-    <string name="button_cancel_download" msgid="2430166148737975604">"റദ്ദാക്കുക"</string>
-    <string name="button_start_now" msgid="792123674007840864">"ഇപ്പോൾ ആരംഭിക്കുക"</string>
-    <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
+    <string name="app_label" msgid="5264040740662487684">"ഡൗൺലോഡ് മാനേജർ"</string>
+    <string name="storage_description" msgid="169690279447532621">"ഡൗണ്‍ലോഡുകൾ"</string>
+    <string name="permlab_downloadManager" msgid="4241473724446132797">"ഡൗൺലോഡ് മാനേജർ ആക്‌സസ്സ് ചെയ്യുക."</string>
+    <string name="permdesc_downloadManager" msgid="5562734314998369030">"ഡൗൺലോഡ് മാനേജർ ആക്‌സസ്സ് ചെയ്യാനും ഫയലുകൾ ഡൗൺലോഡ് ചെയ്യുന്നതിന് അത് ഉപയോഗിക്കാനും അപ്ലിക്കേഷനെ അനുവദിക്കുന്നു. ഡൗൺലോഡുകൾ തടസ്സപ്പെടുത്താനും സ്വകാര്യ വിവരം ആക്‌സസ്സ് ചെയ്യാനും ദോഷകരമായ അപ്ലിക്കേഷനുകൾ ഇതുപയോഗിച്ചേക്കാം."</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"വിപുലമായ ഡൗൺലോഡ് മാനേജർ പ്രവർത്തനങ്ങൾ."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"ഡൗൺലോഡ് മാനേജറുടെ വിപുലമായ പ്രവർത്തനങ്ങൾ ആക്‌സസ്സ് ചെയ്യാൻ അപ്ലിക്കേഷനെ അനുവദിക്കുന്നു. ഡൗൺലോഡുകൾ തടസ്സപ്പെടുത്താനും സ്വകാര്യ വിവരം ആക്‌സസ്സ് ചെയ്യാനും ദോഷകരമായ അപ്ലിക്കേഷനുകൾ ഇതുപയോഗിച്ചേക്കാം."</string>
+    <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"ഡൗൺലോഡ് അറിയിപ്പുകൾ അയയ്‌ക്കുക"</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"പൂർത്തിയാക്കിയ ഡൗൺലോഡുകളെക്കുറിച്ച് അറിയിപ്പുകൾ അയയ്‌ക്കാൻ അപ്ലിക്കേഷനെ അനുവദിക്കുന്നു. ഫയലുകൾ ഡൗൺലോഡുചെയ്യുന്ന മറ്റ് അപ്ലിക്കേഷനുകളെ ആശയക്കുഴപ്പത്തിലാക്കാൻ ക്ഷുദ്രകരമായ അപ്ലിക്കേഷനുകൾ ഇതുപയോഗിച്ചേക്കാം."</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"ഡൗൺലോഡ് കാഷെയിൽ ഇടം സംഭരിക്കുക"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"ഡൗൺലോഡ് കാഷെയിലേക്ക് ഫയലുകൾ ഡൗണ്‍ലോഡ് ചെയ്യാൻ അപ്ലിക്കേഷനെ അനുവദിക്കുന്നു, ഡൗൺലോഡ് മാനേജർക്ക് കൂടുതൽ ഇടം ആവശ്യമായി വരുമ്പോൾ ഇത് സ്വമേധയാ ഇല്ലാതാകില്ല."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"അറിയിപ്പില്ലാതെ ഫയലുകൾ ഡൗൺലോഡുചെയ്യുക"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"ഉപയോക്താവിന് അറിയിപ്പൊന്നും ദൃശ്യമാക്കാതെ തന്നെ ഡൗൺലോഡ് മാനേജർ മുഖേന ഫയലുകൾ ഡൗണ്‍ലോഡ് ചെയ്യാൻ അപ്ലിക്കേഷനെ അനുവദിക്കുന്നു."</string>
+    <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"എല്ലാ സിസ്റ്റം ഡൗൺലോഡുകളും ആക്‌സസ്സുചെയ്യുക"</string>
+    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"സിസ്റ്റത്തിലെ ഏതെങ്കിലും അപ്ലിക്കേഷൻ സമാരംഭിച്ച എല്ലാ ഡൗൺലോഡുകളും കാണുന്നതിനും പരിഷ്‌ക്കരിക്കുന്നതിനും അപ്ലിക്കേഷനെ അനുവദിക്കുന്നു."</string>
+    <string name="download_unknown_title" msgid="1017800350818840396">"&lt;ശീർഷകമില്ലാത്തത്&gt;"</string>
+    <string name="notification_download_complete" msgid="466652037490092787">"ഡൗൺലോഡ് പൂർത്തിയായി."</string>
+    <string name="notification_download_failed" msgid="3932167763860605874">"ഡൗൺലോഡുചെയ്‌തു."</string>
+    <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"ഡൗൺലോഡിന് WiFi ആവശ്യം."</string>
+    <string name="notification_paused_in_background" msgid="6393408819031041778">"പശ്ചാത്തലത്തിൽ താൽക്കാലികമായി നിർത്തി."</string>
+    <string name="wifi_required_title" msgid="7266700488421122218">"ഓപ്പറേറ്റർ നെറ്റ്‌വർക്കിനാവുന്നതിലും വലിയ ഡൗൺലോഡ്"</string>
+    <string name="wifi_required_body" msgid="4005023496578941958">"ഈ ഡൗൺലോഡ് <xliff:g id="SIZE">%1$s </xliff:g> പൂർത്തിയാക്കാൻ നിങ്ങൾ Wi-Fi ഉപയോഗിക്കണം.\n\n നിങ്ങൾ അടുത്ത തവണ Wi-Fi നെറ്റ്‌വർക്കിൽ കണക്റ്റുചെയ്യുമ്പോൾ ഈ ഡൗൺലോഡ് ആരംഭിക്കാൻ <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> സ്‌പർശിക്കുക."</string>
+    <string name="wifi_recommended_title" msgid="6488158053932133804">"പിന്നീട് ഡൗൺലോഡുചെയ്യുന്നതിനായി ക്യൂവിലാക്കണോ?"</string>
+    <string name="wifi_recommended_body" msgid="8710820743211704403">"ഈ <xliff:g id="SIZE">%1$s </xliff:g> ഡൗൺലോഡ് ആരംഭിക്കുന്നത്, നിങ്ങളുടെ ബാറ്ററിയുടെ ആയുസ്സ് കുറയ്‌ക്കാനോ കൂടാതെ/അല്ലെങ്കിൽ നിങ്ങളുടെ മൊബൈൽ ഡാറ്റ കണക്ഷന്റെ അമിതോപയോഗത്തിനോ ഇടയാക്കാം, അത് നിങ്ങളുടെ ഡാറ്റ പ്ലാനിനെ ആശ്രയിച്ച് മൊബൈൽ ഓപ്പറേറ്റർ നിശ്ചയിക്കുന്ന നിരക്കുകളിലേക്ക് നയിക്കാനിടയുണ്ട്.\n\n നിങ്ങൾ അടുത്ത തവണ Wi-Fi നെറ്റ്‌വർക്കിൽ കണക്റ്റുചെയ്യുമ്പോൾ ഈ ഡൗൺലോഡ് ആരംഭിക്കാൻ <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> സ്‌പർശിക്കുക."</string>
+    <string name="button_queue_for_wifi" msgid="6650185573566994738">"ക്യൂ"</string>
+    <string name="button_cancel_download" msgid="4135046775536601831">"റദ്ദാക്കുക"</string>
+    <string name="button_start_now" msgid="3817100969365441730">"ഇപ്പോൾ ആരംഭിക്കുക"</string>
+    <plurals name="notif_summary_active" formatted="false" msgid="8652501374845637331">
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> ഫയലുകൾ ഡൗൺലോഡ് ചെയ്യുന്നു</item>
       <item quantity="one">ഒരു ഫയൽ ഡൗൺലോഡ് ചെയ്യുന്നു</item>
     </plurals>
-    <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
+    <plurals name="notif_summary_waiting" formatted="false" msgid="1782251721955177526">
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> ഫയലുകൾ കാത്തിരിക്കുന്നു</item>
       <item quantity="one">ഒരു ഫയൽ കാത്തിരിക്കുന്നു</item>
     </plurals>
-    <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> ശേഷിക്കുന്നു"</string>
-    <string name="download_no_application_title" msgid="7935659741162801699">"ഫയൽ തുറക്കാനായില്ല"</string>
-    <string name="root_downloads" msgid="4098414876292351487">"ഡൗണ്‍ലോഡുകൾ"</string>
-    <string name="download_queued" msgid="3302638231377947451">"ക്യൂവിലാണ്"</string>
-    <string name="download_running" msgid="3925050393361158266">"പുരോഗമിക്കുന്നു"</string>
-    <string name="download_error" msgid="5144180777324573236">"പരാജയപ്പെട്ടു"</string>
-    <string name="download_running_percent" msgid="4305080769167320204">"പുരോഗതിയിലാണ്, <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
+    <string name="download_remaining" msgid="2313089371178695625">"<xliff:g id="DURATION">%s</xliff:g> ശേഷിക്കുന്നു"</string>
+    <string name="download_no_application_title" msgid="5780812573953335721">"ഫയൽ തുറക്കാനായില്ല"</string>
+    <string name="root_downloads" msgid="8380500940211778491">"ഡൗണ്‍ലോഡുകൾ"</string>
+    <string name="download_queued" msgid="3383844741769045371">"ക്യൂവിലാണ്"</string>
+    <string name="download_running" msgid="774654178925442490">"പുരോഗമിക്കുന്നു"</string>
+    <string name="download_error" msgid="1857737890005386798">"പരാജയപ്പെട്ടു"</string>
+    <string name="download_running_percent" msgid="3492753569359254730">"പുരോഗതിയിലാണ്, <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
 </resources>

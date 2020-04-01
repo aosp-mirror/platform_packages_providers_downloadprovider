@@ -16,36 +16,36 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"Татан авалтууд"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Татан авалтууд - Хугацаагаар эрэмбэлсэн"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Татан авалтууд - Хэмжээгээр эрэмбэлэгдсэн"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"Татан авалт байхгүй."</string>
-    <string name="missing_title" msgid="830115697868833773">"&lt;Тодорхойгүй&gt;"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"Хэмжээгээр эрэмбэлэх"</string>
-    <string name="button_sort_by_date" msgid="8800842892684101528">"Огноогоор эрэмбэлэх"</string>
-    <string name="download_queued" msgid="104973307780629904">"Хүлээлгэнд"</string>
-    <string name="download_running" msgid="4656462962155580641">"Үргэлжилж байгаа"</string>
-    <string name="download_success" msgid="7006048006543495236">"Дуусгах"</string>
-    <string name="download_error" msgid="8081329546008568251">"Амжилтгүй"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"Татан авч чадсангүй"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"Та файлыг дараа татан авахаар үлдээх үү эсхүл хүлээлгээс хасах уу?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Файл хүлээлгэнд"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"Файлыг ирээдүйд татаж авахаар хүлээлгэнд оруулсан бөгөөд одоо алга байна."</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Татаж авсан файлыг олох боломжгүй байна."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Татан авалтыг дуусгаж чадангүй. Гадаад татан авалтын санд хангалттай зай байхгүй байна."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Татан авалтыг дуусгаж чадангүй. Дотоод татан авалтын санд хангалттай зай байхгүй байна."</string>
-    <string name="dialog_cannot_resume" msgid="8664509751358983543">"Татан авалт таслагдсан бөгөөд дахин үргэлжлүүлэх боломжгүй."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Татаж авах боломжгүй. Хуулах файл байна."</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"Татаж авах боломжгүй. Гадаад медиа холбох боломжгүй."</string>
-    <string name="download_no_application_title" msgid="7024782176657362251">"Файлыг нээх боломжгүй"</string>
-    <string name="remove_download" msgid="6372920256257247857">"Устгах"</string>
-    <string name="delete_download" msgid="76629022653866471">"Устгах"</string>
-    <string name="keep_queued_download" msgid="5144882786014818569">"Байлгах"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"Цуцлах"</string>
-    <string name="retry_download" msgid="7617100787922717912">"Дахин оролдох"</string>
-    <string name="start_now_download" msgid="1564642872809509681">"Одоо эхлүүлэх"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"Бүгдийг сонгохгүй"</string>
-    <string name="select_all" msgid="634074918366265804">"Бүгдийг сонгох"</string>
-    <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="TOTAL">%2$d</xliff:g>-с <xliff:g id="NUMBER">%1$d</xliff:g> нь сонгогдсон"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"Дараахаар дамжуулан хуваалцах"</string>
+    <string name="app_label" msgid="4847371117203587513">"Татан авалтууд"</string>
+    <string name="download_title_sorted_by_date" msgid="6033509257480233878">"Татан авалтууд - Хугацаагаар эрэмбэлсэн"</string>
+    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"Татан авалтууд - Хэмжээгээр эрэмбэлэгдсэн"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"Татан авалт байхгүй."</string>
+    <string name="missing_title" msgid="3827247802608803753">"&lt;Тодорхойгүй&gt;"</string>
+    <string name="button_sort_by_size" msgid="7952187121189086395">"Хэмжээгээр эрэмбэлэх"</string>
+    <string name="button_sort_by_date" msgid="2064919145709585942">"Огноогоор эрэмбэлэх"</string>
+    <string name="download_queued" msgid="4128038702528588781">"Хүлээлгэнд"</string>
+    <string name="download_running" msgid="2046492059586594352">"Үргэлжилж байгаа"</string>
+    <string name="download_success" msgid="3895973294927323747">"Дуусгах"</string>
+    <string name="download_error" msgid="6652902885480887230">"Амжилтгүй"</string>
+    <string name="dialog_title_not_available" msgid="7793272183758002416">"Татан авч чадсангүй"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"Та файлыг дараа татан авахаар үлдээх үү эсхүл хүлээлгээс хасах уу?"</string>
+    <string name="dialog_title_queued_body" msgid="7481231558376227012">"Файл хүлээлгэнд"</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"Файлыг ирээдүйд татаж авахаар хүлээлгэнд оруулсан бөгөөд одоо алга байна."</string>
+    <string name="dialog_file_missing_body" msgid="7896653198405160564">"Татаж авсан файлыг олох боломжгүй байна."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"Татан авалтыг дуусгаж чадангүй. Гадаад татан авалтын санд хангалттай зай байхгүй байна."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"Татан авалтыг дуусгаж чадангүй. Дотоод татан авалтын санд хангалттай зай байхгүй байна."</string>
+    <string name="dialog_cannot_resume" msgid="3101433441301206866">"Татан авалт таслагдсан бөгөөд дахин үргэлжлүүлэх боломжгүй."</string>
+    <string name="dialog_file_already_exists" msgid="6849168874901909994">"Татаж авах боломжгүй. Хуулах файл байна."</string>
+    <string name="dialog_media_not_found" msgid="7376030905821161865">"Татаж авах боломжгүй. Гадаад медиа холбох боломжгүй."</string>
+    <string name="download_no_application_title" msgid="1209223807604231431">"Файлыг нээх боломжгүй"</string>
+    <string name="remove_download" msgid="244394809285977300">"Устгах"</string>
+    <string name="delete_download" msgid="1861638125603383676">"Устгах"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"Байлгах"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"Цуцлах"</string>
+    <string name="retry_download" msgid="6957856437473044831">"Дахин оролдох"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"Одоо эхлүүлэх"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"Бүгдийг сонгохгүй"</string>
+    <string name="select_all" msgid="7469093306474000460">"Бүгдийг сонгох"</string>
+    <string name="selected_count" msgid="5876842902167894010">"<xliff:g id="TOTAL">%2$d</xliff:g>-с <xliff:g id="NUMBER">%1$d</xliff:g> нь сонгогдсон"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"Дараахаар дамжуулан хуваалцах"</string>
 </resources>

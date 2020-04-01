@@ -16,36 +16,36 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"הורדות"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"הורדות – ממוינות לפי תאריך"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"הורדות – ממוינות לפי גודל"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"אין הורדות."</string>
-    <string name="missing_title" msgid="830115697868833773">"‏&lt;לא ידוע&gt;"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"מיון לפי גודל"</string>
-    <string name="button_sort_by_date" msgid="8800842892684101528">"מיון לפי תאריך"</string>
-    <string name="download_queued" msgid="104973307780629904">"בהמתנה בתור"</string>
-    <string name="download_running" msgid="4656462962155580641">"ההורדה מתבצעת"</string>
-    <string name="download_success" msgid="7006048006543495236">"ההורדה הסתיימה"</string>
-    <string name="download_error" msgid="8081329546008568251">"ההורדה נכשלה"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"לא ניתן היה לבצע את ההורדה"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"האם לנסות להוריד את הקובץ מאוחר יותר, או למחוק אותו מהתור?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"הקובץ בהמתנה בתור"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"קובץ זה נמצא בתור להורדה עתידית ולכן אינו זמין עדיין."</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"הקובץ שהורדת לא נמצא."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"לא ניתן לסיים את ההורדה. אין מספיק שטח פנוי באחסון החיצוני."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"לא ניתן לסיים את ההורדה. אין מספיק שטח אחסון פנימי פנוי המיועד להורדות."</string>
-    <string name="dialog_cannot_resume" msgid="8664509751358983543">"ההורדה הופסקה, ולא ניתן להמשיך לבצע אותה."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"לא ניתן להוריד. קובץ היעד כבר קיים."</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"לא ניתן לבצע הורדה. המדיה החיצונית אינה זמינה."</string>
-    <string name="download_no_application_title" msgid="7024782176657362251">"לא ניתן לפתוח את הקובץ"</string>
-    <string name="remove_download" msgid="6372920256257247857">"הסרה"</string>
-    <string name="delete_download" msgid="76629022653866471">"מחיקה"</string>
-    <string name="keep_queued_download" msgid="5144882786014818569">"שמירה"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"ביטול"</string>
-    <string name="retry_download" msgid="7617100787922717912">"ניסיון חוזר"</string>
-    <string name="start_now_download" msgid="1564642872809509681">"אפשר להתחיל"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"ביטול הבחירה בכל ההורדות"</string>
-    <string name="select_all" msgid="634074918366265804">"בחירת כול ההורדות"</string>
-    <string name="selected_count" msgid="2101564570019753277">"נבחרו <xliff:g id="NUMBER">%1$d</xliff:g> מתוך <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"שיתוף באמצעות"</string>
+    <string name="app_label" msgid="4847371117203587513">"הורדות"</string>
+    <string name="download_title_sorted_by_date" msgid="6033509257480233878">"הורדות – ממוינות לפי תאריך"</string>
+    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"הורדות – ממוינות לפי גודל"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"אין הורדות."</string>
+    <string name="missing_title" msgid="3827247802608803753">"‏&lt;לא ידוע&gt;"</string>
+    <string name="button_sort_by_size" msgid="7952187121189086395">"מיון לפי גודל"</string>
+    <string name="button_sort_by_date" msgid="2064919145709585942">"מיון לפי תאריך"</string>
+    <string name="download_queued" msgid="4128038702528588781">"בהמתנה בתור"</string>
+    <string name="download_running" msgid="2046492059586594352">"ההורדה מתבצעת"</string>
+    <string name="download_success" msgid="3895973294927323747">"ההורדה הסתיימה"</string>
+    <string name="download_error" msgid="6652902885480887230">"ההורדה נכשלה"</string>
+    <string name="dialog_title_not_available" msgid="7793272183758002416">"לא ניתן היה לבצע את ההורדה"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"האם לנסות להוריד את הקובץ מאוחר יותר, או למחוק אותו מהתור?"</string>
+    <string name="dialog_title_queued_body" msgid="7481231558376227012">"הקובץ בהמתנה בתור"</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"קובץ זה נמצא בתור להורדה עתידית ולכן אינו זמין עדיין."</string>
+    <string name="dialog_file_missing_body" msgid="7896653198405160564">"הקובץ שהורדת לא נמצא."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"לא ניתן לסיים את ההורדה. אין מספיק שטח פנוי באחסון החיצוני."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"לא ניתן לסיים את ההורדה. אין מספיק שטח אחסון פנימי פנוי המיועד להורדות."</string>
+    <string name="dialog_cannot_resume" msgid="3101433441301206866">"ההורדה הופסקה, ולא ניתן להמשיך לבצע אותה."</string>
+    <string name="dialog_file_already_exists" msgid="6849168874901909994">"לא ניתן להוריד. קובץ היעד כבר קיים."</string>
+    <string name="dialog_media_not_found" msgid="7376030905821161865">"לא ניתן לבצע הורדה. המדיה החיצונית אינה זמינה."</string>
+    <string name="download_no_application_title" msgid="1209223807604231431">"לא ניתן לפתוח את הקובץ"</string>
+    <string name="remove_download" msgid="244394809285977300">"הסרה"</string>
+    <string name="delete_download" msgid="1861638125603383676">"מחיקה"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"שמירה"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"ביטול"</string>
+    <string name="retry_download" msgid="6957856437473044831">"ניסיון חוזר"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"אפשר להתחיל"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"ביטול הבחירה בכל ההורדות"</string>
+    <string name="select_all" msgid="7469093306474000460">"בחירת כול ההורדות"</string>
+    <string name="selected_count" msgid="5876842902167894010">"נבחרו <xliff:g id="NUMBER">%1$d</xliff:g> מתוך <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"שיתוף באמצעות"</string>
 </resources>

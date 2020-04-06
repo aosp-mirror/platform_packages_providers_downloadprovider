@@ -16,36 +16,36 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"Жүктеп алынған"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Жүктеулер - Мерзім бойынша сұрыпталған"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Жүктеулер - Өлшем бойынша сұрыпталған"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"Жүктеулер жоқ."</string>
-    <string name="missing_title" msgid="830115697868833773">"&lt;Белгісіз&gt;"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"Өлшемі бойынша сұрыптау"</string>
-    <string name="button_sort_by_date" msgid="8800842892684101528">"Мерзімі бойынша сұрыптау"</string>
-    <string name="download_queued" msgid="104973307780629904">"Кезекте"</string>
-    <string name="download_running" msgid="4656462962155580641">"Жүктеуде"</string>
-    <string name="download_success" msgid="7006048006543495236">"Аяқталды"</string>
-    <string name="download_error" msgid="8081329546008568251">"Сәтсіз"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"Жүктеу мүмкін болмады."</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"Бұл файлды кейінірек қайта жүктеп көруді қалайсыз ба әлде кезектен жойылсын ба?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Файл кезекте."</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"Бұл файл келесі жолы жүктеу үшін кезекке қойылған, сондықтан қазір қол жетімсіз."</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Жүктелген файлдарды таба алмады."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Жүктеуді аяқтау мүмкін емес. Сыртқы жүктеу жадында жеткілікті орын жоқ."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Жүктеуді аяқтау мүмкін емес. Ішкі жүктеу жадында жеткілікті орын жоқ."</string>
-    <string name="dialog_cannot_resume" msgid="8664509751358983543">"Жүктеу тоқтатылды және оны жалғастыру мүмкін емес."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Жүктеу мүмкін емес. Мақсатты файл бұрыннан бар."</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"Жүктеу мүмкін емес. Сыртқы медиа қол жетімсіз."</string>
-    <string name="download_no_application_title" msgid="7024782176657362251">"Файлды аша алмады"</string>
-    <string name="remove_download" msgid="6372920256257247857">"Алып тастау"</string>
-    <string name="delete_download" msgid="76629022653866471">"Жою"</string>
-    <string name="keep_queued_download" msgid="5144882786014818569">"Қалсын"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"Жабу"</string>
-    <string name="retry_download" msgid="7617100787922717912">"Әрекетті қайталау"</string>
-    <string name="start_now_download" msgid="1564642872809509681">"Қазір бастау"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"Барлығының таңдауын алыңыз"</string>
-    <string name="select_all" msgid="634074918366265804">"Барлығын таңдау"</string>
-    <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="NUMBER">%1$d</xliff:g> таңдалды, барлығы <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"Бөлісу"</string>
+    <string name="app_label" msgid="4847371117203587513">"Жүктеп алынған"</string>
+    <string name="download_title_sorted_by_date" msgid="6033509257480233878">"Жүктеулер - Мерзім бойынша сұрыпталған"</string>
+    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"Жүктеулер - Өлшем бойынша сұрыпталған"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"Жүктеулер жоқ."</string>
+    <string name="missing_title" msgid="3827247802608803753">"&lt;Белгісіз&gt;"</string>
+    <string name="button_sort_by_size" msgid="7952187121189086395">"Өлшемі бойынша сұрыптау"</string>
+    <string name="button_sort_by_date" msgid="2064919145709585942">"Мерзімі бойынша сұрыптау"</string>
+    <string name="download_queued" msgid="4128038702528588781">"Кезекте"</string>
+    <string name="download_running" msgid="2046492059586594352">"Жүктеуде"</string>
+    <string name="download_success" msgid="3895973294927323747">"Аяқталды"</string>
+    <string name="download_error" msgid="6652902885480887230">"Сәтсіз"</string>
+    <string name="dialog_title_not_available" msgid="7793272183758002416">"Жүктеу мүмкін болмады."</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"Бұл файлды кейінірек қайта жүктеп көруді қалайсыз ба әлде кезектен жойылсын ба?"</string>
+    <string name="dialog_title_queued_body" msgid="7481231558376227012">"Файл кезекте."</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"Бұл файл келесі жолы жүктеу үшін кезекке қойылған, сондықтан қазір қол жетімсіз."</string>
+    <string name="dialog_file_missing_body" msgid="7896653198405160564">"Жүктелген файлдарды таба алмады."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"Жүктеуді аяқтау мүмкін емес. Сыртқы жүктеу жадында жеткілікті орын жоқ."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"Жүктеуді аяқтау мүмкін емес. Ішкі жүктеу жадында жеткілікті орын жоқ."</string>
+    <string name="dialog_cannot_resume" msgid="3101433441301206866">"Жүктеу тоқтатылды және оны жалғастыру мүмкін емес."</string>
+    <string name="dialog_file_already_exists" msgid="6849168874901909994">"Жүктеу мүмкін емес. Мақсатты файл бұрыннан бар."</string>
+    <string name="dialog_media_not_found" msgid="7376030905821161865">"Жүктеу мүмкін емес. Сыртқы медиа қол жетімсіз."</string>
+    <string name="download_no_application_title" msgid="1209223807604231431">"Файлды аша алмады"</string>
+    <string name="remove_download" msgid="244394809285977300">"Алып тастау"</string>
+    <string name="delete_download" msgid="1861638125603383676">"Жою"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"Қалсын"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"Жабу"</string>
+    <string name="retry_download" msgid="6957856437473044831">"Әрекетті қайталау"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"Қазір бастау"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"Барлығының таңдауын алыңыз"</string>
+    <string name="select_all" msgid="7469093306474000460">"Барлығын таңдау"</string>
+    <string name="selected_count" msgid="5876842902167894010">"<xliff:g id="NUMBER">%1$d</xliff:g> таңдалды, барлығы <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"Бөлісу"</string>
 </resources>

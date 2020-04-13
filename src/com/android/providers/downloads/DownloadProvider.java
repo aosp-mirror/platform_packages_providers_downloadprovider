@@ -1300,6 +1300,7 @@ public final class DownloadProvider extends ContentProvider {
                     error.append(", ");
                 }
                 error.append(entry.getKey());
+                first = false;
             }
             throw new SecurityException(error.toString());
         }

@@ -899,6 +899,7 @@ public final class DownloadProvider extends ContentProvider {
                     mediaValues.put(MediaStore.Downloads.OWNER_PACKAGE_NAME,
                             Helpers.getPackageForUid(getContext(),
                                     filteredValues.getAsInteger(Constants.UID)));
+                    mediaValues.put(MediaStore.Downloads.IS_DOWNLOAD, true);
                     getContext().getContentResolver().update(
                             convertToMediaStoreDownloadsUri(mediaStoreUri),
                             mediaValues, null, null);
@@ -1015,6 +1016,7 @@ public final class DownloadProvider extends ContentProvider {
         mediaValues.put(MediaStore.Downloads.IS_PENDING, downloadCompleted ? 0 : 1);
         mediaValues.put(MediaStore.Downloads.OWNER_PACKAGE_NAME,
                 Helpers.getPackageForUid(getContext(), info.mUid));
+        mediaValues.put(MediaStore.Downloads.IS_DOWNLOAD, true);
         return mediaValues;
     }
 

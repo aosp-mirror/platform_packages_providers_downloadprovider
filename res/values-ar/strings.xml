@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="5264040740662487684">"إدارة التنزيل"</string>
+    <string name="app_label" msgid="5264040740662487684">"تطبيق إدارة التنزيل"</string>
     <string name="storage_description" msgid="169690279447532621">"المحتوى الذي تم تنزيله"</string>
     <string name="permlab_downloadManager" msgid="4241473724446132797">"الدخول إلى إدارة التنزيل."</string>
     <string name="permdesc_downloadManager" msgid="5562734314998369030">"للسماح للتطبيق بالدخول إلى إدارة التنزيل واستخدامها لتنزيل الملفات. يمكن للتطبيقات الضارة استخدام هذا لتعطيل عمليات التنزيل والدخول إلى المعلومات الخاصة."</string>

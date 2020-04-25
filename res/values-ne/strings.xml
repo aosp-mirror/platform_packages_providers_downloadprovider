@@ -16,11 +16,11 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="5264040740662487684">"डाउनलोड प्रबन्धक"</string>
+    <string name="app_label" msgid="5264040740662487684">"डाउनलोड म्यानेजर"</string>
     <string name="storage_description" msgid="169690279447532621">"डाउनलोडहरू"</string>
-    <string name="permlab_downloadManager" msgid="4241473724446132797">"डाउनलोड प्रबन्धक पहुँच गर्नुहोस्"</string>
+    <string name="permlab_downloadManager" msgid="4241473724446132797">"डाउनलोड म्यानेजर पहुँच गर्नुहोस्"</string>
     <string name="permdesc_downloadManager" msgid="5562734314998369030">"फाइल डाउनलोड गर्नाका लागि अनुप्रयोगलाई डाउनलोड प्रबन्धकको पहुँचको अनुमति दिन्छ। हानिकारक अनुप्रयोगहरूले यसलाई डाउनलोडहरू अवरूद्ध गर्न र निजी जानकारी पहुँच गर्न यसको प्रयोग गर्न सक्छन्।"</string>
-    <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"उन्नत डाउनलोड प्रबन्धक प्रकार्यहरू"</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"उन्नत डाउनलोड म्यानेजर प्रकार्यहरू"</string>
     <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"अनुप्रयोगलाई डाउनलोड प्रबन्धकको उन्नत प्रकार्यहरू पहुँच गर्न अनुमति दिन्छ। हानिकारक अनुप्रयोगहरूले यसलाई डाउनलोड अवरूद्ध गरी निजी जानकारी पहुँच गर्न प्रयोग गर्न सक्छ।"</string>
     <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"डाउनलोड सूचनाहरू पठाउनुहोस्।"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"अनुप्रयोगलाई समाप्त भएका डाउनलोडहरूका सूचनाहरू पठाउन अनुमति दिन्छ। हानिकारक अनुप्रयोगहरूले फाइल डाउनलोड गर्ने अन्य अनुप्रयोगलाई झुक्याउनका लागि यसलाई प्रयोग गर्न सक्छन्।"</string>
@@ -35,7 +35,7 @@
     <string name="notification_download_failed" msgid="3932167763860605874">"डाउनलोड असफल"</string>
     <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"डाउनलोड आकारलाई Wi-Fi चाहिन्छ।"</string>
     <string name="notification_paused_in_background" msgid="6393408819031041778">"पृष्ठभूमिमा रोकिएको छ।"</string>
-    <string name="wifi_required_title" msgid="7266700488421122218">"अपरेटर सञ्जालका लागि डाउनलोड ज्यादै ठूलो"</string>
+    <string name="wifi_required_title" msgid="7266700488421122218">"अपरेटर सञ्जालका लागि डाउनलोड ज्यादै ठुलो"</string>
     <string name="wifi_required_body" msgid="4005023496578941958">"तपाईंले Wi-Fi प्रयोग गर्नु पर्छ यस <xliff:g id="SIZE">%1$s </xliff:g> डाउनलोड समाप्त गर्न। \n\nछुनुहोस् <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> यस डाउनलोडलाई सुरु गर्न अर्को पटक तपाईं Wi-Fi सञ्जालामा जडित भए पछि।"</string>
     <string name="wifi_recommended_title" msgid="6488158053932133804">"पछि डाउनलोडका लागि लाममा राख्ने हो?"</string>
     <string name="wifi_recommended_body" msgid="8710820743211704403">"यस <xliff:g id="SIZE">%1$s </xliff:g> डाउनलोडलाई सुरु गर्दा तपाईंको ब्याट्रिको काल छोट्टिन सक्छ र/वा तपाईंको मोबाइल डेटा जडानको अधिकतम प्रयोग भई तपाईंको डेटा योजना अनुसार मोबाइल अपरेटरले थप शुल्क लिन सक्छ। \n\n छुनुहोस् <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>तल यस डाउनलोडलाई सुरु गर्न अर्को पटक तपाईं Wi-Fi सन्जालमा जडित हुने बेला।"</string>

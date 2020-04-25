@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="5264040740662487684">"ಡೌನ್‌ಲೊಡ್‌ ನಿರ್ವಾಹಕ"</string>
+    <string name="app_label" msgid="5264040740662487684">"ಡೌನ್‌ಲೋಡ್ ಮ್ಯಾನೇಜರ್"</string>
     <string name="storage_description" msgid="169690279447532621">"ಡೌನ್‌ಲೋಡ್‌ಗಳು"</string>
     <string name="permlab_downloadManager" msgid="4241473724446132797">"ಡೌನ್‌ಲೋಡ್‌ ನಿರ್ವಾಹಕವನ್ನು ಪ್ರವೇಶಿಸಿ."</string>
     <string name="permdesc_downloadManager" msgid="5562734314998369030">"ಡೌನ್‌ಲೋಡ್‌ ನಿರ್ವಾಹಕವನ್ನು ಪ್ರವೇಶಿಸಲು ಮತ್ತು ಡೌನ್‌ಲೋಡ್‌ ಫೈಲ್‌ಗಳನ್ನು ಬಳಸಲು ಅಪ್ಲಿಕೇಶನ್‌ ಅನುಮತಿ ನೀಡುತ್ತದೆ. ದುರುದ್ದೇಶಪೂರಿತ ಅಪ್ಲಿಕೇಶನ್‌ಗಳು, ಡೌನ್‌ಲೋಡ್‌ಗಳನ್ನು ಭಗ್ನಗೊಳಿಸಲು ಹಾಗೂ ಖಾಸಗಿ ಮಾಹಿತಿಯನ್ನು ಪ್ರವೇಶಿಸಲು ಇದನ್ನು ಬಳಸಿಕೊಳ್ಳಬಹುದು."</string>

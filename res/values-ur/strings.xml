@@ -16,45 +16,45 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3658948994665187911">"ڈاؤن لوڈ مینیجر"</string>
-    <string name="storage_description" msgid="7982444311558023664">"ڈاؤن لوڈز"</string>
-    <string name="permlab_downloadManager" msgid="7779544811202855500">"ڈاؤن لوڈ مینیجر تک رسائی حاصل کریں۔"</string>
-    <string name="permdesc_downloadManager" msgid="4237406545998908947">"ایپ کو ڈاؤن لوڈ مینیجر تک رسائی حاصل کرنے اور فائلیں ڈاؤن لوڈ کرنے کیلئے اسے استعمال کرنے کی اجازت دیتا ہے۔ نقصان دہ ایپس ڈاؤن لوڈز کو معطل کرنے اور نجی معلومات تک رسائی حاصل کرنے کیلئے اس کا استعمال کر سکتی ہیں۔"</string>
-    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"ڈاؤن لوڈ مینیجر کے جدید فنکشنز۔"</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"ایپ کو ڈاؤن لوڈ مینیجر کے جدید فنکشنز تک رسائی کی اجازت دیتا ہے۔ نقصان دہ ایپس ڈاؤن لوڈز کو معطل کرنے اور نجی معلومات تک رسائی حاصل کرنے کیلئے اس کا استعمال کر سکتی ہیں۔"</string>
-    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"ڈاؤن لوڈ اطلاعات بھیجیں۔"</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"ایپ کو مکمل ڈاؤن لوڈز کے بارے میں اطلاعات بھیجنے کی اجازت دیتا ہے۔ نقصان دہ ایپس فائلیں ڈاؤن لوڈ کرنے والی دیگر ایپس کو الجھانے کیلئے اس کا استعمال کر سکتی ہیں۔"</string>
-    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"ڈاؤن لوڈ کیش میں جگہ محفوظ کریں"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"ایپ کو ڈاؤن لوڈ کیش میں فائلیں ڈاؤن لوڈ کرنے کی اجازت دیتا ہے، جسے ڈاؤن لوڈ مینیجر کو مزید جگہ درکار ہونے پر خود کار طور پر حذف نہیں کیا جا سکتا ہے۔"</string>
-    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"بغیر اطلاع کے فائلیں ڈاؤن لوڈ کریں"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"صارف کو کوئی اطلاع دکھائے بغیر ایپ کو ڈاؤن لوڈ مینیجر کے ذریعے فائلیں ڈاؤن لوڈ کرنے کی اجازت دیتا ہے۔"</string>
-    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"سسٹم کے سبھی ڈاؤن لوڈز تک رسائی حاصل کریں"</string>
-    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"ایپ کو سسٹم پر کسی بھی ایپ کے ذریعے شروع کیے گئے سبھی ڈاؤن لوڈز کو دیکھنے اور ان میں ترمیم کرنے کی اجازت دیتا ہے۔"</string>
-    <string name="download_unknown_title" msgid="7015124071247271585">"‏‎&gt;‎بلا عنوان‎&lt;‎"</string>
-    <string name="notification_download_complete" msgid="5443563299253103667">"ڈاؤن لوڈ مکمل ہو گیا۔"</string>
-    <string name="notification_download_failed" msgid="8612136111952014978">"ڈاؤن لوڈ ناکام ہو گیا۔"</string>
-    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"‏ڈاؤنلوڈ کیلئے Wi-Fi درکار ہے۔"</string>
-    <string name="notification_paused_in_background" msgid="4328508073283591772">"پس منظر میں موقوف ہوگیا۔"</string>
-    <string name="wifi_required_title" msgid="1995971416871498179">"آپریٹر نیٹ ورک کیلئے ڈاؤن لوڈ کافی بڑا ہے"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"‏اس <xliff:g id="SIZE">%1$s </xliff:g> ڈاؤن لوڈ کو مکمل کرنے کیلئے آپ کیلئے Wi-Fi استعمال کرنا ضروری ہے۔ \n\n<xliff:g id="QUEUE_TEXT">%2$s </xliff:g> کو ٹچ کریں تاکہ اگلی بار جب آپ کسی Wi-Fi نیٹ ورک سے مربوط ہوں تو یہ ڈاؤن لوڈ شروع کر سکیں۔"</string>
-    <string name="wifi_recommended_title" msgid="7441589306734687400">"بعد میں ڈاؤن لوڈ کرنے کیلئے قطار میں شامل ہوں؟"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"‏اس <xliff:g id="SIZE">%1$s </xliff:g> کے ڈاؤن لوڈ کو شروع کرنے سے آپکی بیٹری کی مدت میں کمی آسکتی ہے اور/یا اس سے آپ کے موبائل ڈیٹا کنکشن کا بہت زیادہ استعمال ہو سکتا ہے جسکی وجہ سے آپکا موبائل آپریٹر آپکے ڈیٹا پلان کے مطابق چارجز عائد کرسکتا ہے۔\n\n اگلی بار کسی Wi-Fi نیٹ ورک سے مربوط ہونے پر یہ ڈاؤن لوڈ شروع کرنے کیلئے <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> کو ٹچ کریں۔"</string>
-    <string name="button_queue_for_wifi" msgid="422576726189179221">"قطار"</string>
-    <string name="button_cancel_download" msgid="2430166148737975604">"منسوخ کریں"</string>
-    <string name="button_start_now" msgid="792123674007840864">"ابھی شروع کریں"</string>
-    <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
+    <string name="app_label" msgid="5264040740662487684">"ڈاؤن لوڈ مینیجر"</string>
+    <string name="storage_description" msgid="169690279447532621">"ڈاؤن لوڈز"</string>
+    <string name="permlab_downloadManager" msgid="4241473724446132797">"ڈاؤن لوڈ مینیجر تک رسائی حاصل کریں۔"</string>
+    <string name="permdesc_downloadManager" msgid="5562734314998369030">"ایپ کو ڈاؤن لوڈ مینیجر تک رسائی حاصل کرنے اور فائلیں ڈاؤن لوڈ کرنے کیلئے اسے استعمال کرنے کی اجازت دیتا ہے۔ نقصان دہ ایپس ڈاؤن لوڈز کو معطل کرنے اور نجی معلومات تک رسائی حاصل کرنے کیلئے اس کا استعمال کر سکتی ہیں۔"</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"ڈاؤن لوڈ مینیجر کے جدید فنکشنز۔"</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"ایپ کو ڈاؤن لوڈ مینیجر کے جدید فنکشنز تک رسائی کی اجازت دیتا ہے۔ نقصان دہ ایپس ڈاؤن لوڈز کو معطل کرنے اور نجی معلومات تک رسائی حاصل کرنے کیلئے اس کا استعمال کر سکتی ہیں۔"</string>
+    <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"ڈاؤن لوڈ اطلاعات بھیجیں۔"</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"ایپ کو مکمل ڈاؤن لوڈز کے بارے میں اطلاعات بھیجنے کی اجازت دیتا ہے۔ نقصان دہ ایپس فائلیں ڈاؤن لوڈ کرنے والی دیگر ایپس کو الجھانے کیلئے اس کا استعمال کر سکتی ہیں۔"</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"ڈاؤن لوڈ کیش میں جگہ محفوظ کریں"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"ایپ کو ڈاؤن لوڈ کیش میں فائلیں ڈاؤن لوڈ کرنے کی اجازت دیتا ہے، جسے ڈاؤن لوڈ مینیجر کو مزید جگہ درکار ہونے پر خود کار طور پر حذف نہیں کیا جا سکتا ہے۔"</string>
+    <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"بغیر اطلاع کے فائلیں ڈاؤن لوڈ کریں"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"صارف کو کوئی اطلاع دکھائے بغیر ایپ کو ڈاؤن لوڈ مینیجر کے ذریعے فائلیں ڈاؤن لوڈ کرنے کی اجازت دیتا ہے۔"</string>
+    <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"سسٹم کے سبھی ڈاؤن لوڈز تک رسائی حاصل کریں"</string>
+    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"ایپ کو سسٹم پر کسی بھی ایپ کے ذریعے شروع کیے گئے سبھی ڈاؤن لوڈز کو دیکھنے اور ان میں ترمیم کرنے کی اجازت دیتا ہے۔"</string>
+    <string name="download_unknown_title" msgid="1017800350818840396">"‏‎&gt;‎بلا عنوان‎&lt;‎"</string>
+    <string name="notification_download_complete" msgid="466652037490092787">"ڈاؤن لوڈ مکمل ہو گیا۔"</string>
+    <string name="notification_download_failed" msgid="3932167763860605874">"ڈاؤن لوڈ ناکام ہو گیا۔"</string>
+    <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"‏ڈاؤنلوڈ کیلئے Wi-Fi درکار ہے۔"</string>
+    <string name="notification_paused_in_background" msgid="6393408819031041778">"پس منظر میں موقوف ہوگیا۔"</string>
+    <string name="wifi_required_title" msgid="7266700488421122218">"آپریٹر نیٹ ورک کیلئے ڈاؤن لوڈ کافی بڑا ہے"</string>
+    <string name="wifi_required_body" msgid="4005023496578941958">"‏اس <xliff:g id="SIZE">%1$s </xliff:g> ڈاؤن لوڈ کو مکمل کرنے کیلئے آپ کیلئے Wi-Fi استعمال کرنا ضروری ہے۔ \n\n<xliff:g id="QUEUE_TEXT">%2$s </xliff:g> کو ٹچ کریں تاکہ اگلی بار جب آپ کسی Wi-Fi نیٹ ورک سے مربوط ہوں تو یہ ڈاؤن لوڈ شروع کر سکیں۔"</string>
+    <string name="wifi_recommended_title" msgid="6488158053932133804">"بعد میں ڈاؤن لوڈ کرنے کیلئے قطار میں شامل ہوں؟"</string>
+    <string name="wifi_recommended_body" msgid="8710820743211704403">"‏اس <xliff:g id="SIZE">%1$s </xliff:g> کے ڈاؤن لوڈ کو شروع کرنے سے آپکی بیٹری کی مدت میں کمی آسکتی ہے اور/یا اس سے آپ کے موبائل ڈیٹا کنکشن کا بہت زیادہ استعمال ہو سکتا ہے جسکی وجہ سے آپکا موبائل آپریٹر آپکے ڈیٹا پلان کے مطابق چارجز عائد کرسکتا ہے۔\n\n اگلی بار کسی Wi-Fi نیٹ ورک سے مربوط ہونے پر یہ ڈاؤن لوڈ شروع کرنے کیلئے <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> کو ٹچ کریں۔"</string>
+    <string name="button_queue_for_wifi" msgid="6650185573566994738">"قطار"</string>
+    <string name="button_cancel_download" msgid="4135046775536601831">"منسوخ کریں"</string>
+    <string name="button_start_now" msgid="3817100969365441730">"ابھی شروع کریں"</string>
+    <plurals name="notif_summary_active" formatted="false" msgid="8652501374845637331">
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> فائلیں ڈاؤن لوڈ ہو رہی ہیں</item>
       <item quantity="one">1 فائل ڈاؤن لوڈ ہو رہی ہے</item>
     </plurals>
-    <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
+    <plurals name="notif_summary_waiting" formatted="false" msgid="1782251721955177526">
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> فائلیں منتظر ہیں</item>
       <item quantity="one">1 فائل منتظر ہے</item>
     </plurals>
-    <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> باقی"</string>
-    <string name="download_no_application_title" msgid="7935659741162801699">"فائل نہيں کھول سکتے ہیں"</string>
-    <string name="root_downloads" msgid="4098414876292351487">"ڈاؤن لوڈز"</string>
-    <string name="download_queued" msgid="3302638231377947451">"قطار بند"</string>
-    <string name="download_running" msgid="3925050393361158266">"پیشرفت میں ہے"</string>
-    <string name="download_error" msgid="5144180777324573236">"ناکام"</string>
-    <string name="download_running_percent" msgid="4305080769167320204">"جاری، <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
+    <string name="download_remaining" msgid="2313089371178695625">"<xliff:g id="DURATION">%s</xliff:g> باقی"</string>
+    <string name="download_no_application_title" msgid="5780812573953335721">"فائل نہيں کھول سکتے ہیں"</string>
+    <string name="root_downloads" msgid="8380500940211778491">"ڈاؤن لوڈز"</string>
+    <string name="download_queued" msgid="3383844741769045371">"قطار بند"</string>
+    <string name="download_running" msgid="774654178925442490">"پیشرفت میں ہے"</string>
+    <string name="download_error" msgid="1857737890005386798">"ناکام"</string>
+    <string name="download_running_percent" msgid="3492753569359254730">"جاری، <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
 </resources>

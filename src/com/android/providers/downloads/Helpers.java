@@ -54,6 +54,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.LongSparseArray;
 import android.util.SparseArray;
+import android.util.SparseBooleanArray;
 import android.webkit.MimeTypeMap;
 
 import com.android.internal.util.ArrayUtils;
@@ -191,10 +192,9 @@ public class Helpers {
             if (info.mCurrentBytes > 0 && !TextUtils.isEmpty(info.mETag)) {
                 // If we're resuming an in-progress download, we only need to
                 // download the remaining bytes.
-                builder.setEstimatedNetworkBytes(info.mTotalBytes - info.mCurrentBytes,
-                        JobInfo.NETWORK_BYTES_UNKNOWN);
+                builder.setEstimatedNetworkBytes(info.mTotalBytes - info.mCurrentBytes);
             } else {
-                builder.setEstimatedNetworkBytes(info.mTotalBytes, JobInfo.NETWORK_BYTES_UNKNOWN);
+                builder.setEstimatedNetworkBytes(info.mTotalBytes);
             }
         }
 

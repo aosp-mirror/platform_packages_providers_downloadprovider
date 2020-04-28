@@ -16,45 +16,45 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3658948994665187911">"Administrador de descargas"</string>
-    <string name="storage_description" msgid="7982444311558023664">"Descargas"</string>
-    <string name="permlab_downloadManager" msgid="7779544811202855500">"Acceso ao administrador de descargas"</string>
-    <string name="permdesc_downloadManager" msgid="4237406545998908947">"Permite á aplicación acceder ao administrador de descargas e utilizalo para descargar ficheiros. As aplicacións maliciosas poden usar esta opción para interromper as descargas e acceder a información privada."</string>
-    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Funcións avanzadas do administrador de descargas"</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Permite á aplicación acceder ás funcións avanzadas do administrador de descargas. As aplicacións maliciosas poden usar esta opción para interromper as descargas e acceder a información privada."</string>
-    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Enviar notificacións de descarga."</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Permite á aplicación enviar notificacións de descargas completadas. É posible que aplicacións maliciosas utilicen esta opción para confundir outras aplicacións que descargan ficheiros."</string>
-    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Reservar espazo na caché de descargas"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Permite á aplicación descargar ficheiros na caché de descargas, que non se pode eliminar automaticamente cando o administrador de descargas precisa máis espazo."</string>
-    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"descargar ficheiros sen notificación"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"Permite á aplicación descargar ficheiros a través do administrador de descargas sen que se mostre ningunha notificación ao usuario."</string>
-    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Acceso a todas as descargas do sistema"</string>
-    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"Permite á aplicación ver e modificar todas as descargas iniciadas por calquera aplicación do sistema."</string>
-    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Sen título&gt;"</string>
-    <string name="notification_download_complete" msgid="5443563299253103667">"Descarga completa"</string>
-    <string name="notification_download_failed" msgid="8612136111952014978">"Descarga incorrecta"</string>
-    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"A descarga precisa wifi."</string>
-    <string name="notification_paused_in_background" msgid="4328508073283591772">"Pausada en segundo plano"</string>
-    <string name="wifi_required_title" msgid="1995971416871498179">"Descarga demasiado grande para a rede do operador"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Debes utilizar a wifi para completar esta descarga de <xliff:g id="SIZE">%1$s </xliff:g>. \n\nToca <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> para iniciar esta descarga a próxima vez que te conectes a unha rede wifi"</string>
-    <string name="wifi_recommended_title" msgid="7441589306734687400">"Colocar na cola para descargar máis tarde?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"Se descargas <xliff:g id="SIZE">%1$s </xliff:g>, podes quedar sen batería e o teu operador pódeche cobrar por un uso excesivo de datos.\n\n Toca <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> para iniciar esta descarga a próxima vez que te conectes a unha rede wifi."</string>
-    <string name="button_queue_for_wifi" msgid="422576726189179221">"Cola"</string>
-    <string name="button_cancel_download" msgid="2430166148737975604">"Cancelar"</string>
-    <string name="button_start_now" msgid="792123674007840864">"Iniciar agora"</string>
-    <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
+    <string name="app_label" msgid="5264040740662487684">"Administrador de descargas"</string>
+    <string name="storage_description" msgid="169690279447532621">"Descargas"</string>
+    <string name="permlab_downloadManager" msgid="4241473724446132797">"Acceso ao administrador de descargas"</string>
+    <string name="permdesc_downloadManager" msgid="5562734314998369030">"Permite á aplicación acceder ao administrador de descargas e utilizalo para descargar ficheiros. As aplicacións maliciosas poden usar esta opción para interromper as descargas e acceder a información privada."</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"Funcións avanzadas do administrador de descargas"</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"Permite á aplicación acceder ás funcións avanzadas do administrador de descargas. As aplicacións maliciosas poden usar esta opción para interromper as descargas e acceder a información privada."</string>
+    <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"Enviar notificacións de descarga."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"Permite á aplicación enviar notificacións de descargas completadas. É posible que aplicacións maliciosas utilicen esta opción para confundir outras aplicacións que descargan ficheiros."</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"Reservar espazo na caché de descargas"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"Permite á aplicación descargar ficheiros na caché de descargas, que non se pode eliminar automaticamente cando o administrador de descargas precisa máis espazo."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"descargar ficheiros sen notificación"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"Permite á aplicación descargar ficheiros a través do administrador de descargas sen que se mostre ningunha notificación ao usuario."</string>
+    <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"Acceso a todas as descargas do sistema"</string>
+    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"Permite á aplicación ver e modificar todas as descargas iniciadas por calquera aplicación do sistema."</string>
+    <string name="download_unknown_title" msgid="1017800350818840396">"&lt;Sen título&gt;"</string>
+    <string name="notification_download_complete" msgid="466652037490092787">"Descarga completa"</string>
+    <string name="notification_download_failed" msgid="3932167763860605874">"Descarga incorrecta"</string>
+    <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"A descarga precisa wifi."</string>
+    <string name="notification_paused_in_background" msgid="6393408819031041778">"Pausada en segundo plano"</string>
+    <string name="wifi_required_title" msgid="7266700488421122218">"Descarga demasiado grande para a rede do operador"</string>
+    <string name="wifi_required_body" msgid="4005023496578941958">"Debes utilizar a wifi para completar esta descarga de <xliff:g id="SIZE">%1$s </xliff:g>. \n\nToca <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> para iniciar esta descarga a próxima vez que te conectes a unha rede wifi"</string>
+    <string name="wifi_recommended_title" msgid="6488158053932133804">"Colocar na cola para descargar máis tarde?"</string>
+    <string name="wifi_recommended_body" msgid="8710820743211704403">"Se descargas <xliff:g id="SIZE">%1$s </xliff:g>, podes quedar sen batería e o teu operador pódeche cobrar por un uso excesivo de datos.\n\n Toca <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> para iniciar esta descarga a próxima vez que te conectes a unha rede wifi."</string>
+    <string name="button_queue_for_wifi" msgid="6650185573566994738">"Cola"</string>
+    <string name="button_cancel_download" msgid="4135046775536601831">"Cancelar"</string>
+    <string name="button_start_now" msgid="3817100969365441730">"Iniciar agora"</string>
+    <plurals name="notif_summary_active" formatted="false" msgid="8652501374845637331">
       <item quantity="other">Descargando <xliff:g id="NUMBER">%d</xliff:g> ficheiros</item>
       <item quantity="one">Descargando 1 ficheiro</item>
     </plurals>
-    <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
+    <plurals name="notif_summary_waiting" formatted="false" msgid="1782251721955177526">
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> ficheiros en espera</item>
       <item quantity="one">1 ficheiro en espera</item>
     </plurals>
-    <string name="download_remaining" msgid="3139295890887972718">"Tempo restante: <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="download_no_application_title" msgid="7935659741162801699">"Non se pode abrir o ficheiro"</string>
-    <string name="root_downloads" msgid="4098414876292351487">"Descargas"</string>
-    <string name="download_queued" msgid="3302638231377947451">"Na cola"</string>
-    <string name="download_running" msgid="3925050393361158266">"En curso"</string>
-    <string name="download_error" msgid="5144180777324573236">"Incorrecta"</string>
-    <string name="download_running_percent" msgid="4305080769167320204">"En curso (<xliff:g id="PERCENTAGE">%s</xliff:g>)"</string>
+    <string name="download_remaining" msgid="2313089371178695625">"Tempo restante: <xliff:g id="DURATION">%s</xliff:g>"</string>
+    <string name="download_no_application_title" msgid="5780812573953335721">"Non se pode abrir o ficheiro"</string>
+    <string name="root_downloads" msgid="8380500940211778491">"Descargas"</string>
+    <string name="download_queued" msgid="3383844741769045371">"Na cola"</string>
+    <string name="download_running" msgid="774654178925442490">"En curso"</string>
+    <string name="download_error" msgid="1857737890005386798">"Incorrecta"</string>
+    <string name="download_running_percent" msgid="3492753569359254730">"En curso (<xliff:g id="PERCENTAGE">%s</xliff:g>)"</string>
 </resources>

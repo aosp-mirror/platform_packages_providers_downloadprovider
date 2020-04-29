@@ -1112,6 +1112,16 @@ public final class DownloadProvider extends ContentProvider {
                     != AppOpsManager.MODE_ALLOWED) {
                 throw new SecurityException("No permission to write to " + file);
             }
+        } else if (Helpers.isFilenameValidInExternalObbDir(file) &&
+                ((appOpsManager.noteOp(
+                    AppOpsManager.OP_REQUEST_INSTALL_PACKAGES,
+                    Binder.getCallingUid(), getCallingPackage(), null, "obb_download")
+                        == AppOpsManager.MODE_ALLOWED)
+                || (getContext().checkCallingOrSelfPermission(
+                    android.Manifest.permission.REQUEST_INSTALL_PACKAGES)
+                    == PackageManager.PERMISSION_GRANTED))) {
+            // Installers are allowed to download in OBB dirs, even outside their own package
+            return;
         } else {
             throw new SecurityException("Unsupported path " + file);
         }

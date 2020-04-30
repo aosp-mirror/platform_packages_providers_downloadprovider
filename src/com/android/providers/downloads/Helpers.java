@@ -16,6 +16,7 @@
 
 package com.android.providers.downloads;
 
+import static android.os.Environment.buildExternalStorageAndroidObbDirs;
 import static android.os.Environment.buildExternalStorageAppDataDirs;
 import static android.os.Environment.buildExternalStorageAppMediaDirs;
 import static android.os.Environment.buildExternalStorageAppObbDirs;
@@ -537,6 +538,19 @@ public class Helpers {
             if (containsCanonical(buildExternalStorageAppDataDirs(packageName), file) ||
                     containsCanonical(buildExternalStorageAppObbDirs(packageName), file) ||
                     containsCanonical(buildExternalStorageAppMediaDirs(packageName), file)) {
+                return true;
+            }
+        } catch (IOException e) {
+            Log.w(TAG, "Failed to resolve canonical path: " + e);
+            return false;
+        }
+
+        return false;
+    }
+
+    static boolean isFilenameValidInExternalObbDir(File file) {
+        try {
+            if (containsCanonical(buildExternalStorageAndroidObbDirs(), file)) {
                 return true;
             }
         } catch (IOException e) {

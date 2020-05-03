@@ -17,7 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="5264040740662487684">"Диспетчер загрузки"</string>
-    <string name="storage_description" msgid="169690279447532621">"Загрузки"</string>
+    <string name="storage_description" msgid="169690279447532621">"Скачанные"</string>
     <string name="permlab_downloadManager" msgid="4241473724446132797">"Доступ к менеджеру загрузки."</string>
     <string name="permdesc_downloadManager" msgid="5562734314998369030">"Приложение получит доступ к диспетчеру загрузок и сможет загружать файлы через него. Вредоносные программы смогут таким образом прерывать загрузки и просматривать личную информацию."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"Расширенные функции менеджера загрузки."</string>
@@ -56,7 +56,7 @@
     </plurals>
     <string name="download_remaining" msgid="2313089371178695625">"Осталось: <xliff:g id="DURATION">%s</xliff:g>"</string>
     <string name="download_no_application_title" msgid="5780812573953335721">"Не удается открыть файл"</string>
-    <string name="root_downloads" msgid="8380500940211778491">"Загрузки"</string>
+    <string name="root_downloads" msgid="8380500940211778491">"Скачанные"</string>
     <string name="download_queued" msgid="3383844741769045371">"В очереди"</string>
     <string name="download_running" msgid="774654178925442490">"Загружается"</string>
     <string name="download_error" msgid="1857737890005386798">"Сбой"</string>

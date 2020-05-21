@@ -52,7 +52,7 @@
     </plurals>
     <string name="download_remaining" msgid="2313089371178695625">"<xliff:g id="DURATION">%s</xliff:g> ಉಳಿದಿದೆ"</string>
     <string name="download_no_application_title" msgid="5780812573953335721">"ಫೈಲ್ ತೆರೆಯಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ"</string>
-    <string name="root_downloads" msgid="8380500940211778491">"ಡೌನ್‌ಲೋಡ್‌"</string>
+    <string name="root_downloads" msgid="8380500940211778491">"ಡೌನ್‌ಲೋಡ್‌‍ಗಳು"</string>
     <string name="download_queued" msgid="3383844741769045371">"ಸರದಿಯಲ್ಲಿರಿಸಲಾಗಿದೆ"</string>
     <string name="download_running" msgid="774654178925442490">"ಪ್ರಗತಿಯಲ್ಲಿದೆ"</string>
     <string name="download_error" msgid="1857737890005386798">"ವಿಫಲಗೊಂಡಿದೆ"</string>

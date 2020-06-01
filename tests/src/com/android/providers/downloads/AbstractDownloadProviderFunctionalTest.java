@@ -127,11 +127,6 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
         public Bundle call(String method, String request, Bundle args) {
           return new Bundle();
         }
-
-        @Override
-        public IBinder getIContentProviderBinder() {
-            return new Binder();
-        }
     }
 
     /**

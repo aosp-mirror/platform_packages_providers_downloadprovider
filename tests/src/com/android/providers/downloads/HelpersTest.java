@@ -41,6 +41,7 @@ import android.content.pm.PackageManager;
 import android.database.MatrixCursor;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Process;
 import android.provider.Downloads;
 
 import android.test.AndroidTestCase;
@@ -189,10 +190,9 @@ public class HelpersTest extends AndroidTestCase {
         final ContentProvider downloadProvider = mock(ContentProvider.class);
         when(downloadProvider.query(eq(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI),
                 any(String[].class), any(String.class),isNull(), isNull())).thenReturn(cursor);
-        final BiConsumer<String, Long> validEntryConsumer = mock(BiConsumer.class);
 
         // Call
-        Helpers.handleRemovedUidEntries(context, downloadProvider, -1, validEntryConsumer);
+        Helpers.handleRemovedUidEntries(context, downloadProvider, Process.INVALID_UID);
 
         // Verify
         verify(downloadProvider).update(eq(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI),
@@ -204,9 +204,6 @@ public class HelpersTest extends AndroidTestCase {
                 argThat(selection -> Arrays.equals(
                         idsToRemove.toArray(), extractIdsFromSelection(selection))),
                 isNull());
-        for (int i = 0; i < validEntries.size(); ++i) {
-            verify(validEntryConsumer).accept(validEntries.valueAt(i), validEntries.keyAt(i));
-        }
 
 
         // Reset
@@ -222,7 +219,7 @@ public class HelpersTest extends AndroidTestCase {
                 any(String[].class), any(String.class),isNull(), isNull())).thenReturn(cursor2);
 
         // Call
-        Helpers.handleRemovedUidEntries(context, downloadProvider, TEST_UID2, null);
+        Helpers.handleRemovedUidEntries(context, downloadProvider, TEST_UID2);
 
         // Verify
         verify(downloadProvider).update(eq(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI),

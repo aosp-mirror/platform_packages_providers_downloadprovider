@@ -21,6 +21,8 @@ import static android.os.Environment.buildExternalStorageAppDataDirs;
 import static android.os.Environment.buildExternalStorageAppMediaDirs;
 import static android.os.Environment.buildExternalStorageAppObbDirs;
 import static android.os.Environment.buildExternalStoragePublicDirs;
+import static android.os.Process.INVALID_UID;
+import static android.provider.Downloads.Impl.AUTHORITY;
 import static android.provider.Downloads.Impl.COLUMN_DESTINATION;
 import static android.provider.Downloads.Impl.DESTINATION_EXTERNAL;
 import static android.provider.Downloads.Impl.DESTINATION_FILE_URI;
@@ -37,6 +39,7 @@ import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.ContentProvider;
+import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -667,12 +670,11 @@ public class Helpers {
 
     @VisibleForTesting
     public static void handleRemovedUidEntries(@NonNull Context context,
-            @NonNull ContentProvider downloadProvider, int removedUid,
-            @Nullable BiConsumer<String, Long> validEntryConsumer) {
+            ContentProvider downloadProvider, int removedUid) {
         final SparseArray<String> knownUids = new SparseArray<>();
         final ArrayList<Long> idsToDelete = new ArrayList<>();
         final ArrayList<Long> idsToOrphan = new ArrayList<>();
-        final String selection = removedUid == -1 ? Constants.UID + " IS NOT NULL"
+        final String selection = removedUid == INVALID_UID ? Constants.UID + " IS NOT NULL"
                 : Constants.UID + "=" + removedUid;
         try (Cursor cursor = downloadProvider.query(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
                 new String[] { Downloads.Impl._ID, Constants.UID, COLUMN_DESTINATION, _DATA },
@@ -702,8 +704,6 @@ public class Helpers {
                     } else {
                         idsToDelete.add(downloadId);
                     }
-                } else if (validEntryConsumer != null) {
-                    validEntryConsumer.accept(ownerPackageName, downloadId);
                 }
             }
         }

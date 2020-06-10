@@ -1012,6 +1012,8 @@ public final class DownloadProvider extends ContentProvider {
         mediaValues.put(MediaStore.Downloads.DOWNLOAD_URI, info.mUri);
         mediaValues.put(MediaStore.Downloads.REFERER_URI, info.mReferer);
         mediaValues.put(MediaStore.Downloads.MIME_TYPE, info.mMimeType);
+        // Note: Since we use DATA column for insert, MediaProvider will not respect IS_PENDING,
+        // IS_PENDING will be unset to zero, Hence IS_PENDING usage here is a no-op.
         mediaValues.put(MediaStore.Downloads.IS_PENDING, downloadCompleted ? 0 : 1);
         mediaValues.put(MediaStore.Downloads.OWNER_PACKAGE_NAME,
                 Helpers.getPackageForUid(getContext(), info.mUid));
@@ -1548,7 +1550,12 @@ public final class DownloadProvider extends ContentProvider {
                                 updateMediaProvider(client, mediaValues);
                                 mediaStoreUri = triggerMediaScan(client, new File(info.mFileName));
                             } else {
-                                mediaStoreUri = updateMediaProvider(client, mediaValues);
+                                // Don't insert/update MediaStore db until the download is complete.
+                                // Incomplete files can only be inserted to MediaStore by setting
+                                // IS_PENDING=1 and using RELATIVE_PATH and DISPLAY_NAME in
+                                // MediaProvider#insert operation. We use DATA column, IS_PENDING
+                                // with DATA column will not be respected by MediaProvider.
+                                mediaStoreUri = null;
                             }
                             if (!TextUtils.equals(info.mMediaStoreUri,
                                     mediaStoreUri == null ? null : mediaStoreUri.toString())) {

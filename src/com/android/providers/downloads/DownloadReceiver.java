@@ -39,6 +39,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Process;
 import android.provider.Downloads;
 import android.text.TextUtils;
 import android.util.Log;
@@ -70,21 +71,18 @@ public class DownloadReceiver extends BroadcastReceiver {
         if (Intent.ACTION_BOOT_COMPLETED.equals(action)
                 || Intent.ACTION_MEDIA_MOUNTED.equals(action)) {
             final PendingResult result = goAsync();
-            getAsyncHandler().post(new Runnable() {
-                @Override
-                public void run() {
-                    handleBootCompleted(context);
-                    result.finish();
+            getAsyncHandler().post(() -> {
+                handleBootCompleted(context);
+                if (Intent.ACTION_MEDIA_MOUNTED.equals(action)) {
+                    handleRemovedUidEntries(context);
                 }
+                result.finish();
             });
         } else if (Intent.ACTION_UID_REMOVED.equals(action)) {
             final PendingResult result = goAsync();
-            getAsyncHandler().post(new Runnable() {
-                @Override
-                public void run() {
-                    handleUidRemoved(context, intent);
-                    result.finish();
-                }
+            getAsyncHandler().post(() -> {
+                handleUidRemoved(context, intent);
+                result.finish();
             });
 
         } else if (Constants.ACTION_OPEN.equals(action)
@@ -96,12 +94,9 @@ public class DownloadReceiver extends BroadcastReceiver {
                 // TODO: remove this once test is refactored
                 handleNotificationBroadcast(context, intent);
             } else {
-                getAsyncHandler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        handleNotificationBroadcast(context, intent);
-                        result.finish();
-                    }
+                getAsyncHandler().post(() -> {
+                    handleNotificationBroadcast(context, intent);
+                    result.finish();
                 });
             }
         } else if (Constants.ACTION_CANCEL.equals(action)) {
@@ -139,6 +134,14 @@ public class DownloadReceiver extends BroadcastReceiver {
         DownloadIdleService.scheduleIdlePass(context);
     }
 
+    private void handleRemovedUidEntries(Context context) {
+        try (ContentProviderClient cpc = context.getContentResolver()
+                .acquireContentProviderClient(AUTHORITY)) {
+            Helpers.handleRemovedUidEntries(context, cpc.getLocalContentProvider(),
+                    Process.INVALID_UID);
+        }
+    }
+
     private void handleUidRemoved(Context context, Intent intent) {
         final int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
         if (uid == -1) {
@@ -147,7 +150,7 @@ public class DownloadReceiver extends BroadcastReceiver {
 
         try (ContentProviderClient cpc = context.getContentResolver()
                 .acquireContentProviderClient(AUTHORITY)) {
-            Helpers.handleRemovedUidEntries(context, cpc.getLocalContentProvider(), uid, null);
+            Helpers.handleRemovedUidEntries(context, cpc.getLocalContentProvider(), uid);
         }
     }
 

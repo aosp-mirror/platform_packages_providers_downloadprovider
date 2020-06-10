@@ -320,6 +320,7 @@ public final class DownloadProvider extends ContentProvider {
          * Upgrade database from (version - 1) to version.
          */
         private void upgradeTo(SQLiteDatabase db, int version) {
+            boolean scheduleMediaScanTriggerJob = false;
             switch (version) {
                 case 100:
                     createDownloadsTable(db);
@@ -381,7 +382,7 @@ public final class DownloadProvider extends ContentProvider {
                 case 111:
                     addColumn(db, DB_TABLE, Downloads.Impl.COLUMN_MEDIASTORE_URI,
                             "TEXT DEFAULT NULL");
-                    addMediaStoreUris(db);
+                    scheduleMediaScanTriggerJob = true;
                     break;
 
                 case 112:
@@ -394,11 +395,14 @@ public final class DownloadProvider extends ContentProvider {
 
                 case 114:
                     nullifyMediaStoreUris(db);
-                    MediaScanTriggerJob.schedule(getContext());
+                    scheduleMediaScanTriggerJob = true;
                     break;
 
                 default:
                     throw new IllegalStateException("Don't know how to upgrade to " + version);
+            }
+            if (scheduleMediaScanTriggerJob) {
+                MediaScanTriggerJob.schedule(getContext());
             }
         }
 
@@ -433,53 +437,6 @@ public final class DownloadProvider extends ContentProvider {
             String cacheSelection = Downloads.Impl.COLUMN_DESTINATION
                     + " != " + Downloads.Impl.DESTINATION_EXTERNAL;
             db.update(DB_TABLE, values, cacheSelection, null);
-        }
-
-        /**
-         * Add {@link Downloads.Impl#COLUMN_MEDIASTORE_URI} for all successful downloads and
-         * add/update corresponding entries in MediaProvider.
-         */
-        private void addMediaStoreUris(@NonNull SQLiteDatabase db) {
-            final String[] selectionArgs = new String[] {
-                    Integer.toString(Downloads.Impl.DESTINATION_EXTERNAL),
-                    Integer.toString(Downloads.Impl.DESTINATION_FILE_URI),
-                    Integer.toString(Downloads.Impl.DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD),
-            };
-            final CallingIdentity token = clearCallingIdentity();
-            try (Cursor cursor = db.query(DB_TABLE, null,
-                    "_data IS NOT NULL AND is_visible_in_downloads_ui != '0'"
-                            + " AND (destination=? OR destination=? OR destination=?)",
-                    selectionArgs, null, null, null);
-                    ContentProviderClient client = getContext().getContentResolver()
-                            .acquireContentProviderClient(MediaStore.AUTHORITY)) {
-                if (cursor.getCount() == 0) {
-                    return;
-                }
-                final DownloadInfo.Reader reader
-                        = new DownloadInfo.Reader(getContext().getContentResolver(), cursor);
-                final DownloadInfo info = new DownloadInfo(getContext());
-                final ContentValues updateValues = new ContentValues();
-                while (cursor.moveToNext()) {
-                    reader.updateFromDatabase(info);
-                    final ContentValues mediaValues;
-                    try {
-                        mediaValues = convertToMediaProviderValues(info);
-                    } catch (IllegalArgumentException e) {
-                        Log.e(Constants.TAG, "Error getting media content values from " + info, e);
-                        continue;
-                    }
-                    final Uri mediaStoreUri = updateMediaProvider(client, mediaValues);
-                    if (mediaStoreUri != null) {
-                        updateValues.clear();
-                        updateValues.put(Downloads.Impl.COLUMN_MEDIASTORE_URI,
-                                mediaStoreUri.toString());
-                        db.update(DB_TABLE, updateValues, Downloads.Impl._ID + "=?",
-                                new String[] { Long.toString(info.mId) });
-                    }
-                }
-            } finally {
-                restoreCallingIdentity(token);
-            }
         }
 
         /**
@@ -635,12 +592,26 @@ public final class DownloadProvider extends ContentProvider {
 
         mStorageManager = getContext().getSystemService(StorageManager.class);
 
-        reconcileRemovedUidEntries();
+        // Grant access permissions for all known downloads to the owning apps.
+        final SQLiteDatabase db = mOpenHelper.getReadableDatabase();
+        try (Cursor cursor = db.query(DB_TABLE,
+                new String[] { _ID, Constants.UID }, null, null, null, null, null)) {
+            while (cursor.moveToNext()) {
+                final long id = cursor.getLong(0);
+                final int uid = cursor.getInt(1);
+                final String[] packageNames = getContext().getPackageManager()
+                        .getPackagesForUid(uid);
+                // Potentially stale download, will be deleted after MEDIA_MOUNTED broadcast
+                // is received.
+                if (ArrayUtils.isEmpty(packageNames)) {
+                    continue;
+                }
+                // We only need to grant to the first package, since the
+                // platform internally tracks based on UIDs.
+                grantAllDownloadsPermission(packageNames[0], id);
+            }
+        }
         return true;
-    }
-
-    private void reconcileRemovedUidEntries() {
-        Helpers.handleRemovedUidEntries(getContext(), this, -1, this::grantAllDownloadsPermission);
     }
 
     /**
@@ -954,7 +925,7 @@ public final class DownloadProvider extends ContentProvider {
      * If an entry corresponding to given mediaValues doesn't already exist in MediaProvider,
      * add it, otherwise update that entry with the given values.
      */
-    private Uri updateMediaProvider(@NonNull ContentProviderClient mediaProvider,
+    Uri updateMediaProvider(@NonNull ContentProviderClient mediaProvider,
             @NonNull ContentValues mediaValues) {
         final String filePath = mediaValues.getAsString(MediaStore.DownloadColumns.DATA);
         Uri mediaStoreUri = getMediaStoreUri(mediaProvider, filePath);
@@ -997,7 +968,7 @@ public final class DownloadProvider extends ContentProvider {
         return null;
     }
 
-    private ContentValues convertToMediaProviderValues(DownloadInfo info) {
+    ContentValues convertToMediaProviderValues(DownloadInfo info) {
         final String filePath;
         try {
             filePath = new File(info.mFileName).getCanonicalPath();

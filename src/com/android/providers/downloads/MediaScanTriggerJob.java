@@ -39,20 +39,26 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.RemoteException;
+import android.os.Environment;
 import android.provider.Downloads;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import java.io.File;
 
 /**
- * Clean-up job to force mediascan on downloads which should have been but didn't get mediascanned.
+ * Job to update MediaProvider with all the downloads and force mediascan on them.
  */
 public class MediaScanTriggerJob extends JobService {
     private volatile boolean mJobStopped;
 
     @Override
     public boolean onStartJob(JobParameters parameters) {
+        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            // External storage is not available yet, so defer this job to a later time.
+            jobFinished(parameters, true /* reschedule */);
+            return false;
+        }
         Helpers.getAsyncHandler().post(() -> {
             final String selection = _DATA + " IS NOT NULL"
                     + " AND (" + COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI + "=1"
@@ -61,45 +67,53 @@ public class MediaScanTriggerJob extends JobService {
                     + " OR " + COLUMN_DESTINATION + "=" + DESTINATION_FILE_URI
                     + " OR " + COLUMN_DESTINATION + "=" + DESTINATION_NON_DOWNLOADMANAGER_DOWNLOAD
                     + ")";
-            try (ContentProviderClient downloadProviderClient
+            try (ContentProviderClient cpc
                     = getContentResolver().acquireContentProviderClient(Downloads.Impl.AUTHORITY);
                  ContentProviderClient mediaProviderClient
                     = getContentResolver().acquireContentProviderClient(MediaStore.AUTHORITY)) {
-                try (Cursor cursor = downloadProviderClient.query(ALL_DOWNLOADS_CONTENT_URI,
-                        new String[] {_ID, _DATA, COLUMN_MEDIASTORE_URI},
-                        selection, null, null)) {
+                final DownloadProvider downloadProvider
+                        = ((DownloadProvider) cpc.getLocalContentProvider());
+                try (Cursor cursor = downloadProvider.query(ALL_DOWNLOADS_CONTENT_URI,
+                        null, selection, null, null)) {
+
+                    final DownloadInfo.Reader reader
+                            = new DownloadInfo.Reader(getContentResolver(), cursor);
+                    final DownloadInfo info = new DownloadInfo(MediaScanTriggerJob.this);
                     while (cursor.moveToNext()) {
                         if (mJobStopped) {
                             return;
                         }
+                        reader.updateFromDatabase(info);
                         // This indicates that this entry has been handled already (perhaps when
                         // this job ran earlier and got preempted), so skip.
-                        if (cursor.getString(2) != null) {
+                        if (info.mMediaStoreUri != null) {
                             continue;
                         }
-                        final long id = cursor.getLong(0);
-                        final String filePath = cursor.getString(1);
-                        final ContentValues mediaValues = new ContentValues();
+                        final ContentValues mediaValues;
+                        try {
+                            mediaValues = downloadProvider.convertToMediaProviderValues(info);
+                        } catch (IllegalArgumentException e) {
+                            Log.e(Constants.TAG,
+                                    "Error getting media content values from " + info, e);
+                            continue;
+                        }
+                        // Overriding size column value to 0 for forcing the mediascan
+                        // later (to address http://b/138419471).
                         mediaValues.put(MediaStore.Files.FileColumns.SIZE, 0);
-                        mediaProviderClient.update(Helpers.getContentUriForPath(this, filePath),
-                                mediaValues,
-                                MediaStore.Files.FileColumns.DATA + "=?",
-                                new String[] { filePath });
+                        downloadProvider.updateMediaProvider(mediaProviderClient, mediaValues);
 
                         final Uri mediaStoreUri = Helpers.triggerMediaScan(mediaProviderClient,
-                                new File(filePath));
+                                new File(info.mFileName));
                         if (mediaStoreUri != null) {
                             final ContentValues downloadValues = new ContentValues();
                             downloadValues.put(COLUMN_MEDIASTORE_URI, mediaStoreUri.toString());
-                            downloadProviderClient.update(ALL_DOWNLOADS_CONTENT_URI,
-                                    downloadValues, _ID + "=" + id, null);
+                            downloadProvider.update(ALL_DOWNLOADS_CONTENT_URI,
+                                    downloadValues, _ID + "=" + info.mId, null);
                         }
                     }
-                } catch (RemoteException e) {
-                    // Should not happen
                 }
             }
-            jobFinished(parameters, false);
+            jobFinished(parameters, false /* reschedule */);
         });
         return true;
     }

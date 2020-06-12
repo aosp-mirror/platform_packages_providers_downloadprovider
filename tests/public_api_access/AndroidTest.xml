@@ -20,9 +20,9 @@
 
     <option name="test-suite-tag" value="apct" />
     <option name="test-tag" value="DownloadPublicApiAccessTests" />
-    <test class="com.android.tradefed.testtype.InstrumentationTest" >
+    <test class="com.android.tradefed.testtype.AndroidJUnitTest" >
         <option name="package" value="com.android.providers.downloads.public_api_access_tests" />
-        <option name="runner" value="android.test.InstrumentationTestRunner" />
+        <option name="runner" value="androidx.test.runner.AndroidJUnitRunner" />
         <option name="hidden-api-checks" value="false"/>
     </test>
 </configuration>

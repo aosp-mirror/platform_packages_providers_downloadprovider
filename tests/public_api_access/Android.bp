@@ -15,6 +15,7 @@
 
 android_test {
     name: "DownloadPublicApiAccessTests",
+    test_suites: ["device-tests"],
 
     srcs: [
         "src/**/*.java",
@@ -26,6 +27,7 @@ android_test {
     ],
 
     static_libs: [
+        "androidx.test.rules",
         "junit",
     ],
 

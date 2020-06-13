@@ -1,0 +1,35 @@
+{
+    "presubmit": [
+        {
+            "name": "CtsProviderTestCases",
+            "options": [
+                {
+                    "include-filter": "android.provider.cts.media.MediaStore_DownloadsTest"
+                }
+            ]
+        },
+        {
+            "name": "CtsAppTestCases",
+            "options": [
+                {
+                    "include-filter": "android.app.cts.DownloadManagerTest"
+                }
+            ]
+        },
+        {
+            "name": "CtsDownloadManagerApi28"
+        },
+        {
+            "name": "CtsDownloadManagerInstaller"
+        },
+        {
+            "name": "DownloadProviderTests"
+        },
+        {
+            "name": "DownloadProviderPermissionTests"
+        },
+        {
+            "name": "DownloadPublicApiAccessTests"
+        }
+    ]
+}

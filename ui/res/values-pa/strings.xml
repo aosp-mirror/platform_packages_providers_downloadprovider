@@ -40,7 +40,7 @@
     <string name="download_no_application_title" msgid="1209223807604231431">"ਫਾਈਲ ਨਹੀਂ ਖੋਲ੍ਹ ਸਕਦਾ"</string>
     <string name="remove_download" msgid="244394809285977300">"ਹਟਾਓ"</string>
     <string name="delete_download" msgid="1861638125603383676">"ਮਿਟਾਓ"</string>
-    <string name="keep_queued_download" msgid="6905870466259272973">"ਰੱਖੋ"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"Keep"</string>
     <string name="cancel_running_download" msgid="8586888328847044473">"ਰੱਦ ਕਰੋ"</string>
     <string name="retry_download" msgid="6957856437473044831">"ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ"</string>
     <string name="start_now_download" msgid="1518778561803897734">"ਹੁਣ ਸ਼ੁਰੂ ਕਰੋ"</string>

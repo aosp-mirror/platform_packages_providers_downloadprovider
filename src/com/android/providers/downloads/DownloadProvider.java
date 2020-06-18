@@ -32,9 +32,6 @@ import static android.provider.Downloads.Impl.PERMISSION_ACCESS_ALL;
 import static com.android.providers.downloads.Helpers.convertToMediaStoreDownloadsUri;
 import static com.android.providers.downloads.Helpers.triggerMediaScan;
 
-import static com.android.providers.downloads.Helpers.convertToMediaStoreDownloadsUri;
-import static com.android.providers.downloads.Helpers.triggerMediaScan;
-
 import android.annotation.NonNull;
 import android.app.AppOpsManager;
 import android.app.DownloadManager;
@@ -77,7 +74,6 @@ import android.util.Log;
 
 import com.android.internal.util.ArrayUtils;
 import com.android.internal.util.IndentingPrintWriter;
-import com.android.internal.util.Preconditions;
 
 import libcore.io.IoUtils;
 
@@ -977,14 +973,15 @@ public final class DownloadProvider extends ContentProvider {
         }
         final boolean downloadCompleted = Downloads.Impl.isStatusCompleted(info.mStatus);
         final ContentValues mediaValues = new ContentValues();
-        mediaValues.put(MediaStore.Downloads.DATA,  filePath);
+        mediaValues.put(MediaStore.Downloads.DATA, filePath);
+        mediaValues.put(MediaStore.Downloads.VOLUME_NAME, Helpers.extractVolumeName(filePath));
+        mediaValues.put(MediaStore.Downloads.RELATIVE_PATH, Helpers.extractRelativePath(filePath));
+        mediaValues.put(MediaStore.Downloads.DISPLAY_NAME, Helpers.extractDisplayName(filePath));
         mediaValues.put(MediaStore.Downloads.SIZE,
                 downloadCompleted ? info.mTotalBytes : info.mCurrentBytes);
         mediaValues.put(MediaStore.Downloads.DOWNLOAD_URI, info.mUri);
         mediaValues.put(MediaStore.Downloads.REFERER_URI, info.mReferer);
         mediaValues.put(MediaStore.Downloads.MIME_TYPE, info.mMimeType);
-        // Note: Since we use DATA column for insert, MediaProvider will not respect IS_PENDING,
-        // IS_PENDING will be unset to zero, Hence IS_PENDING usage here is a no-op.
         mediaValues.put(MediaStore.Downloads.IS_PENDING, downloadCompleted ? 0 : 1);
         mediaValues.put(MediaStore.Downloads.OWNER_PACKAGE_NAME,
                 Helpers.getPackageForUid(getContext(), info.mUid));

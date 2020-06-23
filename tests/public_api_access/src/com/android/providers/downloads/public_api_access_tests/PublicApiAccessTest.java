@@ -16,13 +16,17 @@
 
 package com.android.providers.downloads.public_api_access_tests;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import android.app.DownloadManager;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.Downloads;
 
 import androidx.test.InstrumentationRegistry;
@@ -33,6 +37,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.io.File;
 
 /**
  * DownloadProvider allows apps without permission ACCESS_DOWNLOAD_MANAGER to access it -- this is
@@ -65,6 +71,7 @@ public class PublicApiAccessTest {
     public void setUp() throws Exception {
         mContentResolver = getContext().getContentResolver();
         mManager = new DownloadManager(getContext());
+        mManager.setAccessFilename(true);
     }
 
     @After
@@ -173,5 +180,44 @@ public class PublicApiAccessTest {
         request.setMimeType("text/html");
         request.addRequestHeader("X-Some-Header", "value");
         mManager.enqueue(request);
+    }
+
+    /**
+     * Internally, {@code DownloadManager} synchronizes its contents with
+     * {@code MediaStore}, which relies heavily on using file extensions to
+     * determine MIME types.
+     * <p>
+     * This test verifies that if an app attempts to add an already-completed
+     * download without an extension, that we'll force the MIME type with what
+     * {@code MediaStore} would have derived.
+     */
+    @Test
+    public void testAddCompletedWithoutExtension() throws Exception {
+        final File dir = Environment
+                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        final File file = new File(dir, "test" + System.nanoTime());
+        file.createNewFile();
+
+        final long id = mManager.addCompletedDownload("My Title", "My Description", true,
+                "application/pdf", file.getAbsolutePath(), file.length(), true, true,
+                Uri.parse("http://example.com/"), Uri.parse("http://example.net/"));
+        final Uri uri = mManager.getDownloadUri(id);
+
+        // Trigger a generic update so that we push to MediaStore
+        final ContentValues values = new ContentValues();
+        values.put(DownloadManager.COLUMN_DESCRIPTION, "Modified Description");
+        mContentResolver.update(uri, values, null);
+
+        try (Cursor c = mContentResolver.query(uri, null, null, null)) {
+            assertTrue(c.moveToFirst());
+
+            final String actualMime = c
+                    .getString(c.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIA_TYPE));
+            final String actualPath = c
+                    .getString(c.getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_FILENAME));
+
+            assertEquals("application/octet-stream", actualMime);
+            assertEquals(file.getAbsolutePath(), actualPath);
+        }
     }
 }

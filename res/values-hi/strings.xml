@@ -41,7 +41,7 @@
     <string name="wifi_recommended_body" msgid="8710820743211704403">"इस <xliff:g id="SIZE">%1$s </xliff:g> के डाउनलोड को शुरू करने से आपकी बैटरी जल्दी खत्म हो सकती है और/या मोबाइल का बहुत सारा डेटा खर्च हो सकता है, जिसके लिए मोबाइल और इंटरनेट सेवा देने वाली कंपनी, आपके डेटा प्लान के हिसाब से आपसे पैसे ले सकती है.\n\n अगली बार जब आप वाई-फ़ाई नेटवर्क से जुड़ें, तो यह डाउनलोड शुरू करने के लिए <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> को छुएं."</string>
     <string name="button_queue_for_wifi" msgid="6650185573566994738">"कतार"</string>
     <string name="button_cancel_download" msgid="4135046775536601831">"रद्द करें"</string>
-    <string name="button_start_now" msgid="3817100969365441730">"अब शुरू करें"</string>
+    <string name="button_start_now" msgid="3817100969365441730">"अभी शुरू करें"</string>
     <plurals name="notif_summary_active" formatted="false" msgid="8652501374845637331">
       <item quantity="one"><xliff:g id="NUMBER">%d</xliff:g> फ़ाइलें डाउनलोड हो रही हैं</item>
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> फ़ाइलें डाउनलोड हो रही हैं</item>

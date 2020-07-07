@@ -52,7 +52,7 @@
     </plurals>
     <string name="download_remaining" msgid="2313089371178695625">"<xliff:g id="DURATION">%s</xliff:g> બાકી"</string>
     <string name="download_no_application_title" msgid="5780812573953335721">"ફાઇલ ખોલી શકાતી નથી"</string>
-    <string name="root_downloads" msgid="8380500940211778491">"ડાઉનલોડ્સ"</string>
+    <string name="root_downloads" msgid="8380500940211778491">"ડાઉનલોડ"</string>
     <string name="download_queued" msgid="3383844741769045371">"કતારમાં"</string>
     <string name="download_running" msgid="774654178925442490">"પ્રગતિ પર"</string>
     <string name="download_error" msgid="1857737890005386798">"અસફળ"</string>

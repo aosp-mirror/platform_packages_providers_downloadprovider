@@ -19,15 +19,15 @@
     <string name="app_label" msgid="5264040740662487684">"डाउनलोड व्यवस्थापक"</string>
     <string name="storage_description" msgid="169690279447532621">"डाउनलोड"</string>
     <string name="permlab_downloadManager" msgid="4241473724446132797">"डाउनलोड व्यवस्थापक अ‍ॅक्सेस करा."</string>
-    <string name="permdesc_downloadManager" msgid="5562734314998369030">"अ‍ॅपला डाउनलोड व्‍यवस्‍थापकामध्‍ये प्रवेश करण्‍याची आणि फायली डाउनलोड करण्‍यासाठी त्याचा वापर करण्‍याची अनुमती देते. दुर्भावनापूर्ण अ‍ॅप्‍स याचा डाउनलोड विदारित करण्‍यासाठी आणि खाजगी माहितीमध्‍ये प्रवेश करण्‍यासाठी वापर करू शकतात."</string>
+    <string name="permdesc_downloadManager" msgid="5562734314998369030">"अ‍ॅपला डाउनलोड व्‍यवस्‍थापकामध्‍ये प्रवेश करण्‍याची आणि फाइल डाउनलोड करण्‍यासाठी त्याचा वापर करण्‍याची अनुमती देते. दुर्भावनापूर्ण अ‍ॅप्‍स याचा डाउनलोड विदारित करण्‍यासाठी आणि खाजगी माहितीमध्‍ये प्रवेश करण्‍यासाठी वापर करू शकतात."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"प्रगत डाऊनलोड व्यवस्थापक कार्ये."</string>
     <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"अ‍ॅपला डाउनलोड व्‍यवस्‍थापकाच्या प्रगत कार्यांमध्‍ये प्रवेश करण्‍याची अनुमती देते. दुर्भावनापूर्ण अ‍ॅप्‍स याचा डाउनलोड विदारित करण्‍यासाठी आणि खाजगी माहितीमध्‍ये प्रवेश करण्‍यासाठी वापर करू शकतात."</string>
     <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"डाउनलोड सूचना पाठवा."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"अ‍ॅपला पूर्ण झालेल्‍या डाउनलोड विषयी सूचना पाठविण्‍यास अनुमती देते. डाउनलोड करणार्‍या अन्य अ‍ॅप्‍सचा गोंधळ करण्‍यासाठी दुर्भावनापूर्ण अ‍ॅप्‍स याचा वापर करू शकतात."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"डाउनलोड कॅशेमधील स्‍थान आरक्षित करा"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"अ‍ॅपला डाउनलोडवर कॅशेवर, डाउनलोड व्‍यवस्‍थापकास जास्त स्‍थानाची आवश्‍यकता असते तेव्‍हा ज्या स्‍वयंचलितपणे हटविल्‍या जाऊ शकत नाहीत त्या फायली डाउनलोड करण्‍याची अनुमती देते."</string>
-    <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"सूचनेशिवाय फायली डाउनलोड करा"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"अ‍ॅपला वापरकर्त्यास कोणतीही सूचना न दर्शविता डाउनलोड व्यवस्‍थापकाद्वारे फायली डाउनलोड करण्‍याची अनुमती देते."</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"अ‍ॅपला डाउनलोडवर कॅशेवर, डाउनलोड व्‍यवस्‍थापकास जास्त स्‍थानाची आवश्‍यकता असते तेव्‍हा ज्या स्‍वयंचलितपणे हटविल्‍या जाऊ शकत नाहीत त्या फाइल डाउनलोड करण्‍याची अनुमती देते."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"सूचनेशिवाय फाइल डाउनलोड करा"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"अ‍ॅपला वापरकर्त्यास कोणतीही सूचना न दर्शविता डाउनलोड व्यवस्‍थापकाद्वारे फाइल डाउनलोड करण्‍याची अनुमती देते."</string>
     <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"सर्व सिस्‍टीम डाउनलोड अ‍ॅक्सेस करा"</string>
     <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"अ‍ॅपला सिस्‍टीम वरील कोणत्‍याही अ‍ॅपद्वारे आरंभ केलेले सर्व डाउनलोड पाहण्‍याची आणि सुधारित करण्‍याची अनुमती देते."</string>
     <string name="download_unknown_title" msgid="1017800350818840396">"&lt;अशीर्षकांकित&gt;"</string>
@@ -47,7 +47,7 @@
       <item quantity="one">1 फाईल डाउनलोड होत आहे</item>
     </plurals>
     <plurals name="notif_summary_waiting" formatted="false" msgid="1782251721955177526">
-      <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> फायली प्रतीक्षेत आहेत</item>
+      <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> फाइल प्रतीक्षेत आहेत</item>
       <item quantity="one">1 फाईल प्रतीक्षेत आहे</item>
     </plurals>
     <string name="download_remaining" msgid="2313089371178695625">"<xliff:g id="DURATION">%s</xliff:g> बाकी"</string>

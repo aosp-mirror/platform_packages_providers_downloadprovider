@@ -19,17 +19,17 @@
     <string name="app_label" msgid="5264040740662487684">"डाउनलोड म्यानेजर"</string>
     <string name="storage_description" msgid="169690279447532621">"डाउनलोडहरू"</string>
     <string name="permlab_downloadManager" msgid="4241473724446132797">"डाउनलोड म्यानेजर पहुँच गर्नुहोस्"</string>
-    <string name="permdesc_downloadManager" msgid="5562734314998369030">"फाइल डाउनलोड गर्नाका लागि अनुप्रयोगलाई डाउनलोड प्रबन्धकको पहुँचको अनुमति दिन्छ। हानिकारक अनुप्रयोगहरूले यसलाई डाउनलोडहरू अवरूद्ध गर्न र निजी जानकारी पहुँच गर्न यसको प्रयोग गर्न सक्छन्।"</string>
+    <string name="permdesc_downloadManager" msgid="5562734314998369030">"फाइल डाउनलोड गर्नाका लागि एपलाई डाउनलोड प्रबन्धकको पहुँचको अनुमति दिन्छ। हानिकारक एपहरूले यसलाई डाउनलोडहरू अवरूद्ध गर्न र निजी जानकारी पहुँच गर्न यसको प्रयोग गर्न सक्छन्।"</string>
     <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"उन्नत डाउनलोड म्यानेजर प्रकार्यहरू"</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"अनुप्रयोगलाई डाउनलोड प्रबन्धकको उन्नत प्रकार्यहरू पहुँच गर्न अनुमति दिन्छ। हानिकारक अनुप्रयोगहरूले यसलाई डाउनलोड अवरूद्ध गरी निजी जानकारी पहुँच गर्न प्रयोग गर्न सक्छ।"</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"एपलाई डाउनलोड प्रबन्धकको उन्नत प्रकार्यहरू पहुँच गर्न अनुमति दिन्छ। हानिकारक एपहरूले यसलाई डाउनलोड अवरूद्ध गरी निजी जानकारी पहुँच गर्न प्रयोग गर्न सक्छ।"</string>
     <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"डाउनलोड सूचनाहरू पठाउनुहोस्।"</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"अनुप्रयोगलाई समाप्त भएका डाउनलोडहरूका सूचनाहरू पठाउन अनुमति दिन्छ। हानिकारक अनुप्रयोगहरूले फाइल डाउनलोड गर्ने अन्य अनुप्रयोगलाई झुक्याउनका लागि यसलाई प्रयोग गर्न सक्छन्।"</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"एपलाई समाप्त भएका डाउनलोडहरूका सूचनाहरू पठाउन अनुमति दिन्छ। हानिकारक एपहरूले फाइल डाउनलोड गर्ने अन्य एपलाई झुक्याउनका लागि यसलाई प्रयोग गर्न सक्छन्।"</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"डाउनलोड केसमा ठाउँ ओगट्नुहोस्"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"अनुप्रयोगलाई फाइलहरूलाई डाउनलोड केसमा डाउनलोड गर्न अनुमति दिन्छ, जुन डाउनलोड प्रबन्धकलाई थप ठाउँ चाहिएको खण्डमा स्वचालित रूपमा हटाउन सकिदैन।"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"एपलाई फाइलहरूलाई डाउनलोड केसमा डाउनलोड गर्न अनुमति दिन्छ, जुन डाउनलोड प्रबन्धकलाई थप ठाउँ चाहिएको खण्डमा स्वचालित रूपमा हटाउन सकिदैन।"</string>
     <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"बिना सूचना फाइलहरू डाउनलोड गर्नुहोस्"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"अनुप्रयोगलाई डाउनलोड प्रबन्धकका माध्ययमद्वारा प्रयोगकर्तामा सूचना नदेखाई फाइलहरू डाउनलोड गर्ने अनुमति दिन्छ।"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"एपलाई डाउनलोड प्रबन्धकका माध्ययमद्वारा प्रयोगकर्तामा सूचना नदेखाई फाइलहरू डाउनलोड गर्ने अनुमति दिन्छ।"</string>
     <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"सम्पूर्ण प्रणाली डाउनलोडहरू पहुँच गर्नुहोस्"</string>
-    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"अनुप्रयोगलाई कुनै पनि अनुप्रयोगले प्रणालीमा पहल गरेको सम्पूर्ण डाउनलोडहरू हेर्ने र परिमार्जन गर्ने अनुमति दिन्छ।"</string>
+    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"एपलाई कुनै पनि अनुप्रयोगले प्रणालीमा पहल गरेको सम्पूर्ण डाउनलोडहरू हेर्ने र परिमार्जन गर्ने अनुमति दिन्छ।"</string>
     <string name="download_unknown_title" msgid="1017800350818840396">"&lt;शीर्षकविहिन&gt;"</string>
     <string name="notification_download_complete" msgid="466652037490092787">"डाउनलोड पुरा भयो।"</string>
     <string name="notification_download_failed" msgid="3932167763860605874">"डाउनलोड असफल"</string>

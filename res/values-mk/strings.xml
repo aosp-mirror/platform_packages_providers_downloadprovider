@@ -16,45 +16,45 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3658948994665187911">"Управник за преземање"</string>
-    <string name="storage_description" msgid="7982444311558023664">"Преземања"</string>
-    <string name="permlab_downloadManager" msgid="7779544811202855500">"Пристапи до управувачот за преземања."</string>
-    <string name="permdesc_downloadManager" msgid="4237406545998908947">"Овозможува апликацијата да пристапи до менаџерот за преземање и да го користи за преземање датотеки. Злонамерните апликации може да го искористат ова да ги попречат преземањата и да пристапат до приватни информации."</string>
-    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Напредни функции на управувачот за преземања."</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Овозможува апликацијата да пристапи до напредни функции на менаџерот за преземање. Злонамерните апликации може да го искористат ова да ги попречат преземањата и да пристапат до приватни информации."</string>
-    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Испрати известувања за преземањата."</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Овозможува апликацијата да испраќа известувања за завршени преземања. Злонамерните апликации може да го искористат ова да ги збунат другите апликации кои преземаат датотеки."</string>
-    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Зачувај простор во преземаниот кеш"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Овозможува апликацијата да презема датотеки до преземан кеш кој не може автоматски да се избрише кога менаџерот за преземање бара повеќе простор."</string>
-    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"преземи датотеки без известување"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"Овозможува апликацијата да презема датотеки преку менаџерот  за преземање без да се прикаже какво било претходно известување на корисникот."</string>
-    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Пристапи до сите системски преземања"</string>
-    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"Овозможува апликацијата да ги гледа и менува сите преземања иницирани од која било апликација на системот."</string>
-    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Без наслов&gt;"</string>
-    <string name="notification_download_complete" msgid="5443563299253103667">"Преземањето заврши."</string>
-    <string name="notification_download_failed" msgid="8612136111952014978">"Преземањето е неуспешно."</string>
-    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Големина за преземање бара Wi-Fi."</string>
-    <string name="notification_paused_in_background" msgid="4328508073283591772">"Паузирано во заднина."</string>
-    <string name="wifi_required_title" msgid="1995971416871498179">"Премногу големо преземање за мрежата на операторот"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Мора да користите Wi-Fi да се заврши преземањето на овие <xliff:g id="SIZE">%1$s </xliff:g>\n\nДопрете <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> да започне ова преземање следниот пат кога ќе бидете поврзани со Wi-Fi мрежа."</string>
-    <string name="wifi_recommended_title" msgid="7441589306734687400">"Стави во ред на чекање да се преземе подоцна?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"Преземањето <xliff:g id="SIZE">%1$s </xliff:g> го намалува векот на батеријата и/или води до прекумерна употреба на конекцијата и може да ви наплатат.\n\n Допрете <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> да започне преземање следниот пат кога ќе бидете поврзани со Wi-Fi мрежа."</string>
-    <string name="button_queue_for_wifi" msgid="422576726189179221">"Ред на чекање"</string>
-    <string name="button_cancel_download" msgid="2430166148737975604">"Откажи"</string>
-    <string name="button_start_now" msgid="792123674007840864">"Започни сега"</string>
-    <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
+    <string name="app_label" msgid="5264040740662487684">"Управник за преземање"</string>
+    <string name="storage_description" msgid="169690279447532621">"Преземања"</string>
+    <string name="permlab_downloadManager" msgid="4241473724446132797">"Пристапи до управувачот за преземања."</string>
+    <string name="permdesc_downloadManager" msgid="5562734314998369030">"Овозможува апликацијата да пристапи до менаџерот за преземање и да го користи за преземање датотеки. Злонамерните апликации може да го искористат ова да ги попречат преземањата и да пристапат до приватни информации."</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"Напредни функции на управувачот за преземања."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"Овозможува апликацијата да пристапи до напредни функции на менаџерот за преземање. Злонамерните апликации може да го искористат ова да ги попречат преземањата и да пристапат до приватни информации."</string>
+    <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"Испрати известувања за преземањата."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"Овозможува апликацијата да испраќа известувања за завршени преземања. Злонамерните апликации може да го искористат ова да ги збунат другите апликации кои преземаат датотеки."</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"Зачувај простор во преземаниот кеш"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"Овозможува апликацијата да презема датотеки до преземан кеш кој не може автоматски да се избрише кога менаџерот за преземање бара повеќе простор."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"преземи датотеки без известување"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"Овозможува апликацијата да презема датотеки преку менаџерот  за преземање без да се прикаже какво било претходно известување на корисникот."</string>
+    <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"Пристапи до сите системски преземања"</string>
+    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"Овозможува апликацијата да ги гледа и менува сите преземања иницирани од која било апликација на системот."</string>
+    <string name="download_unknown_title" msgid="1017800350818840396">"&lt;Без наслов&gt;"</string>
+    <string name="notification_download_complete" msgid="466652037490092787">"Преземањето заврши."</string>
+    <string name="notification_download_failed" msgid="3932167763860605874">"Преземањето е неуспешно."</string>
+    <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"Големина за преземање бара Wi-Fi."</string>
+    <string name="notification_paused_in_background" msgid="6393408819031041778">"Паузирано во заднина."</string>
+    <string name="wifi_required_title" msgid="7266700488421122218">"Премногу големо преземање за мрежата на операторот"</string>
+    <string name="wifi_required_body" msgid="4005023496578941958">"Мора да користите Wi-Fi да се заврши преземањето на овие <xliff:g id="SIZE">%1$s </xliff:g>\n\nДопрете <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> да започне ова преземање следниот пат кога ќе бидете поврзани со Wi-Fi мрежа."</string>
+    <string name="wifi_recommended_title" msgid="6488158053932133804">"Стави во ред на чекање да се преземе подоцна?"</string>
+    <string name="wifi_recommended_body" msgid="8710820743211704403">"Преземањето <xliff:g id="SIZE">%1$s </xliff:g> го намалува векот на батеријата и/или води до прекумерна употреба на конекцијата и може да ви наплатат.\n\n Допрете <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> да започне преземање следниот пат кога ќе бидете поврзани со Wi-Fi мрежа."</string>
+    <string name="button_queue_for_wifi" msgid="6650185573566994738">"Ред на чекање"</string>
+    <string name="button_cancel_download" msgid="4135046775536601831">"Откажи"</string>
+    <string name="button_start_now" msgid="3817100969365441730">"Започни сега"</string>
+    <plurals name="notif_summary_active" formatted="false" msgid="8652501374845637331">
       <item quantity="one">Се презема <xliff:g id="NUMBER">%d</xliff:g> датотека</item>
       <item quantity="other">Се преземаат <xliff:g id="NUMBER">%d</xliff:g> датотеки</item>
     </plurals>
-    <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
+    <plurals name="notif_summary_waiting" formatted="false" msgid="1782251721955177526">
       <item quantity="one"><xliff:g id="NUMBER">%d</xliff:g> датотека чека</item>
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> датотеки чекаат</item>
     </plurals>
-    <string name="download_remaining" msgid="3139295890887972718">"Уште <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="download_no_application_title" msgid="7935659741162801699">"Датотеката не се отвора"</string>
-    <string name="root_downloads" msgid="4098414876292351487">"Преземања"</string>
-    <string name="download_queued" msgid="3302638231377947451">"Чека на ред"</string>
-    <string name="download_running" msgid="3925050393361158266">"Во тек"</string>
-    <string name="download_error" msgid="5144180777324573236">"Неуспешно"</string>
-    <string name="download_running_percent" msgid="4305080769167320204">"Во тек, <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
+    <string name="download_remaining" msgid="2313089371178695625">"Уште <xliff:g id="DURATION">%s</xliff:g>"</string>
+    <string name="download_no_application_title" msgid="5780812573953335721">"Датотеката не се отвора"</string>
+    <string name="root_downloads" msgid="8380500940211778491">"Преземања"</string>
+    <string name="download_queued" msgid="3383844741769045371">"Чека на ред"</string>
+    <string name="download_running" msgid="774654178925442490">"Во тек"</string>
+    <string name="download_error" msgid="1857737890005386798">"Неуспешно"</string>
+    <string name="download_running_percent" msgid="3492753569359254730">"Во тек, <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
 </resources>

@@ -16,45 +16,45 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3658948994665187911">"Pengelola Download"</string>
-    <string name="storage_description" msgid="7982444311558023664">"Download"</string>
-    <string name="permlab_downloadManager" msgid="7779544811202855500">"Akses pengelola download."</string>
-    <string name="permdesc_downloadManager" msgid="4237406545998908947">"Mengizinkan aplikasi mengakses pengelola download dan menggunakannya untuk mendownload file. Aplikasi berbahaya dapat menggunakan ini untuk mengganggu download dan mengakses informasi pribadi."</string>
-    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Fungsi pengelola download lanjutan"</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"Mengizinkan aplikasi mengakses fungsi lanjutan pengelola download. Aplikasi berbahaya dapat menggunakan ini untuk mengganggu download dan mengakses informasi pribadi."</string>
-    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Kirim pemberitahuan download."</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"Mengizinkan aplikasi mengirim pemberitahuan tentang download yang telah diselesaikan. Aplikasi berbahaya dapat menggunakan ini untuk mengacaukan aplikasi lain yang mendownload file."</string>
-    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Ruang penyimpanan dalam cache download"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"Mengizinkan apl mendownload file ke cache download yang tidak dapat dihapus secara otomatis saat pengelola download memerlukan lebih banyak ruang."</string>
-    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"download file tanpa pemberitahuan"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"Mengizinkan apl mendownload file melalui pengelola download tanpa menampilkan pemberitahuan apa pun kepada pengguna."</string>
-    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Akses semua download sistem"</string>
-    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"Mengizinkan apl melihat dan memodifikasi semua download yang dimulai oleh apl apa pun pada sistem."</string>
-    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Tanpa judul&gt;"</string>
-    <string name="notification_download_complete" msgid="5443563299253103667">"Download selesai."</string>
-    <string name="notification_download_failed" msgid="8612136111952014978">"Download gagal."</string>
-    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Ukuran download memerlukan Wi-Fi."</string>
-    <string name="notification_paused_in_background" msgid="4328508073283591772">"Dijeda di latar belakang."</string>
-    <string name="wifi_required_title" msgid="1995971416871498179">"Download terlalu besar untuk jaringan operator"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Anda harus menggunakan Wi-Fi untuk menyelesaikan download <xliff:g id="SIZE">%1$s </xliff:g> ini. \n\nSentuh <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> untuk memulai download ini saat Anda tersambung lagi ke jaringan Wi-Fi."</string>
-    <string name="wifi_recommended_title" msgid="7441589306734687400">"Antrekan untuk didownload nanti?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"Memulai download <xliff:g id="SIZE">%1$s </xliff:g> ini sekarang dapat mempersingkat masa pakai baterai Anda dan/atau menyebabkan penggunaan berlebih dari sambungan data seluler, yang dapat berakibat dikenai tagihan oleh operator ponsel, tergantung paket data Anda.\n\n Sentuh <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> untuk memulai download ini saat Anda tersambung lagi ke jaringan Wi-Fi."</string>
-    <string name="button_queue_for_wifi" msgid="422576726189179221">"Antrean"</string>
-    <string name="button_cancel_download" msgid="2430166148737975604">"Batal"</string>
-    <string name="button_start_now" msgid="792123674007840864">"Mulai sekarang"</string>
-    <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
+    <string name="app_label" msgid="5264040740662487684">"Pengelola Download"</string>
+    <string name="storage_description" msgid="169690279447532621">"Download"</string>
+    <string name="permlab_downloadManager" msgid="4241473724446132797">"Akses pengelola download."</string>
+    <string name="permdesc_downloadManager" msgid="5562734314998369030">"Mengizinkan aplikasi mengakses pengelola download dan menggunakannya untuk mendownload file. Aplikasi berbahaya dapat menggunakan ini untuk mengganggu download dan mengakses informasi pribadi."</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"Fungsi pengelola download lanjutan"</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"Mengizinkan aplikasi mengakses fungsi lanjutan pengelola download. Aplikasi berbahaya dapat menggunakan ini untuk mengganggu download dan mengakses informasi pribadi."</string>
+    <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"Kirim pemberitahuan download."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"Mengizinkan aplikasi mengirim pemberitahuan tentang download yang telah diselesaikan. Aplikasi berbahaya dapat menggunakan ini untuk mengacaukan aplikasi lain yang mendownload file."</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"Ruang penyimpanan dalam cache download"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"Mengizinkan apl mendownload file ke cache download yang tidak dapat dihapus secara otomatis saat pengelola download memerlukan lebih banyak ruang."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"download file tanpa pemberitahuan"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"Mengizinkan apl mendownload file melalui pengelola download tanpa menampilkan pemberitahuan apa pun kepada pengguna."</string>
+    <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"Akses semua download sistem"</string>
+    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"Mengizinkan apl melihat dan memodifikasi semua download yang dimulai oleh apl apa pun pada sistem."</string>
+    <string name="download_unknown_title" msgid="1017800350818840396">"&lt;Tanpa judul&gt;"</string>
+    <string name="notification_download_complete" msgid="466652037490092787">"Download selesai."</string>
+    <string name="notification_download_failed" msgid="3932167763860605874">"Download gagal."</string>
+    <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"Ukuran download memerlukan Wi-Fi."</string>
+    <string name="notification_paused_in_background" msgid="6393408819031041778">"Dijeda di latar belakang."</string>
+    <string name="wifi_required_title" msgid="7266700488421122218">"Download terlalu besar untuk jaringan operator"</string>
+    <string name="wifi_required_body" msgid="4005023496578941958">"Anda harus menggunakan Wi-Fi untuk menyelesaikan download <xliff:g id="SIZE">%1$s </xliff:g> ini. \n\nSentuh <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> untuk memulai download ini saat Anda tersambung lagi ke jaringan Wi-Fi."</string>
+    <string name="wifi_recommended_title" msgid="6488158053932133804">"Antrekan untuk didownload nanti?"</string>
+    <string name="wifi_recommended_body" msgid="8710820743211704403">"Memulai download <xliff:g id="SIZE">%1$s </xliff:g> ini sekarang dapat mempersingkat masa pakai baterai Anda dan/atau menyebabkan penggunaan berlebih dari sambungan data seluler, yang dapat berakibat dikenai tagihan oleh operator ponsel, tergantung paket data Anda.\n\n Sentuh <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> untuk memulai download ini saat Anda tersambung lagi ke jaringan Wi-Fi."</string>
+    <string name="button_queue_for_wifi" msgid="6650185573566994738">"Antrean"</string>
+    <string name="button_cancel_download" msgid="4135046775536601831">"Batal"</string>
+    <string name="button_start_now" msgid="3817100969365441730">"Mulai sekarang"</string>
+    <plurals name="notif_summary_active" formatted="false" msgid="8652501374845637331">
       <item quantity="other">Mendownload <xliff:g id="NUMBER">%d</xliff:g> file</item>
       <item quantity="one">Mendownload 1 file</item>
     </plurals>
-    <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
+    <plurals name="notif_summary_waiting" formatted="false" msgid="1782251721955177526">
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> file menunggu</item>
       <item quantity="one">1 file menunggu</item>
     </plurals>
-    <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> lagi"</string>
-    <string name="download_no_application_title" msgid="7935659741162801699">"Tidak dapat membuka file"</string>
-    <string name="root_downloads" msgid="4098414876292351487">"Download"</string>
-    <string name="download_queued" msgid="3302638231377947451">"Diantrekan"</string>
-    <string name="download_running" msgid="3925050393361158266">"Sedang berlangsung"</string>
-    <string name="download_error" msgid="5144180777324573236">"Gagal"</string>
-    <string name="download_running_percent" msgid="4305080769167320204">"Sedang berlangsung, <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
+    <string name="download_remaining" msgid="2313089371178695625">"<xliff:g id="DURATION">%s</xliff:g> lagi"</string>
+    <string name="download_no_application_title" msgid="5780812573953335721">"Tidak dapat membuka file"</string>
+    <string name="root_downloads" msgid="8380500940211778491">"Download"</string>
+    <string name="download_queued" msgid="3383844741769045371">"Diantrekan"</string>
+    <string name="download_running" msgid="774654178925442490">"Sedang berlangsung"</string>
+    <string name="download_error" msgid="1857737890005386798">"Gagal"</string>
+    <string name="download_running_percent" msgid="3492753569359254730">"Sedang berlangsung, <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
 </resources>

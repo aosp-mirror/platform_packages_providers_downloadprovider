@@ -16,10 +16,10 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="4847371117203587513">"التنزيلات"</string>
+    <string name="app_label" msgid="4847371117203587513">"التنزيل"</string>
     <string name="download_title_sorted_by_date" msgid="6033509257480233878">"عمليات التنزيل - مصنفة بحسب التاريخ"</string>
     <string name="download_title_sorted_by_size" msgid="2575551670173644253">"عمليات التنزيل - مصنفة بحسب الحجم"</string>
-    <string name="no_downloads" msgid="1654764193290918538">"ليس هناك أي تنزيلات"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"لم يتم تنزيل أي محتوى."</string>
     <string name="missing_title" msgid="3827247802608803753">"‏&lt;غير معروف&gt;"</string>
     <string name="button_sort_by_size" msgid="7952187121189086395">"التصنيف بحسب الحجم"</string>
     <string name="button_sort_by_date" msgid="2064919145709585942">"التصنيف بحسب التاريخ"</string>
@@ -44,8 +44,8 @@
     <string name="cancel_running_download" msgid="8586888328847044473">"إلغاء"</string>
     <string name="retry_download" msgid="6957856437473044831">"إعادة المحاولة"</string>
     <string name="start_now_download" msgid="1518778561803897734">"البدء الآن"</string>
-    <string name="deselect_all" msgid="4673983454506880405">"إلغاء تحديد الكل"</string>
-    <string name="select_all" msgid="7469093306474000460">"تحديد الكل"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"إلغاء اختيار الكل"</string>
+    <string name="select_all" msgid="7469093306474000460">"اختيار الكل"</string>
     <string name="selected_count" msgid="5876842902167894010">"حدد <xliff:g id="NUMBER">%1$d</xliff:g> من إجمالي <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
     <string name="download_share_dialog" msgid="5212760257251501969">"مشاركة عبر"</string>
 </resources>

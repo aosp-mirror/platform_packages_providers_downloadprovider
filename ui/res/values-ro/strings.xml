@@ -16,36 +16,36 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"Descărcări"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Descărcări – sortate după dată"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Descărcări – sortate după dimensiune"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"Nu există descărcări."</string>
-    <string name="missing_title" msgid="830115697868833773">"&lt;Necunoscut&gt;"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"Sortați după dimensiune"</string>
-    <string name="button_sort_by_date" msgid="8800842892684101528">"Sortați după dată"</string>
-    <string name="download_queued" msgid="104973307780629904">"În aștept."</string>
-    <string name="download_running" msgid="4656462962155580641">"În curs"</string>
-    <string name="download_success" msgid="7006048006543495236">"Finalizat"</string>
-    <string name="download_error" msgid="8081329546008568251">"Nereușită"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"Nu s-a putut descărca"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"Doriți să reîncercați descărcarea fișierului mai târziu sau să îl ștergeți din lista de așteptare?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Fișier în coadă"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"Fișierul este adăugat în coadă pentru descărcare ulterioară, prin urmare nu este disponibil încă."</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Nu se poate găsi fișierul descărcat."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Nu se poate finaliza descărcarea. Nu există suficient spațiu de stocare extern."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Nu se poate finaliza descărcarea. Nu există suficient spațiu de stocare intern."</string>
-    <string name="dialog_cannot_resume" msgid="8664509751358983543">"Descărcarea a fost întreruptă și nu poate fi reluată."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Nu se poate descărca. Fișierul de destinație există deja."</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"Nu se poate descărca. Nu este disponibil un mediu de stocare extern."</string>
-    <string name="download_no_application_title" msgid="7024782176657362251">"Fișierul nu poate fi deschis"</string>
-    <string name="remove_download" msgid="6372920256257247857">"Eliminați"</string>
-    <string name="delete_download" msgid="76629022653866471">"Ștergeți"</string>
-    <string name="keep_queued_download" msgid="5144882786014818569">"Păstrați"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"Anulați"</string>
-    <string name="retry_download" msgid="7617100787922717912">"Reîncercați"</string>
-    <string name="start_now_download" msgid="1564642872809509681">"Începeți acum"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"Deselectați-le pe toate"</string>
-    <string name="select_all" msgid="634074918366265804">"Selectați-le pe toate"</string>
-    <string name="selected_count" msgid="2101564570019753277">"Au fost selectate <xliff:g id="NUMBER">%1$d</xliff:g> din <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"Distribuiți prin"</string>
+    <string name="app_label" msgid="4847371117203587513">"Descărcări"</string>
+    <string name="download_title_sorted_by_date" msgid="6033509257480233878">"Descărcări – sortate după dată"</string>
+    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"Descărcări – sortate după dimensiune"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"Nu există descărcări."</string>
+    <string name="missing_title" msgid="3827247802608803753">"&lt;Necunoscut&gt;"</string>
+    <string name="button_sort_by_size" msgid="7952187121189086395">"Sortați după dimensiune"</string>
+    <string name="button_sort_by_date" msgid="2064919145709585942">"Sortați după dată"</string>
+    <string name="download_queued" msgid="4128038702528588781">"În aștept."</string>
+    <string name="download_running" msgid="2046492059586594352">"În curs"</string>
+    <string name="download_success" msgid="3895973294927323747">"Finalizat"</string>
+    <string name="download_error" msgid="6652902885480887230">"Nereușită"</string>
+    <string name="dialog_title_not_available" msgid="7793272183758002416">"Nu s-a putut descărca"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"Doriți să reîncercați descărcarea fișierului mai târziu sau să îl ștergeți din lista de așteptare?"</string>
+    <string name="dialog_title_queued_body" msgid="7481231558376227012">"Fișier în coadă"</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"Fișierul este adăugat în coadă pentru descărcare ulterioară, prin urmare nu este disponibil încă."</string>
+    <string name="dialog_file_missing_body" msgid="7896653198405160564">"Nu se poate găsi fișierul descărcat."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"Nu se poate finaliza descărcarea. Nu există suficient spațiu de stocare extern."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"Nu se poate finaliza descărcarea. Nu există suficient spațiu de stocare intern."</string>
+    <string name="dialog_cannot_resume" msgid="3101433441301206866">"Descărcarea a fost întreruptă și nu poate fi reluată."</string>
+    <string name="dialog_file_already_exists" msgid="6849168874901909994">"Nu se poate descărca. Fișierul de destinație există deja."</string>
+    <string name="dialog_media_not_found" msgid="7376030905821161865">"Nu se poate descărca. Nu este disponibil un mediu de stocare extern."</string>
+    <string name="download_no_application_title" msgid="1209223807604231431">"Fișierul nu poate fi deschis"</string>
+    <string name="remove_download" msgid="244394809285977300">"Eliminați"</string>
+    <string name="delete_download" msgid="1861638125603383676">"Ștergeți"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"Păstrați"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"Anulați"</string>
+    <string name="retry_download" msgid="6957856437473044831">"Reîncercați"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"Începeți acum"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"Deselectați-le pe toate"</string>
+    <string name="select_all" msgid="7469093306474000460">"Selectați-le pe toate"</string>
+    <string name="selected_count" msgid="5876842902167894010">"Au fost selectate <xliff:g id="NUMBER">%1$d</xliff:g> din <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"Distribuiți prin"</string>
 </resources>

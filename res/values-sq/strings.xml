@@ -16,45 +16,45 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3658948994665187911">"Menaxheri i shkarkimeve"</string>
-    <string name="storage_description" msgid="7982444311558023664">"Shkarkimet"</string>
-    <string name="permlab_downloadManager" msgid="7779544811202855500">"Merr qasje në menaxherin e shkarkimit."</string>
-    <string name="permdesc_downloadManager" msgid="4237406545998908947">"E lejon aplikacionin të qaset te menaxheri i shkarkimeve dhe ta përdorë për të shkarkuar skedarë. Aplikacionet keqdashëse mund ta përdorin këtë për të dëmtuar shkarkimet dhe për t\'u qasur në informacione private."</string>
-    <string name="permlab_downloadManagerAdvanced" msgid="7103642833308809655">"Funksionet e përparuara të menaxherit të shkarkimeve."</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="2659546004160962761">"E lejon aplikacionin të qaset te funksionet e përparuara të menaxherit të shkarkimeve. Aplikacionet keqdashëse mund ta përdorin këtë për të dëmtuar shkarkimet dhe për t\'u qasur në informacione private."</string>
-    <string name="permlab_downloadCompletedIntent" msgid="945913803765675685">"Dërgo njoftime për shkarkimet."</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="2094706189855699533">"E lejon aplikacionin të dërgojë njoftime për shkarkimet e përfunduara. Aplikacionet keqdashëse mund ta përdorin këtë për të çorientuar aplikacionet e tjera që shkarkojnë skedarë."</string>
-    <string name="permlab_downloadCacheNonPurgeable" msgid="3069534308882047412">"Rezervo hapësirë në memorien e përkohshme të shkarkimeve"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="2408760720334570420">"E lejon aplikacionin të shkarkojë skedarë në memorien e përkohshme të shkarkimeve, e cila nuk mund të fshihet automatikisht kur menaxheri i shkarkimeve kërkon më shumë hapësirë."</string>
-    <string name="permlab_downloadWithoutNotification" msgid="8837971946078327262">"shkarko skedarët pa njoftim"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="8483135034298639727">"E lejon aplikacionin të shkarkojë skedarë nëpërmjet menaxherit të shkarkimeve pa i treguar asnjë njoftim përdoruesit."</string>
-    <string name="permlab_accessAllDownloads" msgid="2436240495424393717">"Merr qasje te të gjitha shkarkimet e sistemit"</string>
-    <string name="permdesc_accessAllDownloads" msgid="1871832254578267128">"E lejon aplikacionin të shikojë dhe të modifikojë të gjitha shkarkimet e iniciuara nga ndonjë aplikacion në sistem."</string>
-    <string name="download_unknown_title" msgid="7015124071247271585">"&lt;Pa titull&gt;"</string>
-    <string name="notification_download_complete" msgid="5443563299253103667">"Shkarkimi përfundoi."</string>
-    <string name="notification_download_failed" msgid="8612136111952014978">"Shkarkimi nuk ishte i suksesshëm."</string>
-    <string name="notification_need_wifi_for_size" msgid="2556172885154833575">"Madhësia e shkarkimit kërkon lidhje Wi-Fi."</string>
-    <string name="notification_paused_in_background" msgid="4328508073283591772">"U ndërpre në sfond."</string>
-    <string name="wifi_required_title" msgid="1995971416871498179">"Shkarkimi është tepër i madh për rrjetin e operatorit"</string>
-    <string name="wifi_required_body" msgid="3067694630143784449">"Duhet të përdorësh Wi-Fi për të përfunduar këtë shkarkim <xliff:g id="SIZE">%1$s </xliff:g>. \n\nPrek <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> për ta nisur këtë shkarkim herën tjetër kur të jesh i lidhur me një rrjet Wi-Fi."</string>
-    <string name="wifi_recommended_title" msgid="7441589306734687400">"Të vendoset në radhë për t\'u shkarkuar më vonë?"</string>
-    <string name="wifi_recommended_body" msgid="1314735166699936073">"Nisja e këtij shkarkimi <xliff:g id="SIZE">%1$s </xliff:g> tani mund të shkurtojë jetëgjatësinë e baterisë dhe/ose të shkaktojë përdorim të tepërt të lidhjes tënde të të dhënave celulare, gjë që mund të sjellë tarifa nga operatori yt celular në varësi të planit tënd të të dhënave.\n\n Prek <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> për ta nisur këtë shkarkim herën tjetër kur të jesh i lidhur me një rrjet Wi-Fi."</string>
-    <string name="button_queue_for_wifi" msgid="422576726189179221">"Vendos në radhë"</string>
-    <string name="button_cancel_download" msgid="2430166148737975604">"Anulo"</string>
-    <string name="button_start_now" msgid="792123674007840864">"Fillo tani"</string>
-    <plurals name="notif_summary_active" formatted="false" msgid="7290448463204837173">
+    <string name="app_label" msgid="5264040740662487684">"Menaxheri i shkarkimeve"</string>
+    <string name="storage_description" msgid="169690279447532621">"Shkarkimet"</string>
+    <string name="permlab_downloadManager" msgid="4241473724446132797">"Merr qasje në menaxherin e shkarkimit."</string>
+    <string name="permdesc_downloadManager" msgid="5562734314998369030">"E lejon aplikacionin të qaset te menaxheri i shkarkimeve dhe ta përdorë për të shkarkuar skedarë. Aplikacionet keqdashëse mund ta përdorin këtë për të dëmtuar shkarkimet dhe për t\'u qasur në informacione private."</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"Funksionet e përparuara të menaxherit të shkarkimeve."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"E lejon aplikacionin të qaset te funksionet e përparuara të menaxherit të shkarkimeve. Aplikacionet keqdashëse mund ta përdorin këtë për të dëmtuar shkarkimet dhe për t\'u qasur në informacione private."</string>
+    <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"Dërgo njoftime për shkarkimet."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"E lejon aplikacionin të dërgojë njoftime për shkarkimet e përfunduara. Aplikacionet keqdashëse mund ta përdorin këtë për të çorientuar aplikacionet e tjera që shkarkojnë skedarë."</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"Rezervo hapësirë në memorien e përkohshme të shkarkimeve"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"E lejon aplikacionin të shkarkojë skedarë në memorien e përkohshme të shkarkimeve, e cila nuk mund të fshihet automatikisht kur menaxheri i shkarkimeve kërkon më shumë hapësirë."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"shkarko skedarët pa njoftim"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"E lejon aplikacionin të shkarkojë skedarë nëpërmjet menaxherit të shkarkimeve pa i treguar asnjë njoftim përdoruesit."</string>
+    <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"Merr qasje te të gjitha shkarkimet e sistemit"</string>
+    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"E lejon aplikacionin të shikojë dhe të modifikojë të gjitha shkarkimet e iniciuara nga ndonjë aplikacion në sistem."</string>
+    <string name="download_unknown_title" msgid="1017800350818840396">"&lt;Pa titull&gt;"</string>
+    <string name="notification_download_complete" msgid="466652037490092787">"Shkarkimi përfundoi."</string>
+    <string name="notification_download_failed" msgid="3932167763860605874">"Shkarkimi nuk ishte i suksesshëm."</string>
+    <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"Madhësia e shkarkimit kërkon lidhje Wi-Fi."</string>
+    <string name="notification_paused_in_background" msgid="6393408819031041778">"U ndërpre në sfond."</string>
+    <string name="wifi_required_title" msgid="7266700488421122218">"Shkarkimi është tepër i madh për rrjetin e operatorit"</string>
+    <string name="wifi_required_body" msgid="4005023496578941958">"Duhet të përdorësh Wi-Fi për të përfunduar këtë shkarkim <xliff:g id="SIZE">%1$s </xliff:g>. \n\nPrek <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> për ta nisur këtë shkarkim herën tjetër kur të jesh i lidhur me një rrjet Wi-Fi."</string>
+    <string name="wifi_recommended_title" msgid="6488158053932133804">"Të vendoset në radhë për t\'u shkarkuar më vonë?"</string>
+    <string name="wifi_recommended_body" msgid="8710820743211704403">"Nisja e këtij shkarkimi <xliff:g id="SIZE">%1$s </xliff:g> tani mund të shkurtojë jetëgjatësinë e baterisë dhe/ose të shkaktojë përdorim të tepërt të lidhjes tënde të të dhënave celulare, gjë që mund të sjellë tarifa nga operatori yt celular në varësi të planit tënd të të dhënave.\n\n Prek <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> për ta nisur këtë shkarkim herën tjetër kur të jesh i lidhur me një rrjet Wi-Fi."</string>
+    <string name="button_queue_for_wifi" msgid="6650185573566994738">"Vendos në radhë"</string>
+    <string name="button_cancel_download" msgid="4135046775536601831">"Anulo"</string>
+    <string name="button_start_now" msgid="3817100969365441730">"Fillo tani"</string>
+    <plurals name="notif_summary_active" formatted="false" msgid="8652501374845637331">
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> skedarë po shkarkohen</item>
       <item quantity="one">1 skedar po shkarkohet</item>
     </plurals>
-    <plurals name="notif_summary_waiting" formatted="false" msgid="2814217662029273005">
+    <plurals name="notif_summary_waiting" formatted="false" msgid="1782251721955177526">
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> skedarë në pritje</item>
       <item quantity="one">1 skedar në pritje</item>
     </plurals>
-    <string name="download_remaining" msgid="3139295890887972718">"<xliff:g id="DURATION">%s</xliff:g> të mbetura"</string>
-    <string name="download_no_application_title" msgid="7935659741162801699">"Skedari nuk mund të hapet"</string>
-    <string name="root_downloads" msgid="4098414876292351487">"Shkarkimet"</string>
-    <string name="download_queued" msgid="3302638231377947451">"Në radhë"</string>
-    <string name="download_running" msgid="3925050393361158266">"Në proces"</string>
-    <string name="download_error" msgid="5144180777324573236">"Pa sukses"</string>
-    <string name="download_running_percent" msgid="4305080769167320204">"Në proces, <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
+    <string name="download_remaining" msgid="2313089371178695625">"<xliff:g id="DURATION">%s</xliff:g> të mbetura"</string>
+    <string name="download_no_application_title" msgid="5780812573953335721">"Skedari nuk mund të hapet"</string>
+    <string name="root_downloads" msgid="8380500940211778491">"Shkarkimet"</string>
+    <string name="download_queued" msgid="3383844741769045371">"Në radhë"</string>
+    <string name="download_running" msgid="774654178925442490">"Në proces"</string>
+    <string name="download_error" msgid="1857737890005386798">"Pa sukses"</string>
+    <string name="download_running_percent" msgid="3492753569359254730">"Në proces, <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
 </resources>

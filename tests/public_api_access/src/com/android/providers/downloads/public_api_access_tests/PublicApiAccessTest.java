@@ -16,21 +16,37 @@
 
 package com.android.providers.downloads.public_api_access_tests;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import android.app.DownloadManager;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.Downloads;
-import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.MediumTest;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.runner.AndroidJUnit4;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import java.io.File;
 
 /**
  * DownloadProvider allows apps without permission ACCESS_DOWNLOAD_MANAGER to access it -- this is
  * how the public API works.  But such access is subject to strict constraints on what can be
  * inserted.  This test suite checks those constraints.
  */
-@MediumTest
-public class PublicApiAccessTest extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public class PublicApiAccessTest {
     private static final String[] DISALLOWED_COLUMNS = new String[] {
                     Downloads.Impl.COLUMN_COOKIE_DATA,
                     Downloads.Impl.COLUMN_REFERER,
@@ -47,25 +63,30 @@ public class PublicApiAccessTest extends AndroidTestCase {
     private ContentResolver mContentResolver;
     private DownloadManager mManager;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mContentResolver = getContext().getContentResolver();
-        mManager = new DownloadManager(getContext());
+    private Context getContext() {
+        return InstrumentationRegistry.getContext();
     }
 
-    @Override
-    protected void tearDown() throws Exception {
+    @Before
+    public void setUp() throws Exception {
+        mContentResolver = getContext().getContentResolver();
+        mManager = new DownloadManager(getContext());
+        mManager.setAccessFilename(true);
+    }
+
+    @After
+    public void tearDown() throws Exception {
         if (mContentResolver != null) {
             mContentResolver.delete(Downloads.Impl.CONTENT_URI, null, null);
         }
-        super.tearDown();
     }
 
+    @Test
     public void testMinimalValidWrite() {
         mContentResolver.insert(Downloads.Impl.CONTENT_URI, buildValidValues());
     }
 
+    @Test
     public void testMaximalValidWrite() {
         ContentValues values = buildValidValues();
         values.put(Downloads.Impl.COLUMN_TITLE, "foo");
@@ -88,12 +109,14 @@ public class PublicApiAccessTest extends AndroidTestCase {
         return values;
     }
 
+    @Test
     public void testNoPublicApi() {
         ContentValues values = buildValidValues();
         values.remove(Downloads.Impl.COLUMN_IS_PUBLIC_API);
         testInvalidValues(values);
     }
 
+    @Test
     public void testInvalidDestination() {
         ContentValues values = buildValidValues();
         values.put(Downloads.Impl.COLUMN_DESTINATION, Downloads.Impl.DESTINATION_EXTERNAL);
@@ -102,6 +125,8 @@ public class PublicApiAccessTest extends AndroidTestCase {
         testInvalidValues(values);
     }
 
+    @Ignore
+    @Test
     public void testInvalidVisibility() {
         ContentValues values = buildValidValues();
         values.put(Downloads.Impl.COLUMN_VISIBILITY,
@@ -115,6 +140,7 @@ public class PublicApiAccessTest extends AndroidTestCase {
         testInvalidValues(values);
     }
 
+    @Test
     public void testDisallowedColumns() {
         for (String column : DISALLOWED_COLUMNS) {
             ContentValues values = buildValidValues();
@@ -123,6 +149,7 @@ public class PublicApiAccessTest extends AndroidTestCase {
         }
     }
 
+    @Test
     public void testFileUriWithoutExternalPermission() {
         ContentValues values = buildValidValues();
         values.put(Downloads.Impl.COLUMN_DESTINATION, Downloads.Impl.DESTINATION_FILE_URI);
@@ -139,6 +166,7 @@ public class PublicApiAccessTest extends AndroidTestCase {
         }
     }
 
+    @Test
     public void testDownloadManagerRequest() {
         // first try a minimal request
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse("http://localhost/path"));
@@ -152,5 +180,44 @@ public class PublicApiAccessTest extends AndroidTestCase {
         request.setMimeType("text/html");
         request.addRequestHeader("X-Some-Header", "value");
         mManager.enqueue(request);
+    }
+
+    /**
+     * Internally, {@code DownloadManager} synchronizes its contents with
+     * {@code MediaStore}, which relies heavily on using file extensions to
+     * determine MIME types.
+     * <p>
+     * This test verifies that if an app attempts to add an already-completed
+     * download without an extension, that we'll force the MIME type with what
+     * {@code MediaStore} would have derived.
+     */
+    @Test
+    public void testAddCompletedWithoutExtension() throws Exception {
+        final File dir = Environment
+                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        final File file = new File(dir, "test" + System.nanoTime());
+        file.createNewFile();
+
+        final long id = mManager.addCompletedDownload("My Title", "My Description", true,
+                "application/pdf", file.getAbsolutePath(), file.length(), true, true,
+                Uri.parse("http://example.com/"), Uri.parse("http://example.net/"));
+        final Uri uri = mManager.getDownloadUri(id);
+
+        // Trigger a generic update so that we push to MediaStore
+        final ContentValues values = new ContentValues();
+        values.put(DownloadManager.COLUMN_DESCRIPTION, "Modified Description");
+        mContentResolver.update(uri, values, null);
+
+        try (Cursor c = mContentResolver.query(uri, null, null, null)) {
+            assertTrue(c.moveToFirst());
+
+            final String actualMime = c
+                    .getString(c.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIA_TYPE));
+            final String actualPath = c
+                    .getString(c.getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_FILENAME));
+
+            assertEquals("application/octet-stream", actualMime);
+            assertEquals(file.getAbsolutePath(), actualPath);
+        }
     }
 }

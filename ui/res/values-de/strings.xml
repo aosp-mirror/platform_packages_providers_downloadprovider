@@ -16,36 +16,36 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"Downloads"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Downloads - Nach Datum sortiert"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Downloads - Nach Größe sortiert"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"Keine Downloads"</string>
-    <string name="missing_title" msgid="830115697868833773">"&lt;Unbekannt&gt;"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"Nach Größe sortieren"</string>
-    <string name="button_sort_by_date" msgid="8800842892684101528">"Nach Datum sortieren"</string>
-    <string name="download_queued" msgid="104973307780629904">"Eingereiht"</string>
-    <string name="download_running" msgid="4656462962155580641">"Läuft"</string>
-    <string name="download_success" msgid="7006048006543495236">"Fertig"</string>
-    <string name="download_error" msgid="8081329546008568251">"Fehler"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"Downloadfehler"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"Möchtest du später einen erneuten Downloadversuch mit der Datei starten oder die Datei aus der Warteschlange löschen?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Download wird vorbereitet"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"Die Datei ist noch nicht verfügbar, da auf den Download der Datei gewartet wird."</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Heruntergeladene Datei kann nicht gefunden werden."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Der Download kann nicht abgeschlossen werden, da der Speicherplatz des externen Speichers nicht ausreicht."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Der Download kann nicht abgeschlossen werden, da der Speicherplatz des internen Downloadspeichers nicht ausreicht."</string>
-    <string name="dialog_cannot_resume" msgid="8664509751358983543">"Der Download wurde unterbrochen und kann nicht fortgesetzt werden."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Der Download ist nicht möglich, da die Zieldatei bereits vorhanden ist."</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"Der Download ist nicht möglich, da das externe Speichermedium nicht vorhanden ist."</string>
-    <string name="download_no_application_title" msgid="7024782176657362251">"Datei kann nicht geöffnet werden."</string>
-    <string name="remove_download" msgid="6372920256257247857">"Entfernen"</string>
-    <string name="delete_download" msgid="76629022653866471">"Löschen"</string>
-    <string name="keep_queued_download" msgid="5144882786014818569">"Beibehalten"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"Abbrechen"</string>
-    <string name="retry_download" msgid="7617100787922717912">"Wiederholen"</string>
-    <string name="start_now_download" msgid="1564642872809509681">"Jetzt starten"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"Auswahl für alle aufheben"</string>
-    <string name="select_all" msgid="634074918366265804">"Alle auswählen"</string>
-    <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="NUMBER">%1$d</xliff:g> von <xliff:g id="TOTAL">%2$d</xliff:g> ausgewählt"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"Teilen über"</string>
+    <string name="app_label" msgid="4847371117203587513">"Downloads"</string>
+    <string name="download_title_sorted_by_date" msgid="6033509257480233878">"Downloads - Nach Datum sortiert"</string>
+    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"Downloads - Nach Größe sortiert"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"Keine Downloads"</string>
+    <string name="missing_title" msgid="3827247802608803753">"&lt;Unbekannt&gt;"</string>
+    <string name="button_sort_by_size" msgid="7952187121189086395">"Nach Größe sortieren"</string>
+    <string name="button_sort_by_date" msgid="2064919145709585942">"Nach Datum sortieren"</string>
+    <string name="download_queued" msgid="4128038702528588781">"Eingereiht"</string>
+    <string name="download_running" msgid="2046492059586594352">"Läuft"</string>
+    <string name="download_success" msgid="3895973294927323747">"Fertig"</string>
+    <string name="download_error" msgid="6652902885480887230">"Fehler"</string>
+    <string name="dialog_title_not_available" msgid="7793272183758002416">"Downloadfehler"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"Möchtest du später einen erneuten Downloadversuch mit der Datei starten oder die Datei aus der Warteschlange löschen?"</string>
+    <string name="dialog_title_queued_body" msgid="7481231558376227012">"Download wird vorbereitet"</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"Die Datei ist noch nicht verfügbar, da auf den Download der Datei gewartet wird."</string>
+    <string name="dialog_file_missing_body" msgid="7896653198405160564">"Heruntergeladene Datei kann nicht gefunden werden."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"Der Download kann nicht abgeschlossen werden, da der Speicherplatz des externen Speichers nicht ausreicht."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"Der Download kann nicht abgeschlossen werden, da der Speicherplatz des internen Downloadspeichers nicht ausreicht."</string>
+    <string name="dialog_cannot_resume" msgid="3101433441301206866">"Der Download wurde unterbrochen und kann nicht fortgesetzt werden."</string>
+    <string name="dialog_file_already_exists" msgid="6849168874901909994">"Der Download ist nicht möglich, da die Zieldatei bereits vorhanden ist."</string>
+    <string name="dialog_media_not_found" msgid="7376030905821161865">"Der Download ist nicht möglich, da das externe Speichermedium nicht vorhanden ist."</string>
+    <string name="download_no_application_title" msgid="1209223807604231431">"Datei kann nicht geöffnet werden."</string>
+    <string name="remove_download" msgid="244394809285977300">"Entfernen"</string>
+    <string name="delete_download" msgid="1861638125603383676">"Löschen"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"Beibehalten"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"Abbrechen"</string>
+    <string name="retry_download" msgid="6957856437473044831">"Wiederholen"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"Jetzt starten"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"Auswahl für alle aufheben"</string>
+    <string name="select_all" msgid="7469093306474000460">"Alle auswählen"</string>
+    <string name="selected_count" msgid="5876842902167894010">"<xliff:g id="NUMBER">%1$d</xliff:g> von <xliff:g id="TOTAL">%2$d</xliff:g> ausgewählt"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"Teilen über"</string>
 </resources>

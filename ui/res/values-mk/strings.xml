@@ -16,36 +16,36 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"Преземања"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Преземања - Подредени по датум"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Преземања - Подредени по големина"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"Нема преземања."</string>
-    <string name="missing_title" msgid="830115697868833773">"Непознато"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"Подреди по големина"</string>
-    <string name="button_sort_by_date" msgid="8800842892684101528">"Подреди по датум"</string>
-    <string name="download_queued" msgid="104973307780629904">"Чека на ред"</string>
-    <string name="download_running" msgid="4656462962155580641">"Во тек е"</string>
-    <string name="download_success" msgid="7006048006543495236">"Целосно"</string>
-    <string name="download_error" msgid="8081329546008568251">"Неуспешно"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"Не можеше да се преземе"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"Сакате повторно да се обиде со преземање на датотеката подоцна или да се избрише од редот?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Датотеката е во ред на чекање"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"Оваа датотека е ставена во ред начекање да се преземе во иднина и сè уште не е достапна."</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"Не може да се пронајде преземената датотека."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"Преземањето не може да се заврши. Нема доволно простор на надворешната меморија."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"Преземањето не може да се заврши. Нема доволно простор на внатрешен капацитет за преземање."</string>
-    <string name="dialog_cannot_resume" msgid="8664509751358983543">"Преземањето се прекина и не може да продолжи."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"Не може да се преземе. Одредишната датотека веќе постои."</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"Не може да се преземе. Надворешниот медиум не е достапен."</string>
-    <string name="download_no_application_title" msgid="7024782176657362251">"Датотеката не се отвора"</string>
-    <string name="remove_download" msgid="6372920256257247857">"Отстрани"</string>
-    <string name="delete_download" msgid="76629022653866471">"Избриши"</string>
-    <string name="keep_queued_download" msgid="5144882786014818569">"Задржи"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"Откажи"</string>
-    <string name="retry_download" msgid="7617100787922717912">"Обиди се повторно"</string>
-    <string name="start_now_download" msgid="1564642872809509681">"Започни сега"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"Отштиклирај ги сите"</string>
-    <string name="select_all" msgid="634074918366265804">"Избери ги сите"</string>
-    <string name="selected_count" msgid="2101564570019753277">"Избрани <xliff:g id="NUMBER">%1$d</xliff:g> од <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"Сподели преку"</string>
+    <string name="app_label" msgid="4847371117203587513">"Преземања"</string>
+    <string name="download_title_sorted_by_date" msgid="6033509257480233878">"Преземања - Подредени по датум"</string>
+    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"Преземања - Подредени по големина"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"Нема преземања."</string>
+    <string name="missing_title" msgid="3827247802608803753">"Непознато"</string>
+    <string name="button_sort_by_size" msgid="7952187121189086395">"Подреди по големина"</string>
+    <string name="button_sort_by_date" msgid="2064919145709585942">"Подреди по датум"</string>
+    <string name="download_queued" msgid="4128038702528588781">"Чека на ред"</string>
+    <string name="download_running" msgid="2046492059586594352">"Во тек е"</string>
+    <string name="download_success" msgid="3895973294927323747">"Целосно"</string>
+    <string name="download_error" msgid="6652902885480887230">"Неуспешно"</string>
+    <string name="dialog_title_not_available" msgid="7793272183758002416">"Не можеше да се преземе"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"Сакате повторно да се обиде со преземање на датотеката подоцна или да се избрише од редот?"</string>
+    <string name="dialog_title_queued_body" msgid="7481231558376227012">"Датотеката е во ред на чекање"</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"Оваа датотека е ставена во ред начекање да се преземе во иднина и сè уште не е достапна."</string>
+    <string name="dialog_file_missing_body" msgid="7896653198405160564">"Не може да се пронајде преземената датотека."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"Преземањето не може да се заврши. Нема доволно простор на надворешната меморија."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"Преземањето не може да се заврши. Нема доволно простор на внатрешен капацитет за преземање."</string>
+    <string name="dialog_cannot_resume" msgid="3101433441301206866">"Преземањето се прекина и не може да продолжи."</string>
+    <string name="dialog_file_already_exists" msgid="6849168874901909994">"Не може да се преземе. Одредишната датотека веќе постои."</string>
+    <string name="dialog_media_not_found" msgid="7376030905821161865">"Не може да се преземе. Надворешниот медиум не е достапен."</string>
+    <string name="download_no_application_title" msgid="1209223807604231431">"Датотеката не се отвора"</string>
+    <string name="remove_download" msgid="244394809285977300">"Отстрани"</string>
+    <string name="delete_download" msgid="1861638125603383676">"Избриши"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"Задржи"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"Откажи"</string>
+    <string name="retry_download" msgid="6957856437473044831">"Обиди се повторно"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"Започни сега"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"Отштиклирај ги сите"</string>
+    <string name="select_all" msgid="7469093306474000460">"Избери ги сите"</string>
+    <string name="selected_count" msgid="5876842902167894010">"Избрани <xliff:g id="NUMBER">%1$d</xliff:g> од <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"Сподели преку"</string>
 </resources>

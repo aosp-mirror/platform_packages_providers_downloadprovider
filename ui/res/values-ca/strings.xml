@@ -16,36 +16,36 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"Baixades"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"Baixades: ordenades per data"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"Baixades: ordenades per mida"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"Sense baixades."</string>
-    <string name="missing_title" msgid="830115697868833773">"&lt;Desconegut&gt;"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"Ordena per mida"</string>
-    <string name="button_sort_by_date" msgid="8800842892684101528">"Ordena per data"</string>
-    <string name="download_queued" msgid="104973307780629904">"En cua"</string>
-    <string name="download_running" msgid="4656462962155580641">"En curs"</string>
-    <string name="download_success" msgid="7006048006543495236">"Completada"</string>
-    <string name="download_error" msgid="8081329546008568251">"Incorrecta"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"No s\'ha pogut baixar"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"Vols tornar a intentar baixar el fitxer més tard o vols suprimir-lo de la cua?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"Fitxer en cua"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"Aquest fitxer està en cua per baixar més endavant, per tant, encara no està disponible."</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"No es pot trobar el fitxer baixat."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"No es pot finalitzar la baixada. No hi ha prou espai a l\'emmagatzematge extern."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"No es pot finalitzar la baixada. No hi ha prou espai a l\'emmagatzematge intern."</string>
-    <string name="dialog_cannot_resume" msgid="8664509751358983543">"S\'ha interromput la baixada i no es pot reprendre."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"No es pot baixar. El fitxer de destinació ja existeix."</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"No es pot baixar. El mitjà extern no està disponible."</string>
-    <string name="download_no_application_title" msgid="7024782176657362251">"No es pot obrir el fitxer"</string>
-    <string name="remove_download" msgid="6372920256257247857">"Elimina"</string>
-    <string name="delete_download" msgid="76629022653866471">"Suprimeix"</string>
-    <string name="keep_queued_download" msgid="5144882786014818569">"Conserva"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"Cancel·la"</string>
-    <string name="retry_download" msgid="7617100787922717912">"Torna-ho a provar"</string>
-    <string name="start_now_download" msgid="1564642872809509681">"Comença ara"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"Desselecciona-ho tot"</string>
-    <string name="select_all" msgid="634074918366265804">"Selecciona-ho tot"</string>
-    <string name="selected_count" msgid="2101564570019753277">"S\'han seleccionat <xliff:g id="NUMBER">%1$d</xliff:g> de <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"Compart. mitjançant"</string>
+    <string name="app_label" msgid="4847371117203587513">"Baixades"</string>
+    <string name="download_title_sorted_by_date" msgid="6033509257480233878">"Baixades: ordenades per data"</string>
+    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"Baixades: ordenades per mida"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"Sense baixades."</string>
+    <string name="missing_title" msgid="3827247802608803753">"&lt;Desconegut&gt;"</string>
+    <string name="button_sort_by_size" msgid="7952187121189086395">"Ordena per mida"</string>
+    <string name="button_sort_by_date" msgid="2064919145709585942">"Ordena per data"</string>
+    <string name="download_queued" msgid="4128038702528588781">"En cua"</string>
+    <string name="download_running" msgid="2046492059586594352">"En curs"</string>
+    <string name="download_success" msgid="3895973294927323747">"Completada"</string>
+    <string name="download_error" msgid="6652902885480887230">"Incorrecta"</string>
+    <string name="dialog_title_not_available" msgid="7793272183758002416">"No s\'ha pogut baixar"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"Vols tornar a intentar baixar el fitxer més tard o vols suprimir-lo de la cua?"</string>
+    <string name="dialog_title_queued_body" msgid="7481231558376227012">"Fitxer en cua"</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"Aquest fitxer està en cua per baixar més endavant, per tant, encara no està disponible."</string>
+    <string name="dialog_file_missing_body" msgid="7896653198405160564">"No es pot trobar el fitxer baixat."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"No es pot finalitzar la baixada. No hi ha prou espai a l\'emmagatzematge extern."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"No es pot finalitzar la baixada. No hi ha prou espai a l\'emmagatzematge intern."</string>
+    <string name="dialog_cannot_resume" msgid="3101433441301206866">"S\'ha interromput la baixada i no es pot reprendre."</string>
+    <string name="dialog_file_already_exists" msgid="6849168874901909994">"No es pot baixar. El fitxer de destinació ja existeix."</string>
+    <string name="dialog_media_not_found" msgid="7376030905821161865">"No es pot baixar. El mitjà extern no està disponible."</string>
+    <string name="download_no_application_title" msgid="1209223807604231431">"No es pot obrir el fitxer"</string>
+    <string name="remove_download" msgid="244394809285977300">"Elimina"</string>
+    <string name="delete_download" msgid="1861638125603383676">"Suprimeix"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"Conserva"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"Cancel·la"</string>
+    <string name="retry_download" msgid="6957856437473044831">"Torna-ho a provar"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"Comença ara"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"Desselecciona-ho tot"</string>
+    <string name="select_all" msgid="7469093306474000460">"Selecciona-ho tot"</string>
+    <string name="selected_count" msgid="5876842902167894010">"S\'han seleccionat <xliff:g id="NUMBER">%1$d</xliff:g> de <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"Compart. mitjançant"</string>
 </resources>

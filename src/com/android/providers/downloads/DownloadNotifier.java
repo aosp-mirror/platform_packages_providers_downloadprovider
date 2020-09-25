@@ -233,7 +233,8 @@ public class DownloadNotifier {
                 intent.putExtra(DownloadManager.EXTRA_NOTIFICATION_CLICK_DOWNLOAD_IDS,
                         downloadIds);
                 builder.setContentIntent(PendingIntent.getBroadcast(mContext,
-                        0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
+                        0, intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
                 if (type == TYPE_ACTIVE) {
                     builder.setOngoing(true);
                 }
@@ -250,7 +251,8 @@ public class DownloadNotifier {
                     android.R.drawable.ic_menu_close_clear_cancel,
                     res.getString(R.string.button_cancel_download),
                     PendingIntent.getBroadcast(mContext,
-                            0, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+                            0, cancelIntent,
+                            PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
 
             } else if (type == TYPE_COMPLETE) {
                 cursor.moveToPosition(cluster.get(0));
@@ -274,12 +276,14 @@ public class DownloadNotifier {
                 intent.putExtra(DownloadManager.EXTRA_NOTIFICATION_CLICK_DOWNLOAD_IDS,
                         getDownloadIds(cursor, cluster));
                 builder.setContentIntent(PendingIntent.getBroadcast(mContext,
-                        0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
+                        0, intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
 
                 final Intent hideIntent = new Intent(Constants.ACTION_HIDE,
                         uri, mContext, DownloadReceiver.class);
                 hideIntent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-                builder.setDeleteIntent(PendingIntent.getBroadcast(mContext, 0, hideIntent, 0));
+                builder.setDeleteIntent(PendingIntent.getBroadcast(mContext, 0, hideIntent,
+                            PendingIntent.FLAG_IMMUTABLE));
             }
 
             // Calculate and show progress

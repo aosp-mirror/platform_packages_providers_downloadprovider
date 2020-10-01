@@ -16,36 +16,36 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"ডাউনল\'ডসমূহ"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"ডাউনল\'ডসমূহ - তাৰিখ অনুসৰি ক্ৰমবদ্ধ কৰক"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"ডাউনল\'ডসমূহ - আকাৰ অনুসৰি ক্ৰমবদ্ধ কৰক"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"কোনো ডাউনল’ড নাই।"</string>
-    <string name="missing_title" msgid="830115697868833773">"&lt;অজ্ঞাত&gt;"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"আকাৰ অনুসৰি ক্ৰমবদ্ধ কৰক"</string>
-    <string name="button_sort_by_date" msgid="8800842892684101528">"তাৰিখ অনুসৰি ক্ৰমবদ্ধ কৰক"</string>
-    <string name="download_queued" msgid="104973307780629904">"লানি পাতি ৰখা হৈছে"</string>
-    <string name="download_running" msgid="4656462962155580641">"চলি আছে"</string>
-    <string name="download_success" msgid="7006048006543495236">"সম্পূৰ্ণ হ’ল"</string>
-    <string name="download_error" msgid="8081329546008568251">"সফল নহ\'ল"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"ডাউনল’ড কৰিব পৰা নগ\'ল"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"আপুনি পিছত ফাইলটো পুনৰায় ডাউনল’ড কৰিবলৈ বিচাৰে নে ডাউনল’ডৰ লানিৰ পৰা ইয়াক গুচাব বিচাৰে?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"ফাইল লানি পাতি থোৱা হৈছে"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"এই ফাইলটো ভৱিষ্যতে ডাউনল’ড কৰিবলৈ লানি পাতি থোৱা হৈছে, গতিকে সদ্যহতে উপলব্ধ নহয়।"</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"ডাউনল’ড কৰা ফাইলটো বিচাৰি পোৱা নাই।"</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"ডাউনল’ড সম্পূৰ্ণ কৰিবপৰা নোৱাৰি। বাহ্যিক সঞ্চয়াগাৰত পৰ্যাপ্ত খালী ঠাই নাই।"</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"ডাউনল’ড সম্পূৰ্ণ কৰিব নোৱাৰি। আভ্যন্তৰীণ ডাউনল’ড সঞ্চয়াগাৰত পৰ্যাপ্ত খালী ঠাই নাই।"</string>
-    <string name="dialog_cannot_resume" msgid="8664509751358983543">"ডাউনল\'ডত বিঘিনি জন্মোৱা হৈছিল আৰু ইয়াক পুনৰায় আৰম্ভ কৰিবপৰা নাযাব।"</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"ডাউনল’ড কৰিব নোৱাৰি। লক্ষ্যস্থানত ফাইলটো ইতিমধ্যে আছে।"</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"ডাউনল’ড কৰিব নোৱাৰি। বাহ্যিক মিডিয়া উপলব্ধ নহয়।"</string>
-    <string name="download_no_application_title" msgid="7024782176657362251">"ফাইল খুলিব নোৱাৰি"</string>
-    <string name="remove_download" msgid="6372920256257247857">"আঁতৰাওক"</string>
-    <string name="delete_download" msgid="76629022653866471">"মচক"</string>
-    <string name="keep_queued_download" msgid="5144882786014818569">"ৰাখক"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"বাতিল কৰক"</string>
-    <string name="retry_download" msgid="7617100787922717912">"পুনৰ চেষ্টা কৰক"</string>
-    <string name="start_now_download" msgid="1564642872809509681">"এতিয়া আৰম্ভ কৰক"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"সকলো বাছনি নোহোৱা কৰক"</string>
-    <string name="select_all" msgid="634074918366265804">"সকলো বাছনি কৰক"</string>
-    <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="TOTAL">%2$d</xliff:g>ৰ ভিতৰত <xliff:g id="NUMBER">%1$d</xliff:g>টা বাছনি কৰা হ’ল"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"ইয়াৰ জৰিয়তে শ্বেয়াৰ কৰক"</string>
+    <string name="app_label" msgid="4847371117203587513">"ডাউনল\'ডসমূহ"</string>
+    <string name="download_title_sorted_by_date" msgid="6033509257480233878">"ডাউনল\'ডসমূহ - তাৰিখ অনুসৰি ক্ৰমবদ্ধ কৰক"</string>
+    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"ডাউনল\'ডসমূহ - আকাৰ অনুসৰি ক্ৰমবদ্ধ কৰক"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"কোনো ডাউনল’ড নাই।"</string>
+    <string name="missing_title" msgid="3827247802608803753">"&lt;অজ্ঞাত&gt;"</string>
+    <string name="button_sort_by_size" msgid="7952187121189086395">"আকাৰ অনুসৰি ক্ৰমবদ্ধ কৰক"</string>
+    <string name="button_sort_by_date" msgid="2064919145709585942">"তাৰিখ অনুসৰি ক্ৰমবদ্ধ কৰক"</string>
+    <string name="download_queued" msgid="4128038702528588781">"লানি পাতি ৰখা হৈছে"</string>
+    <string name="download_running" msgid="2046492059586594352">"চলি আছে"</string>
+    <string name="download_success" msgid="3895973294927323747">"সম্পূৰ্ণ হ’ল"</string>
+    <string name="download_error" msgid="6652902885480887230">"সফল নহ\'ল"</string>
+    <string name="dialog_title_not_available" msgid="7793272183758002416">"ডাউনল’ড কৰিব পৰা নগ\'ল"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"আপুনি পিছত ফাইলটো পুনৰায় ডাউনল’ড কৰিবলৈ বিচাৰে নে ডাউনল’ডৰ লানিৰ পৰা ইয়াক গুচাব বিচাৰে?"</string>
+    <string name="dialog_title_queued_body" msgid="7481231558376227012">"ফাইল লানি পাতি থোৱা হৈছে"</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"এই ফাইলটো ভৱিষ্যতে ডাউনল’ড কৰিবলৈ লানি পাতি থোৱা হৈছে, গতিকে সদ্যহতে উপলব্ধ নহয়।"</string>
+    <string name="dialog_file_missing_body" msgid="7896653198405160564">"ডাউনল’ড কৰা ফাইলটো বিচাৰি পোৱা নাই।"</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"ডাউনল’ড সম্পূৰ্ণ কৰিবপৰা নোৱাৰি। বাহ্যিক সঞ্চয়াগাৰত পৰ্যাপ্ত খালী ঠাই নাই।"</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"ডাউনল’ড সম্পূৰ্ণ কৰিব নোৱাৰি। আভ্যন্তৰীণ ডাউনল’ড সঞ্চয়াগাৰত পৰ্যাপ্ত খালী ঠাই নাই।"</string>
+    <string name="dialog_cannot_resume" msgid="3101433441301206866">"ডাউনল\'ডত বিঘিনি জন্মোৱা হৈছিল আৰু ইয়াক পুনৰায় আৰম্ভ কৰিবপৰা নাযাব।"</string>
+    <string name="dialog_file_already_exists" msgid="6849168874901909994">"ডাউনল’ড কৰিব নোৱাৰি। লক্ষ্যস্থানত ফাইলটো ইতিমধ্যে আছে।"</string>
+    <string name="dialog_media_not_found" msgid="7376030905821161865">"ডাউনল’ড কৰিব নোৱাৰি। বাহ্যিক মিডিয়া উপলব্ধ নহয়।"</string>
+    <string name="download_no_application_title" msgid="1209223807604231431">"ফাইল খুলিব নোৱাৰি"</string>
+    <string name="remove_download" msgid="244394809285977300">"আঁতৰাওক"</string>
+    <string name="delete_download" msgid="1861638125603383676">"মচক"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"ৰাখক"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"বাতিল কৰক"</string>
+    <string name="retry_download" msgid="6957856437473044831">"পুনৰ চেষ্টা কৰক"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"এতিয়া আৰম্ভ কৰক"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"সকলো বাছনি নোহোৱা কৰক"</string>
+    <string name="select_all" msgid="7469093306474000460">"সকলো বাছনি কৰক"</string>
+    <string name="selected_count" msgid="5876842902167894010">"<xliff:g id="TOTAL">%2$d</xliff:g>ৰ ভিতৰত <xliff:g id="NUMBER">%1$d</xliff:g>টা বাছনি কৰা হ’ল"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"ইয়াৰ জৰিয়তে শ্বেয়াৰ কৰক"</string>
 </resources>

@@ -16,36 +16,36 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"බාගැනීම්"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"බාගැනීම් - දිනය අනුව පෙළගස්වන ලද"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"බාගැනීම් - ප්‍රමාණය අනුව පෙළගස්වන ලද"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"බාගැනීම් නොමැත."</string>
-    <string name="missing_title" msgid="830115697868833773">"&lt;නොදනී&gt;"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"ප්‍රමාණය අනුව අනුපිළිවෙලට සකසන්න"</string>
-    <string name="button_sort_by_date" msgid="8800842892684101528">"දිනය අනුව අනුපිළිවෙලට සකසන්න"</string>
-    <string name="download_queued" msgid="104973307780629904">"පෙළ ගැස්විණි"</string>
-    <string name="download_running" msgid="4656462962155580641">"ක්‍රියාවේ පවතී"</string>
-    <string name="download_success" msgid="7006048006543495236">"සම්පුර්ණයි"</string>
-    <string name="download_error" msgid="8081329546008568251">"අසාර්ථකයි"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"බාගත නොහැකි විය"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"ඔබට ගොනු පසුව බාගැනීමට උත්සාහ කිරීමට අවශ්‍යද නැතිනම් එය පෝලිමෙන් මැකීමට අවශ්‍යද?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"ගොනුව පේළියෙහි තිබේ"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"අනාගත බාගැනීම් සඳහා මෙම ගොනුව පෙළගස්වා ඇත එබැවින් එය තවම ලබාගත නොහැක."</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"බාගත් ගොනුව සොයා ගත නොහැක."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"බාගැනීම අවසන් කළ නොහැක. බාහිර බාගැනීම් ආචයනයේ අවශ්‍ය තරම් ඉඩක් නොමැත."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"බාගැනීම අවසන් කළ නොහැක. අභ්‍යන්තර බාගැනීම් ආචයනයේ අවශ්‍ය තරම් ඉඩක් නොමැත."</string>
-    <string name="dialog_cannot_resume" msgid="8664509751358983543">"බාගැනීමට බාධා ඇතිවූ අතර එය යළි ආරම්භ කළ නොහැක."</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"බාගත නොහැක. ගමනාන්තයේ ගොනුව දැනටමත් ඇත."</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"බාගත නොහැක. බාහිර මාධ්‍ය නොමැත."</string>
-    <string name="download_no_application_title" msgid="7024782176657362251">"ගොනුව විවෘත කළ නොහැකි විය"</string>
-    <string name="remove_download" msgid="6372920256257247857">"ඉවත් කරන්න"</string>
-    <string name="delete_download" msgid="76629022653866471">"මකන්න"</string>
-    <string name="keep_queued_download" msgid="5144882786014818569">"තබාගැනීම"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"අවලංගු කරන්න"</string>
-    <string name="retry_download" msgid="7617100787922717912">"නැවත උත්සාහ කරන්න"</string>
-    <string name="start_now_download" msgid="1564642872809509681">"දැන් අරඹන්න"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"සියල්ල තේරීම අත්හරින්න"</string>
-    <string name="select_all" msgid="634074918366265804">"සියල්ල තෝරන්න"</string>
-    <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="TOTAL">%2$d</xliff:g> ගෙන් <xliff:g id="NUMBER">%1$d</xliff:g> ක් තෝරා ගන්නා ලදී"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"බෙදාගන්නේ"</string>
+    <string name="app_label" msgid="4847371117203587513">"බාගැනීම්"</string>
+    <string name="download_title_sorted_by_date" msgid="6033509257480233878">"බාගැනීම් - දිනය අනුව පෙළගස්වන ලද"</string>
+    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"බාගැනීම් - ප්‍රමාණය අනුව පෙළගස්වන ලද"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"බාගැනීම් නොමැත."</string>
+    <string name="missing_title" msgid="3827247802608803753">"&lt;නොදනී&gt;"</string>
+    <string name="button_sort_by_size" msgid="7952187121189086395">"ප්‍රමාණය අනුව අනුපිළිවෙලට සකසන්න"</string>
+    <string name="button_sort_by_date" msgid="2064919145709585942">"දිනය අනුව අනුපිළිවෙලට සකසන්න"</string>
+    <string name="download_queued" msgid="4128038702528588781">"පෙළ ගැස්විණි"</string>
+    <string name="download_running" msgid="2046492059586594352">"ක්‍රියාවේ පවතී"</string>
+    <string name="download_success" msgid="3895973294927323747">"සම්පුර්ණයි"</string>
+    <string name="download_error" msgid="6652902885480887230">"අසාර්ථකයි"</string>
+    <string name="dialog_title_not_available" msgid="7793272183758002416">"බාගත නොහැකි විය"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"ඔබට ගොනු පසුව බාගැනීමට උත්සාහ කිරීමට අවශ්‍යද නැතිනම් එය පෝලිමෙන් මැකීමට අවශ්‍යද?"</string>
+    <string name="dialog_title_queued_body" msgid="7481231558376227012">"ගොනුව පේළියෙහි තිබේ"</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"අනාගත බාගැනීම් සඳහා මෙම ගොනුව පෙළගස්වා ඇත එබැවින් එය තවම ලබාගත නොහැක."</string>
+    <string name="dialog_file_missing_body" msgid="7896653198405160564">"බාගත් ගොනුව සොයා ගත නොහැක."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"බාගැනීම අවසන් කළ නොහැක. බාහිර බාගැනීම් ආචයනයේ අවශ්‍ය තරම් ඉඩක් නොමැත."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"බාගැනීම අවසන් කළ නොහැක. අභ්‍යන්තර බාගැනීම් ආචයනයේ අවශ්‍ය තරම් ඉඩක් නොමැත."</string>
+    <string name="dialog_cannot_resume" msgid="3101433441301206866">"බාගැනීමට බාධා ඇතිවූ අතර එය යළි ආරම්භ කළ නොහැක."</string>
+    <string name="dialog_file_already_exists" msgid="6849168874901909994">"බාගත නොහැක. ගමනාන්තයේ ගොනුව දැනටමත් ඇත."</string>
+    <string name="dialog_media_not_found" msgid="7376030905821161865">"බාගත නොහැක. බාහිර මාධ්‍ය නොමැත."</string>
+    <string name="download_no_application_title" msgid="1209223807604231431">"ගොනුව විවෘත කළ නොහැකි විය"</string>
+    <string name="remove_download" msgid="244394809285977300">"ඉවත් කරන්න"</string>
+    <string name="delete_download" msgid="1861638125603383676">"මකන්න"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"තබාගැනීම"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"අවලංගු කරන්න"</string>
+    <string name="retry_download" msgid="6957856437473044831">"නැවත උත්සාහ කරන්න"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"දැන් අරඹන්න"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"සියල්ල තේරීම අත්හරින්න"</string>
+    <string name="select_all" msgid="7469093306474000460">"සියල්ල තෝරන්න"</string>
+    <string name="selected_count" msgid="5876842902167894010">"<xliff:g id="TOTAL">%2$d</xliff:g> ගෙන් <xliff:g id="NUMBER">%1$d</xliff:g> ක් තෝරා ගන්නා ලදී"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"බෙදාගන්නේ"</string>
 </resources>

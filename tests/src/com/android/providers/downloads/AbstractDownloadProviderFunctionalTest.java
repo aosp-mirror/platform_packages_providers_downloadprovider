@@ -95,7 +95,7 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
 
         @Override
         public synchronized void notifyChange(
-                Uri uri, ContentObserver observer, boolean syncToNetwork) {
+                Uri uri, ContentObserver observer) {
             mNotifyWasCalled = true;
         }
     }

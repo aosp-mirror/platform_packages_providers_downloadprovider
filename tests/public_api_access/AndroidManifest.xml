@@ -25,12 +25,10 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <!--
-    The test declared in this instrumentation can be run via this command
-    "adb shell am instrument -w com.android.providers.downloads.permission.tests/android.test.InstrumentationTestRunner"
     We intentionally target our own package to ensure this runs in a separate process under a
     separate UID.
     -->
-    <instrumentation android:name="android.test.InstrumentationTestRunner"
+    <instrumentation android:name="androidx.test.runner.AndroidJUnitRunner"
                      android:targetPackage="com.android.providers.downloads.public_api_access_tests"
                      android:label="Tests for public API access channels to DownloadProvider"/>
 

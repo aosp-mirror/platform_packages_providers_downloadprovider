@@ -16,36 +16,36 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3070921713463294774">"የወረዱ"</string>
-    <string name="download_title_sorted_by_date" msgid="5898014492155434221">"አውርድ-በቀን ተደርድሯል"</string>
-    <string name="download_title_sorted_by_size" msgid="1417193166677094813">"አውርድ-በመጠን ተደርድሯል"</string>
-    <string name="no_downloads" msgid="1029667411186146836">"ምንም አውርዶች የለም።"</string>
-    <string name="missing_title" msgid="830115697868833773">"&lt;ያልታወቀ&gt;"</string>
-    <string name="button_sort_by_size" msgid="7331549713691146251">"በመጠንደርድር"</string>
-    <string name="button_sort_by_date" msgid="8800842892684101528">"በቀንደርድር"</string>
-    <string name="download_queued" msgid="104973307780629904">"ተሰልፏል"</string>
-    <string name="download_running" msgid="4656462962155580641">"በሂደት ላይ"</string>
-    <string name="download_success" msgid="7006048006543495236">"ተጠናቋል"</string>
-    <string name="download_error" msgid="8081329546008568251">"ስኬታማ አልነበረም"</string>
-    <string name="dialog_title_not_available" msgid="5746317632356158515">"ማውረድ አልተቻለም::"</string>
-    <string name="dialog_failed_body" msgid="587545111677064427">"ፋይሉን ኋላለማውረድ ድጋሚ መሞከር ይፈልጋሉ ወይስ ከወረፋው ይሰረዝ?"</string>
-    <string name="dialog_title_queued_body" msgid="6760681913815015219">"በወረፋ ላይ ያለ ፋይል"</string>
-    <string name="dialog_queued_body" msgid="708552801635572720">"ለወደፊት ማውረድ  ፋይሉ ወረፋ ይዟል ስለዚህ እስካሁን አይገኝም፡፡"</string>
-    <string name="dialog_file_missing_body" msgid="3223012612774276284">"የወረደውን ፋይል ማግኘት አልተቻለም፡፡"</string>
-    <string name="dialog_insufficient_space_on_external" msgid="8692452156251449195">"ማውረድ አይችልም። በውጪ ማህደረ መረጃ ማከማቻ ላይ በቂ ቦታ የለም።"</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="6313630206163908994">"ማውረድመጨረስ  አይችልም። በውጪ ማህደረ መረጃ ማከማቻ ላይ በቂ ቦታ የለም።"</string>
-    <string name="dialog_cannot_resume" msgid="8664509751358983543">"አውርድ ተስተጓጉሏል። መቀጠል አልተቻለም፡፡"</string>
-    <string name="dialog_file_already_exists" msgid="8308563940663449590">"ማውረድ አይችልም። መድረሻ ፋይል አስቀድሞ አለ።"</string>
-    <string name="dialog_media_not_found" msgid="4468088418758018765">"ማውረድ አይችልም። የውጪ  ማህደረ መረጃ  የለም።"</string>
-    <string name="download_no_application_title" msgid="7024782176657362251">"ፋይል መክፈት አይቻልም"</string>
-    <string name="remove_download" msgid="6372920256257247857">"አስወግድ"</string>
-    <string name="delete_download" msgid="76629022653866471">"ሰርዝ"</string>
-    <string name="keep_queued_download" msgid="5144882786014818569">"ጠብቅ"</string>
-    <string name="cancel_running_download" msgid="5232704030969221112">"ይቅር"</string>
-    <string name="retry_download" msgid="7617100787922717912">"እንደገና ሞክር"</string>
-    <string name="start_now_download" msgid="1564642872809509681">"አሁን ጀምር"</string>
-    <string name="deselect_all" msgid="6348198946254776764">"ሁሉንም አትምረጥ"</string>
-    <string name="select_all" msgid="634074918366265804">"ሁሉንም ምረጥ"</string>
-    <string name="selected_count" msgid="2101564570019753277">"<xliff:g id="NUMBER">%1$d</xliff:g>ከ<xliff:g id="TOTAL">%2$d</xliff:g> ተመርጧል"</string>
-    <string name="download_share_dialog" msgid="3355867339806448955">"በኩል አጋራ"</string>
+    <string name="app_label" msgid="4847371117203587513">"የወረዱ"</string>
+    <string name="download_title_sorted_by_date" msgid="6033509257480233878">"አውርድ-በቀን ተደርድሯል"</string>
+    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"አውርድ-በመጠን ተደርድሯል"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"ምንም አውርዶች የለም።"</string>
+    <string name="missing_title" msgid="3827247802608803753">"&lt;ያልታወቀ&gt;"</string>
+    <string name="button_sort_by_size" msgid="7952187121189086395">"በመጠንደርድር"</string>
+    <string name="button_sort_by_date" msgid="2064919145709585942">"በቀንደርድር"</string>
+    <string name="download_queued" msgid="4128038702528588781">"ተሰልፏል"</string>
+    <string name="download_running" msgid="2046492059586594352">"በሂደት ላይ"</string>
+    <string name="download_success" msgid="3895973294927323747">"ተጠናቋል"</string>
+    <string name="download_error" msgid="6652902885480887230">"ስኬታማ አልነበረም"</string>
+    <string name="dialog_title_not_available" msgid="7793272183758002416">"ማውረድ አልተቻለም::"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"ፋይሉን ኋላለማውረድ ድጋሚ መሞከር ይፈልጋሉ ወይስ ከወረፋው ይሰረዝ?"</string>
+    <string name="dialog_title_queued_body" msgid="7481231558376227012">"በወረፋ ላይ ያለ ፋይል"</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"ለወደፊት ማውረድ  ፋይሉ ወረፋ ይዟል ስለዚህ እስካሁን አይገኝም፡፡"</string>
+    <string name="dialog_file_missing_body" msgid="7896653198405160564">"የወረደውን ፋይል ማግኘት አልተቻለም፡፡"</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"ማውረድ አይችልም። በውጪ ማህደረ መረጃ ማከማቻ ላይ በቂ ቦታ የለም።"</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"ማውረድመጨረስ  አይችልም። በውጪ ማህደረ መረጃ ማከማቻ ላይ በቂ ቦታ የለም።"</string>
+    <string name="dialog_cannot_resume" msgid="3101433441301206866">"አውርድ ተስተጓጉሏል። መቀጠል አልተቻለም፡፡"</string>
+    <string name="dialog_file_already_exists" msgid="6849168874901909994">"ማውረድ አይችልም። መድረሻ ፋይል አስቀድሞ አለ።"</string>
+    <string name="dialog_media_not_found" msgid="7376030905821161865">"ማውረድ አይችልም። የውጪ  ማህደረ መረጃ  የለም።"</string>
+    <string name="download_no_application_title" msgid="1209223807604231431">"ፋይል መክፈት አይቻልም"</string>
+    <string name="remove_download" msgid="244394809285977300">"አስወግድ"</string>
+    <string name="delete_download" msgid="1861638125603383676">"ሰርዝ"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"ጠብቅ"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"ይቅር"</string>
+    <string name="retry_download" msgid="6957856437473044831">"እንደገና ሞክር"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"አሁን ጀምር"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"ሁሉንም አትምረጥ"</string>
+    <string name="select_all" msgid="7469093306474000460">"ሁሉንም ምረጥ"</string>
+    <string name="selected_count" msgid="5876842902167894010">"<xliff:g id="NUMBER">%1$d</xliff:g>ከ<xliff:g id="TOTAL">%2$d</xliff:g> ተመርጧል"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"በኩል አጋራ"</string>
 </resources>

@@ -34,7 +34,7 @@
     <string name="dialog_file_missing_body" msgid="7896653198405160564">"डाउनलोड केलेली फाइल शोधू शकत नाही."</string>
     <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"डाउनलोड समाप्त करू शकत नाही. बाह्य संचयनावर पुरेसे स्‍थान नाही."</string>
     <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"डाउनलोड समाप्त करू शकत नाही. अंतर्गत डाउनलोड संचयनावर पुरेसे स्‍थान नाही."</string>
-    <string name="dialog_cannot_resume" msgid="3101433441301206866">"डाउनलोडमध्‍ये व्यत्यय आला आणि पुन्हा सुरु केले जाऊ शकत नाही."</string>
+    <string name="dialog_cannot_resume" msgid="3101433441301206866">"डाउनलोडमध्‍ये व्यत्यय आला आणि पुन्हा सुरू केले जाऊ शकत नाही."</string>
     <string name="dialog_file_already_exists" msgid="6849168874901909994">"डाउनलोड करू शकत नाही. गंतव्य फाइल आधीपासून अस्तित्वात आहे."</string>
     <string name="dialog_media_not_found" msgid="7376030905821161865">"डाउनलोड करू शकत नाही. बाह्य मीडिया उपलब्ध नाही."</string>
     <string name="download_no_application_title" msgid="1209223807604231431">"फाइल उघडू शकत नाही"</string>

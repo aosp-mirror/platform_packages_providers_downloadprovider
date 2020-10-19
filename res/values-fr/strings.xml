@@ -33,7 +33,7 @@
     <string name="download_unknown_title" msgid="1017800350818840396">"&lt;Sans_titre&gt;"</string>
     <string name="notification_download_complete" msgid="466652037490092787">"Téléchargement terminé."</string>
     <string name="notification_download_failed" msgid="3932167763860605874">"Échec du téléchargement."</string>
-    <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"Taille du fichier requiert Wi-Fi."</string>
+    <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"Téléchargement via Wi-Fi requis."</string>
     <string name="notification_paused_in_background" msgid="6393408819031041778">"Interrompu en arr.-plan."</string>
     <string name="wifi_required_title" msgid="7266700488421122218">"Téléchargement trop volumineux pour l\'opérateur"</string>
     <string name="wifi_required_body" msgid="4005023496578941958">"Vous devez utiliser le Wi-Fi pour finaliser ce téléchargement de <xliff:g id="SIZE">%1$s </xliff:g>. \n\nAppuyez sur <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> pour le lancer lors de votre prochaine connexion à un réseau Wi-Fi."</string>

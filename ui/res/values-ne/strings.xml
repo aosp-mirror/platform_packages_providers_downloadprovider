@@ -47,5 +47,5 @@
     <string name="deselect_all" msgid="4673983454506880405">"सबै अचयन गर्नुहोस्"</string>
     <string name="select_all" msgid="7469093306474000460">"सबै चयन गर्नुहोस्"</string>
     <string name="selected_count" msgid="5876842902167894010">"छानिएको <xliff:g id="TOTAL">%2$d</xliff:g> को <xliff:g id="NUMBER">%1$d</xliff:g> बाट"</string>
-    <string name="download_share_dialog" msgid="5212760257251501969">"द्वारा साझेदारी गर्नुहोस्"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"द्वारा सेयर गर्नुहोस्"</string>
 </resources>

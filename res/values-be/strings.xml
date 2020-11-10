@@ -16,18 +16,18 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="5264040740662487684">"Менеджэр спампоўвання"</string>
+    <string name="app_label" msgid="5264040740662487684">"Менеджар спамповак"</string>
     <string name="storage_description" msgid="169690279447532621">"Спампоўкі"</string>
-    <string name="permlab_downloadManager" msgid="4241473724446132797">"Доступ да менеджэра спампоўванняў."</string>
-    <string name="permdesc_downloadManager" msgid="5562734314998369030">"Дазваляе прыкладанню атрымлiваць доступ да менеджэра спампавання i выкарыстоўваць яго для спампавання файлаў. Шкоднасныя прыкладаннi могуць выкарыстоўваць гэта, каб сарваць загрузку і закрыць доступ да прыватнай інфармацыі."</string>
-    <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"Пашыраныя функцыі менеджэра спампоўванняў."</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"Дазваляе прыкладанню атрымлiваць доступ да пашыраных функцый менеджэра спампавання. Шкоднасныя прыкладаннi могуць выкарыстоўваць гэта, каб сарваць загрузку і закрыць доступ да прыватнай інфармацыі."</string>
+    <string name="permlab_downloadManager" msgid="4241473724446132797">"Доступ да Менеджара спамповак."</string>
+    <string name="permdesc_downloadManager" msgid="5562734314998369030">"Дазваляе прыкладанню атрымлiваць доступ да Менеджара спамповак i выкарыстоўваць яго для спампавання файлаў. Шкоднасныя прыкладаннi могуць выкарыстоўваць гэта, каб сарваць загрузку і закрыць доступ да прыватнай інфармацыі."</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"Пашыраныя функцыі Менеджара спамповак."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"Дазваляе праграме атрымлiваць доступ да пашыраных функцый Менеджара спамповак. Шкоднасныя прыкладаннi могуць выкарыстоўваць гэта, каб сарваць загрузку і закрыць доступ да прыватнай інфармацыі."</string>
     <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"Адпраўляць апавяшчэнні аб спампоўцы."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"Дазваляе прыкладанню адпраўляць апавяшчэннi аб завершаных спампаваннях. Шкоднасныя прыкладаннi могуць выкарыстоўваць гэта, каб негатыўна паўсплываць на іншыя прыкладаннi для спампавання файлаў."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"Зарэзерваваць месца ў кэшы спампоўкі"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"Дазваляе прыкладанню спампоўваць файлы ў кэш-памяць, якую нельга ачысцiць аўтаматычна, калі менеджэру спампавання спатрэбіцца больш месца на дыске."</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"Дазваляе праграме спампоўваць файлы ў кэш-памяць, якую нельга ачысцiць аўтаматычна, калі Менеджару спамповак спатрэбіцца больш месца на дыске."</string>
     <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"спампоўваць файлы без апавяшчэння"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"Дазваляе прыкладанню спампоўваць файлы праз менеджэр спампавання, не кажучы пра гэта карыстальнiку."</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"Дазваляе праграме спампоўваць файлы праз Менеджар спамповак, не кажучы пра гэта карыстальнiку."</string>
     <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"Доступ да ўсіх сістэмных спамповак"</string>
     <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"Дазваляе прыкладанню праглядаць і змяняць усе спампоўкi, пачатыя любым сiстэмным прыкладаннем."</string>
     <string name="download_unknown_title" msgid="1017800350818840396">"&lt;Без назвы&gt;"</string>

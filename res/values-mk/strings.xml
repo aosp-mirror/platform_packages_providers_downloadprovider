@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Copyright (C) 2007 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label" msgid="5264040740662487684">"Управувач за преземање"</string>
+    <string name="storage_description" msgid="169690279447532621">"Преземања"</string>
+    <string name="permlab_downloadManager" msgid="4241473724446132797">"Пристапи до управувачот за преземања."</string>
+    <string name="permdesc_downloadManager" msgid="5562734314998369030">"Овозможува апликацијата да пристапи до менаџерот за преземање и да го користи за преземање датотеки. Злонамерните апликации може да го искористат ова да ги попречат преземањата и да пристапат до приватни информации."</string>
+    <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"Напредни функции на управувачот за преземања."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"Овозможува апликацијата да пристапи до напредни функции на менаџерот за преземање. Злонамерните апликации може да го искористат ова да ги попречат преземањата и да пристапат до приватни информации."</string>
+    <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"Испрати известувања за преземањата."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"Овозможува апликацијата да испраќа известувања за завршени преземања. Злонамерните апликации може да го искористат ова да ги збунат другите апликации кои преземаат датотеки."</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"Зачувај простор во преземаниот кеш"</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"Овозможува апликацијата да презема датотеки до преземан кеш кој не може автоматски да се избрише кога менаџерот за преземање бара повеќе простор."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"преземи датотеки без известување"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"Овозможува апликацијата да презема датотеки преку менаџерот  за преземање без да се прикаже какво било претходно известување на корисникот."</string>
+    <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"Пристапи до сите системски преземања"</string>
+    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"Овозможува апликацијата да ги гледа и менува сите преземања иницирани од која било апликација на системот."</string>
+    <string name="download_unknown_title" msgid="1017800350818840396">"&lt;Без наслов&gt;"</string>
+    <string name="notification_download_complete" msgid="466652037490092787">"Преземањето заврши."</string>
+    <string name="notification_download_failed" msgid="3932167763860605874">"Преземањето е неуспешно."</string>
+    <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"Големина за преземање бара Wi-Fi."</string>
+    <string name="notification_paused_in_background" msgid="6393408819031041778">"Паузирано во заднина."</string>
+    <string name="wifi_required_title" msgid="7266700488421122218">"Премногу големо преземање за мрежата на операторот"</string>
+    <string name="wifi_required_body" msgid="4005023496578941958">"Мора да користите Wi-Fi да се заврши преземањето на овие <xliff:g id="SIZE">%1$s </xliff:g>\n\nДопрете <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> да започне ова преземање следниот пат кога ќе бидете поврзани со Wi-Fi мрежа."</string>
+    <string name="wifi_recommended_title" msgid="6488158053932133804">"Стави во ред на чекање да се преземе подоцна?"</string>
+    <string name="wifi_recommended_body" msgid="8710820743211704403">"Преземањето <xliff:g id="SIZE">%1$s </xliff:g> го намалува векот на батеријата и/или води до прекумерна употреба на конекцијата и може да ви наплатат.\n\n Допрете <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> да започне преземање следниот пат кога ќе бидете поврзани со Wi-Fi мрежа."</string>
+    <string name="button_queue_for_wifi" msgid="6650185573566994738">"Ред на чекање"</string>
+    <string name="button_cancel_download" msgid="4135046775536601831">"Откажи"</string>
+    <string name="button_start_now" msgid="3817100969365441730">"Започни сега"</string>
+    <plurals name="notif_summary_active" formatted="false" msgid="8652501374845637331">
+      <item quantity="one">Се презема <xliff:g id="NUMBER">%d</xliff:g> датотека</item>
+      <item quantity="other">Се преземаат <xliff:g id="NUMBER">%d</xliff:g> датотеки</item>
+    </plurals>
+    <plurals name="notif_summary_waiting" formatted="false" msgid="1782251721955177526">
+      <item quantity="one"><xliff:g id="NUMBER">%d</xliff:g> датотека чека</item>
+      <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> датотеки чекаат</item>
+    </plurals>
+    <string name="download_remaining" msgid="2313089371178695625">"Уште <xliff:g id="DURATION">%s</xliff:g>"</string>
+    <string name="download_no_application_title" msgid="5780812573953335721">"Датотеката не се отвора"</string>
+    <string name="root_downloads" msgid="8380500940211778491">"Преземања"</string>
+    <string name="download_queued" msgid="3383844741769045371">"Чека на ред"</string>
+    <string name="download_running" msgid="774654178925442490">"Во тек"</string>
+    <string name="download_error" msgid="1857737890005386798">"Неуспешно"</string>
+    <string name="download_running_percent" msgid="3492753569359254730">"Во тек, <xliff:g id="PERCENTAGE">%s</xliff:g>"</string>
+</resources>

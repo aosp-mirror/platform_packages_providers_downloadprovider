@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Copyright (C) 2010 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label" msgid="4847371117203587513">"Téléchargements"</string>
+    <string name="download_title_sorted_by_date" msgid="6033509257480233878">"Téléchargements : triés par date"</string>
+    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"Téléchargements : triés par taille"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"Aucun téléchargement"</string>
+    <string name="missing_title" msgid="3827247802608803753">"&lt;Inconnu&gt;"</string>
+    <string name="button_sort_by_size" msgid="7952187121189086395">"Trier par taille"</string>
+    <string name="button_sort_by_date" msgid="2064919145709585942">"Trier par date"</string>
+    <string name="download_queued" msgid="4128038702528588781">"Ajouté à la file d\'attente"</string>
+    <string name="download_running" msgid="2046492059586594352">"En cours…"</string>
+    <string name="download_success" msgid="3895973294927323747">"Terminé"</string>
+    <string name="download_error" msgid="6652902885480887230">"Échec"</string>
+    <string name="dialog_title_not_available" msgid="7793272183758002416">"Téléchargement impossible"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"Souhaitez-vous réessayer de télécharger le fichier ultérieurement ou préférez-vous le supprimer de la file d\'attente ?"</string>
+    <string name="dialog_title_queued_body" msgid="7481231558376227012">"Fichier en attente"</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"Ce fichier est en attente de téléchargement, et n\'est donc pas encore disponible."</string>
+    <string name="dialog_file_missing_body" msgid="7896653198405160564">"Impossible de trouver le fichier téléchargé."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"Impossible de terminer le téléchargement. L\'espace disponible sur la mémoire de stockage externe est insuffisant."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"Impossible de terminer le téléchargement. L\'espace disponible sur la mémoire de stockage interne est insuffisant."</string>
+    <string name="dialog_cannot_resume" msgid="3101433441301206866">"Le téléchargement a été interrompu, et ne peut pas être repris."</string>
+    <string name="dialog_file_already_exists" msgid="6849168874901909994">"Impossible de procéder au téléchargement. Le fichier de destination existe déjà."</string>
+    <string name="dialog_media_not_found" msgid="7376030905821161865">"Impossible de procéder au téléchargement. Le support externe n\'est pas disponible."</string>
+    <string name="download_no_application_title" msgid="1209223807604231431">"Impossible d\'ouvrir le fichier"</string>
+    <string name="remove_download" msgid="244394809285977300">"Supprimer"</string>
+    <string name="delete_download" msgid="1861638125603383676">"Supprimer"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"Conserver"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"Annuler"</string>
+    <string name="retry_download" msgid="6957856437473044831">"Réessayer"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"Commencer"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"Tout désélectionner"</string>
+    <string name="select_all" msgid="7469093306474000460">"Tout sélectionner"</string>
+    <string name="selected_count" msgid="5876842902167894010">"<xliff:g id="NUMBER">%1$d</xliff:g> téléchargements sélectionnés sur <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"Partager via"</string>
+</resources>

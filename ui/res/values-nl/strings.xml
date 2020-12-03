@@ -44,7 +44,7 @@
     <string name="cancel_running_download" msgid="8586888328847044473">"Annuleren"</string>
     <string name="retry_download" msgid="6957856437473044831">"Opnieuw proberen"</string>
     <string name="start_now_download" msgid="1518778561803897734">"Nu starten"</string>
-    <string name="deselect_all" msgid="4673983454506880405">"Alle selecties opheffen"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"Alles deselecteren"</string>
     <string name="select_all" msgid="7469093306474000460">"Alles selecteren"</string>
     <string name="selected_count" msgid="5876842902167894010">"<xliff:g id="NUMBER">%1$d</xliff:g> van <xliff:g id="TOTAL">%2$d</xliff:g> geselecteerd"</string>
     <string name="download_share_dialog" msgid="5212760257251501969">"Delen via"</string>

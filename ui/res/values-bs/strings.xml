@@ -32,8 +32,8 @@
     <string name="dialog_title_queued_body" msgid="7481231558376227012">"Fajl je u redu čekanja"</string>
     <string name="dialog_queued_body" msgid="2374398802707010234">"Fajl je u redu čekanja za kasnije preuzimanje tako da još nije dostupan."</string>
     <string name="dialog_file_missing_body" msgid="7896653198405160564">"Nije moguće pronaći preuzetu datoteku."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"Nije moguće dovršiti preuzimanje. Nema dovoljno prostora na eksternoj pohrani."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"Nije moguće dovršiti preuzimanje. Nema dovoljno prostora na internoj pohrani za preuzimanja."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"Nije moguće dovršiti preuzimanje. Nema dovoljno prostora na vanjskoj pohrani."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"Nije moguće dovršiti preuzimanje. Nema dovoljno prostora na unutrašnjoj pohrani za preuzimanja."</string>
     <string name="dialog_cannot_resume" msgid="3101433441301206866">"Preuzimanje je prekinuto i ne može se nastaviti."</string>
     <string name="dialog_file_already_exists" msgid="6849168874901909994">"Nije moguće preuzeti. Odredišni fajl već postoji."</string>
     <string name="dialog_media_not_found" msgid="7376030905821161865">"Nije moguće preuzeti. Vanjski medij nije dostupan."</string>

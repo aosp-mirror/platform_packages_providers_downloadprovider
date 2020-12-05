@@ -25,7 +25,7 @@
     <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"ડાઉનલોડ સૂચનાઓ મોકલો."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"એપ્લિકેશનને પૂર્ણ થયેલ ડાઉનલોડ્સ વિશે સૂચનાઓ મોકલવાની મંજૂરી આપે છે. દુર્ભાવનાપૂર્ણ ઍપ્લિકેશનો આનો ઉપયોગ ફાઇલો ડાઉનલોડ કરતી અન્ય ઍપ્લિકેશનોને મૂંઝવણમાં નાખવા માટે કરી શકે છે."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"ડાઉનલોડ કેશમાં જગ્યા અનામત રાખો"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"એપ્લિકેશનને ડાઉનલોડ કેશ પર તે ફાઇલો ડાઉનલોડ કરવાની મંજૂરી આપે છે, જે ડાઉનલોડ સંચાલકને વધુ જગ્યાની જરૂર પડવા પર આપમેળે કાઢી નાખી શકાતી નથી."</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"ઍપને ડાઉનલોડ કૅશ પર તે ફાઇલો ડાઉનલોડ કરવાની મંજૂરી આપે છે, જે ડાઉનલોડ મેનેજરને વધુ જગ્યાની જરૂર પડવા પર ઑટોમૅટિક રીતે કાઢી નાખી શકાતી નથી."</string>
     <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"સૂચના વગર ફાઇલો ડાઉનલોડ કરો"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"ઍપ્લિકેશનને વપરાશકર્તાને કોઈપણ સૂચના દર્શાવ્યાં વિના ડાઉનલોડ મેનેજર મારફતે ફાઇલો ડાઉનલોડ કરવાની મંજૂરી આપે છે."</string>
     <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"તમામ સિસ્ટમ ડાઉનલોડ્સને ઍક્સેસ કરો"</string>

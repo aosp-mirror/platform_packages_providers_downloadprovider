@@ -27,6 +27,8 @@ android_test {
     ],
 
     static_libs: [
+        "androidx.core_core",
+        "androidx.test.rules",
         "mockito-target",
         "mockwebserver",
     ],

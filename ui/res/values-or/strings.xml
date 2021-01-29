@@ -40,9 +40,9 @@
     <string name="download_no_application_title" msgid="1209223807604231431">"ଫାଇଲ୍‌କୁ ଖୋଲିପାରିବ ନାହିଁ"</string>
     <string name="remove_download" msgid="244394809285977300">"କାଢ଼ିଦିଅନ୍ତୁ"</string>
     <string name="delete_download" msgid="1861638125603383676">"ଡିଲିଟ୍‌ କରନ୍ତୁ"</string>
-    <string name="keep_queued_download" msgid="6905870466259272973">"ରଖନ୍ତୁ"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"Keep"</string>
     <string name="cancel_running_download" msgid="8586888328847044473">"କ୍ୟାନ୍ସଲ୍‍"</string>
-    <string name="retry_download" msgid="6957856437473044831">"ପୁଣିଥରେ ଚେଷ୍ଟା କରନ୍ତୁ"</string>
+    <string name="retry_download" msgid="6957856437473044831">"ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ"</string>
     <string name="start_now_download" msgid="1518778561803897734">"ବର୍ତ୍ତମାନ ଆରମ୍ଭ କରନ୍ତୁ"</string>
     <string name="deselect_all" msgid="4673983454506880405">"କିଛି ବି ଚୟନ କରନ୍ତୁ ନାହିଁ"</string>
     <string name="select_all" msgid="7469093306474000460">"ସବୁ ଚୟନ କରନ୍ତୁ"</string>

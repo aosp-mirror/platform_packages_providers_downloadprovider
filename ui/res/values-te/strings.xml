@@ -40,7 +40,7 @@
     <string name="download_no_application_title" msgid="1209223807604231431">"ఫైల్‌ను తెరవడం సాధ్యపడదు"</string>
     <string name="remove_download" msgid="244394809285977300">"తీసివేయి"</string>
     <string name="delete_download" msgid="1861638125603383676">"తొలగించు"</string>
-    <string name="keep_queued_download" msgid="6905870466259272973">"ఉంచు"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"Keep"</string>
     <string name="cancel_running_download" msgid="8586888328847044473">"రద్దు చేయి"</string>
     <string name="retry_download" msgid="6957856437473044831">"మళ్లీ ప్రయత్నించు"</string>
     <string name="start_now_download" msgid="1518778561803897734">"ఇప్పుడే ప్రారంభించు"</string>

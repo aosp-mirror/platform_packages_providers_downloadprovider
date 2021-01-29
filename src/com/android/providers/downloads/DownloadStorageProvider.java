@@ -67,6 +67,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -251,7 +252,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
 
             displayName = FileUtils.buildValidFatFilename(displayName);
             if (isMediaStoreDownload(docId)) {
-                renameMediaStoreDownload(docId, displayName);
+                return renameMediaStoreDownload(docId, displayName);
             } else {
                 final long id = Long.parseLong(docId);
                 if (!mDm.rename(getContext(), id, displayName)) {
@@ -769,7 +770,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
         return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
     }
 
-    private void renameMediaStoreDownload(String docId, String displayName) {
+    private String renameMediaStoreDownload(String docId, String displayName) {
         final File before = getFileForMediaStoreDownload(docId);
         final File after = new File(before.getParentFile(), displayName);
 
@@ -780,21 +781,30 @@ public class DownloadStorageProvider extends FileSystemProvider {
             throw new IllegalStateException("Failed to rename from " + before + " to " + after);
         }
 
-        final long token = Binder.clearCallingIdentity();
-        try {
-            final Uri mediaStoreUri = getMediaStoreUri(docId);
-            final ContentValues values = new ContentValues();
-            values.put(DownloadColumns.DATA, after.getAbsolutePath());
-            values.put(DownloadColumns.DISPLAY_NAME, displayName);
-            final int count = getContext().getContentResolver().update(mediaStoreUri, values,
-                    null, null);
-            if (count != 1) {
-                throw new IllegalStateException("Failed to update " + mediaStoreUri
-                        + ", values=" + values);
-            }
-        } finally {
-            Binder.restoreCallingIdentity(token);
+        final String noMedia = ".nomedia";
+        // Scan the file to update the database
+        // For file, check whether the file is renamed to .nomedia. If yes, to scan the parent
+        // directory to update all files in the directory. We don't consider the case of renaming
+        // .nomedia file. We don't show .nomedia file.
+        if (!after.isDirectory() && displayName.toLowerCase(Locale.ROOT).endsWith(noMedia)) {
+            final Uri newUri = MediaStore.scanFile(getContext().getContentResolver(),
+                    after.getParentFile());
+            // the file will not show in the list, return the parent docId to avoid not finding
+            // the detail for the file.
+            return getDocIdForMediaStoreDownloadUri(newUri, true /* isDir */);
         }
+        // update the database for the old file
+        MediaStore.scanFile(getContext().getContentResolver(), before);
+        // Update tne database for the new file and get the new uri
+        final Uri newUri = MediaStore.scanFile(getContext().getContentResolver(), after);
+        return getDocIdForMediaStoreDownloadUri(newUri, after.isDirectory());
+    }
+
+    private static String getDocIdForMediaStoreDownloadUri(Uri uri, boolean isDir) {
+        if (uri != null) {
+            return getDocIdForMediaStoreDownload(Long.parseLong(uri.getLastPathSegment()), isDir);
+        }
+        return null;
     }
 
     private File getFileForMediaStoreDownload(String docId) {

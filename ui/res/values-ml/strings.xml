@@ -40,7 +40,7 @@
     <string name="download_no_application_title" msgid="1209223807604231431">"ഫയൽ തുറക്കാനായില്ല"</string>
     <string name="remove_download" msgid="244394809285977300">"നീക്കംചെയ്യുക"</string>
     <string name="delete_download" msgid="1861638125603383676">"ഇല്ലാതാക്കുക"</string>
-    <string name="keep_queued_download" msgid="6905870466259272973">"സൂക്ഷിക്കുക"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"Keep"</string>
     <string name="cancel_running_download" msgid="8586888328847044473">"റദ്ദാക്കുക"</string>
     <string name="retry_download" msgid="6957856437473044831">"വീണ്ടും ശ്രമിക്കുക"</string>
     <string name="start_now_download" msgid="1518778561803897734">"ഇപ്പോൾ ആരംഭിക്കുക"</string>

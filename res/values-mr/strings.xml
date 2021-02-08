@@ -38,17 +38,17 @@
     <string name="wifi_required_title" msgid="7266700488421122218">"ऑपरेटर नेटवर्कसाठी डाउनलोड खूप मोठे आहे"</string>
     <string name="wifi_required_body" msgid="4005023496578941958">"तुम्ही हे <xliff:g id="SIZE">%1$s </xliff:g> डाउनलोड पूर्ण करण्‍यासाठी वाय-फाय चा वापर करणे आवश्‍यक आहे. पुढील वेळी तुम्ही वाय-फाय ला कनेक्‍ट होता तेव्‍हा हे डाउनलोड सुरू करण्‍यासाठी \n\n स्‍पर्श करा <xliff:g id="QUEUE_TEXT">%2$s </xliff:g>."</string>
     <string name="wifi_recommended_title" msgid="6488158053932133804">"नंतर डाउनलोड करा साठी रांग लावायची?"</string>
-    <string name="wifi_recommended_body" msgid="8710820743211704403">"हे <xliff:g id="SIZE">%1$s </xliff:g> डाउनलोड सुरू करण्याने तुमचे बॅटरी आयुष्‍य कमी होऊ शकते आणि/किंवा त्‍याचा परिणाम तुमच्या मोबाईल डेटा कनेक्‍शनचा अत्‍याधिक वापर करण्‍यात होऊ शकतो, ज्‍यामुळे आपल्‍या मोबाईल डेटा योजनेवर आधारित आपल्‍या मोबाईल ऑपरेटरद्वारे शुल्‍क आकारले जाऊ शकते.पुढील वेळी तुम्ही वाय-फाय नेटवर्कशी कनेक्‍ट होता तेव्‍हा हे डाउनलोड सुरू करण्‍यासाठी \n\n स्‍पर्श करा <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>"</string>
+    <string name="wifi_recommended_body" msgid="8710820743211704403">"हे <xliff:g id="SIZE">%1$s </xliff:g> डाउनलोड सुरू करण्याने तुमचे बॅटरी आयुष्‍य कमी होऊ शकते आणि/किंवा त्‍याचा परिणाम तुमच्या मोबाइल डेटा कनेक्‍शनचा अत्‍याधिक वापर करण्‍यात होऊ शकतो, ज्‍यामुळे आपल्‍या मोबाइल डेटा योजनेवर आधारित आपल्‍या मोबाइल ऑपरेटरद्वारे शुल्‍क आकारले जाऊ शकते.पुढील वेळी तुम्ही वाय-फाय नेटवर्कशी कनेक्‍ट होता तेव्‍हा हे डाउनलोड सुरू करण्‍यासाठी \n\n स्‍पर्श करा <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>"</string>
     <string name="button_queue_for_wifi" msgid="6650185573566994738">"रांग"</string>
     <string name="button_cancel_download" msgid="4135046775536601831">"रद्द करा"</string>
     <string name="button_start_now" msgid="3817100969365441730">"आता सुरू करा"</string>
     <plurals name="notif_summary_active" formatted="false" msgid="8652501374845637331">
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g>फायली डाउनलोड होत आहेत</item>
-      <item quantity="one">1 फाईल डाउनलोड होत आहे</item>
+      <item quantity="one">1 फाइल डाउनलोड होत आहे</item>
     </plurals>
     <plurals name="notif_summary_waiting" formatted="false" msgid="1782251721955177526">
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> फाइल प्रतीक्षेत आहेत</item>
-      <item quantity="one">1 फाईल प्रतीक्षेत आहे</item>
+      <item quantity="one">1 फाइल प्रतीक्षेत आहे</item>
     </plurals>
     <string name="download_remaining" msgid="2313089371178695625">"<xliff:g id="DURATION">%s</xliff:g> बाकी"</string>
     <string name="download_no_application_title" msgid="5780812573953335721">"फाइल उघडू शकत नाही"</string>

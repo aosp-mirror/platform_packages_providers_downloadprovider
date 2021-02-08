@@ -27,7 +27,7 @@
     <string name="download_running" msgid="2046492059586594352">"Во тек е"</string>
     <string name="download_success" msgid="3895973294927323747">"Целосно"</string>
     <string name="download_error" msgid="6652902885480887230">"Неуспешно"</string>
-    <string name="dialog_title_not_available" msgid="7793272183758002416">"Не можеше да се преземе"</string>
+    <string name="dialog_title_not_available" msgid="7793272183758002416">"Не може да се преземе"</string>
     <string name="dialog_failed_body" msgid="4538779125597383173">"Сакате повторно да се обиде со преземање на датотеката подоцна или да се избрише од редот?"</string>
     <string name="dialog_title_queued_body" msgid="7481231558376227012">"Датотеката е во ред на чекање"</string>
     <string name="dialog_queued_body" msgid="2374398802707010234">"Оваа датотека е ставена во ред начекање да се преземе во иднина и сè уште не е достапна."</string>

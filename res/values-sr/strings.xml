@@ -33,12 +33,12 @@
     <string name="download_unknown_title" msgid="1017800350818840396">"&lt;Без наслова&gt;"</string>
     <string name="notification_download_complete" msgid="466652037490092787">"Преузимање је завршено."</string>
     <string name="notification_download_failed" msgid="3932167763860605874">"Преузимање није успело."</string>
-    <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"Величина ставке захтева Wi-Fi."</string>
+    <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"Величина ставке захтева WiFi."</string>
     <string name="notification_paused_in_background" msgid="6393408819031041778">"Паузирано у позадини."</string>
     <string name="wifi_required_title" msgid="7266700488421122218">"Преузимање је превелико за мрежу оператера"</string>
-    <string name="wifi_required_body" msgid="4005023496578941958">"Морате да користите Wi-Fi да бисте довршили ово преузимање од <xliff:g id="SIZE">%1$s </xliff:g>. \n\nДодирните <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> да бисте започели ово преузимање када се следећи пут повежете са Wi-Fi мрежом."</string>
+    <string name="wifi_required_body" msgid="4005023496578941958">"Морате да користите WiFi да бисте довршили ово преузимање од <xliff:g id="SIZE">%1$s </xliff:g>. \n\nДодирните <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> да бисте започели ово преузимање када се следећи пут повежете са WiFi мрежом."</string>
     <string name="wifi_recommended_title" msgid="6488158053932133804">"Желите ли да ставите у ред за будуће преузимање?"</string>
-    <string name="wifi_recommended_body" msgid="8710820743211704403">"Овим преузимањем од <xliff:g id="SIZE">%1$s </xliff:g> можете да скратите век трајања батерије и/или претерано користите мобилну везу за пренос података, што може да доведе до трошкова код мобилног оператера сходно тарифном пакету.\n\n Додирните <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> да бисте започели ово преузимање када се поново повежете са Wi-Fi мрежом."</string>
+    <string name="wifi_recommended_body" msgid="8710820743211704403">"Овим преузимањем од <xliff:g id="SIZE">%1$s </xliff:g> можете да скратите век трајања батерије и/или претерано користите мобилну везу за пренос података, што може да доведе до трошкова код мобилног оператера сходно тарифном пакету.\n\n Додирните <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> да бисте започели ово преузимање када се поново повежете са WiFi мрежом."</string>
     <string name="button_queue_for_wifi" msgid="6650185573566994738">"Ред"</string>
     <string name="button_cancel_download" msgid="4135046775536601831">"Откажи"</string>
     <string name="button_start_now" msgid="3817100969365441730">"Започни одмах"</string>

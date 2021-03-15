@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="5264040740662487684">"ಡೌನ್‌ಲೋಡ್ ಮ್ಯಾನೇಜರ್"</string>
+    <string name="app_label" msgid="5264040740662487684">"ಡೌನ್‌ಲೊಡ್‌ ನಿರ್ವಾಹಕ"</string>
     <string name="storage_description" msgid="169690279447532621">"ಡೌನ್‌ಲೋಡ್‌ಗಳು"</string>
     <string name="permlab_downloadManager" msgid="4241473724446132797">"ಡೌನ್‌ಲೋಡ್‌ ನಿರ್ವಾಹಕವನ್ನು ಪ್ರವೇಶಿಸಿ."</string>
     <string name="permdesc_downloadManager" msgid="5562734314998369030">"ಡೌನ್‌ಲೋಡ್‌ ನಿರ್ವಾಹಕವನ್ನು ಪ್ರವೇಶಿಸಲು ಮತ್ತು ಡೌನ್‌ಲೋಡ್‌ ಫೈಲ್‌ಗಳನ್ನು ಬಳಸಲು ಅಪ್ಲಿಕೇಶನ್‌ ಅನುಮತಿ ನೀಡುತ್ತದೆ. ದುರುದ್ದೇಶಪೂರಿತ ಅಪ್ಲಿಕೇಶನ್‌ಗಳು, ಡೌನ್‌ಲೋಡ್‌ಗಳನ್ನು ಭಗ್ನಗೊಳಿಸಲು ಹಾಗೂ ಖಾಸಗಿ ಮಾಹಿತಿಯನ್ನು ಪ್ರವೇಶಿಸಲು ಇದನ್ನು ಬಳಸಿಕೊಳ್ಳಬಹುದು."</string>
@@ -52,7 +52,7 @@
     </plurals>
     <string name="download_remaining" msgid="2313089371178695625">"<xliff:g id="DURATION">%s</xliff:g> ಉಳಿದಿದೆ"</string>
     <string name="download_no_application_title" msgid="5780812573953335721">"ಫೈಲ್ ತೆರೆಯಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ"</string>
-    <string name="root_downloads" msgid="8380500940211778491">"ಡೌನ್‌ಲೋಡ್‌‍ಗಳು"</string>
+    <string name="root_downloads" msgid="8380500940211778491">"ಡೌನ್‌ಲೋಡ್‌"</string>
     <string name="download_queued" msgid="3383844741769045371">"ಸರದಿಯಲ್ಲಿರಿಸಲಾಗಿದೆ"</string>
     <string name="download_running" msgid="774654178925442490">"ಪ್ರಗತಿಯಲ್ಲಿದೆ"</string>
     <string name="download_error" msgid="1857737890005386798">"ವಿಫಲಗೊಂಡಿದೆ"</string>

@@ -25,7 +25,7 @@
     <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"ડાઉનલોડ સૂચનાઓ મોકલો."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"એપ્લિકેશનને પૂર્ણ થયેલ ડાઉનલોડ્સ વિશે સૂચનાઓ મોકલવાની મંજૂરી આપે છે. દુર્ભાવનાપૂર્ણ ઍપ્લિકેશનો આનો ઉપયોગ ફાઇલો ડાઉનલોડ કરતી અન્ય ઍપ્લિકેશનોને મૂંઝવણમાં નાખવા માટે કરી શકે છે."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"ડાઉનલોડ કેશમાં જગ્યા અનામત રાખો"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"ઍપને ડાઉનલોડ કૅશ પર તે ફાઇલો ડાઉનલોડ કરવાની મંજૂરી આપે છે, જે ડાઉનલોડ મેનેજરને વધુ જગ્યાની જરૂર પડવા પર ઑટોમૅટિક રીતે કાઢી નાખી શકાતી નથી."</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"એપ્લિકેશનને ડાઉનલોડ કેશ પર તે ફાઇલો ડાઉનલોડ કરવાની મંજૂરી આપે છે, જે ડાઉનલોડ સંચાલકને વધુ જગ્યાની જરૂર પડવા પર આપમેળે કાઢી નાખી શકાતી નથી."</string>
     <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"સૂચના વગર ફાઇલો ડાઉનલોડ કરો"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"ઍપ્લિકેશનને વપરાશકર્તાને કોઈપણ સૂચના દર્શાવ્યાં વિના ડાઉનલોડ મેનેજર મારફતે ફાઇલો ડાઉનલોડ કરવાની મંજૂરી આપે છે."</string>
     <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"તમામ સિસ્ટમ ડાઉનલોડ્સને ઍક્સેસ કરો"</string>
@@ -52,7 +52,7 @@
     </plurals>
     <string name="download_remaining" msgid="2313089371178695625">"<xliff:g id="DURATION">%s</xliff:g> બાકી"</string>
     <string name="download_no_application_title" msgid="5780812573953335721">"ફાઇલ ખોલી શકાતી નથી"</string>
-    <string name="root_downloads" msgid="8380500940211778491">"ડાઉનલોડ"</string>
+    <string name="root_downloads" msgid="8380500940211778491">"ડાઉનલોડ્સ"</string>
     <string name="download_queued" msgid="3383844741769045371">"કતારમાં"</string>
     <string name="download_running" msgid="774654178925442490">"પ્રગતિ પર"</string>
     <string name="download_error" msgid="1857737890005386798">"અસફળ"</string>

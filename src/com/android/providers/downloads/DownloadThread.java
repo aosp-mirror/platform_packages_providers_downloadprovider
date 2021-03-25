@@ -335,7 +335,7 @@ public class DownloadThread extends Thread {
                         // Underlying network is still intact, use normal backoff
                         mInfoDelta.mStatus = STATUS_WAITING_TO_RETRY;
                     } else {
-                        // Network changed, retry on any next available
+                        // Network unavailable, retry on any next available
                         mInfoDelta.mStatus = STATUS_WAITING_FOR_NETWORK;
                     }
 

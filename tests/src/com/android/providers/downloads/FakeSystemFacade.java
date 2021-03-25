@@ -93,17 +93,6 @@ public class FakeSystemFacade implements SystemFacade {
     }
 
     @Override
-    public NetworkInfo getNetworkInfo(Network network, int uid, boolean ignoreBlocked) {
-        if (mActiveNetworkType == null) {
-            return null;
-        } else {
-            final NetworkInfo info = new NetworkInfo(mActiveNetworkType, 0, null, null);
-            info.setDetailedState(DetailedState.CONNECTED, null, null);
-            return info;
-        }
-    }
-
-    @Override
     public NetworkCapabilities getNetworkCapabilities(Network network) {
         if (mActiveNetworkType == null) {
             return null;

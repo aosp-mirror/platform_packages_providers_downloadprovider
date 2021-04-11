@@ -40,7 +40,7 @@
     <string name="download_no_application_title" msgid="1209223807604231431">"ಫೈಲ್ ತೆರೆಯಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ"</string>
     <string name="remove_download" msgid="244394809285977300">"ತೆಗೆದುಹಾಕಿ"</string>
     <string name="delete_download" msgid="1861638125603383676">"ಅಳಿಸಿ"</string>
-    <string name="keep_queued_download" msgid="6905870466259272973">"ಇರಿಸಿ"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"Keep"</string>
     <string name="cancel_running_download" msgid="8586888328847044473">"ರದ್ದುಮಾಡಿ"</string>
     <string name="retry_download" msgid="6957856437473044831">"ಮರುಪ್ರಯತ್ನಿಸಿ"</string>
     <string name="start_now_download" msgid="1518778561803897734">"ಈಗ ಪ್ರಾರಂಭಿಸಿ"</string>

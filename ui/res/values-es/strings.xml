@@ -43,7 +43,7 @@
     <string name="keep_queued_download" msgid="6905870466259272973">"Conservar"</string>
     <string name="cancel_running_download" msgid="8586888328847044473">"Cancelar"</string>
     <string name="retry_download" msgid="6957856437473044831">"Reintentar"</string>
-    <string name="start_now_download" msgid="1518778561803897734">"Iniciar"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"Empezar ahora"</string>
     <string name="deselect_all" msgid="4673983454506880405">"Desmarcar todo"</string>
     <string name="select_all" msgid="7469093306474000460">"Seleccionar todo"</string>
     <string name="selected_count" msgid="5876842902167894010">"Elegido: <xliff:g id="NUMBER">%1$d</xliff:g> de <xliff:g id="TOTAL">%2$d</xliff:g>"</string>

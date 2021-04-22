@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="5264040740662487684">"ဒေါင်းလုပ်မန်နေဂျာ"</string>
+    <string name="app_label" msgid="5264040740662487684">"ဒေါင်းလုဒ်မန်နေဂျာ"</string>
     <string name="storage_description" msgid="169690279447532621">"ဒေါင်းလုဒ်များ"</string>
     <string name="permlab_downloadManager" msgid="4241473724446132797">"ဒေါင်းလုပ်မန်နေဂျာကို သုံးစွဲခွင့်ပြုမည်"</string>
     <string name="permdesc_downloadManager" msgid="5562734314998369030">"အပလီကေးရှင်းအား ဒေါင်းလုပ်မန်နေဂျာကို သုံးစွဲနိုင်ရန်နှင့် ဖိုင်များကိုဒေါင်းလုပ်ပြုလုပ်ရန်အတွက်သုံးခြင်းကို ခွင့်ပြုမည်။ အန္တရာယ် ရှိသော အပလီကေးရှင်းများက ၎င်းကို အသုံးပြုကာ ဒေါင်းလုပ်ပြုလုပ်ခြင်းကို နှောက်ယှက်ခြင်းနှင့် ကိုယ်ပိုင်အချက်အလက်များကို ဝင်ရောက်ယူနိုင်သည်။"</string>

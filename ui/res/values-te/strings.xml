@@ -47,5 +47,5 @@
     <string name="deselect_all" msgid="4673983454506880405">"అన్నింటి ఎంపికను తీసివేయి"</string>
     <string name="select_all" msgid="7469093306474000460">"అన్నీ ఎంచుకోండి"</string>
     <string name="selected_count" msgid="5876842902167894010">"<xliff:g id="TOTAL">%2$d</xliff:g>లో <xliff:g id="NUMBER">%1$d</xliff:g> ఎంచుకోబడ్డాయి"</string>
-    <string name="download_share_dialog" msgid="5212760257251501969">"వీటి ద్వారా భాగస్వామ్యం చేయండి"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"వీటి ద్వారా షేర్ చేయండి"</string>
 </resources>

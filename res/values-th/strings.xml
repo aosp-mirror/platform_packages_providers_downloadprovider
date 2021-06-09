@@ -38,7 +38,7 @@
     <string name="wifi_required_title" msgid="7266700488421122218">"ดาวน์โหลดมีขนาดใหญ่เกินไปสำหรับเครือข่ายผู้ให้บริการ"</string>
     <string name="wifi_required_body" msgid="4005023496578941958">"คุณต้องใช้ WiFi เพื่อดาวน์โหลดไฟล์ขนาด <xliff:g id="SIZE">%1$s </xliff:g> นี้ให้เสร็จสิ้น\n\nแตะ <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> เพื่อเริ่มการดาวน์โหลดนี้ในครั้งต่อไปที่คุณเชื่อมต่อเครือข่าย WiFi"</string>
     <string name="wifi_recommended_title" msgid="6488158053932133804">"ต่อคิวเพื่อดาวน์โหลดในภายหลังหรือไม่"</string>
-    <string name="wifi_recommended_body" msgid="8710820743211704403">"การเริ่มดาวน์โหลดรายการขนาด <xliff:g id="SIZE">%1$s </xliff:g> ตอนนี้อาจลดเวลาใช้งานแบตเตอรี่และ/หรือทำให้ใช้งานข้อมูลผ่านมือถือมากไป ซึ่งผู้ให้บริการจะเก็บค่าใช้จ่ายตามแผนการใช้งานข้อมูลของคุณ\n\nแตะ <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> เพื่อเริ่มการดาวน์โหลดนี้ในครั้งต่อไปที่เชื่อมต่อเครือข่าย WiFi"</string>
+    <string name="wifi_recommended_body" msgid="8710820743211704403">"การเริ่มดาวน์โหลดรายการขนาด <xliff:g id="SIZE">%1$s </xliff:g> ตอนนี้อาจลดเวลาใช้งานแบตเตอรี่และ/หรือทำให้ใช้งานการเชื่อมต่ออินเทอร์เน็ตมือถือมากไป ซึ่งผู้ให้บริการจะเก็บค่าใช้จ่ายตามแผนการใช้งานข้อมูลของคุณ\n\nแตะ <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> เพื่อเริ่มการดาวน์โหลดนี้ในครั้งต่อไปที่เชื่อมต่อเครือข่าย WiFi"</string>
     <string name="button_queue_for_wifi" msgid="6650185573566994738">"คิว"</string>
     <string name="button_cancel_download" msgid="4135046775536601831">"ยกเลิก"</string>
     <string name="button_start_now" msgid="3817100969365441730">"เริ่มต้นเดี๋ยวนี้"</string>

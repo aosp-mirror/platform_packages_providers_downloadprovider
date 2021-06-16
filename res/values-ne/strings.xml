@@ -41,7 +41,7 @@
     <string name="wifi_recommended_body" msgid="8710820743211704403">"यस <xliff:g id="SIZE">%1$s </xliff:g> डाउनलोडलाई सुरु गर्दा तपाईंको ब्याट्रिको काल छोट्टिन सक्छ र/वा तपाईंको मोबाइल डेटा जडानको अधिकतम प्रयोग भई तपाईंको डेटा योजना अनुसार मोबाइल अपरेटरले थप शुल्क लिन सक्छ। \n\n छुनुहोस् <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>तल यस डाउनलोडलाई सुरु गर्न अर्को पटक तपाईं Wi-Fi सन्जालमा जडित हुने बेला।"</string>
     <string name="button_queue_for_wifi" msgid="6650185573566994738">"लाम"</string>
     <string name="button_cancel_download" msgid="4135046775536601831">"रद्द गर्नुहोस्"</string>
-    <string name="button_start_now" msgid="3817100969365441730">"अहिले सुरु गर्नुहोस्"</string>
+    <string name="button_start_now" msgid="3817100969365441730">"अहिले न"</string>
     <plurals name="notif_summary_active" formatted="false" msgid="8652501374845637331">
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> फाइलहरू डाउनलोड हुँदैछन्</item>
       <item quantity="one">१ फाइल डाउनलोड हुँदैछ</item>

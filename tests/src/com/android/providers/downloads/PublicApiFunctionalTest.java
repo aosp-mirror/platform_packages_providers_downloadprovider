@@ -52,6 +52,8 @@ import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.Suppress;
 import android.text.format.DateUtils;
 
+import androidx.test.filters.FlakyTest;
+
 import libcore.io.IoUtils;
 
 import com.google.mockwebserver.MockResponse;
@@ -691,6 +693,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         download.runUntilStatus(DownloadManager.STATUS_SUCCESSFUL);
     }
 
+    @FlakyTest(bugId = 177499952)
     public void testManyInterruptions() throws Exception {
         final int length = FILE_CONTENT.length();
         for (int i = 0; i < length; i++) {

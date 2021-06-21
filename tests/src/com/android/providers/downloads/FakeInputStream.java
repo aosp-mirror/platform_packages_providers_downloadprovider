@@ -16,8 +16,6 @@
 
 package com.android.providers.downloads;
 
-import libcore.util.ArrayUtils;
-
 import java.io.InputStream;
 
 /**
@@ -43,7 +41,7 @@ public class FakeInputStream extends InputStream {
 
     @Override
     public int read(byte[] buffer, int offset, int length) {
-        ArrayUtils.throwsIfOutOfBounds(buffer.length, offset, length);
+        throwsIfOutOfBounds(buffer.length, offset, length);
 
         if (length > mRemaining) {
             length = (int) mRemaining;
@@ -54,6 +52,17 @@ public class FakeInputStream extends InputStream {
             return -1;
         } else {
             return length;
+        }
+    }
+
+    private static void throwsIfOutOfBounds(int len, int offset, int count) {
+        if (len < 0) {
+            throw new ArrayIndexOutOfBoundsException("Negative length: " + len);
+        }
+
+        if ((offset | count) < 0 || offset > len - count) {
+            throw new ArrayIndexOutOfBoundsException(
+                    "length=" + len + "; regionStart=" + offset + "; regionLength=" + count);
         }
     }
 }

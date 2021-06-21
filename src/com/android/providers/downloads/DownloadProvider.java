@@ -1246,6 +1246,7 @@ public final class DownloadProvider extends ContentProvider {
                     error.append(", ");
                 }
                 error.append(entry.getKey());
+                first = false;
             }
             throw new SecurityException(error.toString());
         }
@@ -1809,7 +1810,7 @@ public final class DownloadProvider extends ContentProvider {
                         final ContentValues values = new ContentValues();
                         values.put(Downloads.Impl.COLUMN_TOTAL_BYTES, file.length());
                         values.put(Downloads.Impl.COLUMN_LAST_MODIFICATION,
-                                System.currentTimeMillis());
+                                mSystemFacade.currentTimeMillis());
                         update(uri, values, null, null);
 
                         if (shouldScan) {

@@ -90,6 +90,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.GeneralSecurityException;
+import java.util.Arrays;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -233,8 +234,6 @@ public class DownloadThread extends Thread {
     private boolean mIgnoreBlocked;
     private Network mNetwork;
 
-    private int mNetworkType = ConnectivityManager.TYPE_NONE;
-
     /** Historical bytes/second speed of this download. */
     private long mSpeed;
     /** Time when current sample started. */
@@ -294,14 +293,6 @@ public class DownloadThread extends Thread {
                         "No network associated with requesting UID");
             }
 
-            // Remember which network this download started on; used to
-            // determine if errors were due to network changes.
-            final NetworkInfo info = mSystemFacade.getNetworkInfo(mNetwork, mInfo.mUid,
-                    mIgnoreBlocked);
-            if (info != null) {
-                mNetworkType = info.getType();
-            }
-
             // Network traffic on this thread should be counted against the
             // requesting UID, and is tagged with well-known value.
             TrafficStats.setThreadStatsTag(TrafficStats.TAG_SYSTEM_DOWNLOAD);
@@ -340,13 +331,11 @@ public class DownloadThread extends Thread {
                 }
 
                 if (mInfoDelta.mNumFailed < Constants.MAX_RETRIES) {
-                    final NetworkInfo info = mSystemFacade.getNetworkInfo(mNetwork, mInfo.mUid,
-                            mIgnoreBlocked);
-                    if (info != null && info.getType() == mNetworkType && info.isConnected()) {
+                    if (null != mSystemFacade.getNetworkCapabilities(mNetwork)) {
                         // Underlying network is still intact, use normal backoff
                         mInfoDelta.mStatus = STATUS_WAITING_TO_RETRY;
                     } else {
-                        // Network changed, retry on any next available
+                        // Network unavailable, retry on any next available
                         mInfoDelta.mStatus = STATUS_WAITING_FOR_NETWORK;
                     }
 
@@ -724,9 +713,8 @@ public class DownloadThread extends Thread {
         // checking connectivity will apply current policy
         mPolicyDirty = false;
 
-        final NetworkInfo info = mSystemFacade.getNetworkInfo(mNetwork, mInfo.mUid, mIgnoreBlocked);
         final NetworkCapabilities caps = mSystemFacade.getNetworkCapabilities(mNetwork);
-        if (info == null || !info.isConnected()) {
+        if (caps == null) {
             throw new StopRequestException(STATUS_WAITING_FOR_NETWORK, "Network is disconnected");
         }
         if (!caps.hasCapability(NET_CAPABILITY_NOT_ROAMING)

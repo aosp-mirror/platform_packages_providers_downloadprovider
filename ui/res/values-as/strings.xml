@@ -40,7 +40,7 @@
     <string name="download_no_application_title" msgid="1209223807604231431">"ফাইল খুলিব নোৱাৰি"</string>
     <string name="remove_download" msgid="244394809285977300">"আঁতৰাওক"</string>
     <string name="delete_download" msgid="1861638125603383676">"মচক"</string>
-    <string name="keep_queued_download" msgid="6905870466259272973">"ৰাখক"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"Keep"</string>
     <string name="cancel_running_download" msgid="8586888328847044473">"বাতিল কৰক"</string>
     <string name="retry_download" msgid="6957856437473044831">"পুনৰ চেষ্টা কৰক"</string>
     <string name="start_now_download" msgid="1518778561803897734">"এতিয়া আৰম্ভ কৰক"</string>

@@ -38,7 +38,7 @@
     <string name="dialog_file_already_exists" msgid="6849168874901909994">"Жүктөө мүмкүн эмес. Мындай файл мурунтан бар."</string>
     <string name="dialog_media_not_found" msgid="7376030905821161865">"Жүктөөнү аягына чыгаруу мүмкүн эмес. Тышкы медиа жеткиликтүү эмес."</string>
     <string name="download_no_application_title" msgid="1209223807604231431">"Файл ачылбады"</string>
-    <string name="remove_download" msgid="244394809285977300">"Өчүрүү"</string>
+    <string name="remove_download" msgid="244394809285977300">"Алып салуу"</string>
     <string name="delete_download" msgid="1861638125603383676">"Жок кылуу"</string>
     <string name="keep_queued_download" msgid="6905870466259272973">"Калтыруу"</string>
     <string name="cancel_running_download" msgid="8586888328847044473">"Токтотуу"</string>

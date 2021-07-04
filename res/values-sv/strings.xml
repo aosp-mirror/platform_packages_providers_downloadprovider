@@ -33,12 +33,12 @@
     <string name="download_unknown_title" msgid="1017800350818840396">"&lt;Okänd&gt;"</string>
     <string name="notification_download_complete" msgid="466652037490092787">"Nedladdningen har slutförts."</string>
     <string name="notification_download_failed" msgid="3932167763860605874">"Det gick inte att ladda ned."</string>
-    <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"Nedladdningen kräver Wi-Fi."</string>
+    <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"Nedladdningen kräver wifi."</string>
     <string name="notification_paused_in_background" msgid="6393408819031041778">"Pausad i bakgrunden."</string>
     <string name="wifi_required_title" msgid="7266700488421122218">"Nedladdningen är för stor för operatörsnätverket"</string>
-    <string name="wifi_required_body" msgid="4005023496578941958">"Du måste använda Wi-Fi om du vill slutföra nedladdningen på <xliff:g id="SIZE">%1$s </xliff:g>. \n \n Tryck på <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> om du vill påbörja nedladdningen nästa gång du är ansluten till ett Wi-Fi-nätverk."</string>
+    <string name="wifi_required_body" msgid="4005023496578941958">"Du måste använda wifi om du vill slutföra nedladdningen på <xliff:g id="SIZE">%1$s </xliff:g>. \n \n Tryck på <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> om du vill påbörja nedladdningen nästa gång du är ansluten till ett wifi-nätverk."</string>
     <string name="wifi_recommended_title" msgid="6488158053932133804">"Vill du ställa den i kö för nedladdning senare?"</string>
-    <string name="wifi_recommended_body" msgid="8710820743211704403">"Om du laddar ned <xliff:g id="SIZE">%1$s </xliff:g> kan det leda till att batteritiden minskar eller att dataanslutningen överbelastas. Det kan i sin tur innebära att operatören tar ut högre avgifter, beroende på abonnemang.\n\n Tryck på <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> om du vill starta nedladdningen nästa gång mobilen är ansluten till ett Wi-Fi-nätverk."</string>
+    <string name="wifi_recommended_body" msgid="8710820743211704403">"Om du laddar ned <xliff:g id="SIZE">%1$s </xliff:g> kan det leda till att batteritiden minskar eller att dataanslutningen överbelastas. Det kan i sin tur innebära att operatören tar ut högre avgifter, beroende på abonnemang.\n\n Tryck på <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> om du vill starta nedladdningen nästa gång mobilen är ansluten till ett wifi-nätverk."</string>
     <string name="button_queue_for_wifi" msgid="6650185573566994738">"Kö"</string>
     <string name="button_cancel_download" msgid="4135046775536601831">"Avbryt"</string>
     <string name="button_start_now" msgid="3817100969365441730">"Starta nu"</string>

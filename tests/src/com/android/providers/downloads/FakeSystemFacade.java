@@ -93,25 +93,14 @@ public class FakeSystemFacade implements SystemFacade {
     }
 
     @Override
-    public NetworkInfo getNetworkInfo(Network network, int uid, boolean ignoreBlocked) {
-        if (mActiveNetworkType == null) {
-            return null;
-        } else {
-            final NetworkInfo info = new NetworkInfo(mActiveNetworkType, 0, null, null);
-            info.setDetailedState(DetailedState.CONNECTED, null, null);
-            return info;
-        }
-    }
-
-    @Override
     public NetworkCapabilities getNetworkCapabilities(Network network) {
         if (mActiveNetworkType == null) {
             return null;
         } else {
-            final NetworkCapabilities caps = new NetworkCapabilities();
-            caps.setCapability(NET_CAPABILITY_NOT_METERED, !mIsMetered);
-            caps.setCapability(NET_CAPABILITY_NOT_ROAMING, !mIsRoaming);
-            return caps;
+            final NetworkCapabilities.Builder builder = new NetworkCapabilities.Builder();
+            if (!mIsMetered) builder.addCapability(NET_CAPABILITY_NOT_METERED);
+            if (!mIsRoaming) builder.addCapability(NET_CAPABILITY_NOT_ROAMING);
+            return builder.build();
         }
     }
 

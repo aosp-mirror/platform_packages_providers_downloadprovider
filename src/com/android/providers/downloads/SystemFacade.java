@@ -37,7 +37,6 @@ interface SystemFacade {
 
     public Network getNetwork(JobParameters params);
 
-    public NetworkInfo getNetworkInfo(Network network, int uid, boolean ignoreBlocked);
     public NetworkCapabilities getNetworkCapabilities(Network network);
 
     /**

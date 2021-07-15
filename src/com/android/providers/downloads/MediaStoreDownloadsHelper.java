@@ -47,8 +47,18 @@ public class MediaStoreDownloadsHelper {
         return docId != null && docId.startsWith(MEDIASTORE_DOWNLOAD_DIR_PREFIX);
     }
 
-    public static Uri getMediaStoreUri(String docId) {
-        return ContentUris.withAppendedId(MediaStore.Downloads.EXTERNAL_CONTENT_URI,
-                getMediaStoreId(docId));
+    /**
+     * The returned uri always appends external volume {@link MediaStore#VOLUME_EXTERNAL}.
+     * It doesn't consider the item is located on second volume. It can't be used to update
+     * or insert.
+     * @param docId the doc id
+     * @return external uri for query
+     */
+    public static Uri getMediaStoreUriForQuery(String docId) {
+        return getMediaStoreUri(MediaStore.VOLUME_EXTERNAL, docId);
+    }
+
+    public static Uri getMediaStoreUri(String volume, String docId) {
+        return MediaStore.Downloads.getContentUri(volume, getMediaStoreId(docId));
     }
 }

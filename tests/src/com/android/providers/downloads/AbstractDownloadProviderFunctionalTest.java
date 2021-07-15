@@ -127,11 +127,6 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
         public Bundle call(String method, String request, Bundle args) {
           return new Bundle();
         }
-
-        @Override
-        public IBinder getIContentProviderBinder() {
-            return new Binder();
-        }
     }
 
     /**
@@ -213,6 +208,7 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
         setupService();
         Helpers.setSystemFacade(mSystemFacade);
 
+        cleanUpDownloads();
         mSystemFacade.setUp();
         assertDatabaseEmpty(); // ensure we're not messing with real data
         assertDatabaseSecureAgainstBadSelection();

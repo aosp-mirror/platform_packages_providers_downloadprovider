@@ -19,15 +19,15 @@
     <string name="app_label" msgid="5264040740662487684">"డౌన్‌లోడ్ మేనేజ‌ర్‌"</string>
     <string name="storage_description" msgid="169690279447532621">"డౌన్‌లోడ్‌లు"</string>
     <string name="permlab_downloadManager" msgid="4241473724446132797">"డౌన్‌లోడ్ మేనేజర్‌ను యాక్సెస్ చేయి."</string>
-    <string name="permdesc_downloadManager" msgid="5562734314998369030">"డౌన్‌లోడ్ మేనేజర్‌ను యాక్సెస్ చేయడానికి మరియు దీన్ని ఉపయోగించి ఫైల్‌లను డౌన్‌లోడ్ చేయడానికి యాప్‌ను అనుమతిస్తుంది. హానికరమైన యాప్‌లు డౌన్‌లోడ్‌లకు అంతరాయం కలిగించడానికి మరియు ప్రైవేట్ సమాచారాన్ని యాక్సెస్ చేయడానికి దీన్ని ఉపయోగించవచ్చు."</string>
+    <string name="permdesc_downloadManager" msgid="5562734314998369030">"డౌన్‌లోడ్ మేనేజర్‌ను యాక్సెస్ చేయడానికి మరియు దీన్ని ఉపయోగించి ఫైళ్లను డౌన్‌లోడ్ చేయడానికి యాప్‌ను అనుమతిస్తుంది. హానికరమైన యాప్‌లు డౌన్‌లోడ్‌లకు అంతరాయం కలిగించడానికి మరియు ప్రైవేట్ సమాచారాన్ని యాక్సెస్ చేయడానికి దీన్ని ఉపయోగించవచ్చు."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"అధునాతన డౌన్‌లోడ్ నిర్వాహికి ఫంక్షన్‌లు."</string>
     <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"డౌన్‌లోడ్ మేనేజర్ యొక్క అధునాతన ఫంక్షన్‌లను యాక్సెస్ చేయడానికి యాప్‌ను అనుమతిస్తుంది. హానికరమైన యాప్‌లు డౌన్‌లోడ్‌లకు అంతరాయం కలిగించడానికి మరియు ప్రైవేట్ సమాచారాన్ని యాక్సెస్ చేయడానికి దీన్ని ఉపయోగించవచ్చు."</string>
     <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"డౌన్‌లోడ్ నోటిఫికేషన్‌లను పంపండి."</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"పూర్తయిన డౌన్‌లోడ్‌ల గురించి నోటిఫికేషన్‌లను పంపడానికి యాప్‌ను అనుమతిస్తుంది. హానికరమైన యాప్‌లు ఫైల్‌లను డౌన్‌లోడ్ చేసే ఇతర అనువర్తనాలను తప్పుదారి పట్టించేందుకు దీన్ని ఉపయోగించవచ్చు."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"పూర్తయిన డౌన్‌లోడ్‌ల గురించి నోటిఫికేషన్‌లను పంపడానికి యాప్‌ను అనుమతిస్తుంది. హానికరమైన యాప్‌లు ఫైళ్లను డౌన్‌లోడ్ చేసే ఇతర యాప్‌లను తప్పుదారి పట్టించేందుకు దీన్ని ఉపయోగించవచ్చు."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"డౌన్‌లోడ్ కాష్‌లో స్థలాన్ని నిల్వ చేయడం"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"డౌన్‌లోడ్ కాష్‌కు ఫైల్‌లను డౌన్‌లోడ్ చేయడానికి యాప్‌ను అనుమతిస్తుంది, డౌన్‌లోడ్ నిర్వాహికికి మరింత స్థలం అవసరమైనప్పుడు అవి స్వయంచాలకంగా తొలగించబడవు."</string>
-    <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"నోటిఫికేషన్ లేకుండానే ఫైల్‌లను డౌన్‌లోడ్ చేయడం"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"వినియోగదారుకి ఎటువంటి నోటిఫికేషన్‌ను చూపకుండానే డౌన్‌లోడ్ నిర్వాహికి ద్వారా ఫైల్‌లను డౌన్‌లోడ్ చేయడానికి యాప్‌ను అనుమతిస్తుంది."</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"డౌన్‌లోడ్ కాష్‌కు ఫైళ్లను డౌన్‌లోడ్ చేయడానికి యాప్‌ను అనుమతిస్తుంది, డౌన్‌లోడ్ నిర్వాహికికి మరింత స్థలం అవసరమైనప్పుడు అవి స్వయంచాలకంగా తొలగించబడవు."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"నోటిఫికేషన్ లేకుండానే ఫైళ్లను డౌన్‌లోడ్ చేయడం"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"వినియోగదారుకి ఎటువంటి నోటిఫికేషన్‌ను చూపకుండానే డౌన్‌లోడ్ నిర్వాహికి ద్వారా ఫైళ్లను డౌన్‌లోడ్ చేయడానికి యాప్‌ను అనుమతిస్తుంది."</string>
     <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"అన్ని సిస్టమ్ డౌన్‌లోడ్‌లను యాక్సెస్ చేయి"</string>
     <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"సిస్టమ్‌లో ఏదైనా యాప్ ద్వారా ప్రారంభించబడిన అన్ని డౌన్‌లోడ్‌లను వీక్షించడానికి మరియు సవరించడానికి యాప్‌ను అనుమతిస్తుంది."</string>
     <string name="download_unknown_title" msgid="1017800350818840396">"&lt;శీర్షిక లేనిది&gt;"</string>
@@ -43,11 +43,11 @@
     <string name="button_cancel_download" msgid="4135046775536601831">"రద్దు చేయి"</string>
     <string name="button_start_now" msgid="3817100969365441730">"ఇప్పుడే ప్రారంభించు"</string>
     <plurals name="notif_summary_active" formatted="false" msgid="8652501374845637331">
-      <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> ఫైల్‌లు డౌన్‌లోడ్ అవుతున్నాయి</item>
+      <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> ఫైళ్లు డౌన్‌లోడ్ అవుతున్నాయి</item>
       <item quantity="one">1 ఫైల్ డౌన్‌లోడ్ అవుతోంది</item>
     </plurals>
     <plurals name="notif_summary_waiting" formatted="false" msgid="1782251721955177526">
-      <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> ఫైల్‌లు వేచి ఉన్నాయి</item>
+      <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> ఫైళ్లు వేచి ఉన్నాయి</item>
       <item quantity="one">1 ఫైల్ వేచి ఉంది</item>
     </plurals>
     <string name="download_remaining" msgid="2313089371178695625">"<xliff:g id="DURATION">%s</xliff:g> మిగిలి ఉంది"</string>

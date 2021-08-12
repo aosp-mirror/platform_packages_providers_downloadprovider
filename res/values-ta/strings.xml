@@ -44,7 +44,7 @@
     <string name="button_start_now" msgid="3817100969365441730">"இப்போது தொடங்கு"</string>
     <plurals name="notif_summary_active" formatted="false" msgid="8652501374845637331">
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> கோப்புகளை இறக்குகிறது</item>
-      <item quantity="one">1 கோப்பை இறக்குகிறது</item>
+      <item quantity="one">1 ஃபைலை இறக்குகிறது</item>
     </plurals>
     <plurals name="notif_summary_waiting" formatted="false" msgid="1782251721955177526">
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> கோப்புகள் காத்திருக்கின்றன</item>

@@ -25,7 +25,7 @@
     <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"డౌన్‌లోడ్ నోటిఫికేషన్‌లను పంపండి."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"పూర్తయిన డౌన్‌లోడ్‌ల గురించి నోటిఫికేషన్‌లను పంపడానికి యాప్‌ను అనుమతిస్తుంది. హానికరమైన యాప్‌లు ఫైళ్లను డౌన్‌లోడ్ చేసే ఇతర యాప్‌లను తప్పుదారి పట్టించేందుకు దీన్ని ఉపయోగించవచ్చు."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"డౌన్‌లోడ్ కాష్‌లో స్థలాన్ని నిల్వ చేయడం"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"డౌన్‌లోడ్ కాష్‌కు ఫైళ్లను డౌన్‌లోడ్ చేయడానికి యాప్‌ను అనుమతిస్తుంది, డౌన్‌లోడ్ నిర్వాహికికి మరింత స్థలం అవసరమైనప్పుడు అవి స్వయంచాలకంగా తొలగించబడవు."</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"డౌన్‌లోడ్ కాష్‌కు ఫైళ్లను డౌన్‌లోడ్ చేయడానికి యాప్‌ను అనుమతిస్తుంది, డౌన్‌లోడ్ నిర్వాహికికి మరింత స్థలం అవసరమైనప్పుడు అవి ఆటోమేటిక్‌గా తొలగించబడవు."</string>
     <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"నోటిఫికేషన్ లేకుండానే ఫైళ్లను డౌన్‌లోడ్ చేయడం"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"వినియోగదారుకి ఎటువంటి నోటిఫికేషన్‌ను చూపకుండానే డౌన్‌లోడ్ నిర్వాహికి ద్వారా ఫైళ్లను డౌన్‌లోడ్ చేయడానికి యాప్‌ను అనుమతిస్తుంది."</string>
     <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"అన్ని సిస్టమ్ డౌన్‌లోడ్‌లను యాక్సెస్ చేయి"</string>

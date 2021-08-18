@@ -942,6 +942,13 @@ public final class DownloadProvider extends ContentProvider {
                 }
                 return mediaStoreUri;
             }
+        } catch (IllegalArgumentException ignored) {
+            // Insert or update MediaStore failed. At this point we can't do
+            // much here. If the file belongs to MediaStore collection, it will
+            // get added to MediaStore collection during next scan, and we will
+            // obtain the uri to the file in the next MediaStore#scanFile
+            // initiated by us
+            Log.w(Constants.TAG, "Couldn't update MediaStore for " + filePath, ignored);
         } catch (RemoteException e) {
             // Should not happen
         }

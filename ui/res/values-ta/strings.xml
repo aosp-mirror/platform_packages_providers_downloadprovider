@@ -28,7 +28,7 @@
     <string name="download_success" msgid="3895973294927323747">"முடிந்தது"</string>
     <string name="download_error" msgid="6652902885480887230">"தோல்வி"</string>
     <string name="dialog_title_not_available" msgid="7793272183758002416">"பதிவிறக்க முடியவில்லை"</string>
-    <string name="dialog_failed_body" msgid="4538779125597383173">"கோப்பைப் பின்னர் பதிவிறக்க முயற்சிக்கவா அல்லது வரிசையிலிருந்து நீக்க விரும்புகிறீர்களா?"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"ஃபைலைப் பின்னர் பதிவிறக்க முயற்சிக்கவா அல்லது வரிசையிலிருந்து நீக்க விரும்புகிறீர்களா?"</string>
     <string name="dialog_title_queued_body" msgid="7481231558376227012">"வரிசையில் உள்ள கோப்பு"</string>
     <string name="dialog_queued_body" msgid="2374398802707010234">"இந்தக் கோப்பு எதிர்கால பதிவிறக்கத்திற்கு வரிசைப்படுத்தப்பட்டது, அதனால், இதுவரை இது கிடைக்கவில்லை."</string>
     <string name="dialog_file_missing_body" msgid="7896653198405160564">"பதிவிறக்கிய கோப்பைக் கண்டறிய முடியவில்லை."</string>

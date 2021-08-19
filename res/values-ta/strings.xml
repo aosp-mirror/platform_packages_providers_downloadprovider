@@ -47,7 +47,7 @@
       <item quantity="one">1 ஃபைலை இறக்குகிறது</item>
     </plurals>
     <plurals name="notif_summary_waiting" formatted="false" msgid="1782251721955177526">
-      <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> கோப்புகள் காத்திருக்கின்றன</item>
+      <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> ஃபைல்கள்  காத்திருக்கின்றன</item>
       <item quantity="one">1 கோப்பு காத்திருக்கிறது</item>
     </plurals>
     <string name="download_remaining" msgid="2313089371178695625">"<xliff:g id="DURATION">%s</xliff:g> மீதமுள்ளது"</string>

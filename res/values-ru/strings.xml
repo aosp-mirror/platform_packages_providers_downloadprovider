@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="5264040740662487684">"Диспетчер загрузки"</string>
+    <string name="app_label" msgid="5264040740662487684">"Менеджер скачивания"</string>
     <string name="storage_description" msgid="169690279447532621">"Скачанные"</string>
     <string name="permlab_downloadManager" msgid="4241473724446132797">"Доступ к менеджеру загрузки."</string>
     <string name="permdesc_downloadManager" msgid="5562734314998369030">"Приложение получит доступ к диспетчеру загрузок и сможет загружать файлы через него. Вредоносные программы смогут таким образом прерывать загрузки и просматривать личную информацию."</string>

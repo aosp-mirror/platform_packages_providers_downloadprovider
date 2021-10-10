@@ -97,10 +97,10 @@ public class FakeSystemFacade implements SystemFacade {
         if (mActiveNetworkType == null) {
             return null;
         } else {
-            final NetworkCapabilities caps = new NetworkCapabilities();
-            caps.setCapability(NET_CAPABILITY_NOT_METERED, !mIsMetered);
-            caps.setCapability(NET_CAPABILITY_NOT_ROAMING, !mIsRoaming);
-            return caps;
+            final NetworkCapabilities.Builder builder = new NetworkCapabilities.Builder();
+            if (!mIsMetered) builder.addCapability(NET_CAPABILITY_NOT_METERED);
+            if (!mIsRoaming) builder.addCapability(NET_CAPABILITY_NOT_ROAMING);
+            return builder.build();
         }
     }
 

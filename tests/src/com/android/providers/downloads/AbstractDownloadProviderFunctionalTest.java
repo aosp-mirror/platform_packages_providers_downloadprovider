@@ -208,6 +208,7 @@ public abstract class AbstractDownloadProviderFunctionalTest extends
         setupService();
         Helpers.setSystemFacade(mSystemFacade);
 
+        cleanUpDownloads();
         mSystemFacade.setUp();
         assertDatabaseEmpty(); // ensure we're not messing with real data
         assertDatabaseSecureAgainstBadSelection();

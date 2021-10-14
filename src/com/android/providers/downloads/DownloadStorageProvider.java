@@ -18,7 +18,7 @@ package com.android.providers.downloads;
 
 import static com.android.providers.downloads.MediaStoreDownloadsHelper.getDocIdForMediaStoreDownload;
 import static com.android.providers.downloads.MediaStoreDownloadsHelper.getMediaStoreIdString;
-import static com.android.providers.downloads.MediaStoreDownloadsHelper.getMediaStoreUri;
+import static com.android.providers.downloads.MediaStoreDownloadsHelper.getMediaStoreUriForQuery;
 import static com.android.providers.downloads.MediaStoreDownloadsHelper.isMediaStoreDownload;
 import static com.android.providers.downloads.MediaStoreDownloadsHelper.isMediaStoreDownloadDir;
 
@@ -28,7 +28,6 @@ import android.app.DownloadManager;
 import android.app.DownloadManager.Query;
 import android.content.ContentResolver;
 import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriPermission;
 import android.database.Cursor;
@@ -282,7 +281,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
             if (DOC_ID_ROOT.equals(docId)) {
                 includeDefaultDocument(result);
             } else if (isMediaStoreDownload(docId)) {
-                cursor = getContext().getContentResolver().query(getMediaStoreUri(docId),
+                cursor = getContext().getContentResolver().query(getMediaStoreUriForQuery(docId),
                         null, null, null);
                 copyNotificationUri(result, cursor);
                 if (cursor.moveToFirst()) {
@@ -514,7 +513,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
             final ContentResolver resolver = getContext().getContentResolver();
             final Uri contentUri;
             if (isMediaStoreDownload(docId)) {
-                contentUri = getMediaStoreUri(docId);
+                contentUri = getMediaStoreUriForQuery(docId);
             } else {
                 final long id = Long.parseLong(docId);
                 contentUri = mDm.getDownloadUri(id);
@@ -538,7 +537,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
             final ContentResolver resolver = getContext().getContentResolver();
             final Uri contentUri;
             if (isMediaStoreDownload(docId)) {
-                contentUri = getMediaStoreUri(docId);
+                contentUri = getMediaStoreUriForQuery(docId);
             } else {
                 final long id = Long.parseLong(docId);
                 contentUri = mDm.getDownloadUri(id);
@@ -808,7 +807,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
     }
 
     private File getFileForMediaStoreDownload(String docId) {
-        final Uri mediaStoreUri = getMediaStoreUri(docId);
+        final Uri mediaStoreUri = getMediaStoreUriForQuery(docId);
         final long token = Binder.clearCallingIdentity();
         try (Cursor cursor = queryForSingleItem(mediaStoreUri,
                 new String[] { DownloadColumns.DATA }, null, null, null)) {

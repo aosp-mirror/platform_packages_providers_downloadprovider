@@ -28,8 +28,8 @@
     <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"এপটোক ডাউনল’ড কেশ্বত ফাইল ডাউনল’ড কৰিবলৈ অনুমতি দিয়ে, যাক ডাউনল’ড মেনেজাৰক অধিক খালী ঠাই প্ৰয়োজন হ\'লে স্বয়ংক্ৰিয়ভাৱে মচি পেলাব নোৱাৰি।"</string>
     <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"জাননী নিদিয়াকৈ ফাইল ডাউনল’ড কৰিব পাৰে"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"এপটোক ব্যৱহাৰকাৰীক কোনো জাননী নিদিয়াকৈ ডাউনল’ড মেনেজাৰ ব্যৱহাৰ কৰি ফাইল ডাউনল’ড কৰিবলৈ অনুমতি দিয়ে।"</string>
-    <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"সকলো ছিষ্টেম ডাউনল\'ডত প্ৰৱেশ কৰিব পাৰে"</string>
-    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"ছিষ্টেমত থকা যিকোনো এপে সূচনা কৰা সকলো ডাউনল’ড চাবলৈ আৰু সংশোধন কৰিবলৈ এপটোক অনুমতি দিয়ে।"</string>
+    <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"আটাইবোৰ ছিষ্টেম ডাউনল\'ড এক্সেছ কৰিব পাৰে"</string>
+    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"ছিষ্টেমত থকা যিকোনো এপে সূচনা কৰা আটাইবোৰ ডাউনল’ড চাবলৈ আৰু সংশোধন কৰিবলৈ এপ্‌টোক অনুমতি দিয়ে।"</string>
     <string name="download_unknown_title" msgid="1017800350818840396">"&lt;শিৰোনামবিহীন&gt;"</string>
     <string name="notification_download_complete" msgid="466652037490092787">"ডাউনল’ড সম্পূৰ্ণ হ’ল।"</string>
     <string name="notification_download_failed" msgid="3932167763860605874">"ডাউনল’ড কৰিবপৰা নগ\'ল।"</string>

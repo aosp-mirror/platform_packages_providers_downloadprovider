@@ -23,7 +23,7 @@
     <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"ਐਡਵਾਂਸਡ ਡਾਊਨਲੋਡ ਪ੍ਰਬੰਧਕ ਫੰਕਸ਼ਨ।"</string>
     <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"ਐਪ ਨੂੰ ਡਾਊਨਲੋਡ ਪ੍ਰਬੰਧਕ ਦੇ ਐਡਵਾਂਸਡ ਫੰਕਸ਼ਨਾਂ ਤੱਕ ਪਹੁੰਚ ਦੀ ਆਗਿਆ ਦਿੰਦਾ ਹੈ। ਖਰਾਬ ਐਪਾਂ ਇਸਦੀ ਵਰਤੋਂ ਡਾਊਨਲੋਡ ਵਿੱਚ ਵਿਘਨ ਪਾਉਣ ਅਤੇ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਤੱਕ ਪਹੁੰਚ ਲਈ ਕਰ ਸਕਦੀਆਂ ਹਨ।"</string>
     <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"ਡਾਊਨਲੋਡ ਸੂਚਨਾਵਾਂ ਭੇਜੋ।"</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"ਐਪ ਨੂੰ ਡਾਊਨਲੋਡਸ ਪੂਰਾ ਕੀਤੇ ਬਿਨਾਂ ਸੂਚਨਾਵਾਂ ਭੇਜਣ ਦੀ ਆਗਿਆ ਦਿੰਦਾ ਹੈ। ਖ਼ਰਾਬ ਐਪਸ ਇਸਦੀ ਵਰਤੋਂ ਹੋਰਾਂ ਐਪਸ ਨੂੰ ਉਲਝਣ ਵਿੱਚ ਪਾਉਣ ਲਈ ਕਰ ਸਕਦੇ ਹਨ ਜੋ ਫਾਈਲਾਂ ਡਾਊਨਲੋਡ ਕਰਦੇ ਹਨ।"</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"ਐਪ ਨੂੰ ਪੂਰੇ ਹੋਏ ਡਾਊਨਲੋਡ ਬਾਰੇ ਸੂਚਨਾਵਾਂ ਭੇਜਣ ਦਿਓ। ਨੁਕਸਾਨਦੇਹ ਐਪਾਂ ਇਸਦੀ ਵਰਤੋਂ ਫ਼ਾਈਲਾਂ ਡਾਊਨਲੋਡ ਕਰਨ ਵਾਲੀਆਂ ਹੋਰ ਐਪਾਂ ਨੂੰ ਉਲਝਣ ਵਿੱਚ ਪਾਉਣ ਲਈ ਕਰ ਸਕਦੀਆਂ ਹਨ।"</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"ਡਾਊਨਲੋਡ ਕੈਸ਼ੇ ਵਿੱਚ ਜਗ੍ਹਾ ਰੱਖਿਅਤ ਕਰੋ"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"ਐਪ ਨੂੰ ਡਾਊਨਲੋਡ ਕੈਸ਼ੇ ਵਿੱਚ ਉਹ ਫਾਈਲਾਂ ਡਾਊਨਲੋਡ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿੰਦਾ ਹੈ, ਜੋ ਆਪਣੇ ਆਪ ਨਹੀਂ ਮਿਟਾਈਆਂ ਜਾ ਸਕਦੀਆਂ ਜਦੋਂ ਡਾਊਨਲੋਡ ਪ੍ਰਬੰਧਕ ਨੂੰ ਵੱਧ ਜਗ੍ਹਾ ਦੀ ਲੋੜ ਹੁੰਦੀ ਹੈ।"</string>
     <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"ਸੂਚਨਾ ਤੋਂ ਬਿਨਾਂ ਫ਼ਾਈਲਾਂ ਡਾਊਨਲੋਡ ਕਰੋ"</string>

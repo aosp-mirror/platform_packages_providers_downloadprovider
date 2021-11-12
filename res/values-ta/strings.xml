@@ -19,15 +19,15 @@
     <string name="app_label" msgid="5264040740662487684">"பதிவிறக்க நிர்வாகி"</string>
     <string name="storage_description" msgid="169690279447532621">"பதிவிறக்கங்கள்"</string>
     <string name="permlab_downloadManager" msgid="4241473724446132797">"பதிவிறக்க நிர்வாகியை அணுகவும்."</string>
-    <string name="permdesc_downloadManager" msgid="5562734314998369030">"பதிவிறக்க நிர்வாகியை அணுகவும், கோப்புகளைப் பதிவிறக்குவதற்காக அதைப் பயன்படுத்தவும் ஆப்ஸை அனுமதிக்கிறது. பதிவிறக்கங்களைத் தடைசெய்யவும், தனிப்பட்டத் தகவலை அணுகவும் தீங்கிழைக்கும் ஆப்ஸ் இதைப் பயன்படுத்தலாம்."</string>
+    <string name="permdesc_downloadManager" msgid="5562734314998369030">"பதிவிறக்க நிர்வாகியை அணுகவும், ஃபைல்களைப் பதிவிறக்குவதற்காக அதைப் பயன்படுத்தவும் ஆப்ஸை அனுமதிக்கிறது. பதிவிறக்கங்களைத் தடைசெய்யவும், தனிப்பட்டத் தகவலை அணுகவும் தீங்கிழைக்கும் ஆப்ஸ் இதைப் பயன்படுத்தலாம்."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"மேம்பட்ட பதிவிறக்க நிர்வாகி செயல்பாடுகள்."</string>
     <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"பதிவிறக்க நிர்வாகியின் மேம்பட்ட செயல்பாடுகளை அணுகுவதற்குப் ஆப்ஸை அனுமதிக்கிறது. பதிவிறக்கங்களைத் தடைசெய்யவும், தனிப்பட்டத் தகவலை அணுகவும் தீங்கிழைக்கும் ஆப்ஸ் இதைப் பயன்படுத்தலாம்."</string>
     <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"பதிவிறக்க அறிவிப்புகளை அனுப்பவும்."</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"முடிந்த பதிவிறக்கங்கள் குறித்த அறிவிப்புகளை அனுப்புவதற்குப் ஆப்ஸை அனுமதிக்கிறது. கோப்புகளைப் பதிவிறக்கும் பிற பயன்பாடுகளைக் குழப்புவதற்கு தீங்கிழைக்கும் ஆப்ஸ் இதைப் பயன்படுத்தலாம்."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"முடிந்த பதிவிறக்கங்கள் குறித்த அறிவிப்புகளை அனுப்புவதற்குப் ஆப்ஸை அனுமதிக்கிறது. ஃபைல்களைப் பதிவிறக்கும் பிற பயன்பாடுகளைக் குழப்புவதற்கு தீங்கிழைக்கும் ஆப்ஸ் இதைப் பயன்படுத்தலாம்."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"தற்காலிகச் சேமிப்பில் இடத்தை முன்பதிவு செய்தல்"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"பதிவிறக்க நிர்வாகிக்கு அதிகப்படியான இடம் தேவைப்படும்போது தானாகவே நீக்கப்படாத, தற்காலிகச் சேமிப்பில் கோப்புகளைப் பதிவிறக்க ஆப்ஸை அனுமதிக்கிறது."</string>
-    <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"அறிவிப்பு இல்லாமல் கோப்புகளைப் பதிவிறக்குதல்"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"எந்த அறிவிப்பையும் பயனருக்குக் காட்டாமல் பதிவிறக்க நிர்வாகியின் மூலம் கோப்புகளைப் பதிவிறக்கப் ஆப்ஸை அனுமதிக்கிறது."</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"பதிவிறக்க நிர்வாகிக்கு அதிகப்படியான இடம் தேவைப்படும்போது தானாகவே நீக்கப்படாத, தற்காலிகச் சேமிப்பில் ஃபைல்களைப் பதிவிறக்க ஆப்ஸை அனுமதிக்கிறது."</string>
+    <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"அறிவிப்பு இல்லாமல் ஃபைல்களைப் பதிவிறக்குதல்"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"எந்த அறிவிப்பையும் பயனருக்குக் காட்டாமல் பதிவிறக்க நிர்வாகியின் மூலம் ஃபைல்களைப் பதிவிறக்கப் ஆப்ஸை அனுமதிக்கிறது."</string>
     <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"அமைப்பின் எல்லா பதிவிறக்கங்களையும் அணுகுதல்"</string>
     <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"அமைப்பில் உள்ள எந்தப் பயன்பாட்டினாலும் தொடங்கப்படும் எல்லா பதிவிறக்கங்களையும் கண்டு மாற்றுவதற்குப் ஆப்ஸை அனுமதிக்கிறது."</string>
     <string name="download_unknown_title" msgid="1017800350818840396">"&lt;பெயரிடப்படாதது&gt;"</string>
@@ -43,12 +43,12 @@
     <string name="button_cancel_download" msgid="4135046775536601831">"ரத்துசெய்"</string>
     <string name="button_start_now" msgid="3817100969365441730">"இப்போது தொடங்கு"</string>
     <plurals name="notif_summary_active" formatted="false" msgid="8652501374845637331">
-      <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> கோப்புகளை இறக்குகிறது</item>
-      <item quantity="one">1 கோப்பை இறக்குகிறது</item>
+      <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> ஃபைல்களை இறக்குகிறது</item>
+      <item quantity="one">1 ஃபைலை இறக்குகிறது</item>
     </plurals>
     <plurals name="notif_summary_waiting" formatted="false" msgid="1782251721955177526">
-      <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> கோப்புகள் காத்திருக்கின்றன</item>
-      <item quantity="one">1 கோப்பு காத்திருக்கிறது</item>
+      <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> ஃபைல்கள்  காத்திருக்கின்றன</item>
+      <item quantity="one">1 ஃபைல் காத்திருக்கிறது</item>
     </plurals>
     <string name="download_remaining" msgid="2313089371178695625">"<xliff:g id="DURATION">%s</xliff:g> மீதமுள்ளது"</string>
     <string name="download_no_application_title" msgid="5780812573953335721">"கோப்பைத் திறக்க முடியவில்லை"</string>

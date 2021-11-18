@@ -79,8 +79,8 @@ public class HelpersTest extends AndroidTestCase {
     @Override
     protected void tearDown() throws Exception {
         mMockitoHelper.tearDown();
-        IoUtils.deleteContents(getContext().getFilesDir());
-        IoUtils.deleteContents(getContext().getCacheDir());
+        FsHelper.deleteContents(getContext().getFilesDir());
+        FsHelper.deleteContents(getContext().getCacheDir());
 
         super.tearDown();
     }

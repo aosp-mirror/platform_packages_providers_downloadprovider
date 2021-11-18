@@ -54,8 +54,6 @@ import android.text.format.DateUtils;
 
 import androidx.test.filters.FlakyTest;
 
-import libcore.io.IoUtils;
-
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.RecordedRequest;
 import com.google.mockwebserver.SocketPolicy;
@@ -93,7 +91,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
                 Environment.DIRECTORY_DOWNLOADS)
                 + File.separator + "download_manager_functional_test");
         if (mTestDirectory.exists()) {
-            IoUtils.deleteContents(mTestDirectory);
+            FsHelper.deleteContents(mTestDirectory);
         } else {
             mTestDirectory.mkdir();
         }
@@ -102,7 +100,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
     @Override
     protected void tearDown() throws Exception {
         if (mTestDirectory != null && mTestDirectory.exists()) {
-            IoUtils.deleteContents(mTestDirectory);
+            FsHelper.deleteContents(mTestDirectory);
             mTestDirectory.delete();
         }
         super.tearDown();

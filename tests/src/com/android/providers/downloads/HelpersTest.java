@@ -152,65 +152,65 @@ public class HelpersTest extends AndroidTestCase {
                 "/storage/AAAA-FFFF/Download/dir/bar.html"));
     }
 
-    public void testCheckDestinationFilePathRestrictions_permissionLess() throws Exception {
+    public void testCheckDestinationFilePathRestrictions_noPermission() throws Exception {
         // Downloading to our own private app directory should always be allowed, even for
         // permission-less app
-        checkDestinationFilePathRestrictions(
+        checkDestinationFilePathRestrictions_noPermission(
                 "/storage/emulated/0/Android/data/DownloadManagerHelpersTest/test",
                 /* isLegacyMode */ false);
-        checkDestinationFilePathRestrictions(
+        checkDestinationFilePathRestrictions_noPermission(
                 "/storage/emulated/0/Android/data/DownloadManagerHelpersTest/test",
                 /* isLegacyMode */ true);
-        checkDestinationFilePathRestrictions(
+        checkDestinationFilePathRestrictions_noPermission(
                 "/storage/emulated/0/Android/obb/DownloadManagerHelpersTest/test",
                 /* isLegacyMode */ false);
-        checkDestinationFilePathRestrictions(
+        checkDestinationFilePathRestrictions_noPermission(
                 "/storage/emulated/0/Android/obb/DownloadManagerHelpersTest/test",
                 /* isLegacyMode */ true);
-        checkDestinationFilePathRestrictions(
+        checkDestinationFilePathRestrictions_noPermission(
                 "/storage/emulated/0/Android/media/DownloadManagerHelpersTest/test",
                 /* isLegacyMode */ false);
-        checkDestinationFilePathRestrictions(
+        checkDestinationFilePathRestrictions_noPermission(
                 "/storage/emulated/0/Android/media/DownloadManagerHelpersTest/test",
                 /* isLegacyMode */ true);
 
         // All apps can write to Environment.STANDARD_DIRECTORIES
-        checkDestinationFilePathRestrictions("/storage/emulated/0/Pictures/test",
+        checkDestinationFilePathRestrictions_noPermission("/storage/emulated/0/Pictures/test",
                 /* isLegacyMode */ false);
-        checkDestinationFilePathRestrictions("/storage/emulated/0/Download/test",
+        checkDestinationFilePathRestrictions_noPermission("/storage/emulated/0/Download/test",
                 /* isLegacyMode */ false);
-        checkDestinationFilePathRestrictions("/storage/emulated/0/Pictures/test",
+        checkDestinationFilePathRestrictions_noPermission("/storage/emulated/0/Pictures/test",
                 /* isLegacyMode */ true);
-        checkDestinationFilePathRestrictions("/storage/emulated/0/Download/test",
+        checkDestinationFilePathRestrictions_noPermission("/storage/emulated/0/Download/test",
                 /* isLegacyMode */ true);
 
         // Apps can never access other app's private directories (Android/data, Android/obb) paths
         // (unless they are installers in which case they can access Android/obb paths)
         try {
-            checkDestinationFilePathRestrictions("/storage/emulated/0/Android/data/foo/test",
-                    /* isLegacyMode */ false);
+            checkDestinationFilePathRestrictions_noPermission(
+                    "/storage/emulated/0/Android/data/foo/test", /* isLegacyMode */ false);
             fail("Expected SecurityException as caller cannot access other app's private packages");
         } catch (SecurityException expected) {
         }
 
         try {
-            checkDestinationFilePathRestrictions("/storage/emulated/0/Android/data/foo/test",
-                    /* isLegacyMode */ true);
+            checkDestinationFilePathRestrictions_noPermission(
+                    "/storage/emulated/0/Android/data/foo/test", /* isLegacyMode */ true);
             fail("Expected SecurityException as caller cannot access other app's private packages"
                     + " even in legacy mode");
         } catch (SecurityException expected) {
         }
 
         try {
-            checkDestinationFilePathRestrictions("/storage/emulated/0/Android/obb/foo/test",
-                    /* isLegacyMode */ false);
+            checkDestinationFilePathRestrictions_noPermission(
+                    "/storage/emulated/0/Android/obb/foo/test", /* isLegacyMode */ false);
             fail("Expected SecurityException as caller cannot access other app's private packages");
         } catch (SecurityException expected) {
         }
 
         try {
-            checkDestinationFilePathRestrictions("/storage/emulated/0/Android/obb/foo/test",
-                    /* isLegacyMode */ true);
+            checkDestinationFilePathRestrictions_noPermission(
+                    "/storage/emulated/0/Android/obb/foo/test", /* isLegacyMode */ true);
             fail("Expected SecurityException as caller cannot access other app's private packages"
                     + " even in legacy mode");
         } catch (SecurityException expected) {
@@ -218,22 +218,22 @@ public class HelpersTest extends AndroidTestCase {
 
         // Non-legacy apps can never access Android/ or Android/media dirs for other packages.
         try {
-            checkDestinationFilePathRestrictions("/storage/emulated/0/Android/",
+            checkDestinationFilePathRestrictions_noPermission("/storage/emulated/0/Android/",
                     /* isLegacyMode */ false);
             fail("Expected SecurityException as caller cannot write to Android dir");
         } catch (SecurityException expected) {
         }
 
         try {
-            checkDestinationFilePathRestrictions("/storage/emulated/0/Android/media/",
-                    /* isLegacyMode */ false);
+            checkDestinationFilePathRestrictions_noPermission(
+                    "/storage/emulated/0/Android/media/", /* isLegacyMode */ false);
             fail("Expected SecurityException as caller cannot write to Android dir");
         } catch (SecurityException expected) {
         }
 
         try {
-            checkDestinationFilePathRestrictions("/storage/emulated/0/Android/media/foo",
-                    /* isLegacyMode */ false);
+            checkDestinationFilePathRestrictions_noPermission(
+                    "/storage/emulated/0/Android/media/foo", /* isLegacyMode */ false);
             fail("Expected SecurityException as caller cannot write to Android dir");
         } catch (SecurityException expected) {
         }
@@ -241,7 +241,7 @@ public class HelpersTest extends AndroidTestCase {
         // Legacy apps require WRITE_EXTERNAL_STORAGE permission to access Android/ or Android/media
         // dirs.
         try {
-            checkDestinationFilePathRestrictions("/storage/emulated/0/Android/",
+            checkDestinationFilePathRestrictions_noPermission("/storage/emulated/0/Android/",
                     /* isLegacyMode */ true);
             fail("Expected SecurityException as caller cannot write to Android/ as it does not"
                     + " have WRITE_EXTERNAL_STORAGE permission");
@@ -249,16 +249,16 @@ public class HelpersTest extends AndroidTestCase {
         }
 
         try {
-            checkDestinationFilePathRestrictions("/storage/emulated/0/Android/media/",
-                    /* isLegacyMode */ true);
+            checkDestinationFilePathRestrictions_noPermission(
+                    "/storage/emulated/0/Android/media/", /* isLegacyMode */ true);
             fail("Expected SecurityException as caller cannot write to Android/ as it does not"
                     + " have WRITE_EXTERNAL_STORAGE permission");
         } catch (SecurityException expected) {
         }
 
         try {
-            checkDestinationFilePathRestrictions("/storage/emulated/0/Android/media/foo",
-                    /* isLegacyMode */ true);
+            checkDestinationFilePathRestrictions_noPermission(
+                    "/storage/emulated/0/Android/media/foo", /* isLegacyMode */ true);
             fail("Expected SecurityException as caller cannot write to Android/media as it does not"
                     + " have WRITE_EXTERNAL_STORAGE permission");
         } catch (SecurityException expected) {
@@ -406,14 +406,29 @@ public class HelpersTest extends AndroidTestCase {
                 /* isLegacyMode */ true);
     }
 
-    private void checkDestinationFilePathRestrictions(String filePath, boolean isLegacyMode) {
-        final Context context = getContext();
-        final AppOpsManager appOpsManager = context.getSystemService(AppOpsManager.class);
+    private void checkDestinationFilePathRestrictions_noPermission(String filePath,
+            boolean isLegacyMode) {
+        final Context mockContext = mock(Context.class);
+        when(mockContext.checkCallingOrSelfPermission(
+                android.Manifest.permission.REQUEST_INSTALL_PACKAGES))
+                .thenReturn(PackageManager.PERMISSION_DENIED);
+        when(mockContext.checkCallingOrSelfPermission(
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
+                .thenReturn(PackageManager.PERMISSION_DENIED);
         final String callingAttributionTag = "test";
+        final AppOpsManager mockAppOpsManager = mock(AppOpsManager.class);
+        final String callingPackage = TAG;
+        when(mockAppOpsManager.noteOp(AppOpsManager.OP_REQUEST_INSTALL_PACKAGES,
+                Binder.getCallingUid(), callingPackage, null, "obb_download"))
+                .thenReturn(AppOpsManager.MODE_ERRORED);
+        when(mockAppOpsManager.noteProxyOp(AppOpsManager.OP_WRITE_EXTERNAL_STORAGE,
+                callingPackage, Binder.getCallingUid(), callingAttributionTag, null))
+                .thenReturn(AppOpsManager.MODE_ERRORED);
         File file = new File(filePath);
 
-        Helpers.checkDestinationFilePathRestrictions(file, TAG, context, appOpsManager,
-                callingAttributionTag, isLegacyMode, /* allowDownloadsDirOnly */ false);
+        Helpers.checkDestinationFilePathRestrictions(file, callingPackage, mockContext,
+                mockAppOpsManager, callingAttributionTag, isLegacyMode,
+                /* allowDownloadsDirOnly */ false);
     }
 
     private void checkDestinationFilePathRestrictions_installer(String filePath,

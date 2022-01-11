@@ -18,7 +18,7 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="5264040740662487684">"Downloadbeheer"</string>
     <string name="storage_description" msgid="169690279447532621">"Downloads"</string>
-    <string name="permlab_downloadManager" msgid="4241473724446132797">"Downloadbeheer weergeven."</string>
+    <string name="permlab_downloadManager" msgid="4241473724446132797">"Downloadbeheer bekijken."</string>
     <string name="permdesc_downloadManager" msgid="5562734314998369030">"Hiermee heeft de app toegang tot downloadbeheer en kan de app via downloadbeheer bestanden downloaden. Schadelijke apps kunnen dit gebruiken om downloads te verstoren en toegang te krijgen tot persoonlijke informatie."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"Geavanceerde functies van de downloadbeheerder."</string>
     <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"Hiermee heeft de app toegang tot de geavanceerde functies van downloadbeheer. Schadelijke apps kunnen dit gebruiken om downloads te verstoren en toegang te krijgen tot persoonlijke informatie."</string>

@@ -35,11 +35,13 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import android.app.AppOpsManager;
 import android.content.ContentProvider;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.MatrixCursor;
 import android.net.Uri;
+import android.os.Binder;
 import android.os.Environment;
 import android.os.Process;
 import android.provider.Downloads;
@@ -49,11 +51,8 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.util.LongArray;
 import android.util.LongSparseArray;
 
-import libcore.io.IoUtils;
-
 import java.io.File;
 import java.util.Arrays;
-import java.util.function.BiConsumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -62,6 +61,7 @@ import java.util.regex.Pattern;
  */
 @SmallTest
 public class HelpersTest extends AndroidTestCase {
+    private static final String TAG = "DownloadManagerHelpersTest";
 
     private final static int TEST_UID1 = 11111;
     private final static int TEST_UID2 = 11112;
@@ -72,7 +72,8 @@ public class HelpersTest extends AndroidTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-
+        // This is necessary for mockito to work
+        System.setProperty("dexmaker.dexcache", mContext.getCacheDir().toString());
         mMockitoHelper.setUp(getClass());
     }
 
@@ -147,6 +148,363 @@ public class HelpersTest extends AndroidTestCase {
                 "/storage/emulated/0/Download/dir/bar.html"));
         assertFalse(Helpers.isFileInExternalAndroidDirs(
                 "/storage/AAAA-FFFF/Download/dir/bar.html"));
+    }
+
+    public void testCheckDestinationFilePathRestrictions_noPermission() throws Exception {
+        // Downloading to our own private app directory should always be allowed, even for
+        // permission-less app
+        checkDestinationFilePathRestrictions_noPermission(
+                "/storage/emulated/0/Android/data/DownloadManagerHelpersTest/test",
+                /* isLegacyMode */ false);
+        checkDestinationFilePathRestrictions_noPermission(
+                "/storage/emulated/0/Android/data/DownloadManagerHelpersTest/test",
+                /* isLegacyMode */ true);
+        checkDestinationFilePathRestrictions_noPermission(
+                "/storage/emulated/0/Android/obb/DownloadManagerHelpersTest/test",
+                /* isLegacyMode */ false);
+        checkDestinationFilePathRestrictions_noPermission(
+                "/storage/emulated/0/Android/obb/DownloadManagerHelpersTest/test",
+                /* isLegacyMode */ true);
+        checkDestinationFilePathRestrictions_noPermission(
+                "/storage/emulated/0/Android/media/DownloadManagerHelpersTest/test",
+                /* isLegacyMode */ false);
+        checkDestinationFilePathRestrictions_noPermission(
+                "/storage/emulated/0/Android/media/DownloadManagerHelpersTest/test",
+                /* isLegacyMode */ true);
+
+        // All apps can write to Environment.STANDARD_DIRECTORIES
+        checkDestinationFilePathRestrictions_noPermission("/storage/emulated/0/Pictures/test",
+                /* isLegacyMode */ false);
+        checkDestinationFilePathRestrictions_noPermission("/storage/emulated/0/Download/test",
+                /* isLegacyMode */ false);
+        checkDestinationFilePathRestrictions_noPermission("/storage/emulated/0/Pictures/test",
+                /* isLegacyMode */ true);
+        checkDestinationFilePathRestrictions_noPermission("/storage/emulated/0/Download/test",
+                /* isLegacyMode */ true);
+
+        // Apps can never access other app's private directories (Android/data, Android/obb) paths
+        // (unless they are installers in which case they can access Android/obb paths)
+        try {
+            checkDestinationFilePathRestrictions_noPermission(
+                    "/storage/emulated/0/Android/data/foo/test", /* isLegacyMode */ false);
+            fail("Expected SecurityException as caller cannot access other app's private packages");
+        } catch (SecurityException expected) {
+        }
+
+        try {
+            checkDestinationFilePathRestrictions_noPermission(
+                    "/storage/emulated/0/Android/data/foo/test", /* isLegacyMode */ true);
+            fail("Expected SecurityException as caller cannot access other app's private packages"
+                    + " even in legacy mode");
+        } catch (SecurityException expected) {
+        }
+
+        try {
+            checkDestinationFilePathRestrictions_noPermission(
+                    "/storage/emulated/0/Android/obb/foo/test", /* isLegacyMode */ false);
+            fail("Expected SecurityException as caller cannot access other app's private packages");
+        } catch (SecurityException expected) {
+        }
+
+        try {
+            checkDestinationFilePathRestrictions_noPermission(
+                    "/storage/emulated/0/Android/obb/foo/test", /* isLegacyMode */ true);
+            fail("Expected SecurityException as caller cannot access other app's private packages"
+                    + " even in legacy mode");
+        } catch (SecurityException expected) {
+        }
+
+        // Non-legacy apps can never access Android/ or Android/media dirs for other packages.
+        try {
+            checkDestinationFilePathRestrictions_noPermission("/storage/emulated/0/Android/",
+                    /* isLegacyMode */ false);
+            fail("Expected SecurityException as caller cannot write to Android dir");
+        } catch (SecurityException expected) {
+        }
+
+        try {
+            checkDestinationFilePathRestrictions_noPermission(
+                    "/storage/emulated/0/Android/media/", /* isLegacyMode */ false);
+            fail("Expected SecurityException as caller cannot write to Android dir");
+        } catch (SecurityException expected) {
+        }
+
+        try {
+            checkDestinationFilePathRestrictions_noPermission(
+                    "/storage/emulated/0/Android/media/foo", /* isLegacyMode */ false);
+            fail("Expected SecurityException as caller cannot write to Android dir");
+        } catch (SecurityException expected) {
+        }
+
+        // Legacy apps require WRITE_EXTERNAL_STORAGE permission to access Android/ or Android/media
+        // dirs.
+        try {
+            checkDestinationFilePathRestrictions_noPermission("/storage/emulated/0/Android/",
+                    /* isLegacyMode */ true);
+            fail("Expected SecurityException as caller cannot write to Android/ as it does not"
+                    + " have WRITE_EXTERNAL_STORAGE permission");
+        } catch (SecurityException expected) {
+        }
+
+        try {
+            checkDestinationFilePathRestrictions_noPermission(
+                    "/storage/emulated/0/Android/media/", /* isLegacyMode */ true);
+            fail("Expected SecurityException as caller cannot write to Android/ as it does not"
+                    + " have WRITE_EXTERNAL_STORAGE permission");
+        } catch (SecurityException expected) {
+        }
+
+        try {
+            checkDestinationFilePathRestrictions_noPermission(
+                    "/storage/emulated/0/Android/media/foo", /* isLegacyMode */ true);
+            fail("Expected SecurityException as caller cannot write to Android/media as it does not"
+                    + " have WRITE_EXTERNAL_STORAGE permission");
+        } catch (SecurityException expected) {
+        }
+    }
+
+    public void testCheckDestinationFilePathRestrictions_installer() throws Exception {
+        // Downloading to other obb dirs should be allowed as installer
+        checkDestinationFilePathRestrictions_installer("/storage/emulated/0/Android/obb/foo/test",
+                /* isLegacyMode */ false);
+        checkDestinationFilePathRestrictions_installer("/storage/emulated/0/Android/obb/foo/test",
+                /* isLegacyMode */ true);
+
+        // Installer apps can not access other app's Android/data private dirs
+        try {
+            checkDestinationFilePathRestrictions_installer(
+                    "/storage/emulated/0/Android/data/foo/test", /* isLegacyMode */ false);
+            fail("Expected SecurityException as caller cannot access other app's private packages");
+        } catch (SecurityException expected) {
+        }
+
+        try {
+            checkDestinationFilePathRestrictions_installer(
+                    "/storage/emulated/0/Android/data/foo/test", /* isLegacyMode */ true);
+            fail("Expected SecurityException as caller cannot access other app's private packages"
+                    + " even in legacy mode");
+        } catch (SecurityException expected) {
+        }
+
+        // Non-legacy apps can never access Android/ or Android/media dirs for other packages.
+        try {
+            checkDestinationFilePathRestrictions_installer("/storage/emulated/0/Android/",
+                    /* isLegacyMode */ false);
+            fail("Expected SecurityException as caller cannot write to Android dir");
+        } catch (SecurityException expected) {
+        }
+
+        try {
+            checkDestinationFilePathRestrictions_installer("/storage/emulated/0/Android/media/",
+                    /* isLegacyMode */ false);
+            fail("Expected SecurityException as caller cannot write to Android dir");
+        } catch (SecurityException expected) {
+        }
+
+        try {
+            checkDestinationFilePathRestrictions_installer("/storage/emulated/0/Android/media/foo",
+                    /* isLegacyMode */ false);
+            fail("Expected SecurityException as caller cannot write to Android dir");
+        } catch (SecurityException expected) {
+        }
+
+        // Legacy apps require WRITE_EXTERNAL_STORAGE permission to access Android/ or Android/media
+        // dirs.
+        try {
+            checkDestinationFilePathRestrictions_installer("/storage/emulated/0/Android/",
+                    /* isLegacyMode */ true);
+            fail("Expected SecurityException as caller cannot write to Android/ as it does not"
+                    + " have WRITE_EXTERNAL_STORAGE permission");
+        } catch (SecurityException expected) {
+        }
+
+        try {
+            checkDestinationFilePathRestrictions_installer("/storage/emulated/0/Android/media/",
+                    /* isLegacyMode */ true);
+            fail("Expected SecurityException as caller cannot write to Android/ as it does not"
+                    + " have WRITE_EXTERNAL_STORAGE permission");
+        } catch (SecurityException expected) {
+        }
+
+        try {
+            checkDestinationFilePathRestrictions_installer("/storage/emulated/0/Android/media/foo",
+                    /* isLegacyMode */ true);
+            fail("Expected SecurityException as caller cannot write to Android/media as it does not"
+                    + " have WRITE_EXTERNAL_STORAGE permission");
+        } catch (SecurityException expected) {
+        }
+    }
+
+    public void testCheckDestinationFilePathRestrictions_WES() throws Exception {
+        // Apps with WRITE_EXTERNAL_STORAGE can not access other app's private dirs
+        // (Android/data and Android/obb paths)
+        try {
+            checkDestinationFilePathRestrictions_WES("/storage/emulated/0/Android/data/foo/test",
+                    /* isLegacyMode */ false);
+            fail("Expected SecurityException as caller cannot access other app's private packages");
+        } catch (SecurityException expected) {
+        }
+
+        try {
+            checkDestinationFilePathRestrictions_WES("/storage/emulated/0/Android/data/foo/test",
+                    /* isLegacyMode */ true);
+            fail("Expected SecurityException as caller cannot access other app's private packages"
+                    + " even in legacy mode");
+        } catch (SecurityException expected) {
+        }
+
+        try {
+            checkDestinationFilePathRestrictions_WES("/storage/emulated/0/Android/obb/foo/test",
+                    /* isLegacyMode */ false);
+            fail("Expected SecurityException as caller cannot access other app's private packages");
+        } catch (SecurityException expected) {
+        }
+
+        try {
+            checkDestinationFilePathRestrictions_WES("/storage/emulated/0/Android/obb/foo/test",
+                    /* isLegacyMode */ true);
+            fail("Expected SecurityException as caller cannot access other app's private packages"
+                    + " even in legacy mode");
+        } catch (SecurityException expected) {
+        }
+
+        // Non-legacy apps can never access Android/ or Android/media dirs for other packages.
+        try {
+            checkDestinationFilePathRestrictions_WES("/storage/emulated/0/Android/",
+                    /* isLegacyMode */ false);
+            fail("Expected SecurityException as caller cannot write to Android dir");
+        } catch (SecurityException expected) {
+        }
+
+        try {
+            checkDestinationFilePathRestrictions_WES("/storage/emulated/0/Android/media/",
+                    /* isLegacyMode */ false);
+            fail("Expected SecurityException as caller cannot write to Android dir");
+        } catch (SecurityException expected) {
+        }
+
+        try {
+            checkDestinationFilePathRestrictions_WES("/storage/emulated/0/Android/media/foo",
+                    /* isLegacyMode */ false);
+            fail("Expected SecurityException as caller cannot write to Android dir");
+        } catch (SecurityException expected) {
+        }
+
+        // Legacy apps with WRITE_EXTERNAL_STORAGE can access shared storage file path including
+        // Android/ and Android/media dirs
+        checkDestinationFilePathRestrictions_WES("/storage/emulated/0/Pictures/test",
+                /* isLegacyMode */ true);
+        checkDestinationFilePathRestrictions_WES("/storage/emulated/0/Download/test",
+                /* isLegacyMode */ true);
+        checkDestinationFilePathRestrictions_WES("/storage/emulated/0/Android/",
+                /* isLegacyMode */ true);
+        checkDestinationFilePathRestrictions_WES("/storage/emulated/0/Android/media/",
+                /* isLegacyMode */ true);
+        checkDestinationFilePathRestrictions_WES("/storage/emulated/0/Android/media/foo",
+                /* isLegacyMode */ true);
+    }
+
+    private void checkDestinationFilePathRestrictions_noPermission(String filePath,
+            boolean isLegacyMode) {
+        final Context mockContext = mock(Context.class);
+        when(mockContext.checkCallingOrSelfPermission(
+                android.Manifest.permission.REQUEST_INSTALL_PACKAGES))
+                .thenReturn(PackageManager.PERMISSION_DENIED);
+        when(mockContext.checkCallingOrSelfPermission(
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
+                .thenReturn(PackageManager.PERMISSION_DENIED);
+        final String callingAttributionTag = "test";
+        final AppOpsManager mockAppOpsManager = mock(AppOpsManager.class);
+        final String callingPackage = TAG;
+        when(mockAppOpsManager.noteOp(AppOpsManager.OP_REQUEST_INSTALL_PACKAGES,
+                Binder.getCallingUid(), callingPackage, null, "obb_download"))
+                .thenReturn(AppOpsManager.MODE_ERRORED);
+        when(mockAppOpsManager.noteProxyOp(AppOpsManager.OP_WRITE_EXTERNAL_STORAGE,
+                callingPackage, Binder.getCallingUid(), callingAttributionTag, null))
+                .thenReturn(AppOpsManager.MODE_ERRORED);
+        File file = new File(filePath);
+
+        Helpers.checkDestinationFilePathRestrictions(file, callingPackage, mockContext,
+                mockAppOpsManager, callingAttributionTag, isLegacyMode,
+                /* allowDownloadsDirOnly */ false);
+    }
+
+    private void checkDestinationFilePathRestrictions_installer(String filePath,
+            boolean isLegacyMode) throws Exception {
+        final Context mockContext = mock(Context.class);
+        when(mockContext.checkCallingOrSelfPermission(
+                android.Manifest.permission.REQUEST_INSTALL_PACKAGES))
+                .thenReturn(PackageManager.PERMISSION_GRANTED);
+        when(mockContext.checkCallingOrSelfPermission(
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
+                .thenReturn(PackageManager.PERMISSION_DENIED);
+
+        final String callingAttributionTag = "test";
+        final AppOpsManager mockAppOpsManager = mock(AppOpsManager.class);
+        final String callingPackage = TAG;
+        when(mockAppOpsManager.noteOp(AppOpsManager.OP_REQUEST_INSTALL_PACKAGES,
+                Binder.getCallingUid(), callingPackage, null, "obb_download"))
+                .thenReturn(AppOpsManager.MODE_ALLOWED);
+        when(mockAppOpsManager.noteProxyOp(AppOpsManager.OP_WRITE_EXTERNAL_STORAGE,
+                callingPackage, Binder.getCallingUid(), callingAttributionTag, null))
+                .thenReturn(AppOpsManager.MODE_ERRORED);
+        File file = new File(filePath);
+
+        Helpers.checkDestinationFilePathRestrictions(file, callingPackage, mockContext,
+                mockAppOpsManager, callingAttributionTag, isLegacyMode,
+                /* allowDownloadsDirOnly */ false);
+    }
+
+    private void checkDestinationFilePathRestrictions_WES(String filePath, boolean isLegacyMode)
+            throws Exception {
+        final Context mockContext = mock(Context.class);
+        when(mockContext.checkCallingOrSelfPermission(
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
+                .thenReturn(PackageManager.PERMISSION_GRANTED);
+        when(mockContext.checkCallingOrSelfPermission(
+                android.Manifest.permission.REQUEST_INSTALL_PACKAGES))
+                .thenReturn(PackageManager.PERMISSION_DENIED);
+
+        final AppOpsManager mockAppOpsManager = mock(AppOpsManager.class);
+        final String callingAttributionTag = "test";
+        final String callingPackage = TAG;
+        when(mockAppOpsManager.noteProxyOp(AppOpsManager.OP_WRITE_EXTERNAL_STORAGE,
+                callingPackage, Binder.getCallingUid(), callingAttributionTag, null))
+                .thenReturn(AppOpsManager.MODE_ALLOWED);
+        when(mockAppOpsManager.noteOp(AppOpsManager.OP_REQUEST_INSTALL_PACKAGES,
+                Binder.getCallingUid(), callingPackage, null, "obb_download"))
+                .thenReturn(AppOpsManager.MODE_ERRORED);
+        File file = new File(filePath);
+
+        Helpers.checkDestinationFilePathRestrictions(file, callingPackage, mockContext,
+                mockAppOpsManager, callingAttributionTag, isLegacyMode,
+                /* allowDownloadsDirOnly */ false);
+    }
+
+    public void testIsFileInPrivateExternalAndroidDirs() throws Exception {
+        assertTrue(isFileInPrivateExternalAndroidDirs(
+                "/storage/emulated/0/Android/data/com.example"));
+        assertTrue(isFileInPrivateExternalAndroidDirs(
+                "/storage/emulated/0/Android/data/com.example/colors.txt"));
+        assertTrue(isFileInPrivateExternalAndroidDirs(
+                "/storage/emulated/0/Android/obb/com.example/file.mp4"));
+        assertTrue(isFileInPrivateExternalAndroidDirs(
+                "/storage/AAAA-FFFF/Android/obb/com.example/file.mp4"));
+
+        assertFalse(isFileInPrivateExternalAndroidDirs("/storage/emulated/0/Android/"));
+        assertFalse(isFileInPrivateExternalAndroidDirs("/storage/AAAA-FFFF/Android/"));
+        assertFalse(isFileInPrivateExternalAndroidDirs(
+                "/storage/emulated/0/Android/media/com.example/file.mp4"));
+        assertFalse(isFileInPrivateExternalAndroidDirs(
+                "/storage/AAAA-FFFF/Android/media/com.example/file.mp4"));
+        assertFalse(isFileInPrivateExternalAndroidDirs("/storage/emulated/0/Download/foo.pdf"));
+        assertFalse(isFileInPrivateExternalAndroidDirs(
+                "/storage/emulated/0/Download/dir/bar.html"));
+        assertFalse(isFileInPrivateExternalAndroidDirs("/storage/AAAA-FFFF/Download/dir/bar.html"));
+    }
+
+    private static boolean isFileInPrivateExternalAndroidDirs(String filePath) {
+        return Helpers.isFileInPrivateExternalAndroidDirs(new File(filePath));
     }
 
     public void testIsFilenameValidinKnownPublicDir() throws Exception {

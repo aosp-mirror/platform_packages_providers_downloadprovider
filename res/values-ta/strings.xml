@@ -51,7 +51,7 @@
       <item quantity="one">1 ஃபைல் காத்திருக்கிறது</item>
     </plurals>
     <string name="download_remaining" msgid="2313089371178695625">"<xliff:g id="DURATION">%s</xliff:g> மீதமுள்ளது"</string>
-    <string name="download_no_application_title" msgid="5780812573953335721">"கோப்பைத் திறக்க முடியவில்லை"</string>
+    <string name="download_no_application_title" msgid="5780812573953335721">"ஃபைலைத் திறக்க முடியவில்லை"</string>
     <string name="root_downloads" msgid="8380500940211778491">"பதிவிறக்கங்கள்"</string>
     <string name="download_queued" msgid="3383844741769045371">"வரிசைப்படுத்தப்பட்டது"</string>
     <string name="download_running" msgid="774654178925442490">"செயலிலுள்ளது"</string>

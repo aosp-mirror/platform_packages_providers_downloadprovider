@@ -38,7 +38,7 @@
     <string name="dialog_file_already_exists" msgid="6849168874901909994">"ડાઉનલોડ કરી શકાતું નથી. ગંતવ્ય ફાઇલ પહેલાંથી જ અસ્તિત્વમાં છે."</string>
     <string name="dialog_media_not_found" msgid="7376030905821161865">"ડાઉનલોડ કરી શકાતું નથી. બાહ્ય મીડિયા ઉપલબ્ધ નથી."</string>
     <string name="download_no_application_title" msgid="1209223807604231431">"ફાઇલ ખોલી શકાતી નથી"</string>
-    <string name="remove_download" msgid="244394809285977300">"દૂર કરો"</string>
+    <string name="remove_download" msgid="244394809285977300">"કાઢી નાખો"</string>
     <string name="delete_download" msgid="1861638125603383676">"કાઢી નાખો"</string>
     <string name="keep_queued_download" msgid="6905870466259272973">"રાખો"</string>
     <string name="cancel_running_download" msgid="8586888328847044473">"રદ કરો"</string>

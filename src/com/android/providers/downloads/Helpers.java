@@ -34,6 +34,7 @@ import static com.android.providers.downloads.Constants.TAG;
 
 import android.annotation.NonNull;
 import android.annotation.Nullable;
+import android.app.AppOpsManager;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
@@ -41,8 +42,10 @@ import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Binder;
 import android.os.Environment;
 import android.os.FileUtils;
 import android.os.Handler;
@@ -83,6 +86,9 @@ public class Helpers {
 
     private static final Pattern PATTERN_ANDROID_DIRS =
             Pattern.compile("(?i)^/storage/[^/]+(?:/[0-9]+)?/Android/(?:data|obb|media)/.+");
+
+    private static final Pattern PATTERN_ANDROID_PRIVATE_DIRS =
+            Pattern.compile("(?i)^/storage/[^/]+(?:/[0-9]+)?/Android/(data|obb)/.+");
 
     private static final Pattern PATTERN_PUBLIC_DIRS =
             Pattern.compile("(?i)^/storage/[^/]+(?:/[0-9]+)?/([^/]+)/.+");
@@ -530,8 +536,7 @@ public class Helpers {
      * directories that are always writable to apps, regardless of storage
      * permission.
      */
-    static boolean isFilenameValidInExternalPackage(Context context, File file,
-            String packageName) {
+    static boolean isFilenameValidInExternalPackage(File file, String packageName) {
         try {
             if (containsCanonical(buildExternalStorageAppDataDirs(packageName), file) ||
                     containsCanonical(buildExternalStorageAppObbDirs(packageName), file) ||
@@ -539,7 +544,7 @@ public class Helpers {
                 return true;
             }
         } catch (IOException e) {
-            Log.w(TAG, "Failed to resolve canonical path: " + e);
+            Log.w(TAG, "Failed to resolve canonical path: " + file.getAbsolutePath(), e);
             return false;
         }
 
@@ -552,11 +557,75 @@ public class Helpers {
                 return true;
             }
         } catch (IOException e) {
-            Log.w(TAG, "Failed to resolve canonical path: " + e);
+            Log.w(TAG, "Failed to resolve canonical path: " + file.getAbsolutePath(), e);
             return false;
         }
 
         return false;
+    }
+
+    /**
+     * Check if given file exists in one of the private package-specific external storage
+     * directories.
+     */
+    static boolean isFileInPrivateExternalAndroidDirs(File file) {
+        try {
+            return PATTERN_ANDROID_PRIVATE_DIRS.matcher(file.getCanonicalPath()).matches();
+        } catch (IOException e) {
+            Log.w(TAG, "Failed to resolve canonical path: " + file.getAbsolutePath(), e);
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks destination file path restrictions adhering to App privacy restrictions
+     *
+     * Note: This method is extracted to a static method for better test coverage.
+     */
+    @VisibleForTesting
+    static void checkDestinationFilePathRestrictions(File file, String callingPackage,
+            Context context, AppOpsManager appOpsManager, String callingAttributionTag,
+            boolean isLegacyMode, boolean allowDownloadsDirOnly) {
+        boolean isFileNameValid = allowDownloadsDirOnly ? isFilenameValidInPublicDownloadsDir(file)
+                : isFilenameValidInKnownPublicDir(file.getAbsolutePath());
+        if (isFilenameValidInExternalPackage(file, callingPackage) || isFileNameValid) {
+            // No permissions required for paths belonging to calling package or
+            // public downloads dir.
+            return;
+        } else if (isFilenameValidInExternalObbDir(file) &&
+                isCallingAppInstaller(context, appOpsManager, callingPackage)) {
+            // Installers are allowed to download in OBB dirs, even outside their own package
+            return;
+        } else if (isFileInPrivateExternalAndroidDirs(file)) {
+            // Positive cases of writing to external Android dirs is covered in the if blocks above.
+            // If the caller made it this far, then it cannot write to this path as it is restricted
+            // from writing to other app's external Android dirs.
+            throw new SecurityException("Unsupported path " + file);
+        } else if (isLegacyMode && isFilenameValidInExternal(context, file)) {
+            // Otherwise we require write permission
+            context.enforceCallingOrSelfPermission(
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    "No permission to write to " + file);
+
+            if (appOpsManager.noteProxyOp(AppOpsManager.OP_WRITE_EXTERNAL_STORAGE,
+                    callingPackage, Binder.getCallingUid(), callingAttributionTag, null)
+                    != AppOpsManager.MODE_ALLOWED) {
+                throw new SecurityException("No permission to write to " + file);
+            }
+        } else {
+            throw new SecurityException("Unsupported path " + file);
+        }
+    }
+
+    private static boolean isCallingAppInstaller(Context context, AppOpsManager appOpsManager,
+            String callingPackage) {
+        return (appOpsManager.noteOp(AppOpsManager.OP_REQUEST_INSTALL_PACKAGES,
+                Binder.getCallingUid(), callingPackage, null, "obb_download")
+                == AppOpsManager.MODE_ALLOWED)
+                || (context.checkCallingOrSelfPermission(
+                android.Manifest.permission.REQUEST_INSTALL_PACKAGES)
+                == PackageManager.PERMISSION_GRANTED);
     }
 
     static boolean isFilenameValidInPublicDownloadsDir(File file) {
@@ -566,7 +635,7 @@ public class Helpers {
                 return true;
             }
         } catch (IOException e) {
-            Log.w(TAG, "Failed to resolve canonical path: " + e);
+            Log.w(TAG, "Failed to resolve canonical path: " + file.getAbsolutePath(), e);
             return false;
         }
 
@@ -608,7 +677,7 @@ public class Helpers {
                 }
             }
         } catch (IOException e) {
-            Log.w(TAG, "Failed to resolve canonical path: " + e);
+            Log.w(TAG, "Failed to resolve canonical path: " + file.getAbsolutePath(), e);
             return false;
         }
 
@@ -786,13 +855,13 @@ public class Helpers {
             final ContentValues values = new ContentValues();
             values.putNull(Constants.UID);
             downloadProvider.update(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, values,
-                    Helpers.buildQueryWithIds(idsToOrphan), null);
+                    buildQueryWithIds(idsToOrphan), null);
         }
         if (idsToDelete.size() > 0) {
             Log.i(Constants.TAG, "Deleting downloads with ids "
                     + Arrays.toString(idsToDelete.toArray()) + " as owner package is removed");
             downloadProvider.delete(Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI,
-                    Helpers.buildQueryWithIds(idsToDelete), null);
+                    buildQueryWithIds(idsToDelete), null);
         }
     }
 

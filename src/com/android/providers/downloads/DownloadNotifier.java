@@ -287,7 +287,8 @@ public class DownloadNotifier {
             }
 
             // Calculate and show progress
-            String remainingText = null;
+            String remainingLongText = null;
+            String remainingShortText = null;
             String percentText = null;
             if (type == TYPE_ACTIVE) {
                 long current = 0;
@@ -315,8 +316,10 @@ public class DownloadNotifier {
 
                     if (speed > 0) {
                         final long remainingMillis = ((total - current) * 1000) / speed;
-                        remainingText = res.getString(R.string.download_remaining,
-                                DateUtils.formatDuration(remainingMillis));
+                        remainingLongText = getRemainingText(res, remainingMillis,
+                            DateUtils.LENGTH_LONG);
+                        remainingShortText = getRemainingText(res, remainingMillis,
+                            DateUtils.LENGTH_SHORTEST);
                     }
 
                     final int percent = (int) ((current * 100) / total);
@@ -337,7 +340,7 @@ public class DownloadNotifier {
                     if (!TextUtils.isEmpty(description)) {
                         builder.setContentText(description);
                     } else {
-                        builder.setContentText(remainingText);
+                        builder.setContentText(remainingLongText);
                     }
                     builder.setContentInfo(percentText);
 
@@ -368,9 +371,9 @@ public class DownloadNotifier {
                 if (type == TYPE_ACTIVE) {
                     builder.setContentTitle(res.getQuantityString(
                             R.plurals.notif_summary_active, cluster.size(), cluster.size()));
-                    builder.setContentText(remainingText);
+                    builder.setContentText(remainingLongText);
                     builder.setContentInfo(percentText);
-                    inboxStyle.setSummaryText(remainingText);
+                    inboxStyle.setSummaryText(remainingShortText);
 
                 } else if (type == TYPE_WAITING) {
                     builder.setContentTitle(res.getQuantityString(
@@ -397,6 +400,11 @@ public class DownloadNotifier {
                 mActiveNotifs.removeAt(i);
             }
         }
+    }
+
+    private String getRemainingText(Resources res, long remainingMillis, int abbrev) {
+        return res.getString(R.string.download_remaining,
+            DateUtils.formatDuration(remainingMillis, abbrev));
     }
 
     private static CharSequence getDownloadTitle(Resources res, Cursor cursor) {

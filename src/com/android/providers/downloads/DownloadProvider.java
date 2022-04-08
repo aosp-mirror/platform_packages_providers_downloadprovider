@@ -257,6 +257,7 @@ public final class DownloadProvider extends ContentProvider {
     private int mSystemUid = -1;
 
     private StorageManager mStorageManager;
+    private AppOpsManager mAppOpsManager;
 
     /**
      * Creates and updated database on demand when opening it.
@@ -587,6 +588,7 @@ public final class DownloadProvider extends ContentProvider {
         mSystemUid = Process.SYSTEM_UID;
 
         mStorageManager = getContext().getSystemService(StorageManager.class);
+        mAppOpsManager = getContext().getSystemService(AppOpsManager.class);
 
         // Grant access permissions for all known downloads to the owning apps.
         final SQLiteDatabase db = mOpenHelper.getReadableDatabase();
@@ -735,10 +737,9 @@ public final class DownloadProvider extends ContentProvider {
                         android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         "No permission to write");
 
-                final AppOpsManager appOps = getContext().getSystemService(AppOpsManager.class);
-                if (appOps.noteProxyOp(AppOpsManager.OP_WRITE_EXTERNAL_STORAGE, getCallingPackage(),
-                        Binder.getCallingUid(), getCallingAttributionTag(), null)
-                        != AppOpsManager.MODE_ALLOWED) {
+                if (mAppOpsManager.noteProxyOp(AppOpsManager.OP_WRITE_EXTERNAL_STORAGE,
+                        getCallingPackage(), Binder.getCallingUid(), getCallingAttributionTag(),
+                        null) != AppOpsManager.MODE_ALLOWED) {
                     throw new SecurityException("No permission to write");
                 }
             }
@@ -942,13 +943,6 @@ public final class DownloadProvider extends ContentProvider {
                 }
                 return mediaStoreUri;
             }
-        } catch (IllegalArgumentException ignored) {
-            // Insert or update MediaStore failed. At this point we can't do
-            // much here. If the file belongs to MediaStore collection, it will
-            // get added to MediaStore collection during next scan, and we will
-            // obtain the uri to the file in the next MediaStore#scanFile
-            // initiated by us
-            Log.w(Constants.TAG, "Couldn't update MediaStore for " + filePath, ignored);
         } catch (RemoteException e) {
             // Should not happen
         }
@@ -1067,41 +1061,11 @@ public final class DownloadProvider extends ContentProvider {
             throw new SecurityException(e);
         }
 
-        final int targetSdkVersion = getCallingPackageTargetSdkVersion();
-        final AppOpsManager appOpsManager = getContext().getSystemService(AppOpsManager.class);
-        final boolean runningLegacyMode = appOpsManager.checkOp(AppOpsManager.OP_LEGACY_STORAGE,
+        final boolean isLegacyMode = mAppOpsManager.checkOp(AppOpsManager.OP_LEGACY_STORAGE,
                 Binder.getCallingUid(), getCallingPackage()) == AppOpsManager.MODE_ALLOWED;
-
-        if (Helpers.isFilenameValidInExternalPackage(getContext(), file, getCallingPackage())
-                || Helpers.isFilenameValidInKnownPublicDir(file.getAbsolutePath())) {
-            // No permissions required for paths belonging to calling package or
-            // public downloads dir.
-            return;
-        } else if (runningLegacyMode && Helpers.isFilenameValidInExternal(getContext(), file)) {
-            // Otherwise we require write permission
-            getContext().enforceCallingOrSelfPermission(
-                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    "No permission to write to " + file);
-
-            final AppOpsManager appOps = getContext().getSystemService(AppOpsManager.class);
-            if (appOps.noteProxyOp(AppOpsManager.OP_WRITE_EXTERNAL_STORAGE, getCallingPackage(),
-                    Binder.getCallingUid(), getCallingAttributionTag(), null)
-                    != AppOpsManager.MODE_ALLOWED) {
-                throw new SecurityException("No permission to write to " + file);
-            }
-        } else if (Helpers.isFilenameValidInExternalObbDir(file) &&
-                ((appOpsManager.noteOp(
-                    AppOpsManager.OP_REQUEST_INSTALL_PACKAGES,
-                    Binder.getCallingUid(), getCallingPackage(), null, "obb_download")
-                        == AppOpsManager.MODE_ALLOWED)
-                || (getContext().checkCallingOrSelfPermission(
-                    android.Manifest.permission.REQUEST_INSTALL_PACKAGES)
-                    == PackageManager.PERMISSION_GRANTED))) {
-            // Installers are allowed to download in OBB dirs, even outside their own package
-            return;
-        } else {
-            throw new SecurityException("Unsupported path " + file);
-        }
+        Helpers.checkDestinationFilePathRestrictions(file, getCallingPackage(), getContext(),
+                mAppOpsManager, getCallingAttributionTag(), isLegacyMode,
+                /* allowDownloadsDirOnly */ false);
     }
 
     private void checkDownloadedFilePath(ContentValues values) {
@@ -1123,49 +1087,15 @@ public final class DownloadProvider extends ContentProvider {
             throw new IllegalArgumentException("File doesn't exist: " + file);
         }
 
-        final int targetSdkVersion = getCallingPackageTargetSdkVersion();
-        final AppOpsManager appOpsManager = getContext().getSystemService(AppOpsManager.class);
-        final boolean runningLegacyMode = appOpsManager.checkOp(AppOpsManager.OP_LEGACY_STORAGE,
-                Binder.getCallingUid(), getCallingPackage()) == AppOpsManager.MODE_ALLOWED;
-
         if (Binder.getCallingPid() == Process.myPid()) {
             return;
-        } else if (Helpers.isFilenameValidInExternalPackage(getContext(), file, getCallingPackage())
-                || Helpers.isFilenameValidInPublicDownloadsDir(file)) {
-            // No permissions required for paths belonging to calling package or
-            // public downloads dir.
-            return;
-        } else if (runningLegacyMode && Helpers.isFilenameValidInExternal(getContext(), file)) {
-            // Otherwise we require write permission
-            getContext().enforceCallingOrSelfPermission(
-                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    "No permission to write to " + file);
-
-            final AppOpsManager appOps = getContext().getSystemService(AppOpsManager.class);
-            if (appOps.noteProxyOp(AppOpsManager.OP_WRITE_EXTERNAL_STORAGE, getCallingPackage(),
-                    Binder.getCallingUid(), getCallingAttributionTag(), null)
-                    != AppOpsManager.MODE_ALLOWED) {
-                throw new SecurityException("No permission to write to " + file);
-            }
-        } else {
-            throw new SecurityException("Unsupported path " + file);
         }
-    }
 
-    private int getCallingPackageTargetSdkVersion() {
-        final String callingPackage = getCallingPackage();
-        if (callingPackage != null) {
-            ApplicationInfo ai = null;
-            try {
-                ai = getContext().getPackageManager()
-                        .getApplicationInfo(callingPackage, 0);
-            } catch (PackageManager.NameNotFoundException ignored) {
-            }
-            if (ai != null) {
-                return ai.targetSdkVersion;
-            }
-        }
-        return Build.VERSION_CODES.CUR_DEVELOPMENT;
+        final boolean isLegacyMode = mAppOpsManager.checkOp(AppOpsManager.OP_LEGACY_STORAGE,
+                Binder.getCallingUid(), getCallingPackage()) == AppOpsManager.MODE_ALLOWED;
+        Helpers.checkDestinationFilePathRestrictions(file, getCallingPackage(), getContext(),
+                mAppOpsManager, getCallingAttributionTag(), isLegacyMode,
+                /* allowDownloadsDirOnly */ true);
     }
 
     /**
@@ -1253,7 +1183,6 @@ public final class DownloadProvider extends ContentProvider {
                     error.append(", ");
                 }
                 error.append(entry.getKey());
-                first = false;
             }
             throw new SecurityException(error.toString());
         }
@@ -1817,7 +1746,7 @@ public final class DownloadProvider extends ContentProvider {
                         final ContentValues values = new ContentValues();
                         values.put(Downloads.Impl.COLUMN_TOTAL_BYTES, file.length());
                         values.put(Downloads.Impl.COLUMN_LAST_MODIFICATION,
-                                mSystemFacade.currentTimeMillis());
+                                System.currentTimeMillis());
                         update(uri, values, null, null);
 
                         if (shouldScan) {

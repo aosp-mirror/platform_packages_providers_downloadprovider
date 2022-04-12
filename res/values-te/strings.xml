@@ -34,7 +34,7 @@
     <string name="notification_download_complete" msgid="466652037490092787">"డౌన్‌లోడ్ పూర్తయింది."</string>
     <string name="notification_download_failed" msgid="3932167763860605874">"డౌన్‌లోడ్ విఫలమైంది."</string>
     <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"డౌన్‌లోడ్ పరిమాణానికి Wi-Fi అవసరం."</string>
-    <string name="notification_paused_in_background" msgid="6393408819031041778">"నేపథ్యంలో పాజ్ చేయబడింది."</string>
+    <string name="notification_paused_in_background" msgid="6393408819031041778">"బ్యాక్‌గ్రౌండ్‌లో పాజ్ చేయబడింది."</string>
     <string name="wifi_required_title" msgid="7266700488421122218">"ఆపరేటర్ నెట్‌వర్క్‌‌కు డౌన్‌లోడ్ చాలా పెద్దదిగా ఉంది"</string>
     <string name="wifi_required_body" msgid="4005023496578941958">"మీరు ఈ <xliff:g id="SIZE">%1$s </xliff:g> డౌన్‌లోడ్‌ను పూర్తి చేయడానికి తప్పనిసరిగా Wi-Fiని ఉపయోగించాలి. \n\nమీరు Wi-Fi నెట్‌వర్క్‌కు కనెక్ట్ చేసిన తదుపరి సారి ఈ డౌన్‌లోడ్‌ను ప్రారంభించడానికి <xliff:g id="QUEUE_TEXT">%2$s </xliff:g>ని తాకండి."</string>
     <string name="wifi_recommended_title" msgid="6488158053932133804">"తర్వాత డౌన్‌లోడ్ చేయడం కోసం క్యూలో ఉంచాలా?"</string>

@@ -43,12 +43,12 @@
     <string name="button_cancel_download" msgid="4135046775536601831">"Cancelar"</string>
     <string name="button_start_now" msgid="3817100969365441730">"Começar agora"</string>
     <plurals name="notif_summary_active" formatted="false" msgid="8652501374845637331">
-      <item quantity="one">1 ficheiro a ser transferido</item>
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> ficheiros a serem transferidos</item>
+      <item quantity="one">1 ficheiro a ser transferido</item>
     </plurals>
     <plurals name="notif_summary_waiting" formatted="false" msgid="1782251721955177526">
-      <item quantity="one">1 ficheiro em espera</item>
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> ficheiros em espera</item>
+      <item quantity="one">1 ficheiro em espera</item>
     </plurals>
     <string name="download_remaining" msgid="2313089371178695625">"Faltam <xliff:g id="DURATION">%s</xliff:g>"</string>
     <string name="download_no_application_title" msgid="5780812573953335721">"Não é possível abrir o ficheiro"</string>

@@ -23,14 +23,14 @@
     <string name="missing_title" msgid="3827247802608803753">"&lt;తెలియదు&gt;"</string>
     <string name="button_sort_by_size" msgid="7952187121189086395">"ప‌రిమాణం ద్వారా వ‌ర్గీక‌రించు"</string>
     <string name="button_sort_by_date" msgid="2064919145709585942">"తేదీ ద్వారా క్రమబద్ధీకరించు"</string>
-    <string name="download_queued" msgid="4128038702528588781">"క్రమవరుసలో ఉంచబడింది"</string>
+    <string name="download_queued" msgid="4128038702528588781">"క్యూలో ఉంచబడింది"</string>
     <string name="download_running" msgid="2046492059586594352">"ప్రోగ్రెస్‌లో ఉంది"</string>
     <string name="download_success" msgid="3895973294927323747">"పూర్తయింది"</string>
     <string name="download_error" msgid="6652902885480887230">"విఫలమైంది"</string>
     <string name="dialog_title_not_available" msgid="7793272183758002416">"డౌన్‌లోడ్ చేయడం సాధ్యపడలేదు"</string>
-    <string name="dialog_failed_body" msgid="4538779125597383173">"మీరు ఫైల్‌ను తర్వాత డౌన్‌లోడ్ చేయడానికి మళ్లీ ప్రయత్నించాలనుకుంటున్నారా లేదా దీన్ని క్రమవరుస నుండి తొలగించాలనుకుంటున్నారా?"</string>
-    <string name="dialog_title_queued_body" msgid="7481231558376227012">"ఫైల్ క్రమవరుసలో ఉంది"</string>
-    <string name="dialog_queued_body" msgid="2374398802707010234">"ఈ ఫైల్ భవిష్యత్తు డౌన్‌లోడ్ కోసం క్రమవరుసలో ఉంచబడింది అందువలన ఇంకా అందుబాటులో లేదు."</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"మీరు ఫైల్‌ను తర్వాత డౌన్‌లోడ్ చేయడానికి మళ్లీ ప్రయత్నించాలనుకుంటున్నారా లేదా దీన్ని క్యూ నుండి తొలగించాలనుకుంటున్నారా?"</string>
+    <string name="dialog_title_queued_body" msgid="7481231558376227012">"ఫైల్ క్యూలో ఉంది"</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"ఈ ఫైల్ భవిష్యత్తు డౌన్‌లోడ్ కోసం క్యూలో ఉంచబడింది అందువలన ఇంకా అందుబాటులో లేదు."</string>
     <string name="dialog_file_missing_body" msgid="7896653198405160564">"డౌన్‌లోడ్ చేయబడిన ఫైల్‌ను కనుగొనడం సాధ్యపడదు."</string>
     <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"డౌన్‌లోడ్‌ను పూర్తి చేయడం సాధ్యపడదు. బాహ్య నిల్వలో తగినంత స్థలం లేదు."</string>
     <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"డౌన్‌లోడ్‌ను పూర్తి చేయడం సాధ్యపడదు. అంతర్గత డౌన్‌లోడ్ నిల్వలో తగినంత స్థలం లేదు."</string>

@@ -18,7 +18,6 @@ package com.android.providers.downloads;
 
 import static android.app.DownloadManager.STATUS_FAILED;
 import static android.app.DownloadManager.STATUS_PAUSED;
-import static android.net.TrafficStats.GB_IN_BYTES;
 import static android.text.format.DateUtils.SECOND_IN_MILLIS;
 
 import static org.mockito.Matchers.anyInt;
@@ -71,6 +70,7 @@ import java.util.concurrent.TimeoutException;
 public class PublicApiFunctionalTest extends AbstractPublicApiTest {
     private static final String REDIRECTED_PATH = "/other_path";
     private static final String ETAG = "my_etag";
+    private static final long GB_IN_BYTES = 1024 * 1024 * 1024;
 
     protected File mTestDirectory;
     private NotificationManager mNotifManager;

@@ -40,7 +40,7 @@
     <string name="wifi_recommended_title" msgid="6488158053932133804">"ପରେ ଡାଉନଲୋଡ୍‌ କରିବା ପାଇଁ ଧାଡ଼ିରେ ରଖିବେ?"</string>
     <string name="wifi_recommended_body" msgid="8710820743211704403">"ଏହି <xliff:g id="SIZE">%1$s </xliff:g>ର ଡାଉନଲୋଡ୍‌ ଆରମ୍ଭ କଲେ ଆପଣଙ୍କ ବ୍ୟାଟେରୀ ଶୀଘ୍ର ସରିଯାଇପାରେ ଏବଂ/କିମ୍ୱା ମୋବାଇଲ୍‌ର ଅନେକ ଡାଟା ଖର୍ଚ୍ଚ ହୋଇପାରେ, ଯାହା ପାଇଁ ମୋବାଇଲ୍‌ ଅପରେଟର୍‌, ଆପଣଙ୍କ ଡାଟା ପ୍ଲାନ୍‌ ହିସାବରେ ଆପଣଙ୍କଠାରୁ ପଇସା ନେଇପାରେ|\n\n ଆଗାମୀ ଥର ଯେତେବେଳେ ଆପଣ ୱାଇ-ଫାଇ ନେଟୱର୍କ ସହିତ ଯୋଡ଼ିହେବେ, ଏହି ଡାଉନଲୋଡ୍‌ ଆରମ୍ଭ କରିବା ପାଇଁ <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>କୁ ସ୍ପର୍ଶ କରନ୍ତୁ|"</string>
     <string name="button_queue_for_wifi" msgid="6650185573566994738">"ଧାଡ଼ିରେ ରଖନ୍ତୁ"</string>
-    <string name="button_cancel_download" msgid="4135046775536601831">"ବାତିଲ୍ କରନ୍ତୁ"</string>
+    <string name="button_cancel_download" msgid="4135046775536601831">"ବାତିଲ କରନ୍ତୁ"</string>
     <string name="button_start_now" msgid="3817100969365441730">"ବର୍ତ୍ତମାନ ଆରମ୍ଭ କରନ୍ତୁ"</string>
     <plurals name="notif_summary_active" formatted="false" msgid="8652501374845637331">
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g>ଟି ଫାଇଲ୍‌ ଡାଉନଲୋଡ୍‌ ହେଉଛି</item>

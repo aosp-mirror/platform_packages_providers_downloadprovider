@@ -38,13 +38,13 @@
     <string name="dialog_file_already_exists" msgid="6849168874901909994">"డౌన్‌లోడ్ చేయడం సాధ్యపడదు. గమ్యస్థాన ఫైల్ ఇప్పటికే ఉంది."</string>
     <string name="dialog_media_not_found" msgid="7376030905821161865">"డౌన్‌లోడ్ చేయడం సాధ్యపడదు. బాహ్య మీడియా అందుబాటులో లేదు."</string>
     <string name="download_no_application_title" msgid="1209223807604231431">"ఫైల్‌ను తెరవడం సాధ్యపడదు"</string>
-    <string name="remove_download" msgid="244394809285977300">"తీసివేయి"</string>
+    <string name="remove_download" msgid="244394809285977300">"తీసివేయండి"</string>
     <string name="delete_download" msgid="1861638125603383676">"తొలగించు"</string>
     <string name="keep_queued_download" msgid="6905870466259272973">"Keep"</string>
     <string name="cancel_running_download" msgid="8586888328847044473">"రద్దు చేయి"</string>
     <string name="retry_download" msgid="6957856437473044831">"మళ్లీ ప్రయత్నించు"</string>
     <string name="start_now_download" msgid="1518778561803897734">"ఇప్పుడే ప్రారంభించు"</string>
-    <string name="deselect_all" msgid="4673983454506880405">"అన్నింటి ఎంపికను తీసివేయి"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"అన్నింటి ఎంపికను తీసివేయండి"</string>
     <string name="select_all" msgid="7469093306474000460">"అన్నీ ఎంచుకోండి"</string>
     <string name="selected_count" msgid="5876842902167894010">"<xliff:g id="TOTAL">%2$d</xliff:g>లో <xliff:g id="NUMBER">%1$d</xliff:g> ఎంచుకోబడ్డాయి"</string>
     <string name="download_share_dialog" msgid="5212760257251501969">"వీటి ద్వారా షేర్ చేయండి"</string>

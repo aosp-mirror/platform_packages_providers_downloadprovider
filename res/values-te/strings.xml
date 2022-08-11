@@ -29,7 +29,7 @@
     <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"నోటిఫికేషన్ లేకుండానే ఫైళ్లను డౌన్‌లోడ్ చేయడం"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"వినియోగదారుకి ఎటువంటి నోటిఫికేషన్‌ను చూపకుండానే డౌన్‌లోడ్ నిర్వాహికి ద్వారా ఫైళ్లను డౌన్‌లోడ్ చేయడానికి యాప్‌ను అనుమతిస్తుంది."</string>
     <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"అన్ని సిస్టమ్ డౌన్‌లోడ్‌లను యాక్సెస్ చేయి"</string>
-    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"సిస్టమ్‌లో ఏదైనా యాప్ ద్వారా ప్రారంభించబడిన అన్ని డౌన్‌లోడ్‌లను వీక్షించడానికి మరియు ఎడిట్ చేయడానికి యాప్‌ను అనుమతిస్తుంది."</string>
+    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"సిస్టమ్‌లో ఏదైనా యాప్ ద్వారా ప్రారంభించబడిన అన్ని డౌన్‌లోడ్‌లను చూడటానికి మరియు ఎడిట్ చేయడానికి యాప్‌ను అనుమతిస్తుంది."</string>
     <string name="download_unknown_title" msgid="1017800350818840396">"&lt;శీర్షిక లేనిది&gt;"</string>
     <string name="notification_download_complete" msgid="466652037490092787">"డౌన్‌లోడ్ పూర్తయింది."</string>
     <string name="notification_download_failed" msgid="3932167763860605874">"డౌన్‌లోడ్ విఫలమైంది."</string>

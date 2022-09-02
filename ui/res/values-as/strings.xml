@@ -32,8 +32,8 @@
     <string name="dialog_title_queued_body" msgid="7481231558376227012">"ফাইল লানি পাতি থোৱা হৈছে"</string>
     <string name="dialog_queued_body" msgid="2374398802707010234">"এই ফাইলটো ভৱিষ্যতে ডাউনল’ড কৰিবলৈ লানি পাতি থোৱা হৈছে, গতিকে সদ্যহতে উপলব্ধ নহয়।"</string>
     <string name="dialog_file_missing_body" msgid="7896653198405160564">"ডাউনল’ড কৰা ফাইলটো বিচাৰি পোৱা নাই।"</string>
-    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"ডাউনল’ড সম্পূৰ্ণ কৰিবপৰা নোৱাৰি। বাহ্যিক সঞ্চয়াগাৰত পৰ্যাপ্ত খালী ঠাই নাই।"</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"ডাউনল’ড সম্পূৰ্ণ কৰিব নোৱাৰি। আভ্যন্তৰীণ ডাউনল’ড সঞ্চয়াগাৰত পৰ্যাপ্ত খালী ঠাই নাই।"</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"ডাউনল’ড সম্পূৰ্ণ কৰিব নোৱাৰি। বাহ্যিক ষ্ট’ৰেজত পৰ্যাপ্ত খালী ঠাই নাই।"</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"ডাউনল’ড সম্পূৰ্ণ কৰিব নোৱাৰি। আভ্যন্তৰীণ ডাউনল’ড ষ্ট’ৰেজত পৰ্যাপ্ত খালী ঠাই নাই।"</string>
     <string name="dialog_cannot_resume" msgid="3101433441301206866">"ডাউনল\'ডত বিঘিনি জন্মোৱা হৈছিল আৰু ইয়াক পুনৰায় আৰম্ভ কৰিবপৰা নাযাব।"</string>
     <string name="dialog_file_already_exists" msgid="6849168874901909994">"ডাউনল’ড কৰিব নোৱাৰি। লক্ষ্যস্থানত ফাইলটো ইতিমধ্যে আছে।"</string>
     <string name="dialog_media_not_found" msgid="7376030905821161865">"ডাউনল’ড কৰিব নোৱাৰি। বাহ্যিক মিডিয়া উপলব্ধ নহয়।"</string>
@@ -44,8 +44,8 @@
     <string name="cancel_running_download" msgid="8586888328847044473">"বাতিল কৰক"</string>
     <string name="retry_download" msgid="6957856437473044831">"পুনৰ চেষ্টা কৰক"</string>
     <string name="start_now_download" msgid="1518778561803897734">"এতিয়া আৰম্ভ কৰক"</string>
-    <string name="deselect_all" msgid="4673983454506880405">"সকলো বাছনি নোহোৱা কৰক"</string>
-    <string name="select_all" msgid="7469093306474000460">"সকলো বাছনি কৰক"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"আটাইবোৰ বাছনি নোহোৱা কৰক"</string>
+    <string name="select_all" msgid="7469093306474000460">"আটাইবোৰ বাছনি কৰক"</string>
     <string name="selected_count" msgid="5876842902167894010">"<xliff:g id="TOTAL">%2$d</xliff:g>ৰ ভিতৰত <xliff:g id="NUMBER">%1$d</xliff:g>টা বাছনি কৰা হ’ল"</string>
     <string name="download_share_dialog" msgid="5212760257251501969">"ইয়াৰ জৰিয়তে শ্বেয়াৰ কৰক"</string>
 </resources>

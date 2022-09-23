@@ -18,17 +18,17 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="5264040740662487684">"Managerul de descărcare"</string>
     <string name="storage_description" msgid="169690279447532621">"Descărcări"</string>
-    <string name="permlab_downloadManager" msgid="4241473724446132797">"Accesați managerul de descărcare."</string>
+    <string name="permlab_downloadManager" msgid="4241473724446132797">"Accesează managerul de descărcare."</string>
     <string name="permdesc_downloadManager" msgid="5562734314998369030">"Permite aplicației să acceseze managerul de descărcări și să îl utilizeze pentru a descărca fișiere. Aplicațiile rău intenționate pot utiliza această permisiune pentru a perturba descărcările și pentru a accesa informații private."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"Funcții avansate ale managerului de descărcare."</string>
     <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"Permite aplicației să acceseze funcțiile avansate ale managerului de descărcări. Aplicațiile rău intenționate pot utiliza această permisiune pentru a perturba descărcările și pentru a accesa informații private."</string>
-    <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"Trimiteți notificările descărcării."</string>
+    <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"Trimite notificările descărcării."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"Permite aplicației să trimită notificări despre descărcările finalizate. Aplicațiile malware pot folosi această permisiune pentru a deruta alte aplicații care descarcă fișiere."</string>
-    <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"Rezervați spațiu în memoria cache de descărcare"</string>
+    <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"Rezervă spațiu în memoria cache de descărcare"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"Permite aplic. să descarce fișiere în memoria cache de desc., care nu poate fi ștearsă în mod automat când managerul de desc. are nevoie de mai mult spațiu."</string>
     <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"descărcarea fișierelor fără notificare"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"Permite aplicației să descarce fișiere prin intermediul managerului de descărcări fără a afișa notificări utilizatorului."</string>
-    <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"Accesați toate descărcările din sistem"</string>
+    <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"Accesează toate descărcările din sistem"</string>
     <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"Permite aplicației să vizualizeze și să modifice toate descărcările inițiate de orice aplicație din sistem."</string>
     <string name="download_unknown_title" msgid="1017800350818840396">"&lt;Fără titlu&gt;"</string>
     <string name="notification_download_complete" msgid="466652037490092787">"Descărcare finalizată."</string>
@@ -36,12 +36,12 @@
     <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"Dimen. desc. nec. Wi-Fi"</string>
     <string name="notification_paused_in_background" msgid="6393408819031041778">"Întreruptă în fundal."</string>
     <string name="wifi_required_title" msgid="7266700488421122218">"Descărcare prea mare pentru rețeaua operatorului"</string>
-    <string name="wifi_required_body" msgid="4005023496578941958">"Trebuie să utilizați Wi-Fi pentru a finaliza această descărcare de <xliff:g id="SIZE">%1$s </xliff:g>. \n\nAtingeți <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> pentru a începe această descărcare data viitoare când vă conectați la o rețea Wi-Fi."</string>
-    <string name="wifi_recommended_title" msgid="6488158053932133804">"Puneți în așteptare pentru descărcare ulterioară?"</string>
+    <string name="wifi_required_body" msgid="4005023496578941958">"Trebuie să utilizezi Wi-Fi pentru a finaliza această descărcare de <xliff:g id="SIZE">%1$s </xliff:g>. \n\nAtinge <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> pentru a începe această descărcare data viitoare când te conectezi la o rețea Wi-Fi."</string>
+    <string name="wifi_recommended_title" msgid="6488158053932133804">"Pui în așteptare pentru descărcare ulterioară?"</string>
     <string name="wifi_recommended_body" msgid="8710820743211704403">"Pornirea ac.desc.de <xliff:g id="SIZE">%1$s </xliff:g> acum impl.scurt.dur.de viață a bater.și/sau utiliz.exces.a conex.de date mob.și tax.suplim.din partea oper.de telef.mob.,cf.plan.de date.\n\n Ating. <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> pt.a înc.desc.la conect.la Wi-Fi."</string>
     <string name="button_queue_for_wifi" msgid="6650185573566994738">"Listă de așteptare"</string>
-    <string name="button_cancel_download" msgid="4135046775536601831">"Anulați"</string>
-    <string name="button_start_now" msgid="3817100969365441730">"Începeți acum"</string>
+    <string name="button_cancel_download" msgid="4135046775536601831">"Anulează"</string>
+    <string name="button_start_now" msgid="3817100969365441730">"Începe acum"</string>
     <plurals name="notif_summary_active" formatted="false" msgid="8652501374845637331">
       <item quantity="few">Se descarcă <xliff:g id="NUMBER">%d</xliff:g> fișiere</item>
       <item quantity="other">Se descarcă <xliff:g id="NUMBER">%d</xliff:g> de fișiere</item>

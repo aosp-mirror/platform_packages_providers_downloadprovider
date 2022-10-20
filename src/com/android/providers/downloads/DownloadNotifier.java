@@ -24,6 +24,7 @@ import static android.provider.Downloads.Impl.STATUS_RUNNING;
 
 import static com.android.providers.downloads.Constants.TAG;
 
+import android.annotation.NonNull;
 import android.app.DownloadManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -164,13 +165,17 @@ public class DownloadNotifier {
         try (Cursor cursor = mContext.getContentResolver().query(
                 Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, UpdateQuery.PROJECTION,
                 Downloads.Impl.COLUMN_DELETED + " == '0'", null, null)) {
+            if (cursor == null) {
+                Log.e(TAG, "Cursor is null, will ignore update");
+                return;
+            }
             synchronized (mActiveNotifs) {
                 updateWithLocked(cursor);
             }
         }
     }
 
-    private void updateWithLocked(Cursor cursor) {
+    private void updateWithLocked(@NonNull Cursor cursor) {
         final Resources res = mContext.getResources();
 
         // Cluster downloads together

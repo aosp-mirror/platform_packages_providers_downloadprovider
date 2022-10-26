@@ -298,7 +298,8 @@ public class Helpers {
         }
 
         synchronized (sUniqueLock) {
-            name = generateAvailableFilenameLocked(parentTest, prefix, suffix);
+            name = generateAvailableFilenameLocked(parentTest, removeInvalidChars(prefix),
+                    removeInvalidChars(suffix));
 
             // Claim this filename inside lock to prevent other threads from
             // clobbering us. We're not paranoid enough to use O_EXCL.
@@ -882,5 +883,10 @@ public class Helpers {
         }
         // For permission related purposes, any package belonging to the given uid should work.
         return packages[0];
+    }
+
+    public static String removeInvalidChars(String name) {
+        name = name.replaceAll("[*/:<>?\\|]", "_");
+        return name;
     }
 }

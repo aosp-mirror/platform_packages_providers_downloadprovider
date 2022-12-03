@@ -28,7 +28,7 @@
     <string name="download_success" msgid="3895973294927323747">"সম্পূৰ্ণ হ’ল"</string>
     <string name="download_error" msgid="6652902885480887230">"সফল নহ\'ল"</string>
     <string name="dialog_title_not_available" msgid="7793272183758002416">"ডাউনল’ড কৰিব পৰা নগ\'ল"</string>
-    <string name="dialog_failed_body" msgid="4538779125597383173">"আপুনি পিছত ফাইলটো পুনৰায় ডাউনল’ড কৰিবলৈ বিচাৰে নে ডাউনল’ডৰ লানিৰ পৰা ইয়াক গুচাব বিচাৰে?"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"আপুনি পাছত ফাইলটো পুনৰায় ডাউনল’ড কৰিবলৈ বিচাৰে নে ডাউনল’ডৰ লানিৰ পৰা ইয়াক গুচাব বিচাৰে?"</string>
     <string name="dialog_title_queued_body" msgid="7481231558376227012">"ফাইল লানি পাতি থোৱা হৈছে"</string>
     <string name="dialog_queued_body" msgid="2374398802707010234">"এই ফাইলটো ভৱিষ্যতে ডাউনল’ড কৰিবলৈ লানি পাতি থোৱা হৈছে, গতিকে সদ্যহতে উপলব্ধ নহয়।"</string>
     <string name="dialog_file_missing_body" msgid="7896653198405160564">"ডাউনল’ড কৰা ফাইলটো বিচাৰি পোৱা নাই।"</string>

@@ -27,7 +27,7 @@
     <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"ଡାଉନଲୋଡ୍‌ କ୍ୟାଶ୍‌ରେ ସ୍ପେସ୍‌ ରିଜର୍ଭ କରନ୍ତୁ"</string>
     <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"ଆପ୍‌କୁ ଡାଉନଲୋଡ୍‌ କ୍ୟାଶ୍‌ରେ ଫାଇଲ୍‌ଗୁଡ଼ିକୁ ଡାଉନଲୋଡ୍‌ କରିବାକୁ ଦେଇଥାଏ, ଯେଉଁଗୁଡ଼ିକୁ ଡାଉନଲୋଡ୍‌ ମ୍ୟାନେଜର୍‌କୁ ଅଧିକ ସ୍ଥାନ ଆବଶ୍ୟକ ହେଲେ ସ୍ୱଚାଳିତ ଭାବେ ଡିଲିଟ୍‌ କରିହେବ ନାହିଁ|"</string>
     <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"କୌଣସି ବିଜ୍ଞପ୍ତି ବିନା ଫାଇଲ୍‌ଗୁଡ଼ିକୁ ଡାଉନଲୋଡ୍‌ କରନ୍ତୁ"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"ୟୁଜର୍‌ଙ୍କୁ ବିଜ୍ଞପ୍ତି ନଦେଖାଇ ଡାଉନଲୋଡ୍‌ ମ୍ୟାନେଜର୍‌ ମାଧ୍ୟମରେ ଫାଇଲ୍‌ଗୁଡ଼ିକୁ ଡାଉନଲୋଡ୍‌ କରିବା ପାଇଁ ଆପ୍‌କୁ ଅନୁମତି ଦେଇଥାଏ|"</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"ୟୁଜରଙ୍କୁ ବିଜ୍ଞପ୍ତି ନଦେଖାଇ ଡାଉନଲୋଡ ମେନେଜର ମାଧ୍ୟମରେ ଫାଇଲଗୁଡ଼ିକୁ ଡାଉନଲୋଡ କରିବା ପାଇଁ ଆପକୁ ଅନୁମତି ଦେଇଥାଏ।"</string>
     <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"ସମସ୍ତ ସିଷ୍ଟମ୍‌ ଡାଉନଲୋଡ୍‌କୁ ଆକ୍ସେସ୍‌ କରନ୍ତୁ"</string>
     <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"ସିଷ୍ଟମ୍‌ରେ ଯେକୌଣସି ଆପ୍‌ ଦ୍ୱାରା ଆରମ୍ଭ କରାଯାଇଥିବା ସମସ୍ତ ଡାଉନଲୋଡ୍‌କୁ ଦେଖିବା ଓ ସଂଶୋଧନ କରିବା ପାଇଁ ଆପ୍‌କୁ ଅନୁମତି ଦିଅନ୍ତୁ|"</string>
     <string name="download_unknown_title" msgid="1017800350818840396">"&lt;ନାମହୀନ&gt;"</string>

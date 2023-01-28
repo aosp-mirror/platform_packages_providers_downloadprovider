@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 <configuration description="Run Tests for Download Manager.">
-    <target_preparer class="com.android.tradefed.targetprep.TestAppInstallSetup">
+    <target_preparer class="com.android.tradefed.targetprep.suite.SuiteApkInstaller">
         <option name="test-file-name" value="DownloadProviderTests.apk" />
     </target_preparer>
 

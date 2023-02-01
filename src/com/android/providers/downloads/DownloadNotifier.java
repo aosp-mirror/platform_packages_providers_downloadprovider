@@ -24,6 +24,7 @@ import static android.provider.Downloads.Impl.STATUS_RUNNING;
 
 import static com.android.providers.downloads.Constants.TAG;
 
+import android.annotation.NonNull;
 import android.app.DownloadManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -164,13 +165,17 @@ public class DownloadNotifier {
         try (Cursor cursor = mContext.getContentResolver().query(
                 Downloads.Impl.ALL_DOWNLOADS_CONTENT_URI, UpdateQuery.PROJECTION,
                 Downloads.Impl.COLUMN_DELETED + " == '0'", null, null)) {
+            if (cursor == null) {
+                Log.e(TAG, "Cursor is null, will ignore update");
+                return;
+            }
             synchronized (mActiveNotifs) {
                 updateWithLocked(cursor);
             }
         }
     }
 
-    private void updateWithLocked(Cursor cursor) {
+    private void updateWithLocked(@NonNull Cursor cursor) {
         final Resources res = mContext.getResources();
 
         // Cluster downloads together
@@ -287,7 +292,8 @@ public class DownloadNotifier {
             }
 
             // Calculate and show progress
-            String remainingText = null;
+            String remainingLongText = null;
+            String remainingShortText = null;
             String percentText = null;
             if (type == TYPE_ACTIVE) {
                 long current = 0;
@@ -315,8 +321,10 @@ public class DownloadNotifier {
 
                     if (speed > 0) {
                         final long remainingMillis = ((total - current) * 1000) / speed;
-                        remainingText = res.getString(R.string.download_remaining,
-                                DateUtils.formatDuration(remainingMillis));
+                        remainingLongText = getRemainingText(res, remainingMillis,
+                            DateUtils.LENGTH_LONG);
+                        remainingShortText = getRemainingText(res, remainingMillis,
+                            DateUtils.LENGTH_SHORTEST);
                     }
 
                     final int percent = (int) ((current * 100) / total);
@@ -337,7 +345,7 @@ public class DownloadNotifier {
                     if (!TextUtils.isEmpty(description)) {
                         builder.setContentText(description);
                     } else {
-                        builder.setContentText(remainingText);
+                        builder.setContentText(remainingLongText);
                     }
                     builder.setContentInfo(percentText);
 
@@ -368,9 +376,9 @@ public class DownloadNotifier {
                 if (type == TYPE_ACTIVE) {
                     builder.setContentTitle(res.getQuantityString(
                             R.plurals.notif_summary_active, cluster.size(), cluster.size()));
-                    builder.setContentText(remainingText);
+                    builder.setContentText(remainingLongText);
                     builder.setContentInfo(percentText);
-                    inboxStyle.setSummaryText(remainingText);
+                    inboxStyle.setSummaryText(remainingShortText);
 
                 } else if (type == TYPE_WAITING) {
                     builder.setContentTitle(res.getQuantityString(
@@ -397,6 +405,11 @@ public class DownloadNotifier {
                 mActiveNotifs.removeAt(i);
             }
         }
+    }
+
+    private String getRemainingText(Resources res, long remainingMillis, int abbrev) {
+        return res.getString(R.string.download_remaining,
+            DateUtils.formatDuration(remainingMillis, abbrev));
     }
 
     private static CharSequence getDownloadTitle(Resources res, Cursor cursor) {

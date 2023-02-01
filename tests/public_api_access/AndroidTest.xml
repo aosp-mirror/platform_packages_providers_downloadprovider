@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 <configuration description="Run tests for download public API.">
-    <target_preparer class="com.android.tradefed.targetprep.TestAppInstallSetup">
+    <target_preparer class="com.android.tradefed.targetprep.suite.SuiteApkInstaller">
         <option name="test-file-name" value="DownloadPublicApiAccessTests.apk" />
     </target_preparer>
 

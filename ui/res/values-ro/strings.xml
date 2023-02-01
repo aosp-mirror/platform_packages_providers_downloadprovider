@@ -21,14 +21,14 @@
     <string name="download_title_sorted_by_size" msgid="2575551670173644253">"Descărcări – sortate după dimensiune"</string>
     <string name="no_downloads" msgid="1654764193290918538">"Nu există descărcări."</string>
     <string name="missing_title" msgid="3827247802608803753">"&lt;Necunoscut&gt;"</string>
-    <string name="button_sort_by_size" msgid="7952187121189086395">"Sortați după dimensiune"</string>
-    <string name="button_sort_by_date" msgid="2064919145709585942">"Sortați după dată"</string>
+    <string name="button_sort_by_size" msgid="7952187121189086395">"Sortează după dimensiune"</string>
+    <string name="button_sort_by_date" msgid="2064919145709585942">"Sortează după dată"</string>
     <string name="download_queued" msgid="4128038702528588781">"În aștept."</string>
     <string name="download_running" msgid="2046492059586594352">"În curs"</string>
     <string name="download_success" msgid="3895973294927323747">"Finalizat"</string>
     <string name="download_error" msgid="6652902885480887230">"Nereușită"</string>
     <string name="dialog_title_not_available" msgid="7793272183758002416">"Nu s-a putut descărca"</string>
-    <string name="dialog_failed_body" msgid="4538779125597383173">"Doriți să reîncercați descărcarea fișierului mai târziu sau să îl ștergeți din lista de așteptare?"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"Dorești să reîncerci descărcarea fișierului mai târziu sau să îl ștergi din lista de așteptare?"</string>
     <string name="dialog_title_queued_body" msgid="7481231558376227012">"Fișier în coadă"</string>
     <string name="dialog_queued_body" msgid="2374398802707010234">"Fișierul este adăugat în coadă pentru descărcare ulterioară, prin urmare nu este disponibil încă."</string>
     <string name="dialog_file_missing_body" msgid="7896653198405160564">"Nu se poate găsi fișierul descărcat."</string>
@@ -38,14 +38,14 @@
     <string name="dialog_file_already_exists" msgid="6849168874901909994">"Nu se poate descărca. Fișierul de destinație există deja."</string>
     <string name="dialog_media_not_found" msgid="7376030905821161865">"Nu se poate descărca. Nu este disponibil un mediu de stocare extern."</string>
     <string name="download_no_application_title" msgid="1209223807604231431">"Fișierul nu poate fi deschis"</string>
-    <string name="remove_download" msgid="244394809285977300">"Eliminați"</string>
-    <string name="delete_download" msgid="1861638125603383676">"Ștergeți"</string>
-    <string name="keep_queued_download" msgid="6905870466259272973">"Păstrați"</string>
-    <string name="cancel_running_download" msgid="8586888328847044473">"Anulați"</string>
-    <string name="retry_download" msgid="6957856437473044831">"Reîncercați"</string>
-    <string name="start_now_download" msgid="1518778561803897734">"Începeți acum"</string>
-    <string name="deselect_all" msgid="4673983454506880405">"Deselectați-le pe toate"</string>
-    <string name="select_all" msgid="7469093306474000460">"Selectați-le pe toate"</string>
+    <string name="remove_download" msgid="244394809285977300">"Elimină"</string>
+    <string name="delete_download" msgid="1861638125603383676">"Șterge"</string>
+    <string name="keep_queued_download" msgid="6905870466259272973">"Păstrează"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"Anulează"</string>
+    <string name="retry_download" msgid="6957856437473044831">"Reîncearcă"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"Începe acum"</string>
+    <string name="deselect_all" msgid="4673983454506880405">"Deselectează-le pe toate"</string>
+    <string name="select_all" msgid="7469093306474000460">"Selectează-le pe toate"</string>
     <string name="selected_count" msgid="5876842902167894010">"Au fost selectate <xliff:g id="NUMBER">%1$d</xliff:g> din <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
-    <string name="download_share_dialog" msgid="5212760257251501969">"Distribuiți prin"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"Distribuie prin"</string>
 </resources>

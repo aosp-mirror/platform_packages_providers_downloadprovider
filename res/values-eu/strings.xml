@@ -21,7 +21,7 @@
     <string name="permlab_downloadManager" msgid="4241473724446132797">"Atzitu deskargen kudeatzailea."</string>
     <string name="permdesc_downloadManager" msgid="5562734314998369030">"Deskargen kudeatzailea atzitzea eta fitxategiak deskargatzeko hori erabiltzeko baimena ematen die aplikazioei. Asmo txarreko aplikazioek deskargak eteteko eta informazio pribatua atzitzeko erabil dezakete hori."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"Deskargen kudeatzailearen eginbide aurreratuak."</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"Deskargen kudeatzailearen eginbide aurreratuak atzitzeko baimena ematen die aplikazioei. Asmo txarreko aplikazioek deskargak eteteko eta informazio pribatua atzitzeko erabil dezakete hori."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"Deskargen kudeatzailearen eginbide aurreratuak erabiltzeko baimena ematen die aplikazioei. Asmo txarreko aplikazioek deskargak eteteko eta informazio pribatua atzitzeko erabil dezakete hori."</string>
     <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"Bidali deskargen jakinarazpenak."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"Osatutako deskargei buruzko jakinarazpenak bidaltzeko baimena ematen die aplikazioei. Asmo txarreko aplikazioek fitxategiak deskargatzen dituzten beste aplikazioak nahasteko erabil dezakete hori."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"Erreserbatu memoria deskarga-cachean"</string>

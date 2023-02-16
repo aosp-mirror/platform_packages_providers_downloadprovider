@@ -18,7 +18,7 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="4847371117203587513">"డౌన్‌లోడ్స్"</string>
     <string name="download_title_sorted_by_date" msgid="6033509257480233878">"డౌన్‌లోడ్‌లు - తేదీ ద్వారా క్రమబద్ధీకరించబడినవి"</string>
-    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"డౌన్‌లోడ్‌లు - పరిమాణం ద్వారా క్రమబద్ధీకరించబడినవి"</string>
+    <string name="download_title_sorted_by_size" msgid="2575551670173644253">"డౌన్‌లోడ్‌లు - సైజ్‌ ద్వారా క్రమబద్ధీకరించబడినవి"</string>
     <string name="no_downloads" msgid="1654764193290918538">"డౌన్‌లోడ్‌లు ఏవీ లేవు."</string>
     <string name="missing_title" msgid="3827247802608803753">"&lt;తెలియదు&gt;"</string>
     <string name="button_sort_by_size" msgid="7952187121189086395">"ప‌రిమాణం ద్వారా వ‌ర్గీక‌రించు"</string>
@@ -39,11 +39,11 @@
     <string name="dialog_media_not_found" msgid="7376030905821161865">"డౌన్‌లోడ్ చేయడం సాధ్యపడదు. బాహ్య మీడియా అందుబాటులో లేదు."</string>
     <string name="download_no_application_title" msgid="1209223807604231431">"ఫైల్‌ను తెరవడం సాధ్యపడదు"</string>
     <string name="remove_download" msgid="244394809285977300">"తీసివేయండి"</string>
-    <string name="delete_download" msgid="1861638125603383676">"తొలగించు"</string>
+    <string name="delete_download" msgid="1861638125603383676">"తొలగించండి"</string>
     <string name="keep_queued_download" msgid="6905870466259272973">"Keep"</string>
-    <string name="cancel_running_download" msgid="8586888328847044473">"రద్దు చేయి"</string>
+    <string name="cancel_running_download" msgid="8586888328847044473">"రద్దు చేయండి"</string>
     <string name="retry_download" msgid="6957856437473044831">"మళ్లీ ప్రయత్నించు"</string>
-    <string name="start_now_download" msgid="1518778561803897734">"ఇప్పుడే ప్రారంభించు"</string>
+    <string name="start_now_download" msgid="1518778561803897734">"ఇప్పుడే ప్రారంభించండి"</string>
     <string name="deselect_all" msgid="4673983454506880405">"అన్నింటి ఎంపికను తీసివేయండి"</string>
     <string name="select_all" msgid="7469093306474000460">"అన్నీ ఎంచుకోండి"</string>
     <string name="selected_count" msgid="5876842902167894010">"<xliff:g id="TOTAL">%2$d</xliff:g>లో <xliff:g id="NUMBER">%1$d</xliff:g> ఎంచుకోబడ్డాయి"</string>

@@ -28,7 +28,7 @@
     <string name="download_success" msgid="3895973294927323747">"Kumpleto"</string>
     <string name="download_error" msgid="6652902885480887230">"Hindi matagumpay"</string>
     <string name="dialog_title_not_available" msgid="7793272183758002416">"Hindi ma-download"</string>
-    <string name="dialog_failed_body" msgid="4538779125597383173">"Gusto mo bang subukang muling i-download ang file sa ibang pagkakataon o alisin ito mula sa queue?"</string>
+    <string name="dialog_failed_body" msgid="4538779125597383173">"Gusto mo bang subukan ulit na i-download ang file sa ibang pagkakataon o alisin ito mula sa queue?"</string>
     <string name="dialog_title_queued_body" msgid="7481231558376227012">"File sa queue"</string>
     <string name="dialog_queued_body" msgid="2374398802707010234">"Ang file na ito ay naka-queue para sa pag-download sa hinaharap kaya hindi pa available."</string>
     <string name="dialog_file_missing_body" msgid="7896653198405160564">"Hindi matagpuan ang na-download na file."</string>

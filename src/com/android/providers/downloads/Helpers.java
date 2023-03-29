@@ -67,6 +67,7 @@ import com.android.internal.util.ArrayUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.System;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
@@ -92,6 +93,9 @@ public class Helpers {
 
     private static final Pattern PATTERN_PUBLIC_DIRS =
             Pattern.compile("(?i)^/storage/[^/]+(?:/[0-9]+)?/([^/]+)/.+");
+
+    @VisibleForTesting
+    static final String DEFAULT_DOWNLOAD_FILE_NAME_PREFIX = "Download_";
 
     private static final Object sUniqueLock = new Object();
 
@@ -298,8 +302,7 @@ public class Helpers {
         }
 
         synchronized (sUniqueLock) {
-            name = generateAvailableFilenameLocked(parentTest, removeInvalidChars(prefix),
-                    removeInvalidChars(suffix));
+            name = generateAvailableFilenameLocked(parentTest, prefix, suffix);
 
             // Claim this filename inside lock to prevent other threads from
             // clobbering us. We're not paranoid enough to use O_EXCL.
@@ -471,6 +474,7 @@ public class Helpers {
     private static String generateAvailableFilenameLocked(
             File[] parents, String prefix, String suffix) throws IOException {
         String name = prefix + suffix;
+        name = removeInvalidCharsAndGenerateName(name);
         if (isFilenameAvailableLocked(parents, name)) {
             return name;
         }
@@ -493,6 +497,7 @@ public class Helpers {
         for (int magnitude = 1; magnitude < 1000000000; magnitude *= 10) {
             for (int iteration = 0; iteration < 9; ++iteration) {
                 name = prefix + Constants.FILENAME_SEQUENCE_SEPARATOR + sequence + suffix;
+                name = removeInvalidCharsAndGenerateName(name);
                 if (isFilenameAvailableLocked(parents, name)) {
                     return name;
                 }
@@ -885,8 +890,15 @@ public class Helpers {
         return packages[0];
     }
 
-    public static String removeInvalidChars(String name) {
-        name = name.replaceAll("[*/:<>?\\|]", "_");
-        return name;
+    public static String removeInvalidCharsAndGenerateName(String name) {
+        String newValue = name.replaceAll("[*/:<>?\\|]", "_");
+        if (onlyContainsUnderscore(newValue)) {
+            newValue = DEFAULT_DOWNLOAD_FILE_NAME_PREFIX + System.currentTimeMillis();
+        }
+        return newValue;
+    }
+
+    private static boolean onlyContainsUnderscore(String name) {
+        return name != null && name.replaceAll("_","").trim().isEmpty();
     }
 }

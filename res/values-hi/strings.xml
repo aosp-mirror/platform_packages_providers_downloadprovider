@@ -30,7 +30,7 @@
     <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"उपयोगकर्ता को कोई भी सूचना दिखाए बिना ऐप को डाउनलोड मैनेजर की मदद से फ़ाइलें डाउनलोड करने देता है."</string>
     <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"सभी सिस्‍टम डाउनलोड में ऐक्सेस पाएं"</string>
     <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"ऐप्स  को सिस्टम पर किसी भी ऐप्स  द्वारा शुरू किए गए सभी डाउनलोड देखने और संशोधित करने देता है."</string>
-    <string name="download_unknown_title" msgid="1017800350818840396">"&lt;शीर्षक-रहित&gt;"</string>
+    <string name="download_unknown_title" msgid="1017800350818840396">"&lt;टाइटल-रहित&gt;"</string>
     <string name="notification_download_complete" msgid="466652037490092787">"डाउनलोड पूरा हुआ."</string>
     <string name="notification_download_failed" msgid="3932167763860605874">"डाउनलोड विफल."</string>
     <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"डाउनलोड आकार के लिए वाई-फ़ाई  आवश्‍यक."</string>

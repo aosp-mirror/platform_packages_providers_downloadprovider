@@ -41,7 +41,7 @@
     <string name="wifi_recommended_body" msgid="8710820743211704403">"ਹੁਣ ਇਸ <xliff:g id="SIZE">%1$s </xliff:g> ਡਾਊਨਲੋਡ ਨੂੰ ਚਾਲੂ ਕਰਨ ਨਾਲ ਤੁਹਾਡੀ ਬੈਟਰੀ ਸਮਰੱਥਾ ਘੱਟ ਸਕਦੀ ਹੈ ਅਤੇ/ਜਾਂ ਇਸਦੇ ਸਿੱਟੇ ਵਜੋਂ ਤੁਹਾਡੇ ਮੋਬਾਈਲ ਡਾਟਾ ਕਨੈਕਸ਼ਨ ਦੀ ਵਾਧੂ ਵਰਤੋਂ ਹੋ ਸਕਦੀ ਹੈ, ਜਿਸ ਨਾਲ ਤੁਹਾਡੇ ਡਾਟਾ ਪਲਾਨ ਦੇ ਆਧਾਰ ਤੇ ਤੁਹਾਡੇ ਮੋਬਾਈਲ ਓਪਰੇਟਰ ਵੱਲੋਂ ਖਰਚੇ ਪਾਏ ਜਾ ਸਕਦੇ ਹਨ।\n\n ਅਗਲੀ ਵਾਰ ਜਦੋਂ ਤੁਸੀਂ ਇੱਕ ਵਾਈ-ਫਾਈ ਨੈੱਟਵਰਕ ਨਾਲ ਕਨੈਕਟ ਕਰੋ ਤਾਂ ਇਸ ਡਾਊਨਲੋਡ ਨੂੰ ਚਾਲੂ ਕਰਨ ਲਈ <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> ਨੂੰ ਸਪੱਰਸ਼ ਕਰੋ।"</string>
     <string name="button_queue_for_wifi" msgid="6650185573566994738">"ਕਤਾਰ"</string>
     <string name="button_cancel_download" msgid="4135046775536601831">"ਰੱਦ ਕਰੋ"</string>
-    <string name="button_start_now" msgid="3817100969365441730">"ਹੁਣੇ ਸ਼ੁਰੂ ਕਰੋ"</string>
+    <string name="button_start_now" msgid="3817100969365441730">"ਹੁਣ ਚਾਲੂ ਕਰੋ"</string>
     <plurals name="notif_summary_active" formatted="false" msgid="8652501374845637331">
       <item quantity="one"><xliff:g id="NUMBER">%d</xliff:g> ਫ਼ਾਈਲਾਂ ਡਾਊਨਲੋਡ ਹੋ ਰਹੀਆਂ ਹਨ</item>
       <item quantity="other"><xliff:g id="NUMBER">%d</xliff:g> ਫ਼ਾਈਲਾਂ ਡਾਊਨਲੋਡ ਹੋ ਰਹੀਆਂ ਹਨ</item>

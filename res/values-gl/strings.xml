@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="5264040740662487684">"Administrador de descargas"</string>
+    <string name="app_label" msgid="5264040740662487684">"Xestor de descargas"</string>
     <string name="storage_description" msgid="169690279447532621">"Descargas"</string>
     <string name="permlab_downloadManager" msgid="4241473724446132797">"Acceso ao administrador de descargas"</string>
     <string name="permdesc_downloadManager" msgid="5562734314998369030">"Permite á aplicación acceder ao administrador de descargas e utilizalo para descargar ficheiros. As aplicacións maliciosas poden usar esta opción para interromper as descargas e acceder a información privada."</string>

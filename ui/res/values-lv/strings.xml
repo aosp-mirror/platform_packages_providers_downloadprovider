@@ -32,7 +32,7 @@
     <string name="dialog_title_queued_body" msgid="7481231558376227012">"Fails gaida rindā"</string>
     <string name="dialog_queued_body" msgid="2374398802707010234">"Šis fails gaida lejupielādes rindā, tāpēc tas pagaidām nav pieejams."</string>
     <string name="dialog_file_missing_body" msgid="7896653198405160564">"Nevar atrast lejupielādēto failu."</string>
-    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"Nevar pabeigt lejupielādi. Ārējā atmiņā nepietiek vietas."</string>
+    <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"Nevar pabeigt lejupielādi. Ārējā krātuvē nepietiek vietas."</string>
     <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"Nevar pabeigt lejupielādi. Iekšējā lejupielādes atmiņā nepietiek vietas."</string>
     <string name="dialog_cannot_resume" msgid="3101433441301206866">"Lejupielāde tika pārtraukta, un to nevar atsākt."</string>
     <string name="dialog_file_already_exists" msgid="6849168874901909994">"Nevar lejupielādēt. Galamērķa fails jau pastāv."</string>

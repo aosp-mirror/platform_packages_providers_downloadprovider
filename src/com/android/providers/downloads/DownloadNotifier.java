@@ -415,7 +415,7 @@ public class DownloadNotifier {
     private static CharSequence getDownloadTitle(Resources res, Cursor cursor) {
         final String title = cursor.getString(UpdateQuery.TITLE);
         if (!TextUtils.isEmpty(title)) {
-            return title;
+            return Helpers.removeInvalidCharsAndGenerateName(title);
         } else {
             return res.getString(R.string.download_unknown_title);
         }

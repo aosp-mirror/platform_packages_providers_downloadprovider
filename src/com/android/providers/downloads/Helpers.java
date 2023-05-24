@@ -203,7 +203,15 @@ public class Helpers {
             if (info.mCurrentBytes > 0 && !TextUtils.isEmpty(info.mETag)) {
                 // If we're resuming an in-progress download, we only need to
                 // download the remaining bytes.
-                builder.setEstimatedNetworkBytes(info.mTotalBytes - info.mCurrentBytes,
+                final long remainingBytes;
+                if (info.mTotalBytes > info.mCurrentBytes) {
+                    remainingBytes = info.mTotalBytes - info.mCurrentBytes;
+                } else {
+                    // We've downloaded more than we expected. We no longer know how much is left.
+                    Log.i(TAG, "Downloaded more than expected during previous executions");
+                    remainingBytes = JobInfo.NETWORK_BYTES_UNKNOWN;
+                }
+                builder.setEstimatedNetworkBytes(remainingBytes,
                         JobInfo.NETWORK_BYTES_UNKNOWN);
             } else {
                 builder.setEstimatedNetworkBytes(info.mTotalBytes, JobInfo.NETWORK_BYTES_UNKNOWN);

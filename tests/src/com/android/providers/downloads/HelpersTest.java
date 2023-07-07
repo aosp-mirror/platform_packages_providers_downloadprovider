@@ -125,6 +125,29 @@ public class HelpersTest extends AndroidTestCase {
         assertEquals(expected.getAbsolutePath(), actual);
     }
 
+    public void testGenerateSaveFileHintWithInvalidChars() throws Exception {
+        final File fileWithInvalidName = new File(getContext().getFilesDir(), "meow**:");
+        final String hint = Uri.fromFile(fileWithInvalidName).toString();
+        final File expected = new File(getContext().getFilesDir(), "meow___");
+
+        // Test that we replace invalid characters in requested file name with '_'
+        final String actual = Helpers.generateSaveFile(getContext(), "url", hint,
+                "dispo", "locat", "video/mp4", Downloads.Impl.DESTINATION_FILE_URI);
+        assertEquals(expected.getAbsolutePath(), actual);
+    }
+
+    public void testGenerateSaveFileHintWithInvalidCharsOnly() throws Exception {
+        final File fileWithInvalidName = new File(getContext().getFilesDir(), "**:");
+        final String hint = Uri.fromFile(fileWithInvalidName).toString();
+        final File expected = new File(getContext().getFilesDir(),
+                Helpers.DEFAULT_DOWNLOAD_FILE_NAME_PREFIX);
+
+        // Test that we replace invalid characters in requested file name with '_'
+        final String actual = Helpers.generateSaveFile(getContext(), "url", hint,
+                "dispo", "locat", "video/mp4", Downloads.Impl.DESTINATION_FILE_URI);
+        assertTrue(actual.startsWith(expected.getAbsolutePath()));
+    }
+
     public void testGenerateSaveFileDisposition() throws Exception {
         final File expected = new File(getContext().getFilesDir(), "real.mp4");
         final String actual = Helpers.generateSaveFile(getContext(),

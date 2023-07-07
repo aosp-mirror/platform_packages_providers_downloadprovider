@@ -67,6 +67,7 @@ import com.android.internal.util.ArrayUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.System;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
@@ -92,6 +93,9 @@ public class Helpers {
 
     private static final Pattern PATTERN_PUBLIC_DIRS =
             Pattern.compile("(?i)^/storage/[^/]+(?:/[0-9]+)?/([^/]+)/.+");
+
+    @VisibleForTesting
+    static final String DEFAULT_DOWNLOAD_FILE_NAME_PREFIX = "Download_";
 
     private static final Object sUniqueLock = new Object();
 
@@ -199,7 +203,15 @@ public class Helpers {
             if (info.mCurrentBytes > 0 && !TextUtils.isEmpty(info.mETag)) {
                 // If we're resuming an in-progress download, we only need to
                 // download the remaining bytes.
-                builder.setEstimatedNetworkBytes(info.mTotalBytes - info.mCurrentBytes,
+                final long remainingBytes;
+                if (info.mTotalBytes > info.mCurrentBytes) {
+                    remainingBytes = info.mTotalBytes - info.mCurrentBytes;
+                } else {
+                    // We've downloaded more than we expected. We no longer know how much is left.
+                    Log.i(TAG, "Downloaded more than expected during previous executions");
+                    remainingBytes = JobInfo.NETWORK_BYTES_UNKNOWN;
+                }
+                builder.setEstimatedNetworkBytes(remainingBytes,
                         JobInfo.NETWORK_BYTES_UNKNOWN);
             } else {
                 builder.setEstimatedNetworkBytes(info.mTotalBytes, JobInfo.NETWORK_BYTES_UNKNOWN);
@@ -470,6 +482,7 @@ public class Helpers {
     private static String generateAvailableFilenameLocked(
             File[] parents, String prefix, String suffix) throws IOException {
         String name = prefix + suffix;
+        name = removeInvalidCharsAndGenerateName(name);
         if (isFilenameAvailableLocked(parents, name)) {
             return name;
         }
@@ -492,6 +505,7 @@ public class Helpers {
         for (int magnitude = 1; magnitude < 1000000000; magnitude *= 10) {
             for (int iteration = 0; iteration < 9; ++iteration) {
                 name = prefix + Constants.FILENAME_SEQUENCE_SEPARATOR + sequence + suffix;
+                name = removeInvalidCharsAndGenerateName(name);
                 if (isFilenameAvailableLocked(parents, name)) {
                     return name;
                 }
@@ -882,5 +896,17 @@ public class Helpers {
         }
         // For permission related purposes, any package belonging to the given uid should work.
         return packages[0];
+    }
+
+    public static String removeInvalidCharsAndGenerateName(String name) {
+        String newValue = name.replaceAll("[*/:<>?\\|]", "_");
+        if (onlyContainsUnderscore(newValue)) {
+            newValue = DEFAULT_DOWNLOAD_FILE_NAME_PREFIX + System.currentTimeMillis();
+        }
+        return newValue;
+    }
+
+    private static boolean onlyContainsUnderscore(String name) {
+        return name != null && name.replaceAll("_","").trim().isEmpty();
     }
 }

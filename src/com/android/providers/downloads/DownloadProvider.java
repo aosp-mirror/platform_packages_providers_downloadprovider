@@ -648,6 +648,23 @@ public final class DownloadProvider extends ContentProvider {
         }
     }
 
+    /**
+     * An unrestricted version of getType
+     */
+    @Override
+    public String getTypeAnonymous(final Uri uri) {
+        int match = sURIMatcher.match(uri);
+        switch (match) {
+            case MY_DOWNLOADS:
+            case ALL_DOWNLOADS: {
+                return DOWNLOAD_LIST_TYPE;
+            }
+            default: {
+                return null;
+            }
+        }
+    }
+
     @Override
     public Bundle call(String method, String arg, Bundle extras) {
         switch (method) {

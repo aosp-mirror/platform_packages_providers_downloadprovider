@@ -19,7 +19,7 @@
     <string name="app_label" msgid="4847371117203587513">"ଡାଉନଲୋଡ୍‌"</string>
     <string name="download_title_sorted_by_date" msgid="6033509257480233878">"ଡାଉନଲୋଡ୍‌ - ତାରିଖ ଅନୁସାରେ କ୍ରମବଦ୍ଧ"</string>
     <string name="download_title_sorted_by_size" msgid="2575551670173644253">"ଡାଉନଲୋଡ୍‌ - ଆକାର ଅନୁସାରେ କ୍ରମବଦ୍ଧ"</string>
-    <string name="no_downloads" msgid="1654764193290918538">"କୌଣସି ଡାଉନଲୋଡ୍‌ ନାହିଁ।"</string>
+    <string name="no_downloads" msgid="1654764193290918538">"କୌଣସି ଡାଉନଲୋଡ ହୋଇନାହିଁ।"</string>
     <string name="missing_title" msgid="3827247802608803753">"&lt;ଅଜଣା&gt;"</string>
     <string name="button_sort_by_size" msgid="7952187121189086395">"ଆକାର ଅନୁସାରେ କ୍ରମବଦ୍ଧ କରନ୍ତୁ"</string>
     <string name="button_sort_by_date" msgid="2064919145709585942">"ତାରିଖ ଅନୁସାରେ କ୍ରମବଦ୍ଧ କରନ୍ତୁ"</string>

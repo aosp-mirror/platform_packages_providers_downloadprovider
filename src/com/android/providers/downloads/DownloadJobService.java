@@ -88,11 +88,10 @@ public class DownloadJobService extends JobService {
             thread = mActiveThreads.removeReturnOld(id);
         }
         if (thread != null) {
-            // If the thread is still running, ask it to gracefully shutdown,
-            // and reschedule ourselves to resume in the future.
+            // If the thread is still running, asynchronously request a
+            // shutdown. The thread is responsible for rescheduling the
+            // job based on its latest progress.
             thread.requestShutdown();
-
-            Helpers.scheduleJob(this, DownloadInfo.queryDownloadInfo(this, id));
         }
         return false;
     }

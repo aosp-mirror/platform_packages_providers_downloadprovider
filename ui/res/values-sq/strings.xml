@@ -47,5 +47,5 @@
     <string name="deselect_all" msgid="4673983454506880405">"Hiq përzgjedhjen nga të gjitha"</string>
     <string name="select_all" msgid="7469093306474000460">"Përzgjidhi të gjitha"</string>
     <string name="selected_count" msgid="5876842902167894010">"U zgjodhën <xliff:g id="NUMBER">%1$d</xliff:g> nga gjithsej <xliff:g id="TOTAL">%2$d</xliff:g>"</string>
-    <string name="download_share_dialog" msgid="5212760257251501969">"Shpërndaj nëpërmjet"</string>
+    <string name="download_share_dialog" msgid="5212760257251501969">"Ndaj nëpërmjet"</string>
 </resources>

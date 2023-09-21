@@ -380,6 +380,7 @@ public class DownloadThread extends Thread {
         if (mInfoDelta.mStatus == STATUS_WAITING_TO_RETRY
                 || mInfoDelta.mStatus == STATUS_WAITING_FOR_NETWORK
                 || mInfoDelta.mStatus == STATUS_QUEUED_FOR_WIFI) {
+            logDebug("rescheduling the job id:" + mId);
             needsReschedule = true;
         }
 

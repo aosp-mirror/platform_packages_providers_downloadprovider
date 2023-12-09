@@ -25,7 +25,7 @@
     <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"ഡൗൺലോഡ് അറിയിപ്പുകൾ അയയ്‌ക്കുക"</string>
     <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"പൂർത്തിയാക്കിയ ഡൗൺലോഡുകളെക്കുറിച്ച് അറിയിപ്പുകൾ അയയ്‌ക്കാൻ അപ്ലിക്കേഷനെ അനുവദിക്കുന്നു. ഫയലുകൾ ഡൗൺലോഡുചെയ്യുന്ന മറ്റ് അപ്ലിക്കേഷനുകളെ ആശയക്കുഴപ്പത്തിലാക്കാൻ ക്ഷുദ്രകരമായ അപ്ലിക്കേഷനുകൾ ഇതുപയോഗിച്ചേക്കാം."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"ഡൗൺലോഡ് കാഷെയിൽ ഇടം സംഭരിക്കുക"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"ഡൗൺലോഡ് കാഷെയിലേക്ക് ഫയലുകൾ ഡൗണ്‍ലോഡ് ചെയ്യാൻ അപ്ലിക്കേഷനെ അനുവദിക്കുന്നു, ഡൗൺലോഡ് മാനേജർക്ക് കൂടുതൽ ഇടം ആവശ്യമായി വരുമ്പോൾ ഇത് സ്വയമേവ ഇല്ലാതാകില്ല."</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"ഡൗൺലോഡ് കാഷെയിലേക്ക് ഫയലുകൾ ഡൗണ്‍ലോഡ് ചെയ്യാൻ അപ്ലിക്കേഷനെ അനുവദിക്കുന്നു, ഡൗൺലോഡ് മാനേജർക്ക് കൂടുതൽ ഇടം ആവശ്യമായി വരുമ്പോൾ ഇത് സ്വമേധയാ ഇല്ലാതാകില്ല."</string>
     <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"അറിയിപ്പില്ലാതെ ഫയലുകൾ ഡൗൺലോഡുചെയ്യുക"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"ഉപയോക്താവിന് അറിയിപ്പൊന്നും ദൃശ്യമാക്കാതെ തന്നെ ഡൗൺലോഡ് മാനേജർ മുഖേന ഫയലുകൾ ഡൗണ്‍ലോഡ് ചെയ്യാൻ അപ്ലിക്കേഷനെ അനുവദിക്കുന്നു."</string>
     <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"എല്ലാ സിസ്റ്റം ഡൗൺലോഡുകളും ആക്‌സസ്സുചെയ്യുക"</string>

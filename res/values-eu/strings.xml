@@ -33,10 +33,10 @@
     <string name="download_unknown_title" msgid="1017800350818840396">"&lt;Izengabea&gt;"</string>
     <string name="notification_download_complete" msgid="466652037490092787">"Osatu da deskarga."</string>
     <string name="notification_download_failed" msgid="3932167763860605874">"Ezin izan da deskargatu."</string>
-    <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"Wi-Fi konexioa behar da."</string>
+    <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"Wifi-konexioa behar da."</string>
     <string name="notification_paused_in_background" msgid="6393408819031041778">"Atzeko planoan pausatuta"</string>
     <string name="wifi_required_title" msgid="7266700488421122218">"Deskarga handiegia da operadorearen sarerako"</string>
-    <string name="wifi_required_body" msgid="4005023496578941958">"Wi-Fi konexioa erabili behar duzu <xliff:g id="SIZE">%1$s </xliff:g>-ko deskarga hau osatzeko. \n\nwifi-sare batera konektatzen zaren hurrengo aldian deskargari berrekiteko, ukitu <xliff:g id="QUEUE_TEXT">%2$s </xliff:g>."</string>
+    <string name="wifi_required_body" msgid="4005023496578941958">"Wifi-konexioa erabili behar duzu <xliff:g id="SIZE">%1$s </xliff:g>-ko deskarga hau osatzeko. \n\nwifi-sare batera konektatzen zaren hurrengo aldian deskargari berrekiteko, ukitu <xliff:g id="QUEUE_TEXT">%2$s </xliff:g>."</string>
     <string name="wifi_recommended_title" msgid="6488158053932133804">"Ilaran ezarri geroago deskargatzeko?"</string>
     <string name="wifi_recommended_body" msgid="8710820743211704403">"<xliff:g id="SIZE">%1$s </xliff:g>-ko deskarga hau hasten baduzu, baliteke bateriak gutxiago irautea eta/edo datu-konexioa gehiegi erabiltzea eta, horren ondorioz, operadoreak gastu gehigarriak kobratzea, darabilzun datu-planaren arabera.\n\n wifi-sare batera konektatzen zaren hurrengo aldian deskargari berrekiteko, ukitu <xliff:g id="QUEUE_TEXT">%2$s</xliff:g>."</string>
     <string name="button_queue_for_wifi" msgid="6650185573566994738">"Ezarri ilaran"</string>

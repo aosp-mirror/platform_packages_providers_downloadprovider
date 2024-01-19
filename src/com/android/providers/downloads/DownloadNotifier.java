@@ -98,15 +98,23 @@ public class DownloadNotifier {
         mNotifManager = context.getSystemService(NotificationManager.class);
 
         // Ensure that all our channels are ready to use
-        mNotifManager.createNotificationChannel(new NotificationChannel(CHANNEL_ACTIVE,
+        NotificationChannel activeNotifChannel = new NotificationChannel(CHANNEL_ACTIVE,
                 context.getText(R.string.download_running),
-                NotificationManager.IMPORTANCE_MIN));
-        mNotifManager.createNotificationChannel(new NotificationChannel(CHANNEL_WAITING,
+                NotificationManager.IMPORTANCE_MIN);
+        activeNotifChannel.setBlockable(true);
+        mNotifManager.createNotificationChannel(activeNotifChannel);
+
+        NotificationChannel waitingNotifChannel = new NotificationChannel(CHANNEL_WAITING,
                 context.getText(R.string.download_queued),
-                NotificationManager.IMPORTANCE_DEFAULT));
-        mNotifManager.createNotificationChannel(new NotificationChannel(CHANNEL_COMPLETE,
+                NotificationManager.IMPORTANCE_DEFAULT);
+        waitingNotifChannel.setBlockable(true);
+        mNotifManager.createNotificationChannel(waitingNotifChannel);
+
+        NotificationChannel completedNotifChannel = new NotificationChannel(CHANNEL_COMPLETE,
                 context.getText(com.android.internal.R.string.done_label),
-                NotificationManager.IMPORTANCE_DEFAULT));
+                NotificationManager.IMPORTANCE_DEFAULT);
+        completedNotifChannel.setBlockable(true);
+        mNotifManager.createNotificationChannel(completedNotifChannel);
     }
 
     public void init() {

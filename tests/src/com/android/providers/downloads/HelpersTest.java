@@ -45,11 +45,11 @@ import android.os.Binder;
 import android.os.Environment;
 import android.os.Process;
 import android.provider.Downloads;
-
 import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
 import android.util.LongArray;
 import android.util.LongSparseArray;
+
+import androidx.test.filters.SmallTest;
 
 import java.io.File;
 import java.util.Arrays;

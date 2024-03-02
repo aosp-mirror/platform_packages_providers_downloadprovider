@@ -28,8 +28,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.provider.Downloads;
-
-import androidx.test.filters.LargeTest;
+import android.test.suitebuilder.annotation.LargeTest;
 
 import com.google.mockwebserver.MockWebServer;
 import com.google.mockwebserver.RecordedRequest;

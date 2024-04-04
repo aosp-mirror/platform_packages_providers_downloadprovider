@@ -29,7 +29,7 @@
     <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"बिना सूचना फाइलहरू डाउनलोड गर्नुहोस्"</string>
     <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"एपलाई डाउनलोड प्रबन्धकका माध्ययमद्वारा प्रयोगकर्तामा सूचना नदेखाई फाइलहरू डाउनलोड गर्ने अनुमति दिन्छ।"</string>
     <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"सम्पूर्ण प्रणाली डाउनलोडहरू पहुँच गर्नुहोस्"</string>
-    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"एपलाई कुनै पनि अनुप्रयोगले प्रणालीमा पहल गरेको सम्पूर्ण डाउनलोडहरू हेर्ने र परिमार्जन गर्ने अनुमति दिन्छ।"</string>
+    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"एपलाई कुनै पनि एपले प्रणालीमा पहल गरेको सम्पूर्ण डाउनलोडहरू हेर्ने र परिमार्जन गर्ने अनुमति दिन्छ।"</string>
     <string name="download_unknown_title" msgid="1017800350818840396">"&lt;शीर्षकविहिन&gt;"</string>
     <string name="notification_download_complete" msgid="466652037490092787">"डाउनलोड पुरा भयो।"</string>
     <string name="notification_download_failed" msgid="3932167763860605874">"डाउनलोड असफल"</string>

@@ -47,6 +47,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.provider.Downloads;
+import android.test.suitebuilder.annotation.Suppress;
 import android.text.format.DateUtils;
 
 import androidx.test.filters.FlakyTest;
@@ -64,8 +65,6 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
-import org.junit.Ignore;
 
 @LargeTest
 public class PublicApiFunctionalTest extends AbstractPublicApiTest {
@@ -139,7 +138,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         checkCompleteDownload(download);
     }
 
-    @Ignore
+    @Suppress
     public void testExtremelyLarge() throws Exception {
         // NOTE: suppressed since this takes several minutes to run
         final long length = 3 * GB_IN_BYTES;
@@ -642,7 +641,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         assertTrue(mResolver.mNotifyWasCalled);
     }
 
-    @Ignore
+    @Suppress
     public void testNotificationNever() throws Exception {
         enqueueResponse(buildEmptyResponse(HTTP_OK));
 
@@ -654,7 +653,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         verify(mNotifManager, never()).notify(anyString(), anyInt(), isA(Notification.class));
     }
 
-    @Ignore
+    @Suppress
     public void testNotificationVisible() throws Exception {
         enqueueResponse(buildEmptyResponse(HTTP_OK));
 
@@ -666,7 +665,7 @@ public class PublicApiFunctionalTest extends AbstractPublicApiTest {
         verify(mNotifManager, atLeastOnce()).notify(anyString(), anyInt(), isA(Notification.class));
     }
 
-    @Ignore
+    @Suppress
     public void testNotificationVisibleComplete() throws Exception {
         enqueueResponse(buildEmptyResponse(HTTP_OK));
 

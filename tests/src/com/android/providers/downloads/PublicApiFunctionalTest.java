@@ -47,11 +47,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.provider.Downloads;
-import android.test.suitebuilder.annotation.Suppress;
 import android.text.format.DateUtils;
 
 import androidx.test.filters.FlakyTest;
 import androidx.test.filters.LargeTest;
+import androidx.test.filters.Suppress;
 
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.RecordedRequest;

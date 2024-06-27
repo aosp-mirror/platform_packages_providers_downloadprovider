@@ -29,8 +29,8 @@
     The test declared in this instrumentation can be run via this command
     "adb shell am instrument -w com.android.providers.downloads.tests/android.test.InstrumentationTestRunner"
     -->
-    <instrumentation android:name="android.test.InstrumentationTestRunner"
-                     android:targetPackage="com.android.providers.downloads"
-                     android:label="Tests for Download Manager"/>
+    <instrumentation android:name="androidx.test.runner.AndroidJUnitRunner"
+        android:targetPackage="com.android.providers.downloads"
+        android:label="Tests for Download Manager"/>
 
 </manifest>

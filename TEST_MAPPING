@@ -1,7 +1,7 @@
 {
     "presubmit": [
         {
-            "name": "CtsMediaProviderTestCases",
+            "name": "CtsProviderTestCases",
             "options": [
                 {
                     "include-filter": "android.provider.cts.media.MediaStore_DownloadsTest"

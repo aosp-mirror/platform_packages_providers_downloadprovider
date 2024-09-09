@@ -30,13 +30,13 @@
     <string name="dialog_title_not_available" msgid="7793272183758002416">"Couldn\'t download"</string>
     <string name="dialog_failed_body" msgid="4538779125597383173">"Do you want to retry downloading the file later or delete it from the queue?"</string>
     <string name="dialog_title_queued_body" msgid="7481231558376227012">"File in queue"</string>
-    <string name="dialog_queued_body" msgid="2374398802707010234">"This file is queued for future download, so isn\'t available yet."</string>
+    <string name="dialog_queued_body" msgid="2374398802707010234">"This file is queued for future download so isn\'t available yet."</string>
     <string name="dialog_file_missing_body" msgid="7896653198405160564">"Can\'t find the downloaded file."</string>
     <string name="dialog_insufficient_space_on_external" msgid="1847671628253287114">"Can\'t finish download. There isn\'t enough space on external storage."</string>
-    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"Cannot finish download. There is not enough space on internal download storage."</string>
+    <string name="dialog_insufficient_space_on_cache" msgid="703074452633529558">"Can\'t finish download. There isn\'t enough space on internal download storage."</string>
     <string name="dialog_cannot_resume" msgid="3101433441301206866">"Download was interrupted and can\'t be resumed."</string>
     <string name="dialog_file_already_exists" msgid="6849168874901909994">"Can\'t download. The destination file already exists."</string>
-    <string name="dialog_media_not_found" msgid="7376030905821161865">"Cannot download. The external media are not available."</string>
+    <string name="dialog_media_not_found" msgid="7376030905821161865">"Can\'t download. The external media isn\'t available."</string>
     <string name="download_no_application_title" msgid="1209223807604231431">"Can\'t open file"</string>
     <string name="remove_download" msgid="244394809285977300">"Remove"</string>
     <string name="delete_download" msgid="1861638125603383676">"Delete"</string>

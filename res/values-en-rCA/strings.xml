@@ -25,20 +25,20 @@
     <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"Send download notifications."</string>
     <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"Allows the app to send notifications about completed downloads. Malicious apps can use this to confuse other apps that download files."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"Reserve space in the download cache"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"Allows the app to download files to the download cache, which can\'t be deleted automatically when the download manager needs more space."</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"Allows the app to download files to the download cache, which can\'t be automatically deleted when the download manager needs more space."</string>
     <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"download files without notification"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"Allows the application to download files through the download manager without any notification being shown to the user."</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"Allows the app to download files through the download manager without any notification being shown to the user."</string>
     <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"Access all system downloads"</string>
     <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"Allows the app to view and modify all downloads initiated by any app on the system."</string>
     <string name="download_unknown_title" msgid="1017800350818840396">"&lt;Untitled&gt;"</string>
     <string name="notification_download_complete" msgid="466652037490092787">"Download complete."</string>
     <string name="notification_download_failed" msgid="3932167763860605874">"Download unsuccessful."</string>
-    <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"Download size requires Wi-Fi"</string>
-    <string name="notification_paused_in_background" msgid="6393408819031041778">"Paused in background"</string>
+    <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"Download size requires Wi-Fi."</string>
+    <string name="notification_paused_in_background" msgid="6393408819031041778">"Paused in background."</string>
     <string name="wifi_required_title" msgid="7266700488421122218">"Download too large for operator network"</string>
-    <string name="wifi_required_body" msgid="4005023496578941958">"You must use Wi-Fi to complete this <xliff:g id="SIZE">%1$s </xliff:g> download. \n\nTouch <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> to start this download the next time that you\'re connected to a Wi-Fi network."</string>
+    <string name="wifi_required_body" msgid="4005023496578941958">"You must use Wi-Fi to complete this <xliff:g id="SIZE">%1$s </xliff:g> download. \n\nTouch <xliff:g id="QUEUE_TEXT">%2$s </xliff:g> to start this download the next time you\'re connected to a Wi-Fi network."</string>
     <string name="wifi_recommended_title" msgid="6488158053932133804">"Queue for download later?"</string>
-    <string name="wifi_recommended_body" msgid="8710820743211704403">"Starting this <xliff:g id="SIZE">%1$s </xliff:g> download now may shorten your battery life and/or result in excessive usage of your mobile data connection, which can lead to charges by your mobile operator depending on your data plan.\n\n Touch <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> to start this download the next time that you\'re connected to a Wi-Fi network."</string>
+    <string name="wifi_recommended_body" msgid="8710820743211704403">"Starting this <xliff:g id="SIZE">%1$s </xliff:g> download now may shorten your battery life and/or result in excessive usage of your mobile data connection, which can lead to charges by your mobile operator depending on your data plan.\n\n Touch <xliff:g id="QUEUE_TEXT">%2$s</xliff:g> to start this download the next time you\'re connected to a Wi-Fi network."</string>
     <string name="button_queue_for_wifi" msgid="6650185573566994738">"Queue"</string>
     <string name="button_cancel_download" msgid="4135046775536601831">"Cancel"</string>
     <string name="button_start_now" msgid="3817100969365441730">"Start now"</string>

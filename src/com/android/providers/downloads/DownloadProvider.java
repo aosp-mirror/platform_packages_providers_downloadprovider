@@ -1053,9 +1053,7 @@ public final class DownloadProvider extends ContentProvider {
             values.put(COLUMN_MEDIA_SCANNED, mediaScannable);
             values.put(COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI, visibleInDownloadsUi);
         } else {
-            if (!values.containsKey(COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI)) {
-                values.put(COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI, true);
-            }
+            values.put(COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI, true);
         }
     }
 

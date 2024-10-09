@@ -1647,7 +1647,16 @@ public final class DownloadProvider extends ContentProvider {
                                     Log.v(Constants.TAG,
                                             "Deleting " + file + " via provider delete");
                                     file.delete();
-                                    MediaStore.scanFile(getContext().getContentResolver(), file);
+                                    // if external_primary volume is mounted, then do the scan
+                                    if (Environment.getExternalStorageState().equals(
+                                            Environment.MEDIA_MOUNTED)) {
+                                        MediaStore.scanFile(getContext().getContentResolver(),
+                                                file);
+                                    } else {
+                                        Log.w(Constants.TAG,
+                                                "external_primary volume is not mounted,"
+                                                        + " skipping scan");
+                                    }
                                 } else {
                                     Log.d(Constants.TAG, "Ignoring invalid file: " + file);
                                 }

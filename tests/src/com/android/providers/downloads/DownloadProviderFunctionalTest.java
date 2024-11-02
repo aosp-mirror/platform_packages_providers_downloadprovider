@@ -27,12 +27,22 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.SystemClock;
+import android.platform.test.annotations.EnableFlags;
+import android.platform.test.annotations.RequiresFlagsEnabled;
+import android.platform.test.flag.junit.SetFlagsRule;
 import android.provider.Downloads;
 
 import androidx.test.filters.LargeTest;
 
+import com.android.providers.downloads.flags.Flags;
+
 import com.google.mockwebserver.MockWebServer;
 import com.google.mockwebserver.RecordedRequest;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -46,15 +56,30 @@ import java.util.concurrent.TimeoutException;
  * device to serve downloads.
  */
 @LargeTest
+@EnableFlags({Flags.FLAG_DOWNLOAD_VIA_PLATFORM_HTTP_ENGINE})
 public class DownloadProviderFunctionalTest extends AbstractDownloadProviderFunctionalTest {
     private static final String TAG = "DownloadManagerFunctionalTest";
+    @Rule
+    public final SetFlagsRule mSetFlagsRule = new SetFlagsRule();
 
     public DownloadProviderFunctionalTest() {
         super(new FakeSystemFacade());
     }
 
+    @Before
+    public void setupTest() throws Exception {
+        super.setUp();
+    }
+
+    @After
+    public void tearDownTest() throws Exception {
+        super.tearDown();
+    }
+
+    @Test
     public void testDownloadTextFile() throws Exception {
-        enqueueResponse(buildResponse(HTTP_OK, FILE_CONTENT));
+        enqueueResponse(
+                buildResponse(HTTP_OK, FILE_CONTENT));
 
         String path = "/download_manager_test_path";
         Uri downloadUri = requestDownload(path);
@@ -66,21 +91,23 @@ public class DownloadProviderFunctionalTest extends AbstractDownloadProviderFunc
         assertEquals(path, request.getPath());
         assertEquals(FILE_CONTENT, getDownloadContents(downloadUri));
         assertStartsWith(Environment.getExternalStorageDirectory().getPath(),
-                         getDownloadFilename(downloadUri));
+                getDownloadFilename(downloadUri));
     }
 
+    @Test
     public void testDownloadToCache() throws Exception {
         enqueueResponse(buildResponse(HTTP_OK, FILE_CONTENT));
 
         Uri downloadUri = requestDownload("/path");
         updateDownload(downloadUri, Downloads.Impl.COLUMN_DESTINATION,
-                       Integer.toString(Downloads.Impl.DESTINATION_CACHE_PARTITION));
+                Integer.toString(Downloads.Impl.DESTINATION_CACHE_PARTITION));
         runUntilStatus(downloadUri, Downloads.Impl.STATUS_SUCCESS);
         assertEquals(FILE_CONTENT, getDownloadContents(downloadUri));
         assertStartsWith(getContext().getCacheDir().getCanonicalPath(),
-                         getDownloadFilename(downloadUri));
+                getDownloadFilename(downloadUri));
     }
 
+    @Test
     public void testRoaming() throws Exception {
         enqueueResponse(buildResponse(HTTP_OK, FILE_CONTENT));
         enqueueResponse(buildResponse(HTTP_OK, FILE_CONTENT));
@@ -95,7 +122,7 @@ public class DownloadProviderFunctionalTest extends AbstractDownloadProviderFunc
         // when roaming is disallowed, the download should pause...
         downloadUri = requestDownload("/path");
         updateDownload(downloadUri, Downloads.Impl.COLUMN_DESTINATION,
-                       Integer.toString(Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING));
+                Integer.toString(Downloads.Impl.DESTINATION_CACHE_PARTITION_NOROAMING));
         runUntilStatus(downloadUri, Downloads.Impl.STATUS_WAITING_FOR_NETWORK);
 
         // ...and pick up when we're off roaming
@@ -103,6 +130,7 @@ public class DownloadProviderFunctionalTest extends AbstractDownloadProviderFunc
         runUntilStatus(downloadUri, Downloads.Impl.STATUS_SUCCESS);
     }
 
+    @Test
     public void testCleartextTrafficPermittedFlagHonored() throws Exception {
         enqueueResponse(buildResponse(HTTP_OK, FILE_CONTENT));
         enqueueResponse(buildResponse(HTTP_OK, FILE_CONTENT));
@@ -157,7 +185,7 @@ public class DownloadProviderFunctionalTest extends AbstractDownloadProviderFunc
     }
 
     private String getDownloadField(Uri downloadUri, String column) {
-        final String[] columns = new String[] {column};
+        final String[] columns = new String[]{column};
         Cursor cursor = mResolver.query(downloadUri, columns, null, null, null);
         try {
             assertEquals(1, cursor.getCount());

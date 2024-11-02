@@ -40,6 +40,7 @@ import static android.provider.Downloads.Impl.STATUS_WAITING_TO_RETRY;
 import static android.text.format.DateUtils.SECOND_IN_MILLIS;
 
 import static com.android.providers.downloads.Constants.TAG;
+import static com.android.providers.downloads.flags.Flags.downloadViaPlatformHttpEngine;
 
 import static java.net.HttpURLConnection.HTTP_INTERNAL_ERROR;
 import static java.net.HttpURLConnection.HTTP_MOVED_PERM;
@@ -56,14 +57,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.drm.DrmManagerClient;
 import android.drm.DrmOutputStream;
-import android.net.ConnectivityManager;
 import android.net.INetworkPolicyListener;
 import android.net.Network;
 import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
 import android.net.NetworkPolicyManager;
 import android.net.TrafficStats;
 import android.net.Uri;
+import android.net.http.HttpEngine;
 import android.os.ParcelFileDescriptor;
 import android.os.Process;
 import android.os.SystemClock;
@@ -244,6 +244,9 @@ public class DownloadThread extends Thread {
     /** Flag indicating that thread must be halted */
     private volatile boolean mShutdownRequested;
 
+    /** This is initialized lazily in startDownload */
+    private HttpEngine mHttpEngine;
+
     public DownloadThread(DownloadJobService service, JobParameters params, DownloadInfo info) {
         mContext = service;
         mSystemFacade = Helpers.getSystemFacade(mContext);
@@ -256,7 +259,12 @@ public class DownloadThread extends Thread {
 
         mId = info.mId;
         mInfo = info;
+
         mInfoDelta = new DownloadInfoDelta(info);
+    }
+
+    private boolean isUsingHttpEngine() {
+        return mHttpEngine != null;
     }
 
     @Override
@@ -422,7 +430,7 @@ public class DownloadThread extends Thread {
             if ((!cleartextTrafficPermitted) && ("http".equalsIgnoreCase(url.getProtocol()))) {
                 throw new StopRequestException(STATUS_BAD_REQUEST,
                         "Cleartext traffic not permitted for package " + mInfo.mPackage + ": "
-                        + Uri.parse(url.toString()).toSafeString());
+                                + Uri.parse(url.toString()).toSafeString());
             }
 
             // Open connection and follow any redirects until we have a useful
@@ -432,14 +440,29 @@ public class DownloadThread extends Thread {
                 // Check that the caller is allowed to make network connections. If so, make one on
                 // their behalf to open the url.
                 checkConnectivity();
-                conn = (HttpURLConnection) mNetwork.openConnection(url);
+                if (downloadViaPlatformHttpEngine() && !mSystemFacade.hasPerDomainConfig(
+                        mInfo.mPackage)) {
+                    // Disable HttpEngine if the caller APK has a per-domain networkConfig as this
+                    // could mean that the APK does have its own CAs / trust anchors. This is a
+                    // feature which Cronet does not support but we plan to add compatibility for
+                    // in the future.
+                    mHttpEngine = new HttpEngine.Builder(mContext).build();
+                    logDebug("HttpEngine is being used for this download");
+                    mHttpEngine.bindToNetwork(mNetwork);
+                    conn = (HttpURLConnection) mHttpEngine.openConnection(url);
+                } else {
+                    // HttpEngine does not support setConnectTimeout on its HttpUrlConnection
+                    // implementation. The default timeout in HttpEngine is 4 minutes which is much
+                    // longer than what's defined here but that should not be a problem.
+                    conn = (HttpURLConnection) mNetwork.openConnection(url);
+                    conn.setConnectTimeout(DEFAULT_TIMEOUT);
+                }
                 conn.setInstanceFollowRedirects(false);
-                conn.setConnectTimeout(DEFAULT_TIMEOUT);
                 conn.setReadTimeout(DEFAULT_TIMEOUT);
                 // If this is going over HTTPS configure the trust to be the same as the calling
                 // package.
                 if (conn instanceof HttpsURLConnection) {
-                    ((HttpsURLConnection)conn).setSSLSocketFactory(appContext.getSocketFactory());
+                    ((HttpsURLConnection) conn).setSSLSocketFactory(appContext.getSocketFactory());
                 }
 
                 addRequestHeaders(conn, resuming);
@@ -827,9 +850,16 @@ public class DownloadThread extends Thread {
             conn.addRequestProperty("User-Agent", mInfo.getUserAgent());
         }
 
-        // Defeat transparent gzip compression, since it doesn't allow us to
-        // easily resume partial downloads.
-        conn.setRequestProperty("Accept-Encoding", "identity");
+        // It's fine to use HttpEngine with a compression algorithm since the default behaviour
+        // of DownloadManager is to always download via plaintext. Using a compression algorithm
+        // with decoding on the fly will greatly reduce the downloaded bytes.
+        // HttpEngine will automatically default to using identity if it's trying to do a partial
+        // download (resumption of previous download).
+        if (!isUsingHttpEngine()) {
+            // Defeat transparent gzip compression, since it doesn't allow us to
+            // easily resume partial downloads.
+            conn.setRequestProperty("Accept-Encoding", "identity");
+        }
 
         // Defeat connection reuse, since otherwise servers may continue
         // streaming large downloads after cancelled.

@@ -1,0 +1,9 @@
+package: "com.android.providers.downloads.flags"
+container: "system"
+
+flag {
+  name: "download_via_platform_http_engine"
+  namespace: "android_core_networking"
+  description: "Use HttpEngine for downloading content instead of UrlConnection."
+  bug: "371965430"
+}

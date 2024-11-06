@@ -32,10 +32,14 @@ android_test {
     ],
 
     static_libs: [
+        "androidx.test.ext.junit",
+        "junit",
         "androidx.core_core",
         "androidx.test.rules",
         "mockito-target",
         "mockwebserver",
+        "flag-junit",
+        "com.android.providers.downloads.flags-aconfig-java",
     ],
 
     platform_apis: true,

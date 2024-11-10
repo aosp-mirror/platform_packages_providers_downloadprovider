@@ -40,6 +40,9 @@ public class FakeSystemFacade implements SystemFacade {
     List<Intent> mBroadcastsSent = new ArrayList<Intent>();
     Bundle mLastBroadcastOptions;
     boolean mCleartextTrafficPermitted = true;
+
+    boolean hasPerDomainConfig = false;
+
     private boolean mReturnActualTime = false;
     private SSLContext mSSLContext = null;
 
@@ -139,6 +142,11 @@ public class FakeSystemFacade implements SystemFacade {
     @Override
     public SSLContext getSSLContextForPackage(Context context, String pckg) {
         return mSSLContext;
+    }
+
+    @Override
+    public boolean hasPerDomainConfig(String pckg) {
+        return hasPerDomainConfig;
     }
 
     public void setSSLContext(SSLContext context) {

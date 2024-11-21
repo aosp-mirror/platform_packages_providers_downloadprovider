@@ -30,7 +30,7 @@
     <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"‏به برنامه اجازه می‌دهد فایل‌ها را از طریق Download Manager، بدون نمایش اعلان به کاربر بارگیری کند."</string>
     <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"دسترسی به همه بارگیری‌های سیستم"</string>
     <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"به برنامه اجازه می‌دهد تمام بارگیری‌های شروع شده توسط هر برنامه‌ای را در سیستم مشاهده کرده و تغییر دهد."</string>
-    <string name="download_unknown_title" msgid="1017800350818840396">"‏&lt;بدون عنوان&gt;"</string>
+    <string name="download_unknown_title" msgid="1017800350818840396">"‏&lt;بی‌عنوان&gt;"</string>
     <string name="notification_download_complete" msgid="466652037490092787">"بارگیری کامل شد."</string>
     <string name="notification_download_failed" msgid="3932167763860605874">"بارگیری ناموفق بود."</string>
     <string name="notification_need_wifi_for_size" msgid="4743443900432303646">"‏برای این حجم از بارگیری به Wi-Fi نیاز است."</string>

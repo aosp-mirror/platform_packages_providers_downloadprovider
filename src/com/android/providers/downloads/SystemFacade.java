@@ -78,4 +78,11 @@ interface SystemFacade {
      */
     public SSLContext getSSLContextForPackage(Context context, String pckg)
             throws GeneralSecurityException;
+
+    /**
+     * Returns whether the provided {@code packageName} has per-domain configuration through its
+     * network_security_config.xml. If the {@code packageName} is not found or an exception
+     * is thrown then {@code true} is returned.
+     */
+    public boolean hasPerDomainConfig(String packageName);
 }

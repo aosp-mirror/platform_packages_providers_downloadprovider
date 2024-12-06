@@ -38,7 +38,12 @@ android_app {
 
     privileged: true,
 
-    static_libs: ["guava"],
+    static_libs: [
+        "guava",
+        "com.android.providers.downloads.flags-aconfig-java",
+    ],
+
+    libs: ["framework-connectivity.stubs.module_lib"],
 
     jacoco: {
         include_filter: ["com.android.providers.downloads.*"],

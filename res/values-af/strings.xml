@@ -19,17 +19,17 @@
     <string name="app_label" msgid="5264040740662487684">"Aflaaibestuurder"</string>
     <string name="storage_description" msgid="169690279447532621">"Aflaaie"</string>
     <string name="permlab_downloadManager" msgid="4241473724446132797">"Kry toegang tot aflaaibestuurder."</string>
-    <string name="permdesc_downloadManager" msgid="5562734314998369030">"Laat die program toe om toegang te kry tot die aflaaibestuurder en dit te gebruik om lêers af te laai. Kwaadwillige programme kan dit gebruik om aflaaie te ontwrig en toegang tot private inligting te kry."</string>
+    <string name="permdesc_downloadManager" msgid="5562734314998369030">"Laat die app toe om toegang te kry tot die aflaaibestuurder en dit te gebruik om lêers af te laai. Kwaadwillige apps kan dit gebruik om aflaaie te ontwrig en toegang tot private inligting te kry."</string>
     <string name="permlab_downloadManagerAdvanced" msgid="2225663947531460795">"Gevorderde aflaaibestuurder-funksies"</string>
-    <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"Laat die program toe om toegang te kry tot die aflaaibestuurder se gevorderde instellings. Kwaadwillige programme kan dit gebruik om aflaaie te ontwrig en toegang tot private inligting te kry."</string>
+    <string name="permdesc_downloadManagerAdvanced" msgid="3902478062563030716">"Laat die app toe om toegang te kry tot die aflaaibestuurder se gevorderde instellings. Kwaadwillige apps kan dit gebruik om aflaaie te ontwrig en toegang tot private inligting te kry."</string>
     <string name="permlab_downloadCompletedIntent" msgid="2674407390116052956">"Stuur aflaaikennisgewings."</string>
-    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"Laat die program toe om kennisgewings te stuur oor voltooide aflaaie. Kwaadwillige programme kan dit gebruik om ander programme wat lêers aflaai, te verwar."</string>
+    <string name="permdesc_downloadCompletedIntent" msgid="3384693829639860032">"Laat die app toe om kennisgewings te stuur oor voltooide aflaaie. Kwaadwillige apps kan dit gebruik om ander apps wat lêers aflaai, te verwar."</string>
     <string name="permlab_downloadCacheNonPurgeable" msgid="4538031250425141333">"Reserveer ruimte in die aflaaikas"</string>
-    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"Laat die program toe om lêers af te laai na die aflaaikas, wat nie outomaties uitgevee kan word as die aflaaibestuurder meer spasie benodig nie."</string>
+    <string name="permdesc_downloadCacheNonPurgeable" msgid="3071381088686444674">"Laat die app toe om lêers af te laai na die aflaaikas, wat nie outomaties uitgevee kan word as die aflaaibestuurder meer spasie benodig nie."</string>
     <string name="permlab_downloadWithoutNotification" msgid="4877101864770265405">"laai lêers af sonder kennisgewing"</string>
-    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"Laat die program toe om lêers deur die aflaaibestuurder af te laai sonder enige kennisgewing wat aan die gebruiker gewys word."</string>
+    <string name="permdesc_downloadWithoutNotification" msgid="7699189763226483523">"Laat die app toe om lêers deur die aflaaibestuurder af te laai sonder enige kennisgewing wat aan die gebruiker gewys word."</string>
     <string name="permlab_accessAllDownloads" msgid="8227356876527248611">"Kry toegang tot alle stelselaflaaisels"</string>
-    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"Laat die program toe om alle aflaaie wat deur enige program op hierdie stelsel geïnisieer is, te sien en te wysig."</string>
+    <string name="permdesc_accessAllDownloads" msgid="7541731738152145079">"Laat die app toe om alle aflaaie wat deur enige app op hierdie stelsel geïnisieer is, te sien en te wysig."</string>
     <string name="download_unknown_title" msgid="1017800350818840396">"&lt;Ongetiteld&gt;"</string>
     <string name="notification_download_complete" msgid="466652037490092787">"Aflaai voltooi."</string>
     <string name="notification_download_failed" msgid="3932167763860605874">"Aflaai onsuksesvol."</string>

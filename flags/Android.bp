@@ -1,4 +1,5 @@
-// Copyright (C) 2018 The Android Open Source Project
+//
+// Copyright (C) 2024 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,29 +14,14 @@
 // limitations under the License.
 //
 
-package {
-    // See: http://go/android-license-faq
-    default_applicable_licenses: ["Android-Apache-2.0"],
+aconfig_declarations {
+    name: "com.android.providers.downloads.flags-aconfig",
+    package: "com.android.providers.downloads.flags",
+    container: "system",
+    srcs: ["download_manager_flags.aconfig"],
 }
 
-android_test {
-    name: "DownloadProviderPermissionTests",
-    test_suites: ["device-tests"],
-
-    srcs: [
-        "src/**/*.java",
-    ],
-
-    libs: [
-        "android.test.base.stubs.system",
-        "android.test.runner.stubs.system",
-    ],
-
-    static_libs: [
-        "androidx.test.rules",
-        "junit",
-    ],
-
-    platform_apis: true,
-
+java_aconfig_library {
+    name: "com.android.providers.downloads.flags-aconfig-java",
+    aconfig_declarations: "com.android.providers.downloads.flags-aconfig",
 }

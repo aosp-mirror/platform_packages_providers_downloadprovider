@@ -100,7 +100,7 @@ class RealSystemFacade implements SystemFacade {
             return SSLContext.getDefault();
         }
         SSLContext ctx = SSLContext.getInstance("TLS");
-        ctx.init(null, new TrustManager[] {appConfig.getTrustManager()}, null);
+        ctx.init(null, new TrustManager[]{appConfig.getTrustManager()}, null);
         return ctx;
     }
 
@@ -117,5 +117,22 @@ class RealSystemFacade implements SystemFacade {
             return false;
         }
         return appConfig.isCleartextTrafficPermitted(host);
+    }
+
+    /**
+     * Returns whether the provided package has per-domain configuration through its
+     * network_security_config.xml. If the package is not found then true is returned
+     * by default.
+     * {@code packageName}.
+     */
+    @Override
+    public boolean hasPerDomainConfig(String packageName) {
+        try {
+            return NetworkSecurityPolicy.getApplicationConfigForPackage(mContext,
+                    packageName).hasPerDomainConfigs();
+        } catch (NameNotFoundException e) {
+            // Unknown package -- fail for safety
+            return true;
+        }
     }
 }

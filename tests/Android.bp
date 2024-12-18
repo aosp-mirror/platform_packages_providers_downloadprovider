@@ -26,16 +26,20 @@ android_test {
     ],
 
     libs: [
-        "android.test.base",
-        "android.test.mock",
-        "android.test.runner",
+        "android.test.base.stubs.system",
+        "android.test.mock.stubs.system",
+        "android.test.runner.stubs.system",
     ],
 
     static_libs: [
+        "androidx.test.ext.junit",
+        "junit",
         "androidx.core_core",
         "androidx.test.rules",
         "mockito-target",
         "mockwebserver",
+        "flag-junit",
+        "com.android.providers.downloads.flags-aconfig-java",
     ],
 
     platform_apis: true,

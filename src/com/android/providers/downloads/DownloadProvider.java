@@ -1053,9 +1053,7 @@ public final class DownloadProvider extends ContentProvider {
             values.put(COLUMN_MEDIA_SCANNED, mediaScannable);
             values.put(COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI, visibleInDownloadsUi);
         } else {
-            if (!values.containsKey(COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI)) {
-                values.put(COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI, true);
-            }
+            values.put(COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI, true);
         }
     }
 
@@ -1647,7 +1645,16 @@ public final class DownloadProvider extends ContentProvider {
                                     Log.v(Constants.TAG,
                                             "Deleting " + file + " via provider delete");
                                     file.delete();
-                                    MediaStore.scanFile(getContext().getContentResolver(), file);
+                                    // if external_primary volume is mounted, then do the scan
+                                    if (Environment.getExternalStorageState().equals(
+                                            Environment.MEDIA_MOUNTED)) {
+                                        MediaStore.scanFile(getContext().getContentResolver(),
+                                                file);
+                                    } else {
+                                        Log.w(Constants.TAG,
+                                                "external_primary volume is not mounted,"
+                                                        + " skipping scan");
+                                    }
                                 } else {
                                     Log.d(Constants.TAG, "Ignoring invalid file: " + file);
                                 }

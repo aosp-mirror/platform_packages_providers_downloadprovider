@@ -307,39 +307,26 @@ public class DownloadStorageProvider extends FileSystemProvider {
     }
 
     @Override
-    public Cursor queryChildDocuments(String parentDocId, String[] projection, String sortOrder)
-            throws FileNotFoundException {
-        return queryChildDocuments(parentDocId, projection, sortOrder, false);
-    }
-
-    @Override
-    public Cursor queryChildDocumentsForManage(
-            String parentDocId, String[] projection, String sortOrder)
-            throws FileNotFoundException {
-        return queryChildDocuments(parentDocId, projection, sortOrder, true);
-    }
-
-    private Cursor queryChildDocuments(String parentDocId, String[] projection,
-            String sortOrder, boolean manage) throws FileNotFoundException {
-
+    protected Cursor queryChildDocuments(String documentId, String[] projection, String sortOrder,
+            boolean includeHidden) throws FileNotFoundException {
         // Delegate to real provider
         final long token = Binder.clearCallingIdentity();
         Cursor cursor = null;
         try {
-            if (RawDocumentsHelper.isRawDocId(parentDocId)) {
-                return super.queryChildDocuments(parentDocId, projection, sortOrder);
+            if (RawDocumentsHelper.isRawDocId(documentId)) {
+                return super.queryChildDocuments(documentId, projection, sortOrder, includeHidden);
             }
 
             final DownloadsCursor result = new DownloadsCursor(projection,
                     getContext().getContentResolver());
             final ArrayList<Uri> notificationUris = new ArrayList<>();
-            if (isMediaStoreDownloadDir(parentDocId)) {
+            if (isMediaStoreDownloadDir(documentId)) {
                 includeDownloadsFromMediaStore(result, null /* queryArgs */,
                         null /* filePaths */, notificationUris,
-                        getMediaStoreIdString(parentDocId), NO_LIMIT, manage);
+                        getMediaStoreIdString(documentId), NO_LIMIT, includeHidden);
             } else {
-                assert (DOC_ID_ROOT.equals(parentDocId));
-                if (manage) {
+                assert (DOC_ID_ROOT.equals(documentId));
+                if (includeHidden) {
                     cursor = mDm.query(
                             new DownloadManager.Query().setOnlyIncludeVisibleInDownloadsUi(true));
                 } else {
@@ -354,7 +341,7 @@ public class DownloadStorageProvider extends FileSystemProvider {
                 notificationUris.add(cursor.getNotificationUri());
                 includeDownloadsFromMediaStore(result, null /* queryArgs */,
                         filePaths, notificationUris,
-                        null /* parentId */, NO_LIMIT, manage);
+                        null /* parentId */, NO_LIMIT, includeHidden);
                 includeFilesFromSharedStorage(result, filePaths, null);
             }
             result.setNotificationUris(getContext().getContentResolver(), notificationUris);
@@ -476,12 +463,11 @@ public class DownloadStorageProvider extends FileSystemProvider {
         return result;
     }
 
-    private void includeSearchFilesFromSharedStorage(DownloadsCursor result,
-            String[] projection, Set<String> filePaths,
-            Bundle queryArgs) throws FileNotFoundException {
+    private void includeSearchFilesFromSharedStorage(DownloadsCursor result, String[] projection,
+            Set<String> filePaths, Bundle queryArgs) throws FileNotFoundException {
         final File downloadDir = getPublicDownloadsDirectory();
         try (Cursor rawFilesCursor = super.querySearchDocuments(downloadDir,
-                projection, filePaths, queryArgs)) {
+                projection, /* exclusion */ filePaths, queryArgs)) {
 
             final boolean shouldExcludeMedia = queryArgs.getBoolean(
                     DocumentsContract.QUERY_ARG_EXCLUDE_MEDIA, false /* defaultValue */);

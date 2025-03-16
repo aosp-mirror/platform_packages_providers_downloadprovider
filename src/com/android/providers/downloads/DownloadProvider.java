@@ -84,6 +84,7 @@ import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -1053,9 +1054,7 @@ public final class DownloadProvider extends ContentProvider {
             values.put(COLUMN_MEDIA_SCANNED, mediaScannable);
             values.put(COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI, visibleInDownloadsUi);
         } else {
-            if (!values.containsKey(COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI)) {
-                values.put(COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI, true);
-            }
+            values.put(COLUMN_IS_VISIBLE_IN_DOWNLOADS_UI, true);
         }
     }
 
@@ -1120,7 +1119,47 @@ public final class DownloadProvider extends ContentProvider {
         Helpers.checkDestinationFilePathRestrictions(file, getCallingPackage(), getContext(),
                 mAppOpsManager, getCallingAttributionTag(), isLegacyMode,
                 /* allowDownloadsDirOnly */ true);
+        // check whether record already exists in MP or getCallingPackage owns this file
+        checkWhetherCallingAppHasAccess(file.getPath(), Binder.getCallingUid());
     }
+
+    private void checkWhetherCallingAppHasAccess(String filePath, int uid) {
+        try (ContentProviderClient client = getContext().getContentResolver()
+                .acquireContentProviderClient(MediaStore.AUTHORITY)) {
+            if (client == null) {
+                Log.w(Constants.TAG, "Failed to acquire ContentProviderClient for MediaStore");
+                return;
+            }
+
+            Uri filesUri = MediaStore.setIncludePending(
+                    Helpers.getContentUriForPath(getContext(), filePath));
+
+            try (Cursor cursor = client.query(filesUri,
+                    new String[]{MediaStore.Files.FileColumns._ID,
+                            MediaStore.Files.FileColumns.OWNER_PACKAGE_NAME},
+                    MediaStore.Files.FileColumns.DATA + "=?", new String[]{filePath},
+                    null)) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    String fetchedOwnerPackageName = cursor.getString(
+                            cursor.getColumnIndexOrThrow(
+                                    MediaStore.Files.FileColumns.OWNER_PACKAGE_NAME));
+                    String[] packageNames = getContext().getPackageManager().getPackagesForUid(uid);
+
+                    if (fetchedOwnerPackageName != null && packageNames != null) {
+                        boolean isCallerAuthorized = Arrays.asList(packageNames)
+                                .contains(fetchedOwnerPackageName);
+                        if (!isCallerAuthorized) {
+                            throw new SecurityException("Caller does not have access to this path");
+                        }
+                    }
+                }
+            }
+        } catch (RemoteException e) {
+            Log.w(Constants.TAG, "Failed to query MediaStore: " + e.getMessage());
+        }
+    }
+
+
 
     /**
      * Apps with the ACCESS_DOWNLOAD_MANAGER permission can access this provider freely, subject to
@@ -1647,7 +1686,16 @@ public final class DownloadProvider extends ContentProvider {
                                     Log.v(Constants.TAG,
                                             "Deleting " + file + " via provider delete");
                                     file.delete();
-                                    MediaStore.scanFile(getContext().getContentResolver(), file);
+                                    // if external_primary volume is mounted, then do the scan
+                                    if (Environment.getExternalStorageState().equals(
+                                            Environment.MEDIA_MOUNTED)) {
+                                        MediaStore.scanFile(getContext().getContentResolver(),
+                                                file);
+                                    } else {
+                                        Log.w(Constants.TAG,
+                                                "external_primary volume is not mounted,"
+                                                        + " skipping scan");
+                                    }
                                 } else {
                                     Log.d(Constants.TAG, "Ignoring invalid file: " + file);
                                 }
